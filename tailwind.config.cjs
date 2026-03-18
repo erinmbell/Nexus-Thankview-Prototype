@@ -17,7 +17,7 @@ module.exports = {
         'tv-border-light':   '#e0daea',
         'tv-border-divider': '#f0eaf8',
         'tv-text-primary':   '#242436',
-        'tv-text-secondary': '#737373',
+        'tv-text-secondary': '#6b6b6b',
         'tv-text-label':     '#5d5e65',
         'tv-text-brand':     '#7c45b0',
         'tv-text-decorative':'#b5a4cd',

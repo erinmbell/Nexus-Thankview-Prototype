@@ -121,9 +121,10 @@ export function ChipFilter({ label, icon: Icon, options, values, onChange, searc
           {(searchable || options.length > 5) && (
             <TextInput
               placeholder={`Search ${label.toLowerCase()}\u2026`}
+              aria-label={`Search ${label.toLowerCase()}`}
               size="xs" radius="md" mb={6}
               value={searchText} onChange={e => setSearchText(e.currentTarget.value)}
-              leftSection={<Search size={13} style={{ color: TV.textSecondary }} />}
+              leftSection={<Search size={13} style={{ color: TV.textSecondary }} aria-hidden="true" />}
               styles={{ input: { borderColor: TV.borderLight, fontSize: 11 } }}
             />
           )}

@@ -106,8 +106,8 @@ export function UserProfile() {
       <div className="border rounded-[var(--mantine-radius-default)] p-4 sm:p-6 mb-4" style={{ borderColor: TV.borderLight }}>
         <Title order={3} fz={16} mb="md">Profile Information</Title>
         <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md" mb="md">
-          <TextInput label="First Name" value={firstName} onChange={e => setFirstName(e.currentTarget.value)} />
-          <TextInput label="Last Name" value={lastName} onChange={e => setLastName(e.currentTarget.value)} />
+          <TextInput label="First Name" autoComplete="given-name" value={firstName} onChange={e => setFirstName(e.currentTarget.value)} />
+          <TextInput label="Last Name" autoComplete="family-name" value={lastName} onChange={e => setLastName(e.currentTarget.value)} />
         </SimpleGrid>
         <Select
           label="Job Title / Function"

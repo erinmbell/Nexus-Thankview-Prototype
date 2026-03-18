@@ -62,7 +62,7 @@ export function SaveChangesModal({
           </button>
           <button
             onClick={onStay}
-            className="w-full px-5 py-2 text-[13px] text-tv-text-decorative hover:text-tv-text-secondary transition-colors"
+            className="w-full px-5 py-2 text-[13px] text-tv-text-secondary hover:text-tv-text-primary transition-colors"
             style={{ fontWeight: 500 }}
           >
             Stay on This Step

@@ -489,7 +489,7 @@ function FrontEnvelope({
           textAnchor="middle"
           fontSize={18}
           fontWeight={500}
-          fontFamily="Georgia, serif"
+          fontFamily="Georgia, Roboto, sans-serif"
           fill={recipientNameColor === "#FFFFFF" && isLight ? "#333" : recipientNameColor}
         >
           Mr. John Smith

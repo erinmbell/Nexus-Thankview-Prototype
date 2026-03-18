@@ -73,6 +73,11 @@ export function NotificationsPanel({ onClose }: Props) {
         w={380}
         maw="calc(100vw - 24px)"
         bg="white"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Notifications"
+        tabIndex={-1}
+        onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Escape") onClose(); }}
         style={{ borderRadius: 16, border: `1px solid ${TV.borderLight}`, boxShadow: "0 25px 50px -12px rgba(0,0,0,.25)", maxHeight: "min(520px, calc(100vh - 80px))" }}
       >
         {/* Header */}
@@ -148,7 +153,7 @@ export function NotificationsPanel({ onClose }: Props) {
                     <ActionIcon
                       variant="subtle" size={24} radius="xl" color="tvPurple"
                       onClick={() => markOne(n.id)}
-                      className="shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
                     >
                       <Check size={13} />
                     </ActionIcon>

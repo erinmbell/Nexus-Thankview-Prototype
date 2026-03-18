@@ -1524,7 +1524,7 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
                 <FileText size={20} className="text-tv-text-decorative" />
               </div>
               <p className="text-[14px] font-semibold text-tv-text-secondary">No captions</p>
-              <p className="text-[12px] text-tv-text-decorative">Generate AI captions or upload an SRT/VTT file.</p>
+              <p className="text-[12px] text-tv-text-secondary">Generate AI captions or upload an SRT/VTT file.</p>
             </div>
           )}
 

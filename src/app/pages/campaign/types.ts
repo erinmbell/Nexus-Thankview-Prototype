@@ -536,17 +536,17 @@ export const ENV_GREETINGS = ["Dear {{first_name}},", "Hello {{first_name}},", "
 
 // ── Email-safe body fonts ───────────────────────────────────────────────────
 export const EMAIL_BODY_FONTS = [
-  { label: "Arial",               value: "Arial, Helvetica, sans-serif" },
-  { label: "Helvetica",           value: "Helvetica, Arial, sans-serif" },
-  { label: "Georgia",             value: "Georgia, 'Times New Roman', serif" },
-  { label: "Times New Roman",     value: "'Times New Roman', Times, serif" },
-  { label: "Verdana",             value: "Verdana, Geneva, sans-serif" },
-  { label: "Tahoma",              value: "Tahoma, Geneva, sans-serif" },
-  { label: "Trebuchet MS",        value: "'Trebuchet MS', Helvetica, sans-serif" },
-  { label: "Courier New",         value: "'Courier New', Courier, monospace" },
-  { label: "Lucida Sans",         value: "'Lucida Sans Unicode', 'Lucida Grande', sans-serif" },
-  { label: "Palatino",            value: "'Palatino Linotype', 'Book Antiqua', Palatino, serif" },
-  { label: "Garamond",            value: "Garamond, Baskerville, serif" },
+  { label: "Arial",               value: "Arial, Helvetica, Roboto, sans-serif" },
+  { label: "Helvetica",           value: "Helvetica, Arial, Roboto, sans-serif" },
+  { label: "Georgia",             value: "Georgia, Roboto, sans-serif" },
+  { label: "Times New Roman",     value: "'Times New Roman', Times, Roboto, sans-serif" },
+  { label: "Verdana",             value: "Verdana, Geneva, Roboto, sans-serif" },
+  { label: "Tahoma",              value: "Tahoma, Geneva, Roboto, sans-serif" },
+  { label: "Trebuchet MS",        value: "'Trebuchet MS', Helvetica, Roboto, sans-serif" },
+  { label: "Courier New",         value: "'Courier New', Courier, Roboto, monospace" },
+  { label: "Lucida Sans",         value: "'Lucida Sans Unicode', 'Lucida Grande', Roboto, sans-serif" },
+  { label: "Palatino",            value: "'Palatino Linotype', 'Book Antiqua', Palatino, Roboto, sans-serif" },
+  { label: "Garamond",            value: "Garamond, Baskerville, Roboto, sans-serif" },
 ] as const;
 
 export const EMAIL_BODY_FONT_SIZES = [10, 11, 12, 13, 14, 15, 16, 18, 20, 24] as const;

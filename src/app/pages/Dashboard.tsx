@@ -267,7 +267,7 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
       desc: "Create a new outreach campaign",
       to: "/campaigns/create",
       icon: (
-        <svg className="block size-[16px]" fill="none" viewBox="0 0 16 16">
+        <svg className="block size-[16px]" fill="none" viewBox="0 0 16 16" aria-hidden="true">
           <path d="M3.33333 8H12.6667" stroke="#00C0F5" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
           <path d="M8 3.33333V12.6667" stroke="#00C0F5" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
         </svg>
@@ -278,7 +278,7 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
       desc: "Create a new personal video",
       to: "/video/create",
       icon: (
-        <svg className="block size-[16px]" fill="none" viewBox="0 0 16 16">
+        <svg className="block size-[16px]" fill="none" viewBox="0 0 16 16" aria-hidden="true">
           <path d={svgPaths.p144f51c0} stroke="#007c9e" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
           <path d={svgPaths.p1e94b080} stroke="#007c9e" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
         </svg>
@@ -289,7 +289,7 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
       desc: "Import or add new constituents",
       to: "/contacts",
       icon: (
-        <svg className="block size-[16px]" fill="none" viewBox="0 0 16 16">
+        <svg className="block size-[16px]" fill="none" viewBox="0 0 16 16" aria-hidden="true">
           <path d={svgPaths.p32887f80} stroke="#7c45b0" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
           <path d={svgPaths.p3694d280} stroke="#7c45b0" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
           <path d={svgPaths.p1f197700} stroke="#7c45b0" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
@@ -302,7 +302,7 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
       desc: "Landing page, envelope & more",
       to: "/assets",
       icon: (
-        <svg className="block size-[16px]" fill="none" viewBox="0 0 16 16">
+        <svg className="block size-[16px]" fill="none" viewBox="0 0 16 16" aria-hidden="true">
           <path d={svgPaths.p19416e00} stroke="#F97316" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
           <path d={svgPaths.p3e059a80} stroke="#F97316" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
           <path d="M6.66667 6H5.33333" stroke="#F97316" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
@@ -353,8 +353,9 @@ function RecentActivityWidget({ navigate }: { navigate: (path: string) => void }
       <div className="px-6 py-6" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
         <div className="flex items-center justify-between mb-2">
           <Title order={3} fz={18}>{activeTab === "videos" ? "Video Library" : "Donor Activity"}</Title>
-          <UnstyledButton onClick={() => navigate(activeTab === "videos" ? "/videos" : "/analytics?tab=video11")} className="flex items-center gap-0.5 hover:underline" style={{ color: TV.textBrand, fontSize: 13, fontWeight: 500 }}>
-            View all <ChevronRight size={14} />
+          <UnstyledButton onClick={() => navigate(activeTab === "videos" ? "/videos" : "/analytics?tab=video11")} className="flex items-center gap-0.5 hover:underline" style={{ color: TV.textBrand, fontSize: 13, fontWeight: 500 }}
+            aria-label={activeTab === "videos" ? "View all videos" : "View all donor activity"}>
+            View all <ChevronRight size={14} aria-hidden="true" />
           </UnstyledButton>
         </div>
         <SegmentedControl
@@ -469,10 +470,18 @@ function MetricsSettingsPanel({ selectedIds, onToggle, onReset, onClose }: { sel
   return (
     <>
       <div className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-40" onClick={onClose} aria-hidden="true" />
-      <div className="fixed right-0 top-0 h-full w-full sm:w-[420px] bg-white shadow-2xl z-50 flex flex-col">
+      <div
+        className="fixed right-0 top-0 h-full w-full sm:w-[420px] bg-white shadow-2xl z-50 flex flex-col"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="metrics-settings-title"
+        onKeyDown={(e) => { if (e.key === "Escape") onClose(); }}
+        tabIndex={-1}
+        ref={(el) => el?.focus()}
+      >
         <div className="flex items-center justify-between px-6 py-5 border-b border-tv-border-divider">
           <div>
-            <h2 className="text-[17px] font-bold" style={{ color: TV.textPrimary }}>Customize Key Stats</h2>
+            <h2 id="metrics-settings-title" className="text-[17px] font-bold" style={{ color: TV.textPrimary }}>Customize Key Stats</h2>
             <p className="text-[12px] mt-0.5" style={{ color: TV.textSecondary }}>Choose up to 4 metrics to display</p>
           </div>
           <ActionIcon variant="subtle" color="gray" radius="xl" size="lg" onClick={onClose}

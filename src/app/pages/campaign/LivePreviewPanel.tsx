@@ -577,10 +577,10 @@ export function LivePreviewPanel({
     mobile: "w-[300px]",
   };
 
-  const fontFamily = font?.includes("Garamond") ? "Georgia, serif"
-    : font?.includes("Inter") ? "Inter, sans-serif"
-    : font?.includes("Playfair") ? "'Playfair Display', serif"
-    : "'Montserrat', sans-serif";
+  const fontFamily = font?.includes("Garamond") ? "Georgia, Roboto, sans-serif"
+    : font?.includes("Inter") ? "Inter, Roboto, sans-serif"
+    : font?.includes("Playfair") ? "'Playfair Display', Roboto, sans-serif"
+    : "'Montserrat', Roboto, sans-serif";
 
   const updateField = (key: string, value: string) => {
     setTestConstituent(prev => ({ ...prev, [key]: value }));

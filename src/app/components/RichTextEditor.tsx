@@ -420,16 +420,22 @@ export function RichTextEditor({
                   />
                 </div>
                 <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={linkNewTab}
+                    onChange={() => setLinkNewTab(!linkNewTab)}
+                    className="sr-only peer"
+                  />
                   <span
-                    className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${
+                    className={`w-4 h-4 rounded border flex items-center justify-center transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-tv-brand/40 ${
                       linkNewTab ? "bg-tv-brand-bg border-tv-brand-bg" : "border-tv-border-light"
                     }`}
-                    onClick={() => setLinkNewTab(!linkNewTab)}
+                    aria-hidden="true"
                   >
                     {linkNewTab && <Check size={10} className="text-white" />}
                   </span>
-                  <span className="text-[11px] text-tv-text-secondary flex items-center gap-1" onClick={() => setLinkNewTab(!linkNewTab)}>
-                    <ExternalLink size={10} /> Open in new tab
+                  <span className="text-[11px] text-tv-text-secondary flex items-center gap-1">
+                    <ExternalLink size={10} aria-hidden="true" /> Open in new tab
                   </span>
                 </label>
                 <button

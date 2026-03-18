@@ -364,9 +364,15 @@ function Sidebar({ collapsed, onToggle, onMobileClose }: SidebarProps) {
 const PAGE_TITLES: Record<string, string> = {
   "/":                     "Dashboard",
   "/contacts":             "Constituents",
+  "/contacts/add":         "Add Contacts",
   "/videos":               "Video Library",
   "/video/create":         "New Video",
-
+  "/videos/record-1to1":   "Personalized Recorder",
+  "/campaigns":            "Campaigns",
+  "/campaigns/create":     "New Campaign",
+  "/lists":                "Lists",
+  "/saved-searches":       "Saved Searches",
+  "/audit":                "Requirements Audit",
   "/analytics":            "ThankView Metrics",
   "/envelope":             "Envelope Builder",
   "/landing":              "Landing Page Builder",
@@ -381,6 +387,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/assets/outros":        "Outro Templates",
   "/assets/images":        "Image Library",
   "/intro/create":         "New Intro",
+  "/outro/create":         "New Outro",
   "/template/create":      "New Template",
 };
 
@@ -425,7 +432,7 @@ function TopBar() {
           <Box className="relative">
             <Indicator color="tvPurple" size={16} label="3" offset={3} styles={{ indicator: { fontSize: 9 } }}>
               <ActionIcon variant="subtle" size={32} color="gray" onClick={() => { setNotifOpen(v => !v); setProfileOpen(false); }}
-                aria-label="Notifications" className="hover:text-tv-brand"
+                aria-label="Notifications, 3 unread" className="hover:text-tv-brand"
                 styles={{ root: { color: TV.textLabel } }}
               >
                 <Bell size={18} />
@@ -525,7 +532,7 @@ export function Layout() {
 
       <Box className="flex flex-col flex-1 overflow-hidden min-w-0">
         <TopBar />
-        <Box component="main" id="main-content" className="flex-1 overflow-y-auto overflow-x-hidden min-w-0">
+        <Box component="main" id="main-content" className="flex-1 overflow-y-auto overflow-x-hidden min-w-0" style={{ scrollPaddingTop: 76 }}>
           <Outlet />
         </Box>
       </Box>

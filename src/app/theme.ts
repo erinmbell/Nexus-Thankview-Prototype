@@ -88,7 +88,7 @@ const TV = {
 
   /* ── Text — all AA-compliant on #ffffff (≥ 4.5:1) ─────────────────────────── */
   textPrimary:   "#242436",   // 15.7 :1
-  textSecondary: "#737373",   //  4.48:1
+  textSecondary: "#6b6b6b",   //  4.97:1
   textLabel:     "#5d5e65",   //  5.55:1
   textBrand:     "#7c45b0",   //  6.29:1
   textDecorative:"#b5a4cd",   //  2.98:1 — decorative only, exempt from AA

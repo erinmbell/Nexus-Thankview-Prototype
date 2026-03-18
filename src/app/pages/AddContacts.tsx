@@ -963,7 +963,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
                           "{err.value}"
                         </Text>
                       ) : (
-                        <Text fz={11} c={TV.textDecorative} fs="italic">empty</Text>
+                        <Text fz={11} c={TV.textSecondary} fs="italic">empty</Text>
                       )}
                     </Box>
                   </div>
@@ -1014,7 +1014,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
                           "{err.value}"
                         </Text>
                       ) : (
-                        <Text fz={11} c={TV.textDecorative} fs="italic">empty</Text>
+                        <Text fz={11} c={TV.textSecondary} fs="italic">empty</Text>
                       )}
                     </Box>
                   </div>

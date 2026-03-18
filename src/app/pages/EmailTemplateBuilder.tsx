@@ -196,7 +196,7 @@ function EmailContentPreview({
         {greeting && <p className="text-[13px] mb-3" style={{ color: TV.textPrimary }}>{greeting}</p>}
         {sections.length === 0 && (
           <div className="py-6 text-center">
-            <Text fz={12} c={TV.textDecorative}>No content sections yet. Add text, a video, or a CTA below.</Text>
+            <Text fz={12} c={TV.textSecondary}>No content sections yet. Add text, a video, or a CTA below.</Text>
           </div>
         )}
         {sections.map(sec => {
@@ -241,7 +241,7 @@ function EmailContentPreview({
         )}
       </div>
       <div className="px-5 py-2.5 text-center" style={{ backgroundColor: TV.surface, borderTop: `1px solid ${TV.borderDivider}` }}>
-        <Text fz={9} c={TV.textDecorative}>Header, footer, and visual styling are applied in the Campaign Builder</Text>
+        <Text fz={9} c={TV.textSecondary}>Header, footer, and visual styling are applied in the Campaign Builder</Text>
       </div>
     </div>
   );
@@ -272,7 +272,7 @@ function SmsPhonePreview({ body }: { body: string }) {
               </div>
             ) : (
               <div className="flex items-center justify-center h-full">
-                <p className="text-[11px]" style={{ color: TV.textDecorative }}>Message preview will appear here</p>
+                <p className="text-[11px]" style={{ color: TV.textSecondary }}>Message preview will appear here</p>
               </div>
             )}
           </div>

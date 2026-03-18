@@ -40,11 +40,11 @@ const INTRO_YOUR_SAVED = INTRO_IMAGE_THEMES.slice(0, 6);
 const INTRO_FONT_OPTIONS = [
   { value: "roboto", label: "Roboto", family: "'Roboto', sans-serif" },
   { value: "fraunces", label: "Fraunces", family: "'Fraunces', Roboto, sans-serif" },
-  { value: "playfair", label: "Playfair Display", family: "'Playfair Display', serif" },
-  { value: "inter", label: "Inter", family: "'Inter', sans-serif" },
-  { value: "montserrat", label: "Montserrat", family: "'Montserrat', sans-serif" },
-  { value: "lora", label: "Lora", family: "'Lora', serif" },
-  { value: "merriweather", label: "Merriweather", family: "'Merriweather', serif" },
+  { value: "playfair", label: "Playfair Display", family: "'Playfair Display', Roboto, sans-serif" },
+  { value: "inter", label: "Inter", family: "'Inter', Roboto, sans-serif" },
+  { value: "montserrat", label: "Montserrat", family: "'Montserrat', Roboto, sans-serif" },
+  { value: "lora", label: "Lora", family: "'Lora', Roboto, sans-serif" },
+  { value: "merriweather", label: "Merriweather", family: "'Merriweather', Roboto, sans-serif" },
 ];
 
 const INTRO_COLOR_PALETTE = [

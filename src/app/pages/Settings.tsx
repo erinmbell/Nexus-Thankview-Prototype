@@ -2152,7 +2152,7 @@ function OneToOneTab() {
               )}
               {showReply && (
                 <Box px="xs" py={6} style={{ border: `1px solid ${TV.borderLight}`, borderRadius: 6 }}>
-                  <Text fz={8} c={TV.textDecorative}>Leave a reply...</Text>
+                  <Text fz={8} c={TV.textSecondary}>Leave a reply...</Text>
                 </Box>
               )}
             </Box>
