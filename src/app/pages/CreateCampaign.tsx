@@ -15,7 +15,7 @@ import {
   IndentIncrease, IndentDecrease, Smile, StopCircle, RefreshCw,
   AlertTriangle, Target, BarChart3, Calendar,
   Signal, Wifi, Battery, Phone, Bookmark, Braces,
-  AlignCenter, AlignRight, AlignJustify, Strikethrough, Minus, ChevronDown, PenLine, Tag,
+  AlignCenter, AlignRight, AlignJustify, Strikethrough, Minus, ChevronDown, PenLine, Tag, Palette,
 } from "lucide-react";
 import { useToast } from "../contexts/ToastContext";
 import { useDesignLibrary } from "../contexts/DesignLibraryContext";
@@ -1134,6 +1134,8 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
   const [showBodySigPicker, setShowBodySigPicker] = useState(false);
   const bodySigRef = useRef<HTMLDivElement>(null);
   const [replyToInput, setReplyToInput] = useState("");
+  const [contentSectionOpen, setContentSectionOpen] = useState(true);
+  const [designSectionOpen, setDesignSectionOpen] = useState(true);
   const [campaignLanguage, setCampaignLanguage] = useState("en");
   const bodyRef = useRef<HTMLTextAreaElement>(null);
   const bodyMergeRef = useRef<HTMLDivElement>(null);
@@ -1344,7 +1346,6 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
         <div className="px-5 py-4">
           <div className="flex items-center gap-2 mb-3">
             <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Name</p>
-            <span className="text-[9px] px-2 py-0.5 rounded-full bg-tv-danger-bg text-tv-danger border border-tv-danger-border" style={{ fontWeight: 600 }}>REQUIRED</span>
           </div>
           <input
             id="cfg-name"
@@ -1482,30 +1483,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
         </div>
       </section>
 
-      {/* ── Section 4: Campaign Tags ── */}
-      <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-tv-brand-tint rounded-[8px] flex items-center justify-center">
-              <Tag size={15} className="text-tv-brand" />
-            </div>
-            <div>
-              <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Tags</p>
-              <p className="text-[11px] text-tv-text-secondary">Organize and categorize your campaign</p>
-            </div>
-          </div>
-          <span className="text-[10px] px-2.5 py-1 rounded-full bg-tv-surface border border-tv-border-light text-tv-text-secondary" style={{ fontWeight: 600 }}>OPTIONAL</span>
-        </div>
-        <div className="p-5">
-          <TagPicker
-            selectedTags={selectedTags}
-            onTagsChange={setSelectedTags}
-            markDirty={markDirty}
-          />
-        </div>
-      </section>
-
-      {/* ── Section 5: Success Metrics ── */}
+      {/* ── Section 4: Success Metrics ── */}
       <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
         <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
           <div className="flex items-center gap-2.5">
@@ -1583,6 +1561,29 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           </div>
         </div>
       </section>
+
+      {/* ── Section 5: Campaign Tags ── */}
+      <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-tv-brand-tint rounded-[8px] flex items-center justify-center">
+              <Tag size={15} className="text-tv-brand" />
+            </div>
+            <div>
+              <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Tags</p>
+              <p className="text-[11px] text-tv-text-secondary">Organize and categorize your campaign</p>
+            </div>
+          </div>
+          <span className="text-[10px] px-2.5 py-1 rounded-full bg-tv-surface border border-tv-border-light text-tv-text-secondary" style={{ fontWeight: 600 }}>OPTIONAL</span>
+        </div>
+        <div className="p-5">
+          <TagPicker
+            selectedTags={selectedTags}
+            onTagsChange={setSelectedTags}
+            markDirty={markDirty}
+          />
+        </div>
+      </section>
     </div>
     );
   };
@@ -1628,6 +1629,20 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           stickyTop="1rem"
           left={
           <div className="space-y-4">
+
+          {/* ── Collapsible: Content ── */}
+          <button onClick={() => setContentSectionOpen(v => !v)}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-[12px] border border-tv-border-light bg-tv-surface/50 hover:bg-tv-surface transition-colors">
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 bg-tv-brand-tint rounded-[7px] flex items-center justify-center">
+                <Mail size={13} className="text-tv-brand" />
+              </div>
+              <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Email Content</p>
+            </div>
+            <ChevronDown size={14} className={`text-tv-text-secondary transition-transform ${contentSectionOpen ? "rotate-180" : ""}`} />
+          </button>
+
+          {contentSectionOpen && <>
           {/* Template & Signature actions */}
           <EmailTemplateActions
             onApplyTemplate={(tpl) => {
@@ -2008,13 +2023,22 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           {step.type === "email" && campaignGoal !== "send-without-video" && (
             null
           )}
+          </>}
 
-          {/* ── Design sections (progressive disclosure) ── */}
+          {/* ── Collapsible: Design ── */}
           {showDesignSections && (
             <>
-              <div className="border-t border-tv-border-divider my-5" />
-              <h3 className="text-tv-text-primary mb-1" style={{ fontSize: "17px", fontWeight: 800 }}>Design & Appearance</h3>
-              <p className="text-[12px] text-tv-text-secondary mb-3">Customize the envelope, landing page, CTA buttons, and tracking.</p>
+              <button onClick={() => setDesignSectionOpen(v => !v)}
+                className="w-full flex items-center justify-between px-4 py-3 rounded-[12px] border border-tv-border-light bg-tv-surface/50 hover:bg-tv-surface transition-colors">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 bg-tv-brand-tint rounded-[7px] flex items-center justify-center">
+                    <Palette size={13} className="text-tv-brand" />
+                  </div>
+                  <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Design & Appearance</p>
+                </div>
+                <ChevronDown size={14} className={`text-tv-text-secondary transition-transform ${designSectionOpen ? "rotate-180" : ""}`} />
+              </button>
+              {designSectionOpen && <>
               <DesignStepPanel
                 inline
                 lpSearch={lpSearch}
@@ -2057,6 +2081,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 selectedLandingPageData={allLandingPages.find(p => p.id === (step.landingPageId || 1)) as any}
                 onDesignDataChange={setDesignSnapshot}
               />
+              </>}
             </>
           )}
 

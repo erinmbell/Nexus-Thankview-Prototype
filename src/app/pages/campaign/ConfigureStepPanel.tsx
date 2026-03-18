@@ -134,7 +134,6 @@ export function ConfigureStepPanel({
           <div className="px-5 py-4">
             <div className="flex items-center gap-2 mb-3">
               <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Name</p>
-              <span className="text-[9px] px-2 py-0.5 rounded-full bg-tv-danger-bg text-tv-danger border border-tv-danger-border" style={{ fontWeight: 600 }}>REQUIRED</span>
             </div>
             <input
               value={campaignName || ""}
