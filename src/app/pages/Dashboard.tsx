@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   Text, Title, Button, UnstyledButton, ActionIcon,
-  Badge, SegmentedControl,
+  Badge, SegmentedControl, Menu,
 } from "@mantine/core";
 import { useNavigate } from "react-router";
 import {
@@ -12,7 +12,7 @@ import {
   CircleCheckBig, CircleAlert, Settings, X, Check, Mail, PhoneOff, Wifi,
   TriangleAlert, MousePointerClick, Timer, UserCheck, Inbox, Star,
   Play, Plus, Video, ChevronRight, ChevronDown, Users,
-  Megaphone, ChartColumn,
+  Megaphone, ChartColumn, GitBranch, Bell, Bookmark,
 } from "lucide-react";
 // Stock photos for campaign thumbnails
 const imgImageThankYouForYourFeedbackCadences20 = "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=220&h=165&fit=crop&auto=format";
@@ -213,9 +213,38 @@ function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
     <div className="flex flex-col bg-white rounded-[20px] border border-tv-border-strong">
       <div className="flex items-center justify-between gap-2 flex-wrap px-4 sm:px-6 py-4 sm:py-6" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
         <Title order={3} fz={{ base: 16, sm: 18 }} className="min-w-0 truncate">Your Ongoing Campaigns</Title>
-        <Button color="tvPurple" size="sm" leftSection={<Plus size={13} />} onClick={() => navigate("/campaigns/create")} className="shrink-0">
-          <Text fz={13} className="hidden sm:inline">Create New</Text><Text fz={13} className="sm:hidden">New</Text>
-        </Button>
+        <Menu position="bottom-end" withinPortal styles={{
+          dropdown: { borderColor: TV.borderLight, borderRadius: 10, padding: "6px 6px 2px", minWidth: 280, boxShadow: "0 8px 30px rgba(0,0,0,0.10)" },
+        }}>
+          <Menu.Target>
+            <Button color="tvPurple" size="sm" leftSection={<Plus size={13} />} rightSection={<ChevronDown size={11} />} className="shrink-0">
+              <Text fz={13} className="hidden sm:inline">Create New</Text><Text fz={13} className="sm:hidden">New</Text>
+            </Button>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <div className="px-3 pt-2 pb-1.5">
+              <span className="text-[11px] text-tv-text-secondary tracking-widest uppercase" style={{ fontWeight: 600 }}>Create Campaign</span>
+            </div>
+            {[
+              { mode: "single", label: "Single-Step", desc: "One message, one send", icon: Send, bg: "#f3eeff", iconColor: "#7c45b0" },
+              { mode: "multi", label: "Multi-Step", desc: "Automated sequence of messages", icon: GitBranch, bg: "#e8f4fd", iconColor: "#2b7bb9" },
+              { mode: "video-request", label: "Video Request", desc: "Collect videos from constituents", icon: Bell, bg: "#e6f9ed", iconColor: "#15803d" },
+            ].map((item) => (
+              <Menu.Item key={item.mode} onClick={() => navigate(`/campaigns/create?mode=${item.mode}`)}
+                styles={{ item: { borderRadius: 10, padding: "10px 12px", marginBottom: 2 }, itemLabel: { display: "flex", alignItems: "center", gap: 12 } }}>
+                <div className="flex items-center gap-3 w-full">
+                  <div className="w-9 h-9 rounded-[9px] flex items-center justify-center shrink-0" style={{ backgroundColor: item.bg }}>
+                    <item.icon size={16} style={{ color: item.iconColor }} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 600 }}>{item.label}</p>
+                    <p className="text-[11px] text-tv-text-secondary">{item.desc}</p>
+                  </div>
+                </div>
+              </Menu.Item>
+            ))}
+          </Menu.Dropdown>
+        </Menu>
       </div>
       <div className="px-4 sm:px-6">
         {campaigns.map((c) => (

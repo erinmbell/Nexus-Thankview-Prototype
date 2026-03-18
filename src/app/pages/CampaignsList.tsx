@@ -19,6 +19,8 @@ import {
 import { TV } from "../theme";
 import { PillSearchInput } from "../components/PillSearchInput";
 import { TvTooltip } from "../components/TvTooltip";
+import { FilterBar, type FilterValues, type FilterDef, DATE_CREATED_FILTER, dateFilterMatches } from "../components/FilterBar";
+import { UserCheck, Calendar } from "lucide-react";
 
 // ── Create-campaign dropdown items ─────────────────────────────────────────────
 const CREATE_ITEMS: { mode: string; label: string; desc: string; icon: any; bg: string; iconColor: string }[] = [
@@ -188,6 +190,31 @@ const CREATORS  = ["All Creators", "Kelley Molt", "James Okafor", "Michelle Park
 
 // Collect all unique tags from campaign data
 const ALL_TAGS = Array.from(new Set(CAMPAIGNS.flatMap(c => c.tags))).sort();
+
+// ── Shared FilterBar definitions for campaigns ─────────────────────────────────
+const CAMPAIGN_FILTERS: FilterDef[] = [
+  {
+    key: "status", label: "Status", icon: ListFilter, type: "select", essential: true,
+    options: STATUSES.filter(s => s !== "All").map(s => ({ value: s, label: s })),
+  },
+  {
+    key: "tags", label: "Tags", icon: Tag, type: "select", essential: true, searchable: true,
+    options: ALL_TAGS.map(t => ({ value: t, label: t })),
+  },
+  {
+    key: "channel", label: "Channel", icon: Radio, type: "select", essential: true,
+    options: CHANNELS.filter(c => c !== "All Channels").map(c => ({ value: c, label: c })),
+  },
+  {
+    key: "creator", label: "Creator", icon: UserCheck, type: "select", essential: true, searchable: true,
+    options: CREATORS.filter(c => c !== "All Creators").map(c => ({ value: c, label: c })),
+  },
+  {
+    ...DATE_CREATED_FILTER,
+    essential: false,
+  },
+];
+const DEFAULT_CAMPAIGN_FILTER_KEYS = CAMPAIGN_FILTERS.filter(f => f.essential).map(f => f.key);
 
 // ── Rename Modal ────────────��──────────────────────────────────────────────────
 function RenameModal({ name, onRename, onCancel }: { name: string; onRename: (n: string) => void; onCancel: () => void }) {
@@ -699,10 +726,8 @@ export function CampaignsList() {
   };
 
   const [search,  setSearch]  = useState("");
-  const [status,  setStatus]  = useState("All");
-  const [channel, setChannel] = useState("All Channels");
-  const [creator, setCreator] = useState("All Creators");
-  const [tagFilter, setTagFilter] = useState("All");
+  const [filterValues, setFilterValues] = useState<FilterValues>({});
+  const [activeFilterKeys, setActiveFilterKeys] = useState<string[]>(DEFAULT_CAMPAIGN_FILTER_KEYS);
   const [openMenu,    setOpenMenu]    = useState<number | null>(null);
   const [duplicating, setDuplicating] = useState<Campaign | null>(null);
   const [deleting,    setDeleting]    = useState<Campaign | null>(null);
@@ -731,10 +756,10 @@ export function CampaignsList() {
   const filtered = campaigns.filter(c => {
     const matchView    = view === "all" || c.steps === view;
     const matchSearch  = c.name.toLowerCase().includes(search.toLowerCase());
-    const matchStatus  = status  === "All"           || c.status  === status;
-    const matchChannel = channel === "All Channels"   || c.channel === channel;
-    const matchCreator = creator === "All Creators"   || c.creator === creator;
-    const matchTag     = tagFilter === "All"          || c.tags.includes(tagFilter);
+    const matchStatus  = !filterValues.status?.length  || filterValues.status.includes(c.status);
+    const matchChannel = !filterValues.channel?.length  || filterValues.channel.includes(c.channel);
+    const matchCreator = !filterValues.creator?.length  || filterValues.creator.includes(c.creator);
+    const matchTag     = !filterValues.tags?.length     || c.tags.some(t => filterValues.tags.includes(t));
     return matchView && matchSearch && matchStatus && matchChannel && matchCreator && matchTag;
   });
 
@@ -868,62 +893,15 @@ export function CampaignsList() {
         <PillSearchInput value={search} onChange={setSearch} placeholder="Search campaigns…" />
       </div>
 
-      {/* ── Filter bar (Figma spec) ── */}
-      <div className="relative rounded-[12px] bg-tv-surface px-[18px] pt-[14px] pb-[13px] mb-4">
-        <div aria-hidden="true" className="absolute inset-0 pointer-events-none rounded-[12px] border border-tv-border-light" />
-        <div className="flex items-center gap-[10px] relative z-[1]">
-
-          {/* ── Filters label ── */}
-          <div className="flex items-center gap-[5px] shrink-0">
-            <SlidersHorizontal size={14} className="text-tv-text-secondary" />
-            <span className="text-[12px] text-tv-text-secondary" style={{ fontWeight: 600 }}>Filters</span>
-          </div>
-
-          {/* Vertical divider */}
-          <div className="w-px h-[20px] bg-tv-border-light shrink-0" />
-
-          {/* ── Status ── */}
-          <FilterDropdown
-            icon={ListFilter}
-            label="Status"
-            value={status}
-            defaultValue="All"
-            onChange={setStatus}
-            items={STATUSES.map(s => ({ value: s, label: s === "All" ? "All Statuses" : s }))}
-          />
-
-          {/* ── Tags (>10 items → internal search) ── */}
-          <FilterDropdown
-            icon={Tag}
-            label="Tags"
-            value={tagFilter}
-            defaultValue="All"
-            onChange={setTagFilter}
-            items={[{ value: "All", label: "All Tags" }, ...ALL_TAGS.map(t => ({ value: t, label: t }))]}
-            showSearch
-          />
-
-          {/* ── Channel ── */}
-          <FilterDropdown
-            icon={Radio}
-            label="Channel"
-            value={channel}
-            defaultValue="All Channels"
-            onChange={setChannel}
-            items={CHANNELS.map(ch => ({ value: ch, label: ch }))}
-          />
-
-          {/* ── Creator ── */}
-          <FilterDropdown
-            icon={User}
-            label="Creator"
-            value={creator}
-            defaultValue="All Creators"
-            onChange={setCreator}
-            items={CREATORS.map(cr => ({ value: cr, label: cr }))}
-          />
-
-        </div>
+      {/* ── Filter bar (shared component) ── */}
+      <div className="mb-4">
+        <FilterBar
+          filters={CAMPAIGN_FILTERS}
+          activeFilterKeys={activeFilterKeys}
+          filterValues={filterValues}
+          onFilterValuesChange={setFilterValues}
+          onActiveFilterKeysChange={setActiveFilterKeys}
+        />
       </div>
 
       {/* ── Bulk actions bar ── */}
