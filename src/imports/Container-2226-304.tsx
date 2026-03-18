@@ -31,7 +31,7 @@ function Container2() {
 function Paragraph() {
   return (
     <div className="h-[15px] overflow-clip relative shrink-0 w-full" data-name="Paragraph">
-      <p className="absolute font-['Inter:Medium',sans-serif] font-medium leading-[15px] left-0 not-italic text-[#5d5e65] text-[10px] top-[0.5px] tracking-[0.6172px] uppercase whitespace-nowrap">Videos Sent</p>
+      <p className="absolute font-['Inter',Roboto,sans-serif] font-medium leading-[15px] left-0 not-italic text-[#5d5e65] text-[10px] top-[0.5px] tracking-[0.6172px] uppercase whitespace-nowrap">Videos Sent</p>
     </div>
   );
 }
@@ -39,7 +39,7 @@ function Paragraph() {
 function Paragraph1() {
   return (
     <div className="h-[27.5px] relative shrink-0 w-full" data-name="Paragraph">
-      <p className="absolute font-['Inter:Bold',sans-serif] font-bold leading-[27.5px] left-0 not-italic text-[#242436] text-[22px] top-[0.5px] tracking-[-0.2578px] whitespace-nowrap">247</p>
+      <p className="absolute font-['Inter',Roboto,sans-serif] font-bold leading-[27.5px] left-0 not-italic text-[#242436] text-[22px] top-[0.5px] tracking-[-0.2578px] whitespace-nowrap">247</p>
     </div>
   );
 }
@@ -47,7 +47,7 @@ function Paragraph1() {
 function Paragraph2() {
   return (
     <div className="h-[16.5px] overflow-clip relative shrink-0 w-full" data-name="Paragraph">
-      <p className="absolute font-['Inter:Medium',sans-serif] font-medium leading-[16.5px] left-0 not-italic text-[#16b364] text-[11px] top-[0.5px] tracking-[0.0645px] whitespace-nowrap">↑ 18 this month</p>
+      <p className="absolute font-['Inter',Roboto,sans-serif] font-medium leading-[16.5px] left-0 not-italic text-[#16b364] text-[11px] top-[0.5px] tracking-[0.0645px] whitespace-nowrap">↑ 18 this month</p>
     </div>
   );
 }
@@ -104,7 +104,7 @@ function Container4() {
 function Paragraph3() {
   return (
     <div className="h-[15px] overflow-clip relative shrink-0 w-full" data-name="Paragraph">
-      <p className="absolute font-['Inter:Medium',sans-serif] font-medium leading-[15px] left-0 not-italic text-[#5d5e65] text-[10px] top-[0.5px] tracking-[0.6172px] uppercase whitespace-nowrap">Avg. Open Rate</p>
+      <p className="absolute font-['Inter',Roboto,sans-serif] font-medium leading-[15px] left-0 not-italic text-[#5d5e65] text-[10px] top-[0.5px] tracking-[0.6172px] uppercase whitespace-nowrap">Avg. Open Rate</p>
     </div>
   );
 }
@@ -112,7 +112,7 @@ function Paragraph3() {
 function Paragraph4() {
   return (
     <div className="h-[27.5px] relative shrink-0 w-full" data-name="Paragraph">
-      <p className="absolute font-['Inter:Bold',sans-serif] font-bold leading-[27.5px] left-0 not-italic text-[#242436] text-[22px] top-[0.5px] tracking-[-0.2578px] whitespace-nowrap">79.4%</p>
+      <p className="absolute font-['Inter',Roboto,sans-serif] font-bold leading-[27.5px] left-0 not-italic text-[#242436] text-[22px] top-[0.5px] tracking-[-0.2578px] whitespace-nowrap">79.4%</p>
     </div>
   );
 }
@@ -120,7 +120,7 @@ function Paragraph4() {
 function Paragraph5() {
   return (
     <div className="h-[16.5px] overflow-clip relative shrink-0 w-full" data-name="Paragraph">
-      <p className="absolute font-['Inter:Medium',sans-serif] font-medium leading-[16.5px] left-0 not-italic text-[#16b364] text-[11px] top-[0.5px] tracking-[0.0645px] whitespace-nowrap">↑ +2.1% vs last month</p>
+      <p className="absolute font-['Inter',Roboto,sans-serif] font-medium leading-[16.5px] left-0 not-italic text-[#16b364] text-[11px] top-[0.5px] tracking-[0.0645px] whitespace-nowrap">↑ +2.1% vs last month</p>
     </div>
   );
 }
@@ -183,7 +183,7 @@ function Container6() {
 function Paragraph6() {
   return (
     <div className="h-[15px] overflow-clip relative shrink-0 w-full" data-name="Paragraph">
-      <p className="absolute font-['Inter:Medium',sans-serif] font-medium leading-[15px] left-0 not-italic text-[#5d5e65] text-[10px] top-[0.5px] tracking-[0.6172px] uppercase whitespace-nowrap">Total Video Views</p>
+      <p className="absolute font-['Inter',Roboto,sans-serif] font-medium leading-[15px] left-0 not-italic text-[#5d5e65] text-[10px] top-[0.5px] tracking-[0.6172px] uppercase whitespace-nowrap">Total Video Views</p>
     </div>
   );
 }
@@ -191,7 +191,7 @@ function Paragraph6() {
 function Paragraph7() {
   return (
     <div className="h-[27.5px] relative shrink-0 w-full" data-name="Paragraph">
-      <p className="absolute font-['Inter:Bold',sans-serif] font-bold leading-[27.5px] left-0 not-italic text-[#242436] text-[22px] top-[0.5px] tracking-[-0.2578px] whitespace-nowrap">1,842</p>
+      <p className="absolute font-['Inter',Roboto,sans-serif] font-bold leading-[27.5px] left-0 not-italic text-[#242436] text-[22px] top-[0.5px] tracking-[-0.2578px] whitespace-nowrap">1,842</p>
     </div>
   );
 }
@@ -199,7 +199,7 @@ function Paragraph7() {
 function Paragraph8() {
   return (
     <div className="h-[16.5px] overflow-clip relative shrink-0 w-full" data-name="Paragraph">
-      <p className="absolute font-['Inter:Medium',sans-serif] font-medium leading-[16.5px] left-0 not-italic text-[#737373] text-[11px] top-[0.5px] tracking-[0.0645px] whitespace-nowrap">Across all campaigns</p>
+      <p className="absolute font-['Inter',Roboto,sans-serif] font-medium leading-[16.5px] left-0 not-italic text-[#737373] text-[11px] top-[0.5px] tracking-[0.0645px] whitespace-nowrap">Across all campaigns</p>
     </div>
   );
 }
@@ -255,7 +255,7 @@ function Container8() {
 function Paragraph9() {
   return (
     <div className="h-[15px] overflow-clip relative shrink-0 w-full" data-name="Paragraph">
-      <p className="absolute font-['Inter:Medium',sans-serif] font-medium leading-[15px] left-0 not-italic text-[#5d5e65] text-[10px] top-[0.5px] tracking-[0.6172px] uppercase whitespace-nowrap">Reply Rate</p>
+      <p className="absolute font-['Inter',Roboto,sans-serif] font-medium leading-[15px] left-0 not-italic text-[#5d5e65] text-[10px] top-[0.5px] tracking-[0.6172px] uppercase whitespace-nowrap">Reply Rate</p>
     </div>
   );
 }
@@ -263,7 +263,7 @@ function Paragraph9() {
 function Paragraph10() {
   return (
     <div className="h-[27.5px] relative shrink-0 w-full" data-name="Paragraph">
-      <p className="absolute font-['Inter:Bold',sans-serif] font-bold leading-[27.5px] left-0 not-italic text-[#242436] text-[22px] top-[0.5px] tracking-[-0.2578px] whitespace-nowrap">14.2%</p>
+      <p className="absolute font-['Inter',Roboto,sans-serif] font-bold leading-[27.5px] left-0 not-italic text-[#242436] text-[22px] top-[0.5px] tracking-[-0.2578px] whitespace-nowrap">14.2%</p>
     </div>
   );
 }
@@ -271,7 +271,7 @@ function Paragraph10() {
 function Paragraph11() {
   return (
     <div className="h-[16.5px] overflow-clip relative shrink-0 w-full" data-name="Paragraph">
-      <p className="absolute font-['Inter:Medium',sans-serif] font-medium leading-[16.5px] left-0 not-italic text-[#16b364] text-[11px] top-[0.5px] tracking-[0.0645px] whitespace-nowrap">↑ above 8% industry avg</p>
+      <p className="absolute font-['Inter',Roboto,sans-serif] font-medium leading-[16.5px] left-0 not-italic text-[#16b364] text-[11px] top-[0.5px] tracking-[0.0645px] whitespace-nowrap">↑ above 8% industry avg</p>
     </div>
   );
 }

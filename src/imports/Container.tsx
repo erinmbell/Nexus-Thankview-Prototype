@@ -3,7 +3,7 @@ import svgPaths from "./svg-gd1t0gj97i";
 function Heading() {
   return (
     <div className="h-[27px] relative shrink-0 w-full" data-name="Heading 2">
-      <p className="absolute font-['Inter:Bold',sans-serif] font-bold leading-[27px] left-0 not-italic text-[#242436] text-[18px] top-[0.5px] tracking-[-0.4395px]">Quick Actions</p>
+      <p className="absolute font-['Inter',Roboto,sans-serif] font-bold leading-[27px] left-0 not-italic text-[#242436] text-[18px] top-[0.5px] tracking-[-0.4395px]">Quick Actions</p>
     </div>
   );
 }
@@ -46,7 +46,7 @@ function Paragraph() {
   return (
     <div className="h-[19.5px] relative shrink-0 w-[95.102px]" data-name="Paragraph">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="absolute font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[19.5px] left-0 not-italic text-[#242436] text-[13px] top-px tracking-[-0.0762px]">New Campaign</p>
+        <p className="absolute font-['Inter',Roboto,sans-serif] font-semibold leading-[19.5px] left-0 not-italic text-[#242436] text-[13px] top-px tracking-[-0.0762px]">New Campaign</p>
       </div>
     </div>
   );
@@ -56,7 +56,7 @@ function Paragraph1() {
   return (
     <div className="h-[27.5px] relative shrink-0 w-[103px]" data-name="Paragraph">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="absolute font-['Inter:Medium',sans-serif] font-medium leading-[13.75px] left-0 not-italic text-[#737373] text-[11px] top-0 tracking-[0.0645px] w-[103px] whitespace-pre-wrap">Create a new outreach campaign</p>
+        <p className="absolute font-['Inter',Roboto,sans-serif] font-medium leading-[13.75px] left-0 not-italic text-[#737373] text-[11px] top-0 tracking-[0.0645px] w-[103px] whitespace-pre-wrap">Create a new outreach campaign</p>
       </div>
     </div>
   );
@@ -102,7 +102,7 @@ function Paragraph2() {
   return (
     <div className="h-[19.5px] relative shrink-0 w-[84.516px]" data-name="Paragraph">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="absolute font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[19.5px] left-0 not-italic text-[#242436] text-[13px] top-px tracking-[-0.0762px]">Record Video</p>
+        <p className="absolute font-['Inter',Roboto,sans-serif] font-semibold leading-[19.5px] left-0 not-italic text-[#242436] text-[13px] top-px tracking-[-0.0762px]">Record Video</p>
       </div>
     </div>
   );
@@ -112,7 +112,7 @@ function Paragraph3() {
   return (
     <div className="h-[27.5px] relative shrink-0 w-[103px]" data-name="Paragraph">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="absolute font-['Inter:Medium',sans-serif] font-medium leading-[13.75px] left-0 not-italic text-[#737373] text-[11px] top-0 tracking-[0.0645px] w-[79px] whitespace-pre-wrap">Record a new personal video</p>
+        <p className="absolute font-['Inter',Roboto,sans-serif] font-medium leading-[13.75px] left-0 not-italic text-[#737373] text-[11px] top-0 tracking-[0.0645px] w-[79px] whitespace-pre-wrap">Record a new personal video</p>
       </div>
     </div>
   );
@@ -160,7 +160,7 @@ function Paragraph4() {
   return (
     <div className="h-[19.5px] relative shrink-0 w-[85.961px]" data-name="Paragraph">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="absolute font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[19.5px] left-0 not-italic text-[#242436] text-[13px] top-px tracking-[-0.0762px]">Add Contacts</p>
+        <p className="absolute font-['Inter',Roboto,sans-serif] font-semibold leading-[19.5px] left-0 not-italic text-[#242436] text-[13px] top-px tracking-[-0.0762px]">Add Contacts</p>
       </div>
     </div>
   );
@@ -170,7 +170,7 @@ function Paragraph5() {
   return (
     <div className="h-[27.5px] relative shrink-0 w-[103px]" data-name="Paragraph">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="absolute font-['Inter:Medium',sans-serif] font-medium leading-[13.75px] left-0 not-italic text-[#737373] text-[11px] top-0 tracking-[0.0645px] w-[98px] whitespace-pre-wrap">Import or add new constituents</p>
+        <p className="absolute font-['Inter',Roboto,sans-serif] font-medium leading-[13.75px] left-0 not-italic text-[#737373] text-[11px] top-0 tracking-[0.0645px] w-[98px] whitespace-pre-wrap">Import or add new constituents</p>
       </div>
     </div>
   );
@@ -219,7 +219,7 @@ function Paragraph6() {
   return (
     <div className="h-[19.5px] relative shrink-0 w-[88.445px]" data-name="Paragraph">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="absolute font-['Inter:Semi_Bold',sans-serif] font-semibold leading-[19.5px] left-0 not-italic text-[#242436] text-[13px] top-px tracking-[-0.0762px]">Create Assets</p>
+        <p className="absolute font-['Inter',Roboto,sans-serif] font-semibold leading-[19.5px] left-0 not-italic text-[#242436] text-[13px] top-px tracking-[-0.0762px]">Create Assets</p>
       </div>
     </div>
   );
@@ -229,7 +229,7 @@ function Paragraph7() {
   return (
     <div className="h-[27.5px] relative shrink-0 w-[103px]" data-name="Paragraph">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid relative size-full">
-        <p className="absolute font-['Inter:Medium',sans-serif] font-medium leading-[13.75px] left-0 not-italic text-[#737373] text-[11px] top-0 tracking-[0.0645px] w-[90px] whitespace-pre-wrap">{`Landing page, envelope & more`}</p>
+        <p className="absolute font-['Inter',Roboto,sans-serif] font-medium leading-[13.75px] left-0 not-italic text-[#737373] text-[11px] top-0 tracking-[0.0645px] w-[90px] whitespace-pre-wrap">{`Landing page, envelope & more`}</p>
       </div>
     </div>
   );

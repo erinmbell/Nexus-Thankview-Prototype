@@ -210,7 +210,7 @@ function CampaignCard({ campaign, onViewAnalytics }: { campaign: typeof campaign
 
 function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
   return (
-    <div className="flex flex-col bg-white rounded-[var(--mantine-radius-default)] border border-[var(--mantine-color-default-border)]">
+    <div className="flex flex-col bg-white rounded-[20px] border border-tv-border-strong">
       <div className="flex items-center justify-between gap-2 flex-wrap px-4 sm:px-6 py-4 sm:py-6" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
         <Title order={3} fz={{ base: 16, sm: 18 }} className="min-w-0 truncate">Your Ongoing Campaigns</Title>
         <Button color="tvPurple" size="sm" leftSection={<Plus size={13} />} onClick={() => navigate("/campaigns/create")} className="shrink-0">
@@ -233,7 +233,7 @@ function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
 
 function PerformanceChart({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   return (
-    <div className="bg-white rounded-[var(--mantine-radius-default)] border border-[var(--mantine-color-default-border)]">
+    <div className="bg-white rounded-[20px] border border-tv-border-strong">
       <button onClick={onToggle} className="w-full flex items-center gap-2.5 px-6 py-5 hover:bg-black/[0.02] transition-colors text-left">
         <ChevronDown size={14} style={{ color: TV.textSecondary, transform: collapsed ? "rotate(-90deg)" : "rotate(0deg)", transition: "transform 0.15s" }} />
         <div className="flex-1">
@@ -318,7 +318,7 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
       <div aria-hidden="true" className="absolute border border-tv-border-strong inset-0 pointer-events-none rounded-[20px]" />
       {/* Header */}
       <div className="relative border-b border-tv-border-divider px-[24px] pt-[20px] pb-[13px]">
-        <h2 className="font-['Roboto'] font-bold text-tv-text-primary text-[18px] tracking-[-0.44px] leading-[27px]">Quick Actions</h2>
+        <h2 className="font-['Roboto',sans-serif] font-bold text-tv-text-primary text-[18px] tracking-[-0.44px] leading-[27px]">Quick Actions</h2>
       </div>
       {/* 2×2 grid */}
       <div className="grid grid-cols-2 grid-rows-2 gap-[12px] p-[16px]">
@@ -335,9 +335,9 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
                 {action.icon}
               </div>
               {/* Label */}
-              <p className="font-['Inter'] font-semibold text-tv-text-primary text-[13px] tracking-[-0.08px] leading-[19.5px]">{action.label}</p>
+              <p className="font-['Inter',Roboto,sans-serif] font-semibold text-tv-text-primary text-[13px] tracking-[-0.08px] leading-[19.5px]">{action.label}</p>
               {/* Description */}
-              <p className="font-['Inter'] font-medium text-tv-text-secondary text-[11px] tracking-[0.06px] leading-[13.75px]">{action.desc}</p>
+              <p className="font-['Inter',Roboto,sans-serif] font-medium text-tv-text-secondary text-[11px] tracking-[0.06px] leading-[13.75px]">{action.desc}</p>
             </div>
           </button>
         ))}
@@ -349,7 +349,7 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
 function RecentActivityWidget({ navigate }: { navigate: (path: string) => void }) {
   const [activeTab, setActiveTab] = useState<"videos" | "activity">("activity");
   return (
-    <div className="flex flex-col bg-white rounded-[var(--mantine-radius-default)] border border-[var(--mantine-color-default-border)]">
+    <div className="flex flex-col bg-white rounded-[20px] border border-tv-border-strong">
       <div className="px-6 py-6" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
         <div className="flex items-center justify-between mb-2">
           <Title order={3} fz={18}>{activeTab === "videos" ? "Video Library" : "Donor Activity"}</Title>
@@ -416,7 +416,7 @@ function RecentActivityWidget({ navigate }: { navigate: (path: string) => void }
 
 function MostSuccessfulCampaigns({ navigate, collapsed, onToggle }: { navigate: (path: string) => void; collapsed: boolean; onToggle: () => void }) {
   return (
-    <div className="bg-white rounded-[var(--mantine-radius-default)] border border-[var(--mantine-color-default-border)]">
+    <div className="bg-white rounded-[20px] border border-tv-border-strong">
       <div className="flex items-center justify-between flex-wrap gap-2 px-4 sm:px-6 py-4 sm:py-5">
         <button onClick={onToggle} className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
           <ChevronDown size={14} style={{ color: TV.textSecondary, transform: collapsed ? "rotate(-90deg)" : "rotate(0deg)", transition: "transform 0.15s" }} />

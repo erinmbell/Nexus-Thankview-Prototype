@@ -986,10 +986,9 @@ export function Lists() {
         </Box>
       )}
 
-      {/* Main content: table + recently used sidebar */}
-      <div className="flex items-start gap-5 flex-nowrap">
-        {/* Table */}
-        <Box style={{ flex: 1, minWidth: 0 }}>
+      {/* Main content: table */}
+      <div>
+        <Box>
         <div className="rounded-[12px] border" style={{ borderColor: TV.borderStrong, overflow: "hidden" }}>
         {filtered.length === 0 ? (
           <Stack align="center" py="xl" gap="sm">
@@ -1135,11 +1134,6 @@ export function Lists() {
           </>
         )}
       </div>
-        </Box>
-
-        {/* Recently Used sidebar (desktop only) */}
-        <Box visibleFrom="lg">
-          <RecentlyUsedSidebar lists={recentlyUsed} onSelect={l => setDetailView(l)} />
         </Box>
       </div>
 
