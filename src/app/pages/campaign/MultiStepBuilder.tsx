@@ -18,10 +18,11 @@ import { SaveChangesModal } from "../../components/SaveChangesModal";
 import { VideoPickerView, VideoCreateView, PICKER_VIDEOS, type PickerVideo } from "./VideoModals";
 import { ConstituentPanel } from "./ConstituentPanel";
 import { LivePreviewPanel } from "./LivePreviewPanel";
-import { DesignStepPanel } from "./DesignStepPanel";
+import { DesignStepPanel, PAPER_TEXTURE, PerforatedStamp, HolidayGraphic, isDarkColor } from "./DesignStepPanel";
 import { RichTextEditor } from "../../components/RichTextEditor";
 import { MergeFieldPicker } from "../../components/MergeFieldPicker";
 import { VRRecorderPanel } from "./VRRecorderPanel";
+import { EnvelopeBuilderModal } from "./EnvelopeBuilderModal";
 import {
   type FlowStepType, type FlowStep, type ConstituentDateFieldId,
   FLOW_STEP_TYPES, CONDITION_OPTIONS, WAIT_PRESETS, makeId, SMS_MAX,
@@ -524,12 +525,7 @@ function StepDrawer({
   const allEnvelopes = [...globalEnvelopes, ...ENVELOPE_DESIGNS];
   // All landing pages merged
   const allLandingPages = [...globalLandingPages, ...LANDING_PAGES];
-  // Dark color helper
-  const isDark = (hex: string) => {
-    const c = hex.replace("#", "");
-    const r = parseInt(c.substring(0, 2), 16), g = parseInt(c.substring(2, 4), 16), b = parseInt(c.substring(4, 6), 16);
-    return (r * 299 + g * 587 + b * 114) / 1000 < 140;
-  };
+  // isDarkColor imported from DesignStepPanel
 
   // ── Validation requirements ──────────────────────────────────────────────
   const requirements: { key: string; label: string; met: boolean; severity: "error" | "warning" | "info" }[] = [];
@@ -564,7 +560,7 @@ function StepDrawer({
     <>
     <motion.div
       initial={{ width: 380 }}
-      animate={{ width: (expanded || isVideoViewActive) ? 640 : 380 }}
+      animate={{ width: (expanded || isVideoViewActive) ? "calc(100vw - 340px)" : 380 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
       className="shrink-0 border-l border-tv-border-divider bg-white flex flex-col overflow-y-auto"
     >
@@ -580,7 +576,7 @@ function StepDrawer({
           </div>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
-          <TvTooltip label={expanded ? "Collapse drawer" : "Expand drawer"}>
+          <TvTooltip label={expanded ? "Collapse editor" : "Full-width editor"}>
             <button
               onClick={() => setExpanded(e => !e)}
               className={`w-7 h-7 rounded-full flex items-center justify-center transition-colors ${expanded ? "bg-tv-brand-tint text-tv-brand" : "bg-tv-surface text-tv-text-secondary hover:bg-tv-surface-hover"}`}
@@ -1115,43 +1111,6 @@ function StepDrawer({
               <p className="text-[9px] text-tv-text-decorative mt-1">Comma-separated. Applies per constituent on send.</p>
             </details>
 
-            {/* Envelope design — grid picker */}
-            <div>
-              <label className="tv-label mb-1.5 block">Envelope Design</label>
-              <div className="grid grid-cols-3 gap-2">
-                {allEnvelopes.slice(0, 6).map(env => {
-                  const active = (step.envelopeId || 1) === env.id;
-                  const nColor = env.nameColor || (isDark(env.color) ? "#ffffff" : "#1e293b");
-                  return (
-                    <button key={env.id} onClick={() => onUpdate({ ...step, envelopeId: env.id })}
-                      className={`rounded-[8px] border-2 overflow-hidden transition-all text-left relative ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
-                      <div className="aspect-[4/3] relative flex items-center justify-center" style={{ backgroundColor: env.color }}>
-                        <span className="text-[7px] italic opacity-80" style={{ color: nColor, fontWeight: 500 }}>Constituent Name</span>
-                        {active && (
-                          <div className="absolute top-1 left-1 w-4 h-4 rounded-full bg-tv-brand-bg flex items-center justify-center shadow-sm">
-                            <Check size={8} className="text-white" strokeWidth={3} />
-                          </div>
-                        )}
-                      </div>
-                      <div className={`px-1.5 py-1 text-center ${active ? "bg-tv-brand-tint" : "bg-white"}`}>
-                        <p className={`text-[9px] truncate ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: active ? 600 : 500 }}>{env.name}</p>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-              <div className="flex gap-2 mt-2">
-                <button onClick={() => setShowEnvelopeLibrary(true)}
-                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-[11px] text-tv-brand border border-tv-border rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 500 }}>
-                  <Search size={11} />Browse All
-                </button>
-                <button onClick={() => setShowEnvelopeBuilder(true)}
-                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-[11px] text-tv-brand border border-tv-border rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 500 }}>
-                  <Plus size={11} />Create New
-                </button>
-              </div>
-            </div>
-
             {/* Message body */}
             <div>
               <div className="flex items-center justify-between mb-1">
@@ -1194,6 +1153,57 @@ function StepDrawer({
                   onClose={() => setShowAi(false)}
                 />
               )}
+            </div>
+
+            {/* Envelope design — grid picker */}
+            <div>
+              <label className="tv-label mb-1.5 block">Envelope Design</label>
+              <div className="grid grid-cols-3 gap-2">
+                {allEnvelopes.slice(0, 6).map(env => {
+                  const active = (step.envelopeId || 1) === env.id;
+                  const nColor = env.nameColor || (isDarkColor(env.color) ? "#ffffff" : "#1e293b");
+                  return (
+                    <button key={env.id} onClick={() => onUpdate({ ...step, envelopeId: env.id })}
+                      className={`rounded-[8px] border-2 overflow-hidden transition-all text-left relative ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                      <div className="aspect-[4/3] relative" style={{ backgroundColor: env.color }}>
+                        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: PAPER_TEXTURE, backgroundSize: "200px 200px", mixBlendMode: "overlay" }} />
+                        {(env as any).holidayType && (
+                          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                            <HolidayGraphic type={(env as any).holidayType} size={36} color={(env as any).accent || env.color} />
+                          </div>
+                        )}
+                        <div className="absolute top-[6%] right-[6%]">
+                          <PerforatedStamp size={22} accentColor={(env as any).accent || env.color} />
+                        </div>
+                        <div className="absolute inset-0 flex items-center justify-center pt-1">
+                          <span className="text-[7px] italic opacity-80" style={{ color: nColor, fontWeight: 500 }}>Constituent Name</span>
+                        </div>
+                        {active && (
+                          <div className="absolute top-1 left-1 w-4 h-4 rounded-full bg-tv-brand-bg flex items-center justify-center shadow-sm">
+                            <Check size={8} className="text-white" strokeWidth={3} />
+                          </div>
+                        )}
+                        {(env as any).branded && (
+                          <span className="absolute bottom-0.5 right-0.5 text-[6px] px-1 py-[1px] rounded-[3px] bg-white/90 text-tv-text-label shadow-sm" style={{ fontWeight: 600 }}>Branded</span>
+                        )}
+                      </div>
+                      <div className={`px-1.5 py-1 text-center ${active ? "bg-tv-brand-tint" : "bg-white"}`}>
+                        <p className={`text-[9px] truncate ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: active ? 600 : 500 }}>{env.name}</p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="flex gap-2 mt-2">
+                <button onClick={() => setShowEnvelopeLibrary(true)}
+                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-[11px] text-tv-brand border border-tv-border rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 500 }}>
+                  <Search size={11} />Browse All
+                </button>
+                <button onClick={() => setShowEnvelopeBuilder(true)}
+                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-[11px] text-tv-brand border border-tv-border rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 500 }}>
+                  <Plus size={11} />Create New
+                </button>
+              </div>
             </div>
 
             {/* Thumbnail style — pick one of 3 */}
@@ -1984,16 +1994,30 @@ function StepDrawer({
                   <div className="grid grid-cols-4 gap-2.5">
                     {envs.map((env: any) => {
                       const active = (step.envelopeId || 1) === env.id;
-                      const nColor = env.nameColor || (isDark(env.color) ? "#ffffff" : "#1e293b");
+                      const nColor = env.nameColor || (isDarkColor(env.color) ? "#ffffff" : "#1e293b");
                       return (
                         <button key={env.id} onClick={() => { onUpdate({ ...step, envelopeId: env.id }); setShowEnvelopeLibrary(false); show(`"${env.name}" selected`, "success"); }}
                           className={`rounded-[10px] border-2 overflow-hidden transition-all text-left relative ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
-                          <div className="aspect-[4/3] relative flex items-center justify-center" style={{ backgroundColor: env.color }}>
-                            <span className="text-[8px] italic opacity-80" style={{ color: nColor, fontWeight: 500 }}>Constituent Name</span>
+                          <div className="aspect-[4/3] relative" style={{ backgroundColor: env.color }}>
+                            <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: PAPER_TEXTURE, backgroundSize: "200px 200px", mixBlendMode: "overlay" }} />
+                            {env.holidayType && (
+                              <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                                <HolidayGraphic type={env.holidayType} size={42} color={env.accent || env.color} />
+                              </div>
+                            )}
+                            <div className="absolute top-[6%] right-[6%]">
+                              <PerforatedStamp size={26} accentColor={env.accent || env.color} />
+                            </div>
+                            <div className="absolute inset-0 flex items-center justify-center pt-1">
+                              <span className="text-[8px] italic opacity-80" style={{ color: nColor, fontWeight: 500 }}>Constituent Name</span>
+                            </div>
                             {active && (
                               <div className="absolute top-1.5 left-1.5 w-5 h-5 rounded-full bg-tv-brand-bg flex items-center justify-center shadow-sm">
                                 <Check size={9} className="text-white" strokeWidth={3} />
                               </div>
+                            )}
+                            {env.branded && (
+                              <span className="absolute bottom-1 right-1 text-[7px] px-1 py-[2px] rounded-[4px] bg-white/90 text-tv-text-label shadow-sm" style={{ fontWeight: 600 }}>Branded</span>
                             )}
                           </div>
                           <div className={`px-2 py-1.5 text-center ${active ? "bg-tv-brand-tint" : "bg-white"}`}>
@@ -4042,6 +4066,8 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
       {phase === "configure" && (
         <div className="flex-1 overflow-auto p-6 sm:p-8" onInput={markMultiDirty} onClick={markMultiDirty}>
           <ConfigureStepPanel
+            campaignName={campaignName}
+            onCampaignNameChange={setCampaignName}
             selectedMetrics={selectedMetrics}
             onMetricsChange={setSelectedMetrics}
             selectedTags={campaignTags}
@@ -4085,17 +4111,9 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
               {steps.length === 0 ? (
                 <div className="flex flex-col items-center">
                   <div className="border border-tv-border rounded-[12px] px-8 py-7 text-center relative">
-                    <div className="flex items-center gap-2 mb-3">
-                      {editingName ? (
-                        <input autoFocus value={campaignName} onChange={e => setCampaignName(e.target.value)}
-                          onBlur={() => setEditingName(false)} onKeyDown={e => { if (e.key === "Enter") setEditingName(false); }}
-                          className="text-[14px] text-tv-text-primary border-b-2 border-tv-brand-bg outline-none focus:ring-1 focus:ring-tv-brand/40 bg-transparent px-0.5 text-center" style={{ fontWeight: 700 }} />
-                      ) : (
-                        <button onClick={() => setEditingName(true)} className="flex items-center gap-1.5 text-[14px] text-tv-text-primary hover:text-tv-brand transition-colors mx-auto" style={{ fontWeight: 700 }}>
-                          {campaignName}<Pencil size={11} className="text-tv-text-decorative" />
-                        </button>
-                      )}
-                    </div>
+                    <p className="text-[14px] text-tv-text-primary mb-3 text-center" style={{ fontWeight: 700 }}>
+                      {campaignName}
+                    </p>
                     <div className="relative">
                       <button onClick={() => setAddingAtIndex(0)}
                         className="px-4 py-2 border-2 border-tv-brand-bg text-tv-brand rounded-full text-[12px] hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 600 }}>
@@ -4110,18 +4128,10 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                 </div>
               ) : (
                 <>
-                  {/* Editable campaign name above the flow */}
-                  <div className="mb-2">
-                    {editingName ? (
-                      <input autoFocus value={campaignName} onChange={e => setCampaignName(e.target.value)}
-                        onBlur={() => setEditingName(false)} onKeyDown={e => { if (e.key === "Enter") setEditingName(false); }}
-                        className="text-[14px] text-tv-text-primary border-b-2 border-tv-brand-bg outline-none focus:ring-1 focus:ring-tv-brand/40 bg-transparent px-0.5 text-center" style={{ fontWeight: 700 }} />
-                    ) : (
-                      <button onClick={() => setEditingName(true)} className="flex items-center gap-1.5 text-[14px] text-tv-text-primary hover:text-tv-brand transition-colors" style={{ fontWeight: 700 }}>
-                        {campaignName}<Pencil size={11} className="text-tv-text-decorative" />
-                      </button>
-                    )}
-                  </div>
+                  {/* Campaign name (read-only — edit in Configure step) */}
+                  <p className="text-[14px] text-tv-text-primary mb-2 text-center" style={{ fontWeight: 700 }}>
+                    {campaignName}
+                  </p>
                   {steps.map((step, i) => (
                     <div key={step.id} className="flex flex-col items-center">
                       <div className="relative">

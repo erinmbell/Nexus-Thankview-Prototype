@@ -156,7 +156,7 @@ const DESCRIPTION_MAX = 5000;
 const BUTTON_TEXT_MAX = 50;
 
 /** Paper/linen texture overlay — subtle SVG noise as a data-URL background */
-const PAPER_TEXTURE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E")`;
+export const PAPER_TEXTURE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E")`;
 
 /* ── Shared sub-components ────────────────────────────────────────────────── */
 
@@ -171,7 +171,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 /* Toggle imported from ../../components/ui/Toggle */
 
 /** Perforated stamp — matches ThankView's zigzag-edged postage stamp with play button */
-function PerforatedStamp({ size = 48, accentColor = "#c09696" }: { size?: number; accentColor?: string }) {
+export function PerforatedStamp({ size = 48, accentColor = "#c09696" }: { size?: number; accentColor?: string }) {
   const notchR = size * 0.04;
   const notchCount = Math.round(size / (notchR * 3.2));
 
@@ -225,7 +225,7 @@ function PerforatedStamp({ size = 48, accentColor = "#c09696" }: { size?: number
 }
 
 /** Cute holiday-themed SVG decorations for envelope thumbnails & preview */
-function HolidayGraphic({ type, size = 48, color }: { type: string; size?: number; color: string }) {
+export function HolidayGraphic({ type, size = 48, color }: { type: string; size?: number; color: string }) {
   const s = size;
   switch (type) {
     case "winter":
@@ -990,7 +990,7 @@ function FormEmbedSection({ url, onUrlChange, height, onHeightChange, fullWidth,
   );
 }
 
-function isDarkColor(hex: string) {
+export function isDarkColor(hex: string) {
   const c = hex.replace("#", "");
   const r = parseInt(c.substring(0, 2), 16);
   const g = parseInt(c.substring(2, 4), 16);

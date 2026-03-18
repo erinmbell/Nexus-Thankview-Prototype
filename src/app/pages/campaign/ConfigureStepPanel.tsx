@@ -29,6 +29,8 @@ interface AutoRemovalRule {
 }
 
 interface ConfigureStepPanelProps {
+  campaignName?: string;
+  onCampaignNameChange?: (name: string) => void;
   selectedMetrics: string[];
   onMetricsChange: (metrics: string[]) => void;
   selectedTags: string[];
@@ -57,6 +59,8 @@ const EMAIL_TEMPLATES = [
 let _ruleIdCounter = 1;
 
 export function ConfigureStepPanel({
+  campaignName,
+  onCampaignNameChange,
   selectedMetrics,
   onMetricsChange,
   selectedTags,
@@ -123,6 +127,25 @@ export function ConfigureStepPanel({
         <h2 className="text-tv-text-primary mb-1" style={{ fontSize: "24px", fontWeight: 900 }}>Configure Campaign</h2>
         <p className="text-[13px] text-tv-text-secondary">Define how you'll measure success and configure additional settings.</p>
       </div>
+
+      {/* 0. CAMPAIGN NAME */}
+      {onCampaignNameChange && (
+        <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+          <div className="px-5 py-4">
+            <div className="flex items-center gap-2 mb-3">
+              <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Name</p>
+              <span className="text-[9px] px-2 py-0.5 rounded-full bg-tv-danger-bg text-tv-danger border border-tv-danger-border" style={{ fontWeight: 600 }}>REQUIRED</span>
+            </div>
+            <input
+              value={campaignName || ""}
+              onChange={e => { onCampaignNameChange(e.target.value); markDirty?.(); }}
+              placeholder="e.g. Spring Annual Fund Appeal"
+              className="w-full border border-tv-border-light rounded-[10px] px-4 py-3 text-[14px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand transition-colors placeholder:text-tv-text-secondary"
+            />
+            <p className="text-[11px] text-tv-text-secondary mt-2">Give your campaign a memorable name so it's easy to find later.</p>
+          </div>
+        </section>
+      )}
 
       {/* 1. SUCCESS METRICS */}
       <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">

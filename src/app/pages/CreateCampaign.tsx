@@ -15,7 +15,7 @@ import {
   IndentIncrease, IndentDecrease, Smile, StopCircle, RefreshCw,
   AlertTriangle, Target, BarChart3, Calendar,
   Signal, Wifi, Battery, Phone, Bookmark, Braces,
-  AlignCenter, AlignRight, AlignJustify, Strikethrough, Minus, ChevronDown, PenLine,
+  AlignCenter, AlignRight, AlignJustify, Strikethrough, Minus, ChevronDown, PenLine, Tag,
 } from "lucide-react";
 import { useToast } from "../contexts/ToastContext";
 import { useDesignLibrary } from "../contexts/DesignLibraryContext";
@@ -1320,11 +1320,11 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
     const typeMeta = campaignGoal ? TYPE_META[campaignGoal] : null;
 
     return (
-    <div className="max-w-[680px] xl:max-w-[780px] 2xl:max-w-[900px] mx-auto">
+    <div className="max-w-[700px] xl:max-w-[800px] 2xl:max-w-[900px] mx-auto space-y-5">
 
       {/* ── Template banner ── */}
       {initialTemplate && (
-        <div className="mb-6 flex items-center gap-3 p-3.5 rounded-[12px] border border-tv-info-border bg-tv-info-bg">
+        <div className="flex items-center gap-3 p-3.5 rounded-[12px] border border-tv-info-border bg-tv-info-bg">
           <div className="w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 bg-white">
             <Bookmark size={15} className="text-tv-info" />
           </div>
@@ -1340,220 +1340,249 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       )}
 
       {/* ── Section 1: Campaign Name ── */}
-      <div className="mb-8">
-        <div className="flex items-center gap-2 mb-1">
-          <label className={LABEL_CLS} htmlFor="cfg-name" style={{ marginBottom: 0 }}>Campaign Name</label>
-          <span className="text-[10px] px-2.5 py-1 rounded-full bg-tv-brand-tint text-tv-brand border border-tv-brand-bg/20" style={{ fontWeight: 700 }}>REQUIRED</span>
+      <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+        <div className="px-5 py-4">
+          <div className="flex items-center gap-2 mb-3">
+            <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Name</p>
+            <span className="text-[9px] px-2 py-0.5 rounded-full bg-tv-danger-bg text-tv-danger border border-tv-danger-border" style={{ fontWeight: 600 }}>REQUIRED</span>
+          </div>
+          <input
+            id="cfg-name"
+            type="text"
+            value={campaignName}
+            onChange={e => { setCampaignName(e.target.value); markDirty(); }}
+            placeholder="e.g. Spring Annual Fund Appeal"
+            className="w-full border border-tv-border-light rounded-[10px] px-4 py-3 text-[14px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand transition-colors placeholder:text-tv-text-secondary"
+          />
+          <p className="text-[11px] text-tv-text-secondary mt-2">Give your campaign a memorable name so it's easy to find later.</p>
         </div>
-        <input
-          id="cfg-name"
-          type="text"
-          value={campaignName}
-          onChange={e => { setCampaignName(e.target.value); markDirty(); }}
-          placeholder="e.g. Spring Annual Fund Appeal"
-          className={INPUT_CLS}
-        />
-        <p className={HELPER_CLS}>Give your campaign a memorable name so it's easy to find later.</p>
-      </div>
+      </section>
 
       {/* ── Section 2: Campaign Type ── */}
       {goalPreSelected && typeMeta ? (
-        /* Pre-selected from dropdown — show compact type banner */
-        <div className="mb-8 flex items-center gap-4 p-4 rounded-[12px] border border-tv-border-light bg-white">
-          <div className="w-11 h-11 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: typeMeta.bg }}>
-            <typeMeta.icon size={20} style={{ color: typeMeta.color }} />
+        <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+          <div className="flex items-center gap-4 px-5 py-4">
+            <div className="w-11 h-11 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: typeMeta.bg }}>
+              <typeMeta.icon size={20} style={{ color: typeMeta.color }} />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>{typeMeta.label}</p>
+              <p className="text-[12px] text-tv-text-secondary leading-relaxed">{typeMeta.desc}</p>
+            </div>
           </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>{typeMeta.label}</p>
-            <p className="text-[12px] text-tv-text-secondary leading-relaxed">{typeMeta.desc}</p>
-          </div>
-        </div>
+        </section>
       ) : (
-        /* Single-step (no pre-selected goal) — ask about video inclusion */
-        <div className="mb-8">
-          <h3 className="text-tv-text-primary mb-1.5" style={{ fontSize: "16px", fontWeight: 700 }}>
-            Campaign Type
-          </h3>
-          <p className="text-[13px] text-tv-text-secondary mb-4">Will this campaign include a video?</p>
-          <div className="grid grid-cols-2 gap-3">
-            {([
-              { goal: "send-video" as CampaignGoal,         icon: Videotape, label: "Send with Video",    desc: "Record or choose a video to include" },
-              { goal: "send-without-video" as CampaignGoal, icon: Mail,      label: "Send without Video", desc: "Email or SMS only — no video attachment" },
-            ]).map(opt => {
-              const selected = campaignGoal === opt.goal;
-              return (
-                <button key={opt.goal} onClick={() => { setCampaignGoal(opt.goal); markDirty(); }}
-                  className={`relative p-5 rounded-[12px] border-2 text-left transition-all ${
-                    selected ? "border-tv-brand-bg bg-tv-brand-tint shadow-sm" : "border-tv-border-light hover:border-tv-border-strong"
-                  }`}>
-                  <div className={`w-10 h-10 rounded-[10px] ${selected ? "bg-tv-brand-tint" : "bg-tv-surface"} flex items-center justify-center mb-3`}>
-                    <opt.icon size={18} className={selected ? "text-tv-brand" : "text-tv-text-secondary"} />
-                  </div>
-                  <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 600 }}>{opt.label}</p>
-                  <p className="text-[11px] text-tv-text-secondary mt-0.5">{opt.desc}</p>
-                  {selected && (
-                    <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-tv-brand-bg flex items-center justify-center">
-                      <Check size={11} className="text-white" />
-                    </div>
-                  )}
-                </button>
-              );
-            })}
+        <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+          <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 bg-tv-brand-tint rounded-[8px] flex items-center justify-center">
+                <Videotape size={15} className="text-tv-brand" />
+              </div>
+              <div>
+                <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Type</p>
+                <p className="text-[11px] text-tv-text-secondary">Will this campaign include a video?</p>
+              </div>
+            </div>
           </div>
-        </div>
+          <div className="p-5">
+            <div className="grid grid-cols-2 gap-3">
+              {([
+                { goal: "send-video" as CampaignGoal,         icon: Videotape, label: "Send with Video",    desc: "Record or choose a video to include" },
+                { goal: "send-without-video" as CampaignGoal, icon: Mail,      label: "Send without Video", desc: "Email or SMS only — no video attachment" },
+              ]).map(opt => {
+                const selected = campaignGoal === opt.goal;
+                return (
+                  <button key={opt.goal} onClick={() => { setCampaignGoal(opt.goal); markDirty(); }}
+                    className={`relative p-5 rounded-[12px] border-2 text-left transition-all ${
+                      selected ? "border-tv-brand-bg bg-tv-brand-tint shadow-sm" : "border-tv-border-light hover:border-tv-border-strong"
+                    }`}>
+                    <div className={`w-10 h-10 rounded-[10px] ${selected ? "bg-tv-brand-tint" : "bg-tv-surface"} flex items-center justify-center mb-3`}>
+                      <opt.icon size={18} className={selected ? "text-tv-brand" : "text-tv-text-secondary"} />
+                    </div>
+                    <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 600 }}>{opt.label}</p>
+                    <p className="text-[11px] text-tv-text-secondary mt-0.5">{opt.desc}</p>
+                    {selected && (
+                      <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-tv-brand-bg flex items-center justify-center">
+                        <Check size={11} className="text-white" />
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </section>
       )}
 
       {/* ── Section 3: Delivery — type-aware ── */}
-      {isVideoRequest ? (
-        /* Video Request — 3 delivery methods */
-        <div className="mb-8">
-          <h3 className="text-tv-text-primary mb-1.5" style={{ fontSize: "16px", fontWeight: 700 }}>
-            Delivery Method
-          </h3>
-          <p className="text-[13px] text-tv-text-secondary mb-4">How do you want to reach your recorders?</p>
-          <div className="grid grid-cols-3 gap-3">
-            {VR_DELIVERY_TYPES.map(dt => {
-              const selected = vrDeliveryType === dt.id;
-              return (
-                <button key={dt.id} onClick={() => { setVrDeliveryType(dt.id); if (dt.id !== "link") switchChannel(dt.id); markDirty(); }}
-                  className={`p-5 rounded-[12px] border-2 text-left transition-all ${
-                    selected ? "border-tv-brand-bg bg-tv-brand-tint shadow-sm" : "border-tv-border-light hover:border-tv-border-strong"
-                  }`}>
-                  <div className={`w-10 h-10 rounded-[10px] ${selected ? "bg-tv-brand-tint" : "bg-tv-surface"} flex items-center justify-center mb-3`}>
-                    <dt.icon size={18} className={selected ? "text-tv-brand" : "text-tv-text-secondary"} />
-                  </div>
-                  <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 600 }}>{dt.label}</p>
-                  <p className="text-[11px] text-tv-text-secondary mt-0.5">{dt.desc}</p>
-                </button>
-              );
-            })}
+      <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-tv-brand-tint rounded-[8px] flex items-center justify-center">
+              <Send size={15} className="text-tv-brand" />
+            </div>
+            <div>
+              <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>{isVideoRequest ? "Delivery Method" : "Delivery Channel"}</p>
+              <p className="text-[11px] text-tv-text-secondary">{isVideoRequest ? "How do you want to reach your recorders?" : "How do you want to reach your constituents?"}</p>
+            </div>
           </div>
-          {/* Shareable link notice */}
-          {vrDeliveryType === "link" && (
-            <div className="mt-4 p-3 bg-tv-info-bg border border-tv-info-border rounded-[10px] flex gap-2">
-              <Info size={12} className="text-tv-info shrink-0 mt-0.5" />
-              <div>
-                <p className="text-[11px] text-tv-info" style={{ fontWeight: 600 }}>Shareable Link</p>
-                <p className="text-[10px] text-tv-info">A unique URL will be generated that you can copy and share anywhere — social media, websites, QR codes, etc.</p>
+        </div>
+        <div className="p-5">
+          {isVideoRequest ? (
+            <>
+              <div className="grid grid-cols-3 gap-3">
+                {VR_DELIVERY_TYPES.map(dt => {
+                  const selected = vrDeliveryType === dt.id;
+                  return (
+                    <button key={dt.id} onClick={() => { setVrDeliveryType(dt.id); if (dt.id !== "link") switchChannel(dt.id); markDirty(); }}
+                      className={`p-5 rounded-[12px] border-2 text-left transition-all ${
+                        selected ? "border-tv-brand-bg bg-tv-brand-tint shadow-sm" : "border-tv-border-light hover:border-tv-border-strong"
+                      }`}>
+                      <div className={`w-10 h-10 rounded-[10px] ${selected ? "bg-tv-brand-tint" : "bg-tv-surface"} flex items-center justify-center mb-3`}>
+                        <dt.icon size={18} className={selected ? "text-tv-brand" : "text-tv-text-secondary"} />
+                      </div>
+                      <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 600 }}>{dt.label}</p>
+                      <p className="text-[11px] text-tv-text-secondary mt-0.5">{dt.desc}</p>
+                    </button>
+                  );
+                })}
               </div>
+              {vrDeliveryType === "link" && (
+                <div className="mt-4 p-3 bg-tv-info-bg border border-tv-info-border rounded-[10px] flex gap-2">
+                  <Info size={12} className="text-tv-info shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-[11px] text-tv-info" style={{ fontWeight: 600 }}>Shareable Link</p>
+                    <p className="text-[10px] text-tv-info">A unique URL will be generated that you can copy and share anywhere — social media, websites, QR codes, etc.</p>
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="grid grid-cols-2 gap-3">
+              {([
+                { type: "email" as CampaignChannel, icon: Mail,          label: "Email", desc: campaignGoal === "send-video" ? "Send a personalized email with video" : "Send a personalized email campaign", color: "text-tv-brand", bg: "bg-tv-brand-tint" },
+                { type: "sms" as CampaignChannel,   icon: MessageSquare, label: "SMS",   desc: campaignGoal === "send-video" ? "Send a text message with video link" : "Send a text message campaign",       color: "text-tv-info",  bg: "bg-tv-info-bg" },
+              ]).map(ch => {
+                const selected = campaignCh === ch.type;
+                return (
+                  <button key={ch.type} onClick={() => { setCampaignCh(ch.type); switchChannel(ch.type); markDirty(); }}
+                    className={`p-5 rounded-[12px] border-2 text-left transition-all ${
+                      selected ? "border-tv-brand-bg bg-tv-brand-tint shadow-sm" : "border-tv-border-light hover:border-tv-border-strong"
+                    }`}>
+                    <div className={`w-10 h-10 rounded-[10px] ${selected ? ch.bg : "bg-tv-surface"} flex items-center justify-center mb-3`}>
+                      <ch.icon size={18} className={selected ? ch.color : "text-tv-text-secondary"} />
+                    </div>
+                    <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 600 }}>{ch.label}</p>
+                    <p className="text-[11px] text-tv-text-secondary mt-0.5">{ch.desc}</p>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
-      ) : (
-        /* Send Video / Send Without Video / No type yet — Email or SMS */
-        <div className="mb-8">
-          <h3 className="text-tv-text-primary mb-1.5" style={{ fontSize: "16px", fontWeight: 700 }}>
-            Delivery Channel
-          </h3>
-          <p className="text-[13px] text-tv-text-secondary mb-4">How do you want to reach your constituents?</p>
-          <div className="grid grid-cols-2 gap-3">
-            {([
-              { type: "email" as CampaignChannel, icon: Mail,          label: "Email", desc: campaignGoal === "send-video" ? "Send a personalized email with video" : "Send a personalized email campaign", color: "text-tv-brand", bg: "bg-tv-brand-tint" },
-              { type: "sms" as CampaignChannel,   icon: MessageSquare, label: "SMS",   desc: campaignGoal === "send-video" ? "Send a text message with video link" : "Send a text message campaign",       color: "text-tv-info",  bg: "bg-tv-info-bg" },
-            ]).map(ch => {
-              const selected = campaignCh === ch.type;
-              return (
-                <button key={ch.type} onClick={() => { setCampaignCh(ch.type); switchChannel(ch.type); markDirty(); }}
-                  className={`p-5 rounded-[12px] border-2 text-left transition-all ${
-                    selected ? "border-tv-brand-bg bg-tv-brand-tint shadow-sm" : "border-tv-border-light hover:border-tv-border-strong"
-                  }`}>
-                  <div className={`w-10 h-10 rounded-[10px] ${selected ? ch.bg : "bg-tv-surface"} flex items-center justify-center mb-3`}>
-                    <ch.icon size={18} className={selected ? ch.color : "text-tv-text-secondary"} />
-                  </div>
-                  <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 600 }}>{ch.label}</p>
-                  <p className="text-[11px] text-tv-text-secondary mt-0.5">{ch.desc}</p>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
+      </section>
 
       {/* ── Section 4: Campaign Tags ── */}
-      <div className="border-t border-tv-border-divider pt-6">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Campaign Tags</span>
-          <span className="text-[10px] text-tv-text-decorative">&middot; optional</span>
+      <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-tv-brand-tint rounded-[8px] flex items-center justify-center">
+              <Tag size={15} className="text-tv-brand" />
+            </div>
+            <div>
+              <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Tags</p>
+              <p className="text-[11px] text-tv-text-secondary">Organize and categorize your campaign</p>
+            </div>
+          </div>
+          <span className="text-[10px] px-2.5 py-1 rounded-full bg-tv-surface border border-tv-border-light text-tv-text-secondary" style={{ fontWeight: 600 }}>OPTIONAL</span>
         </div>
-        <TagPicker
-          selectedTags={selectedTags}
-          onTagsChange={setSelectedTags}
-          markDirty={markDirty}
-        />
-      </div>
+        <div className="p-5">
+          <TagPicker
+            selectedTags={selectedTags}
+            onTagsChange={setSelectedTags}
+            markDirty={markDirty}
+          />
+        </div>
+      </section>
 
       {/* ── Section 5: Success Metrics ── */}
-      <div className="border-t border-tv-border-divider pt-6">
-              <div className="flex items-center gap-2 mb-1">
-                <Target size={14} className="text-tv-brand" />
-                <span className="text-[13px] text-tv-text-primary flex-1" style={{ fontWeight: 700 }}>Success Metrics</span>
-                <button onClick={() => setShowMetricsInfo(v => !v)} aria-label="What are success metrics?" className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors ${showMetricsInfo ? "bg-tv-brand-bg text-white" : "bg-tv-surface text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
-                  <Info size={10} />
-                </button>
-                <span className={`text-[10px] px-2 py-0.5 rounded-full ${selectedMetrics.length >= 1 ? "bg-tv-success-bg text-tv-success border border-tv-success-border" : "bg-tv-surface text-tv-text-secondary border border-tv-border-light"}`} style={{ fontWeight: 700 }}>
-                  {selectedMetrics.length}/5
-                </span>
-                <span className="text-[10px] px-2.5 py-1 rounded-full bg-tv-brand-tint text-tv-brand border border-tv-brand-bg/20" style={{ fontWeight: 700 }}>REQUIRED</span>
-              </div>
-              <p className="text-[11px] text-tv-text-secondary mb-3">Define how you'll measure success — pick 1–5 KPIs to track on your dashboard.</p>
-
-              {showMetricsInfo && (
-                <div className="p-3 bg-tv-brand-tint border border-tv-brand-bg/20 rounded-[8px] mb-3">
-                  <p className="text-[11px] text-tv-brand leading-relaxed">
-                    Success metrics define which KPIs appear on your campaign dashboard after sending. Pick the outcomes that matter most to your team — whether that&rsquo;s maximizing opens and clicks, or monitoring deliverability. Selected metrics will be tracked in real time and included in post-campaign reports.
-                  </p>
-                </div>
-              )}
-
-              {selectedMetrics.length === 0 && (
-                <div className="flex items-center gap-1.5 p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[8px] mb-3">
-                  <TriangleAlert size={11} className="text-tv-warning shrink-0" />
-                  <p className="text-[10px] text-tv-warning">Select at least 1 metric to continue.</p>
-                </div>
-              )}
-              {selectedMetrics.length >= 5 && (
-                <div className="flex items-center gap-1.5 p-2.5 bg-tv-info-bg border border-tv-info-border rounded-[8px] mb-3">
-                  <Info size={11} className="text-tv-info shrink-0" />
-                  <p className="text-[10px] text-tv-info">Maximum reached. Deselect one to swap.</p>
-                </div>
-              )}
-
-              {/* Delivery */}
-              <div className="mb-2.5">
-                <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>Delivery</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {SUCCESS_METRICS.filter(m => m.category === "delivery").map(m => <MetricChip key={m.id} metric={m} active={selectedMetrics.includes(m.id)} disabled={!selectedMetrics.includes(m.id) && selectedMetrics.length >= 5} onToggle={toggleMetric} />)}
-                </div>
-              </div>
-
-              {/* Engagement */}
-              <div className="mb-2.5">
-                <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>Engagement</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {SUCCESS_METRICS.filter(m => m.category === "engagement").map(m => <MetricChip key={m.id} metric={m} active={selectedMetrics.includes(m.id)} disabled={!selectedMetrics.includes(m.id) && selectedMetrics.length >= 5} onToggle={toggleMetric} />)}
-                </div>
-              </div>
-
-              {/* Drop-off */}
-              <div>
-                <div className="flex items-center gap-1.5 mb-1.5">
-                  <p className="text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Drop-off & Issues</p>
-                  <button onClick={() => setShowDropoffInfo(v => !v)} className={`w-4 h-4 rounded-full flex items-center justify-center transition-colors ${showDropoffInfo ? "bg-tv-danger text-white" : "bg-tv-surface text-tv-text-decorative hover:bg-tv-surface-hover"}`}>
-                    <Info size={8} />
-                  </button>
-                </div>
-                {showDropoffInfo && (
-                  <div className="p-2.5 bg-tv-danger-bg border border-tv-danger/15 rounded-[8px] mb-1.5">
-                    <p className="text-[10px] text-tv-danger/80 leading-relaxed">
-                      These are watchdog metrics — track them to spot deliverability problems early (bounces, spam complaints), identify who didn&rsquo;t engage for follow-up outreach, and catch unsubscribe spikes before they affect sender reputation.
-                    </p>
-                  </div>
-                )}
-                <div className="flex flex-wrap gap-1.5">
-                  {SUCCESS_METRICS.filter(m => m.category === "negative").map(m => <MetricChip key={m.id} metric={m} active={selectedMetrics.includes(m.id)} disabled={!selectedMetrics.includes(m.id) && selectedMetrics.length >= 5} negative onToggle={toggleMetric} />)}
-                </div>
-              </div>
+      <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-tv-brand-tint rounded-[8px] flex items-center justify-center">
+              <Target size={15} className="text-tv-brand" />
             </div>
+            <div>
+              <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Success Metrics</p>
+              <p className="text-[11px] text-tv-text-secondary">Define how you'll measure success (add multiple)</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <button onClick={() => setShowMetricsInfo(v => !v)} aria-label="What are success metrics?" className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors ${showMetricsInfo ? "bg-tv-brand-bg text-white" : "bg-tv-surface text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
+              <Info size={10} />
+            </button>
+            <span className={`text-[10px] px-2 py-0.5 rounded-full ${selectedMetrics.length >= 1 ? "bg-tv-success-bg text-tv-success border border-tv-success-border" : "bg-tv-surface text-tv-text-secondary border border-tv-border-light"}`} style={{ fontWeight: 700 }}>
+              {selectedMetrics.length}/5
+            </span>
+            <span className="text-[9px] px-2 py-0.5 rounded-full bg-tv-danger-bg text-tv-danger border border-tv-danger-border" style={{ fontWeight: 600 }}>REQUIRED</span>
+          </div>
+        </div>
+        <div className="p-5 space-y-3">
+          {showMetricsInfo && (
+            <div className="p-3 bg-tv-brand-tint border border-tv-brand-bg/20 rounded-[8px]">
+              <p className="text-[11px] text-tv-brand leading-relaxed">
+                Success metrics define which KPIs appear on your campaign dashboard after sending. Pick the outcomes that matter most to your team — whether that&rsquo;s maximizing opens and clicks, or monitoring deliverability. Selected metrics will be tracked in real time and included in post-campaign reports.
+              </p>
+            </div>
+          )}
+
+          {selectedMetrics.length === 0 && (
+            <div className="flex items-center gap-1.5 p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[8px]">
+              <TriangleAlert size={11} className="text-tv-warning shrink-0" />
+              <p className="text-[10px] text-tv-warning">Select at least 1 metric to continue.</p>
+            </div>
+          )}
+          {selectedMetrics.length >= 5 && (
+            <div className="flex items-center gap-1.5 p-2.5 bg-tv-info-bg border border-tv-info-border rounded-[8px]">
+              <Info size={11} className="text-tv-info shrink-0" />
+              <p className="text-[10px] text-tv-info">Maximum reached. Deselect one to swap.</p>
+            </div>
+          )}
+
+          <div>
+            <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>Delivery</p>
+            <div className="flex flex-wrap gap-1.5">
+              {SUCCESS_METRICS.filter(m => m.category === "delivery").map(m => <MetricChip key={m.id} metric={m} active={selectedMetrics.includes(m.id)} disabled={!selectedMetrics.includes(m.id) && selectedMetrics.length >= 5} onToggle={toggleMetric} />)}
+            </div>
+          </div>
+
+          <div>
+            <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>Engagement</p>
+            <div className="flex flex-wrap gap-1.5">
+              {SUCCESS_METRICS.filter(m => m.category === "engagement").map(m => <MetricChip key={m.id} metric={m} active={selectedMetrics.includes(m.id)} disabled={!selectedMetrics.includes(m.id) && selectedMetrics.length >= 5} onToggle={toggleMetric} />)}
+            </div>
+          </div>
+
+          <div>
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <p className="text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Drop-off & Issues</p>
+              <button onClick={() => setShowDropoffInfo(v => !v)} className={`w-4 h-4 rounded-full flex items-center justify-center transition-colors ${showDropoffInfo ? "bg-tv-danger text-white" : "bg-tv-surface text-tv-text-decorative hover:bg-tv-surface-hover"}`}>
+                <Info size={8} />
+              </button>
+            </div>
+            {showDropoffInfo && (
+              <div className="p-2.5 bg-tv-danger-bg border border-tv-danger/15 rounded-[8px] mb-1.5">
+                <p className="text-[10px] text-tv-danger/80 leading-relaxed">
+                  These are watchdog metrics — track them to spot deliverability problems early (bounces, spam complaints), identify who didn&rsquo;t engage for follow-up outreach, and catch unsubscribe spikes before they affect sender reputation.
+                </p>
+              </div>
+            )}
+            <div className="flex flex-wrap gap-1.5">
+              {SUCCESS_METRICS.filter(m => m.category === "negative").map(m => <MetricChip key={m.id} metric={m} active={selectedMetrics.includes(m.id)} disabled={!selectedMetrics.includes(m.id) && selectedMetrics.length >= 5} negative onToggle={toggleMetric} />)}
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
     );
   };
