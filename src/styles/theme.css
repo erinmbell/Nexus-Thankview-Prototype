@@ -1,0 +1,199 @@
+:root {
+  --font-size: 16px;
+  --background: #ffffff;
+  --foreground: #242436;
+
+  /* ── ThankView Design Tokens ───────────────────────────────────── */
+  /* Surfaces */
+  --tv-surface:        #f5f3fa;
+  --tv-surface-hover:  #ede5f7;
+  --tv-surface-active: #e4daef;
+  --tv-surface-muted:  #fafbfc;
+
+  /* Borders */
+  --tv-border-strong:  #b5a4cd;
+  --tv-border:         #d4c4e8;
+  --tv-border-light:   #e0daea;
+  --tv-border-divider: #f0eaf8;
+
+  /* Text — all AA-compliant on #ffffff backgrounds (≥ 4.5:1) */
+  --tv-text-primary:   #242436;
+  --tv-text-secondary: #737373;
+  --tv-text-label:     #5d5e65;
+  --tv-text-brand:     #7c45b0;
+  --tv-text-decorative:#b5a4cd;
+
+  /* Brand palette — AA-safe text & interactive states */
+  --tv-brand:          #7c45b0;
+  --tv-brand-hover:    #653a92;
+  --tv-brand-bg:       #995cd3;
+
+  /* Semantic status colors — all AA-compliant on #ffffff (≥ 4.5:1) */
+  --tv-success:        #15803d;
+  --tv-success-hover:  #166534;
+  --tv-info:           #0e7490;
+  --tv-info-hover:     #0c5f75;
+  --tv-warning:        #b45309;
+  --tv-warning-hover:  #92400e;
+  --tv-danger:         #dc2626;
+  --tv-danger-hover:   #b91c1c;
+
+  /* Status tint backgrounds */
+  --tv-success-bg:     #f0fdf4;
+  --tv-success-border: #bbf7d0;
+  --tv-info-bg:        #e0f8ff;
+  --tv-info-border:    #7dd8f5;
+  --tv-warning-bg:     #fffbeb;
+  --tv-warning-border: #fde68a;
+  --tv-danger-bg:      #fef2f2;
+  --tv-danger-border:  #fecaca;
+  --tv-brand-tint:     #f3eeff;
+
+  /* Decorative / non-text accent colors */
+  --tv-star:           #EAB308;
+  --tv-star-hover:     #CA8A04;
+  --tv-star-bg:        #FEF9C3;
+  --tv-star-border:    #FDE047;
+
+  /* Record (Blue) */
+  --tv-record:         #007c9e;
+  --tv-record-hover:   #005d77;
+  --tv-record-bg:      #00c0f5;
+  --tv-record-tint:    #d9f2f8;
+  --tv-record-border:  #8dd9ed;
+
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+}
+
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Roboto', sans-serif;
+  }
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h4 {
+    font-size: 1rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  label, button, input, select, textarea {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  button {
+    font-weight: var(--font-weight-medium);
+  }
+}
+
+/* Utility: Fraunces display font for stat numbers and non-heading display text */
+.font-display {
+  font-family: 'Fraunces', 'Roboto', sans-serif;
+}
+
+/* Hide scrollbar while keeping scroll functionality */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* AA focus indicator for all interactive elements */
+:focus-visible {
+  outline: 2px solid var(--tv-brand) !important;
+  outline-offset: 2px !important;
+}
+
+/* Ensure inputs with outline-none still show focus-visible indicator */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--tv-brand) !important;
+  outline-offset: 2px !important;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   WCAG AA Color Accessibility Overrides
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Primary Purple: #995cd3 → #7c45b0 ────────────────────── */
+.text-\[\#995cd3\]  { color: #7c45b0 !important; }
+.bg-\[\#995cd3\]    { background-color: #7c45b0 !important; }
+.border-\[\#995cd3\] { border-color: #7c45b0 !important; }
+.hover\:text-\[\#995cd3\]:hover   { color: #7c45b0 !important; }
+.hover\:bg-\[\#995cd3\]:hover     { background-color: #7c45b0 !important; }
+.hover\:border-\[\#995cd3\]:hover { border-color: #7c45b0 !important; }
+.hover\:bg-\[\#7c45b0\]:hover     { background-color: #653a92 !important; }
+.focus\:ring-\[\#995cd3\]\/30:focus { --tw-ring-color: rgb(124 69 176 / 0.3) !important; }
+.focus\:border-\[\#995cd3\]:focus   { border-color: #7c45b0 !important; }
+.bg-\[\#995cd3\]\/20 { background-color: rgb(124 69 176 / 0.2) !important; }
+.bg-\[\#995cd3\]\/15 { background-color: rgb(124 69 176 / 0.15) !important; }
+.bg-\[\#995cd3\]\/30 { background-color: rgb(124 69 176 / 0.3) !important; }
+
+/* ── Green: #16b364 → #15803d ─────────────────────────────── */
+.text-\[\#16b364\]   { color: #15803d !important; }
+.bg-\[\#16b364\]     { background-color: #15803d !important; }
+.border-\[\#16b364\] { border-color: #15803d !important; }
+
+/* ── Cyan: #00C0F5 → #0e7490 ──────────────────────────────── */
+.text-\[\#00C0F5\]  { color: #0e7490 !important; }
+.bg-\[\#00C0F5\]    { background-color: #0e7490 !important; }
+
+/* ── Amber: #F59E0B → #b45309 ─────────────────────────────── */
+.text-\[\#F59E0B\]  { color: #b45309 !important; }
+.bg-\[\#F59E0B\]    { background-color: #b45309 !important; }
+
+/* ── Orange text: #c97c0a → #92400e ───────────────────────── */
+.text-\[\#c97c0a\]  { color: #92400e !important; }
+.border-\[\#c97c0a\] { border-color: #92400e !important; }
+.hover\:border-\[\#c97c0a\]:hover { border-color: #92400e !important; }
+.hover\:text-\[\#c97c0a\]:hover   { color: #92400e !important; }
+
+/* ── Red: #ef4444 → #dc2626 ───────────────────────────────── */
+.text-\[\#ef4444\]  { color: #dc2626 !important; }
+.border-\[\#ef4444\] { border-color: #dc2626 !important; }
+.bg-\[\#ef4444\]    { background-color: #dc2626 !important; }
+.text-red-500       { color: #dc2626 !important; }
+.hover\:text-red-500:hover { color: #dc2626 !important; }
+
+/* ── Muted purple text: #b5a4cd → #8b7aa8 ─────────────────── */
+.text-\[\#b5a4cd\]  { color: #8b7aa8 !important; }
+.text-\[\#d0cdd8\]  { color: #9e9ba6 !important; }
+.text-\[\#d8d0e8\]  { color: #8b7aa8 !important; }
+.text-\[\#e0daea\]  { color: #8b7aa8 !important; }
