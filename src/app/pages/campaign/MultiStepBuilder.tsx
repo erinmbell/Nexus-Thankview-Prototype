@@ -488,6 +488,15 @@ function StepDrawer({
   const [showVideoCreate, setShowVideoCreate] = useState(false);
   const [videoCreateInitialTab, setVideoCreateInitialTab] = useState<"record" | "upload" | "library">("record");
 
+  // Envelope library + builder modals
+  const [showEnvelopeLibrary, setShowEnvelopeLibrary] = useState(false);
+  const [showEnvelopeBuilder, setShowEnvelopeBuilder] = useState(false);
+  const [envLibSearch, setEnvLibSearch] = useState("");
+
+  // Landing page library modal
+  const [showLpLibrary, setShowLpLibrary] = useState(false);
+  const [lpLibSearch, setLpLibSearch] = useState("");
+
   // Instruction video picker (VR Recording Instructions)
   const [showInstructionVideoPicker, setShowInstructionVideoPicker] = useState(false);
 
@@ -511,11 +520,16 @@ function StepDrawer({
   // SMS helpers
   const smsLen = (step.smsBody || "").length;
 
-  const ENVELOPE_OPTIONS = [
-    { id: 1, name: "Branded",  color: "#7c45b0" },
-    { id: 2, name: "Holiday",  color: "#c41e3a" },
-    { id: 3, name: "Legacy",   color: "#1e3a8a" },
-  ];
+  // All envelopes merged (custom + built-in)
+  const allEnvelopes = [...globalEnvelopes, ...ENVELOPE_DESIGNS];
+  // All landing pages merged
+  const allLandingPages = [...globalLandingPages, ...LANDING_PAGES];
+  // Dark color helper
+  const isDark = (hex: string) => {
+    const c = hex.replace("#", "");
+    const r = parseInt(c.substring(0, 2), 16), g = parseInt(c.substring(2, 4), 16), b = parseInt(c.substring(4, 6), 16);
+    return (r * 299 + g * 587 + b * 114) / 1000 < 140;
+  };
 
   // ── Validation requirements ──────────────────────────────────────────────
   const requirements: { key: string; label: string; met: boolean; severity: "error" | "warning" | "info" }[] = [];
@@ -547,6 +561,7 @@ function StepDrawer({
   const isVideoViewActive = showVideoPicker || showVideoCreate;
 
   return (
+    <>
     <motion.div
       initial={{ width: 380 }}
       animate={{ width: (expanded || isVideoViewActive) ? 640 : 380 }}
@@ -1100,18 +1115,40 @@ function StepDrawer({
               <p className="text-[9px] text-tv-text-decorative mt-1">Comma-separated. Applies per constituent on send.</p>
             </details>
 
-            {/* Envelope design */}
+            {/* Envelope design — grid picker */}
             <div>
               <label className="tv-label mb-1.5 block">Envelope Design</label>
-              <div className="flex flex-wrap gap-1.5">
-                {ENVELOPE_OPTIONS.map(e => (
-                  <button key={e.id} onClick={() => onUpdate({ ...step, envelopeId: e.id })}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border transition-all text-[11px] ${(step.envelopeId || 1) === e.id ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`} style={{ fontWeight: 500 }}>
-                    <div className="w-3.5 h-3.5 rounded-full shrink-0" style={{ backgroundColor: e.color }} />
-                    {e.name}
-                    {(step.envelopeId || 1) === e.id && <Check size={10} className="text-tv-brand" />}
-                  </button>
-                ))}
+              <div className="grid grid-cols-3 gap-2">
+                {allEnvelopes.slice(0, 6).map(env => {
+                  const active = (step.envelopeId || 1) === env.id;
+                  const nColor = env.nameColor || (isDark(env.color) ? "#ffffff" : "#1e293b");
+                  return (
+                    <button key={env.id} onClick={() => onUpdate({ ...step, envelopeId: env.id })}
+                      className={`rounded-[8px] border-2 overflow-hidden transition-all text-left relative ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                      <div className="aspect-[4/3] relative flex items-center justify-center" style={{ backgroundColor: env.color }}>
+                        <span className="text-[7px] italic opacity-80" style={{ color: nColor, fontWeight: 500 }}>Constituent Name</span>
+                        {active && (
+                          <div className="absolute top-1 left-1 w-4 h-4 rounded-full bg-tv-brand-bg flex items-center justify-center shadow-sm">
+                            <Check size={8} className="text-white" strokeWidth={3} />
+                          </div>
+                        )}
+                      </div>
+                      <div className={`px-1.5 py-1 text-center ${active ? "bg-tv-brand-tint" : "bg-white"}`}>
+                        <p className={`text-[9px] truncate ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: active ? 600 : 500 }}>{env.name}</p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="flex gap-2 mt-2">
+                <button onClick={() => setShowEnvelopeLibrary(true)}
+                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-[11px] text-tv-brand border border-tv-border rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 500 }}>
+                  <Search size={11} />Browse All
+                </button>
+                <button onClick={() => setShowEnvelopeBuilder(true)}
+                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-[11px] text-tv-brand border border-tv-border rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 500 }}>
+                  <Plus size={11} />Create New
+                </button>
               </div>
             </div>
 
@@ -1362,25 +1399,41 @@ function StepDrawer({
 
             {step.landingPageEnabled && (
               <>
-                {/* Page selector */}
+                {/* Page selector — grid picker */}
                 <div>
-                  <label className="tv-label mb-1 block">Landing Page</label>
-                  <div className="space-y-1.5">
-                    {[...globalLandingPages, ...LANDING_PAGES].map(p => (
-                      <button key={p.id} onClick={() => onUpdate({ ...step, landingPageId: p.id })}
-                        className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-[8px] border text-left transition-all ${(step.landingPageId || 1) === p.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
-                        <div className="w-6 h-4 rounded-[3px] overflow-hidden shrink-0">
-                          {p.image ? (
-                            <img src={p.image} alt="" className="w-full h-full object-cover" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center"
-                              style={{ background: `linear-gradient(135deg, ${p.color}, ${p.accent})` }}><Play size={6} className="text-white" /></div>
-                          )}
-                        </div>
-                        <span className="text-[11px] text-tv-text-primary flex-1" style={{ fontWeight: 500 }}>{p.name}</span>
-                        {(step.landingPageId || 1) === p.id && <Check size={11} className="text-tv-brand" />}
-                      </button>
-                    ))}
+                  <label className="tv-label mb-1.5 block">Landing Page</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {allLandingPages.slice(0, 6).map(p => {
+                      const active = (step.landingPageId || 1) === p.id;
+                      return (
+                        <button key={p.id} onClick={() => onUpdate({ ...step, landingPageId: p.id })}
+                          className={`rounded-[8px] border-2 overflow-hidden transition-all text-left relative group ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                          <div className="aspect-[4/3] relative overflow-hidden"
+                            style={{ background: `linear-gradient(135deg, ${p.color || "#7c45b0"}, ${p.accent || "#a78bfa"})` }}>
+                            {p.image && <img src={p.image} alt="" className="absolute inset-0 w-full h-full object-cover" />}
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                            {active && (
+                              <div className="absolute top-1 left-1 w-4 h-4 rounded-full bg-tv-brand-bg flex items-center justify-center shadow-sm">
+                                <Check size={8} className="text-white" strokeWidth={3} />
+                              </div>
+                            )}
+                          </div>
+                          <div className={`px-1.5 py-1 text-center ${active ? "bg-tv-brand-tint" : "bg-white"}`}>
+                            <p className={`text-[9px] truncate ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: active ? 600 : 500 }}>{p.name}</p>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="flex gap-2 mt-2">
+                    <button onClick={() => setShowLpLibrary(true)}
+                      className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-[11px] text-tv-brand border border-tv-border rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 500 }}>
+                      <Search size={11} />Browse All
+                    </button>
+                    <button onClick={() => { show("Opening Landing Page Builder…", "info"); }}
+                      className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-[11px] text-tv-brand border border-tv-border rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 500 }}>
+                      <Plus size={11} />Create New
+                    </button>
                   </div>
                 </div>
 
@@ -1898,6 +1951,131 @@ function StepDrawer({
         </div>
       )}
     </motion.div>
+
+    {/* ── Envelope Library Modal ───────────────────────────────────────── */}
+    {showEnvelopeLibrary && (
+      <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Envelope library"
+        onClick={(e: React.MouseEvent) => { if (e.target === e.currentTarget) setShowEnvelopeLibrary(false); }}
+        onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Escape") setShowEnvelopeLibrary(false); }}>
+        <div className="w-full max-w-[680px] bg-white rounded-[20px] border border-tv-border-light shadow-2xl flex flex-col" style={{ maxHeight: "85vh" }}>
+          <div className="px-5 py-4 border-b border-tv-border-divider shrink-0 flex items-center justify-between">
+            <div>
+              <h2 className="text-[17px] text-tv-text-primary" style={{ fontWeight: 900 }}>Envelope Library</h2>
+              <p className="text-[11px] text-tv-text-secondary mt-0.5">Choose an envelope design for this step</p>
+            </div>
+            <button onClick={() => setShowEnvelopeLibrary(false)} className="w-8 h-8 rounded-full bg-tv-surface flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface-hover transition-colors" aria-label="Close">
+              <X size={14} />
+            </button>
+          </div>
+          <div className="px-5 py-3 border-b border-tv-border-divider shrink-0">
+            <div className="flex items-center gap-2 border border-tv-border-light rounded-[8px] px-3 py-2">
+              <Search size={13} className="text-tv-text-secondary shrink-0" />
+              <input value={envLibSearch} onChange={e => setEnvLibSearch(e.target.value)} placeholder="Search envelopes…" aria-label="Search envelopes"
+                className="flex-1 text-[12px] text-tv-text-primary placeholder:text-tv-text-secondary outline-none bg-transparent" />
+            </div>
+          </div>
+          <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
+            {(["standard", "holiday", "legacy"] as const).map(cat => {
+              const envs = allEnvelopes.filter((e: any) => (e.category || "standard") === cat && (!envLibSearch || e.name.toLowerCase().includes(envLibSearch.toLowerCase())));
+              if (envs.length === 0) return null;
+              return (
+                <div key={cat}>
+                  <p className="text-[10px] font-semibold text-tv-text-label uppercase tracking-wider mb-2">{cat === "standard" ? "Standard" : cat === "holiday" ? "Holiday" : "Legacy"}</p>
+                  <div className="grid grid-cols-4 gap-2.5">
+                    {envs.map((env: any) => {
+                      const active = (step.envelopeId || 1) === env.id;
+                      const nColor = env.nameColor || (isDark(env.color) ? "#ffffff" : "#1e293b");
+                      return (
+                        <button key={env.id} onClick={() => { onUpdate({ ...step, envelopeId: env.id }); setShowEnvelopeLibrary(false); show(`"${env.name}" selected`, "success"); }}
+                          className={`rounded-[10px] border-2 overflow-hidden transition-all text-left relative ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                          <div className="aspect-[4/3] relative flex items-center justify-center" style={{ backgroundColor: env.color }}>
+                            <span className="text-[8px] italic opacity-80" style={{ color: nColor, fontWeight: 500 }}>Constituent Name</span>
+                            {active && (
+                              <div className="absolute top-1.5 left-1.5 w-5 h-5 rounded-full bg-tv-brand-bg flex items-center justify-center shadow-sm">
+                                <Check size={9} className="text-white" strokeWidth={3} />
+                              </div>
+                            )}
+                          </div>
+                          <div className={`px-2 py-1.5 text-center ${active ? "bg-tv-brand-tint" : "bg-white"}`}>
+                            <p className={`text-[10px] truncate ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: active ? 600 : 500 }}>{env.name}</p>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="px-5 py-3 border-t border-tv-border-divider shrink-0 flex justify-end">
+            <button onClick={() => { setShowEnvelopeLibrary(false); setShowEnvelopeBuilder(true); }}
+              className="flex items-center gap-1.5 px-4 py-2 text-[12px] text-white rounded-full bg-tv-brand-bg hover:bg-tv-brand-hover transition-colors" style={{ fontWeight: 600 }}>
+              <Plus size={13} />Create New Envelope
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* ── Envelope Builder Modal ───────────────────────────────────────── */}
+    {showEnvelopeBuilder && (
+      <EnvelopeBuilderModal
+        onSave={(env) => { onUpdate({ ...step, envelopeId: env.id }); setShowEnvelopeBuilder(false); show(`"${env.name}" created and selected`, "success"); }}
+        onClose={() => setShowEnvelopeBuilder(false)}
+      />
+    )}
+
+    {/* ── Landing Page Library Modal ──────────────────────────────────── */}
+    {showLpLibrary && (
+      <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Landing page library"
+        onClick={(e: React.MouseEvent) => { if (e.target === e.currentTarget) setShowLpLibrary(false); }}
+        onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Escape") setShowLpLibrary(false); }}>
+        <div className="w-full max-w-[680px] bg-white rounded-[20px] border border-tv-border-light shadow-2xl flex flex-col" style={{ maxHeight: "85vh" }}>
+          <div className="px-5 py-4 border-b border-tv-border-divider shrink-0 flex items-center justify-between">
+            <div>
+              <h2 className="text-[17px] text-tv-text-primary" style={{ fontWeight: 900 }}>Landing Page Library</h2>
+              <p className="text-[11px] text-tv-text-secondary mt-0.5">Choose a landing page for this step</p>
+            </div>
+            <button onClick={() => setShowLpLibrary(false)} className="w-8 h-8 rounded-full bg-tv-surface flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface-hover transition-colors" aria-label="Close">
+              <X size={14} />
+            </button>
+          </div>
+          <div className="px-5 py-3 border-b border-tv-border-divider shrink-0">
+            <div className="flex items-center gap-2 border border-tv-border-light rounded-[8px] px-3 py-2">
+              <Search size={13} className="text-tv-text-secondary shrink-0" />
+              <input value={lpLibSearch} onChange={e => setLpLibSearch(e.target.value)} placeholder="Search landing pages…" aria-label="Search landing pages"
+                className="flex-1 text-[12px] text-tv-text-primary placeholder:text-tv-text-secondary outline-none bg-transparent" />
+            </div>
+          </div>
+          <div className="flex-1 overflow-y-auto px-5 py-4">
+            <div className="grid grid-cols-3 gap-2.5">
+              {allLandingPages.filter((p: any) => !lpLibSearch || p.name.toLowerCase().includes(lpLibSearch.toLowerCase())).map((p: any) => {
+                const active = (step.landingPageId || 1) === p.id;
+                return (
+                  <button key={p.id} onClick={() => { onUpdate({ ...step, landingPageId: p.id }); setShowLpLibrary(false); show(`"${p.name}" selected`, "success"); }}
+                    className={`rounded-[10px] border-2 overflow-hidden transition-all text-left relative group ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                    <div className="aspect-[4/3] relative overflow-hidden"
+                      style={{ background: `linear-gradient(135deg, ${p.color || "#7c45b0"}, ${p.accent || "#a78bfa"})` }}>
+                      {p.image && <img src={p.image} alt="" className="absolute inset-0 w-full h-full object-cover" />}
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                      {active && (
+                        <div className="absolute top-1.5 left-1.5 w-5 h-5 rounded-full bg-tv-brand-bg flex items-center justify-center shadow-sm">
+                          <Check size={9} className="text-white" strokeWidth={3} />
+                        </div>
+                      )}
+                    </div>
+                    <div className={`px-2 py-1.5 text-center ${active ? "bg-tv-brand-tint" : "bg-white"}`}>
+                      <p className={`text-[10px] truncate ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: active ? 600 : 500 }}>{p.name}</p>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+    </>
   );
 }
 
@@ -3358,6 +3536,12 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
   // Save as Template state
   const [showSaveTemplate, setShowSaveTemplate] = useState(false);
 
+  // Send Test modal state (declared before Escape handler that references it)
+  const [showSendTestModal, setShowSendTestModal] = useState(false);
+  const [sendTestEmail, setSendTestEmail] = useState("kelley.molt@hartwell.edu");
+  const [sendTestPreviewAs, setSendTestPreviewAs] = useState(0);
+  const [sendTestSending, setSendTestSending] = useState(false);
+
   // Close modals on Escape (WCAG 2.1.1)
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -3449,11 +3633,6 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
   const [scheduledDate, setScheduledDate] = useState("");
   const [scheduledTime, setScheduledTime] = useState("09:00");
 
-  // Send Test modal state
-  const [showSendTestModal, setShowSendTestModal] = useState(false);
-  const [sendTestEmail, setSendTestEmail] = useState("kelley.molt@hartwell.edu");
-  const [sendTestPreviewAs, setSendTestPreviewAs] = useState(0);
-  const [sendTestSending, setSendTestSending] = useState(false);
   const MSB_TEST_CONSTITUENTS = [
     { id: 0, name: "James Whitfield", email: "j.whitfield@alumni.edu" },
     { id: 1, name: "Sarah Chen", email: "s.chen@foundation.org" },
