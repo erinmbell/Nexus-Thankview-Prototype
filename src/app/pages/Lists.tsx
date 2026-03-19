@@ -449,7 +449,7 @@ function ListCellValue({ col, list }: { col: string; list: ContactList }) {
     case "tags":
       return (
         <div className="flex items-center gap-1">
-          {list.tags.slice(0, 2).map(t => <Badge key={t} color="tvPurple" size="xs">{t}</Badge>)}
+          {list.tags.slice(0, 2).map(t => <Badge key={t} color="tvPurple" size="xs" radius="xl">{t}</Badge>)}
           {list.tags.length > 2 && <Text fz={10} c={TV.textSecondary}>+{list.tags.length - 2}</Text>}
         </div>
       );
@@ -616,7 +616,7 @@ function ListDetail({ list, onBack, onManage, isOwner }: {
           <div className="overflow-x-auto max-h-[60vh] overflow-y-auto">
           <Table verticalSpacing={0} horizontalSpacing={0} highlightOnHover
             styles={{ table: { borderCollapse: "collapse", minWidth: 500 }, td: { whiteSpace: "nowrap" } }}>
-            <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: "#fff" }}>
+            <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
               <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
                 <Table.Th w={44} style={{ padding: "10px 0 10px 16px", verticalAlign: "middle" }}>
                   <Checkbox
@@ -1010,7 +1010,7 @@ export function Lists() {
             <Box visibleFrom="md" className="overflow-x-auto max-h-[70vh] overflow-y-auto">
               <Table verticalSpacing={0} horizontalSpacing={0} highlightOnHover
                 styles={{ table: { borderCollapse: "collapse", minWidth: Math.max(1000, activeColumns.length * 170 + 100) }, td: { whiteSpace: "nowrap" } }}>
-                <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: "#fff" }}>
+                <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
                   <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
                     <Table.Th w={44} style={{ padding: "10px 0 10px 16px", verticalAlign: "middle" }}>
                       <Checkbox

@@ -47,6 +47,7 @@ export const router = createBrowserRouter([
       // Campaigns
       { path: "campaigns",            Component: CampaignsList },
       { path: "campaigns/create",     Component: CreateCampaign },
+      { path: "campaigns/:id/edit",   Component: CreateCampaign },
       { path: "campaigns/:id",        Component: CampaignDetail },
 
       { path: "contacts",             Component: Contacts },

@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useToast } from "../app/contexts/ToastContext";
 import { ConstituentTooltip } from "../app/components/ConstituentTooltip";
+import { LANDING_PAGES } from "../app/pages/campaign/types";
 
 // ═════════════════════════════════════════════════════════════════════════════
 //  Types
@@ -51,9 +52,10 @@ export interface VideoEditorData {
   createdAt: string;
   url: string | null;
   // Video Link settings
-  landingPage: string;
+  landingPageId: number;
   ctaText: string;
   ctaLink: string;
+  ctaColor: string;
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -97,9 +99,10 @@ export function makeDefaultVideoEditorData(opts: {
     captions: [],
     createdAt: "Mar 16, 2026",
     url: null,
-    landingPage: "Standard",
+    landingPageId: 1,
     ctaText: "Donate Now",
     ctaLink: "",
+    ctaColor: "#7c45b0",
     ...opts.overrides,
   };
 }
@@ -152,13 +155,16 @@ const ROTATION_OPTIONS = [
   { deg: 270, label: "270° — Left" },
 ];
 
-const LANDING_PAGES = [
-  { id: "standard",   label: "Standard",         desc: "Clean layout with video and CTA" },
-  { id: "branded",    label: "Branded",           desc: "Full branding with logo and colors" },
-  { id: "minimal",    label: "Minimal",           desc: "Video-only with subtle CTA" },
-  { id: "campaign",   label: "Campaign",          desc: "Donation-focused with progress bar" },
-  { id: "event",      label: "Event Invite",      desc: "Event details with RSVP button" },
-  { id: "thankyou",   label: "Thank You",         desc: "Gratitude-focused with impact stats" },
+// CTA color options
+const CTA_COLORS = [
+  { hex: "#7c45b0", label: "Purple" },
+  { hex: "#0369a1", label: "Blue" },
+  { hex: "#047857", label: "Green" },
+  { hex: "#b91c1c", label: "Red" },
+  { hex: "#C8962A", label: "Gold" },
+  { hex: "#0e7490", label: "Teal" },
+  { hex: "#1a1a2e", label: "Dark" },
+  { hex: "#374151", label: "Gray" },
 ];
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -525,7 +531,7 @@ export function VideoEditor({
                   onChange={e => upd("description", e.target.value)}
                   placeholder="Add a description for this video"
                   rows={3}
-                  className="w-full border border-tv-border-light rounded-lg px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors resize-none placeholder:text-tv-text-secondary"
+                  className="w-full border border-tv-border-light rounded-lg px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors resize-none placeholder:text-tv-text-decorative"
                 />
               </div>
 
@@ -538,7 +544,7 @@ export function VideoEditor({
                   value={data.recipientName}
                   onChange={e => upd("recipientName", e.target.value)}
                   placeholder="Who is this video for?"
-                  className="w-full border border-tv-border-light rounded-lg px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-secondary"
+                  className="w-full border border-tv-border-light rounded-lg px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-decorative"
                 />
               </div>
 
@@ -558,7 +564,7 @@ export function VideoEditor({
                     onChange={e => setTagInput(e.target.value)}
                     onKeyDown={e => e.key === "Enter" && addTag()}
                     placeholder="Add a tag"
-                    className="flex-1 border border-tv-border-light rounded-lg px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-secondary"
+                    className="flex-1 border border-tv-border-light rounded-lg px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-decorative"
                   />
                   <button
                     onClick={addTag}
@@ -1168,7 +1174,7 @@ export function VideoEditor({
                   <Globe size={12} />Landing Page
                 </p>
                 <p className="text-[8px] text-tv-text-secondary">
-                  Choose which landing page template this video displays on
+                  Choose which landing page this video displays on
                 </p>
                 <div className="relative">
                   <button
@@ -1176,29 +1182,34 @@ export function VideoEditor({
                     className="w-full border border-tv-border-light rounded-lg px-3 py-2 text-[12px] text-left flex items-center justify-between hover:bg-tv-surface transition-colors"
                   >
                     <div className="flex items-center gap-2 min-w-0">
-                      <span className="text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{data.landingPage}</span>
-                      <span className="text-[9px] text-tv-text-secondary truncate">
-                        {LANDING_PAGES.find(lp => lp.label === data.landingPage)?.desc ?? ""}
-                      </span>
+                      {(() => {
+                        const sel = LANDING_PAGES.find(lp => lp.id === data.landingPageId);
+                        return sel ? (
+                          <>
+                            <span className="w-4 h-4 rounded-sm shrink-0" style={{ background: `linear-gradient(135deg, ${sel.color}, ${sel.accent})` }} />
+                            <span className="text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{sel.name}</span>
+                          </>
+                        ) : <span className="text-tv-text-secondary">Select a landing page…</span>;
+                      })()}
                     </div>
                     <ChevronDown size={12} className={`text-tv-text-secondary transition-transform shrink-0 ${landingPageOpen ? "rotate-180" : ""}`} />
                   </button>
                   {landingPageOpen && (
-                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-tv-border-light rounded-lg shadow-lg z-10 overflow-hidden">
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-tv-border-light rounded-lg shadow-lg z-10 overflow-hidden max-h-[240px] overflow-y-auto">
                       {LANDING_PAGES.map(lp => (
                         <button
                           key={lp.id}
-                          onClick={() => { upd("landingPage", lp.label); setLandingPageOpen(false); }}
-                          className={`w-full text-left px-3 py-2.5 transition-colors flex flex-col ${
-                            data.landingPage === lp.label
+                          onClick={() => { upd("landingPageId", lp.id); setLandingPageOpen(false); }}
+                          className={`w-full text-left px-3 py-2.5 transition-colors flex items-center gap-2.5 ${
+                            data.landingPageId === lp.id
                               ? "bg-tv-brand-tint"
                               : "hover:bg-tv-surface"
                           }`}
                         >
-                          <span className={`text-[11px] ${data.landingPage === lp.label ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: data.landingPage === lp.label ? 600 : 400 }}>
-                            {lp.label}
+                          <span className="w-5 h-5 rounded-sm shrink-0" style={{ background: `linear-gradient(135deg, ${lp.color}, ${lp.accent})` }} />
+                          <span className={`text-[11px] ${data.landingPageId === lp.id ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: data.landingPageId === lp.id ? 600 : 400 }}>
+                            {lp.name}
                           </span>
-                          <span className="text-[9px] text-tv-text-secondary">{lp.desc}</span>
                         </button>
                       ))}
                     </div>
@@ -1217,6 +1228,22 @@ export function VideoEditor({
                 <p className="text-[8px] text-tv-text-secondary">
                   Configure the call-to-action button shown on the landing page
                 </p>
+
+                {/* Button Color */}
+                <div>
+                  <label className="text-[10px] text-tv-text-secondary mb-1.5 block" style={{ fontWeight: 500 }}>Button Color</label>
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    {CTA_COLORS.map(c => (
+                      <button
+                        key={c.hex}
+                        onClick={() => { upd("ctaColor", c.hex); setHasChanges(true); }}
+                        aria-label={`${c.label} button color`}
+                        className={`w-6 h-6 rounded-full border-2 transition-all ${data.ctaColor === c.hex ? "border-tv-brand scale-110 ring-2 ring-tv-brand-tint" : "border-transparent hover:scale-105"}`}
+                        style={{ backgroundColor: c.hex }}
+                      />
+                    ))}
+                  </div>
+                </div>
 
                 {/* Button Text */}
                 <div>
@@ -1248,12 +1275,8 @@ export function VideoEditor({
                   <p className="text-[9px] text-tv-text-secondary" style={{ fontWeight: 500 }}>Preview</p>
                   <div className="bg-tv-surface rounded-lg p-3 flex items-center justify-center">
                     <div
-                      className={`px-5 py-2 rounded-lg text-[12px] text-center transition-colors ${
-                        data.ctaText.trim()
-                          ? "bg-tv-brand-bg text-white"
-                          : "bg-tv-border-light text-tv-text-decorative"
-                      } font-semibold`}
-                      style={{ minWidth: 120 }}
+                      className="px-5 py-2 rounded-lg text-[12px] text-center transition-colors text-white font-semibold"
+                      style={{ minWidth: 120, backgroundColor: data.ctaText.trim() ? data.ctaColor : "#d0d0d0" }}
                     >
                       {data.ctaText.trim() || "No button text"}
                     </div>
@@ -1548,13 +1571,18 @@ export function VideoEditor({
           )}
 
           {/* ── Video Link: Landing page preview below preview ──────────── */}
-          {tab === "videoLink" && (
+          {tab === "videoLink" && (() => {
+            const selLp = LANDING_PAGES.find(lp => lp.id === data.landingPageId);
+            return (
             <div className="mx-5 mb-4 p-5 bg-white border border-tv-border-light rounded-xl shrink-0">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-[12px] text-tv-text-primary font-semibold">Landing Page Preview</p>
-                <span className="text-[9px] text-tv-text-secondary px-2 py-0.5 bg-tv-surface rounded-full">
-                  {data.landingPage} Template
-                </span>
+                {selLp && (
+                  <span className="flex items-center gap-1.5 text-[9px] text-tv-text-secondary px-2 py-0.5 bg-tv-surface rounded-full">
+                    <span className="w-2.5 h-2.5 rounded-sm" style={{ background: `linear-gradient(135deg, ${selLp.color}, ${selLp.accent})` }} />
+                    {selLp.name}
+                  </span>
+                )}
               </div>
 
               {/* Simulated landing page */}
@@ -1574,14 +1602,9 @@ export function VideoEditor({
 
                 {/* Page content */}
                 <div className="p-4 space-y-3">
-                  {/* Header */}
-                  {data.landingPage === "Branded" && (
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-6 h-6 rounded bg-tv-brand-bg flex items-center justify-center">
-                        <span className="text-white text-[8px]" style={{ fontWeight: 800 }}>TV</span>
-                      </div>
-                      <span className="text-[10px] text-tv-text-primary font-semibold">TeamView</span>
-                    </div>
+                  {/* Landing page color header bar */}
+                  {selLp && (
+                    <div className="h-1.5 rounded-full" style={{ background: `linear-gradient(90deg, ${selLp.color}, ${selLp.accent})` }} />
                   )}
 
                   {/* Video embed area */}
@@ -1610,63 +1633,21 @@ export function VideoEditor({
                     )}
                   </div>
 
-                  {/* Campaign-specific: donation progress bar */}
-                  {data.landingPage === "Campaign" && (
-                    <div className="space-y-1">
-                      <div className="flex items-center justify-between text-[8px] text-tv-text-secondary">
-                        <span>$12,450 raised</span>
-                        <span>$25,000 goal</span>
-                      </div>
-                      <div className="h-1.5 bg-tv-border-light rounded-full overflow-hidden">
-                        <div className="h-full bg-tv-brand-bg rounded-full" style={{ width: "49.8%" }} />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Event-specific: event details */}
-                  {data.landingPage === "Event Invite" && (
-                    <div className="flex items-center gap-3 bg-tv-surface rounded-lg p-2">
-                      <div className="text-center">
-                        <p className="text-[8px] text-tv-brand font-semibold">APR</p>
-                        <p className="text-[14px] text-tv-text-primary font-bold">12</p>
-                      </div>
-                      <div>
-                        <p className="text-[9px] text-tv-text-primary" style={{ fontWeight: 500 }}>Spring Gala 2026</p>
-                        <p className="text-[8px] text-tv-text-secondary">6:00 PM · Grand Ballroom</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Thank You-specific: impact stats */}
-                  {data.landingPage === "Thank You" && (
-                    <div className="grid grid-cols-3 gap-2">
-                      {[{ n: "142", l: "Students helped" }, { n: "$8.2K", l: "Scholarships" }, { n: "12", l: "Programs" }].map(s => (
-                        <div key={s.l} className="text-center bg-tv-surface rounded-lg p-2">
-                          <p className="text-[12px] text-tv-brand font-bold">{s.n}</p>
-                          <p className="text-[7px] text-tv-text-secondary">{s.l}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
                   {/* CTA Button */}
                   {data.ctaText.trim() && (
                     <button
-                      className="w-full py-2 rounded-lg text-[11px] text-white bg-tv-brand-bg hover:bg-tv-brand-hover transition-colors font-semibold"
+                      className="w-full py-2 rounded-lg text-[11px] text-white transition-colors font-semibold"
+                      style={{ backgroundColor: data.ctaColor }}
                       onClick={() => data.ctaLink && window.open(data.ctaLink, "_blank")}
                     >
                       {data.ctaText}
                     </button>
                   )}
-
-                  {/* Minimal: no extra chrome */}
-                  {data.landingPage === "Minimal" && (
-                    <p className="text-center text-[7px] text-tv-text-decorative">Powered by TeamView</p>
-                  )}
                 </div>
               </div>
             </div>
-          )}
+            );
+          })()}
         </div>
       </div>
 

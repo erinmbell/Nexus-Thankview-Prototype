@@ -5,12 +5,14 @@ import { DeleteModal } from "../components/ui/DeleteModal";
 import {
   Send, TriangleAlert, ChevronRight, Mail, MessageSquare,
   Clock, CircleCheckBig, Link2, Copy, Trash2, X,
-  CircleAlert, ExternalLink, Play, Eye, ChartColumn, FileQuestion, Users, Facebook,
+  CircleAlert, ExternalLink, Play, Eye, ChartColumn, FileQuestion, Users,
   Palette, Video, ChevronDown, ChevronUp, Reply, CalendarDays, Lock,
   Info, Tag, Share2, Zap, Target, BarChart3, RefreshCw, Search,
   Check, Filter, Download, Repeat, Loader2, Timer, GitBranch,
+  PenLine,
 } from "lucide-react";
 import {
+  Badge,
   Box, Stack, Text, Title, Button, UnstyledButton,
   Paper, Switch,
   Modal, TextInput, Checkbox,
@@ -18,6 +20,7 @@ import {
 import { TV } from "../theme";
 import { StatusChangeModal } from "../components/StatusChangeModal";
 import { TvTooltip } from "../components/TvTooltip";
+import { EditColumnsModal, ColumnsButton, type ColumnDef } from "../components/ColumnCustomizer";
 
 /* ── Row: drop-in for Mantine Group (avoids Children.toArray null-key bug with FGCmp wrapper) ── */
 const MANTINE_SP: Record<string, string> = { xs: "10px", sm: "12px", md: "16px", lg: "20px", xl: "24px" };
@@ -36,27 +39,15 @@ function Row({ children, gap, justify, align, wrap, mb, mt, ml, className, style
   );
 }
 
-/* ── Pill badge colors (replaces Mantine Badge to avoid null-key warnings) ── */
-const PILL_COLORS: Record<string, { bg: string; text: string }> = {
-  green: { bg: "bg-tv-success-bg", text: "text-tv-success" },
-  red: { bg: "bg-tv-danger-bg", text: "text-tv-danger" },
-  gray: { bg: "bg-tv-surface", text: "text-tv-text-secondary" },
-  yellow: { bg: "bg-tv-warning-bg", text: "text-tv-warning" },
-  cyan: { bg: "bg-tv-info-bg", text: "text-tv-info" },
-  tvPurple: { bg: "bg-tv-brand-tint", text: "text-tv-brand" },
-};
+/* ── Pill — thin wrapper around Mantine Badge for consistent styling ── */
 function Pill({ children, color = "gray", size = "xs", variant = "light", className = "", style }: {
   children: React.ReactNode; color?: string; size?: "xs" | "sm"; variant?: "light" | "filled";
   className?: string; style?: React.CSSProperties;
 }) {
-  const c = PILL_COLORS[color] ?? PILL_COLORS.gray;
-  const filled = variant === "filled";
-  const sz = size === "xs" ? "text-[10px] px-2 py-0.5" : "text-[11px] px-2.5 py-0.5";
+  const badgeColor = color === "tvPurple" ? "tvPurple" : color;
   return (
-    <span
-      className={`inline-flex items-center rounded-full ${sz} ${filled ? "" : c.bg} ${filled ? "text-white" : c.text} ${className}`}
-      style={{ fontWeight: 600, ...(filled ? { backgroundColor: color === "cyan" ? TV.info : TV.brand } : {}), ...style }}
-    >{children}</span>
+    <Badge size={size === "xs" ? "xs" : "sm"} variant={variant} color={badgeColor} radius="xl"
+      className={className} style={style}>{children}</Badge>
   );
 }
 
@@ -691,7 +682,7 @@ const MOCK_CAMPAIGNS: Record<string, CampaignData> = {
     ],
   },
   "11": {
-    id: 11, name: "Student Video Testimonials", type: "Video Request", channel: "Facebook",
+    id: 11, name: "Student Video Testimonials", type: "Video Request", channel: "Shareable Link",
     status: "Sent", sendDate: "Feb 3, 2026", constituents: 237, openRate: "61.8%", replies: 42, videos: 0, videoViews: 0, clickRate: "18.6%",
     isVideoRequest: true, vrDueDate: "Mar 1, 2026", vrSubmissionsReceived: 42, vrSubmissionsTotal: 237,
     vrShareableUrl: "https://thankview.com/hartwell/vr/student-testimonials-2026",
@@ -754,6 +745,16 @@ const DELIVERY_STATUS_BG: Record<string, string> = {
   "Failed Send":    "bg-tv-danger-bg text-tv-danger",
   "Delivered":      "bg-tv-success-bg text-tv-success",
 };
+
+const CONSTITUENT_COLUMNS: ColumnDef[] = [
+  { key: "name",    label: "Name",         group: "Summary", required: true },
+  { key: "email",   label: "Email / Phone", group: "Contact" },
+  { key: "video",   label: "Video",        group: "Engagement" },
+  { key: "status",  label: "Status",       group: "Engagement" },
+  { key: "replies", label: "Replies",      group: "Engagement" },
+];
+
+const DEFAULT_CONSTITUENT_COLS = CONSTITUENT_COLUMNS.map(c => c.key);
 
 /* ═══════════════════════════════════════════════════════════════════════════════
  * SUB-COMPONENTS
@@ -919,7 +920,7 @@ interface InheritOption {
 }
 
 const INHERIT_OPTIONS: InheritOption[] = [
-  { key: "sendMethod",    label: "Send method",     description: "Email, SMS, or Facebook delivery channel",                     icon: <Mail size={14} className="text-tv-brand" />,            defaultOn: true },
+  { key: "sendMethod",    label: "Send method",     description: "Email, SMS, or Shareable Link delivery channel",                     icon: <Mail size={14} className="text-tv-brand" />,            defaultOn: true },
   { key: "constituentList", label: "Constituent list",  description: "All constituents and their associated data",                      icon: <Users size={14} className="text-tv-info" />,            defaultOn: true },
   { key: "successMetric", label: "Success metric",   description: "The KPI used to measure campaign effectiveness",              icon: <BarChart3 size={14} className="text-tv-success" />,     defaultOn: true },
   { key: "shareSettings", label: "Share settings",   description: "Visibility and sharing configuration for the campaign",       icon: <Share2 size={14} className="text-tv-info" />,           defaultOn: true },
@@ -1826,6 +1827,8 @@ export function CampaignDetail() {
   // Status change modal
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [campaignStatus, setCampaignStatus] = useState<string | null>(null);
+  const [showEditColumns, setShowEditColumns] = useState(false);
+  const [activeConstCols, setActiveConstCols] = useState<string[]>(DEFAULT_CONSTITUENT_COLS);
 
   // Copy Link popover + Constituent Link modal
   const [copyLinkPopoverOpen, setCopyLinkPopoverOpen] = useState(false);
@@ -1855,6 +1858,10 @@ export function CampaignDetail() {
   const effectiveStatus = campaignStatus ?? campaign?.status ?? "Draft";
 
   const isSent = effectiveStatus === "Sent" || effectiveStatus === "Archived";
+
+  const handleEditCampaign = () => {
+    navigate(`/campaigns/${id}/edit`);
+  };
 
   const handleStatusChange = (newStatus: string) => {
     setCampaignStatus(newStatus);
@@ -1930,7 +1937,7 @@ export function CampaignDetail() {
               {campaign.type}
             </span>
             <div className="flex items-center gap-1">
-              {campaign.channel === "Email" ? <Mail size={12} className="text-tv-brand" /> : campaign.channel === "SMS" ? <MessageSquare size={12} className="text-tv-info" /> : <Facebook size={12} className="text-tv-info" />}
+              {campaign.channel === "Email" ? <Mail size={12} className="text-tv-brand" /> : campaign.channel === "SMS" ? <MessageSquare size={12} className="text-tv-info" /> : <Link2 size={12} className="text-tv-brand" />}
               <Text fz={12} c={TV.textSecondary}>{campaign.channel}</Text>
             </div>
             {campaign.sendDate !== "\u2014" && (
@@ -1954,6 +1961,17 @@ export function CampaignDetail() {
           </Row>
         </div>
         <div className="flex items-center gap-1.5 shrink-0 flex-wrap">
+                <Button
+                  variant="light"
+                  color="tvPurple"
+                  size="xs"
+                  radius="xl"
+                  leftSection={<PenLine size={13} />}
+                  onClick={handleEditCampaign}
+                  styles={{ root: { fontWeight: 600, fontSize: 12, height: 28, paddingLeft: 12, paddingRight: 14 } }}
+                >
+                  Edit Campaign
+                </Button>
                 <TvTooltip label="Send Test">
                   <button aria-label="Send Test" onClick={() => setShowTestSend(true)} className="w-7 h-7 rounded-full border border-tv-border-strong bg-tv-brand-tint flex items-center justify-center text-tv-brand hover:bg-tv-surface-hover transition-colors">
                     <Send size={13} />
@@ -2054,8 +2072,9 @@ export function CampaignDetail() {
         />
       )}
 
+
       {/* ── Tabs ── */}
-      <div className="mb-6">
+      {(<div className="mb-6">
         <div className="flex gap-0 border-b border-tv-border-divider">
           {[
             { value: "constituents", label: "Constituents" },
@@ -2079,13 +2098,16 @@ export function CampaignDetail() {
             </button>
           ))}
         </div>
-      </div>
+      </div>)}
 
       {/* ════════════════════════════════════════════════════════════════════════
        * TAB: CONSTITUENTS
        * ════════════════════════════════════════════════════════════════════════ */}
       {activeTab === "constituents" && (
         <div>
+          <div className="flex items-center justify-end mb-3">
+            <ColumnsButton onClick={() => setShowEditColumns(true)} />
+          </div>
           <Paper radius="xl" withBorder style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
             {campaign.constituents_list.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-14 text-center px-4">
@@ -2102,18 +2124,26 @@ export function CampaignDetail() {
                 {/* Desktop table header */}
                 <div className="overflow-x-auto">
                   <div className="min-w-[600px]">
-                <div className="hidden sm:grid grid-cols-[2.5fr_2fr_1fr_1.5fr_1.2fr] gap-4 px-5 py-3 bg-tv-surface-muted border-b border-tv-border-divider text-[10px] text-tv-text-secondary uppercase tracking-wider [&>span]:whitespace-nowrap" style={{ fontWeight: 600 }}>
-                  <span>Name</span><span>Email / Phone</span><span>Video</span><span>Status</span><span>Replies</span>
+                <div className="hidden sm:grid gap-4 px-5 py-3 bg-tv-surface-muted border-b border-tv-border-divider text-[10px] text-tv-text-secondary uppercase tracking-wider [&>span]:whitespace-nowrap" style={{ fontWeight: 600, gridTemplateColumns: activeConstCols.map(k => ({ name: "2.5fr", email: "2fr", video: "1fr", status: "1.5fr", replies: "1.2fr" }[k] || "1fr")).join(" ") }}>
+                  {activeConstCols.map(k => {
+                    const col = CONSTITUENT_COLUMNS.find(c => c.key === k);
+                    return col ? <span key={k}>{col.label}</span> : null;
+                  })}
                 </div>
                 {campaign.constituents_list.map((r) => (
                   <div key={r.id} className="border-b border-tv-border-divider last:border-b-0 hover:bg-tv-surface-muted transition-colors">
                     {/* Desktop */}
-                    <div className="hidden sm:grid grid-cols-[2.5fr_2fr_1fr_1.5fr_1.2fr] gap-4 px-5 py-4 items-center">
-                      <span className="text-[13px] text-tv-text-primary" style={{ fontWeight: 600 }}>{r.name}</span>
-                      <span className="text-[12px] text-tv-text-secondary truncate">{r.email}</span>
-                      <div>{r.hasVideo ? <CircleCheckBig size={15} className="text-tv-success" /> : <CircleAlert size={15} className="text-tv-text-decorative" />}</div>
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] ${DELIVERY_STATUS_BG[r.delivery] ?? "bg-tv-surface text-tv-text-secondary"}`} style={{ fontWeight: 600 }}>{r.delivery}</span>
-                      <span className="text-[12px] text-tv-text-secondary">{r.replies}</span>
+                    <div className="hidden sm:grid gap-4 px-5 py-4 items-center" style={{ gridTemplateColumns: activeConstCols.map(k => ({ name: "2.5fr", email: "2fr", video: "1fr", status: "1.5fr", replies: "1.2fr" }[k] || "1fr")).join(" ") }}>
+                      {activeConstCols.map(k => {
+                        switch (k) {
+                          case "name": return <span key={k} className="text-[13px] text-tv-text-primary" style={{ fontWeight: 600 }}>{r.name}</span>;
+                          case "email": return <span key={k} className="text-[12px] text-tv-text-secondary truncate">{r.email}</span>;
+                          case "video": return <div key={k}>{r.hasVideo ? <CircleCheckBig size={15} className="text-tv-success" /> : <CircleAlert size={15} className="text-tv-text-decorative" />}</div>;
+                          case "status": return <span key={k} className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] ${DELIVERY_STATUS_BG[r.delivery] ?? "bg-tv-surface text-tv-text-secondary"}`} style={{ fontWeight: 600 }}>{r.delivery}</span>;
+                          case "replies": return <span key={k} className="text-[12px] text-tv-text-secondary">{r.replies}</span>;
+                          default: return null;
+                        }
+                      })}
                     </div>
                     {/* Mobile */}
                     <div className="sm:hidden flex items-center gap-3 px-4 py-3.5">
@@ -2645,7 +2675,7 @@ export function CampaignDetail() {
       {activeTab === "resend" && campaign.resendHistory && (
         <Stack gap="md">
           {/* Resend summary */}
-          <Row gap="md" align="flex-start">
+          <Row gap="md" align="stretch">
             <Paper radius="xl" withBorder p="md" style={{ borderColor: TV.borderLight, flex: 1 }}>
               <Text fz={10} fw={600} c={TV.textLabel} tt="uppercase" mb={4}>Total Sends</Text>
               <Text fz={28} fw={900} c={TV.textBrand}>{campaign.resendHistory.length}</Text>
@@ -2990,6 +3020,11 @@ export function CampaignDetail() {
         scheduledSends={campaign.constituents_list.filter(r => r.sendHistory.some(h => h.status === "Send Scheduled")).length}
         onStatusChange={handleStatusChange}
       />
+
+      {showEditColumns && (
+        <EditColumnsModal columns={CONSTITUENT_COLUMNS} active={activeConstCols} onClose={() => setShowEditColumns(false)}
+          onSave={cols => { setActiveConstCols(cols); show("Columns updated!", "success"); }} />
+      )}
     </Box>
   );
 }

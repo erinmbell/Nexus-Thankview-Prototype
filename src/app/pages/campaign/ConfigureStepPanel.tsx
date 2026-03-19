@@ -139,7 +139,7 @@ export function ConfigureStepPanel({
               value={campaignName || ""}
               onChange={e => { onCampaignNameChange(e.target.value); markDirty?.(); }}
               placeholder="e.g. Spring Annual Fund Appeal"
-              className="w-full border border-tv-border-light rounded-md px-4 py-3 text-[14px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand transition-colors placeholder:text-tv-text-secondary"
+              className="w-full border border-tv-border-light rounded-md px-4 py-3 text-[14px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand transition-colors placeholder:text-tv-text-decorative"
             />
             <p className="text-[11px] text-tv-text-secondary mt-2">Give your campaign a memorable name so it's easy to find later.</p>
           </div>

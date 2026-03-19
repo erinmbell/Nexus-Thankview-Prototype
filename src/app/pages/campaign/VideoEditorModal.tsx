@@ -421,7 +421,7 @@ export function VideoEditorModal({
                     onChange={e => upd("description", e.target.value)}
                     placeholder="Add a description\u2026"
                     rows={3}
-                    className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors resize-none placeholder:text-tv-text-secondary"
+                    className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors resize-none placeholder:text-tv-text-decorative"
                   />
                 </div>
                 <div className="mb-4">
@@ -432,7 +432,7 @@ export function VideoEditorModal({
                     value={data.recipientName}
                     onChange={e => upd("recipientName", e.target.value)}
                     placeholder="Who is this video for?"
-                    className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-secondary"
+                    className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-decorative"
                   />
                 </div>
                 <div className="mb-4">
@@ -445,7 +445,7 @@ export function VideoEditorModal({
                       onChange={e => setTagInput(e.target.value)}
                       onKeyDown={e => e.key === "Enter" && addTag()}
                       placeholder="Add a tag"
-                      className="flex-1 border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-secondary"
+                      className="flex-1 border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-decorative"
                     />
                     <button onClick={addTag} className="w-8 h-8 rounded-sm border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface transition-colors shrink-0">
                       <Plus size={13} />

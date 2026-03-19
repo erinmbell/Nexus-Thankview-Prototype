@@ -820,7 +820,7 @@ export function VideoLibrary() {
           </Badge>
           <div className="flex items-center gap-2 bg-white rounded-full px-3 py-2 border border-tv-border-light flex-1 max-w-xs">
             <Search size={13} className="text-tv-text-secondary" />
-            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by title or tag…" aria-label="Search videos by title or tag" className="bg-transparent text-[13px] text-tv-text-primary outline-none flex-1 placeholder:text-tv-text-secondary focus-visible:outline-none" />
+            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by title or tag…" aria-label="Search videos by title or tag" className="bg-transparent text-[13px] text-tv-text-primary outline-none flex-1 placeholder:text-tv-text-decorative focus-visible:outline-none" />
           </div>
           <div className="ml-auto flex items-center gap-1.5 flex-wrap">
             <ViewToggle

@@ -169,7 +169,7 @@ export function EmailTemplates() {
             onChange={e => setSearch(e.target.value)}
             placeholder="Search templates…"
             aria-label="Search templates"
-            className="bg-transparent text-[13px] text-tv-text-primary outline-none w-full placeholder:text-tv-text-secondary focus-visible:outline-none"
+            className="bg-transparent text-[13px] text-tv-text-primary outline-none w-full placeholder:text-tv-text-decorative focus-visible:outline-none"
           />
           {search && (
             <button onClick={() => setSearch("")} aria-label="Clear search" className="text-tv-text-secondary hover:text-tv-text-label"><X size={12} /></button>

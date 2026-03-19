@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { useNavigate, useSearchParams } from "react-router";
+import { useNavigate, useSearchParams, useParams } from "react-router";
 import {
   ChevronLeft, ChevronRight, Check, X,
   Mail, MessageSquare, Play, Video, Camera, Film,
@@ -15,7 +15,7 @@ import {
   IndentIncrease, IndentDecrease, Smile, StopCircle, RefreshCw,
   AlertTriangle, Target, BarChart3, Calendar,
   Signal, Wifi, Battery, Phone, Bookmark, Braces,
-  AlignCenter, AlignRight, AlignJustify, Strikethrough, Minus, ChevronDown, PenLine, Tag, Palette,
+  AlignCenter, AlignRight, AlignJustify, Strikethrough, Minus, ChevronDown, PenLine, Tag, Palette, Lock,
 } from "lucide-react";
 import { useToast } from "../contexts/ToastContext";
 import { useDesignLibrary } from "../contexts/DesignLibraryContext";
@@ -52,11 +52,36 @@ import { ResizableSplitPane } from "../components/ResizableSplitPane";
 import { CharCount, BodyHeaderCount, SmsCharCounter, EmailBodyCharCounter, CHAR_LIMITS, htmlTextLength, getEditorWarnCls } from "../components/CharCounters";
 import { EmailTemplateActions } from "../components/EmailTemplateAndSignature";
 import { TvTooltip } from "../components/TvTooltip";
-// ── Campaign-level types (distinct from FlowStepType) ─────────���───────────────
+// ── Campaign-level types (distinct from FlowStepType) ─────────────────────────
 type CampaignGoal = "send-video" | "send-without-video" | "request-video";
 type CampaignChannel = "email" | "sms";
 type StepMode = "single" | "multi";
 
+/** Data shape for editing an existing campaign — bridges CampaignDetail mock data to wizard state */
+export interface EditCampaignData {
+  id: number;
+  name: string;
+  goal: CampaignGoal;
+  channel: CampaignChannel;
+  subject: string;
+  body: string;
+  senderName: string;
+  senderEmail: string;
+  replyTo: string;
+  envelopeId?: number;
+  landingPageEnabled: boolean;
+  landingPageId?: number;
+  lpHeadline?: string;
+  ctaText?: string;
+  ctaUrl?: string;
+  lpBody?: string;
+  constituents?: Array<{ id: number; name: string; email: string; phone: string; source: string }>;
+  selectedMetrics?: string[];
+  tags?: string[];
+  hasIntro?: boolean;
+  hasOutro?: boolean;
+  hasPersonalVideo?: boolean;
+}
 
 
 // ── SmsMergeBar — SMS textarea with quick-insert pills + full merge picker ──
@@ -761,7 +786,8 @@ const WIZARD_STEPS = [
 ] as const;
 type WizardStepKey = (typeof WIZARD_STEPS)[number]["key"];
 
-function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }: { onBack: () => void; initialGoal?: CampaignGoal | null; initialTemplate?: CampaignTemplate | null }) {
+function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, editCampaign = null }: { onBack: () => void; initialGoal?: CampaignGoal | null; initialTemplate?: CampaignTemplate | null; editCampaign?: EditCampaignData | null }) {
+  const isEditMode = editCampaign !== null;
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { show } = useToast();
@@ -814,7 +840,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
   // Configure step must be completed before any other step is accessible
-  const [configureCompleted, setConfigureCompleted] = useState(() => resolveInitialStep() > 0);
+  const [configureCompleted, setConfigureCompleted] = useState(() => isEditMode || resolveInitialStep() > 0);
 
   // ── Dirty tracking + autosave ─────────────────────────────────────────────
   const [isDirty, setIsDirty] = useState(false);
@@ -871,15 +897,15 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
     setIsDirty(false);
   }, [stepIndex]);
 
-  // Campaign-level state — hydrate from template when provided
-  const [campaignName, setCampaignName] = useState(initialTemplate ? initialTemplate.name : "");
+  // Campaign-level state — hydrate from template or editCampaign when provided
+  const [campaignName, setCampaignName] = useState(editCampaign?.name ?? (initialTemplate ? initialTemplate.name : ""));
   const [campaignGoal, setCampaignGoal] = useState<CampaignGoal | null>(
-    initialTemplate?.goal ?? initialGoal
+    editCampaign?.goal ?? initialTemplate?.goal ?? initialGoal
   );
-  const [selectedTags, setSelectedTags] = useState<string[]>(initialTemplate?.tags ?? []);
+  const [selectedTags, setSelectedTags] = useState<string[]>(editCampaign?.tags ?? initialTemplate?.tags ?? []);
   // customTags, newTagInput, editingTagIdx, editingTagValue — now managed inside TagPicker
   const [campaignCh, setCampaignCh] = useState<CampaignChannel | null>(
-    initialTemplate?.channel ?? null
+    editCampaign?.channel ?? initialTemplate?.channel ?? null
   );
 
   // Hydrate step state from template content
@@ -931,10 +957,11 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
   const [contactFieldSendTime, setContactFieldSendTime] = useState("09:00");
 
   // Success metrics state (1-5 selectable)
-  const [selectedMetrics, setSelectedMetrics] = useState<string[]>([]);
+  const [selectedMetrics, setSelectedMetrics] = useState<string[]>(editCampaign?.selectedMetrics ?? []);
   const [showMetricsInfo, setShowMetricsInfo] = useState(false);
   const [showDropoffInfo, setShowDropoffInfo] = useState(false);
   const toggleMetric = (id: string) => {
+    if (isEditMode) return;
     setSelectedMetrics(prev => {
       if (prev.includes(id)) return prev.filter(m => m !== id);
       if (prev.length >= 5) return prev;
@@ -953,6 +980,23 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
   // The single FlowStep that holds all channel/content state
   const [step, setStep] = useState<FlowStep>(() => {
+    // Hydrate from editCampaign when editing
+    if (editCampaign) {
+      const base = makeDefaultStep(editCampaign.channel);
+      return {
+        ...base,
+        subject: editCampaign.subject,
+        body: editCampaign.body,
+        senderName: editCampaign.senderName,
+        senderEmail: editCampaign.senderEmail,
+        replyTo: editCampaign.replyTo,
+        envelopeId: editCampaign.envelopeId ?? base.envelopeId,
+        landingPageEnabled: editCampaign.landingPageEnabled,
+        landingPageId: editCampaign.landingPageId ?? base.landingPageId,
+        ctaText: editCampaign.ctaText ?? base.ctaText,
+        ctaUrl: editCampaign.ctaUrl ?? base.ctaUrl,
+      };
+    }
     // Restore step state if returning from an external builder
     try {
       const saved = sessionStorage.getItem("tv-wizard-step-state");
@@ -968,9 +1012,9 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
   const [builderView, setBuilderView] = useState<BuilderView>("overview");
 
   // Element done flags — whether each section is complete
-  const [hasIntro, setHasIntro] = useState(false);
-  const [hasMain, setHasMain] = useState(false);
-  const [hasOutro, setHasOutro] = useState(false);
+  const [hasIntro, setHasIntro] = useState(editCampaign?.hasIntro ?? false);
+  const [hasMain, setHasMain] = useState(editCampaign?.hasPersonalVideo ?? false);
+  const [hasOutro, setHasOutro] = useState(editCampaign?.hasOutro ?? false);
   const [hasOverlay, setHasOverlay] = useState(false);
 
   // Element toggles — whether intro/outro are turned on
@@ -1004,7 +1048,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
     { id: 4, name: "Emily Torres", email: "e.torres@corp.com", phone: "+1 (555) 456-7890", source: "New Donors 2025" },
     { id: 5, name: "David Park", email: "d.park@alumni.edu", phone: "+1 (555) 567-8901", source: "All Donors" },
   ];
-  const [constituents, setConstituents] = useState<{ id: number; name: string; email: string; phone: string; source: string }[]>(DEFAULT_CONSTITUENTS);
+  const [constituents, setConstituents] = useState<{ id: number; name: string; email: string; phone: string; source: string }[]>(editCampaign?.constituents ?? DEFAULT_CONSTITUENTS);
   const [constituentSearch, setConstituentSearch] = useState("");
   const [editingConstituent, setEditingConstituent] = useState<number | null>(null);
   const [showAddMethod, setShowAddMethod] = useState<"csv" | "manual" | "list" | null>(null);
@@ -1301,8 +1345,13 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
   };
 
   const handleFinish = () => {
-    show("\ud83c\udf89 Campaign created!", "success");
-    navigate("/campaigns");
+    if (isEditMode) {
+      show("✓ Campaign updated successfully!", "success");
+      navigate(`/campaigns/${editCampaign!.id}`);
+    } else {
+      show("\ud83c\udf89 Campaign created!", "success");
+      navigate("/campaigns");
+    }
   };
 
   // toggleTag, addCustomTag, removeCustomTag, saveEditTag — now managed inside TagPicker
@@ -1310,12 +1359,14 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
   // ── Step 1: Configure Your Campaign — type-aware layout ─────────────────
   const renderConfigureStep = () => {
     const isVideoRequest = campaignGoal === "request-video";
-    // Whether the goal was pre-selected from the dropdown or template
-    const goalPreSelected = initialGoal !== null || (initialTemplate?.goal != null);
+    // Whether the goal was pre-selected from the dropdown, template, or edit mode
+    const goalPreSelected = isEditMode || initialGoal !== null || (initialTemplate?.goal != null);
 
     // Type metadata for the pre-selected banner
     const TYPE_META: Record<string, { icon: any; label: string; desc: string; color: string; bg: string }> = {
-      "request-video":    { icon: Bell,      label: "Video Request",    desc: "Collect videos from constituents via email, SMS, or a shareable link.", color: "#15803d", bg: "#e6f9ed" },
+      "send-video":          { icon: Videotape, label: "Send with Video",    desc: "Record or choose a video to include in your campaign.",                    color: "#6d28d9", bg: "#f3eefa" },
+      "send-without-video":  { icon: Mail,      label: "Send without Video", desc: "Email or SMS only — no video attachment.",                                  color: "#6d28d9", bg: "#f3eefa" },
+      "request-video":       { icon: Bell,      label: "Video Request",      desc: "Collect videos from constituents via email, SMS, or a shareable link.",     color: "#15803d", bg: "#e6f9ed" },
     };
 
     const typeMeta = campaignGoal ? TYPE_META[campaignGoal] : null;
@@ -1323,8 +1374,25 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
     return (
     <div className="max-w-[700px] xl:max-w-[800px] 2xl:max-w-[900px] mx-auto space-y-5">
 
+      {/* ── Edit mode banner ── */}
+      {isEditMode && (
+        <div className="flex items-center gap-3 p-3.5 rounded-lg border border-tv-warning-border bg-tv-warning-bg">
+          <div className="w-9 h-9 rounded-sm flex items-center justify-center shrink-0 bg-white">
+            <Lock size={15} className="text-tv-warning" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-[13px] text-tv-text-primary font-semibold">
+              Configuration is locked
+            </p>
+            <p className="text-[11px] text-tv-text-secondary">
+              Campaign name, type, channel, and metrics cannot be changed after creation. You can still add or remove tags.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* ── Template banner ── */}
-      {initialTemplate && (
+      {initialTemplate && !isEditMode && (
         <div className="flex items-center gap-3 p-3.5 rounded-lg border border-tv-info-border bg-tv-info-bg">
           <div className="w-9 h-9 rounded-sm flex items-center justify-center shrink-0 bg-white">
             <Bookmark size={15} className="text-tv-info" />
@@ -1341,7 +1409,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       )}
 
       {/* ── Section 1: Campaign Name ── */}
-      <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
+      <section className={`rounded-lg border border-tv-border-light bg-white overflow-hidden ${isEditMode ? "opacity-60" : ""}`}>
         <div className="px-5 py-4">
           <div className="flex items-center gap-2 mb-3">
             <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Name</p>
@@ -1349,30 +1417,32 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           <input
             id="cfg-name"
             type="text"
+            autoComplete="off"
             value={campaignName}
-            onChange={e => { setCampaignName(e.target.value); markDirty(); }}
+            onChange={e => { if (!isEditMode) { setCampaignName(e.target.value); markDirty(); } }}
+            readOnly={isEditMode}
             placeholder="e.g. Spring Annual Fund Appeal"
-            className="w-full border border-tv-border-light rounded-md px-4 py-3 text-[14px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand transition-colors placeholder:text-tv-text-secondary"
+            className={`w-full border border-tv-border-light rounded-md px-4 py-3 text-[14px] text-tv-text-primary outline-none transition-colors placeholder:text-tv-text-decorative ${isEditMode ? "bg-tv-surface text-tv-text-secondary cursor-not-allowed" : "focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand"}`}
           />
-          <p className="text-[11px] text-tv-text-secondary mt-2">Give your campaign a memorable name so it's easy to find later.</p>
+          <p className="text-[11px] text-tv-text-secondary mt-2">{isEditMode ? "Campaign name cannot be changed after creation." : "Give your campaign a memorable name so it's easy to find later."}</p>
         </div>
       </section>
 
       {/* ── Section 2: Campaign Type ── */}
       {goalPreSelected && typeMeta ? (
-        <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
+        <section className={`rounded-lg border border-tv-border-light bg-white overflow-hidden ${isEditMode ? "opacity-60" : ""}`}>
           <div className="flex items-center gap-4 px-5 py-4">
             <div className="w-11 h-11 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: typeMeta.bg }}>
               <typeMeta.icon size={20} style={{ color: typeMeta.color }} />
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>{typeMeta.label}</p>
-              <p className="text-[12px] text-tv-text-secondary leading-relaxed">{typeMeta.desc}</p>
+              <p className="text-[12px] text-tv-text-secondary leading-relaxed">{isEditMode ? "Campaign type cannot be changed after creation." : typeMeta.desc}</p>
             </div>
           </div>
         </section>
       ) : (
-        <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
+        <section className={`rounded-lg border border-tv-border-light bg-white overflow-hidden ${isEditMode ? "opacity-60 pointer-events-none" : ""}`}>
           <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 bg-tv-brand-tint rounded-sm flex items-center justify-center">
@@ -1380,7 +1450,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               </div>
               <div>
                 <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Type</p>
-                <p className="text-[11px] text-tv-text-secondary">Will this campaign include a video?</p>
+                <p className="text-[11px] text-tv-text-secondary">{isEditMode ? "Campaign type cannot be changed after creation." : "Will this campaign include a video?"}</p>
               </div>
             </div>
           </div>
@@ -1392,10 +1462,11 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               ]).map(opt => {
                 const selected = campaignGoal === opt.goal;
                 return (
-                  <button key={opt.goal} onClick={() => { setCampaignGoal(opt.goal); markDirty(); }}
+                  <button key={opt.goal} onClick={() => { if (!isEditMode) { setCampaignGoal(opt.goal); markDirty(); } }}
+                    disabled={isEditMode}
                     className={`relative p-5 rounded-lg border-2 text-left transition-all ${
                       selected ? "border-tv-brand-bg bg-tv-brand-tint shadow-sm" : "border-tv-border-light hover:border-tv-border-strong"
-                    }`}>
+                    } ${isEditMode ? "opacity-60 cursor-not-allowed" : ""}`}>
                     <div className={`w-10 h-10 rounded-md ${selected ? "bg-tv-brand-tint" : "bg-tv-surface"} flex items-center justify-center mb-3`}>
                       <opt.icon size={18} className={selected ? "text-tv-brand" : "text-tv-text-secondary"} />
                     </div>
@@ -1415,7 +1486,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       )}
 
       {/* ── Section 3: Delivery — type-aware ── */}
-      <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
+      <section className={`rounded-lg border border-tv-border-light bg-white overflow-hidden ${isEditMode ? "opacity-60 pointer-events-none" : ""}`}>
         <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-tv-brand-tint rounded-sm flex items-center justify-center">
@@ -1423,7 +1494,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             </div>
             <div>
               <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>{isVideoRequest ? "Delivery Method" : "Delivery Channel"}</p>
-              <p className="text-[11px] text-tv-text-secondary">{isVideoRequest ? "How do you want to reach your recorders?" : "How do you want to reach your constituents?"}</p>
+              <p className="text-[11px] text-tv-text-secondary">{isEditMode ? "Delivery channel cannot be changed after creation." : isVideoRequest ? "How do you want to reach your recorders?" : "How do you want to reach your constituents?"}</p>
             </div>
           </div>
         </div>
@@ -1434,10 +1505,11 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 {VR_DELIVERY_TYPES.map(dt => {
                   const selected = vrDeliveryType === dt.id;
                   return (
-                    <button key={dt.id} onClick={() => { setVrDeliveryType(dt.id); if (dt.id !== "link") switchChannel(dt.id); markDirty(); }}
+                    <button key={dt.id} onClick={() => { if (!isEditMode) { setVrDeliveryType(dt.id); if (dt.id !== "link") switchChannel(dt.id); markDirty(); } }}
+                      disabled={isEditMode}
                       className={`p-5 rounded-lg border-2 text-left transition-all ${
                         selected ? "border-tv-brand-bg bg-tv-brand-tint shadow-sm" : "border-tv-border-light hover:border-tv-border-strong"
-                      }`}>
+                      } ${isEditMode ? "opacity-60 cursor-not-allowed" : ""}`}>
                       <div className={`w-10 h-10 rounded-md ${selected ? "bg-tv-brand-tint" : "bg-tv-surface"} flex items-center justify-center mb-3`}>
                         <dt.icon size={18} className={selected ? "text-tv-brand" : "text-tv-text-secondary"} />
                       </div>
@@ -1465,10 +1537,11 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               ]).map(ch => {
                 const selected = campaignCh === ch.type;
                 return (
-                  <button key={ch.type} onClick={() => { setCampaignCh(ch.type); switchChannel(ch.type); markDirty(); }}
+                  <button key={ch.type} onClick={() => { if (!isEditMode) { setCampaignCh(ch.type); switchChannel(ch.type); markDirty(); } }}
+                    disabled={isEditMode}
                     className={`p-5 rounded-lg border-2 text-left transition-all ${
                       selected ? "border-tv-brand-bg bg-tv-brand-tint shadow-sm" : "border-tv-border-light hover:border-tv-border-strong"
-                    }`}>
+                    } ${isEditMode ? "opacity-60 cursor-not-allowed" : ""}`}>
                     <div className={`w-10 h-10 rounded-md ${selected ? ch.bg : "bg-tv-surface"} flex items-center justify-center mb-3`}>
                       <ch.icon size={18} className={selected ? ch.color : "text-tv-text-secondary"} />
                     </div>
@@ -1483,7 +1556,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       </section>
 
       {/* ── Section 4: Success Metrics ── */}
-      <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
+      <section className={`rounded-lg border border-tv-border-light bg-white overflow-hidden ${isEditMode ? "opacity-60 pointer-events-none" : ""}`}>
         <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-tv-brand-tint rounded-sm flex items-center justify-center">
@@ -1491,7 +1564,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             </div>
             <div>
               <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Success Metrics</p>
-              <p className="text-[11px] text-tv-text-secondary">Define how you'll measure success (add multiple)</p>
+              <p className="text-[11px] text-tv-text-secondary">{isEditMode ? "Metrics cannot be changed after creation." : "Define how you'll measure success (add multiple)"}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -3250,6 +3323,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       campaignName={campaignName || "Untitled Campaign"}
       deliveryMethod={step.type === "email" ? "Email" : "SMS"}
       contentSummary={step.type === "email" ? (step.subject || "No subject") : ((step.smsBody || "").slice(0, 60) || "No content")}
+      isEditMode={isEditMode}
       onBack={goBack}
       onSend={handleFinish}
     />
@@ -3274,9 +3348,9 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
         <div className="flex items-center gap-2 text-[13px]">
           <span className="text-tv-text-secondary">Campaigns</span>
           <ChevronRight size={12} className="text-tv-text-decorative" />
-          <span className="text-tv-text-primary">Create Campaign</span>
+          <span className="text-tv-text-primary">{isEditMode ? "Edit Campaign" : "Create Campaign"}</span>
           <span className="text-tv-text-decorative">&middot;</span>
-          <span className="text-tv-brand">Single-Step</span>
+          <span className="text-tv-brand">{isEditMode ? campaignName : "Single-Step"}</span>
           {initialTemplate && (
             <>
               <span className="text-tv-text-decorative">&middot;</span>
@@ -3353,20 +3427,22 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
         /* Steps 1–3 (Configure, Content & Design, Constituents): Cancel | Back / Change Mode | Next nav */
         <div className="sticky bottom-0 bg-white border-t border-tv-border-divider px-4 sm:px-6 py-3 shrink-0">
           <div className="flex items-center gap-3">
-            <button onClick={() => setShowCancelConfirm(true)}
+            <button onClick={() => { if (isEditMode) { navigate(`/campaigns/${editCampaign!.id}`); } else { setShowCancelConfirm(true); } }}
               className="flex items-center gap-1.5 px-4 py-2 text-[13px] text-tv-danger border border-tv-danger rounded-full hover:bg-tv-danger-bg transition-colors">
               <X size={13} />Cancel
             </button>
             <button onClick={goBack}
               className="flex items-center gap-1.5 px-4 py-2 text-[13px] text-tv-text-primary border border-tv-border-light rounded-full hover:bg-tv-surface transition-colors">
               <ChevronLeft size={13} />
-              {stepIndex === 0 ? "Change Mode" : "Back"}
+              {stepIndex === 0 ? (isEditMode ? "Back to Campaign" : "Change Mode") : "Back"}
             </button>
+            {!isEditMode && (
             <button onClick={() => { setSaveTemplateName(campaignName || ""); setSaveTemplateDesc(""); setShowSaveTemplate(true); }}
               className="flex items-center gap-1.5 px-4 py-2 text-[13px] text-tv-text-secondary border border-tv-border-light rounded-full hover:bg-tv-surface hover:text-tv-text-primary transition-colors"
               title="Save current configuration as a reusable template">
               <Bookmark size={13} /><span className="hidden sm:inline">Save as Template</span>
             </button>
+            )}
             <div className="flex-1" />
             {(() => {
               const configBlocked = stepIndex === 0 && (!campaignName.trim() || !campaignGoal || (campaignGoal === "request-video" ? !vrDeliveryType : !campaignCh) || selectedMetrics.length < 1);
@@ -3551,6 +3627,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 <label className="text-[12px] text-tv-text-label mb-1.5 block font-semibold">Template Name</label>
                 <input
                   type="text"
+                  autoComplete="off"
                   value={saveTemplateName}
                   onChange={e => setSaveTemplateName(e.target.value)}
                   placeholder="e.g. Annual Fund Thank You"
@@ -3660,8 +3737,48 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 // ═══════════════════════════════════════════════════════════════════════════════
 //  CreateCampaign — top-level page component
 // ═══════════════════════════════════════════════════════════════════════════════
+/** Mock campaign data lookup for edit mode (mirrors CampaignDetail MOCK_CAMPAIGNS) */
+function loadEditCampaignData(id: string): EditCampaignData | null {
+  const EDIT_MOCK: Record<string, EditCampaignData> = {
+    "1": {
+      id: 1, name: "Spring Annual Fund Appeal", goal: "send-video", channel: "email",
+      subject: "A personal message about your impact this spring",
+      body: "Dear {{first_name}},\n\nThis spring, our community came together in an extraordinary way. Your generous gift of {{gift_amount}} helped us reach 12 first-generation students who would not otherwise have access to a Hartwell education.\n\nI recorded a quick video just for you — please take a moment to watch it.\n\nWarmly,\nKelley Molt",
+      senderName: "Kelley Molt", senderEmail: "kelley.molt@hartwell.edu", replyTo: "giving@hartwell.edu",
+      envelopeId: 1, landingPageEnabled: true, landingPageId: 1,
+      lpHeadline: "Thank you, {{first_name}}!", ctaText: "Make Another Gift", ctaUrl: "https://give.hartwell.edu/donate",
+      lpBody: "Your generous support of {{gift_amount}} is making a real difference at Hartwell University.",
+      selectedMetrics: ["open-rate", "click-rate", "reply-rate"],
+      tags: ["Solicitation"],
+      hasIntro: true, hasOutro: true, hasPersonalVideo: true,
+      constituents: [
+        { id: 1, name: "James Whitfield", email: "j.whitfield@alumni.edu", phone: "+1 (555) 123-4567", source: "Major Donors" },
+        { id: 2, name: "Sarah Chen", email: "s.chen@foundation.org", phone: "+1 (555) 234-5678", source: "Major Donors" },
+        { id: 3, name: "Marcus Reid", email: "m.reid@email.com", phone: "+1 (555) 345-6789", source: "CSV Upload" },
+        { id: 4, name: "Emily Torres", email: "e.torres@corp.com", phone: "+1 (555) 456-7890", source: "New Donors 2025" },
+        { id: 5, name: "David Park", email: "d.park@alumni.edu", phone: "+1 (555) 567-8901", source: "All Donors" },
+        { id: 6, name: "Alicia Grant", email: "a.grant@corp.com", phone: "+1 (555) 678-9012", source: "CSV Upload" },
+        { id: 7, name: "Tom Hernandez", email: "t.hernandez@alumni.edu", phone: "+1 (555) 789-0123", source: "All Donors" },
+      ],
+    },
+    "2": {
+      id: 2, name: "Thank You – Multi-Step 2.0", goal: "send-video", channel: "email",
+      subject: "Thank you for your generous support", body: "Dear {{first_name}},\n\nThank you for your generous support...",
+      senderName: "Kelley Molt", senderEmail: "kelley.molt@hartwell.edu", replyTo: "giving@hartwell.edu",
+      landingPageEnabled: true, selectedMetrics: ["open-rate", "reply-rate"], tags: ["Thank You"],
+      hasIntro: true, hasOutro: false, hasPersonalVideo: true,
+      constituents: [
+        { id: 1, name: "James Whitfield", email: "j.whitfield@alumni.edu", phone: "+1 (555) 123-4567", source: "All Donors" },
+        { id: 2, name: "Sarah Chen", email: "s.chen@foundation.org", phone: "+1 (555) 234-5678", source: "All Donors" },
+      ],
+    },
+  };
+  return EDIT_MOCK[id] ?? null;
+}
+
 export function CreateCampaign() {
   const [searchParams] = useSearchParams();
+  const { id: editId } = useParams();
   const { templates } = useTemplates();
   // Auto-select mode from URL params (dropdown links) or returnStep (returning from builder)
   const returningStep = searchParams.get("returnStep");
@@ -3671,7 +3788,11 @@ export function CreateCampaign() {
   // Resolve template from URL param
   const resolvedTemplate = templateId ? templates.find(t => t.id === templateId) ?? null : null;
 
+  // Edit mode: load existing campaign data when route has :id
+  const editCampaign = editId ? loadEditCampaignData(editId) : null;
+
   const resolveInitialMode = (): StepMode | null => {
+    if (editCampaign) return "single"; // Edit always uses single-step wizard
     if (returningStep) return "single";
     if (resolvedTemplate) return resolvedTemplate.mode;
     if (urlMode === "single" || urlMode === "video-request") return "single";
@@ -3686,9 +3807,12 @@ export function CreateCampaign() {
 
   const navigate = useNavigate();
   const handleBackToModeSelect = useCallback(() => {
-    // Always navigate back to the campaign list (mode-select screen removed)
-    navigate("/campaigns");
-  }, [navigate]);
+    if (editCampaign) {
+      navigate(`/campaigns/${editCampaign.id}`);
+    } else {
+      navigate("/campaigns");
+    }
+  }, [navigate, editCampaign]);
 
   // Derive initialGoal for SingleStepWizard when coming from dropdown items
   const initialGoal: CampaignGoal | null = urlMode === "video-request" ? "request-video" : null;
@@ -3716,5 +3840,5 @@ export function CreateCampaign() {
     );
   }
 
-  return <SingleStepWizard onBack={handleBackToModeSelect} initialGoal={initialGoal} initialTemplate={resolvedTemplate} />;
+  return <SingleStepWizard onBack={handleBackToModeSelect} initialGoal={initialGoal} initialTemplate={resolvedTemplate} editCampaign={editCampaign} />;
 }

@@ -658,8 +658,8 @@ export function LandingPageBuilder() {
                           <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light space-y-3">
                             <p className="text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Create Solid Color</p>
                             <div className="flex items-center gap-2">
-                              <label className="w-12 h-12 rounded-md border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden shadow-sm" style={{ backgroundColor: safeHex(newColorHex) }}>
-                                <input type="color" value={safeHex(newColorHex)} onChange={e => setNewColorHex(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" />
+                              <label htmlFor="lp-bg-color-picker" className="w-12 h-12 rounded-md border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden shadow-sm" style={{ backgroundColor: safeHex(newColorHex) }}>
+                                <input id="lp-bg-color-picker" type="color" value={safeHex(newColorHex)} onChange={e => setNewColorHex(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" />
                               </label>
                               <div className="flex-1 space-y-1.5">
                                 <input value={newColorHex} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setNewColorHex(v); }} className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] font-mono outline-none focus:ring-2 focus:ring-tv-brand-bg/30" placeholder="#1a1a2e" />
@@ -702,16 +702,16 @@ export function LandingPageBuilder() {
                             <div className="h-14 rounded-md border border-tv-border-light overflow-hidden" style={{ background: `linear-gradient(${newGradDir}, ${safeHex(newGradFrom)}, ${safeHex(newGradTo)})` }} />
                             <div className="grid grid-cols-2 gap-2">
                               <div>
-                                <label className="text-[9px] text-tv-text-secondary mb-1 block">From</label>
+                                <label htmlFor="lp-grad-from-color" className="text-[9px] text-tv-text-secondary mb-1 block">From</label>
                                 <div className="flex items-center gap-1.5">
-                                  <label className="w-8 h-8 rounded-[6px] border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden" style={{ backgroundColor: safeHex(newGradFrom) }}><input type="color" value={safeHex(newGradFrom)} onChange={e => setNewGradFrom(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" /></label>
+                                  <label htmlFor="lp-grad-from-color" className="w-8 h-8 rounded-[6px] border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden" style={{ backgroundColor: safeHex(newGradFrom) }}><input id="lp-grad-from-color" type="color" value={safeHex(newGradFrom)} onChange={e => setNewGradFrom(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" /></label>
                                   <input value={newGradFrom} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setNewGradFrom(v); }} className="flex-1 min-w-0 border border-tv-border-light rounded-[6px] px-2 py-1 text-[10px] font-mono outline-none focus:ring-1 focus:ring-tv-brand-bg/30" />
                                 </div>
                               </div>
                               <div>
-                                <label className="text-[9px] text-tv-text-secondary mb-1 block">To</label>
+                                <label htmlFor="lp-grad-to-color" className="text-[9px] text-tv-text-secondary mb-1 block">To</label>
                                 <div className="flex items-center gap-1.5">
-                                  <label className="w-8 h-8 rounded-[6px] border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden" style={{ backgroundColor: safeHex(newGradTo) }}><input type="color" value={safeHex(newGradTo)} onChange={e => setNewGradTo(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" /></label>
+                                  <label htmlFor="lp-grad-to-color" className="w-8 h-8 rounded-[6px] border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden" style={{ backgroundColor: safeHex(newGradTo) }}><input id="lp-grad-to-color" type="color" value={safeHex(newGradTo)} onChange={e => setNewGradTo(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" /></label>
                                   <input value={newGradTo} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setNewGradTo(v); }} className="flex-1 min-w-0 border border-tv-border-light rounded-[6px] px-2 py-1 text-[10px] font-mono outline-none focus:ring-1 focus:ring-tv-brand-bg/30" />
                                 </div>
                               </div>
@@ -1000,9 +1000,9 @@ function ColorField({ label, value, onChange, required }: {
         }}
           className={`${inputCls} flex-1 min-w-0 font-mono`}
           placeholder="#000000" />
-        <label className="w-10 h-10 rounded-sm border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden shadow-sm"
+        <label htmlFor="lp-inline-color-picker" className="w-10 h-10 rounded-sm border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden shadow-sm"
           style={{ backgroundColor: safeHex(value) }}>
-          <input type="color" value={safeHex(value)} onChange={e => onChange(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" />
+          <input id="lp-inline-color-picker" type="color" value={safeHex(value)} onChange={e => onChange(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" />
         </label>
       </div>
     </div>

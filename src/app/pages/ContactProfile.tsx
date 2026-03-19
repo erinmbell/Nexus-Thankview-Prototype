@@ -13,7 +13,7 @@ import {
   Monitor, Smartphone, Tablet, Calendar, Tag, User, BarChart3,
   Video, Star, AlertTriangle, ShieldAlert, Ban, Hash, Briefcase,
   GraduationCap, Building2, UserCheck, Home, Plus, DollarSign,
-  TrendingUp, ExternalLink, Zap, Heart, Search,
+  TrendingUp, ExternalLink, Zap, Heart, Search, Link2,
 } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie } from "recharts";
 import { TV } from "../theme";
@@ -124,7 +124,7 @@ const ALL_SENDS: Record<string, SendRecord[]> = {
     { id: 14, campaign: "Spring Annual Fund Appeal", sender: "Kelley Molt", type: "Solicitation", channel: "Email", status: "Replied", sentAt: "Feb 14, 9:03 AM", openedAt: "Feb 14, 10:20 AM", viewRate: 100, watchPct: 100, replyRate: true, ctaClicked: true, shared: true, downloaded: false, watchTime: "1:08", videoDuration: "1:08", device: "Desktop", engagementScore: 100, notes: "Full watch, replied immediately, shared with spouse." },
   ],
   "j.blake@alumni.edu": [
-    { id: 8, campaign: "Student Video Testimonials", sender: "Michelle Park", type: "Video Request", channel: "Facebook", status: "Opened", sentAt: "Feb 3, 12:00 PM", openedAt: "Feb 3, 3:20 PM", viewRate: 40, watchPct: 30, replyRate: false, ctaClicked: false, shared: true, downloaded: false, watchTime: "0:20", videoDuration: "1:08", device: "Mobile", engagementScore: 32, notes: "Opened via Facebook post, partial watch, shared but didn't submit." },
+    { id: 8, campaign: "Student Video Testimonials", sender: "Michelle Park", type: "Video Request", channel: "Shareable Link", status: "Opened", sentAt: "Feb 3, 12:00 PM", openedAt: "Feb 3, 3:20 PM", viewRate: 40, watchPct: 30, replyRate: false, ctaClicked: false, shared: true, downloaded: false, watchTime: "0:20", videoDuration: "1:08", device: "Mobile", engagementScore: 32, notes: "Opened via shareable link, partial watch, shared but didn't submit." },
   ],
   "r.kim@hartwell.edu": [
     { id: 15, campaign: "Board Member Appreciation", sender: "James Okafor", type: "Thank You", channel: "Email", status: "Opened", sentAt: "Jan 20, 9:00 AM", openedAt: "Jan 20, 2:10 PM", viewRate: 72, watchPct: 58, replyRate: false, ctaClicked: false, shared: false, downloaded: false, watchTime: "0:40", videoDuration: "1:08", device: "Desktop", engagementScore: 48, notes: "Opened in the afternoon, watched over half." },
@@ -227,7 +227,7 @@ function avgEngagement(sends: SendRecord[]): number {
   return Math.round(sends.reduce((s, r) => s + r.engagementScore, 0) / sends.length);
 }
 
-const CHANNEL_ICON: Record<string, typeof Mail> = { Email: Mail, SMS: MessageSquare, Facebook: Globe };
+const CHANNEL_ICON: Record<string, typeof Mail> = { Email: Mail, SMS: MessageSquare, "Shareable Link": Link2 };
 const DEVICE_ICON: Record<string, typeof Monitor> = { Desktop: Monitor, Mobile: Smartphone, Tablet: Tablet };
 
 const STATUS_COLOR: Record<string, { bg: string; text: string }> = {
@@ -260,7 +260,7 @@ const CAMPAIGN_HISTORY_FILTERS: FilterDef[] = [
     options: [
       { value: "Email", label: "Email" },
       { value: "SMS", label: "SMS" },
-      { value: "Facebook", label: "Facebook" },
+      { value: "Shareable Link", label: "Shareable Link" },
     ] },
 ];
 
@@ -1661,7 +1661,7 @@ export function ContactProfile() {
                 { key: "email", label: "Email", icon: Mail, color: "tvPurple", bg: TV.brandTint, fg: TV.textBrand },
                 { key: "video", label: "Video", icon: Play, color: "cyan", bg: TV.infoBg, fg: TV.info },
                 { key: "sms", label: "SMS", icon: MessageSquare, color: "green", bg: TV.successBg, fg: TV.success },
-                { key: "social", label: "Social", icon: Globe, color: "blue", bg: TV.infoBg, fg: TV.info },
+                { key: "link", label: "Shareable Link", icon: Link2, color: "blue", bg: TV.infoBg, fg: TV.info },
                 { key: "thankview", label: "ThankView", icon: ExternalLink, color: "grape", bg: TV.brandTint, fg: TV.brand },
                 { key: "gift", label: "Gift", icon: DollarSign, color: "green", bg: TV.successBg, fg: TV.success },
                 { key: "reply", label: "Reply", icon: MessageSquare, color: "green", bg: TV.successBg, fg: TV.success },
@@ -1682,7 +1682,7 @@ export function ContactProfile() {
                 const ch = send.channel;
                 const sendDate = parseTlDate(send.sentAt);
                 const openDate = send.openedAt !== "—" ? parseTlDate(send.openedAt, sendDate ?? undefined) : sendDate;
-                allEvents.push({ icon: ch === "SMS" ? MessageSquare : ch === "Facebook" ? Globe : Mail, label: `${ch === "SMS" ? "SMS" : ch === "Facebook" ? "Social post" : "Email"} sent`, time: send.sentAt, color: ch === "SMS" ? "bg-tv-success-bg text-tv-success" : ch === "Facebook" ? "bg-tv-info-bg text-tv-info" : "bg-tv-brand-tint text-tv-brand", campaign: send.campaign, type: ch === "SMS" ? "sms" : ch === "Facebook" ? "social" : "email", channel: ch, sortDate: sendDate });
+                allEvents.push({ icon: ch === "SMS" ? MessageSquare : ch === "Shareable Link" ? Link2 : Mail, label: `${ch === "SMS" ? "SMS" : ch === "Shareable Link" ? "Shareable link" : "Email"} sent`, time: send.sentAt, color: ch === "SMS" ? "bg-tv-success-bg text-tv-success" : ch === "Shareable Link" ? "bg-tv-info-bg text-tv-info" : "bg-tv-brand-tint text-tv-brand", campaign: send.campaign, type: ch === "SMS" ? "sms" : ch === "Shareable Link" ? "link" : "email", channel: ch, sortDate: sendDate });
                 if (send.openedAt !== "—") allEvents.push({ icon: Eye, label: `${ch === "SMS" ? "SMS link" : "Envelope"} opened`, time: send.openedAt, color: "bg-tv-info-bg text-tv-info", campaign: send.campaign, type: ch === "SMS" ? "sms" : "email", channel: ch, sortDate: openDate });
                 if (send.viewRate > 0) allEvents.push({ icon: Play, label: `Video played (${send.watchPct}% watched)`, time: send.openedAt, color: "bg-tv-success-bg text-tv-success", campaign: send.campaign, type: "video", channel: ch, detail: `${send.watchTime} of ${send.videoDuration} · ${send.device}`, sortDate: openDate });
                 if (send.ctaClicked) allEvents.push({ icon: MousePointerClick, label: "CTA button clicked", time: "Shortly after", color: "bg-tv-warning-bg text-tv-warning", campaign: send.campaign, type: "cta", channel: ch, sortDate: openDate });

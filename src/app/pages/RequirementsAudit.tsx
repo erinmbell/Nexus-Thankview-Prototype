@@ -779,7 +779,7 @@ export function RequirementsAudit() {
               onChange={e => setSearch(e.target.value)}
               placeholder="Search requirements…"
               aria-label="Search requirements"
-              className="w-full border border-tv-border-light bg-white rounded-full pl-9 pr-8 py-2 text-[13px] text-tv-text-primary outline-none transition-colors placeholder:text-tv-text-secondary focus:border-tv-border-strong focus:ring-1 focus:ring-tv-border-strong/30"
+              className="w-full border border-tv-border-light bg-white rounded-full pl-9 pr-8 py-2 text-[13px] text-tv-text-primary outline-none transition-colors placeholder:text-tv-text-decorative focus:border-tv-border-strong focus:ring-1 focus:ring-tv-border-strong/30"
             />
             {search && (
               <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 rounded-full hover:bg-black/5">

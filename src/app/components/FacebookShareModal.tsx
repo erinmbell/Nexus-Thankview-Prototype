@@ -101,10 +101,11 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
             <div className="px-5 py-4 space-y-4">
               <div className="space-y-3">
                 <div>
-                  <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1 block" style={{ fontWeight: 600 }}>
+                  <label htmlFor="fb-share-title" className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1 block" style={{ fontWeight: 600 }}>
                     Title
                   </label>
                   <input
+                    id="fb-share-title"
                     value={ogTitle}
                     onChange={e => setOgTitle(e.target.value)}
                     placeholder="Page title\u2026"

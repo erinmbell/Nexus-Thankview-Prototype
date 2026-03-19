@@ -515,7 +515,7 @@ function FilterChip({ def, values, onChange, onRemove, removable }: {
               component="button"
               onClick={(e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); onChange([]); }}
               style={{ color: TV.textBrand, flexShrink: 0, cursor: "pointer", display: "inline-flex", alignItems: "center", background: "none", border: "none", padding: 0 }}
-              aria-label={`Clear ${label} filter`}
+              aria-label={`Clear ${def.label} filter`}
             >
               <X size={12} aria-hidden="true" />
             </Box>
@@ -558,6 +558,15 @@ function FilterChip({ def, values, onChange, onRemove, removable }: {
           )}
         </Box>
         <ScrollArea.Autosize mah={def.options.length > 20 ? 320 : 240} type="auto" offsetScrollbars>
+          {def.type === "select" && !searchText && (
+            <Menu.Item fz={13}
+              onClick={() => onChange([])}
+              rightSection={values.length === 0 ? <Check size={14} style={{ color: TV.textBrand }} /> : null}
+              style={values.length === 0 ? { backgroundColor: TV.brandTint } : undefined}
+            >
+              All
+            </Menu.Item>
+          )}
           {filteredOptions.map(opt => {
             const checked = values.includes(opt.value);
             return (

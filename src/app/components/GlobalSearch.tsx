@@ -53,7 +53,7 @@ const SEARCH_CAMPAIGNS: SearchCampaign[] = [
   { id: 8, name: "Scholarship Endowment Report 2025", type: "Endowment Report", status: "Sent", channel: "Email", sendDate: "Dec 5, 2025", sent: 891, openRate: "74.1%", creator: "Kelley Molt" },
   { id: 9, name: "Reunion Giving Challenge", type: "Solicitation", status: "Scheduled", channel: "Email", sendDate: "Mar 10, 2026", sent: 0, openRate: "—", creator: "Michelle Park" },
   { id: 10, name: "Phonathon Follow-Up Drip", type: "Thank You", status: "Sent", channel: "SMS", sendDate: "Jan 22, 2026", sent: 66, openRate: "88.5%", creator: "Kelley Molt" },
-  { id: 11, name: "Student Video Testimonials", type: "Video Request", status: "Sent", channel: "Facebook", sendDate: "Feb 3, 2026", sent: 237, openRate: "61.8%", creator: "Michelle Park" },
+  { id: 11, name: "Student Video Testimonials", type: "Video Request", status: "Sent", channel: "Shareable Link", sendDate: "Feb 3, 2026", sent: 237, openRate: "61.8%", creator: "Michelle Park" },
 ];
 
 // ── Videos (mirrors INITIAL_VIDEOS in VideoLibrary.tsx) ───────────────────────

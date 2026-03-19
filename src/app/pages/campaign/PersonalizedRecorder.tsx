@@ -676,7 +676,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
             </div>
             <div className="relative">
               <Search size={10} className="absolute left-2 top-1/2 -translate-y-1/2 text-tv-text-secondary" />
-              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search…" aria-label="Search recipients" className="w-full border border-tv-border-light bg-white rounded-[6px] pl-6 pr-2 py-1 text-[10px] text-tv-text-primary outline-none placeholder:text-tv-text-secondary focus:border-tv-border-strong" />
+              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search…" aria-label="Search recipients" className="w-full border border-tv-border-light bg-white rounded-[6px] pl-6 pr-2 py-1 text-[10px] text-tv-text-primary outline-none placeholder:text-tv-text-decorative focus:border-tv-border-strong" />
             </div>
           </div>
           <div className="flex-1 overflow-y-auto">

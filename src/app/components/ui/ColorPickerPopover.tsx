@@ -230,8 +230,8 @@ export function ColorPickerPopover({ value, onChange, presets, children, side = 
           <div className="flex items-center gap-2">
             <div className="w-9 h-9 rounded-sm border border-tv-border-light shrink-0" style={{ backgroundColor: currentHex }} />
             <div className="flex-1 min-w-0">
-              <label className="text-[9px] text-tv-text-secondary uppercase tracking-wider block mb-0.5">Hex</label>
-              <input value={hexInput} onChange={(e) => setHexInput(e.target.value)} onBlur={handleHexCommit}
+              <label htmlFor="color-picker-hex" className="text-[9px] text-tv-text-secondary uppercase tracking-wider block mb-0.5">Hex</label>
+              <input id="color-picker-hex" value={hexInput} onChange={(e) => setHexInput(e.target.value)} onBlur={handleHexCommit}
                 onKeyDown={(e) => e.key === "Enter" && handleHexCommit()}
                 className="w-full h-7 px-2 rounded-sm border border-tv-border-light text-[12px] font-mono outline-none focus:ring-2 focus:ring-tv-brand-bg/30" spellCheck={false} />
             </div>
@@ -239,8 +239,8 @@ export function ColorPickerPopover({ value, onChange, presets, children, side = 
           <div className="flex gap-2">
             {(["r", "g", "b"] as const).map((ch) => (
               <div key={ch} className="flex-1">
-                <label className="text-[9px] text-tv-text-secondary uppercase tracking-wider block mb-0.5">{ch.toUpperCase()}</label>
-                <input type="number" min={0} max={255} value={rgb[ch]}
+                <label htmlFor={`color-picker-${ch}`} className="text-[9px] text-tv-text-secondary uppercase tracking-wider block mb-0.5">{ch.toUpperCase()}</label>
+                <input id={`color-picker-${ch}`} type="number" min={0} max={255} value={rgb[ch]}
                   onChange={(e) => handleRgbChange(ch, Number(e.target.value))}
                   className="w-full h-7 px-2 rounded-sm border border-tv-border-light text-[12px] font-mono outline-none focus:ring-2 focus:ring-tv-brand-bg/30 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
               </div>

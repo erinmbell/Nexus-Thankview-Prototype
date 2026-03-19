@@ -4,9 +4,10 @@ import { useNavigate, useSearchParams } from "react-router";
 import { useToast } from "../contexts/ToastContext";
 import { useTemplates, type CampaignTemplate } from "../contexts/TemplateContext";
 import { DeleteModal } from "../components/ui/DeleteModal";
+import { EditColumnsModal, ColumnsButton, type ColumnDef } from "../components/ColumnCustomizer";
 import {
   Plus, Mail, MessageSquare, Edit2, Copy,
-  Trash2, X, FileText, Facebook,
+  Trash2, X, FileText, Link2,
   PlayCircle, Archive, Send, GitBranch, Bell, ChevronDown,
   Bookmark, Tag, ChevronRight, SlidersHorizontal, Radio, User,
   ListFilter, Video, MoreHorizontal,
@@ -61,7 +62,7 @@ function CampaignThumbnail({ campaign, size = "md" }: { campaign: Campaign; size
       {imgSrc ? (
         <img
           src={imgSrc}
-          alt={c.title || "Campaign thumbnail"}
+          alt={campaign.name || "Campaign thumbnail"}
           className="absolute inset-0 w-full h-full object-cover"
           loading="lazy"
         />
@@ -185,7 +186,7 @@ const STATUS_BADGE: Record<string, string> = {
 };
 
 const STATUSES  = ["All", "Sent", "Scheduled", "Draft", "Paused", "Archived"];
-const CHANNELS  = ["All Channels", "Email", "SMS", "Email + SMS", "Facebook"];
+const CHANNELS  = ["All Channels", "Email", "SMS", "Email + SMS", "Shareable Link"];
 const CREATORS  = ["All Creators", "Kelley Molt", "James Okafor", "Michelle Park"];
 
 // Collect all unique tags from campaign data
@@ -248,7 +249,7 @@ function DuplicateModal({ name, channel, steps, onDuplicate, onCancel }: { name:
     { key: "landing",       label: "Landing page design, settings & copy" },
     { key: "video",         label: "Video content" },
     { key: "constituents",    label: "Constituent list", note: "If not included, personalized videos won't copy" },
-    { key: "sendMethod",    label: "Send method (Email / SMS / Facebook)" },
+    { key: "sendMethod",    label: "Send method (Email / SMS / Shareable Link)" },
     { key: "schedule",      label: "Schedule (send date, time & constituent-field triggers)" },
     { key: "inboxSettings", label: "Inbox settings (reply-to addresses, tracking)" },
     { key: "successMetric", label: "Success metric (defaults to Open Rate)" },
@@ -267,14 +268,14 @@ function DuplicateModal({ name, channel, steps, onDuplicate, onCancel }: { name:
       <Box mb="md">
         <Text fz={11} fw={600} tt="uppercase" lts="0.05em" c={TV.textLabel} mb={8}>Delivery channel for new campaign</Text>
         <Group gap="xs" grow>
-          {["Email", "SMS", "Email + SMS", "Facebook"].map(ch => (
+          {["Email", "SMS", "Email + SMS", "Shareable Link"].map(ch => (
             <Button
               key={ch}
               onClick={() => setDupChannel(ch)}
               variant={dupChannel === ch ? "light" : "default"}
               color={dupChannel === ch ? "tvPurple" : "gray"}
               size="compact-sm"
-              leftSection={ch === "Email" ? <Mail size={13} /> : ch === "SMS" ? <MessageSquare size={13} /> : ch === "Email + SMS" ? <><Mail size={11} /><MessageSquare size={11} /></> : <Facebook size={13} />}
+              leftSection={ch === "Email" ? <Mail size={13} /> : ch === "SMS" ? <MessageSquare size={13} /> : ch === "Email + SMS" ? <><Mail size={11} /><MessageSquare size={11} /></> : <Link2 size={13} />}
               styles={{
                 root: {
                   borderWidth: 2,
@@ -569,14 +570,17 @@ function TablePagination({ page, rowsPerPage, totalRows, onPageChange, onRowsPer
 }
 
 // ── Column definitions ──────────────────────────────────────────────────────────
-const COLUMN_DEFS: { key: string; label: string }[] = [
-  { key: "name",     label: "Campaign" },
-  { key: "status",   label: "Status" },
-  { key: "sent",     label: "Sent" },
-  { key: "openRate", label: "Open Rate" },
-  { key: "clickRate",label: "Clicks" },
-  { key: "created",  label: "Created" },
+const ALL_COLUMNS: ColumnDef[] = [
+  { key: "name",     label: "Campaign",  group: "Summary", required: true },
+  { key: "status",   label: "Status",    group: "Summary" },
+  { key: "sent",     label: "Sent",      group: "Engagement" },
+  { key: "openRate", label: "Open Rate", group: "Engagement" },
+  { key: "clickRate",label: "Clicks",    group: "Engagement" },
+  { key: "replies",  label: "Reply Count", group: "Engagement" },
+  { key: "created",  label: "Created",   group: "Summary" },
 ];
+
+const DEFAULT_COLUMNS = ALL_COLUMNS.map(c => c.key);
 
 // ── Filter Dropdown (portal-based) ──────────────────────────────────────────────
 function FilterDropdown({
@@ -739,6 +743,8 @@ export function CampaignsList() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc" | null>(null);
+  const [showEditColumns, setShowEditColumns] = useState(false);
+  const [activeColumns, setActiveColumns] = useState<string[]>(DEFAULT_COLUMNS);
 
   const handleSort = (key: string) => {
     if (sortKey !== key) { setSortKey(key); setSortDir("asc"); }
@@ -888,8 +894,11 @@ export function CampaignsList() {
       </Box>
 
       {/* ── Search ── */}
-      <div className="max-w-[460px] mb-3">
-        <PillSearchInput value={search} onChange={setSearch} placeholder="Search campaigns…" />
+      <div className="flex items-center gap-3 mb-3">
+        <div className="max-w-[460px] flex-1">
+          <PillSearchInput value={search} onChange={setSearch} placeholder="Search campaigns…" />
+        </div>
+        <ColumnsButton onClick={() => setShowEditColumns(true)} />
       </div>
 
       {/* ── Filter bar (shared component) ── */}
@@ -955,11 +964,11 @@ export function CampaignsList() {
                 horizontalSpacing={0}
                 highlightOnHover
                 styles={{
-                  table: { borderCollapse: "collapse", minWidth: 1000 },
+                  table: { borderCollapse: "collapse", minWidth: Math.max(800, activeColumns.length * 170 + 100) },
                   td: { whiteSpace: "nowrap" as const },
                 }}
               >
-                <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: "#fff" }}>
+                <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
                   <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
                     <Table.Th w={44} style={{ padding: "10px 0 10px 16px", verticalAlign: "middle" }}>
                       <Checkbox
@@ -973,11 +982,15 @@ export function CampaignsList() {
                         size="xs"
                       />
                     </Table.Th>
-                    {COLUMN_DEFS.map(col => (
-                      <Table.Th key={col.key} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
-                        <SortableHeader label={col.label} sortKey={col.key} currentSort={sortKey} currentDir={sortDir} onSort={handleSort} />
-                      </Table.Th>
-                    ))}
+                    {activeColumns.map(colKey => {
+                      const col = ALL_COLUMNS.find(c => c.key === colKey);
+                      if (!col) return null;
+                      return (
+                        <Table.Th key={col.key} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
+                          <SortableHeader label={col.label} sortKey={col.key} currentSort={sortKey} currentDir={sortDir} onSort={handleSort} />
+                        </Table.Th>
+                      );
+                    })}
                     <Table.Th w={60} style={{ padding: "10px 16px", verticalAlign: "middle" }} />
                   </Table.Tr>
                 </Table.Thead>
@@ -995,69 +1008,87 @@ export function CampaignsList() {
                         <Checkbox checked={bulkSelected.includes(c.id)} onChange={() => toggleBulk(c.id)} color="tvPurple" size="xs" />
                       </Table.Td>
 
-                      {/* Campaign name with thumbnail */}
-                      <Table.Td style={{ padding: "12px 16px", verticalAlign: "middle", whiteSpace: "normal" }}>
-                        <div className="flex items-center gap-2 flex-nowrap">
-                          <CampaignThumbnail campaign={c} size="sm" />
-                          <div style={{ flex: 1, minWidth: 0 }}>
-                            <Text fz={13} fw={600} c={TV.textBrand} truncate className="hover:underline">
-                              {c.name}
-                            </Text>
-                            <div className="flex flex-wrap items-center gap-1 mt-0.5">
-                              <Badge size="xs" variant="light" color={c.steps === "single" ? "tvPurple" : c.steps === "video-request" ? "green" : "blue"} radius="xl">
-                                {c.steps === "single" ? "Single" : c.steps === "video-request" ? "Video Request" : "Multi-Step"}
-                              </Badge>
-                              <div className="flex items-center gap-1">
-                                {c.channel === "Email + SMS" ? (
-                                  <><Mail size={10} className="text-tv-brand" /><MessageSquare size={10} className="text-tv-info" /></>
-                                ) : c.channel === "Email" ? <Mail size={10} className="text-tv-brand" /> : c.channel === "SMS" ? <MessageSquare size={10} className="text-tv-info" /> : <Facebook size={10} className="text-[#1877F2]" />}
-                                <Text fz={11} c={TV.textSecondary}>{c.channel}</Text>
-                              </div>
-                              {c.tags.length > 0 && (
-                                <Badge size="xs" variant="light" color="gray" radius="xl">{c.tags[0]}</Badge>
-                              )}
-                              {c.tags.length > 1 && (
-                                <span className="relative group/tags">
-                                  <span className="inline-flex items-center justify-center size-[18px] rounded-full bg-tv-surface border border-tv-border-light text-tv-text-secondary cursor-default hover:bg-tv-brand-tint hover:border-tv-brand hover:text-tv-brand transition-colors">
-                                    <Plus size={10} />
-                                  </span>
-                                  <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1.5 z-50 hidden group-hover/tags:flex flex-wrap gap-1 bg-white border border-tv-border-light rounded-md shadow-lg px-2.5 py-2 min-w-max max-w-[240px]">
-                                    {c.tags.map(tag => (
-                                      <Badge key={tag} size="xs" variant="light" color="gray" radius="xl">{tag}</Badge>
-                                    ))}
-                                  </span>
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </Table.Td>
-
-                      {/* Status */}
-                      <Table.Td style={{ padding: "12px 16px", verticalAlign: "middle" }}>
-                        <Badge size="sm" variant="light" color={STATUS_BADGE[c.status]} radius="xl">{c.status}</Badge>
-                      </Table.Td>
-
-                      {/* Sent */}
-                      <Table.Td style={{ padding: "12px 16px", verticalAlign: "middle" }}>
-                        <Text fz={12} c={TV.textSecondary}>{c.sent || "—"}</Text>
-                      </Table.Td>
-
-                      {/* Open Rate */}
-                      <Table.Td style={{ padding: "12px 16px", verticalAlign: "middle" }}>
-                        <Text fz={12} c={TV.textSecondary}>{c.openRate}</Text>
-                      </Table.Td>
-
-                      {/* Clicks */}
-                      <Table.Td style={{ padding: "12px 16px", verticalAlign: "middle" }}>
-                        <Text fz={12} c={TV.textSecondary}>{c.clickRate}</Text>
-                      </Table.Td>
-
-                      {/* Created */}
-                      <Table.Td style={{ padding: "12px 16px", verticalAlign: "middle" }}>
-                        <Text fz={12} c={TV.textSecondary}>{c.sendDate !== "—" ? c.sendDate : "Not scheduled"}</Text>
-                        <Text fz={11} c={TV.textDecorative}>{c.creator}</Text>
-                      </Table.Td>
+                      {activeColumns.map(colKey => {
+                        switch (colKey) {
+                          case "name":
+                            return (
+                              <Table.Td key={colKey} style={{ padding: "12px 16px", verticalAlign: "middle", whiteSpace: "normal" }}>
+                                <div className="flex items-center gap-2 flex-nowrap">
+                                  <CampaignThumbnail campaign={c} size="sm" />
+                                  <div style={{ flex: 1, minWidth: 0 }}>
+                                    <Text fz={13} fw={600} c={TV.textBrand} truncate className="hover:underline">
+                                      {c.name}
+                                    </Text>
+                                    <div className="flex flex-wrap items-center gap-1 mt-0.5">
+                                      <Badge size="xs" variant="light" color={c.steps === "single" ? "tvPurple" : c.steps === "video-request" ? "green" : "blue"} radius="xl">
+                                        {c.steps === "single" ? "Single" : c.steps === "video-request" ? "Video Request" : "Multi-Step"}
+                                      </Badge>
+                                      <div className="flex items-center gap-1">
+                                        {c.channel === "Email + SMS" ? (
+                                          <><Mail size={10} className="text-tv-brand" /><MessageSquare size={10} className="text-tv-info" /></>
+                                        ) : c.channel === "Email" ? <Mail size={10} className="text-tv-brand" /> : c.channel === "SMS" ? <MessageSquare size={10} className="text-tv-info" /> : <Link2 size={10} className="text-tv-brand" />}
+                                        <Text fz={11} c={TV.textSecondary}>{c.channel}</Text>
+                                      </div>
+                                      {c.tags.length > 0 && (
+                                        <Badge size="xs" variant="light" color="gray" radius="xl">{c.tags[0]}</Badge>
+                                      )}
+                                      {c.tags.length > 1 && (
+                                        <span className="relative group/tags">
+                                          <span className="inline-flex items-center justify-center size-[18px] rounded-full bg-tv-surface border border-tv-border-light text-tv-text-secondary cursor-default hover:bg-tv-brand-tint hover:border-tv-brand hover:text-tv-brand transition-colors">
+                                            <Plus size={10} />
+                                          </span>
+                                          <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1.5 z-50 hidden group-hover/tags:flex flex-wrap gap-1 bg-white border border-tv-border-light rounded-md shadow-lg px-2.5 py-2 min-w-max max-w-[240px]">
+                                            {c.tags.map(tag => (
+                                              <Badge key={tag} size="xs" variant="light" color="gray" radius="xl">{tag}</Badge>
+                                            ))}
+                                          </span>
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              </Table.Td>
+                            );
+                          case "status":
+                            return (
+                              <Table.Td key={colKey} style={{ padding: "12px 16px", verticalAlign: "middle" }}>
+                                <Badge size="sm" variant="light" color={STATUS_BADGE[c.status]} radius="xl">{c.status}</Badge>
+                              </Table.Td>
+                            );
+                          case "sent":
+                            return (
+                              <Table.Td key={colKey} style={{ padding: "12px 16px", verticalAlign: "middle" }}>
+                                <Text fz={12} c={TV.textSecondary}>{c.sent || "—"}</Text>
+                              </Table.Td>
+                            );
+                          case "openRate":
+                            return (
+                              <Table.Td key={colKey} style={{ padding: "12px 16px", verticalAlign: "middle" }}>
+                                <Text fz={12} c={TV.textSecondary}>{c.openRate}</Text>
+                              </Table.Td>
+                            );
+                          case "clickRate":
+                            return (
+                              <Table.Td key={colKey} style={{ padding: "12px 16px", verticalAlign: "middle" }}>
+                                <Text fz={12} c={TV.textSecondary}>{c.clickRate}</Text>
+                              </Table.Td>
+                            );
+                          case "replies":
+                            return (
+                              <Table.Td key={colKey} style={{ padding: "12px 16px", verticalAlign: "middle" }}>
+                                <Text fz={12} c={TV.textSecondary}>{c.replies || "—"}</Text>
+                              </Table.Td>
+                            );
+                          case "created":
+                            return (
+                              <Table.Td key={colKey} style={{ padding: "12px 16px", verticalAlign: "middle" }}>
+                                <Text fz={12} c={TV.textSecondary}>{c.sendDate !== "—" ? c.sendDate : "Not scheduled"}</Text>
+                                <Text fz={11} c={TV.textDecorative}>{c.creator}</Text>
+                              </Table.Td>
+                            );
+                          default: return null;
+                        }
+                      })}
 
                       {/* Actions */}
                       <Table.Td style={{ padding: "12px 16px", verticalAlign: "middle" }} onClick={e => e.stopPropagation()}>
@@ -1115,7 +1146,7 @@ export function CampaignsList() {
                         <div className="flex items-center gap-1">
                           {c.channel === "Email + SMS" ? (
                             <><Mail size={10} className="text-tv-brand" /><MessageSquare size={10} className="text-tv-info" /></>
-                          ) : c.channel === "Email" ? <Mail size={10} className="text-tv-brand" /> : c.channel === "SMS" ? <MessageSquare size={10} className="text-tv-info" /> : <Facebook size={10} className="text-[#1877F2]" />}
+                          ) : c.channel === "Email" ? <Mail size={10} className="text-tv-brand" /> : c.channel === "SMS" ? <MessageSquare size={10} className="text-tv-info" /> : <Link2 size={10} className="text-tv-brand" />}
                           <Text fz={11} c={TV.textSecondary}>{c.channel}</Text>
                         </div>
                       </div>
@@ -1166,6 +1197,10 @@ export function CampaignsList() {
       {deleting       && <DeleteModal title={`Delete "${deleting.name}"?`} onConfirm={handleDelete} onCancel={() => setDeleting(null)} />}
       {renaming       && <RenameModal name={renaming.name} onRename={handleRename} onCancel={() => setRenaming(null)} />}
       {showTemplatePicker && <TemplatePickerModal onSelect={handleSelectTemplate} onCancel={() => setShowTemplatePicker(false)} />}
+      {showEditColumns && (
+        <EditColumnsModal columns={ALL_COLUMNS} active={activeColumns} onClose={() => setShowEditColumns(false)}
+          onSave={cols => { setActiveColumns(cols); show("Columns updated!", "success"); }} />
+      )}
     </Box>
   );
 }

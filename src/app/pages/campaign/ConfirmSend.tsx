@@ -24,6 +24,7 @@ export interface ConfirmSendProps {
   campaignName?: string;
   deliveryMethod?: string;
   contentSummary?: string;
+  isEditMode?: boolean;
   onBack: () => void;
   onSend: () => void;
 }
@@ -31,7 +32,7 @@ export interface ConfirmSendProps {
 export function ConfirmSend({
   constituentCount, videoSegments, personalizedCount, deliveryType,
   mergeFieldWarnings = [], campaignName, deliveryMethod, contentSummary,
-  onBack, onSend,
+  isEditMode = false, onBack, onSend,
 }: ConfirmSendProps) {
   const [state, setState] = useState<ConfirmState>("review");
   const [expandedField, setExpandedField] = useState<string | null>(null);
@@ -159,15 +160,17 @@ export function ConfirmSend({
             </div>
           )}
 
+          {!isEditMode && (
           <div className="mx-6 mb-5 p-3 bg-tv-warning-bg border border-tv-warning-border rounded-md flex items-start gap-2">
             <TriangleAlert size={13} className="text-tv-warning shrink-0 mt-0.5" />
             <p className="text-[11px] text-tv-text-primary leading-relaxed"><strong>This action cannot be undone.</strong></p>
           </div>
+          )}
 
           <div className="px-6 pb-6 flex items-center justify-between">
             <button onClick={onBack} disabled={state === "sending"} className="flex items-center gap-1.5 px-4 py-2 text-[12px] border border-tv-border-light rounded-full text-tv-text-secondary hover:text-tv-text-primary disabled:opacity-50" style={{ fontWeight: 500 }}><ChevronLeft size={12} />Back</button>
             <button onClick={handleSend} disabled={state === "sending"} className="flex items-center gap-1.5 px-5 py-2.5 text-[12px] rounded-full bg-tv-brand-bg text-white hover:bg-tv-brand-hover disabled:opacity-70" style={{ fontWeight: 600 }}>
-              {state === "sending" ? <><Loader2 size={13} className="animate-spin" />Sending…</> : <><Send size={13} />Send Campaign</>}
+              {state === "sending" ? <><Loader2 size={13} className="animate-spin" />{isEditMode ? "Saving…" : "Sending…"}</> : <><Send size={13} />{isEditMode ? "Update Campaign" : "Send Campaign"}</>}
             </button>
           </div>
         </div>

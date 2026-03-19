@@ -12,7 +12,7 @@ import {
   CircleCheckBig, CircleAlert, Settings, X, Check, Mail, PhoneOff, Wifi,
   TriangleAlert, MousePointerClick, Timer, UserCheck, Inbox, Star,
   Play, Plus, Video, ChevronRight, ChevronDown, Users,
-  Megaphone, ChartColumn, GitBranch, Bell, Bookmark,
+  Megaphone, ChartColumn, GitBranch, Bell, Bookmark, Clapperboard,
 } from "lucide-react";
 // Stock photos for campaign thumbnails
 const imgImageThankYouForYourFeedbackCadences20 = "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=220&h=165&fit=crop&auto=format";
@@ -306,12 +306,7 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
       label: "Create Video",
       desc: "Create a new personal video",
       to: "/video/create",
-      icon: (
-        <svg className="block size-[16px]" fill="none" viewBox="0 0 16 16" aria-hidden="true">
-          <path d={svgPaths.p144f51c0} stroke="#007c9e" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
-          <path d={svgPaths.p1e94b080} stroke="#007c9e" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
-        </svg>
-      ),
+      icon: <Clapperboard size={16} color="#007c9e" aria-hidden="true" />,
     },
     {
       label: "Add Constituents",
@@ -382,7 +377,7 @@ function RecentActivityWidget({ navigate }: { navigate: (path: string) => void }
       <div className="px-6 py-6" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
         <div className="flex items-center justify-between mb-2">
           <Title order={3} fz={18}>{activeTab === "videos" ? "Video Library" : "Donor Activity"}</Title>
-          <UnstyledButton onClick={() => navigate(activeTab === "videos" ? "/videos" : "/analytics?tab=video-1-1")} className="flex items-center gap-0.5 hover:underline" style={{ color: TV.textBrand, fontSize: 13, fontWeight: 500 }}
+          <UnstyledButton onClick={() => navigate(activeTab === "videos" ? "/videos" : "/analytics?tab=video_1_1")} className="flex items-center gap-0.5 hover:underline" style={{ color: TV.textBrand, fontSize: 13, fontWeight: 500 }}
             aria-label={activeTab === "videos" ? "View all videos" : "View all donor activity"}>
             View all <ChevronRight size={14} aria-hidden="true" />
           </UnstyledButton>

@@ -1074,31 +1074,9 @@ function CellValue({ col, contact }: { col: string; contact: Contact }) {
         </div>
       );
     case "email":
-      return (
-        <div className="flex items-center gap-1.5 flex-nowrap">
-          <Text fz={12} c={TV.textSecondary} truncate style={{ flex: 1, minWidth: 0 }}>{contact.email}</Text>
-          {contact.emailStatus !== "valid" && contact.emailStatus !== "missing" && (
-            <Tooltip label={EMAIL_STATUS_BADGE[contact.emailStatus].label} withArrow>
-              <Badge size="xs" color={EMAIL_STATUS_BADGE[contact.emailStatus].color} variant="light" style={{ flexShrink: 0 }}>
-                {EMAIL_STATUS_BADGE[contact.emailStatus].label}
-              </Badge>
-            </Tooltip>
-          )}
-        </div>
-      );
+      return <Text fz={12} c={TV.textSecondary} truncate>{contact.email}</Text>;
     case "phone":
-      return (
-        <div className="flex items-center gap-1.5 flex-nowrap">
-          <Text fz={12} c={TV.textSecondary}>{contact.phone}</Text>
-          {contact.phoneStatus !== "valid" && contact.phoneStatus !== "missing" && (
-            <Tooltip label={PHONE_STATUS_BADGE[contact.phoneStatus].label} withArrow>
-              <Badge size="xs" color={PHONE_STATUS_BADGE[contact.phoneStatus].color} variant="light" style={{ flexShrink: 0 }}>
-                {PHONE_STATUS_BADGE[contact.phoneStatus].label}
-              </Badge>
-            </Tooltip>
-          )}
-        </div>
-      );
+      return <Text fz={12} c={TV.textSecondary}>{contact.phone}</Text>;
     case "remoteId":
       return <Text fz={12} c={TV.textSecondary}>{contact.remoteId}</Text>;
     case "company":
@@ -1108,7 +1086,7 @@ function CellValue({ col, contact }: { col: string; contact: Contact }) {
     case "tags":
       return (
         <div className="flex items-center gap-1">
-          {contact.tags.slice(0, 2).map(t => <Badge key={t} color="tvPurple" size="xs">{t}</Badge>)}
+          {contact.tags.slice(0, 2).map(t => <Badge key={t} color="tvPurple" size="xs" radius="xl">{t}</Badge>)}
           {contact.tags.length > 2 && <Text fz={10} c={TV.textSecondary}>+{contact.tags.length - 2}</Text>}
         </div>
       );
@@ -1484,7 +1462,7 @@ export function Contacts() {
               <Table verticalSpacing={0} horizontalSpacing={0} highlightOnHover
                 styles={{ table: { borderCollapse: "collapse", minWidth: Math.max(1000, activeColumns.length * 170 + 100) }, td: { whiteSpace: "nowrap" } }}
               >
-                <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: "#fff" }}>
+                <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
                   <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
                     <Table.Th w={44} style={{ padding: "10px 0 10px 16px", verticalAlign: "middle" }}>
                       <Checkbox

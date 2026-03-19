@@ -762,6 +762,7 @@ export function OutroBuilder({
                 </div>
                 <input
                   type="text"
+                  autoComplete="off"
                   value={ctaUrl}
                   onChange={(e) => setCtaUrl(e.target.value)}
                   className="w-full h-[42px] px-3 rounded-md outline-none"
@@ -788,6 +789,7 @@ export function OutroBuilder({
                 </div>
                 <input
                   type="text"
+                  autoComplete="off"
                   value={buttonText}
                   onChange={(e) => setButtonText(e.target.value)}
                   className="w-full h-[42px] px-3 rounded-md outline-none"

@@ -27,6 +27,7 @@ import { VisualizationsTab } from "../components/VisualizationsTab";
 import { FilterBar, FilterValues, ChipFilter } from "../components/FilterBar";
 import type { FilterDef } from "../components/FilterBar";
 import { DashCard, ChartBox, DRAWER_STYLES } from "../components/shared";
+import { EditColumnsModal, ColumnsButton, type ColumnDef } from "../components/ColumnCustomizer";
 import dayjs from "dayjs";
 
 // ═════════════════════════════════════════��══��══════════════════════════════════
@@ -930,7 +931,7 @@ const ANALYTICS_FILTERS: FilterDef[] = [
     options: [
       { value: "email", label: "Email" },
       { value: "sms", label: "SMS" },
-      { value: "facebook", label: "Facebook" },
+      { value: "shareable-link", label: "Shareable Link" },
     ],
   },
   {
@@ -1145,6 +1146,20 @@ function ExportModal({ open, onClose }: { open: boolean; onClose: () => void }) 
   );
 }
 
+// ── Clip Column Customization ────────────────────────────────────────────────
+
+const CLIP_COLUMNS: ColumnDef[] = [
+  { key: "title",         label: "Video Clip",     group: "Summary", required: true },
+  { key: "campaignName",  label: "Campaign",       group: "Summary" },
+  { key: "sender",        label: "Sender",         group: "Summary" },
+  { key: "openRate",      label: "Open Rate",      group: "Engagement" },
+  { key: "clickRate",     label: "Click Rate",     group: "Engagement" },
+  { key: "views",         label: "Views",          group: "Engagement" },
+  { key: "avgCompletion", label: "Avg Completion", group: "Engagement" },
+];
+
+const DEFAULT_CLIP_COLS = CLIP_COLUMNS.map(c => c.key);
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN
 // ════════════════════════════════════════════════════════════════════���══════════
@@ -1249,6 +1264,8 @@ export function Analytics() {
   const [clipSearch, setClipSearch] = useState("");
   const [compareClips, setCompareClips] = useState<VideoClip[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
+  const [showEditClipColumns, setShowEditClipColumns] = useState(false);
+  const [activeClipColumns, setActiveClipColumns] = useState<string[]>(DEFAULT_CLIP_COLS);
 
   // Performance by Tag state
   const [tagSearch, setTagSearch] = useState("");
@@ -2582,7 +2599,7 @@ export function Analytics() {
                       rightSection={clipSearch ? <X size={11} style={{ cursor: "pointer" }} onClick={() => setClipSearch("")} /> : null}
                       styles={{ input: { fontSize: 12, borderColor: TV.borderLight, minWidth: 160 } }}
                     />
-                    
+                    <ColumnsButton onClick={() => setShowEditClipColumns(true)} />
                   </div>
                 </div>
 
@@ -2606,48 +2623,19 @@ export function Analytics() {
                             </ActionIcon>
                           </Tooltip>
                         </th>
-                        <th className="text-left px-3 py-2.5" style={{ width: "28%" }}>
-                          <button onClick={() => toggleClipSort("title")} className="flex items-center gap-1">
-                            <Text fz={11} fw={600} tt="uppercase" lts="0.04em" c={clipSort.col === "title" ? TV.textBrand : TV.textSecondary}>Video Clip</Text>
-                            <ClipSortIcon col="title" />
-                          </button>
-                        </th>
-                        <th className="text-left px-3 py-2.5">
-                          <button onClick={() => toggleClipSort("campaignName")} className="flex items-center gap-1">
-                            <Text fz={11} fw={600} tt="uppercase" lts="0.04em" c={clipSort.col === "campaignName" ? TV.textBrand : TV.textSecondary}>Campaign</Text>
-                            <ClipSortIcon col="campaignName" />
-                          </button>
-                        </th>
-                        <th className="text-left px-3 py-2.5">
-                          <button onClick={() => toggleClipSort("sender")} className="flex items-center gap-1">
-                            <Text fz={11} fw={600} tt="uppercase" lts="0.04em" c={clipSort.col === "sender" ? TV.textBrand : TV.textSecondary}>Sender</Text>
-                            <ClipSortIcon col="sender" />
-                          </button>
-                        </th>
-                        <th className="text-right px-3 py-2.5">
-                          <button onClick={() => toggleClipSort("openRate")} className="flex items-center gap-1 ml-auto">
-                            <Text fz={11} fw={600} tt="uppercase" lts="0.04em" c={clipSort.col === "openRate" ? TV.textBrand : TV.textSecondary}>Open Rate</Text>
-                            <ClipSortIcon col="openRate" />
-                          </button>
-                        </th>
-                        <th className="text-right px-3 py-2.5">
-                          <button onClick={() => toggleClipSort("clickRate")} className="flex items-center gap-1 ml-auto">
-                            <Text fz={11} fw={600} tt="uppercase" lts="0.04em" c={clipSort.col === "clickRate" ? TV.textBrand : TV.textSecondary}>Click Rate</Text>
-                            <ClipSortIcon col="clickRate" />
-                          </button>
-                        </th>
-                        <th className="text-right px-3 py-2.5">
-                          <button onClick={() => toggleClipSort("views")} className="flex items-center gap-1 ml-auto">
-                            <Text fz={11} fw={600} tt="uppercase" lts="0.04em" c={clipSort.col === "views" ? TV.textBrand : TV.textSecondary}>Views</Text>
-                            <ClipSortIcon col="views" />
-                          </button>
-                        </th>
-                        <th className="text-right px-4 py-2.5">
-                          <button onClick={() => toggleClipSort("avgCompletion")} className="flex items-center gap-1 ml-auto">
-                            <Text fz={11} fw={600} tt="uppercase" lts="0.04em" c={clipSort.col === "avgCompletion" ? TV.textBrand : TV.textSecondary}>Avg Completion</Text>
-                            <ClipSortIcon col="avgCompletion" />
-                          </button>
-                        </th>
+                        {activeClipColumns.map(colKey => {
+                          const col = CLIP_COLUMNS.find(c => c.key === colKey);
+                          if (!col) return null;
+                          const isRightAligned = ["openRate", "clickRate", "views", "avgCompletion"].includes(colKey);
+                          return (
+                            <th key={colKey} className={`${isRightAligned ? "text-right" : "text-left"} px-3 py-2.5`} style={colKey === "title" ? { width: "28%" } : colKey === "avgCompletion" ? { paddingRight: 16 } : undefined}>
+                              <button onClick={() => toggleClipSort(colKey)} className={`flex items-center gap-1 ${isRightAligned ? "ml-auto" : ""}`}>
+                                <Text fz={11} fw={600} tt="uppercase" lts="0.04em" c={clipSort.col === colKey ? TV.textBrand : TV.textSecondary}>{col.label}</Text>
+                                <ClipSortIcon col={colKey} />
+                              </button>
+                            </th>
+                          );
+                        })}
                       </tr>
                     </thead>
                     <tbody>
@@ -2673,65 +2661,92 @@ export function Analytics() {
                               />
                             </Tooltip>
                           </td>
-                          <td className="px-3 py-3">
-                            <button onClick={() => setClipDrawer(clip)} className="flex items-center gap-3 text-left w-full group/clip">
-                              <div className="relative shrink-0 w-[72px] h-[44px] rounded-sm overflow-hidden bg-[#1a1a2e]">
-                                <img src={clip.thumbnail} alt={clip.title || "Video clip thumbnail"} className="w-full h-full object-cover opacity-85" />
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                  <div className="w-[22px] h-[22px] rounded-full bg-white/90 flex items-center justify-center">
-                                    <Play size={10} fill={TV.brand} color={TV.brand} />
-                                  </div>
-                                </div>
-                                <div className="absolute bottom-0.5 right-0.5 px-1 py-px rounded bg-black/70">
-                                  <Text fz={9} c="#fff" fw={600}>{clip.duration}</Text>
-                                </div>
-                              </div>
-                              <div className="min-w-0">
-                                <Text fz={13} fw={600} c={TV.textBrand} className="truncate group-hover/clip:underline">{clip.title}</Text>
-                                <Text fz={11} c={TV.textSecondary}>{clip.createdAt}</Text>
-                              </div>
-                            </button>
-                          </td>
-                          <td className="px-3 py-3">
-                            <button
-                              onClick={() => navigateToCampaign(clip.campaignName)}
-                              className="truncate text-left transition-colors hover:underline"
-                              style={{ color: TV.textBrand, fontSize: 12, maxWidth: 160 }}
-                              title={`View "${clip.campaignName}" in Performance`}
-                            >
-                              {clip.campaignName}
-                            </button>
-                          </td>
-                          <td className="px-3 py-3">
-                            <Text fz={12} c={TV.textPrimary} className="truncate" style={{ maxWidth: 130 }}>{clip.sender}</Text>
-                          </td>
-                          <td className="px-3 py-3 text-right">
-                            <div className="flex items-center justify-end gap-2">
-                              <div className="w-[48px] h-[5px] rounded-full overflow-hidden" style={{ backgroundColor: TV.borderLight }}>
-                                <div className="h-full rounded-full" style={{ width: `${clip.openRate}%`, backgroundColor: TV.brand }} />
-                              </div>
-                              <Text fz={13} fw={600} c={clip.openRate >= 80 ? TV.success : clip.openRate >= 60 ? TV.textPrimary : TV.textSecondary}>{clip.openRate.toFixed(1)}%</Text>
-                            </div>
-                          </td>
-                          <td className="px-3 py-3 text-right">
-                            <div className="flex items-center justify-end gap-2">
-                              <div className="w-[48px] h-[5px] rounded-full overflow-hidden" style={{ backgroundColor: TV.borderLight }}>
-                                <div className="h-full rounded-full" style={{ width: `${Math.min(clip.clickRate, 100)}%`, backgroundColor: TV.info }} />
-                              </div>
-                              <Text fz={13} fw={600} c={clip.clickRate >= 40 ? TV.success : TV.textPrimary}>{clip.clickRate.toFixed(1)}%</Text>
-                            </div>
-                          </td>
-                          <td className="px-3 py-3 text-right">
-                            <Text fz={13} fw={600} c={TV.textPrimary}>{clip.views.toLocaleString()}</Text>
-                          </td>
-                          <td className="px-4 py-3 text-right">
-                            <div className="flex items-center justify-end gap-1.5">
-                              <div className="w-[48px] h-[5px] rounded-full overflow-hidden" style={{ backgroundColor: TV.borderLight }}>
-                                <div className="h-full rounded-full" style={{ width: `${clip.avgCompletion}%`, backgroundColor: TV.success }} />
-                              </div>
-                              <Text fz={13} fw={600} c={clip.avgCompletion >= 70 ? TV.success : TV.textPrimary}>{clip.avgCompletion}%</Text>
-                            </div>
-                          </td>
+                          {activeClipColumns.map(colKey => {
+                            switch (colKey) {
+                              case "title":
+                                return (
+                                  <td key={colKey} className="px-3 py-3">
+                                    <button onClick={() => setClipDrawer(clip)} className="flex items-center gap-3 text-left w-full group/clip">
+                                      <div className="relative shrink-0 w-[72px] h-[44px] rounded-sm overflow-hidden bg-[#1a1a2e]">
+                                        <img src={clip.thumbnail} alt={clip.title || "Video clip thumbnail"} className="w-full h-full object-cover opacity-85" />
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                          <div className="w-[22px] h-[22px] rounded-full bg-white/90 flex items-center justify-center">
+                                            <Play size={10} fill={TV.brand} color={TV.brand} />
+                                          </div>
+                                        </div>
+                                        <div className="absolute bottom-0.5 right-0.5 px-1 py-px rounded bg-black/70">
+                                          <Text fz={9} c="#fff" fw={600}>{clip.duration}</Text>
+                                        </div>
+                                      </div>
+                                      <div className="min-w-0">
+                                        <Text fz={13} fw={600} c={TV.textBrand} className="truncate group-hover/clip:underline">{clip.title}</Text>
+                                        <Text fz={11} c={TV.textSecondary}>{clip.createdAt}</Text>
+                                      </div>
+                                    </button>
+                                  </td>
+                                );
+                              case "campaignName":
+                                return (
+                                  <td key={colKey} className="px-3 py-3">
+                                    <button
+                                      onClick={() => navigateToCampaign(clip.campaignName)}
+                                      className="truncate text-left transition-colors hover:underline"
+                                      style={{ color: TV.textBrand, fontSize: 12, maxWidth: 160 }}
+                                      title={`View "${clip.campaignName}" in Performance`}
+                                    >
+                                      {clip.campaignName}
+                                    </button>
+                                  </td>
+                                );
+                              case "sender":
+                                return (
+                                  <td key={colKey} className="px-3 py-3">
+                                    <Text fz={12} c={TV.textPrimary} className="truncate" style={{ maxWidth: 130 }}>{clip.sender}</Text>
+                                  </td>
+                                );
+                              case "openRate":
+                                return (
+                                  <td key={colKey} className="px-3 py-3 text-right">
+                                    <div className="flex items-center justify-end gap-2">
+                                      <div className="w-[48px] h-[5px] rounded-full overflow-hidden" style={{ backgroundColor: TV.borderLight }}>
+                                        <div className="h-full rounded-full" style={{ width: `${clip.openRate}%`, backgroundColor: TV.brand }} />
+                                      </div>
+                                      <Text fz={13} fw={600} c={clip.openRate >= 80 ? TV.success : clip.openRate >= 60 ? TV.textPrimary : TV.textSecondary}>{clip.openRate.toFixed(1)}%</Text>
+                                    </div>
+                                  </td>
+                                );
+                              case "clickRate":
+                                return (
+                                  <td key={colKey} className="px-3 py-3 text-right">
+                                    <div className="flex items-center justify-end gap-2">
+                                      <div className="w-[48px] h-[5px] rounded-full overflow-hidden" style={{ backgroundColor: TV.borderLight }}>
+                                        <div className="h-full rounded-full" style={{ width: `${Math.min(clip.clickRate, 100)}%`, backgroundColor: TV.info }} />
+                                      </div>
+                                      <Text fz={13} fw={600} c={clip.clickRate >= 40 ? TV.success : TV.textPrimary}>{clip.clickRate.toFixed(1)}%</Text>
+                                    </div>
+                                  </td>
+                                );
+                              case "views":
+                                return (
+                                  <td key={colKey} className="px-3 py-3 text-right">
+                                    <Text fz={13} fw={600} c={TV.textPrimary}>{clip.views.toLocaleString()}</Text>
+                                  </td>
+                                );
+                              case "avgCompletion":
+                                return (
+                                  <td key={colKey} className="px-4 py-3 text-right">
+                                    <div className="flex items-center justify-end gap-1.5">
+                                      <div className="w-[48px] h-[5px] rounded-full overflow-hidden" style={{ backgroundColor: TV.borderLight }}>
+                                        <div className="h-full rounded-full" style={{ width: `${clip.avgCompletion}%`, backgroundColor: TV.success }} />
+                                      </div>
+                                      <Text fz={13} fw={600} c={clip.avgCompletion >= 70 ? TV.success : TV.textPrimary}>{clip.avgCompletion}%</Text>
+                                    </div>
+                                  </td>
+                                );
+                              default:
+                                return null;
+                            }
+                          })}
                         </tr>
                         );
                       })}
@@ -4768,6 +4783,18 @@ export function Analytics() {
 
       {/* Modals */}
       <ExportModal open={exportOpen} onClose={() => setExportOpen(false)} />
+
+      {showEditClipColumns && (
+        <EditColumnsModal
+          columns={CLIP_COLUMNS}
+          active={activeClipColumns}
+          onClose={() => setShowEditClipColumns(false)}
+          onSave={cols => {
+            setActiveClipColumns(cols);
+            show("Column preferences updated", "success");
+          }}
+        />
+      )}
 
       {/* Create List Naming Modal */}
       <Modal opened={!!createListPending} onClose={() => { setCreateListPending(null); setCreateListName(""); }} title="Name Your List" centered size="sm" radius={16}

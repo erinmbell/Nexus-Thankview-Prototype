@@ -265,20 +265,20 @@ export function VideoEditorView({
         <label className="text-[12px] font-semibold text-tv-text-primary mb-1.5 block">Description</label>
         <textarea value={description} onChange={e => { setDescription(e.target.value); markChanged(); }}
           placeholder="Add a description for this video" rows={3}
-          className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors resize-none placeholder:text-tv-text-secondary" />
+          className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors resize-none placeholder:text-tv-text-decorative" />
       </div>
       <div className="mb-4">
         <label className="text-[12px] font-semibold text-tv-text-primary mb-1.5 flex items-center gap-1.5"><User size={12} />Constituent <ConstituentTooltip size={11} /></label>
         <input value={recipient} onChange={e => { setRecipient(e.target.value); markChanged(); }}
           placeholder="Who is this video for?"
-          className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-secondary" />
+          className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-decorative" />
       </div>
       <div className="mb-4">
         <label className="text-[12px] font-semibold text-tv-text-primary mb-1.5 flex items-center gap-1.5"><Tag size={12} />Tags</label>
         <div className="flex items-center gap-2">
           <input value={tagInput} onChange={e => setTagInput(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAddTag()}
             placeholder="Add a tag"
-            className="flex-1 border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-secondary"
+            className="flex-1 border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-decorative"
             onFocus={() => setTagInputFocused(true)} onBlur={() => setTagInputFocused(false)} />
           <button onClick={handleAddTag} className="w-8 h-8 rounded-sm border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface transition-colors shrink-0">
             <Plus size={14} />

@@ -209,7 +209,7 @@ export function IntroLibrary() {
         />
         <div className="flex items-center gap-2 bg-white rounded-full px-4 py-1.5 border border-tv-border-light min-w-[200px] w-[255px] shrink-0">
           <Search size={13} className="text-tv-text-secondary shrink-0" />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search intros..." aria-label="Search intros" className="bg-transparent text-[13px] text-tv-text-primary outline-none w-full placeholder:text-tv-text-secondary focus-visible:outline-none" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search intros..." aria-label="Search intros" className="bg-transparent text-[13px] text-tv-text-primary outline-none w-full placeholder:text-tv-text-decorative focus-visible:outline-none" />
           {search && (
             <button onClick={() => setSearch("")} aria-label="Clear search" className="text-tv-text-secondary hover:text-tv-text-label"><X size={12} /></button>
           )}

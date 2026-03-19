@@ -1806,7 +1806,7 @@ function VideoTab() {
                         w={64} h={36}
                         style={{
                           borderRadius: 6,
-                          backgroundColor: "#1a1a2e",
+                          backgroundColor: TV.textPrimary,
                           display: "flex", alignItems: "center", justifyContent: "center",
                           position: "relative", overflow: "hidden", flexShrink: 0,
                         }}
@@ -2139,7 +2139,7 @@ function OneToOneTab() {
           <Box bg="white" style={{ borderRadius: 12, border: `1px solid ${TV.borderLight}`, overflow: "hidden", maxWidth: 280 }}>
             <Box h={4} style={{ backgroundColor: defaultAccent }} />
             <Box p="sm">
-              <Box style={{ aspectRatio: "16/9", backgroundColor: "#1a1a2e", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden", marginBottom: 8 }}>
+              <Box style={{ aspectRatio: "16/9", backgroundColor: TV.textPrimary, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden", marginBottom: 8 }}>
                 <div style={{ position: "absolute", inset: 0, opacity: 0.2, backgroundImage: `radial-gradient(circle, ${defaultAccent} 0%, transparent 70%)` }} />
                 <div style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.2)", border: "2px solid rgba(255,255,255,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 10 }}>
                   <div style={{ width: 0, height: 0, marginLeft: 2, borderTop: "4px solid transparent", borderBottom: "4px solid transparent", borderLeft: "7px solid white" }} />

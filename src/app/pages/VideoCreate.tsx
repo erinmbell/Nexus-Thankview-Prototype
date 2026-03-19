@@ -744,7 +744,7 @@ export function LibrarySetupStep({ onNext }: { onNext: () => void }) {
         </div>
         <div className="relative">
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search videos…" aria-label="Search videos"
-            className="border border-tv-border-light bg-white rounded-full px-4 py-2 text-[13px] text-tv-text-primary w-52 placeholder:text-tv-text-secondary focus-visible:outline-2 focus-visible:outline-tv-brand focus-visible:outline-offset-2 pr-8" />
+            className="border border-tv-border-light bg-white rounded-full px-4 py-2 text-[13px] text-tv-text-primary w-52 placeholder:text-tv-text-decorative focus-visible:outline-2 focus-visible:outline-tv-brand focus-visible:outline-offset-2 pr-8" />
         </div>
       </div>
 
@@ -814,7 +814,7 @@ export function CombineSetupStep({ onNext }: { onNext: () => void }) {
         </div>
         <div className="relative">
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search videos…" aria-label="Search videos"
-            className="border border-tv-border-light bg-white rounded-full px-4 py-2 text-[13px] text-tv-text-primary w-52 placeholder:text-tv-text-secondary focus-visible:outline-2 focus-visible:outline-tv-brand focus-visible:outline-offset-2 pr-8" />
+            className="border border-tv-border-light bg-white rounded-full px-4 py-2 text-[13px] text-tv-text-primary w-52 placeholder:text-tv-text-decorative focus-visible:outline-2 focus-visible:outline-tv-brand focus-visible:outline-offset-2 pr-8" />
         </div>
       </div>
 

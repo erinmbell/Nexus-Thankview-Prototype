@@ -27,7 +27,7 @@ export function MetricChip({ metric, active, disabled, negative, onToggle }: Met
   return (
     <button
       onClick={() => !disabled && onToggle(metric.id)}
-      className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[14px] border transition-all ${
+      className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] border transition-all ${
         active
           ? `${activeColor} shadow-sm`
           : disabled

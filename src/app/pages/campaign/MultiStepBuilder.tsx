@@ -2020,7 +2020,7 @@ function StepDrawer({
             <div className="flex items-center gap-2 border border-tv-border-light rounded-sm px-3 py-2">
               <Search size={13} className="text-tv-text-secondary shrink-0" />
               <input value={envLibSearch} onChange={e => setEnvLibSearch(e.target.value)} placeholder="Search envelopes…" aria-label="Search envelopes"
-                className="flex-1 text-[12px] text-tv-text-primary placeholder:text-tv-text-secondary outline-none bg-transparent" />
+                className="flex-1 text-[12px] text-tv-text-primary placeholder:text-tv-text-decorative outline-none bg-transparent" />
             </div>
           </div>
           <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
@@ -2107,7 +2107,7 @@ function StepDrawer({
             <div className="flex items-center gap-2 border border-tv-border-light rounded-sm px-3 py-2">
               <Search size={13} className="text-tv-text-secondary shrink-0" />
               <input value={lpLibSearch} onChange={e => setLpLibSearch(e.target.value)} placeholder="Search landing pages…" aria-label="Search landing pages"
-                className="flex-1 text-[12px] text-tv-text-primary placeholder:text-tv-text-secondary outline-none bg-transparent" />
+                className="flex-1 text-[12px] text-tv-text-primary placeholder:text-tv-text-decorative outline-none bg-transparent" />
             </div>
           </div>
           <div className="flex-1 overflow-y-auto px-5 py-4">
@@ -4716,6 +4716,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                 <label className="text-[12px] text-tv-text-label mb-1.5 block" style={{ fontWeight: 600 }}>Template Name</label>
                 <input
                   type="text"
+                  autoComplete="off"
                   value={saveTemplateName}
                   onChange={e => setSaveTemplateName(e.target.value)}
                   placeholder="e.g. Annual Fund Drip Sequence"
