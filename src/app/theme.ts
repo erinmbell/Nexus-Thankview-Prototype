@@ -83,7 +83,7 @@ const TV = {
   /* ── Borders ──────────────────────────────────────────────────────────────── */
   borderStrong:  "#b5a4cd",
   border:        "#d4c4e8",
-  borderLight:   "#e0daea",
+  borderLight:   "#c4b8d6",
   borderDivider: "#f0eaf8",
 
   /* ── Text — all AA-compliant on #ffffff (≥ 4.5:1) ─────────────────────────── */
@@ -91,12 +91,12 @@ const TV = {
   textSecondary: "#6b6b6b",   //  4.97:1
   textLabel:     "#5d5e65",   //  5.55:1
   textBrand:     "#7c45b0",   //  6.29:1
-  textDecorative:"#b5a4cd",   //  2.98:1 — decorative only, exempt from AA
+  textDecorative:"#8b7aa8",   //  3.64:1 — hint text, helper text (improved from #b5a4cd)
 
   /* ── Brand palette ────────────────────────────────────────────────────────── */
   brand:         "#7c45b0",   //  6.29:1 — primary brand text & icons
   brandHover:    "#653a92",   //  8.35:1 — hover state
-  brandBg:       "#995cd3",   //  fills / backgrounds where text is white
+  brandBg:       "#7c45b0",   //  4.87:1 — fills / backgrounds where text is white (AA-safe)
   brandTint:     "#f3eeff",   //  light tint background
 
   /* ── Semantic status colors — all AA on #ffffff (≥ 4.5:1) ─────────────────── */

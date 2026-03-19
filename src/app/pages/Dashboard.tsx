@@ -109,9 +109,9 @@ const topCampaigns = [
 
 const recentActivity = [
   { id: 1, donor: "James Whitfield", action: "opened",    video: "Spring Annual Fund Appeal",          time: "2m ago",  avatar: "JW", color: "bg-tv-brand" },
-  { id: 2, donor: "Sarah Chen",      action: "replied to",video: "Welcome Message – Class of 2026",   time: "14m ago", avatar: "SC", color: "bg-[#b38ce8]" },
+  { id: 2, donor: "Sarah Chen",      action: "replied to",video: "Welcome Message – Class of 2026",   time: "14m ago", avatar: "SC", color: "bg-[#7c45b0]" },
   { id: 3, donor: "Marcus Reid",     action: "watched",   video: "Annual Fund Thank You",             time: "31m ago", avatar: "MR", color: "bg-[#63378d]" },
-  { id: 4, donor: "Emily Torres",    action: "opened",    video: "Campaign Kick-off – Spring 2026",  time: "1h ago",  avatar: "ET", color: "bg-[#a172de]" },
+  { id: 4, donor: "Emily Torres",    action: "opened",    video: "Campaign Kick-off – Spring 2026",  time: "1h ago",  avatar: "ET", color: "bg-[#653a92]" },
   { id: 5, donor: "David Park",      action: "replied to",video: "Spring Annual Fund Appeal",         time: "2h ago",  avatar: "DP", color: "bg-[#4a2a6a]" },
 ];
 

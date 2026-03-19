@@ -3,6 +3,7 @@
  */
 import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { FocusTrap } from "@mantine/core";
 import { X, Globe, Copy, Check, Image as ImageIcon, ExternalLink } from "lucide-react";
 
 export interface OgData {
@@ -60,6 +61,7 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
   return (
     <AnimatePresence>
       {open && (
+        <FocusTrap active>
         <motion.div
           className="fixed inset-0 z-[10000] flex items-center justify-center"
           initial={{ opacity: 0 }}
@@ -198,6 +200,7 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
             </div>
           </motion.div>
         </motion.div>
+        </FocusTrap>
       )}
     </AnimatePresence>
   );

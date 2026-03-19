@@ -13,7 +13,7 @@
   /* Borders */
   --tv-border-strong:  #b5a4cd;
   --tv-border:         #d4c4e8;
-  --tv-border-light:   #e0daea;
+  --tv-border-light:   #c4b8d6;
   --tv-border-divider: #f0eaf8;
 
   /* Text — all AA-compliant on #ffffff backgrounds (≥ 4.5:1) */
@@ -21,12 +21,12 @@
   --tv-text-secondary: #6b6b6b;
   --tv-text-label:     #5d5e65;
   --tv-text-brand:     #7c45b0;
-  --tv-text-decorative:#b5a4cd;
+  --tv-text-decorative:#8b7aa8;
 
   /* Brand palette — AA-safe text & interactive states */
   --tv-brand:          #7c45b0;
   --tv-brand-hover:    #653a92;
-  --tv-brand-bg:       #995cd3;
+  --tv-brand-bg:       #7c45b0;
 
   /* Semantic status colors — all AA-compliant on #ffffff (≥ 4.5:1) */
   --tv-success:        #15803d;

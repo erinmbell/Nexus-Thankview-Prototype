@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { ChevronLeft, Plus, Globe, Eye, Palette } from "lucide-react";
+import { FocusTrap } from "@mantine/core";
 import { useToast } from "../../contexts/ToastContext";
 import { ColorSwatchPicker, BRAND_PALETTE } from "../../components/ColorSwatchPicker";
 
@@ -22,6 +23,7 @@ export function LandingPageBuilderModal({ onSave, onClose }: { onSave: (lp: Save
   }, [lpTitle, lpColor, lpAccent, onSave]);
 
   return (
+    <FocusTrap active>
     <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Landing page builder">
       <div className="w-full max-w-[1140px] bg-white rounded-[20px] border border-tv-border-light shadow-2xl flex flex-col" style={{ maxHeight: "94vh" }}>
         <div className="px-6 py-4 border-b border-tv-border-divider shrink-0">
@@ -89,5 +91,6 @@ export function LandingPageBuilderModal({ onSave, onClose }: { onSave: (lp: Save
         </div>
       </div>
     </div>
+    </FocusTrap>
   );
 }
