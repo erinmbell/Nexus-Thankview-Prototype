@@ -150,7 +150,7 @@ function InviteModal({ opened, onClose, onInvite }: { opened: boolean; onClose: 
 
   return (
     <Modal opened={opened} onClose={onClose} title="Invite User" size="md"
-      styles={{ title: { fontWeight: 900, fontSize: "18px", color: TV.textPrimary } }}
+      styles={{ title: { fontWeight: 900, fontSize: "16px", color: TV.textPrimary } }}
     >
       <Stack gap="md">
         <TextInput
@@ -599,7 +599,7 @@ function EmailSmsTab() {
 
       {/* Add Domain Modal */}
       <Modal opened={showDomainModal} onClose={() => setShowDomainModal(false)} title="Add Custom Domain" size="lg"
-        styles={{ title: { fontWeight: 900, fontSize: "18px", color: TV.textPrimary } }}
+        styles={{ title: { fontWeight: 900, fontSize: "16px", color: TV.textPrimary } }}
       >
         <Text fz={13} c={TV.textSecondary} mb="md">Add a DNS TXT record to verify your domain ownership.</Text>
         <Box bg={TV.surface} p="md" style={{ borderRadius: 12, fontFamily: "monospace" }} mb="md">
@@ -909,7 +909,7 @@ function DnsSetupTab() {
         onClose={() => { setShowDomainModal(false); setNewDomain(""); }}
         title="Set Up Domain"
         size="lg"
-        styles={{ title: { fontWeight: 900, fontSize: "18px", color: TV.textPrimary } }}
+        styles={{ title: { fontWeight: 900, fontSize: "16px", color: TV.textPrimary } }}
       >
         <Stack gap="md">
           <Text fz={13} c={TV.textSecondary}>
@@ -1396,7 +1396,7 @@ function UsersTab() {
         centered
         size="md"
         radius="lg"
-        styles={{ title: { fontWeight: 900, fontSize: "18px", color: TV.textPrimary } }}
+        styles={{ title: { fontWeight: 900, fontSize: "16px", color: TV.textPrimary } }}
       >
         {roleModalUser && (
           <Stack gap="md">
@@ -1472,7 +1472,7 @@ function UsersTab() {
         centered
         size="md"
         radius="lg"
-        styles={{ title: { fontWeight: 900, fontSize: "18px", color: TV.textPrimary } }}
+        styles={{ title: { fontWeight: 900, fontSize: "16px", color: TV.textPrimary } }}
       >
         {domainModalUser && (
           <Stack gap="md">

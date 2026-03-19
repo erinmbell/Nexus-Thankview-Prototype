@@ -510,7 +510,7 @@ function MetricsSettingsPanel({ selectedIds, onToggle, onReset, onClose }: { sel
       >
         <div className="flex items-center justify-between px-6 py-5 border-b border-tv-border-divider">
           <div>
-            <h2 id="metrics-settings-title" className="text-[17px] font-bold" style={{ color: TV.textPrimary }}>Customize Key Stats</h2>
+            <h2 id="metrics-settings-title" className="text-[16px] font-black" style={{ color: TV.textPrimary }}>Customize Key Stats</h2>
             <p className="text-[12px] mt-0.5" style={{ color: TV.textSecondary }}>Choose up to 4 metrics to display</p>
           </div>
           <ActionIcon variant="subtle" color="gray" radius="xl" size="lg" onClick={onClose}

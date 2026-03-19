@@ -35,7 +35,7 @@ export function Toggle({ enabled, onToggle, size = "default", className = "", ..
       aria-checked={enabled}
       onClick={onToggle}
       className={`${s.track} rounded-full relative shrink-0 transition-colors ${
-        enabled ? "bg-tv-brand-bg" : "bg-[#9585ad]"
+        enabled ? "bg-tv-brand-bg" : "bg-tv-border-strong"
       } ${className}`}
       {...rest}
     >
