@@ -70,7 +70,7 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
           transition={{ duration: 0.2 }}
           role="dialog" aria-modal="true" aria-label="Share to Facebook"
         >
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={handleClose} />
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={handleClose} aria-hidden="true" />
           <motion.div
             className="relative z-10 bg-white rounded-xl border border-tv-border-light shadow-2xl w-full overflow-hidden"
             style={{ maxWidth: 480 }}

@@ -414,6 +414,7 @@ export function CreateOutro() {
                 </div>
                 <input
                   type="text"
+                  autoComplete="off"
                   value={ctaUrl}
                   onChange={(e) => setCtaUrl(e.target.value)}
                   className="w-full h-[42px] px-3 rounded-lg text-[16px] focus-visible:outline-2 focus-visible:outline-tv-brand focus-visible:outline-offset-2"
@@ -440,6 +441,7 @@ export function CreateOutro() {
                 </div>
                 <input
                   type="text"
+                  autoComplete="off"
                   value={buttonText}
                   onChange={(e) => setButtonText(e.target.value)}
                   className="w-full h-[42px] px-3 rounded-lg text-[16px] focus-visible:outline-2 focus-visible:outline-tv-brand focus-visible:outline-offset-2"

@@ -438,6 +438,7 @@ export function CreateIntro() {
                 </Text>
                 <input
                   type="text"
+                  autoComplete="off"
                   value={introText}
                   onChange={(e) => setIntroText(e.target.value)}
                   className="w-full h-[42px] px-3 rounded-lg text-[16px] outline-none"

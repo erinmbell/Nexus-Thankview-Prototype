@@ -356,6 +356,7 @@ function TagManagerModal({ selectedTags, onToggle, onAdd, onClose }: TagManagerM
             <input
               ref={searchRef}
               type="text"
+              autoComplete="off"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search from all tags\u2026"
@@ -541,6 +542,7 @@ function TagManagerModal({ selectedTags, onToggle, onAdd, onClose }: TagManagerM
             <div className="flex-1 relative">
               <input
                 type="text"
+                autoComplete="off"
                 value={newTagInput}
                 onChange={(e) => setNewTagInput(e.target.value)}
                 onKeyDown={(e) => {

@@ -250,6 +250,7 @@ export function MergeFieldPicker({
           <input
             ref={searchRef}
             type="text"
+            autoComplete="off"
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search fields by name, token, or example..."
