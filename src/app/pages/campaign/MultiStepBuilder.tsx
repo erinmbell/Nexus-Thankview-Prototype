@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, type ReactNode } from "react";
+import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
 import { useNavigate } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import {
@@ -37,6 +37,7 @@ import { INPUT_CLS, TEXTAREA_CLS, SELECT_CLS, MERGE_PILL_CLS, RTE_BODY_CLS, TAG_
 import { SimpleRTE, MergeFieldDropdown, EmojiDropdown } from "./SharedUI";
 import { MergeFieldValidation } from "../../components/MergeFieldValidation";
 import { ConfigureStepPanel } from "./ConfigureStepPanel";
+import { FloatingPreview } from "./FloatingPreview";
 import { CharCount, BodyHeaderCount, SmsCharCounter, EmailBodyCharCounter, CHAR_LIMITS, htmlTextLength, getEditorWarnCls } from "../../components/CharCounters";
 import { CtaButtonControls } from "../../components/CtaButtonControls";
 import { EmailTemplateActions } from "../../components/EmailTemplateAndSignature";
@@ -459,10 +460,14 @@ function StepDrawer({
   step,
   onUpdate,
   onClose,
+  showPreview,
+  onTogglePreview,
 }: {
   step: FlowStep;
   onUpdate: (updated: FlowStep) => void;
   onClose: () => void;
+  showPreview: boolean;
+  onTogglePreview: () => void;
 }) {
   const { show } = useToast();
   const { customEnvelopes: globalEnvelopes, customLandingPages: globalLandingPages } = useDesignLibrary();
@@ -576,6 +581,15 @@ function StepDrawer({
           </div>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
+          {(isEmail || isSms) && (
+            <button
+              onClick={onTogglePreview}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold transition-colors ${showPreview ? "bg-tv-brand-tint text-tv-brand border border-tv-brand/20" : "bg-tv-surface text-tv-text-secondary hover:bg-tv-surface-hover border border-tv-border-light"}`}
+            >
+              <Eye size={11} />
+              {showPreview ? "Hide Preview" : "Show Preview"}
+            </button>
+          )}
           <TvTooltip label={expanded ? "Collapse editor" : "Full-width editor"}>
             <button
               onClick={() => setExpanded(e => !e)}
@@ -3651,6 +3665,10 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
   const [editingName, setEditingName] = useState(false);
   const [templateBannerDismissed, setTemplateBannerDismissed] = useState(false);
 
+  // Floating live preview state
+  const [showPreview, setShowPreview] = useState(false);
+  const canvasRef = useRef<HTMLDivElement>(null);
+
   // Schedule state
   type ScheduleType = "now" | "later" | "contact-field";
   const [scheduleType, setScheduleType] = useState<ScheduleType | null>(null);
@@ -4081,7 +4099,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
       {phase === "builder" && (
         <div className="flex flex-1 overflow-hidden" onInput={markMultiDirty} onClick={markMultiDirty}>
           {/* Canvas */}
-          <div className="flex-1 overflow-auto bg-tv-surface-muted p-8">
+          <div ref={canvasRef} className="flex-1 overflow-auto bg-tv-surface-muted p-8 relative">
             {/* Template banner */}
             {initialTemplate && !templateBannerDismissed && (
               <div className="mb-4 max-w-[600px] xl:max-w-[700px] 2xl:max-w-[820px] mx-auto flex items-center gap-3 p-3.5 rounded-[12px] border border-tv-info-border bg-tv-info-bg">
@@ -4174,10 +4192,20 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
               />
               <div className="h-16" />
             </div>
+
+            {/* Floating live preview — shown for visual step types */}
+            {selectedStep && (selectedStep.type === "email" || selectedStep.type === "sms") && (
+              <FloatingPreview
+                step={selectedStep}
+                visible={showPreview}
+                onClose={() => setShowPreview(false)}
+                constraintRef={canvasRef}
+              />
+            )}
           </div>
 
           {selectedStep && (
-            <StepDrawer key={selectedStep.id} step={selectedStep} onUpdate={updateStep} onClose={() => setSelectedId(null)} />
+            <StepDrawer key={selectedStep.id} step={selectedStep} onUpdate={updateStep} onClose={() => setSelectedId(null)} showPreview={showPreview} onTogglePreview={() => setShowPreview(p => !p)} />
           )}
         </div>
       )}
