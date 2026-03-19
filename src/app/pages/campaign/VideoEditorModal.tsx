@@ -908,7 +908,7 @@ export function VideoEditorModal({
 
                 {/* Thumbnail overlay */}
                 {data.thumbnailUrl && tab === "thumbnail" && (
-                  <img src={data.thumbnailUrl} alt="" className="absolute inset-0 w-full h-full object-cover opacity-60" />
+                  <img src={data.thumbnailUrl} alt="Video thumbnail" className="absolute inset-0 w-full h-full object-cover opacity-60" />
                 )}
 
                 {/* Crop overlay */}

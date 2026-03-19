@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { X, Play, Pause, Volume2, VolumeX, Maximize2 } from "lucide-react";
+import { FocusTrap } from "@mantine/core";
 import { TV } from "../theme";
 
 type DesignOption = "none" | "single-swoop" | "double-swoop" | "single-stripe" | "double-stripes" | "triple-stripes" | "airmail-stripe";
@@ -39,6 +40,7 @@ export function LivePreviewModal({ open, onClose, envelopeColor, nameColor, prim
   if (!open) return null;
 
   return (
+    <FocusTrap active>
     <div className="fixed inset-0 z-[9999] flex flex-col" role="dialog" aria-modal="true" aria-label="Live preview">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" onClick={onClose} />
 
@@ -81,5 +83,6 @@ export function LivePreviewModal({ open, onClose, envelopeColor, nameColor, prim
         <button onClick={onClose} className="px-4 py-1.5 rounded-full bg-tv-surface text-[11px] text-tv-text-label hover:bg-tv-surface-active transition-colors" style={{ fontWeight: 500 }}>Close Preview</button>
       </div>
     </div>
+    </FocusTrap>
   );
 }

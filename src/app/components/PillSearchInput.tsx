@@ -49,6 +49,7 @@ export function PillSearchInput({
       {/* Input */}
       <input
         type="text"
+        autoComplete="off"
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}

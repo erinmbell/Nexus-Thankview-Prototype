@@ -2676,7 +2676,7 @@ export function Analytics() {
                           <td className="px-3 py-3">
                             <button onClick={() => setClipDrawer(clip)} className="flex items-center gap-3 text-left w-full group/clip">
                               <div className="relative shrink-0 w-[72px] h-[44px] rounded-sm overflow-hidden bg-[#1a1a2e]">
-                                <img src={clip.thumbnail} alt="" className="w-full h-full object-cover opacity-85" />
+                                <img src={clip.thumbnail} alt={clip.title || "Video clip thumbnail"} className="w-full h-full object-cover opacity-85" />
                                 <div className="absolute inset-0 flex items-center justify-center">
                                   <div className="w-[22px] h-[22px] rounded-full bg-white/90 flex items-center justify-center">
                                     <Play size={10} fill={TV.brand} color={TV.brand} />
@@ -2755,7 +2755,7 @@ export function Analytics() {
                         />
                       <button onClick={() => setClipDrawer(clip)} className="flex gap-3 text-left flex-1 group/clip">
                         <div className="relative shrink-0 w-[80px] h-[50px] rounded-sm overflow-hidden bg-[#1a1a2e]">
-                          <img src={clip.thumbnail} alt="" className="w-full h-full object-cover opacity-85" />
+                          <img src={clip.thumbnail} alt={clip.title || "Video clip thumbnail"} className="w-full h-full object-cover opacity-85" />
                           <div className="absolute inset-0 flex items-center justify-center">
                             <div className="w-[24px] h-[24px] rounded-full bg-white/90 flex items-center justify-center">
                               <Play size={11} fill={TV.brand} color={TV.brand} />
@@ -2821,7 +2821,7 @@ export function Analytics() {
               <div>
                 {/* Video preview */}
                 <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-[#1a1a2e] mb-4">
-                  <img src={clipDrawer.thumbnail} alt="" className="w-full h-full object-cover opacity-85" />
+                  <img src={clipDrawer.thumbnail} alt={clipDrawer.title || "Video clip detail"} className="w-full h-full object-cover opacity-85" />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-[56px] h-[56px] rounded-full bg-white/90 flex items-center justify-center">
                       <Play size={24} fill={TV.brand} color={TV.brand} />
@@ -2901,7 +2901,7 @@ export function Analytics() {
                     {compareClips.map(clip => (
                       <div key={clip.id} className="text-center">
                         <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-[#1a1a2e] mb-3">
-                          <img src={clip.thumbnail} alt="" className="w-full h-full object-cover opacity-85" />
+                          <img src={clip.thumbnail} alt={clip.title || "Video clip thumbnail"} className="w-full h-full object-cover opacity-85" />
                           <div className="absolute inset-0 flex items-center justify-center">
                             <div className="w-[40px] h-[40px] rounded-full bg-white/90 flex items-center justify-center">
                               <Play size={16} fill={TV.brand} color={TV.brand} />

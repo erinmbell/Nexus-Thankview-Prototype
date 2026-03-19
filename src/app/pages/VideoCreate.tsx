@@ -700,7 +700,7 @@ export function UploadSetupStep({ onNext }: { onNext: () => void }) {
     <div className="max-w-xl mx-auto">
       <h2 className="text-[22px] font-black text-tv-text-primary mb-1">Upload a video</h2>
       <p className="text-[14px] text-tv-text-secondary mb-6">Drag & drop or click to browse your files.</p>
-      <div onClick={startUpload}
+      <div role="button" tabIndex={0} onClick={startUpload} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); startUpload(); } }}
         className="border-2 border-dashed border-tv-border-strong rounded-xl bg-[#fafbff] p-16 flex flex-col items-center gap-4 cursor-pointer hover:bg-tv-brand-tint hover:border-tv-brand-bg transition-all group">
         <div className="w-16 h-16 bg-tv-brand-tint rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
           <Upload size={28} className="text-tv-text-brand" />
@@ -1008,7 +1008,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
 
       <div className="bg-white rounded-xl border border-tv-border-light p-6">
         {/* Preview */}
-        <div className="rounded-[14px] bg-gradient-to-br from-[#7c45b0] to-[#995cd3] aspect-video mb-5 flex items-center justify-center relative overflow-hidden cursor-pointer group" onClick={togglePlay}>
+        <div role="button" tabIndex={0} className="rounded-[14px] bg-gradient-to-br from-[#7c45b0] to-[#995cd3] aspect-video mb-5 flex items-center justify-center relative overflow-hidden cursor-pointer group" onClick={togglePlay} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); togglePlay(); } }}>
           <div className="flex items-center justify-center transition-transform duration-300" style={{ transform: previewTransform }}>
             <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
               <div className="w-14 h-14 bg-tv-brand-bg rounded-full flex items-center justify-center text-white text-[22px] font-black">KM</div>
@@ -1060,7 +1060,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
 
         {/* Waveform timeline */}
         <div className="mb-5">
-          <div ref={waveRef} className="relative h-16 bg-tv-surface rounded-md overflow-hidden select-none cursor-pointer" onClick={seekFromEvent}>
+          <div ref={waveRef} role="slider" tabIndex={0} aria-label="Audio waveform timeline" className="relative h-16 bg-tv-surface rounded-md overflow-hidden select-none cursor-pointer" onClick={seekFromEvent} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); seekFromEvent(e as any); } }}>
             <div className="absolute inset-0 flex items-center px-2 gap-[2px] pointer-events-none">
               {WAVEFORM.map((h, i) => {
                 const pct = (i / WAVEFORM.length) * 100;

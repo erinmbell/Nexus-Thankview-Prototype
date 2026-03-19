@@ -61,7 +61,7 @@ function CampaignThumbnail({ campaign, size = "md" }: { campaign: Campaign; size
       {imgSrc ? (
         <img
           src={imgSrc}
-          alt=""
+          alt={c.title || "Campaign thumbnail"}
           className="absolute inset-0 w-full h-full object-cover"
           loading="lazy"
         />

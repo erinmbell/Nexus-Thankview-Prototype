@@ -549,6 +549,7 @@ export function GlobalSearch() {
           <input
             ref={inputRef}
             type="text"
+            autoComplete="off"
             value={query}
             onChange={e => { setQuery(e.target.value); setOpen(true); }}
             onFocus={() => { if (hasQuery) setOpen(true); }}

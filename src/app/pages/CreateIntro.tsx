@@ -373,7 +373,7 @@ export function CreateIntro() {
               {customThumbnail && (
                 <img
                   src={customThumbnail}
-                  alt=""
+                  alt="Custom intro thumbnail preview"
                   className="absolute inset-0 w-full h-full object-cover"
                   style={{ opacity: 0.35 }}
                 />

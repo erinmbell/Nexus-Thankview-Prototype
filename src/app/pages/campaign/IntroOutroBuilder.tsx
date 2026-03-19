@@ -289,7 +289,7 @@ export function IntroBuilder({
             {/* Video Preview */}
             <div className="rounded-lg overflow-hidden relative aspect-video mb-4" style={{ background: previewBackground }}>
               {customThumbnail && (
-                <img src={customThumbnail} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.35 }} />
+                <img src={customThumbnail} alt="Custom thumbnail preview" className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.35 }} />
               )}
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
                 <Text fz={36} fw={800} c="white" className="text-center px-8" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.3)", fontFamily: activeFontFamily }}>
@@ -317,7 +317,7 @@ export function IntroBuilder({
               {/* Intro Text */}
               <div>
                 <Text fz={10} fw={600} c={TV.textLabel} tt="uppercase" lts="0.5" mb={6}>Intro Text</Text>
-                <input type="text" value={introText} onChange={(e) => setIntroText(e.target.value)}
+                <input type="text" autoComplete="off" value={introText} onChange={(e) => setIntroText(e.target.value)}
                   className="w-full h-[42px] px-3 rounded-md outline-none"
                   style={{ border: `1px solid ${TV.borderLight}`, color: TV.textPrimary, fontSize: 16 }}
                   placeholder="Enter your intro headline..." />

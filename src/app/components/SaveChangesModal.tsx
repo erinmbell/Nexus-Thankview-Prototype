@@ -4,6 +4,8 @@
  * or "Stay" (cancel navigation).
  */
 import { Save, ArrowLeft } from "lucide-react";
+import { FocusTrap } from "@mantine/core";
+import { useEffect } from "react";
 
 interface SaveChangesModalProps {
   /** The label of the step the user is leaving */
@@ -25,7 +27,14 @@ export function SaveChangesModal({
   onDiscard,
   onStay,
 }: SaveChangesModalProps) {
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === "Escape") onStay(); };
+    document.addEventListener("keydown", handleEsc);
+    return () => document.removeEventListener("keydown", handleEsc);
+  }, [onStay]);
+
   return (
+    <FocusTrap active>
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="save-changes-title">
       <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-[400px] mx-4 p-6">
         <div className="flex items-center gap-3 mb-3">
@@ -70,5 +79,6 @@ export function SaveChangesModal({
         </div>
       </div>
     </div>
+    </FocusTrap>
   );
 }

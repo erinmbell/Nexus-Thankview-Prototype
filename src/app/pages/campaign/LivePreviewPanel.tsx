@@ -1017,7 +1017,7 @@ export function LivePreviewPanel({
                 <div className={`relative ${isMobile ? "aspect-[4/3]" : "aspect-[16/10]"}`}
                   style={{ background: `linear-gradient(135deg, ${lpColor}, ${lpAccent})` }}>
                   {lpImage && (
-                    <img src={lpImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                    <img src={lpImage} alt="Landing page preview" className="absolute inset-0 w-full h-full object-cover" />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
 

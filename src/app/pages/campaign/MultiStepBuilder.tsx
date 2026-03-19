@@ -459,7 +459,7 @@ function SocialSharingCard({
         <div className="flex">
           <div className="w-[100px] shrink-0 bg-[#e4e6eb] flex items-center justify-center overflow-hidden" style={{ minHeight: 72 }}>
             {ogImage ? (
-              <img src={ogImage} alt="" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
+              <img src={ogImage} alt="Step preview" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
             ) : (
               <Globe size={16} className="text-[#bec3c9]" />
             )}
@@ -904,7 +904,7 @@ function StepDrawer({
                       className={`w-full flex items-center gap-2 px-3 py-2 rounded-sm border text-left transition-all ${(step.vrBrandedLandingPage || 1) === p.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                       <div className="w-5 h-3.5 rounded-[2px] overflow-hidden shrink-0">
                         {p.image ? (
-                          <img src={p.image} alt="" className="w-full h-full object-cover" />
+                          <img src={p.image} alt={p.name || "Landing page thumbnail"} className="w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center"
                             style={{ background: `linear-gradient(135deg, ${p.color}, ${p.accent})` }}><Camera size={5} className="text-white" /></div>
@@ -1459,7 +1459,7 @@ function StepDrawer({
                           className={`rounded-sm border-2 overflow-hidden transition-all text-left relative group ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                           <div className="aspect-[4/3] relative overflow-hidden"
                             style={{ background: `linear-gradient(135deg, ${p.color || "#7c45b0"}, ${p.accent || "#a78bfa"})` }}>
-                            {p.image && <img src={p.image} alt="" className="absolute inset-0 w-full h-full object-cover" />}
+                            {p.image && <img src={p.image} alt={p.name || "Landing page option"} className="absolute inset-0 w-full h-full object-cover" />}
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
                             {active && (
                               <div className="absolute top-1 left-1 w-4 h-4 rounded-full bg-tv-brand-bg flex items-center justify-center shadow-sm">
@@ -2119,7 +2119,7 @@ function StepDrawer({
                     className={`rounded-md border-2 overflow-hidden transition-all text-left relative group ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                     <div className="aspect-[4/3] relative overflow-hidden"
                       style={{ background: `linear-gradient(135deg, ${p.color || "#7c45b0"}, ${p.accent || "#a78bfa"})` }}>
-                      {p.image && <img src={p.image} alt="" className="absolute inset-0 w-full h-full object-cover" />}
+                      {p.image && <img src={p.image} alt={p.name || "Landing page option"} className="absolute inset-0 w-full h-full object-cover" />}
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
                       {active && (
                         <div className="absolute top-1.5 left-1.5 w-5 h-5 rounded-full bg-tv-brand-bg flex items-center justify-center shadow-sm">

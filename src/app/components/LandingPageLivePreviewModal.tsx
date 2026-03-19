@@ -3,6 +3,7 @@
  */
 import { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { FocusTrap } from "@mantine/core";
 import {
   X, Globe, Play, Landmark, Star, Mail,
   Image as ImageIcon,
@@ -95,6 +96,7 @@ export function LandingPageLivePreviewModal({
     <>
       <AnimatePresence>
         {open && (
+          <FocusTrap active>
           <motion.div
             className="fixed inset-0 z-[9999] flex flex-col"
             initial={{ opacity: 0 }}
@@ -103,7 +105,7 @@ export function LandingPageLivePreviewModal({
             transition={{ duration: 0.25 }}
             role="dialog" aria-modal="true" aria-label="Landing page preview"
           >
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-[3px]" onClick={handleClose} />
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-[3px]" onClick={handleClose} aria-hidden="true" />
 
             <button
               onClick={handleClose}
@@ -141,7 +143,7 @@ export function LandingPageLivePreviewModal({
                   {logo !== "none" || logoFile ? (
                     <div className="flex items-center gap-3">
                       {logoFile ? (
-                        <img src={logoFile} alt="" className="h-7 object-contain" style={{ filter: isDark(navBarColor) ? "brightness(10)" : "none" }} />
+                        <img src={logoFile} alt="Organization logo" className="h-7 object-contain" style={{ filter: isDark(navBarColor) ? "brightness(10)" : "none" }} />
                       ) : (
                         <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: isDark(navBarColor) ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)" }}>
                           {logo === "shield" && <Landmark size={14} style={{ color: navTextColor }} />}
@@ -243,6 +245,7 @@ export function LandingPageLivePreviewModal({
               <span className="text-[11px] text-tv-text-decorative italic">by thankview</span>
             </div>
           </motion.div>
+          </FocusTrap>
         )}
       </AnimatePresence>
 

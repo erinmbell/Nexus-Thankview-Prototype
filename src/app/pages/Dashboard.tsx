@@ -382,7 +382,7 @@ function RecentActivityWidget({ navigate }: { navigate: (path: string) => void }
       <div className="px-6 py-6" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
         <div className="flex items-center justify-between mb-2">
           <Title order={3} fz={18}>{activeTab === "videos" ? "Video Library" : "Donor Activity"}</Title>
-          <UnstyledButton onClick={() => navigate(activeTab === "videos" ? "/videos" : "/analytics?tab=video11")} className="flex items-center gap-0.5 hover:underline" style={{ color: TV.textBrand, fontSize: 13, fontWeight: 500 }}
+          <UnstyledButton onClick={() => navigate(activeTab === "videos" ? "/videos" : "/analytics?tab=video-1-1")} className="flex items-center gap-0.5 hover:underline" style={{ color: TV.textBrand, fontSize: 13, fontWeight: 500 }}
             aria-label={activeTab === "videos" ? "View all videos" : "View all donor activity"}>
             View all <ChevronRight size={14} aria-hidden="true" />
           </UnstyledButton>

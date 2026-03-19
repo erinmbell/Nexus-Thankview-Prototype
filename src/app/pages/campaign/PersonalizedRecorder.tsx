@@ -1703,7 +1703,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                             {lpConfig.logo !== "none" || lpConfig.logoFile ? (
                               <div className="flex items-center gap-2">
                                 {lpConfig.logoFile ? (
-                                  <img src={lpConfig.logoFile} alt="" className="h-5 object-contain" style={{ filter: lpIsDark(lpConfig.navBarColor) ? "brightness(10)" : "none" }} />
+                                  <img src={lpConfig.logoFile} alt="Organization logo" className="h-5 object-contain" style={{ filter: lpIsDark(lpConfig.navBarColor) ? "brightness(10)" : "none" }} />
                                 ) : (
                                   <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: lpIsDark(lpConfig.navBarColor) ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)" }}>
                                     {lpConfig.logo === "shield" && <Landmark size={11} style={{ color: navTextColor }} />}

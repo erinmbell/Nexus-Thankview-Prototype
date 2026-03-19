@@ -146,7 +146,7 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
                       {ogImage ? (
                         <img
                           src={ogImage}
-                          alt=""
+                          alt="Facebook share preview"
                           className="w-full h-full object-cover"
                           onError={e => { (e.target as HTMLImageElement).style.display = "none"; }}
                         />

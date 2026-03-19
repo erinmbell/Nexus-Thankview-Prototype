@@ -826,7 +826,7 @@ export function VideoEditorView({
 
               {/* Thumbnail overlay */}
               {thumbnailUrl && tab === "thumbnail" && (
-                <img src={thumbnailUrl} alt="" className="absolute inset-0 w-full h-full object-cover opacity-60" />
+                <img src={thumbnailUrl} alt="Video thumbnail" className="absolute inset-0 w-full h-full object-cover opacity-60" />
               )}
             </div>
           </div>

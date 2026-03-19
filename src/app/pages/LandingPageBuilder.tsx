@@ -629,7 +629,7 @@ export function LandingPageBuilder() {
                               {selectedBgId === null && (<div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-tv-brand flex items-center justify-center"><Check size={10} className="text-white" strokeWidth={3} /></div>)}
                             </button>
                             {backgrounds.filter(bg => bg.kind === "image").map(bg => (
-                              <div key={bg.id} className={`group relative rounded-md overflow-hidden border-2 transition-all cursor-pointer ${selectedBgId === bg.id ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`} onClick={() => trackedSetSelectedBgId(bg.id)}>
+                              <div key={bg.id} role="button" tabIndex={0} className={`group relative rounded-md overflow-hidden border-2 transition-all cursor-pointer ${selectedBgId === bg.id ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`} onClick={() => trackedSetSelectedBgId(bg.id)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); trackedSetSelectedBgId(bg.id); } }}>
                                 <div className="aspect-[4/3] overflow-hidden">{bg.url?.startsWith("blob:") ? <img src={bg.url} alt={bg.name} className="w-full h-full object-cover" /> : <ImageWithFallback src={bg.url!} alt={bg.name} className="w-full h-full object-cover" />}</div>
                                 <div className="px-2 py-1.5 bg-white flex items-center justify-between">
                                   {renamingId === bg.id ? (
@@ -681,7 +681,7 @@ export function LandingPageBuilder() {
                               {selectedBgId === null && (<div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-tv-brand flex items-center justify-center"><Check size={10} className="text-white" strokeWidth={3} /></div>)}
                             </button>
                             {backgrounds.filter(bg => bg.kind === "color").map(bg => (
-                              <div key={bg.id} className={`group relative rounded-md overflow-hidden border-2 transition-all cursor-pointer ${selectedBgId === bg.id ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`} onClick={() => trackedSetSelectedBgId(bg.id)}>
+                              <div key={bg.id} role="button" tabIndex={0} className={`group relative rounded-md overflow-hidden border-2 transition-all cursor-pointer ${selectedBgId === bg.id ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`} onClick={() => trackedSetSelectedBgId(bg.id)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); trackedSetSelectedBgId(bg.id); } }}>
                                 <div className="aspect-[4/3]" style={{ backgroundColor: bg.color }} />
                                 <div className="px-2 py-1.5 bg-white flex items-center justify-between">
                                   <div className="flex items-center gap-1.5 flex-1 min-w-0"><div className="w-3 h-3 rounded-full shrink-0 border border-tv-border-light" style={{ backgroundColor: bg.color }} /><p className={`text-[10px] truncate ${selectedBgId === bg.id ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 500 }}>{bg.name}</p></div>
@@ -740,7 +740,7 @@ export function LandingPageBuilder() {
                               {selectedBgId === null && (<div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-tv-brand flex items-center justify-center"><Check size={10} className="text-white" strokeWidth={3} /></div>)}
                             </button>
                             {backgrounds.filter(bg => bg.kind === "gradient").map(bg => (
-                              <div key={bg.id} className={`group relative rounded-md overflow-hidden border-2 transition-all cursor-pointer ${selectedBgId === bg.id ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`} onClick={() => trackedSetSelectedBgId(bg.id)}>
+                              <div key={bg.id} role="button" tabIndex={0} className={`group relative rounded-md overflow-hidden border-2 transition-all cursor-pointer ${selectedBgId === bg.id ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`} onClick={() => trackedSetSelectedBgId(bg.id)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); trackedSetSelectedBgId(bg.id); } }}>
                                 <div className="aspect-[4/3]" style={{ background: bgCss(bg) }} />
                                 <div className="px-2 py-1.5 bg-white flex items-center justify-between">
                                   <div className="flex items-center gap-1.5 flex-1 min-w-0"><div className="w-3 h-3 rounded-full shrink-0 border border-tv-border-light" style={{ background: bgCss(bg) }} /><p className={`text-[10px] truncate ${selectedBgId === bg.id ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 500 }}>{bg.name}</p></div>
@@ -1089,7 +1089,7 @@ export function LandingPagePreview({
           {logo !== "none" || logoFile ? (
             <div className="flex items-center gap-2">
               {logoFile ? (
-                <img src={logoFile} alt="" className="h-5 object-contain" style={{ filter: isDarkColor(navBarColor) ? "brightness(10)" : "none" }} />
+                <img src={logoFile} alt="Organization logo" className="h-5 object-contain" style={{ filter: isDarkColor(navBarColor) ? "brightness(10)" : "none" }} />
               ) : (
                 <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: isDarkColor(navBarColor) ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)" }}>
                   {logo === "shield" && <Landmark size={11} style={{ color: navTextColor }} />}

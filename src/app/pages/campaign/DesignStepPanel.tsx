@@ -1516,7 +1516,7 @@ function PreviewFrame({
         style={{ background: `linear-gradient(135deg, ${lpColor}, ${lpAccent})` }}>
         {/* Landing page photo background */}
         {landingPageData?.image && (
-          <img src={landingPageData.image} alt=""
+          <img src={landingPageData.image} alt="Landing page background"
             className="absolute inset-0 w-full h-full object-cover" />
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
