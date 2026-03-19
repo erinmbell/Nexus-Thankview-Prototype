@@ -138,7 +138,7 @@ function BuilderThemeTile({
   return (
     <button
       onClick={onSelect}
-      className="w-full h-[56px] rounded-[8px] overflow-hidden relative group"
+      className="w-full h-[56px] rounded-sm overflow-hidden relative group"
       style={{
         background: gradient,
         boxShadow: selected
@@ -235,7 +235,7 @@ export function IntroBuilder({
         {/* Header */}
         <div className="shrink-0 px-4 pt-3 pb-2.5" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
           <div className="flex items-start gap-2.5">
-            <div className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brandTint }}>
+            <div className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brandTint }}>
               <Clapperboard size={14} style={{ color: TV.brand }} />
             </div>
             <div className="flex-1 min-w-0">
@@ -287,7 +287,7 @@ export function IntroBuilder({
         <div className="flex-1 p-6 overflow-auto">
           <div className="max-w-5xl mx-auto">
             {/* Video Preview */}
-            <div className="rounded-[12px] overflow-hidden relative aspect-video mb-4" style={{ background: previewBackground }}>
+            <div className="rounded-lg overflow-hidden relative aspect-video mb-4" style={{ background: previewBackground }}>
               {customThumbnail && (
                 <img src={customThumbnail} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.35 }} />
               )}
@@ -313,12 +313,12 @@ export function IntroBuilder({
             </div>
 
             {/* Configuration Panel */}
-            <div className="bg-white rounded-[12px] p-6 space-y-6" style={{ border: `1px solid ${TV.borderLight}` }}>
+            <div className="bg-white rounded-lg p-6 space-y-6" style={{ border: `1px solid ${TV.borderLight}` }}>
               {/* Intro Text */}
               <div>
                 <Text fz={10} fw={600} c={TV.textLabel} tt="uppercase" lts="0.5" mb={6}>Intro Text</Text>
                 <input type="text" value={introText} onChange={(e) => setIntroText(e.target.value)}
-                  className="w-full h-[42px] px-3 rounded-[10px] outline-none"
+                  className="w-full h-[42px] px-3 rounded-md outline-none"
                   style={{ border: `1px solid ${TV.borderLight}`, color: TV.textPrimary, fontSize: 16 }}
                   placeholder="Enter your intro headline..." />
               </div>
@@ -407,7 +407,7 @@ export function IntroBuilder({
                 <div className="space-y-1.5">
                   {/* No Music option */}
                   <div onClick={() => setSelectedTrack(null)}
-                    className="h-[37px] rounded-[8px] border px-2 flex items-center gap-2.5 relative cursor-pointer transition-colors"
+                    className="h-[37px] rounded-sm border px-2 flex items-center gap-2.5 relative cursor-pointer transition-colors"
                     style={{ borderColor: selectedTrack === null ? TV.brandBg : TV.borderLight, backgroundColor: selectedTrack === null ? TV.brandTint : "white" }}>
                     <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: selectedTrack === null ? TV.brandBg : TV.surface }}>
                       <VolumeX size={10} style={{ color: selectedTrack === null ? "white" : TV.textPrimary }} />
@@ -418,7 +418,7 @@ export function IntroBuilder({
                     const isActive = selectedTrack === track.value;
                     return (
                       <div key={track.value} onClick={() => setSelectedTrack(isActive ? null : track.value)}
-                        className="h-[37px] rounded-[8px] border px-2 flex items-center gap-2.5 relative cursor-pointer transition-colors"
+                        className="h-[37px] rounded-sm border px-2 flex items-center gap-2.5 relative cursor-pointer transition-colors"
                         style={{ borderColor: isActive ? TV.brandBg : TV.borderLight, backgroundColor: isActive ? TV.brandTint : "white" }}>
                         <button className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: isActive ? TV.brandBg : TV.surface }}>
                           <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
@@ -438,13 +438,13 @@ export function IntroBuilder({
                 <Text fz={10} fw={600} c={TV.textLabel} tt="uppercase" lts="0.5" mb={3}>Custom Background Image</Text>
                 {!customThumbnail ? (
                   <button onClick={() => setThumbnailUploadOpen(true)}
-                    className="w-full h-32 rounded-[10px] border-2 border-dashed flex flex-col items-center justify-center gap-2 hover:bg-tv-surface-muted transition-colors"
+                    className="w-full h-32 rounded-md border-2 border-dashed flex flex-col items-center justify-center gap-2 hover:bg-tv-surface-muted transition-colors"
                     style={{ borderColor: TV.borderLight }}>
                     <Upload size={20} style={{ color: TV.textSecondary }} />
                     <Text fz={12} c={TV.textSecondary}>Drop image or browse</Text>
                   </button>
                 ) : (
-                  <div className="relative rounded-[10px] overflow-hidden">
+                  <div className="relative rounded-md overflow-hidden">
                     <img src={customThumbnail} alt="Thumbnail" className="w-full h-32 object-cover" />
                     <button onClick={() => { setCustomThumbnail(null); show("Thumbnail removed", "success"); }}
                       className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors">
@@ -593,7 +593,7 @@ export function OutroBuilder({
         >
           <div className="flex items-start gap-2.5">
             <div
-              className="w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0"
+              className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0"
               style={{ backgroundColor: TV.brandTint }}
             >
               <MonitorPlay size={14} style={{ color: TV.brand }} />
@@ -689,7 +689,7 @@ export function OutroBuilder({
           <div className="max-w-5xl mx-auto">
             {/* Video Preview */}
             <div
-              className="rounded-[12px] overflow-hidden relative aspect-video mb-4"
+              className="rounded-lg overflow-hidden relative aspect-video mb-4"
               style={{ background: previewBackground }}
             >
               {/* CTA Button badge (top-left) */}
@@ -751,7 +751,7 @@ export function OutroBuilder({
             </div>
 
             {/* Configuration Panel */}
-            <div className="bg-white rounded-[12px] p-6 space-y-6" style={{ border: `1px solid ${TV.borderLight}` }}>
+            <div className="bg-white rounded-lg p-6 space-y-6" style={{ border: `1px solid ${TV.borderLight}` }}>
               {/* CTA Link URL */}
               <div>
                 <div className="flex items-center gap-2 mb-2">
@@ -764,7 +764,7 @@ export function OutroBuilder({
                   type="text"
                   value={ctaUrl}
                   onChange={(e) => setCtaUrl(e.target.value)}
-                  className="w-full h-[42px] px-3 rounded-[10px] outline-none"
+                  className="w-full h-[42px] px-3 rounded-md outline-none"
                   style={{ border: `1px solid ${TV.borderLight}`, color: TV.textPrimary, fontSize: 16 }}
                   placeholder="https://"
                 />
@@ -790,7 +790,7 @@ export function OutroBuilder({
                   type="text"
                   value={buttonText}
                   onChange={(e) => setButtonText(e.target.value)}
-                  className="w-full h-[42px] px-3 rounded-[10px] outline-none"
+                  className="w-full h-[42px] px-3 rounded-md outline-none"
                   style={{ border: `1px solid ${TV.borderLight}`, color: TV.textPrimary, fontSize: 16 }}
                   placeholder="Donate Now"
                 />
@@ -906,7 +906,7 @@ export function OutroBuilder({
                 <div className="space-y-1.5">
                   {/* No Music option */}
                   <div onClick={() => setSelectedTrack(null)}
-                    className="h-[37px] rounded-[8px] border px-2 flex items-center gap-2.5 relative cursor-pointer transition-colors"
+                    className="h-[37px] rounded-sm border px-2 flex items-center gap-2.5 relative cursor-pointer transition-colors"
                     style={{ borderColor: selectedTrack === null ? TV.brandBg : TV.borderLight, backgroundColor: selectedTrack === null ? TV.brandTint : "white" }}>
                     <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: selectedTrack === null ? TV.brandBg : TV.surface }}>
                       <VolumeX size={10} style={{ color: selectedTrack === null ? "white" : TV.textPrimary }} />
@@ -919,7 +919,7 @@ export function OutroBuilder({
                       <div
                         key={track.value}
                         onClick={() => setSelectedTrack(isActive ? null : track.value)}
-                        className="h-[37px] rounded-[8px] border px-2 flex items-center gap-2.5 cursor-pointer transition-colors"
+                        className="h-[37px] rounded-sm border px-2 flex items-center gap-2.5 cursor-pointer transition-colors"
                         style={{
                           borderColor: isActive ? TV.brandBg : TV.borderLight,
                           backgroundColor: isActive ? TV.brandTint : "white",

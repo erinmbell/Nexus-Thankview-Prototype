@@ -773,7 +773,7 @@ function SearchDetail({ search, onBack, onEdit, onDuplicate, onToggleActive, onT
         </div>
       </div>
 
-      <div className="rounded-[16px] border" style={{ borderColor: TV.borderLight, padding: 20, marginBottom: 16 }}>
+      <div className="rounded-xl border" style={{ borderColor: TV.borderLight, padding: 20, marginBottom: 16 }}>
         <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
           <Text fz={12} fw={700} c={TV.textLabel} tt="uppercase" lts="0.05em">
             Search Criteria (matches ALL)
@@ -811,7 +811,7 @@ function SearchDetail({ search, onBack, onEdit, onDuplicate, onToggleActive, onT
         </Stack>
       </div>
 
-      <div className="rounded-[16px] border" style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
+      <div className="rounded-xl border" style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
         <Box px="lg" py="md" bg={TV.surfaceMuted} style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -1238,7 +1238,7 @@ export function SavedSearches() {
       <div className="flex gap-5 flex-nowrap items-stretch">
         {/* Table */}
         <Box style={{ flex: 1, minWidth: 0 }}>
-          <div className="rounded-[16px] border" style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
+          <div className="rounded-xl border" style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
             {filtered.length === 0 ? (
               <Stack align="center" py="xl" gap="sm">
                 <Box w={48} h={48} bg={TV.brandTint}

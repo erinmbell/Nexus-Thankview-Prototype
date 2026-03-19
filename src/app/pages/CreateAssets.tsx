@@ -504,7 +504,7 @@ export function CreateAssets() {
       </div>
 
       {/* Hero Header */}
-      <div className="relative bg-tv-brand rounded-[20px] overflow-hidden mb-6 px-5 sm:px-8 py-6 sm:py-8">
+      <div className="relative bg-tv-brand rounded-xl overflow-hidden mb-6 px-5 sm:px-8 py-6 sm:py-8">
         <div className="absolute right-16 top-[-32px] w-48 h-48 bg-white rounded-full opacity-10 pointer-events-none" />
         <div className="absolute right-24 top-8 w-32 h-32 bg-white rounded-full opacity-5 pointer-events-none" />
         <div className="absolute right-48 top-4 w-20 h-20 bg-white rounded-full opacity-[0.07] pointer-events-none" />
@@ -535,7 +535,7 @@ export function CreateAssets() {
       </div>
 
       {/* All Assets Section with Filters */}
-      <div className="bg-white rounded-[20px] border border-tv-border-strong overflow-hidden">
+      <div className="bg-white rounded-xl border border-tv-border-strong overflow-hidden">
         {/* Section header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-4 border-b border-tv-border-divider">
           <div>
@@ -644,7 +644,7 @@ export function CreateAssets() {
                 }`}
               >
                 {/* Type icon */}
-                <div className={`w-9 h-9 rounded-[10px] ${typeColor(asset.type).split(" ")[0]} flex items-center justify-center shrink-0`}>
+                <div className={`w-9 h-9 rounded-md ${typeColor(asset.type).split(" ")[0]} flex items-center justify-center shrink-0`}>
                   {(() => {
                     const cat = ASSET_CATEGORIES.find(c => c.key === asset.type);
                     const Icon = cat?.icon || Layers;
@@ -706,7 +706,7 @@ export function CreateAssets() {
                 <div className={`h-2 ${typeColor(asset.type).split(" ")[0]}`} />
                 <div className="p-3.5">
                   <div className="flex items-start justify-between mb-2">
-                    <div className={`w-8 h-8 rounded-[8px] ${typeColor(asset.type).split(" ")[0]} flex items-center justify-center shrink-0`}>
+                    <div className={`w-8 h-8 rounded-sm ${typeColor(asset.type).split(" ")[0]} flex items-center justify-center shrink-0`}>
                       {(() => {
                         const cat = ASSET_CATEGORIES.find(c => c.key === asset.type);
                         const Icon = cat?.icon || Layers;
@@ -768,9 +768,9 @@ export function CreateAssets() {
             <button
               key={cat.key}
               onClick={() => handleNavigateCategory(cat)}
-              className={`bg-white rounded-[12px] border ${cat.borderColor} px-3 py-2 flex items-center gap-2.5 text-left hover:shadow-md hover:border-tv-border-strong transition-all group`}
+              className={`bg-white rounded-lg border ${cat.borderColor} px-3 py-2 flex items-center gap-2.5 text-left hover:shadow-md hover:border-tv-border-strong transition-all group`}
             >
-              <div className={`w-7 h-7 rounded-[8px] ${cat.bg} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform`}>
+              <div className={`w-7 h-7 rounded-sm ${cat.bg} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform`}>
                 <cat.icon size={14} className={cat.color} />
               </div>
               <div className="min-w-0">
@@ -786,9 +786,9 @@ export function CreateAssets() {
       </div>
 
       {/* Migration Notice */}
-      <div className="mt-6 bg-[#fef9ee] rounded-[16px] border border-[#fde68a] p-4 sm:p-5">
+      <div className="mt-6 bg-[#fef9ee] rounded-xl border border-[#fde68a] p-4 sm:p-5">
         <div className="flex items-start gap-3">
-          <div className="w-9 h-9 rounded-[10px] bg-[#fef3c7] flex items-center justify-center shrink-0">
+          <div className="w-9 h-9 rounded-md bg-[#fef3c7] flex items-center justify-center shrink-0">
             <Sparkles size={16} className="text-[#b45309]" />
           </div>
           <div className="flex-1 min-w-0">

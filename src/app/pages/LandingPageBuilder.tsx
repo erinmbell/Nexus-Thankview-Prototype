@@ -83,7 +83,7 @@ const LOGO_OPTIONS = [
 export type LogoId = (typeof LOGO_OPTIONS)[number]["id"];
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
-const inputCls = "w-full border border-tv-border-light rounded-[10px] px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30 bg-white";
+const inputCls = "w-full border border-tv-border-light rounded-md px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30 bg-white";
 
 export function safeHex(hex: string): string {
   const clean = hex.replace(/[^0-9a-fA-F]/g, "").slice(0, 6);
@@ -500,7 +500,7 @@ export function LandingPageBuilder() {
 
                         {/* Upload zone */}
                         {logoFile ? (
-                          <div className="relative w-full h-20 rounded-[10px] border border-tv-border-light overflow-hidden bg-tv-surface/30 flex items-center justify-center group mb-2">
+                          <div className="relative w-full h-20 rounded-md border border-tv-border-light overflow-hidden bg-tv-surface/30 flex items-center justify-center group mb-2">
                             <img src={logoFile} alt="Logo" className="max-h-full max-w-full object-contain" />
                             <button type="button" onClick={() => setLogoFile(null)}
                               className="absolute top-1 right-1 w-5 h-5 rounded-full bg-tv-danger/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -509,13 +509,13 @@ export function LandingPageBuilder() {
                           </div>
                         ) : null}
                         <button type="button" onClick={() => logoInputRef.current?.click()}
-                          className="w-full border-2 border-dashed border-tv-border-light rounded-[12px] p-5 text-center hover:border-tv-brand/40 transition-colors cursor-pointer">
+                          className="w-full border-2 border-dashed border-tv-border-light rounded-lg p-5 text-center hover:border-tv-brand/40 transition-colors cursor-pointer">
                           <Upload size={20} className="mx-auto text-tv-text-decorative mb-1.5" />
                           <p className="text-[12px] text-tv-text-secondary">Drag an image to upload</p>
                           <p className="text-[9px] text-tv-text-decorative mt-1">High-quality .png or .jpeg recommended.</p>
                         </button>
                         <button type="button" onClick={() => logoInputRef.current?.click()}
-                          className="mt-2 w-full py-2.5 text-center rounded-[10px] border border-tv-border-light text-[12px] text-tv-text-primary hover:border-tv-brand hover:bg-tv-brand-tint/40 transition-all cursor-pointer" style={{ fontWeight: 500 }}>
+                          className="mt-2 w-full py-2.5 text-center rounded-md border border-tv-border-light text-[12px] text-tv-text-primary hover:border-tv-brand hover:bg-tv-brand-tint/40 transition-all cursor-pointer" style={{ fontWeight: 500 }}>
                           Choose File
                         </button>
                       </div>
@@ -528,7 +528,7 @@ export function LandingPageBuilder() {
                     <div className="space-y-4">
 
                       {/* ── Tab bar: Image | Color | Gradient ── */}
-                      <div className="flex rounded-[10px] border border-tv-border-light overflow-hidden">
+                      <div className="flex rounded-md border border-tv-border-light overflow-hidden">
                         {([
                           { key: "image" as BgKind, label: "Image", icon: ImageIcon },
                           { key: "color" as BgKind, label: "Color", icon: Palette },
@@ -546,7 +546,7 @@ export function LandingPageBuilder() {
 
                       {/* Gradient overlay toggle (shared across all tabs) */}
                       <button type="button" onClick={() => trackedSetFadeGradient(!fadeGradient)}
-                        className={`w-full flex items-center justify-between px-3 py-2.5 rounded-[10px] border text-[12px] transition-all ${
+                        className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md border text-[12px] transition-all ${
                           !fadeGradient ? "border-tv-brand bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"
                         }`}>
                         <div className="text-left">
@@ -575,7 +575,7 @@ export function LandingPageBuilder() {
                               }
                             }}
                             onClick={() => bgInputRef.current?.click()}
-                            className={`w-full border-2 border-dashed rounded-[12px] p-5 text-center cursor-pointer transition-all ${
+                            className={`w-full border-2 border-dashed rounded-lg p-5 text-center cursor-pointer transition-all ${
                               bgDragOver
                                 ? "border-tv-brand bg-tv-brand-tint/50 scale-[1.01]"
                                 : "border-tv-border-light hover:border-tv-brand/40"
@@ -589,9 +589,9 @@ export function LandingPageBuilder() {
 
                           {/* Upload naming dialog */}
                           {showUploadNaming && (
-                            <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-light space-y-2">
+                            <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light space-y-2">
                               {pendingBgFile && (
-                                <div className="w-full h-16 rounded-[8px] overflow-hidden mb-1">
+                                <div className="w-full h-16 rounded-sm overflow-hidden mb-1">
                                   <img src={pendingBgFile} alt="Preview" className="w-full h-full object-cover" />
                                 </div>
                               )}
@@ -605,7 +605,7 @@ export function LandingPageBuilder() {
                                   if (e.key === "Escape") { setShowUploadNaming(false); setPendingBgFile(null); }
                                 }}
                                 placeholder="e.g. Spring Campus 2026"
-                                className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30" />
+                                className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30" />
                               <div className="flex items-center gap-2">
                                 <button type="button" onClick={() => { setShowUploadNaming(false); setPendingBgFile(null); }} className="px-2.5 py-1 text-[11px] font-medium text-tv-danger border border-tv-danger-border rounded-full hover:bg-tv-danger-bg transition-colors">Cancel</button>
                                 <button type="button" onClick={() => {
@@ -623,13 +623,13 @@ export function LandingPageBuilder() {
                           {/* Thumbnail grid — images only + No Background */}
                           <div className="grid grid-cols-2 gap-2">
                             <button type="button" onClick={() => trackedSetSelectedBgId(null)}
-                              className={`group relative rounded-[10px] overflow-hidden border-2 transition-all ${selectedBgId === null ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                              className={`group relative rounded-md overflow-hidden border-2 transition-all ${selectedBgId === null ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                               <div className="aspect-[4/3] bg-tv-surface flex items-center justify-center"><X size={16} className="text-tv-text-decorative" /></div>
                               <div className="px-2 py-1.5 bg-white"><p className={`text-[10px] truncate ${selectedBgId === null ? "text-tv-brand" : "text-tv-text-secondary"}`} style={{ fontWeight: 500 }}>No Background</p></div>
                               {selectedBgId === null && (<div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-tv-brand flex items-center justify-center"><Check size={10} className="text-white" strokeWidth={3} /></div>)}
                             </button>
                             {backgrounds.filter(bg => bg.kind === "image").map(bg => (
-                              <div key={bg.id} className={`group relative rounded-[10px] overflow-hidden border-2 transition-all cursor-pointer ${selectedBgId === bg.id ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`} onClick={() => trackedSetSelectedBgId(bg.id)}>
+                              <div key={bg.id} className={`group relative rounded-md overflow-hidden border-2 transition-all cursor-pointer ${selectedBgId === bg.id ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`} onClick={() => trackedSetSelectedBgId(bg.id)}>
                                 <div className="aspect-[4/3] overflow-hidden">{bg.url?.startsWith("blob:") ? <img src={bg.url} alt={bg.name} className="w-full h-full object-cover" /> : <ImageWithFallback src={bg.url!} alt={bg.name} className="w-full h-full object-cover" />}</div>
                                 <div className="px-2 py-1.5 bg-white flex items-center justify-between">
                                   {renamingId === bg.id ? (
@@ -655,15 +655,15 @@ export function LandingPageBuilder() {
                       {/* ─── COLOR TAB ─────────────────────────────────── */}
                       {bgTab === "color" && (
                         <div className="space-y-3">
-                          <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-light space-y-3">
+                          <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light space-y-3">
                             <p className="text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Create Solid Color</p>
                             <div className="flex items-center gap-2">
-                              <label className="w-12 h-12 rounded-[10px] border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden shadow-sm" style={{ backgroundColor: safeHex(newColorHex) }}>
+                              <label className="w-12 h-12 rounded-md border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden shadow-sm" style={{ backgroundColor: safeHex(newColorHex) }}>
                                 <input type="color" value={safeHex(newColorHex)} onChange={e => setNewColorHex(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" />
                               </label>
                               <div className="flex-1 space-y-1.5">
-                                <input value={newColorHex} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setNewColorHex(v); }} className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-1.5 text-[12px] font-mono outline-none focus:ring-2 focus:ring-tv-brand-bg/30" placeholder="#1a1a2e" />
-                                <input value={newColorName} onChange={e => setNewColorName(e.target.value)} placeholder="Name (e.g. Deep Navy)" className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30" />
+                                <input value={newColorHex} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setNewColorHex(v); }} className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] font-mono outline-none focus:ring-2 focus:ring-tv-brand-bg/30" placeholder="#1a1a2e" />
+                                <input value={newColorName} onChange={e => setNewColorName(e.target.value)} placeholder="Name (e.g. Deep Navy)" className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30" />
                               </div>
                             </div>
                             <button type="button" onClick={() => {
@@ -675,13 +675,13 @@ export function LandingPageBuilder() {
                             </button>
                           </div>
                           <div className="grid grid-cols-2 gap-2">
-                            <button type="button" onClick={() => trackedSetSelectedBgId(null)} className={`group relative rounded-[10px] overflow-hidden border-2 transition-all ${selectedBgId === null ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                            <button type="button" onClick={() => trackedSetSelectedBgId(null)} className={`group relative rounded-md overflow-hidden border-2 transition-all ${selectedBgId === null ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                               <div className="aspect-[4/3] bg-tv-surface flex items-center justify-center"><X size={16} className="text-tv-text-decorative" /></div>
                               <div className="px-2 py-1.5 bg-white"><p className={`text-[10px] truncate ${selectedBgId === null ? "text-tv-brand" : "text-tv-text-secondary"}`} style={{ fontWeight: 500 }}>No Background</p></div>
                               {selectedBgId === null && (<div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-tv-brand flex items-center justify-center"><Check size={10} className="text-white" strokeWidth={3} /></div>)}
                             </button>
                             {backgrounds.filter(bg => bg.kind === "color").map(bg => (
-                              <div key={bg.id} className={`group relative rounded-[10px] overflow-hidden border-2 transition-all cursor-pointer ${selectedBgId === bg.id ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`} onClick={() => trackedSetSelectedBgId(bg.id)}>
+                              <div key={bg.id} className={`group relative rounded-md overflow-hidden border-2 transition-all cursor-pointer ${selectedBgId === bg.id ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`} onClick={() => trackedSetSelectedBgId(bg.id)}>
                                 <div className="aspect-[4/3]" style={{ backgroundColor: bg.color }} />
                                 <div className="px-2 py-1.5 bg-white flex items-center justify-between">
                                   <div className="flex items-center gap-1.5 flex-1 min-w-0"><div className="w-3 h-3 rounded-full shrink-0 border border-tv-border-light" style={{ backgroundColor: bg.color }} /><p className={`text-[10px] truncate ${selectedBgId === bg.id ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 500 }}>{bg.name}</p></div>
@@ -697,9 +697,9 @@ export function LandingPageBuilder() {
                       {/* ─── GRADIENT TAB ──────────────────────────────── */}
                       {bgTab === "gradient" && (
                         <div className="space-y-3">
-                          <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-light space-y-3">
+                          <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light space-y-3">
                             <p className="text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Create Gradient</p>
-                            <div className="h-14 rounded-[10px] border border-tv-border-light overflow-hidden" style={{ background: `linear-gradient(${newGradDir}, ${safeHex(newGradFrom)}, ${safeHex(newGradTo)})` }} />
+                            <div className="h-14 rounded-md border border-tv-border-light overflow-hidden" style={{ background: `linear-gradient(${newGradDir}, ${safeHex(newGradFrom)}, ${safeHex(newGradTo)})` }} />
                             <div className="grid grid-cols-2 gap-2">
                               <div>
                                 <label className="text-[9px] text-tv-text-secondary mb-1 block">From</label>
@@ -720,11 +720,11 @@ export function LandingPageBuilder() {
                               <label className="text-[9px] text-tv-text-secondary mb-1 block">Direction</label>
                               <div className="flex items-center gap-1.5">
                                 {GRADIENT_DIRECTIONS.map(d => (
-                                  <button key={d.dir} type="button" onClick={() => setNewGradDir(d.dir)} className={`w-8 h-8 rounded-[8px] flex items-center justify-center border transition-all ${newGradDir === d.dir ? "border-tv-brand bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-decorative hover:border-tv-border-strong"}`} title={d.dir}><d.icon size={13} /></button>
+                                  <button key={d.dir} type="button" onClick={() => setNewGradDir(d.dir)} className={`w-8 h-8 rounded-sm flex items-center justify-center border transition-all ${newGradDir === d.dir ? "border-tv-brand bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-decorative hover:border-tv-border-strong"}`} title={d.dir}><d.icon size={13} /></button>
                                 ))}
                               </div>
                             </div>
-                            <input value={newGradName} onChange={e => setNewGradName(e.target.value)} placeholder="Name (e.g. Sunset Glow)" className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30" />
+                            <input value={newGradName} onChange={e => setNewGradName(e.target.value)} placeholder="Name (e.g. Sunset Glow)" className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30" />
                             <button type="button" onClick={() => {
                               const gName = newGradName.trim() || `${safeHex(newGradFrom)} \u2192 ${safeHex(newGradTo)}`;
                               const newBg: Background = { id: Date.now(), kind: "gradient", name: gName, gradientFrom: safeHex(newGradFrom), gradientTo: safeHex(newGradTo), gradientDir: newGradDir };
@@ -734,13 +734,13 @@ export function LandingPageBuilder() {
                             </button>
                           </div>
                           <div className="grid grid-cols-2 gap-2">
-                            <button type="button" onClick={() => trackedSetSelectedBgId(null)} className={`group relative rounded-[10px] overflow-hidden border-2 transition-all ${selectedBgId === null ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                            <button type="button" onClick={() => trackedSetSelectedBgId(null)} className={`group relative rounded-md overflow-hidden border-2 transition-all ${selectedBgId === null ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                               <div className="aspect-[4/3] bg-tv-surface flex items-center justify-center"><X size={16} className="text-tv-text-decorative" /></div>
                               <div className="px-2 py-1.5 bg-white"><p className={`text-[10px] truncate ${selectedBgId === null ? "text-tv-brand" : "text-tv-text-secondary"}`} style={{ fontWeight: 500 }}>No Background</p></div>
                               {selectedBgId === null && (<div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-tv-brand flex items-center justify-center"><Check size={10} className="text-white" strokeWidth={3} /></div>)}
                             </button>
                             {backgrounds.filter(bg => bg.kind === "gradient").map(bg => (
-                              <div key={bg.id} className={`group relative rounded-[10px] overflow-hidden border-2 transition-all cursor-pointer ${selectedBgId === bg.id ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`} onClick={() => trackedSetSelectedBgId(bg.id)}>
+                              <div key={bg.id} className={`group relative rounded-md overflow-hidden border-2 transition-all cursor-pointer ${selectedBgId === bg.id ? "border-tv-brand ring-2 ring-tv-brand/20" : "border-tv-border-light hover:border-tv-border-strong"}`} onClick={() => trackedSetSelectedBgId(bg.id)}>
                                 <div className="aspect-[4/3]" style={{ background: bgCss(bg) }} />
                                 <div className="px-2 py-1.5 bg-white flex items-center justify-between">
                                   <div className="flex items-center gap-1.5 flex-1 min-w-0"><div className="w-3 h-3 rounded-full shrink-0 border border-tv-border-light" style={{ background: bgCss(bg) }} /><p className={`text-[10px] truncate ${selectedBgId === bg.id ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 500 }}>{bg.name}</p></div>
@@ -841,7 +841,7 @@ export function LandingPageBuilder() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-start">
                   {(["desktop", "tablet", "mobile"] as const).map(d => (
                     <div key={d}>
-                      <div className="rounded-[10px] overflow-hidden border border-tv-border-light shadow-sm bg-white max-h-[340px]">
+                      <div className="rounded-md overflow-hidden border border-tv-border-light shadow-sm bg-white max-h-[340px]">
                         <LandingPagePreview
                           device="mobile"
                           name={name}
@@ -1000,7 +1000,7 @@ function ColorField({ label, value, onChange, required }: {
         }}
           className={`${inputCls} flex-1 min-w-0 font-mono`}
           placeholder="#000000" />
-        <label className="w-10 h-10 rounded-[8px] border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden shadow-sm"
+        <label className="w-10 h-10 rounded-sm border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden shadow-sm"
           style={{ backgroundColor: safeHex(value) }}>
           <input type="color" value={safeHex(value)} onChange={e => onChange(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" />
         </label>
@@ -1019,13 +1019,13 @@ function DeviceToggle({ device, onChange }: { device: DeviceView; onChange: (d: 
     { key: "mobile",  icon: Smartphone, label: "Mobile" },
   ];
   return (
-    <div className="flex items-center gap-1 bg-tv-surface rounded-[10px] p-1 border border-tv-border-light">
+    <div className="flex items-center gap-1 bg-tv-surface rounded-md p-1 border border-tv-border-light">
       {items.map(item => {
         const active = device === item.key;
         return (
           <button key={item.key} onClick={() => onChange(item.key)}
             title={item.label}
-            className={`w-8 h-8 rounded-[8px] flex items-center justify-center transition-all ${
+            className={`w-8 h-8 rounded-sm flex items-center justify-center transition-all ${
               active
                 ? "bg-white shadow-sm border border-tv-border-light text-tv-brand"
                 : "text-tv-text-decorative hover:text-tv-text-secondary"
@@ -1139,7 +1139,7 @@ export function LandingPagePreview({
 
         {/* Video player placeholder */}
         <div className={`${isMobile ? "px-3 -mt-2" : "px-5 -mt-4"} relative z-10 pb-3`}>
-          <div className="rounded-[10px] overflow-hidden shadow-lg">
+          <div className="rounded-md overflow-hidden shadow-lg">
             <div style={{ aspectRatio: isMobile ? "1/1" : "16/9" }} className="bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative">
               <div className={`${isMobile ? "w-10 h-10" : "w-14 h-14"} rounded-full bg-white/15 flex items-center justify-center backdrop-blur-sm border border-white/20`}>
                 <Play size={isMobile ? 14 : 20} className="text-white ml-0.5" fill="white" />

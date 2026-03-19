@@ -399,7 +399,7 @@ function StepSetupModal({
                   value={step.bodyFontFamily || EMAIL_BODY_FONTS[0].value}
                   onChange={e => setStep(s => ({ ...s, bodyFontFamily: e.target.value }))}
                   title="Font Family"
-                  className="border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
+                  className="border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
                   style={{ fontFamily: step.bodyFontFamily || EMAIL_BODY_FONTS[0].value }}
                 >
                   {EMAIL_BODY_FONTS.map(f => (
@@ -415,7 +415,7 @@ function StepSetupModal({
                   value={step.bodyFontSize || 14}
                   onChange={e => setStep(s => ({ ...s, bodyFontSize: Number(e.target.value) }))}
                   title="Font Size"
-                  className="border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
+                  className="border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
                 >
                   {EMAIL_BODY_FONT_SIZES.map(s => (
                     <option key={s} value={s}>{s}px</option>
@@ -427,12 +427,12 @@ function StepSetupModal({
               <div className="flex items-center gap-1.5">
                 <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap font-semibold">Color</label>
                 <div className="relative group/tc2">
-                  <button type="button" title="Text Color" className="flex items-center gap-1.5 border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[13px] bg-white hover:border-tv-border-strong transition-colors cursor-pointer">
+                  <button type="button" title="Text Color" className="flex items-center gap-1.5 border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] bg-white hover:border-tv-border-strong transition-colors cursor-pointer">
                     <span className="w-4 h-4 rounded-[4px] border border-tv-border-light shrink-0" style={{ backgroundColor: step.bodyTextColor || "#1e293b" }} />
                     <span className="text-tv-text-primary">{EMAIL_TEXT_COLORS.find(c => c.value === (step.bodyTextColor || "#1e293b"))?.label || "Custom"}</span>
                     <ChevronDown size={11} className="text-tv-text-secondary" />
                   </button>
-                  <div className="absolute top-full left-0 mt-1.5 p-2.5 bg-white border border-tv-border-light rounded-[10px] shadow-xl z-30 hidden group-hover/tc2:grid grid-cols-5 gap-1.5 w-[155px]">
+                  <div className="absolute top-full left-0 mt-1.5 p-2.5 bg-white border border-tv-border-light rounded-md shadow-xl z-30 hidden group-hover/tc2:grid grid-cols-5 gap-1.5 w-[155px]">
                     {EMAIL_TEXT_COLORS.map(c => (
                       <button key={c.value} type="button" onClick={() => setStep(s => ({ ...s, bodyTextColor: c.value }))} title={c.label}
                         className={`w-5.5 h-5.5 rounded-full border-2 transition-transform hover:scale-110 ${(step.bodyTextColor || "#1e293b") === c.value ? "border-tv-brand ring-1 ring-tv-brand/30" : "border-tv-border-light"}`}
@@ -481,7 +481,7 @@ function StepSetupModal({
           </div>
 
           {/* SMS compliance */}
-          <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[10px] flex gap-2">
+          <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-md flex gap-2">
             <CircleAlert size={12} className="text-tv-warning shrink-0 mt-0.5" />
             <div>
               <p className="text-[11px] text-tv-warning font-semibold">SMS Compliance</p>
@@ -498,11 +498,11 @@ function StepSetupModal({
           <Sparkles size={13} />Write with AI
         </button>
         {showAi && (
-          <div className="mt-2 p-2.5 bg-tv-brand-tint border border-tv-border-strong rounded-[10px] space-y-2">
+          <div className="mt-2 p-2.5 bg-tv-brand-tint border border-tv-border-strong rounded-md space-y-2">
             <textarea value={aiPrompt} onChange={e => setAiPrompt(e.target.value)}
               placeholder={isEmail ? "e.g. Write a heartfelt thank-you message\u2026" : "e.g. Write a brief thank-you SMS\u2026"} rows={2}
               aria-label="AI writing prompt"
-              className="w-full border border-tv-border rounded-[8px] px-2.5 py-1.5 text-[12px] outline-none resize-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+              className="w-full border border-tv-border rounded-sm px-2.5 py-1.5 text-[12px] outline-none resize-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
             <div className="flex items-center gap-2">
               <button onClick={() => setShowAi(false)} className="px-2.5 py-1 text-[11px] text-tv-text-secondary hover:text-tv-brand">Cancel</button>
               <button onClick={handleAiGenerate} disabled={!aiPrompt.trim() || aiGenerating}
@@ -519,7 +519,7 @@ function StepSetupModal({
   // ── Phase: video (replaced with placeholder) ────────────────────────────
   const renderVideo = () => (
     <div className="max-w-[520px] xl:max-w-[600px] 2xl:max-w-[700px] mx-auto flex flex-col items-center justify-center py-10 text-center">
-      <div className="w-16 h-16 rounded-[12px] bg-tv-surface-muted border border-tv-border-light flex items-center justify-center mb-5">
+      <div className="w-16 h-16 rounded-lg bg-tv-surface-muted border border-tv-border-light flex items-center justify-center mb-5">
         <Video size={28} className="text-tv-text-decorative" />
       </div>
       <p className="text-[36px] text-tv-text-decorative mb-1.5" style={{ fontWeight: 900 }}>404</p>
@@ -541,7 +541,7 @@ function StepSetupModal({
         { label: "Video",      value: "See TV Video Builder" },
         { label: "Sender",     value: step.senderName || "\u2014" },
       ].map((row, i) => (
-        <div key={i} className="flex items-center justify-between px-4 py-3 rounded-[10px] bg-tv-surface-muted border border-tv-border-divider">
+        <div key={i} className="flex items-center justify-between px-4 py-3 rounded-md bg-tv-surface-muted border border-tv-border-divider">
           <span className="text-[11px] text-tv-text-label uppercase tracking-wider font-semibold">{row.label}</span>
           <span className="text-[13px] text-tv-text-primary truncate max-w-[60%] text-right">{row.value}</span>
         </div>
@@ -565,7 +565,7 @@ function StepSetupModal({
         <div className="border-b border-tv-border-divider px-6 py-4 shrink-0">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
-              <div className={`w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 ${isEmail ? "bg-tv-brand-tint" : "bg-tv-info-bg"}`}>
+              <div className={`w-8 h-8 rounded-sm flex items-center justify-center shrink-0 ${isEmail ? "bg-tv-brand-tint" : "bg-tv-info-bg"}`}>
                 {isEmail ? <Mail size={15} className="text-tv-brand" /> : <MessageSquare size={15} className="text-tv-info" />}
               </div>
               <div>
@@ -698,7 +698,7 @@ function StepModeSelect({ onSelect }: { onSelect: (mode: StepMode) => void }) {
               const Icon = m.icon;
               return (
                 <button key={m.id} onClick={() => setSelected(m.id)}
-                  className={`text-left p-7 rounded-[12px] border-2 bg-white relative flex flex-col transition-all ${
+                  className={`text-left p-7 rounded-lg border-2 bg-white relative flex flex-col transition-all ${
                     isSelected
                       ? "border-tv-brand-bg shadow-md"
                       : "border-tv-border hover:border-tv-border-strong hover:shadow-sm"
@@ -1325,8 +1325,8 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
       {/* ── Template banner ── */}
       {initialTemplate && (
-        <div className="flex items-center gap-3 p-3.5 rounded-[12px] border border-tv-info-border bg-tv-info-bg">
-          <div className="w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 bg-white">
+        <div className="flex items-center gap-3 p-3.5 rounded-lg border border-tv-info-border bg-tv-info-bg">
+          <div className="w-9 h-9 rounded-sm flex items-center justify-center shrink-0 bg-white">
             <Bookmark size={15} className="text-tv-info" />
           </div>
           <div className="flex-1 min-w-0">
@@ -1341,7 +1341,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       )}
 
       {/* ── Section 1: Campaign Name ── */}
-      <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+      <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
         <div className="px-5 py-4">
           <div className="flex items-center gap-2 mb-3">
             <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Name</p>
@@ -1352,7 +1352,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             value={campaignName}
             onChange={e => { setCampaignName(e.target.value); markDirty(); }}
             placeholder="e.g. Spring Annual Fund Appeal"
-            className="w-full border border-tv-border-light rounded-[10px] px-4 py-3 text-[14px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand transition-colors placeholder:text-tv-text-secondary"
+            className="w-full border border-tv-border-light rounded-md px-4 py-3 text-[14px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand transition-colors placeholder:text-tv-text-secondary"
           />
           <p className="text-[11px] text-tv-text-secondary mt-2">Give your campaign a memorable name so it's easy to find later.</p>
         </div>
@@ -1360,9 +1360,9 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
       {/* ── Section 2: Campaign Type ── */}
       {goalPreSelected && typeMeta ? (
-        <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+        <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
           <div className="flex items-center gap-4 px-5 py-4">
-            <div className="w-11 h-11 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: typeMeta.bg }}>
+            <div className="w-11 h-11 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: typeMeta.bg }}>
               <typeMeta.icon size={20} style={{ color: typeMeta.color }} />
             </div>
             <div className="min-w-0 flex-1">
@@ -1372,10 +1372,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           </div>
         </section>
       ) : (
-        <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+        <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
           <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 bg-tv-brand-tint rounded-[8px] flex items-center justify-center">
+              <div className="w-8 h-8 bg-tv-brand-tint rounded-sm flex items-center justify-center">
                 <Videotape size={15} className="text-tv-brand" />
               </div>
               <div>
@@ -1393,10 +1393,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 const selected = campaignGoal === opt.goal;
                 return (
                   <button key={opt.goal} onClick={() => { setCampaignGoal(opt.goal); markDirty(); }}
-                    className={`relative p-5 rounded-[12px] border-2 text-left transition-all ${
+                    className={`relative p-5 rounded-lg border-2 text-left transition-all ${
                       selected ? "border-tv-brand-bg bg-tv-brand-tint shadow-sm" : "border-tv-border-light hover:border-tv-border-strong"
                     }`}>
-                    <div className={`w-10 h-10 rounded-[10px] ${selected ? "bg-tv-brand-tint" : "bg-tv-surface"} flex items-center justify-center mb-3`}>
+                    <div className={`w-10 h-10 rounded-md ${selected ? "bg-tv-brand-tint" : "bg-tv-surface"} flex items-center justify-center mb-3`}>
                       <opt.icon size={18} className={selected ? "text-tv-brand" : "text-tv-text-secondary"} />
                     </div>
                     <p className="text-[14px] text-tv-text-primary font-semibold">{opt.label}</p>
@@ -1415,10 +1415,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       )}
 
       {/* ── Section 3: Delivery — type-aware ── */}
-      <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+      <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
         <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-tv-brand-tint rounded-[8px] flex items-center justify-center">
+            <div className="w-8 h-8 bg-tv-brand-tint rounded-sm flex items-center justify-center">
               <Send size={15} className="text-tv-brand" />
             </div>
             <div>
@@ -1435,10 +1435,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                   const selected = vrDeliveryType === dt.id;
                   return (
                     <button key={dt.id} onClick={() => { setVrDeliveryType(dt.id); if (dt.id !== "link") switchChannel(dt.id); markDirty(); }}
-                      className={`p-5 rounded-[12px] border-2 text-left transition-all ${
+                      className={`p-5 rounded-lg border-2 text-left transition-all ${
                         selected ? "border-tv-brand-bg bg-tv-brand-tint shadow-sm" : "border-tv-border-light hover:border-tv-border-strong"
                       }`}>
-                      <div className={`w-10 h-10 rounded-[10px] ${selected ? "bg-tv-brand-tint" : "bg-tv-surface"} flex items-center justify-center mb-3`}>
+                      <div className={`w-10 h-10 rounded-md ${selected ? "bg-tv-brand-tint" : "bg-tv-surface"} flex items-center justify-center mb-3`}>
                         <dt.icon size={18} className={selected ? "text-tv-brand" : "text-tv-text-secondary"} />
                       </div>
                       <p className="text-[14px] text-tv-text-primary font-semibold">{dt.label}</p>
@@ -1448,7 +1448,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 })}
               </div>
               {vrDeliveryType === "link" && (
-                <div className="mt-4 p-3 bg-tv-info-bg border border-tv-info-border rounded-[10px] flex gap-2">
+                <div className="mt-4 p-3 bg-tv-info-bg border border-tv-info-border rounded-md flex gap-2">
                   <Info size={12} className="text-tv-info shrink-0 mt-0.5" />
                   <div>
                     <p className="text-[11px] text-tv-info font-semibold">Shareable Link</p>
@@ -1466,10 +1466,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 const selected = campaignCh === ch.type;
                 return (
                   <button key={ch.type} onClick={() => { setCampaignCh(ch.type); switchChannel(ch.type); markDirty(); }}
-                    className={`p-5 rounded-[12px] border-2 text-left transition-all ${
+                    className={`p-5 rounded-lg border-2 text-left transition-all ${
                       selected ? "border-tv-brand-bg bg-tv-brand-tint shadow-sm" : "border-tv-border-light hover:border-tv-border-strong"
                     }`}>
-                    <div className={`w-10 h-10 rounded-[10px] ${selected ? ch.bg : "bg-tv-surface"} flex items-center justify-center mb-3`}>
+                    <div className={`w-10 h-10 rounded-md ${selected ? ch.bg : "bg-tv-surface"} flex items-center justify-center mb-3`}>
                       <ch.icon size={18} className={selected ? ch.color : "text-tv-text-secondary"} />
                     </div>
                     <p className="text-[14px] text-tv-text-primary font-semibold">{ch.label}</p>
@@ -1483,10 +1483,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       </section>
 
       {/* ── Section 4: Success Metrics ── */}
-      <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+      <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
         <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-tv-brand-tint rounded-[8px] flex items-center justify-center">
+            <div className="w-8 h-8 bg-tv-brand-tint rounded-sm flex items-center justify-center">
               <Target size={15} className="text-tv-brand" />
             </div>
             <div>
@@ -1506,7 +1506,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
         </div>
         <div className="p-5 space-y-3">
           {showMetricsInfo && (
-            <div className="p-3 bg-tv-brand-tint border border-tv-brand-bg/20 rounded-[8px]">
+            <div className="p-3 bg-tv-brand-tint border border-tv-brand-bg/20 rounded-sm">
               <p className="text-[11px] text-tv-brand leading-relaxed">
                 Success metrics define which KPIs appear on your campaign dashboard after sending. Pick the outcomes that matter most to your team — whether that&rsquo;s maximizing opens and clicks, or monitoring deliverability. Selected metrics will be tracked in real time and included in post-campaign reports.
               </p>
@@ -1514,13 +1514,13 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           )}
 
           {selectedMetrics.length === 0 && (
-            <div className="flex items-center gap-1.5 p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[8px]">
+            <div className="flex items-center gap-1.5 p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-sm">
               <TriangleAlert size={11} className="text-tv-warning shrink-0" />
               <p className="text-[10px] text-tv-warning">Select at least 1 metric to continue.</p>
             </div>
           )}
           {selectedMetrics.length >= 5 && (
-            <div className="flex items-center gap-1.5 p-2.5 bg-tv-info-bg border border-tv-info-border rounded-[8px]">
+            <div className="flex items-center gap-1.5 p-2.5 bg-tv-info-bg border border-tv-info-border rounded-sm">
               <Info size={11} className="text-tv-info shrink-0" />
               <p className="text-[10px] text-tv-info">Maximum reached. Deselect one to swap.</p>
             </div>
@@ -1548,7 +1548,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               </button>
             </div>
             {showDropoffInfo && (
-              <div className="p-2.5 bg-tv-danger-bg border border-tv-danger/15 rounded-[8px] mb-1.5">
+              <div className="p-2.5 bg-tv-danger-bg border border-tv-danger/15 rounded-sm mb-1.5">
                 <p className="text-[10px] text-tv-danger/80 leading-relaxed">
                   These are watchdog metrics — track them to spot deliverability problems early (bounces, spam complaints), identify who didn&rsquo;t engage for follow-up outreach, and catch unsubscribe spikes before they affect sender reputation.
                 </p>
@@ -1562,10 +1562,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       </section>
 
       {/* ── Section 5: Campaign Tags ── */}
-      <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+      <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
         <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-tv-brand-tint rounded-[8px] flex items-center justify-center">
+            <div className="w-8 h-8 bg-tv-brand-tint rounded-sm flex items-center justify-center">
               <Tag size={15} className="text-tv-brand" />
             </div>
             <div>
@@ -1607,7 +1607,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
         <>
           <h2 className="text-tv-text-primary mb-2" style={{ fontSize: "24px", fontWeight: 900 }}>Video Request Message</h2>
           <p className="text-[13px] text-tv-text-secondary mb-2">Compose the {vrDeliveryType === "email" ? "email" : "SMS"} that invites people to record a video.</p>
-          <div className="p-3 bg-tv-info-bg border border-tv-info-border rounded-[10px] flex gap-2 mb-5">
+          <div className="p-3 bg-tv-info-bg border border-tv-info-border rounded-md flex gap-2 mb-5">
             <Info size={12} className="text-tv-info shrink-0 mt-0.5" />
             <p className="text-[10px] text-tv-info">A "Record Video" CTA button will be automatically included. You can customize it below.</p>
           </div>
@@ -1631,7 +1631,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
           {/* ── Collapsible: Content ── */}
           <button onClick={() => setContentSectionOpen(v => !v)}
-            className="w-full flex items-center justify-between px-4 py-3 rounded-[12px] border border-tv-border-light bg-tv-surface/50 hover:bg-tv-surface transition-colors">
+            className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-tv-border-light bg-tv-surface/50 hover:bg-tv-surface transition-colors">
             <div className="flex items-center gap-2.5">
               <div className="w-7 h-7 bg-tv-brand-tint rounded-[7px] flex items-center justify-center">
                 <Mail size={13} className="text-tv-brand" />
@@ -1775,7 +1775,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     value={step.bodyFontFamily || EMAIL_BODY_FONTS[0].value}
                     onChange={e => setStep(s => ({ ...s, bodyFontFamily: e.target.value }))}
                     title="Font Family"
-                    className="border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
+                    className="border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
                     style={{ fontFamily: step.bodyFontFamily || EMAIL_BODY_FONTS[0].value }}
                   >
                     {EMAIL_BODY_FONTS.map(f => (
@@ -1791,7 +1791,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     value={step.bodyFontSize || 14}
                     onChange={e => setStep(s => ({ ...s, bodyFontSize: Number(e.target.value) }))}
                     title="Font Size"
-                    className="border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
+                    className="border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
                   >
                     {EMAIL_BODY_FONT_SIZES.map(s => (
                       <option key={s} value={s}>{s}px</option>
@@ -1806,13 +1806,13 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     <button
                       type="button"
                       title="Text Color"
-                      className="flex items-center gap-1.5 border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[13px] bg-white hover:border-tv-border-strong transition-colors cursor-pointer"
+                      className="flex items-center gap-1.5 border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] bg-white hover:border-tv-border-strong transition-colors cursor-pointer"
                     >
                       <span className="w-4 h-4 rounded-[4px] border border-tv-border-light shrink-0" style={{ backgroundColor: step.bodyTextColor || "#1e293b" }} />
                       <span className="text-tv-text-primary">{EMAIL_TEXT_COLORS.find(c => c.value === (step.bodyTextColor || "#1e293b"))?.label || "Custom"}</span>
                       <ChevronDown size={11} className="text-tv-text-secondary" />
                     </button>
-                    <div className="absolute top-full left-0 mt-1.5 p-2.5 bg-white border border-tv-border-light rounded-[10px] shadow-xl z-30 hidden group-hover/tcolor:grid grid-cols-5 gap-1.5 w-[155px]">
+                    <div className="absolute top-full left-0 mt-1.5 p-2.5 bg-white border border-tv-border-light rounded-md shadow-xl z-30 hidden group-hover/tcolor:grid grid-cols-5 gap-1.5 w-[155px]">
                       {EMAIL_TEXT_COLORS.map(c => (
                         <button
                           key={c.value}
@@ -1834,7 +1834,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     value={step.bodyLineHeight || 1.5}
                     onChange={e => setStep(s => ({ ...s, bodyLineHeight: Number(e.target.value) }))}
                     title="Line Spacing"
-                    className="border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
+                    className="border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
                   >
                     {EMAIL_BODY_LINE_HEIGHTS.map(lh => (
                       <option key={lh.value} value={lh.value}>{lh.label}</option>
@@ -1873,7 +1873,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     <>
                       <div className="fixed inset-0 z-[9998]" onClick={() => setShowBodySigPicker(false)} />
                       <div
-                        className="fixed z-[9999] w-[260px] bg-white rounded-[10px] border border-tv-border-light shadow-xl overflow-hidden"
+                        className="fixed z-[9999] w-[260px] bg-white rounded-md border border-tv-border-light shadow-xl overflow-hidden"
                         style={(() => {
                           const r = bodySigRef.current?.getBoundingClientRect();
                           if (!r) return { visibility: "hidden" as const };
@@ -1951,14 +1951,14 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             <EmailBodyCharCounter length={htmlTextLength(step.body || "")} />
             {/* Merge field warning — unrecognized fields */}
             {unknownMergeFields.length > 0 && (
-              <div className="p-2 bg-tv-warning-bg border border-tv-warning-border rounded-[8px] flex items-start gap-1.5">
+              <div className="p-2 bg-tv-warning-bg border border-tv-warning-border rounded-sm flex items-start gap-1.5">
                 <AlertTriangle size={11} className="text-tv-warning shrink-0 mt-0.5" />
                 <p className="text-[10px] text-tv-warning">Unrecognized merge field{unknownMergeFields.length > 1 ? "s" : ""}: {unknownMergeFields.map(f => `{{${f}}}`).join(", ")}. These may appear blank for some constituents.</p>
               </div>
             )}
             {/* Merge field warning — missing constituent data */}
             {mergeFieldsWithMissingData.length > 0 && (
-              <div className="p-2 bg-tv-warning-bg border border-tv-warning-border rounded-[8px] flex items-start gap-1.5">
+              <div className="p-2 bg-tv-warning-bg border border-tv-warning-border rounded-sm flex items-start gap-1.5">
                 <CircleAlert size={11} className="text-tv-warning shrink-0 mt-0.5" />
                 <div className="text-[10px] text-tv-warning">
                   <p className="mb-0.5 font-semibold">Some constituents are missing data for merge fields you&rsquo;re using:</p>
@@ -1978,10 +1978,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 <Sparkles size={13} />Write with AI
               </button>
               {showAi && (
-                <div className="mt-2 p-2.5 bg-tv-brand-tint border border-tv-border-strong rounded-[10px] space-y-2">
+                <div className="mt-2 p-2.5 bg-tv-brand-tint border border-tv-border-strong rounded-md space-y-2">
                   <textarea value={aiPrompt} onChange={e => setAiPrompt(e.target.value)} placeholder="e.g. Write a heartfelt thank-you message&#x2026;" rows={2}
                     aria-label="AI writing prompt"
-                    className="w-full border border-tv-border rounded-[8px] px-2.5 py-1.5 text-[12px] outline-none resize-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                    className="w-full border border-tv-border rounded-sm px-2.5 py-1.5 text-[12px] outline-none resize-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
                   <div className="flex items-center gap-2">
                     <button onClick={() => setShowAi(false)} className="px-2.5 py-1 text-[11px] text-tv-text-secondary hover:text-tv-brand">Cancel</button>
                     {aiGenerating ? (
@@ -2004,7 +2004,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     )}
                   </div>
                   {aiError && (
-                    <div className="p-2 bg-tv-danger-bg border border-tv-danger-border rounded-[8px] flex items-start gap-1.5">
+                    <div className="p-2 bg-tv-danger-bg border border-tv-danger-border rounded-sm flex items-start gap-1.5">
                       <AlertTriangle size={11} className="text-tv-danger shrink-0 mt-0.5" />
                       <div>
                         <p className="text-[10px] text-tv-danger font-semibold">AI service unavailable</p>
@@ -2028,7 +2028,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           {showDesignSections && (
             <>
               <button onClick={() => setDesignSectionOpen(v => !v)}
-                className="w-full flex items-center justify-between px-4 py-3 rounded-[12px] border border-tv-border-light bg-tv-surface/50 hover:bg-tv-surface transition-colors">
+                className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-tv-border-light bg-tv-surface/50 hover:bg-tv-surface transition-colors">
                 <div className="flex items-center gap-2.5">
                   <div className="w-7 h-7 bg-tv-brand-tint rounded-[7px] flex items-center justify-center">
                     <Palette size={13} className="text-tv-brand" />
@@ -2203,7 +2203,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           {/* Link shortening toggle */}
           <button onClick={() => setSmsS(s => ({ ...s, linkShortening: !s.linkShortening }))}
             role="switch" aria-checked={smsS.linkShortening} aria-label="Shorten links"
-            className="w-full flex items-center justify-between p-2.5 bg-white rounded-[10px] border border-tv-border-light">
+            className="w-full flex items-center justify-between p-2.5 bg-white rounded-md border border-tv-border-light">
             <div>
               <p className="text-[11px] text-tv-text-primary font-semibold">Shorten Links</p>
               <p className="text-[9px] text-tv-text-secondary">Replace long URLs with trackable short links</p>
@@ -2214,7 +2214,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           </button>
 
           {/* SMS compliance */}
-          <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[10px] flex gap-2">
+          <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-md flex gap-2">
             <CircleAlert size={12} className="text-tv-warning shrink-0 mt-0.5" />
             <div>
               <p className="text-[11px] text-tv-warning font-semibold">SMS Compliance</p>
@@ -2229,10 +2229,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               <Sparkles size={13} />Write with AI
             </button>
             {showAi && (
-              <div className="mt-2 p-2.5 bg-tv-brand-tint border border-tv-border-strong rounded-[10px] space-y-2">
+              <div className="mt-2 p-2.5 bg-tv-brand-tint border border-tv-border-strong rounded-md space-y-2">
                 <textarea value={aiPrompt} onChange={e => setAiPrompt(e.target.value)} placeholder="e.g. Write a brief thank-you SMS\u2026" rows={2}
                   aria-label="AI writing prompt"
-                  className="w-full border border-tv-border rounded-[8px] px-2.5 py-1.5 text-[12px] outline-none resize-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                  className="w-full border border-tv-border rounded-sm px-2.5 py-1.5 text-[12px] outline-none resize-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
                 <div className="flex items-center gap-2">
                   <button onClick={() => setShowAi(false)} className="px-2.5 py-1 text-[11px] text-tv-text-secondary">Cancel</button>
                   <button onClick={handleAiGenerate} disabled={!aiPrompt.trim() || aiGenerating}
@@ -2298,7 +2298,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     </div>
                     <div className="px-3 pt-1.5 pb-1 flex justify-start">
                       <div className="relative max-w-[80%]">
-                        <div className="bg-[#34c759] rounded-[16px] rounded-bl-[4px] px-3 py-2 shadow-sm">
+                        <div className="bg-[#34c759] rounded-xl rounded-bl-[4px] px-3 py-2 shadow-sm">
                           <p style={{ fontSize: "11px", lineHeight: "1.45" }} className="text-white whitespace-pre-wrap">{previewBody || "Your message preview will appear here\u2026"}</p>
                         </div>
                         <svg className="absolute -bottom-[1px] -left-[5px]" width="12" height="10" viewBox="0 0 12 10" fill="none">
@@ -2309,7 +2309,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     {hasLink && (
                       <div className="px-3 pt-1 pb-1 flex justify-start">
                         <div className="max-w-[80%]">
-                          <div className="bg-[#f2f2f7] rounded-[12px] overflow-hidden border border-[#e5e5ea] shadow-sm">
+                          <div className="bg-[#f2f2f7] rounded-lg overflow-hidden border border-[#e5e5ea] shadow-sm">
                             <div className="bg-gradient-to-br from-[#7c45b0]/15 to-[#7c45b0]/5 h-[60px] flex items-center justify-center">
                               <div className="w-7 h-7 rounded-full bg-[#7c45b0] flex items-center justify-center shadow-sm">
                                 <Play size={9} className="text-white ml-[1px]" fill="white" />
@@ -2377,7 +2377,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
       <div className="space-y-5">
         {/* Recording Instructions — rich text editor */}
-        <div className="bg-white rounded-[12px] border border-tv-border-light p-4 space-y-3">
+        <div className="bg-white rounded-lg border border-tv-border-light p-4 space-y-3">
           <div>
             <label className={LABEL_CLS}>Recording Instructions</label>
             <p className="text-[10px] text-tv-text-secondary mb-2">These instructions will be shown to recorders on the landing page.</p>
@@ -2395,7 +2395,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           </div>
 
           {/* Recording Tips — shown to recorders alongside instructions */}
-          <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-divider">
+          <div className="p-3 bg-tv-surface rounded-md border border-tv-border-divider">
             <div className="flex items-center gap-1.5 mb-2">
               <Lightbulb size={11} className="text-tv-info" />
               <span className="text-[10px] text-tv-text-label uppercase tracking-wider font-semibold">Recording Tips (shown to recorders)</span>
@@ -2412,14 +2412,14 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
         </div>
 
         {/* Branded Landing Page */}
-        <div className="bg-white rounded-[12px] border border-tv-border-light p-4">
+        <div className="bg-white rounded-lg border border-tv-border-light p-4">
           <div className="mb-2">
             <label className="text-[10px] text-tv-text-label uppercase tracking-wider font-semibold">Branded Landing Page</label>
           </div>
           <div className="space-y-1.5">
             {allLandingPages.map(p => (
               <button key={p.id} onClick={() => setVrBrandedLandingPage(p.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-[10px] border text-left transition-all ${vrBrandedLandingPage === p.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md border text-left transition-all ${vrBrandedLandingPage === p.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                 <div className="w-7 h-5 rounded-[4px] flex items-center justify-center shrink-0"
                   style={{ background: `linear-gradient(135deg, ${(p as any).color || "#7c45b0"}, ${(p as any).accent || "#a78bfa"})` }}>
                   <Camera size={7} className="text-white" />
@@ -2433,7 +2433,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
         </div>
 
         {/* Include a video from library */}
-        <div className="bg-white rounded-[12px] border border-tv-border-light p-4 space-y-3">
+        <div className="bg-white rounded-lg border border-tv-border-light p-4 space-y-3">
           <button onClick={() => setVrIncludeLibraryVideo(!vrIncludeLibraryVideo)}
             role="switch" aria-checked={vrIncludeLibraryVideo} aria-label="Include instruction video"
             className="w-full flex items-center justify-between">
@@ -2449,7 +2449,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           {vrIncludeLibraryVideo && (
             <div className="pt-2 border-t border-tv-border-divider">
               {vrLibraryVideoId ? (
-                <div className="flex items-center gap-3 p-3 bg-tv-brand-tint border border-tv-border-strong rounded-[10px]">
+                <div className="flex items-center gap-3 p-3 bg-tv-brand-tint border border-tv-border-strong rounded-md">
                   <div className="w-12 h-8 rounded-[6px] bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shrink-0">
                     <Play size={10} className="text-white ml-0.5" fill="white" />
                   </div>
@@ -2464,8 +2464,8 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 </div>
               ) : (
                 <button onClick={() => setShowVrLibraryPicker(true)}
-                  className="w-full flex items-center gap-3 p-3 rounded-[10px] border-2 border-dashed border-tv-border-light hover:border-tv-brand-bg hover:bg-tv-brand-tint/30 transition-all text-left">
-                  <div className="w-10 h-10 rounded-[10px] bg-tv-surface flex items-center justify-center shrink-0">
+                  className="w-full flex items-center gap-3 p-3 rounded-md border-2 border-dashed border-tv-border-light hover:border-tv-brand-bg hover:bg-tv-brand-tint/30 transition-all text-left">
+                  <div className="w-10 h-10 rounded-md bg-tv-surface flex items-center justify-center shrink-0">
                     <Film size={16} className="text-tv-text-secondary" />
                   </div>
                   <div className="flex-1">
@@ -2480,12 +2480,12 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
         </div>
 
         {/* Automated Reminders */}
-        <div className="bg-white rounded-[12px] border border-tv-border-light p-4 space-y-3">
+        <div className="bg-white rounded-lg border border-tv-border-light p-4 space-y-3">
           <label className="text-[10px] text-tv-text-label uppercase tracking-wider block font-semibold">Automated Reminders</label>
           <p className="text-[10px] text-tv-text-secondary">Send reminders to people who haven&rsquo;t submitted a video yet.</p>
           <div className="space-y-1.5">
             {vrReminderDays.map((days, idx) => (
-              <div key={idx} className="flex items-center gap-2 p-2.5 bg-tv-surface rounded-[8px] border border-tv-border-light">
+              <div key={idx} className="flex items-center gap-2 p-2.5 bg-tv-surface rounded-sm border border-tv-border-light">
                 <Bell size={12} className="text-tv-brand shrink-0" />
                 <span className="text-[11px] text-tv-text-secondary shrink-0">Reminder {idx + 1}:</span>
                 <select value={days} onChange={e => {
@@ -2514,7 +2514,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           )}
         </div>
 
-        <div className="p-3 bg-tv-surface border border-tv-border-light rounded-[10px] flex items-start gap-2">
+        <div className="p-3 bg-tv-surface border border-tv-border-light rounded-md flex items-start gap-2">
           <Info size={12} className="text-tv-brand shrink-0 mt-0.5" />
           <p className="text-[11px] text-tv-text-secondary">Submitted videos will appear on the campaign&rsquo;s &ldquo;Replies&rdquo; page and in the &ldquo;Requests&rdquo; folder of your Video Library.</p>
         </div>
@@ -2586,9 +2586,9 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       {/* Shareable link — skip constituent list, just show the link */}
       {isVideoRequest && vrDeliveryType === "link" ? (
         <div className="space-y-3">
-          <div className="p-4 rounded-[12px] border border-tv-border-light bg-white">
+          <div className="p-4 rounded-lg border border-tv-border-light bg-white">
             <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2 block font-semibold">Shareable Video Request Link</label>
-            <div className="flex items-center gap-2 bg-tv-surface rounded-[8px] px-3 py-2.5 border border-tv-border-light">
+            <div className="flex items-center gap-2 bg-tv-surface rounded-sm px-3 py-2.5 border border-tv-border-light">
               <Link2 size={14} className="text-tv-brand shrink-0" />
               <span className="text-[13px] text-tv-text-primary font-mono flex-1 truncate">{vrShareableUrl}</span>
               <button onClick={() => show("Link copied!", "success")}
@@ -2601,7 +2601,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
           <button onClick={() => setVrSubmissionsEnabled(!vrSubmissionsEnabled)}
             role="switch" aria-checked={vrSubmissionsEnabled} aria-label="Accept submissions"
-            className="w-full flex items-center justify-between p-3.5 bg-white rounded-[10px] border border-tv-border-light">
+            className="w-full flex items-center justify-between p-3.5 bg-white rounded-md border border-tv-border-light">
             <div>
               <p className="text-[12px] text-tv-text-primary font-semibold">Accept Submissions</p>
               <p className="text-[10px] text-tv-text-secondary">{vrSubmissionsEnabled ? "Submissions are open" : "Link is disabled — no new submissions"}</p>
@@ -2613,7 +2613,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
           {/* Submissions routing */}
           {vrSubmissionsEnabled && (
-            <div className="p-3.5 bg-white rounded-[10px] border border-tv-border-light space-y-2">
+            <div className="p-3.5 bg-white rounded-md border border-tv-border-light space-y-2">
               <p className="text-[11px] text-tv-text-primary font-semibold">Submission Routing</p>
               <p className="text-[9px] text-tv-text-secondary">Choose where submitted videos are delivered after approval.</p>
               <div className="space-y-1.5">
@@ -2622,7 +2622,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                   { id: "library", label: "Video Library", desc: "Also copy to your Video Library for reuse" },
                   { id: "both", label: "Replies + Library + Email", desc: "Notify admins by email and save everywhere" },
                 ] as const).map(opt => (
-                  <label key={opt.id} className="flex items-start gap-2 px-2.5 py-2 rounded-[8px] border border-tv-border-light hover:bg-tv-surface cursor-pointer transition-colors">
+                  <label key={opt.id} className="flex items-start gap-2 px-2.5 py-2 rounded-sm border border-tv-border-light hover:bg-tv-surface cursor-pointer transition-colors">
                     <input type="radio" name="vr-routing" defaultChecked={opt.id === "library"} className="mt-0.5 accent-tv-brand" />
                     <div>
                       <p className="text-[10px] text-tv-text-primary font-semibold">{opt.label}</p>
@@ -2634,7 +2634,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             </div>
           )}
 
-          <div className="p-3 bg-tv-info-bg border border-tv-info-border rounded-[10px] flex items-start gap-2">
+          <div className="p-3 bg-tv-info-bg border border-tv-info-border rounded-md flex items-start gap-2">
             <Info size={12} className="text-tv-info shrink-0 mt-0.5" />
             <p className="text-[11px] text-tv-info">Submitted videos will appear on the campaign&rsquo;s Replies page and in the &ldquo;Requests&rdquo; folder of your Video Library.</p>
           </div>
@@ -2642,7 +2642,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       ) : (
         <div className="space-y-3">
           {/* Add methods */}
-          <div className="p-4 rounded-[12px] border border-tv-border-light bg-white">
+          <div className="p-4 rounded-lg border border-tv-border-light bg-white">
             <div className="flex items-center justify-between mb-3">
               <label className="text-[10px] text-tv-text-label uppercase tracking-wider flex items-center gap-1.5 font-semibold">
                 Add {isVideoRequest ? "Recorders" : "Constituents"}
@@ -2656,7 +2656,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 { key: "list" as const,   icon: Users,    label: "From List",     desc: "Use saved list" },
               ]).map(m => (
                 <button key={m.key} onClick={() => setShowAddMethod(showAddMethod === m.key ? null : m.key)}
-                  className={`flex flex-col items-center text-center p-3 rounded-[10px] border transition-all ${showAddMethod === m.key ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                  className={`flex flex-col items-center text-center p-3 rounded-md border transition-all ${showAddMethod === m.key ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                   <m.icon size={16} className={showAddMethod === m.key ? "text-tv-brand" : "text-tv-text-secondary"} />
                   <p className={`text-[11px] mt-1.5 ${showAddMethod === m.key ? "text-tv-brand" : "text-tv-text-primary"} font-semibold`}>{m.label}</p>
                   <p className="text-[9px] text-tv-text-secondary">{m.desc}</p>
@@ -2666,8 +2666,8 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
             {/* CSV Upload panel */}
             {showAddMethod === "csv" && (
-              <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-light space-y-2">
-                <div className="border-2 border-dashed border-tv-border-light rounded-[10px] p-6 text-center hover:border-tv-brand-bg transition-colors cursor-pointer" role="button" tabIndex={0} onClick={addCsvConstituents} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); addCsvConstituents(); } }}>
+              <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light space-y-2">
+                <div className="border-2 border-dashed border-tv-border-light rounded-md p-6 text-center hover:border-tv-brand-bg transition-colors cursor-pointer" role="button" tabIndex={0} onClick={addCsvConstituents} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); addCsvConstituents(); } }}>
                   <Upload size={20} className="text-tv-text-secondary mx-auto mb-2" />
                   <p className="text-[12px] text-tv-text-primary font-semibold">Drop a CSV file here or click to browse</p>
                   <p className="text-[10px] text-tv-text-secondary mt-1">Columns: Name, Email, Phone (optional)</p>
@@ -2678,10 +2678,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
             {/* Manual add panel */}
             {showAddMethod === "manual" && (
-              <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-light space-y-2">
+              <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light space-y-2">
                 <p className="text-[11px] text-tv-text-primary font-semibold">Add a constituent manually</p>
                 <button onClick={addManualConstituent}
-                  className="w-full flex items-center justify-center gap-1.5 py-2 text-[12px] text-tv-brand border border-tv-brand-bg/30 rounded-[8px] hover:bg-tv-brand-tint transition-colors font-semibold">
+                  className="w-full flex items-center justify-center gap-1.5 py-2 text-[12px] text-tv-brand border border-tv-brand-bg/30 rounded-sm hover:bg-tv-brand-tint transition-colors font-semibold">
                   <Plus size={12} />Add Constituent
                 </button>
               </div>
@@ -2689,7 +2689,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
             {/* From List panel */}
             {showAddMethod === "list" && (
-              <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-light space-y-1.5">
+              <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light space-y-1.5">
                 {[
                   { name: "All Donors", count: 2340 },
                   { name: "Major Donors", count: 128 },
@@ -2698,7 +2698,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                   { name: "Board Members", count: 24 },
                 ].map(l => (
                   <button key={l.name} onClick={() => addFromList(l.name, l.count)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 rounded-[8px] border border-tv-border-light bg-white hover:border-tv-brand-bg hover:bg-tv-brand-tint transition-all text-left">
+                    className="w-full flex items-center justify-between px-3 py-2.5 rounded-sm border border-tv-border-light bg-white hover:border-tv-brand-bg hover:bg-tv-brand-tint transition-all text-left">
                     <div className="flex items-center gap-2">
                       <Users size={12} className="text-tv-text-secondary" />
                       <span className="text-[12px] text-tv-text-primary">{l.name}</span>
@@ -2712,7 +2712,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
           {/* Constituent table */}
           {constituents.length > 0 && (
-            <div className="p-4 rounded-[12px] border border-tv-border-light bg-white">
+            <div className="p-4 rounded-lg border border-tv-border-light bg-white">
               <div className="flex items-center justify-between mb-3">
                 <label className="text-[10px] text-tv-text-label uppercase tracking-wider font-semibold">{isVideoRequest ? "Recorder" : "Constituent"} List</label>
                 <div className="flex items-center gap-2">
@@ -2764,7 +2764,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           )}
 
           {/* Estimated count */}
-          <div className="p-4 rounded-[12px] border border-tv-border-light bg-white">
+          <div className="p-4 rounded-lg border border-tv-border-light bg-white">
             <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1 flex items-center gap-1.5 font-semibold">
               Estimated {isVideoRequest ? "Recorders" : "Constituents"}
             </label>
@@ -2775,7 +2775,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           {/* Video Request: due date & reminders */}
           {isVideoRequest && (
             <>
-              <div className="p-4 rounded-[12px] border border-tv-border-light bg-white space-y-3">
+              <div className="p-4 rounded-lg border border-tv-border-light bg-white space-y-3">
                 <div>
                   <label className={LABEL_CLS}>Due Date</label>
                   <input type="date" value={vrDueDate} onChange={e => setVrDueDate(e.target.value)}
@@ -2784,7 +2784,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 </div>
                 <button onClick={() => setVrReminderEnabled(!vrReminderEnabled)}
                   role="switch" aria-checked={vrReminderEnabled} aria-label="Automated reminders"
-                  className="w-full flex items-center justify-between p-2.5 bg-tv-surface rounded-[8px] border border-tv-border-light">
+                  className="w-full flex items-center justify-between p-2.5 bg-tv-surface rounded-sm border border-tv-border-light">
                   <div>
                     <p className="text-[11px] text-tv-text-primary font-semibold">Automated Reminders</p>
                     <p className="text-[9px] text-tv-text-secondary">Send reminders before the due date</p>
@@ -2816,7 +2816,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
               <button onClick={() => setVrSubmissionsEnabled(!vrSubmissionsEnabled)}
                 role="switch" aria-checked={vrSubmissionsEnabled} aria-label="Accept submissions"
-                className="w-full flex items-center justify-between p-3.5 bg-white rounded-[10px] border border-tv-border-light">
+                className="w-full flex items-center justify-between p-3.5 bg-white rounded-md border border-tv-border-light">
                 <div>
                   <p className="text-[12px] text-tv-text-primary font-semibold">Accept Submissions</p>
                   <p className="text-[10px] text-tv-text-secondary">{vrSubmissionsEnabled ? "Submissions are open" : "Submissions are closed"}</p>
@@ -2828,7 +2828,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             </>
           )}
 
-          <div className="p-3 bg-tv-surface border border-tv-border-light rounded-[10px] flex items-start gap-2">
+          <div className="p-3 bg-tv-surface border border-tv-border-light rounded-md flex items-start gap-2">
             <CircleAlert size={13} className="text-tv-brand shrink-0 mt-0.5" />
             <p className="text-[11px] text-tv-text-secondary">
               {isVideoRequest
@@ -2888,10 +2888,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       const active = scheduleType === type;
       return (
         <button onClick={() => setScheduleType(type)}
-          className={`flex-1 min-w-0 p-3 rounded-[12px] border-2 text-left transition-all flex flex-col items-center text-center gap-1.5 ${
+          className={`flex-1 min-w-0 p-3 rounded-lg border-2 text-left transition-all flex flex-col items-center text-center gap-1.5 ${
             active ? "border-tv-brand-bg bg-tv-brand-tint shadow-md" : "border-tv-border-light hover:border-tv-border-strong bg-white"
           }`}>
-          <div className={`w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 ${active ? "bg-tv-brand-bg" : "bg-tv-surface"}`}>
+          <div className={`w-9 h-9 rounded-sm flex items-center justify-center shrink-0 ${active ? "bg-tv-brand-bg" : "bg-tv-surface"}`}>
             <CardIcon size={16} className={active ? "text-white" : "text-tv-text-secondary"} />
           </div>
           <p className={`text-[12px] ${active ? "text-tv-brand" : "text-tv-text-primary"} font-semibold`}>{label}</p>
@@ -2919,7 +2919,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
         {/* Send Test Modal */}
         {showSendTestModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-            <div className="bg-white rounded-[20px] border border-tv-border-light shadow-xl w-full max-w-[560px] overflow-hidden">
+            <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-[560px] overflow-hidden">
               <div className="px-6 pt-5 pb-3 border-b border-tv-border-divider flex items-center justify-between">
                 <div>
                   <h3 className="text-[16px] text-tv-text-primary" style={{ fontWeight: 900 }}>Send Test</h3>
@@ -2929,7 +2929,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               </div>
               <div className="px-6 py-4 space-y-4">
                 {/* Single vs Group toggle */}
-                <div className="flex rounded-[8px] border border-tv-border-light overflow-hidden">
+                <div className="flex rounded-sm border border-tv-border-light overflow-hidden">
                   <button onClick={() => setSendTestMode("single")} className={`flex-1 py-2 text-[11px] transition-colors ${sendTestMode === "single" ? "bg-tv-brand-bg text-white" : "text-tv-text-secondary hover:bg-tv-surface-hover"} font-semibold`}>Single Email</button>
                   <button onClick={() => setSendTestMode("group")} className={`flex-1 py-2 text-[11px] transition-colors ${sendTestMode === "group" ? "bg-tv-brand-bg text-white" : "text-tv-text-secondary hover:bg-tv-surface-hover"} font-semibold`}>Test Group</button>
                 </div>
@@ -2977,7 +2977,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                   <div className="space-y-1.5">
                     {SEND_TEST_CONSTITUENTS.map(r => (
                       <button key={r.id} onClick={() => setSendTestPreviewAs(r.id)}
-                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-[8px] border text-left transition-all ${sendTestPreviewAs === r.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-sm border text-left transition-all ${sendTestPreviewAs === r.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                         <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${sendTestPreviewAs === r.id ? "border-tv-brand-bg bg-tv-brand-bg" : "border-tv-border-light"}`}>
                           {sendTestPreviewAs === r.id && <Check size={8} className="text-white" />}
                         </div>
@@ -3019,7 +3019,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           {/* ─── LEFT COLUMN: Schedule ─── */}
           <div className="space-y-4">
             {/* Schedule mode — compact 3-across row */}
-            <div className="p-4 rounded-[12px] border border-tv-border-light bg-white">
+            <div className="p-4 rounded-lg border border-tv-border-light bg-white">
               <div className="flex items-center gap-2 mb-3">
                 <Calendar size={13} className="text-tv-brand" />
                 <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 700 }}>Scheduling</p>
@@ -3038,7 +3038,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
             {/* Expanded config panels */}
             {scheduleType === "later" && (
-              <div className="p-4 rounded-[12px] border border-tv-brand-bg/20 bg-tv-brand-tint/30 space-y-3">
+              <div className="p-4 rounded-lg border border-tv-brand-bg/20 bg-tv-brand-tint/30 space-y-3">
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className={LABEL_CLS}>Date</label>
@@ -3052,13 +3052,13 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                   </div>
                 </div>
                 {scheduleDateInPast && (
-                  <div className="flex items-center gap-2 p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[8px]">
+                  <div className="flex items-center gap-2 p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-sm">
                     <TriangleAlert size={12} className="text-tv-warning shrink-0" />
                     <p className="text-[10px] text-tv-warning">This date is in the past. Choose a future date.</p>
                   </div>
                 )}
                 {scheduledDate && !scheduleDateInPast && (
-                  <div className="flex items-center gap-2 p-2.5 bg-tv-success-bg border border-tv-success-border rounded-[8px]">
+                  <div className="flex items-center gap-2 p-2.5 bg-tv-success-bg border border-tv-success-border rounded-sm">
                     <Check size={12} className="text-tv-success shrink-0" />
                     <p className="text-[10px] text-tv-success">
                       {new Date(`${scheduledDate}T${scheduledTime}`).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} at {scheduledTime}
@@ -3069,7 +3069,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             )}
 
             {scheduleType === "contact-field" && (
-              <div className="p-4 rounded-[12px] border border-tv-brand-bg/20 bg-tv-brand-tint/30 space-y-3">
+              <div className="p-4 rounded-lg border border-tv-brand-bg/20 bg-tv-brand-tint/30 space-y-3">
                 <label className="text-[10px] text-tv-text-label uppercase tracking-wider block font-semibold">Select Date Field</label>
                 <div className="grid grid-cols-2 gap-2">
                   {CONSTITUENT_DATE_FIELDS.map(f => {
@@ -3077,7 +3077,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     const selected = contactDateField === f.id;
                     return (
                       <button key={f.id} onClick={() => setContactDateField(f.id)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-[8px] border text-left transition-all ${
+                        className={`flex items-center gap-2 px-3 py-2 rounded-sm border text-left transition-all ${
                           selected ? "border-tv-brand-bg bg-white text-tv-brand" : "border-tv-border-light bg-white hover:border-tv-border-strong text-tv-text-secondary"
                         }`}>
                         <Icon size={13} className={selected ? "text-tv-brand" : "text-tv-text-decorative"} />
@@ -3090,7 +3090,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
                 {contactDateField && (
                   <>
-                    <div className="flex items-center gap-2 p-2.5 bg-tv-brand-tint border border-tv-brand-bg/20 rounded-[8px]">
+                    <div className="flex items-center gap-2 p-2.5 bg-tv-brand-tint border border-tv-brand-bg/20 rounded-sm">
                       <Info size={11} className="text-tv-brand shrink-0" />
                       <p className="text-[10px] text-tv-brand">
                         {CONSTITUENT_DATE_FIELDS.find(c => c.id === contactDateField)?.desc}. Missing constituents will be skipped.
@@ -3104,7 +3104,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                       const malformedCount = Math.max(0, Math.floor(constituents.length * 0.03));
                       const validCount = constituents.length - missingCount - malformedCount;
                       return (
-                        <div className="p-3 bg-white border border-tv-warning-border rounded-[8px] space-y-2">
+                        <div className="p-3 bg-white border border-tv-warning-border rounded-sm space-y-2">
                           <div className="flex items-center gap-1.5">
                             <AlertTriangle size={11} className="text-tv-warning shrink-0" />
                             <p className="text-[10px] text-tv-warning font-semibold">Date Field Validation</p>
@@ -3135,11 +3135,11 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                           <label className={LABEL_CLS}>Feb 29 Handling</label>
                           <div className="flex gap-1.5">
                             <button onClick={() => setLeapYearHandling("feb28")}
-                              className={`flex-1 px-2 py-2 rounded-[8px] border text-[10px] transition-all ${leapYearHandling === "feb28" ? "border-tv-brand-bg bg-white text-tv-brand font-semibold" : "border-tv-border-light bg-white text-tv-text-secondary"}`}>
+                              className={`flex-1 px-2 py-2 rounded-sm border text-[10px] transition-all ${leapYearHandling === "feb28" ? "border-tv-brand-bg bg-white text-tv-brand font-semibold" : "border-tv-border-light bg-white text-tv-text-secondary"}`}>
                               Feb 28
                             </button>
                             <button onClick={() => setLeapYearHandling("mar1")}
-                              className={`flex-1 px-2 py-2 rounded-[8px] border text-[10px] transition-all ${leapYearHandling === "mar1" ? "border-tv-brand-bg bg-white text-tv-brand font-semibold" : "border-tv-border-light bg-white text-tv-text-secondary"}`}>
+                              className={`flex-1 px-2 py-2 rounded-sm border text-[10px] transition-all ${leapYearHandling === "mar1" ? "border-tv-brand-bg bg-white text-tv-brand font-semibold" : "border-tv-border-light bg-white text-tv-text-secondary"}`}>
                               Mar 1
                             </button>
                           </div>
@@ -3152,17 +3152,17 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             )}
 
             {!scheduleType && (
-              <div className="flex items-center gap-2 p-3 bg-tv-surface-muted border border-tv-border-light rounded-[10px]">
+              <div className="flex items-center gap-2 p-3 bg-tv-surface-muted border border-tv-border-light rounded-md">
                 <Info size={12} className="text-tv-text-secondary shrink-0" />
                 <p className="text-[11px] text-tv-text-secondary">Select a scheduling option above to continue.</p>
               </div>
             )}
 
             {/* Timezone — inline compact */}
-            <div className="p-3.5 rounded-[12px] border border-tv-border-light bg-white flex items-center gap-3">
+            <div className="p-3.5 rounded-lg border border-tv-border-light bg-white flex items-center gap-3">
               <Globe size={13} className="text-tv-text-secondary shrink-0" />
               <label className="text-[10px] text-tv-text-label uppercase tracking-wider shrink-0 font-semibold">Timezone</label>
-              <select aria-label="Timezone" className="flex-1 border border-tv-border-light rounded-[8px] px-2.5 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white">
+              <select aria-label="Timezone" className="flex-1 border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white">
                 <option>(UTC-05:00) Eastern Time (US &amp; Canada)</option>
                 <option>(UTC-06:00) Central Time (US &amp; Canada)</option>
                 <option>(UTC-07:00) Mountain Time (US &amp; Canada)</option>
@@ -3177,7 +3177,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           <div className="space-y-4">
             {/* Metrics summary chip — compact reminder that metrics are set in Configure */}
             {selectedMetrics.length > 0 && (
-              <div className="p-3 rounded-[12px] border border-tv-success-border bg-tv-success-bg/50 flex items-center gap-2">
+              <div className="p-3 rounded-lg border border-tv-success-border bg-tv-success-bg/50 flex items-center gap-2">
                 <Target size={12} className="text-tv-success shrink-0" />
                 <p className="text-[11px] text-tv-success flex-1">
                   <span className="font-semibold">{selectedMetrics.length} metric{selectedMetrics.length !== 1 ? "s" : ""}</span> selected in Configure step
@@ -3186,14 +3186,14 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               </div>
             )}
             {selectedMetrics.length === 0 && (
-              <div className="p-3 rounded-[12px] border border-tv-warning-border bg-tv-warning-bg flex items-center gap-2">
+              <div className="p-3 rounded-lg border border-tv-warning-border bg-tv-warning-bg flex items-center gap-2">
                 <TriangleAlert size={12} className="text-tv-warning shrink-0" />
                 <p className="text-[11px] text-tv-warning">No success metrics selected — go back to Configure to add them.</p>
               </div>
             )}
 
             {/* Campaign Summary — sticky card */}
-            <div className="p-4 rounded-[12px] border border-tv-border-light bg-white space-y-1.5 lg:sticky lg:top-4">
+            <div className="p-4 rounded-lg border border-tv-border-light bg-white space-y-1.5 lg:sticky lg:top-4">
               <div className="flex items-center gap-2 mb-1">
                 <BarChart3 size={13} className="text-tv-text-secondary" />
                 <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 700 }}>Summary</p>
@@ -3382,7 +3382,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     Next<ChevronRight size={13} />
                   </button>
                   {configBlocked && (
-                    <div className="absolute bottom-full mb-2 right-0 w-52 p-2.5 bg-[#1e293b] text-white text-[11px] rounded-[8px] shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+                    <div className="absolute bottom-full mb-2 right-0 w-52 p-2.5 bg-[#1e293b] text-white text-[11px] rounded-sm shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
                       {!campaignName.trim() ? "Enter a campaign name." : !campaignGoal ? "Select a campaign type." : (campaignGoal === "request-video" ? !vrDeliveryType : !campaignCh) ? "Select a delivery channel." : selectedMetrics.length < 1 ? "Select at least 1 success metric." : "Complete configuration."}
                       <div className="absolute -bottom-1 right-6 w-2 h-2 bg-[#1e293b] rotate-45" />
                     </div>
@@ -3432,7 +3432,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                       Next: Review &amp; Send<ChevronRight size={13} />
                     </button>
                     {!canAdvance && (
-                      <div className="absolute bottom-full mb-2 right-0 w-52 p-2.5 bg-[#1e293b] text-white text-[11px] rounded-[8px] shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+                      <div className="absolute bottom-full mb-2 right-0 w-52 p-2.5 bg-[#1e293b] text-white text-[11px] rounded-sm shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
                         {!scheduleType ? "Please select a scheduling option." : scheduleDateInPast ? "Scheduled date is in the past." : "Complete the send configuration."}
                         <div className="absolute -bottom-1 right-6 w-2 h-2 bg-[#1e293b] rotate-45" />
                       </div>
@@ -3466,7 +3466,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       {/* Cancel confirmation overlay */}
       {showCancelConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" role="dialog" aria-modal="true" aria-labelledby="discard-campaign-title">
-          <div className="bg-white rounded-[20px] border border-tv-border-light shadow-xl w-full max-w-sm mx-4 p-6">
+          <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-sm mx-4 p-6">
             <h3 id="discard-campaign-title" className="text-tv-text-primary mb-2">Discard campaign?</h3>
             <p className="text-[13px] text-tv-text-secondary mb-6">
               All progress on this campaign will be lost. This action cannot be undone.
@@ -3508,7 +3508,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
       {showModeConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" role="dialog" aria-modal="true" aria-labelledby="leave-builder-title">
-          <div className="bg-white rounded-[20px] border border-tv-border-light shadow-xl w-full max-w-sm mx-4 p-6">
+          <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-sm mx-4 p-6">
             <h3 id="leave-builder-title" className="text-tv-text-primary mb-2">Leave campaign builder?</h3>
             <p className="text-[13px] text-tv-text-secondary mb-6">
               Your current progress will be lost. Are you sure you want to go back?
@@ -3534,10 +3534,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       {/* ── Save as Template modal ── */}
       {showSaveTemplate && (
         <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center" onClick={() => setShowSaveTemplate(false)} role="dialog" aria-modal="true" aria-labelledby="save-template-title">
-          <div className="bg-white rounded-[20px] border border-tv-border-light shadow-xl w-full max-w-[460px] mx-4" onClick={e => e.stopPropagation()}>
+          <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-[460px] mx-4" onClick={e => e.stopPropagation()}>
             <div className="px-6 pt-6 pb-4 border-b border-tv-border-divider">
               <div className="flex items-center gap-3 mb-1">
-                <div className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0 bg-tv-star-bg">
+                <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0 bg-tv-star-bg">
                   <Bookmark size={18} className="text-tv-warning" />
                 </div>
                 <div>
@@ -3569,7 +3569,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 />
               </div>
               {/* Summary of what will be saved */}
-              <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-divider">
+              <div className="p-3 bg-tv-surface rounded-md border border-tv-border-divider">
                 <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2 font-semibold">Configuration to save</p>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1">
                   <span className="text-[11px] text-tv-text-secondary">Mode:</span>

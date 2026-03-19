@@ -25,7 +25,7 @@ export function EnvelopeBuilderModal({ onSave, onClose }: { onSave: (env: SavedE
   return (
     <FocusTrap active>
     <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Envelope builder">
-      <div className="w-full max-w-[1140px] bg-white rounded-[20px] border border-tv-border-light shadow-2xl flex flex-col" style={{ maxHeight: "94vh" }}>
+      <div className="w-full max-w-[1140px] bg-white rounded-xl border border-tv-border-light shadow-2xl flex flex-col" style={{ maxHeight: "94vh" }}>
         <div className="px-6 py-4 border-b border-tv-border-divider shrink-0">
           <div className="flex items-center gap-3">
             <button onClick={onClose} className="w-7 h-7 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary transition-colors">
@@ -43,7 +43,7 @@ export function EnvelopeBuilderModal({ onSave, onClose }: { onSave: (env: SavedE
             <div className="flex-1 overflow-y-auto p-5 space-y-6">
               <div>
                 <p className="tv-label mb-2">Envelope Title</p>
-                <input value={envTitle} onChange={e => setEnvTitle(e.target.value)} className="w-full border border-tv-border-light rounded-[10px] px-3 py-2.5 text-[13px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/20 focus:border-tv-brand transition-colors" />
+                <input value={envTitle} onChange={e => setEnvTitle(e.target.value)} className="w-full border border-tv-border-light rounded-md px-3 py-2.5 text-[13px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/20 focus:border-tv-brand transition-colors" />
               </div>
               <ColorSwatchPicker label="Envelope Color" value={envColor} onChange={(hex) => setEnvColor(hex)} swatches={BRAND_PALETTE} swatchSize={32} />
               <ColorSwatchPicker label="Liner Color" value={linerColor} onChange={(hex) => setLinerColor(hex)} swatches={BRAND_PALETTE} swatchSize={32} />
@@ -53,7 +53,7 @@ export function EnvelopeBuilderModal({ onSave, onClose }: { onSave: (env: SavedE
           <div className="flex-1 bg-tv-surface flex flex-col items-center justify-center p-6 overflow-y-auto">
             <p className="text-[10px] text-tv-text-secondary uppercase tracking-[0.15em] mb-4" style={{ fontWeight: 600 }}>Live preview</p>
             <div className="w-full max-w-[420px]">
-              <div className="aspect-[3/2] rounded-[12px] overflow-hidden shadow-xl relative" style={{ backgroundColor: envColor }}>
+              <div className="aspect-[3/2] rounded-lg overflow-hidden shadow-xl relative" style={{ backgroundColor: envColor }}>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="text-[18px] italic text-white/90" style={{ fontWeight: 500 }}>Your Constituent's Name</span>
                 </div>

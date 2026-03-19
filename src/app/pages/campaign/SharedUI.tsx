@@ -190,7 +190,7 @@ export function RichTextToolbar({
               <>
                 <div className="fixed inset-0 z-[9998]" onClick={() => setShowSigPicker(false)} />
                 <div
-                  className="fixed z-[9999] w-[260px] bg-white rounded-[10px] border border-tv-border-light shadow-xl overflow-hidden"
+                  className="fixed z-[9999] w-[260px] bg-white rounded-md border border-tv-border-light shadow-xl overflow-hidden"
                   style={sigPos ? { top: sigPos.top, left: sigPos.left } : { visibility: "hidden" as const }}
                 >
                   <div className="px-3 py-2 border-b border-tv-border-divider">

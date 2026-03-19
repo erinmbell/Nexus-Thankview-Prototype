@@ -33,7 +33,7 @@ function Svg() {
 
 function Background() {
   return (
-    <div className="absolute bg-[#f3eeff] left-[24px] rounded-[10px] size-[36px] top-[17.99px]" data-name="Background">
+    <div className="absolute bg-[#f3eeff] left-[24px] rounded-md size-[36px] top-[17.99px]" data-name="Background">
       <Svg />
     </div>
   );
@@ -482,7 +482,7 @@ function Container1() {
 
 function Input() {
   return (
-    <div className="absolute border border-[#e0daea] border-solid h-[41.89px] left-[24px] overflow-clip right-[23.99px] rounded-[8px] top-[1017.68px]" data-name="Input">
+    <div className="absolute border border-[#e0daea] border-solid h-[41.89px] left-[24px] overflow-clip right-[23.99px] rounded-sm top-[1017.68px]" data-name="Input">
       <Container1 />
     </div>
   );
@@ -764,7 +764,7 @@ function Container3() {
 
 function Border() {
   return (
-    <div className="absolute border border-[#e0daea] border-solid h-[37.1px] left-0 right-0 rounded-[8px] top-0" data-name="Border">
+    <div className="absolute border border-[#e0daea] border-solid h-[37.1px] left-0 right-0 rounded-sm top-0" data-name="Border">
       <Button31 />
       <Container3 />
       <div className="-translate-y-1/2 absolute flex flex-col font-['Roboto:Regular',sans-serif] font-normal h-[13.95px] justify-center leading-[0] left-[1243.35px] text-[#b5a4cd] text-[9px] top-[17.54px] w-[17.642px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -811,7 +811,7 @@ function Container4() {
 
 function Border1() {
   return (
-    <div className="absolute border border-[#e0daea] border-solid h-[37.1px] left-0 right-0 rounded-[8px] top-[41.09px]" data-name="Border">
+    <div className="absolute border border-[#e0daea] border-solid h-[37.1px] left-0 right-0 rounded-sm top-[41.09px]" data-name="Border">
       <Button32 />
       <Container4 />
       <div className="-translate-y-1/2 absolute flex flex-col font-['Roboto:Regular',sans-serif] font-normal h-[13.95px] justify-center leading-[0] left-[1243.35px] text-[#b5a4cd] text-[9px] top-[17.54px] w-[17.642px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -876,7 +876,7 @@ function Svg19() {
 
 function Border2() {
   return (
-    <div className="absolute border border-[#e0daea] border-dashed inset-[1406.51px_23.99px_130.94px_24px] rounded-[10px]" data-name="Border">
+    <div className="absolute border border-[#e0daea] border-dashed inset-[1406.51px_23.99px_130.94px_24px] rounded-md" data-name="Border">
       <Svg19 />
       <div className="-translate-x-1/2 -translate-y-1/2 absolute flex flex-col font-['Roboto:Regular',sans-serif] font-normal h-[11.67px] justify-center leading-[0] left-[calc(50%+0.18px)] text-[#737373] text-[10px] text-center top-[46.17px] w-[98.251px]" style={{ fontVariationSettings: "'wdth' 100" }}>
         <p>
@@ -1123,7 +1123,7 @@ function Background4() {
 
 function BackgroundBorder1() {
   return (
-    <div className="-translate-y-1/2 absolute bg-[#f3eeff] border border-[#995cd3] border-solid h-[50.31px] left-0 rounded-[10px] top-[calc(50%-0.01px)] w-[108.57px]" data-name="Background+Border">
+    <div className="-translate-y-1/2 absolute bg-[#f3eeff] border border-[#995cd3] border-solid h-[50.31px] left-0 rounded-md top-[calc(50%-0.01px)] w-[108.57px]" data-name="Background+Border">
       <Background4 />
       <div className="-translate-y-1/2 absolute flex flex-col font-['Roboto:SemiBold',sans-serif] font-semibold h-[12.78px] justify-center leading-[0] left-[48.66px] text-[#242436] text-[11px] top-[16.72px] w-[23.368px]" style={{ fontVariationSettings: "'wdth' 100" }}>
         <p className="leading-[17.05px]">Intro</p>
@@ -1150,8 +1150,8 @@ function Svg26() {
 
 function Button37() {
   return (
-    <div className="-translate-y-1/2 absolute bg-[#995cd3] left-[114.57px] rounded-[10px] size-[40px] top-1/2" data-name="Button">
-      <div className="-translate-y-1/2 absolute bg-[rgba(255,255,255,0)] left-0 rounded-[10px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_-1px_rgba(0,0,0,0.1)] size-[40px] top-1/2" data-name="Button:shadow" />
+    <div className="-translate-y-1/2 absolute bg-[#995cd3] left-[114.57px] rounded-md size-[40px] top-1/2" data-name="Button">
+      <div className="-translate-y-1/2 absolute bg-[rgba(255,255,255,0)] left-0 rounded-md shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_-1px_rgba(0,0,0,0.1)] size-[40px] top-1/2" data-name="Button:shadow" />
       <Svg26 />
     </div>
   );

@@ -20,7 +20,7 @@ function Icon() {
 
 function Container2() {
   return (
-    <div className="bg-[#f3eeff] relative rounded-[12px] shrink-0 size-[44px]" data-name="Container">
+    <div className="bg-[#f3eeff] relative rounded-lg shrink-0 size-[44px]" data-name="Container">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Icon />
       </div>
@@ -93,7 +93,7 @@ function Icon1() {
 
 function Container4() {
   return (
-    <div className="bg-[#e0f8ff] relative rounded-[12px] shrink-0 size-[44px]" data-name="Container">
+    <div className="bg-[#e0f8ff] relative rounded-lg shrink-0 size-[44px]" data-name="Container">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Icon1 />
       </div>
@@ -172,7 +172,7 @@ function Icon2() {
 
 function Container6() {
   return (
-    <div className="bg-[#fef9ee] relative rounded-[12px] shrink-0 size-[44px]" data-name="Container">
+    <div className="bg-[#fef9ee] relative rounded-lg shrink-0 size-[44px]" data-name="Container">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Icon2 />
       </div>
@@ -244,7 +244,7 @@ function Icon3() {
 
 function Container8() {
   return (
-    <div className="bg-[#f0fdf4] relative rounded-[12px] shrink-0 size-[44px]" data-name="Container">
+    <div className="bg-[#f0fdf4] relative rounded-lg shrink-0 size-[44px]" data-name="Container">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Icon3 />
       </div>
@@ -351,8 +351,8 @@ function Container10() {
 
 export default function Container() {
   return (
-    <div className="bg-white content-stretch flex items-start p-px relative rounded-[20px] size-full" data-name="Container">
-      <div aria-hidden="true" className="absolute border border-[#b5a4cd] border-solid inset-0 pointer-events-none rounded-[20px]" />
+    <div className="bg-white content-stretch flex items-start p-px relative rounded-xl size-full" data-name="Container">
+      <div aria-hidden="true" className="absolute border border-[#b5a4cd] border-solid inset-0 pointer-events-none rounded-xl" />
       <Container1 />
       <Container10 />
     </div>

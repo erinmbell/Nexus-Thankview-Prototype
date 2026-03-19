@@ -530,7 +530,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
               className={`text-tv-text-secondary transition-transform ${expanded ? "rotate-90" : ""}`}
             />
           </button>
-          <div className={`w-7 h-7 rounded-[8px] flex items-center justify-center shrink-0 ${
+          <div className={`w-7 h-7 rounded-sm flex items-center justify-center shrink-0 ${
             list.type === "saved-search" ? "bg-tv-warning-bg" : "bg-tv-surface"
           }`}>
             {list.icon === "search" ? (
@@ -590,7 +590,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
           <div className="px-4 pb-3 pt-0">
             <p style={{ fontSize: "10px" }} className="text-tv-text-secondary mb-2 ml-[30px]">{list.description}</p>
             {isPartiallyAdded && (
-              <div className="ml-[30px] mb-2 flex items-center gap-2 p-2 bg-tv-brand-tint/40 rounded-[8px]">
+              <div className="ml-[30px] mb-2 flex items-center gap-2 p-2 bg-tv-brand-tint/40 rounded-sm">
                 <span style={{ fontSize: "9px" }} className="text-tv-brand">
                   {overlap} of {list.constituentIds.length} already in campaign — {newCount} new would be added
                 </span>
@@ -623,7 +623,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
   };
 
   return (
-    <div className="flex flex-1 min-h-0 overflow-hidden border border-tv-border-light rounded-[12px] bg-white">
+    <div className="flex flex-1 min-h-0 overflow-hidden border border-tv-border-light rounded-lg bg-white">
       {/* ── Left Panel — Source Sidebar ── */}
       <div className="w-[420px] shrink-0 border-r border-tv-border-divider flex flex-col">
         {/* Header */}
@@ -663,7 +663,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
 
           {/* Warning — ONLY for campaign constituents with issues */}
           {problemCount > 0 && (
-            <div className="mt-2.5 p-2.5 bg-tv-danger-bg border border-tv-danger-border rounded-[10px] flex items-start gap-2">
+            <div className="mt-2.5 p-2.5 bg-tv-danger-bg border border-tv-danger-border rounded-md flex items-start gap-2">
               <AlertTriangle size={12} className="text-tv-danger shrink-0 mt-0.5" />
               <div style={{ fontSize: "10px" }} className="text-tv-danger leading-relaxed">
                 <p style={{ fontWeight: 600 }} className="mb-0.5">{problemCount} constituent{problemCount !== 1 ? "s" : ""} with delivery issues:</p>
@@ -686,7 +686,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                     <button
                       key={item.key}
                       onClick={() => { setAddMethod(item.key); setListSearch(""); setExpandedListId(null); setSfSubView("root"); setBbSubView("root"); setSfSearch(""); setBbSearch(""); }}
-                      className={`flex items-center gap-1.5 px-2.5 py-[6px] rounded-[8px] transition-all ${
+                      className={`flex items-center gap-1.5 px-2.5 py-[6px] rounded-sm transition-all ${
                         addMethod === item.key
                           ? "bg-white text-tv-brand shadow-sm ring-1 ring-tv-brand-bg/30"
                           : "text-tv-text-secondary hover:bg-tv-surface hover:text-tv-text-primary"
@@ -711,7 +711,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
               {!sfState.connected ? (
                 /* Connection prompt */
                 <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-                  <div className="w-14 h-14 rounded-[12px] bg-[#E8F7FF] flex items-center justify-center mb-4">
+                  <div className="w-14 h-14 rounded-lg bg-[#E8F7FF] flex items-center justify-center mb-4">
                     <Cloud size={24} className="text-[#00A1E0]" />
                   </div>
                   <p style={{ fontSize: "14px", fontWeight: 700 }} className="text-tv-text-primary mb-1">Connect Salesforce</p>
@@ -771,9 +771,9 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                             else if (obj.id === "sf-reports") setSfSubView("reports");
                             else simulateImport("salesforce", obj.count);
                           }}
-                          className="w-full flex items-center gap-3 p-3 rounded-[10px] border border-tv-border-light hover:border-[#00A1E0]/40 hover:bg-[#E8F7FF]/30 transition-all text-left group"
+                          className="w-full flex items-center gap-3 p-3 rounded-md border border-tv-border-light hover:border-[#00A1E0]/40 hover:bg-[#E8F7FF]/30 transition-all text-left group"
                         >
-                          <div className="w-8 h-8 rounded-[8px] bg-[#E8F7FF] flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-sm bg-[#E8F7FF] flex items-center justify-center shrink-0">
                             {obj.id === "sf-reports" ? <List size={14} className="text-[#00A1E0]" /> : <Users size={14} className="text-[#00A1E0]" />}
                           </div>
                           <div className="flex-1 min-w-0">
@@ -807,7 +807,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                     {sfSubView === "campaigns" && SF_CAMPAIGNS
                       .filter(c => !sfSearch.trim() || c.name.toLowerCase().includes(sfSearch.toLowerCase()))
                       .map(c => (
-                        <div key={c.id} className="flex items-center gap-3 p-2.5 rounded-[8px] hover:bg-tv-surface transition-colors">
+                        <div key={c.id} className="flex items-center gap-3 p-2.5 rounded-sm hover:bg-tv-surface transition-colors">
                           <Checkbox
                             checked={sfSelectedItems.has(c.id)}
                             onChange={() => setSfSelectedItems(prev => {
@@ -825,7 +825,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                     {sfSubView === "reports" && SF_REPORTS
                       .filter(r => !sfSearch.trim() || r.name.toLowerCase().includes(sfSearch.toLowerCase()))
                       .map(r => (
-                        <div key={r.id} className="flex items-center gap-3 p-2.5 rounded-[8px] hover:bg-tv-surface transition-colors">
+                        <div key={r.id} className="flex items-center gap-3 p-2.5 rounded-sm hover:bg-tv-surface transition-colors">
                           <Checkbox
                             checked={sfSelectedItems.has(r.id)}
                             onChange={() => setSfSelectedItems(prev => {
@@ -870,7 +870,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
             <div className="flex-1 flex flex-col overflow-hidden">
               {!bbState.connected ? (
                 <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-                  <div className="w-14 h-14 rounded-[12px] bg-[#E6F0FA] flex items-center justify-center mb-4">
+                  <div className="w-14 h-14 rounded-lg bg-[#E6F0FA] flex items-center justify-center mb-4">
                     <Cloud size={24} className="text-[#004B8D]" />
                   </div>
                   <p style={{ fontSize: "14px", fontWeight: 700 }} className="text-tv-text-primary mb-1">Connect Blackbaud</p>
@@ -929,9 +929,9 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                             else if (obj.id === "bb-queries") setBbSubView("queries");
                             else simulateImport("blackbaud", obj.count);
                           }}
-                          className="w-full flex items-center gap-3 p-3 rounded-[10px] border border-tv-border-light hover:border-[#004B8D]/40 hover:bg-[#E6F0FA]/30 transition-all text-left group"
+                          className="w-full flex items-center gap-3 p-3 rounded-md border border-tv-border-light hover:border-[#004B8D]/40 hover:bg-[#E6F0FA]/30 transition-all text-left group"
                         >
-                          <div className="w-8 h-8 rounded-[8px] bg-[#E6F0FA] flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-sm bg-[#E6F0FA] flex items-center justify-center shrink-0">
                             {obj.id === "bb-lists" || obj.id === "bb-queries" ? <List size={14} className="text-[#004B8D]" /> : <Users size={14} className="text-[#004B8D]" />}
                           </div>
                           <div className="flex-1 min-w-0">
@@ -965,7 +965,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                     {BB_LISTS
                       .filter(l => !bbSearch.trim() || l.name.toLowerCase().includes(bbSearch.toLowerCase()))
                       .map(l => (
-                        <div key={l.id} className="flex items-center gap-3 p-2.5 rounded-[8px] hover:bg-tv-surface transition-colors">
+                        <div key={l.id} className="flex items-center gap-3 p-2.5 rounded-sm hover:bg-tv-surface transition-colors">
                           <Checkbox
                             checked={bbSelectedItems.has(l.id)}
                             onChange={() => setBbSelectedItems(prev => {
@@ -1080,7 +1080,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                         <ChevronDown size={11} className="opacity-60" />
                       </button>
                       {groupOpen && (
-                        <div className="absolute top-full left-0 mt-1 min-w-[140px] bg-white border border-tv-border-light rounded-[10px] shadow-lg z-10 overflow-hidden max-h-[200px] overflow-y-auto py-1">
+                        <div className="absolute top-full left-0 mt-1 min-w-[140px] bg-white border border-tv-border-light rounded-md shadow-lg z-10 overflow-hidden max-h-[200px] overflow-y-auto py-1">
                           {GROUP_OPTIONS.map(g => (
                             <button key={g} onClick={() => { setGroupFilter(g); setGroupOpen(false); }}
                               className={`w-full text-left px-3 py-1.5 text-[12px] hover:bg-tv-surface transition-colors ${groupFilter === g ? "bg-tv-brand-tint text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: groupFilter === g ? 600 : 400 }}>
@@ -1109,7 +1109,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                         <ChevronDown size={11} className="opacity-60" />
                       </button>
                       {statusOpen && (
-                        <div className="absolute top-full left-0 mt-1 min-w-[140px] bg-white border border-tv-border-light rounded-[10px] shadow-lg z-10 overflow-hidden py-1">
+                        <div className="absolute top-full left-0 mt-1 min-w-[140px] bg-white border border-tv-border-light rounded-md shadow-lg z-10 overflow-hidden py-1">
                           {[...STATUS_OPTIONS, ...(hasPersonalizedClips ? VIDEO_FILTERS.slice(1) : [])].map(s => (
                             <button key={s} onClick={() => {
                               if (STATUS_OPTIONS.includes(s)) { setStatusFilter(s); setVideoFilter("All"); }
@@ -1259,11 +1259,11 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
             <div className="px-4 py-4 space-y-2.5">
               <p style={{ fontSize: "10px", fontWeight: 600 }} className="text-tv-text-label uppercase tracking-wider">Add Constituent</p>
               <input value={manualName} onChange={e => setManualName(e.target.value)} placeholder="Full name" aria-label="Constituent full name"
-                className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
               <input value={manualEmail} onChange={e => setManualEmail(e.target.value)} placeholder="Email address" aria-label="Constituent email address"
-                className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
               <select value={manualGroup} onChange={e => setManualGroup(e.target.value)}
-                className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[11px] outline-none focus:ring-1 focus:ring-tv-brand/40">
+                className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[11px] outline-none focus:ring-1 focus:ring-tv-brand/40">
                 {GROUPS.map(g => <option key={g} value={g}>{g}</option>)}
               </select>
               <div className="flex items-center gap-2 pt-1">
@@ -1321,7 +1321,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                   <Columns size={10} />
                 </button>
                 {showColConfig && (
-                  <div className="absolute right-0 top-full mt-1 w-40 bg-white border border-tv-border-light rounded-[10px] shadow-lg z-20 p-1.5">
+                  <div className="absolute right-0 top-full mt-1 w-40 bg-white border border-tv-border-light rounded-md shadow-lg z-20 p-1.5">
                     <p style={{ fontSize: "9px", fontWeight: 600 }} className="text-tv-text-label uppercase tracking-wider px-2 py-1">Visible Columns</p>
                     {COLUMN_DEFS.map(col => (
                       <button key={col.key}
@@ -1400,7 +1400,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
             </button>
             <div className="max-w-[420px] space-y-4">
               {/* Constituent detail card */}
-              <div className="bg-white border border-tv-border-light rounded-[12px] p-5">
+              <div className="bg-white border border-tv-border-light rounded-lg p-5">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-tv-brand-tint flex items-center justify-center">
                     <User size={18} className="text-tv-brand" />
@@ -1422,7 +1422,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
 
                 {/* Delivery issue warning */}
                 {(focusConstituent.emailStatus === "bounced" || focusConstituent.emailStatus === "invalid") && (
-                  <div className="mb-4 p-2.5 bg-tv-danger-bg border border-tv-danger-border rounded-[8px] flex items-start gap-2">
+                  <div className="mb-4 p-2.5 bg-tv-danger-bg border border-tv-danger-border rounded-sm flex items-start gap-2">
                     <AlertTriangle size={11} className="text-tv-danger shrink-0 mt-0.5" />
                     <div style={{ fontSize: "10px" }} className="text-tv-danger leading-relaxed">
                       {focusConstituent.emailStatus === "bounced"
@@ -1458,7 +1458,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
 
               {/* Video preview */}
               {hasPersonalizedClips && focusConstituent.videoAssigned && (
-                <div className="bg-white border border-tv-border-light rounded-[12px] overflow-hidden">
+                <div className="bg-white border border-tv-border-light rounded-lg overflow-hidden">
                   <div className="aspect-[4/3] bg-gradient-to-br from-[#7c45b0] to-[#995cd3] flex items-center justify-center relative">
                     <div className="w-12 h-12 rounded-full bg-black/30 flex items-center justify-center backdrop-blur-sm cursor-pointer hover:bg-black/40 transition-colors">
                       <Play size={18} className="text-white ml-0.5" />
@@ -1479,7 +1479,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                         <RefreshCw size={10} />Swap Video
                       </button>
                       {swapOpenId === focusConstituent.id && (
-                        <div className="absolute left-0 top-full mt-1 w-52 bg-white border border-tv-border-light rounded-[8px] shadow-lg z-20 overflow-hidden">
+                        <div className="absolute left-0 top-full mt-1 w-52 bg-white border border-tv-border-light rounded-sm shadow-lg z-20 overflow-hidden">
                           {SWAP_OPTIONS.map(opt => (
                             <button key={opt} onClick={() => setSwapOpenId(null)}
                               className={`w-full text-left px-3 py-2 text-[10px] hover:bg-tv-surface transition-colors ${
@@ -1496,7 +1496,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
               )}
 
               {hasPersonalizedClips && !focusConstituent.videoAssigned && (
-                <div className="bg-white border border-dashed border-tv-border-light rounded-[12px] p-6 text-center">
+                <div className="bg-white border border-dashed border-tv-border-light rounded-lg p-6 text-center">
                   <Video size={24} className="text-tv-text-decorative/40 mx-auto mb-2" />
                   <p style={{ fontSize: "12px" }} className="text-tv-text-secondary">No personalized video assigned</p>
                   <p style={{ fontSize: "10px" }} className="text-tv-text-decorative mt-0.5">

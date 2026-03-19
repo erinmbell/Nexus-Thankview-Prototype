@@ -34,7 +34,7 @@ function Icon() {
 
 function Container3() {
   return (
-    <div className="bg-white flex-[1_0_0] min-h-px min-w-px relative rounded-[10px] w-[36px]" data-name="Container">
+    <div className="bg-white flex-[1_0_0] min-h-px min-w-px relative rounded-md w-[36px]" data-name="Container">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Icon />
       </div>
@@ -90,7 +90,7 @@ function Icon1() {
 
 function Container4() {
   return (
-    <div className="bg-white flex-[1_0_0] min-h-px min-w-px relative rounded-[10px] w-[36px]" data-name="Container">
+    <div className="bg-white flex-[1_0_0] min-h-px min-w-px relative rounded-md w-[36px]" data-name="Container">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Icon1 />
       </div>
@@ -148,7 +148,7 @@ function Icon2() {
 
 function Container5() {
   return (
-    <div className="bg-white flex-[1_0_0] min-h-px min-w-px relative rounded-[10px] w-[36px]" data-name="Container">
+    <div className="bg-white flex-[1_0_0] min-h-px min-w-px relative rounded-md w-[36px]" data-name="Container">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Icon2 />
       </div>
@@ -207,7 +207,7 @@ function Icon3() {
 
 function Container6() {
   return (
-    <div className="bg-white flex-[1_0_0] min-h-px min-w-px relative rounded-[10px] w-[36px]" data-name="Container">
+    <div className="bg-white flex-[1_0_0] min-h-px min-w-px relative rounded-md w-[36px]" data-name="Container">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Icon3 />
       </div>
@@ -263,8 +263,8 @@ function Container2() {
 
 export default function Container() {
   return (
-    <div className="bg-white content-stretch flex flex-col items-start p-px relative rounded-[20px] size-full" data-name="Container">
-      <div aria-hidden="true" className="absolute border border-[#b5a4cd] border-solid inset-0 pointer-events-none rounded-[20px]" />
+    <div className="bg-white content-stretch flex flex-col items-start p-px relative rounded-xl size-full" data-name="Container">
+      <div aria-hidden="true" className="absolute border border-[#b5a4cd] border-solid inset-0 pointer-events-none rounded-xl" />
       <Container1 />
       <Container2 />
     </div>

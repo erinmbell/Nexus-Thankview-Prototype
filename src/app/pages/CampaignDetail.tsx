@@ -994,7 +994,7 @@ function FlowStepNode({ step, isLast, isExpanded, onToggle }: { step: CampaignFl
       {/* Step content card */}
       <div className={`flex-1 min-w-0 pb-3 ${!isLast ? "mb-1" : ""}`}>
         <div
-          className={`rounded-[12px] border p-3.5 transition-all ${hasRecipients ? "cursor-pointer hover:shadow-sm" : ""} ${isExpanded ? "ring-2 ring-tv-brand/20" : ""}`}
+          className={`rounded-lg border p-3.5 transition-all ${hasRecipients ? "cursor-pointer hover:shadow-sm" : ""} ${isExpanded ? "ring-2 ring-tv-brand/20" : ""}`}
           style={{
             borderColor: isExpanded ? TV.brand : isCompleted ? TV.successBorder : isActive ? TV.warningBorder : TV.borderLight,
             backgroundColor: isActive ? TV.warningBg : "white",
@@ -1085,14 +1085,14 @@ function FlowStepNode({ step, isLast, isExpanded, onToggle }: { step: CampaignFl
           {/* Condition branch summary */}
           {isCondition && (step.conditionMetCount != null || step.conditionNotMetCount != null) && (
             <div className="flex items-stretch gap-2 mt-2.5 pt-2.5 border-t border-tv-border-divider">
-              <div className="flex-1 rounded-[8px] p-2 flex items-center gap-2" style={{ backgroundColor: TV.successBg }}>
+              <div className="flex-1 rounded-sm p-2 flex items-center gap-2" style={{ backgroundColor: TV.successBg }}>
                 <CircleCheckBig size={12} className="text-tv-success shrink-0" />
                 <div>
                   <span className="text-[11px] text-tv-success block" style={{ fontWeight: 700 }}>{step.conditionMetCount ?? 0}</span>
                   <span className="text-[9px] text-tv-text-secondary">{step.conditionMetLabel ?? "Yes"}</span>
                 </div>
               </div>
-              <div className="flex-1 rounded-[8px] p-2 flex items-center gap-2" style={{ backgroundColor: TV.dangerBg }}>
+              <div className="flex-1 rounded-sm p-2 flex items-center gap-2" style={{ backgroundColor: TV.dangerBg }}>
                 <CircleAlert size={12} className="text-tv-danger shrink-0" />
                 <div>
                   <span className="text-[11px] text-tv-danger block" style={{ fontWeight: 700 }}>{step.conditionNotMetCount ?? 0}</span>
@@ -1139,7 +1139,7 @@ function FlowStepNode({ step, isLast, isExpanded, onToggle }: { step: CampaignFl
                   })}
                 </div>
               </div>
-              <div className="rounded-[8px] border border-tv-border-divider overflow-hidden bg-white">
+              <div className="rounded-sm border border-tv-border-divider overflow-hidden bg-white">
                 {step.recipients!.map((r, ri) => {
                   const st = RECIPIENT_STATUS_STYLE[r.status] ?? RECIPIENT_STATUS_STYLE.Pending;
                   return (
@@ -1209,7 +1209,7 @@ function CampaignFlowMap({ steps, rules }: { steps: CampaignFlowStep[]; rules: A
       <div className="px-5 py-4 border-b border-tv-border-divider bg-tv-surface-muted">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-[10px] bg-tv-brand-tint flex items-center justify-center">
+            <div className="w-9 h-9 rounded-md bg-tv-brand-tint flex items-center justify-center">
               <GitBranch size={16} className="text-tv-brand" />
             </div>
             <div>
@@ -1333,7 +1333,7 @@ function CampaignFlowMap({ steps, rules }: { steps: CampaignFlowStep[]; rules: A
                 return (
                   <div
                     key={rule.id}
-                    className="flex items-center gap-2.5 p-2.5 rounded-[8px] border border-tv-border-light bg-white"
+                    className="flex items-center gap-2.5 p-2.5 rounded-sm border border-tv-border-light bg-white"
                   >
                     <div className="w-6 h-6 rounded-[6px] bg-tv-brand-tint flex items-center justify-center shrink-0">
                       <Zap size={11} className="text-tv-brand" />
@@ -1585,7 +1585,7 @@ function CopyCampaignModal({ campaign, onCopy, onCancel }: {
                 className={`flex items-center gap-3 px-4 py-3 ${i < INHERIT_OPTIONS.length - 1 ? "border-b border-tv-border-divider" : ""}`}
                 style={{ backgroundColor: inherit[opt.key] ? undefined : TV.surface }}
               >
-                <div className="w-8 h-8 rounded-[8px] bg-tv-brand-tint flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 rounded-sm bg-tv-brand-tint flex items-center justify-center shrink-0">
                   {opt.icon}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -1610,7 +1610,7 @@ function CopyCampaignModal({ campaign, onCopy, onCancel }: {
         {/* ── Summary footer (multi-step) ────��─────────────────────────────── */}
         {hasSteps && (
           <div
-            className="flex items-center gap-2 px-3 py-2.5 rounded-[8px]"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-sm"
             style={{ backgroundColor: TV.surface, border: `1px solid ${TV.borderLight}` }}
           >
             <Info size={13} style={{ color: TV.brand }} className="shrink-0" />
@@ -1664,11 +1664,11 @@ function ConstituentLinkModal({ opened, constituents, search, onSearchChange, se
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-6">
-      <div className="bg-white rounded-[20px] border border-tv-border-light shadow-2xl w-full max-w-[480px] flex flex-col overflow-hidden">
+      <div className="bg-white rounded-xl border border-tv-border-light shadow-2xl w-full max-w-[480px] flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-tv-border-divider">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-[8px] bg-tv-brand-tint flex items-center justify-center">
+            <div className="w-8 h-8 rounded-sm bg-tv-brand-tint flex items-center justify-center">
               <Users size={14} className="text-tv-brand" />
             </div>
             <div>
@@ -1706,7 +1706,7 @@ function ConstituentLinkModal({ opened, constituents, search, onSearchChange, se
                 </button>
               )}
             </div>
-            <div className="mt-1.5 border border-tv-border-light rounded-[8px] max-h-[160px] overflow-y-auto">
+            <div className="mt-1.5 border border-tv-border-light rounded-sm max-h-[160px] overflow-y-auto">
               {filteredConstituents.length === 0 ? (
                 <div className="px-3 py-4 text-center text-[11px] text-tv-text-decorative">No constituents match your search</div>
               ) : (
@@ -1743,11 +1743,11 @@ function ConstituentLinkModal({ opened, constituents, search, onSearchChange, se
                 <label className="text-[11px] text-tv-text-secondary block mb-1.5" style={{ fontWeight: 600 }}>
                   Generated link for {selectedConstituent.name}
                 </label>
-                <div className="flex items-center gap-2 p-2.5 bg-tv-surface rounded-[8px] border border-tv-border-light">
+                <div className="flex items-center gap-2 p-2.5 bg-tv-surface rounded-sm border border-tv-border-light">
                   <code className="text-[11px] text-tv-text-primary flex-1 break-all" style={{ fontWeight: 500 }}>{generatedUrl}</code>
                 </div>
               </div>
-              <div className="flex items-start gap-2.5 p-3 bg-tv-warning-bg border border-tv-warning-border rounded-[10px]">
+              <div className="flex items-start gap-2.5 p-3 bg-tv-warning-bg border border-tv-warning-border rounded-md">
                 <TriangleAlert size={14} className="text-tv-warning shrink-0 mt-0.5" />
                 <p className="text-[11px] text-tv-warning" style={{ fontWeight: 500 }}>
                   Views through this link count as opens/views for this constituent and may affect campaign analytics.
@@ -1985,7 +1985,7 @@ export function CampaignDetail() {
 
                 {/* Popover */}
                 {copyLinkPopoverOpen && (
-                  <div className="absolute z-50 top-full right-0 mt-2 w-[260px] bg-white border border-tv-border-light rounded-[10px] shadow-lg overflow-hidden">
+                  <div className="absolute z-50 top-full right-0 mt-2 w-[260px] bg-white border border-tv-border-light rounded-md shadow-lg overflow-hidden">
                     {/* Row 1: Campaign Link (generic) */}
                     <button
                       onClick={() => {
@@ -1996,7 +1996,7 @@ export function CampaignDetail() {
                       }}
                       className="w-full flex items-center gap-3 px-3.5 py-2.5 hover:bg-tv-surface transition-colors text-left"
                     >
-                      <div className="w-7 h-7 rounded-[8px] bg-tv-surface flex items-center justify-center shrink-0">
+                      <div className="w-7 h-7 rounded-sm bg-tv-surface flex items-center justify-center shrink-0">
                         <Link2 size={13} className="text-tv-text-secondary" />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -2026,7 +2026,7 @@ export function CampaignDetail() {
                       }}
                       className="w-full flex items-center gap-3 px-3.5 py-2.5 hover:bg-tv-surface transition-colors text-left"
                     >
-                      <div className="w-7 h-7 rounded-[8px] bg-tv-brand-tint flex items-center justify-center shrink-0">
+                      <div className="w-7 h-7 rounded-sm bg-tv-brand-tint flex items-center justify-center shrink-0">
                         <Users size={13} className="text-tv-brand" />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -2162,7 +2162,7 @@ export function CampaignDetail() {
               ].map(f => (
                 <div key={f.label}>
                   <Text fz={11} fw={600} tt="uppercase" lts="0.05em" c={TV.textLabel} mb={6}>{f.label}</Text>
-                  <div className="bg-tv-surface rounded-[10px] px-3 py-2">
+                  <div className="bg-tv-surface rounded-md px-3 py-2">
                     <Text fz={13} c={TV.textPrimary}><MergeHighlight text={f.value} /></Text>
                   </div>
                 </div>
@@ -2170,7 +2170,7 @@ export function CampaignDetail() {
             </div>
             <div>
               <Text fz={11} fw={600} tt="uppercase" lts="0.05em" c={TV.textLabel} mb={6}>Message Body</Text>
-              <div className="bg-tv-surface rounded-[12px] p-4" style={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}>
+              <div className="bg-tv-surface rounded-lg p-4" style={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}>
                 <Text fz={13} c={TV.textSecondary} component="div"><MergeHighlight text={campaign.bodyPreview} /></Text>
               </div>
             </div>
@@ -2216,7 +2216,7 @@ export function CampaignDetail() {
 
               {/* Envelope mini preview */}
               <div className="mt-4 flex justify-center">
-                <div className="w-[240px] h-[140px] rounded-[12px] relative overflow-hidden border border-tv-border-light" style={{ backgroundColor: campaign.envelope.color }}>
+                <div className="w-[240px] h-[140px] rounded-lg relative overflow-hidden border border-tv-border-light" style={{ backgroundColor: campaign.envelope.color }}>
                   <div className="absolute top-3 left-3 w-6 h-6 bg-white/30 rounded-[4px]" />
                   <div className="absolute bottom-4 left-4 right-4 space-y-1.5">
                     <div className="h-1.5 bg-white/30 rounded-full w-3/4" />
@@ -2238,13 +2238,13 @@ export function CampaignDetail() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div>
                 <Text fz={11} fw={600} tt="uppercase" lts="0.05em" c={TV.textLabel} mb={6}>Headline</Text>
-                <div className="bg-tv-surface rounded-[10px] px-3 py-2">
+                <div className="bg-tv-surface rounded-md px-3 py-2">
                   <Text fz={13} c={TV.textPrimary} fw={600}><MergeHighlight text={campaign.landingPage.headline} /></Text>
                 </div>
               </div>
               <div>
                 <Text fz={11} fw={600} tt="uppercase" lts="0.05em" c={TV.textLabel} mb={6}>CTA Button</Text>
-                <div className="bg-tv-surface rounded-[10px] px-3 py-2">
+                <div className="bg-tv-surface rounded-md px-3 py-2">
                   <Text fz={13} c={TV.textBrand} fw={600}>{campaign.landingPage.ctaLabel}</Text>
                   <Text fz={10} c={TV.textSecondary} ff="monospace" truncate>{campaign.landingPage.ctaUrl}</Text>
                 </div>
@@ -2253,7 +2253,7 @@ export function CampaignDetail() {
 
             <div className="mb-4">
               <Text fz={11} fw={600} tt="uppercase" lts="0.05em" c={TV.textLabel} mb={6}>Body Content</Text>
-              <div className="bg-tv-surface rounded-[12px] p-4" style={{ lineHeight: 1.6 }}>
+              <div className="bg-tv-surface rounded-lg p-4" style={{ lineHeight: 1.6 }}>
                 <Text fz={13} c={TV.textSecondary} component="div"><MergeHighlight text={campaign.landingPage.bodyHtml} /></Text>
               </div>
             </div>
@@ -2310,7 +2310,7 @@ export function CampaignDetail() {
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
               {campaign.videoSlots.map(v => (
                 <div key={v.type} className="flex-1">
-                  <div className={`h-24 rounded-[12px] bg-gradient-to-br ${v.thumbnailGradient} flex items-center justify-center mb-2 relative overflow-hidden`}>
+                  <div className={`h-24 rounded-lg bg-gradient-to-br ${v.thumbnailGradient} flex items-center justify-center mb-2 relative overflow-hidden`}>
                     {v.set ? (
                       <Play size={18} className="text-white/80" fill="white" />
                     ) : (
@@ -2342,7 +2342,7 @@ export function CampaignDetail() {
               </Row>
               <div className="space-y-1">
                 {campaign.constituents_list.map(r => (
-                  <div key={r.id} className="flex items-center gap-3 px-3 py-2 rounded-[10px] hover:bg-tv-surface-muted transition-colors">
+                  <div key={r.id} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-tv-surface-muted transition-colors">
                     <div className="w-7 h-7 bg-tv-brand-tint rounded-full flex items-center justify-center text-tv-brand text-[9px] shrink-0" style={{ fontWeight: 700 }}>
                       {r.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
                     </div>
@@ -2386,7 +2386,7 @@ export function CampaignDetail() {
               { label: "Click Rate",      value: campaign.clickRate,  icon: BarChart3, color: "text-tv-info", bg: "bg-tv-info-bg" },
             ].map(s => (
               <Paper key={s.label} radius={18} withBorder p="md" style={{ borderColor: TV.borderLight }} className="flex flex-col items-center text-center gap-2">
-                <div className={`w-10 h-10 ${s.bg} rounded-[10px] flex items-center justify-center shrink-0`}><s.icon size={16} className={s.color} /></div>
+                <div className={`w-10 h-10 ${s.bg} rounded-md flex items-center justify-center shrink-0`}><s.icon size={16} className={s.color} /></div>
                 <Text fz={9} fw={600} c={TV.textLabel} tt="uppercase" lts="0.05em">{s.label}</Text>
                 <Text fz={20} fw={900} c={TV.textPrimary} ff="Fraunces, Roboto, sans-serif">{s.value}</Text>
               </Paper>
@@ -2401,25 +2401,25 @@ export function CampaignDetail() {
                 <Title order={3} fz={16}>Delivery Health</Title>
               </Row>
               <div className="grid grid-cols-4 gap-3">
-                <div className="p-3 bg-tv-surface-muted rounded-[10px] text-center">
+                <div className="p-3 bg-tv-surface-muted rounded-md text-center">
                   <Text fz={20} fw={900} c={TV.textPrimary} ff="Fraunces, Roboto, sans-serif">{campaign.constituents}</Text>
                   <Text fz={10} c={TV.textSecondary}>Total Sent</Text>
                 </div>
-                <div className="p-3 bg-tv-success-bg rounded-[10px] text-center">
+                <div className="p-3 bg-tv-success-bg rounded-md text-center">
                   <Text fz={20} fw={900} c={TV.success} ff="Fraunces, Roboto, sans-serif">{deliveredCount}</Text>
                   <Text fz={10} c={TV.textSecondary}>Delivered</Text>
                 </div>
-                <div className="p-3 bg-tv-danger-bg rounded-[10px] text-center">
+                <div className="p-3 bg-tv-danger-bg rounded-md text-center">
                   <Text fz={20} fw={900} c={TV.danger} ff="Fraunces, Roboto, sans-serif">{campaign.bounceRate}</Text>
                   <Text fz={10} c={TV.textSecondary}>Bounce Rate</Text>
                 </div>
-                <div className="p-3 bg-tv-warning-bg rounded-[10px] text-center">
+                <div className="p-3 bg-tv-warning-bg rounded-md text-center">
                   <Text fz={20} fw={900} c={TV.warning} ff="Fraunces, Roboto, sans-serif">{campaign.spamRate}</Text>
                   <Text fz={10} c={TV.textSecondary}>Spam Rate</Text>
                 </div>
               </div>
               {failedCount > 0 && (
-                <div className="mt-3 p-2.5 bg-tv-danger-bg border border-tv-danger-border rounded-[10px] flex items-start gap-2">
+                <div className="mt-3 p-2.5 bg-tv-danger-bg border border-tv-danger-border rounded-md flex items-start gap-2">
                   <TriangleAlert size={12} className="text-tv-danger shrink-0 mt-0.5" />
                   <Text fz={11} c={TV.danger}>
                     {failedCount} constituent{failedCount !== 1 ? "s" : ""} failed to receive this campaign. Check the constituent table below for per-address error details.
@@ -2808,7 +2808,7 @@ export function CampaignDetail() {
           if (resendStep === "confirm") {
             return (
               <Stack gap="md">
-                <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-light">
+                <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light">
                   <Text fz={11} fw={600} c={TV.textLabel} tt="uppercase" mb={6}>Resend Summary</Text>
                   <div className="space-y-2">
                     <div className="flex justify-between"><Text fz={12} c={TV.textSecondary}>Subject</Text><Text fz={12} fw={600} c={TV.textPrimary}>{resendSubject || "(unchanged)"}</Text></div>
@@ -2819,7 +2819,7 @@ export function CampaignDetail() {
                   </div>
                 </div>
                 {(campaign.resendHistory?.length || 0) >= (maxR - 1) && (
-                  <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[8px] flex items-start gap-2">
+                  <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-sm flex items-start gap-2">
                     <TriangleAlert size={13} className="text-tv-warning shrink-0 mt-0.5" />
                     <Text fz={11} c={TV.warning}>This will be the final allowed resend for this campaign ({maxR} send maximum).</Text>
                   </div>
@@ -2864,7 +2864,7 @@ export function CampaignDetail() {
                 <div className="flex gap-2">
                   {(["now", "later"] as const).map(m => (
                     <button key={m} onClick={() => setResendScheduleMode(m)}
-                      className={`flex-1 px-3 py-2 rounded-[8px] border text-[12px] transition-all ${resendScheduleMode === m ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`}
+                      className={`flex-1 px-3 py-2 rounded-sm border text-[12px] transition-all ${resendScheduleMode === m ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`}
                       style={{ fontWeight: resendScheduleMode === m ? 600 : 400 }}>
                       {m === "now" ? "Send Immediately" : "Schedule for Later"}
                     </button>
@@ -2873,9 +2873,9 @@ export function CampaignDetail() {
                 {resendScheduleMode === "later" && (
                   <div className="flex gap-2 mt-2">
                     <input type="date" value={resendScheduleDate} onChange={e => setResendScheduleDate(e.target.value)} aria-label="Resend date"
-                      className="flex-1 border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                      className="flex-1 border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
                     <input type="time" value={resendScheduleTime} onChange={e => setResendScheduleTime(e.target.value)} aria-label="Resend time"
-                      className="w-[120px] border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                      className="w-[120px] border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
                   </div>
                 )}
               </div>
@@ -2898,7 +2898,7 @@ export function CampaignDetail() {
                 </div>
                 <TextInput size="xs" placeholder="Search constituents…" value={resendSearch} onChange={e => setResendSearch(e.currentTarget.value)}
                   leftSection={<Search size={12} />} mb={8} />
-                <div className="max-h-[200px] overflow-auto border border-tv-border-light rounded-[8px] divide-y divide-tv-border-divider">
+                <div className="max-h-[200px] overflow-auto border border-tv-border-light rounded-sm divide-y divide-tv-border-divider">
                   {filtered.length === 0 ? (
                     <div className="px-3 py-4 text-center"><Text fz={11} c={TV.textSecondary}>No eligible constituents match your filter.</Text></div>
                   ) : filtered.map(r => {

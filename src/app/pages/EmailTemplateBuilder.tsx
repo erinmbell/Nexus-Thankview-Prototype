@@ -181,7 +181,7 @@ function EmailContentPreview({
   sections: ContentSection[]; closing: string;
 }) {
   return (
-    <div className="bg-white rounded-[16px] overflow-hidden" style={{ border: `1px solid ${TV.borderLight}` }}>
+    <div className="bg-white rounded-xl overflow-hidden" style={{ border: `1px solid ${TV.borderLight}` }}>
       <div className="px-5 py-3.5" style={{ borderBottom: `1px solid ${TV.borderDivider}`, backgroundColor: TV.surface }}>
         <div className="flex items-center gap-2 mb-1.5">
           <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: TV.brand }}>
@@ -211,8 +211,8 @@ function EmailContentPreview({
           }
           if (sec.type === "video") {
             return (
-              <div key={sec.id} className="my-4 rounded-[12px] px-4 py-3 flex items-center gap-3" style={{ backgroundColor: TV.surface, border: `1px dashed ${TV.borderStrong}` }}>
-                <div className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brandTint }}>
+              <div key={sec.id} className="my-4 rounded-lg px-4 py-3 flex items-center gap-3" style={{ backgroundColor: TV.surface, border: `1px dashed ${TV.borderStrong}` }}>
+                <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brandTint }}>
                   <Video size={16} style={{ color: TV.brand }} />
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -255,7 +255,7 @@ function SmsPhonePreview({ body }: { body: string }) {
     <div className="flex flex-col items-center">
       <div className="w-[280px] rounded-[32px] border-[3px] p-3 bg-[#1a1a2e]" style={{ borderColor: TV.borderStrong }}>
         <div className="w-16 h-1.5 bg-[#333] rounded-full mx-auto mb-3" />
-        <div className="bg-white rounded-[20px] min-h-[360px] p-4 flex flex-col">
+        <div className="bg-white rounded-xl min-h-[360px] p-4 flex flex-col">
           <div className="flex items-center gap-2 pb-3" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
             <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: TV.brandTint }}>
               <MessageSquare size={14} style={{ color: TV.brand }} />
@@ -484,7 +484,7 @@ export function EmailTemplateBuilder() {
                       className="hover:shadow-md"
                     >
                       <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brandTint }}>
+                        <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brandTint }}>
                           <Mail size={16} style={{ color: TV.brand }} />
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
@@ -501,7 +501,7 @@ export function EmailTemplateBuilder() {
                       className="hover:shadow-md"
                     >
                       <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: TV.infoBg }}>
+                        <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: TV.infoBg }}>
                           <MessageSquare size={16} style={{ color: TV.info }} />
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
@@ -539,7 +539,7 @@ export function EmailTemplateBuilder() {
               </Box>
 
               {/* Template Info */}
-              <div className="bg-white rounded-[16px] p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
+              <div className="bg-white rounded-xl p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
                 <div className="flex items-center gap-2 mb-4">
                   <Mail size={16} style={{ color: TV.textBrand }} />
                   <Text fz={14} fw={600} c={TV.textPrimary}>Template Info</Text>
@@ -555,7 +555,7 @@ export function EmailTemplateBuilder() {
               </div>
 
               {/* Greeting */}
-              <div className="bg-white rounded-[16px] p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
+              <div className="bg-white rounded-xl p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <AlignLeft size={14} style={{ color: TV.textBrand }} />
@@ -567,7 +567,7 @@ export function EmailTemplateBuilder() {
               </div>
 
               {/* Content sections */}
-              <div className="bg-white rounded-[16px] p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
+              <div className="bg-white rounded-xl p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
                 <div className="flex items-center gap-2 mb-4">
                   <Type size={14} style={{ color: TV.textBrand }} />
                   <Text fz={14} fw={600} c={TV.textPrimary}>Content Sections</Text>
@@ -648,7 +648,7 @@ export function EmailTemplateBuilder() {
               </div>
 
               {/* Closing */}
-              <div className="bg-white rounded-[16px] p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
+              <div className="bg-white rounded-xl p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
                 <div className="flex items-center gap-2 mb-3">
                   <AlignLeft size={14} style={{ color: TV.textBrand }} />
                   <Text fz={14} fw={600} c={TV.textPrimary}>Closing / Signature</Text>
@@ -679,11 +679,11 @@ export function EmailTemplateBuilder() {
                   <Title order={2} fz={22} fw={700} c={TV.textPrimary} mb={4}>Compose SMS</Title>
                   <Text fz={13} c={TV.textSecondary}>Write your text message and insert merge tags for personalization.</Text>
                 </Box>
-                <div className="bg-white rounded-[16px] p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
+                <div className="bg-white rounded-xl p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
                   <TextInput label="Template Name" value={templateName} onChange={e => setTemplateName(e.currentTarget.value)} placeholder="e.g. Birthday Greeting SMS" mb="md" />
                   <MultiSelect label="Tags" value={tags} onChange={setTags} data={TAGS} placeholder="Select tags…" />
                 </div>
-                <div className="bg-white rounded-[16px] p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
+                <div className="bg-white rounded-xl p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
                   <Text fz={14} fw={600} c={TV.textPrimary} mb={12}>Message Body</Text>
                   <Textarea value={smsBody} onChange={e => setSmsBody(e.currentTarget.value)}
                     placeholder="Type your SMS message here…" minRows={6} autosize
@@ -721,7 +721,7 @@ export function EmailTemplateBuilder() {
             <Box className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8">
             <Stack gap={24}>
               {/* Save options */}
-              <div className="bg-white rounded-[16px] p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
+              <div className="bg-white rounded-xl p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
                 <Stack gap={16}>
                   <TextInput label="Template Name" value={templateName} onChange={e => setTemplateName(e.currentTarget.value)} placeholder="Name your template" />
                   <MultiSelect label="Tags" value={tags} onChange={setTags} data={TAGS} placeholder="Select tags…" />
@@ -732,7 +732,7 @@ export function EmailTemplateBuilder() {
                 </Stack>
               </div>
 
-              <div className="bg-white rounded-[16px] p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
+              <div className="bg-white rounded-xl p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
                 <Text fz={14} fw={600} c={TV.textPrimary} mb={12}>What would you like to do next?</Text>
                 <Stack gap={10}>
                   <UnstyledButton onClick={() => setSaveAction("library")}
@@ -740,7 +740,7 @@ export function EmailTemplateBuilder() {
                     bg={saveAction === "library" ? TV.brandTint : undefined}
                     style={{ border: `2px solid ${saveAction === "library" ? TV.brand : TV.borderLight}` }}
                   >
-                    <Box w={40} h={40} className="rounded-[12px] flex items-center justify-center shrink-0" bg={saveAction === "library" ? TV.brand : TV.surface}>
+                    <Box w={40} h={40} className="rounded-lg flex items-center justify-center shrink-0" bg={saveAction === "library" ? TV.brand : TV.surface}>
                       <Save size={18} color={saveAction === "library" ? "white" : TV.textLabel} />
                     </Box>
                     <Box style={{ flex: 1, minWidth: 0 }}>
@@ -755,7 +755,7 @@ export function EmailTemplateBuilder() {
                     bg={saveAction === "campaign" ? TV.brandTint : undefined}
                     style={{ border: `2px solid ${saveAction === "campaign" ? TV.brand : TV.borderLight}` }}
                   >
-                    <Box w={40} h={40} className="rounded-[12px] flex items-center justify-center shrink-0" bg={saveAction === "campaign" ? TV.brand : TV.surface}>
+                    <Box w={40} h={40} className="rounded-lg flex items-center justify-center shrink-0" bg={saveAction === "campaign" ? TV.brand : TV.surface}>
                       <Send size={18} color={saveAction === "campaign" ? "white" : TV.textLabel} />
                     </Box>
                     <Box style={{ flex: 1, minWidth: 0 }}>
@@ -768,7 +768,7 @@ export function EmailTemplateBuilder() {
               </div>
 
               {/* Summary */}
-              <div className="rounded-[16px] p-5" style={{ backgroundColor: TV.surface, border: `1px solid ${TV.borderDivider}` }}>
+              <div className="rounded-xl p-5" style={{ backgroundColor: TV.surface, border: `1px solid ${TV.borderDivider}` }}>
                 <Text fz={12} fw={600} c={TV.textLabel} tt="uppercase" lts="0.5px" mb={10}>Summary</Text>
                 <Stack gap={6}>
                   <div className="flex items-center gap-2">

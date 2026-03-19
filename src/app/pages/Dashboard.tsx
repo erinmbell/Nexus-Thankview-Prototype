@@ -168,7 +168,7 @@ function CampaignCard({ campaign, onViewAnalytics }: { campaign: typeof campaign
   return (
     <div className="flex flex-col py-5 border-b border-tv-border-light last:border-b-0">
       <div className="flex gap-4">
-        <div className="relative w-[110px] h-[82px] rounded-[12px] bg-tv-brand-tint overflow-hidden shrink-0" style={{ border: `1px solid ${TV.borderStrong}` }}>
+        <div className="relative w-[110px] h-[82px] rounded-lg bg-tv-brand-tint overflow-hidden shrink-0" style={{ border: `1px solid ${TV.borderStrong}` }}>
           {campaign.image ? <img src={campaign.image} alt={`${campaign.title} thumbnail`} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><Play size={24} className="text-tv-text-decorative" aria-hidden="true" /></div>}
         </div>
         <div className="flex-1 min-w-0">
@@ -210,7 +210,7 @@ function CampaignCard({ campaign, onViewAnalytics }: { campaign: typeof campaign
 
 function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
   return (
-    <div className="flex flex-col bg-white rounded-[20px] border border-tv-border-strong">
+    <div className="flex flex-col bg-white rounded-xl border border-tv-border-strong">
       <div className="flex items-center justify-between gap-2 flex-wrap px-4 sm:px-6 py-4 sm:py-6" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
         <Title order={3} fz={{ base: 16, sm: 18 }} className="min-w-0 truncate">Your Ongoing Campaigns</Title>
         <Menu position="bottom-end" withinPortal styles={{
@@ -233,7 +233,7 @@ function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
               <Menu.Item key={item.mode} onClick={() => navigate(`/campaigns/create?mode=${item.mode}`)}
                 styles={{ item: { borderRadius: 10, padding: "10px 12px", marginBottom: 2 }, itemLabel: { display: "flex", alignItems: "center", gap: 12 } }}>
                 <div className="flex items-center gap-3 w-full">
-                  <div className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: item.bg }}>
+                  <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: item.bg }}>
                     <item.icon size={16} style={{ color: item.iconColor }} />
                   </div>
                   <div className="min-w-0">
@@ -262,7 +262,7 @@ function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
 
 function PerformanceChart({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   return (
-    <div className="bg-white rounded-[20px] border border-tv-border-strong">
+    <div className="bg-white rounded-xl border border-tv-border-strong">
       <button onClick={onToggle} className="w-full flex items-center gap-2.5 px-6 py-5 hover:bg-black/[0.02] transition-colors text-left">
         <ChevronDown size={14} style={{ color: TV.textSecondary, transform: collapsed ? "rotate(-90deg)" : "rotate(0deg)", transition: "transform 0.15s" }} />
         <div className="flex-1">
@@ -343,8 +343,8 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
   ];
 
   return (
-    <div className="bg-white relative rounded-[20px]">
-      <div aria-hidden="true" className="absolute border border-tv-border-strong inset-0 pointer-events-none rounded-[20px]" />
+    <div className="bg-white relative rounded-xl">
+      <div aria-hidden="true" className="absolute border border-tv-border-strong inset-0 pointer-events-none rounded-xl" />
       {/* Header */}
       <div className="relative border-b border-tv-border-divider px-[24px] pt-[20px] pb-[13px]">
         <h2 className="font-['Roboto',sans-serif] font-bold text-tv-text-primary text-[18px] tracking-[-0.44px] leading-[27px]">Quick Actions</h2>
@@ -360,7 +360,7 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
             <div aria-hidden="true" className="absolute border border-tv-border-strong inset-0 pointer-events-none rounded-[14px]" />
             <div className="flex flex-col gap-[8px] items-start pl-[17px] pr-[8px] py-[17px] h-full">
               {/* Icon container */}
-              <div className="bg-white rounded-[10px] w-10 h-10 flex items-center justify-center shrink-0">
+              <div className="bg-white rounded-md w-10 h-10 flex items-center justify-center shrink-0">
                 {action.icon}
               </div>
               {/* Label */}
@@ -378,7 +378,7 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
 function RecentActivityWidget({ navigate }: { navigate: (path: string) => void }) {
   const [activeTab, setActiveTab] = useState<"videos" | "activity">("activity");
   return (
-    <div className="flex flex-col bg-white rounded-[20px] border border-tv-border-strong">
+    <div className="flex flex-col bg-white rounded-xl border border-tv-border-strong">
       <div className="px-6 py-6" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
         <div className="flex items-center justify-between mb-2">
           <Title order={3} fz={18}>{activeTab === "videos" ? "Video Library" : "Donor Activity"}</Title>
@@ -413,7 +413,7 @@ function RecentActivityWidget({ navigate }: { navigate: (path: string) => void }
         {activeTab === "videos" ? (
           recentVideos.map((v) => (
             <div key={v.id} className="flex items-center gap-3 px-6 py-4 hover:bg-tv-surface-muted transition-colors group">
-              <div className="w-10 h-10 bg-tv-brand-tint rounded-[10px] flex items-center justify-center shrink-0 group-hover:bg-tv-surface-hover transition-colors">
+              <div className="w-10 h-10 bg-tv-brand-tint rounded-md flex items-center justify-center shrink-0 group-hover:bg-tv-surface-hover transition-colors">
                 <Play size={14} className="text-tv-brand" />
               </div>
               <div className="flex-1 min-w-0">
@@ -445,7 +445,7 @@ function RecentActivityWidget({ navigate }: { navigate: (path: string) => void }
 
 function MostSuccessfulCampaigns({ navigate, collapsed, onToggle }: { navigate: (path: string) => void; collapsed: boolean; onToggle: () => void }) {
   return (
-    <div className="bg-white rounded-[20px] border border-tv-border-strong">
+    <div className="bg-white rounded-xl border border-tv-border-strong">
       <div className="flex items-center justify-between flex-wrap gap-2 px-4 sm:px-6 py-4 sm:py-5">
         <button onClick={onToggle} className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
           <ChevronDown size={14} style={{ color: TV.textSecondary, transform: collapsed ? "rotate(-90deg)" : "rotate(0deg)", transition: "transform 0.15s" }} />
@@ -458,7 +458,7 @@ function MostSuccessfulCampaigns({ navigate, collapsed, onToggle }: { navigate: 
       </div>
       {!collapsed && <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5 p-4 sm:p-6" style={{ borderTop: `1px solid ${TV.borderDivider}` }}>
         {topCampaigns.map((c) => (
-          <div key={c.id} role="link" tabIndex={0} onClick={() => navigate(`/analytics?tab=performance&campaign=${encodeURIComponent(c.title)}`)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); navigate(`/analytics?tab=performance&campaign=${encodeURIComponent(c.title)}`); }}} className="rounded-[16px] border border-tv-border-light overflow-hidden flex flex-col hover:shadow-md transition-shadow group cursor-pointer" aria-label={`View campaign: ${c.title}`}>
+          <div key={c.id} role="link" tabIndex={0} onClick={() => navigate(`/analytics?tab=performance&campaign=${encodeURIComponent(c.title)}`)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); navigate(`/analytics?tab=performance&campaign=${encodeURIComponent(c.title)}`); }}} className="rounded-xl border border-tv-border-light overflow-hidden flex flex-col hover:shadow-md transition-shadow group cursor-pointer" aria-label={`View campaign: ${c.title}`}>
             <div className="relative h-[148px] flex items-center justify-center overflow-hidden">
               <img src={c.image} alt={c.title} className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-black/10" />
@@ -526,7 +526,7 @@ function MetricsSettingsPanel({ selectedIds, onToggle, onReset, onClose }: { sel
             {Array.from({ length: 4 }).map((_, i) => {
               const metric = ALL_METRICS.find((m) => m.id === selectedIds[i]);
               return (
-                <div key={i} className={`flex-1 rounded-[10px] border px-2.5 py-2 transition-all ${metric ? "border-tv-border-strong bg-white" : "border-dashed border-tv-border bg-tv-surface"}`}>
+                <div key={i} className={`flex-1 rounded-md border px-2.5 py-2 transition-all ${metric ? "border-tv-border-strong bg-white" : "border-dashed border-tv-border bg-tv-surface"}`}>
                   {metric ? (
                     <div className="flex items-center gap-1.5">
                       <div className={`w-5 h-5 rounded-md ${metric.iconBg} flex items-center justify-center shrink-0`}><metric.icon size={11} className={metric.iconColor} /></div>
@@ -551,8 +551,8 @@ function MetricsSettingsPanel({ selectedIds, onToggle, onReset, onClose }: { sel
                   const isFull = selectedIds.length >= 4 && !isSelected;
                   return (
                     <button key={metric.id} onClick={() => !isFull && onToggle(metric.id)} disabled={isFull}
-                      className={`flex items-center gap-3 px-3 py-2.5 rounded-[12px] border text-left transition-all ${isSelected ? "border-tv-brand bg-tv-brand-tint" : isFull ? "border-tv-surface bg-white opacity-40 cursor-not-allowed" : "border-tv-surface bg-white hover:border-tv-border-strong hover:bg-tv-surface-muted cursor-pointer"}`}>
-                      <div className={`w-8 h-8 rounded-[8px] ${metric.iconBg} flex items-center justify-center shrink-0`}><metric.icon size={15} className={metric.iconColor} /></div>
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg border text-left transition-all ${isSelected ? "border-tv-brand bg-tv-brand-tint" : isFull ? "border-tv-surface bg-white opacity-40 cursor-not-allowed" : "border-tv-surface bg-white hover:border-tv-border-strong hover:bg-tv-surface-muted cursor-pointer"}`}>
+                      <div className={`w-8 h-8 rounded-sm ${metric.iconBg} flex items-center justify-center shrink-0`}><metric.icon size={15} className={metric.iconColor} /></div>
                       <div className="flex-1 min-w-0">
                         <p className="text-[13px] font-semibold text-tv-text-primary">{metric.label}</p>
                         <p className="text-[11px] text-tv-text-secondary truncate">{metric.value} · {metric.sub}</p>
@@ -593,7 +593,7 @@ function KeyStatsBar({ selectedIds, onOpenSettings }: { selectedIds: string[]; o
   };
 
   return (
-    <div className="bg-white rounded-[20px] border border-tv-border-strong">
+    <div className="bg-white rounded-xl border border-tv-border-strong">
       {/* ── Mobile: 2×2 grid ── */}
       <div className="grid grid-cols-2 sm:hidden">
         {metrics.map((stat, i) => (
@@ -606,7 +606,7 @@ function KeyStatsBar({ selectedIds, onOpenSettings }: { selectedIds: string[]; o
               i < 2 ? "border-b border-tv-border-light" : "",
             ].join(" ")}
           >
-            <div className={`w-10 h-10 rounded-[10px] ${stat.iconBg} flex items-center justify-center shrink-0`}>
+            <div className={`w-10 h-10 rounded-md ${stat.iconBg} flex items-center justify-center shrink-0`}>
               <stat.icon size={17} className={stat.iconColor} />
             </div>
             <div className="min-w-0">
@@ -633,7 +633,7 @@ function KeyStatsBar({ selectedIds, onOpenSettings }: { selectedIds: string[]; o
               onClick={() => navigate(getRoute(stat))}
               className="flex-1 flex items-center gap-2.5 px-3 lg:px-5 py-4 lg:py-5 min-w-0 hover:bg-tv-surface-muted transition-colors group text-left"
             >
-              <div className={`w-11 h-11 rounded-[12px] ${stat.iconBg} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform`}><stat.icon size={18} className={stat.iconColor} /></div>
+              <div className={`w-11 h-11 rounded-lg ${stat.iconBg} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform`}><stat.icon size={18} className={stat.iconColor} /></div>
               <div className="min-w-0 flex-1">
                 <p className="text-[10px] font-medium text-tv-text-label uppercase tracking-wider mb-0.5 truncate">{stat.label}</p>
                 <p className="text-[20px] lg:text-[22px] font-bold text-tv-text-primary leading-tight group-hover:text-tv-brand transition-colors font-display truncate">{stat.value}</p>
@@ -670,7 +670,7 @@ export function Dashboard() {
   return (
     <div className="p-3 sm:p-6 min-w-0 overflow-hidden">
       {/* Hero */}
-      <div className="relative bg-tv-brand rounded-[20px] overflow-hidden mb-5 px-4 sm:px-8 py-5 sm:py-7">
+      <div className="relative bg-tv-brand rounded-xl overflow-hidden mb-5 px-4 sm:px-8 py-5 sm:py-7">
         <div className="absolute right-16 top-[-32px] w-48 h-48 bg-white rounded-full opacity-10" />
         <div className="absolute right-24 top-8 w-32 h-32 bg-white rounded-full opacity-5" />
         <div className="absolute right-48 top-4 w-20 h-20 bg-white rounded-full opacity-[0.07]" />

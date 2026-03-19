@@ -196,7 +196,7 @@ export function VideoRecorder({
       {/* ══ Header ══ */}
       <div className="px-4 py-2 border-b border-tv-border-divider shrink-0">
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-[8px] bg-tv-success-bg flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-sm bg-tv-success-bg flex items-center justify-center shrink-0">
             <Video size={13} className="text-tv-success" />
           </div>
           <div className="flex-1 min-w-0">
@@ -241,7 +241,7 @@ export function VideoRecorder({
             {tab === "record" && (
               <>
                 {!recordedDuration ? (
-                  <div className="bg-tv-surface rounded-[12px] p-3.5 space-y-2.5">
+                  <div className="bg-tv-surface rounded-lg p-3.5 space-y-2.5">
                     <p className="text-[11px] font-semibold text-tv-text-primary flex items-center gap-1.5">
                       <Lightbulb size={12} className="text-tv-warning" />Recording Tips
                     </p>
@@ -258,7 +258,7 @@ export function VideoRecorder({
                     ))}
                   </div>
                 ) : (
-                  <div className="bg-tv-success-bg border border-tv-success-border rounded-[12px] p-3.5 space-y-3">
+                  <div className="bg-tv-success-bg border border-tv-success-border rounded-lg p-3.5 space-y-3">
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded-full bg-tv-success flex items-center justify-center">
                         <Check size={11} className="text-white" />
@@ -282,7 +282,7 @@ export function VideoRecorder({
                 )}
 
                 {/* Script / teleprompter */}
-                <div className="bg-[#f8f6fc] border border-tv-border-light rounded-[12px] overflow-hidden">
+                <div className="bg-[#f8f6fc] border border-tv-border-light rounded-lg overflow-hidden">
                   <div className="flex items-center justify-between px-3.5 py-2 border-b border-tv-border-divider">
                     <span className="text-[11px] font-semibold text-tv-text-primary flex items-center gap-1.5">
                       <ScrollText size={11} className="text-tv-brand" />Script
@@ -303,7 +303,7 @@ export function VideoRecorder({
                       onChange={e => setScriptText(e.target.value)}
                       rows={4}
                       placeholder="Type or paste your script here…"
-                      className="w-full bg-white border border-tv-border-light rounded-[8px] px-2.5 py-2 text-[11px] text-tv-text-primary placeholder:text-tv-text-decorative resize-none focus:outline-none focus:border-tv-brand-bg/40 transition-colors"
+                      className="w-full bg-white border border-tv-border-light rounded-sm px-2.5 py-2 text-[11px] text-tv-text-primary placeholder:text-tv-text-decorative resize-none focus:outline-none focus:border-tv-brand-bg/40 transition-colors"
                     />
                   </div>
                   <div className="flex items-center justify-between px-3.5 pb-2.5">
@@ -330,7 +330,7 @@ export function VideoRecorder({
               <>
                 {!uploadedFile ? (
                   <>
-                    <div className="bg-tv-surface rounded-[12px] p-3.5 space-y-2">
+                    <div className="bg-tv-surface rounded-lg p-3.5 space-y-2">
                       <p className="text-[11px] font-semibold text-tv-text-primary flex items-center gap-1.5">
                         <FileText size={12} className="text-tv-brand" />Accepted Formats
                       </p>
@@ -346,7 +346,7 @@ export function VideoRecorder({
                       onDragLeave={() => setUploadDragging(false)}
                       onDrop={e => { e.preventDefault(); setUploadDragging(false); handleUpload(); }}
                       onClick={handleUpload}
-                      className={`cursor-pointer border-2 border-dashed rounded-[12px] p-6 flex flex-col items-center gap-2 text-center transition-colors ${
+                      className={`cursor-pointer border-2 border-dashed rounded-lg p-6 flex flex-col items-center gap-2 text-center transition-colors ${
                         uploadDragging
                           ? "border-tv-brand-bg bg-tv-brand-tint/30"
                           : "border-tv-border-light hover:border-tv-brand-bg/50 hover:bg-tv-surface"
@@ -359,7 +359,7 @@ export function VideoRecorder({
                     </div>
                   </>
                 ) : (
-                  <div className="bg-tv-info-bg border border-tv-info-border rounded-[12px] p-3.5 space-y-3">
+                  <div className="bg-tv-info-bg border border-tv-info-border rounded-lg p-3.5 space-y-3">
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded-full bg-tv-info flex items-center justify-center">
                         <Check size={11} className="text-white" />
@@ -388,7 +388,7 @@ export function VideoRecorder({
                       <button
                         key={v.id}
                         onClick={() => handleLibrarySelect(v)}
-                        className={`w-full flex items-center gap-2.5 p-2.5 rounded-[10px] border transition-all text-left ${
+                        className={`w-full flex items-center gap-2.5 p-2.5 rounded-md border transition-all text-left ${
                           selected
                             ? "border-tv-brand-bg bg-tv-brand-tint/40"
                             : "border-tv-border-light hover:border-tv-border-strong hover:bg-tv-surface"

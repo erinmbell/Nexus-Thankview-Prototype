@@ -146,7 +146,7 @@ export function SourceStep({ onSelect }: { onSelect: (s: Source) => void }) {
           { key: "combine" as Source, icon: Combine, label: "Combine Videos",  desc: "Splice multiple library videos together to create a new video.",     color: "text-tv-brand", bg: "bg-tv-brand-tint", border: "border-tv-border" },
         ].map(opt => (
           <button key={opt.key} onClick={() => onSelect(opt.key)}
-            className="group flex flex-col items-center gap-4 p-8 bg-white rounded-[20px] border border-tv-border-light hover:border-tv-border-strong hover:shadow-lg transition-all text-center cursor-pointer">
+            className="group flex flex-col items-center gap-4 p-8 bg-white rounded-xl border border-tv-border-light hover:border-tv-border-strong hover:shadow-lg transition-all text-center cursor-pointer">
             <div className={`w-16 h-16 rounded-[18px] ${opt.bg} border ${opt.border} flex items-center justify-center group-hover:scale-110 transition-transform`}>
               <opt.icon size={28} className={opt.color} />
             </div>
@@ -246,7 +246,7 @@ export function RecordSetupStep({ onNext }: { onNext: () => void }) {
         {bg === "blur" && <div className="absolute inset-0 backdrop-blur-md bg-black/20" />}
         {(mode === "screen-cam" || mode === "screen") && (
           <div className="absolute inset-0 flex items-center justify-center z-[1]">
-            <div className="bg-black/50 rounded-[16px] px-6 py-4 text-center backdrop-blur-sm">
+            <div className="bg-black/50 rounded-xl px-6 py-4 text-center backdrop-blur-sm">
               <Monitor size={28} className="text-white/80 mx-auto mb-2" />
               <p className="text-white/80 text-[13px] font-medium">Your screen will appear here</p>
             </div>
@@ -309,7 +309,7 @@ export function RecordSetupStep({ onNext }: { onNext: () => void }) {
 
         {/* ── Floating bottom control bar (Loom-style) ───────────────────────── */}
         <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center z-20">
-          <div className="bg-white/95 backdrop-blur-md rounded-[20px] border border-[#e8e4f0] shadow-lg px-3 py-2 flex items-center gap-1.5">
+          <div className="bg-white/95 backdrop-blur-md rounded-xl border border-[#e8e4f0] shadow-lg px-3 py-2 flex items-center gap-1.5">
             {/* Mic toggle + inline audio level + device dropdown */}
             <div className="relative">
               <div className="flex items-center">
@@ -429,7 +429,7 @@ export function RecordSetupStep({ onNext }: { onNext: () => void }) {
         {drawerOpen && (
           <>
             <div className="fixed inset-0 z-20" onClick={() => setDrawerOpen(false)} />
-            <div className="absolute top-0 right-0 w-[340px] bg-white rounded-[20px] border border-tv-border-light shadow-2xl z-30 max-h-[calc(100%-80px)] overflow-y-auto">
+            <div className="absolute top-0 right-0 w-[340px] bg-white rounded-xl border border-tv-border-light shadow-2xl z-30 max-h-[calc(100%-80px)] overflow-y-auto">
               <div className="sticky top-0 bg-white border-b border-tv-border-divider px-5 py-4 flex items-center justify-between rounded-t-[20px] z-10">
                 <p className="text-[15px] font-bold text-tv-text-primary">Recording settings</p>
                 <button onClick={() => setDrawerOpen(false)} aria-label="Close settings"
@@ -444,7 +444,7 @@ export function RecordSetupStep({ onNext }: { onNext: () => void }) {
                   <div className="flex gap-2">
                     {(["480p", "720p", "1080p"] as const).map(q => (
                       <button key={q} onClick={() => setQuality(q)}
-                        className={`flex-1 py-2 rounded-[10px] text-[12px] font-medium transition-all ${quality === q ? "bg-tv-brand text-white shadow-sm" : "bg-tv-surface text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
+                        className={`flex-1 py-2 rounded-md text-[12px] font-medium transition-all ${quality === q ? "bg-tv-brand text-white shadow-sm" : "bg-tv-surface text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
                         {q}
                       </button>
                     ))}
@@ -456,14 +456,14 @@ export function RecordSetupStep({ onNext }: { onNext: () => void }) {
                   <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-2">
                     {BG_OPTS.map(b => (
                       <button key={b.key} onClick={() => setBg(b.key)}
-                        className={`flex flex-col items-center gap-1.5 p-1.5 rounded-[10px] border-2 transition-all ${bg === b.key ? "border-tv-brand shadow-sm" : "border-transparent hover:border-tv-border-light"}`}>
+                        className={`flex flex-col items-center gap-1.5 p-1.5 rounded-md border-2 transition-all ${bg === b.key ? "border-tv-brand shadow-sm" : "border-transparent hover:border-tv-border-light"}`}>
                         <div className={`w-full aspect-video rounded-[5px] ${b.preview}`} />
                         <span className="text-[9px] text-tv-text-secondary font-medium leading-tight text-center">{b.label}</span>
                       </button>
                     ))}
                   </div>
                   <button onClick={() => { setCustomBgUpl(!customBgUpl); if (!customBgUpl) setBg("custom"); }}
-                    className={`w-full flex items-center gap-2 text-[11px] font-medium border-2 border-dashed rounded-[10px] px-3 py-2 transition-colors ${customBgUpl ? "border-tv-brand bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`}>
+                    className={`w-full flex items-center gap-2 text-[11px] font-medium border-2 border-dashed rounded-md px-3 py-2 transition-colors ${customBgUpl ? "border-tv-brand bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`}>
                     <ImagePlus size={13} />
                     {customBgUpl ? "Custom image set" : "Upload background"}
                     {customBgUpl && <Check size={11} className="ml-auto text-tv-brand" />}
@@ -475,7 +475,7 @@ export function RecordSetupStep({ onNext }: { onNext: () => void }) {
                   <div className="flex gap-1.5">
                     {COUNTDOWN_OPTS.map(c => (
                       <button key={c} onClick={() => setCountdown(c)}
-                        className={`flex-1 py-2 rounded-[10px] text-[12px] font-medium transition-all ${countdown === c ? "bg-tv-brand text-white shadow-sm" : "bg-tv-surface text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
+                        className={`flex-1 py-2 rounded-md text-[12px] font-medium transition-all ${countdown === c ? "bg-tv-brand text-white shadow-sm" : "bg-tv-surface text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
                         {c}
                       </button>
                     ))}
@@ -493,7 +493,7 @@ export function RecordSetupStep({ onNext }: { onNext: () => void }) {
                   </div>
                   <textarea value={scriptText} onChange={e => setScriptText(e.target.value)}
                     placeholder="Paste or type your script here…" rows={5}
-                    className="w-full bg-tv-surface border border-tv-border-light rounded-[10px] px-3 py-2.5 text-[12px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand resize-none leading-relaxed placeholder:text-tv-text-decorative" />
+                    className="w-full bg-tv-surface border border-tv-border-light rounded-md px-3 py-2.5 text-[12px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand resize-none leading-relaxed placeholder:text-tv-text-decorative" />
                   <p className="text-[10px] text-tv-text-secondary mt-1">Your script will overlay the preview while recording.</p>
                 </div>
               </div>
@@ -537,7 +537,7 @@ export function RecordSetupStep({ onNext }: { onNext: () => void }) {
 
         {/* Floating recording controls */}
         <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center z-20">
-          <div className="bg-white/95 backdrop-blur-md rounded-[20px] border border-[#e8e4f0] shadow-lg px-4 py-2 flex items-center gap-3">
+          <div className="bg-white/95 backdrop-blur-md rounded-xl border border-[#e8e4f0] shadow-lg px-4 py-2 flex items-center gap-3">
             <button onClick={() => { if (timerRef.current) clearInterval(timerRef.current); setElapsed(0); setPhase("setup"); }}
               className="flex items-center gap-1.5 text-tv-text-secondary hover:text-tv-danger px-3 py-2 rounded-full text-[12px] font-medium transition-colors hover:bg-tv-danger-bg">
               <Trash2 size={14} />
@@ -587,7 +587,7 @@ export function RecordSetupStep({ onNext }: { onNext: () => void }) {
 
       {/* Floating review controls */}
       <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center z-20">
-        <div className="bg-white/95 backdrop-blur-md rounded-[20px] border border-[#e8e4f0] shadow-lg px-4 py-2 flex items-center gap-3">
+        <div className="bg-white/95 backdrop-blur-md rounded-xl border border-[#e8e4f0] shadow-lg px-4 py-2 flex items-center gap-3">
           <button onClick={reRecord}
             className="flex items-center gap-2 bg-tv-surface text-tv-text-label px-4 py-2 rounded-full text-[12px] font-medium hover:bg-tv-surface-hover transition-colors">
             <RefreshCw size={13} />Re-record
@@ -646,8 +646,8 @@ export function UploadSetupStep({ onNext }: { onNext: () => void }) {
       <div className="max-w-xl mx-auto">
         <h2 className="text-[22px] font-black text-tv-text-primary mb-1">Upload complete</h2>
         <p className="text-[14px] text-tv-text-secondary mb-6">Your video is ready to trim and customize.</p>
-        <div className="bg-white border border-tv-border-light rounded-[20px] p-6 flex items-center gap-4 mb-6">
-          <div className="w-14 h-14 bg-tv-success-bg rounded-[12px] flex items-center justify-center shrink-0">
+        <div className="bg-white border border-tv-border-light rounded-xl p-6 flex items-center gap-4 mb-6">
+          <div className="w-14 h-14 bg-tv-success-bg rounded-lg flex items-center justify-center shrink-0">
             <Check size={24} className="text-tv-success" />
           </div>
           <div className="flex-1 min-w-0">
@@ -674,9 +674,9 @@ export function UploadSetupStep({ onNext }: { onNext: () => void }) {
         <p className="text-[14px] text-tv-text-secondary mb-8">
           {state === "uploading" ? "Uploading your video to ThankView." : "Analyzing and optimizing your video."}
         </p>
-        <div className="bg-white border border-tv-border-light rounded-[20px] p-8">
+        <div className="bg-white border border-tv-border-light rounded-xl p-8">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-12 rounded-[10px] bg-tv-brand-tint flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-md bg-tv-brand-tint flex items-center justify-center shrink-0">
               <Upload size={20} className="text-tv-text-brand" />
             </div>
             <div className="flex-1 min-w-0">
@@ -701,7 +701,7 @@ export function UploadSetupStep({ onNext }: { onNext: () => void }) {
       <h2 className="text-[22px] font-black text-tv-text-primary mb-1">Upload a video</h2>
       <p className="text-[14px] text-tv-text-secondary mb-6">Drag & drop or click to browse your files.</p>
       <div onClick={startUpload}
-        className="border-2 border-dashed border-tv-border-strong rounded-[20px] bg-[#fafbff] p-16 flex flex-col items-center gap-4 cursor-pointer hover:bg-tv-brand-tint hover:border-tv-brand-bg transition-all group">
+        className="border-2 border-dashed border-tv-border-strong rounded-xl bg-[#fafbff] p-16 flex flex-col items-center gap-4 cursor-pointer hover:bg-tv-brand-tint hover:border-tv-brand-bg transition-all group">
         <div className="w-16 h-16 bg-tv-brand-tint rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
           <Upload size={28} className="text-tv-text-brand" />
         </div>
@@ -719,7 +719,7 @@ export function UploadSetupStep({ onNext }: { onNext: () => void }) {
           { fmt: "MOV / ProRes", note: "High quality" },
           { fmt: "WebM / VP9",  note: "Web optimized" },
         ].map(f => (
-          <div key={f.fmt} className="bg-white border border-tv-border-light rounded-[12px] px-4 py-3 text-center">
+          <div key={f.fmt} className="bg-white border border-tv-border-light rounded-lg px-4 py-3 text-center">
             <p className="text-[12px] font-semibold text-tv-text-primary">{f.fmt}</p>
             <p className="text-[10px] text-tv-text-secondary">{f.note}</p>
           </div>
@@ -825,7 +825,7 @@ export function CombineSetupStep({ onNext }: { onNext: () => void }) {
           <div className="grid grid-cols-2 gap-3">
             {filtered.map(v => (
               <button key={v.id} onClick={() => toggleVideo(v.id)}
-                className={`rounded-[12px] overflow-hidden border-2 transition-all text-left ${selectedIds.includes(v.id) ? "border-tv-brand-bg shadow-md" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                className={`rounded-lg overflow-hidden border-2 transition-all text-left ${selectedIds.includes(v.id) ? "border-tv-brand-bg shadow-md" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                 <div className={`h-20 bg-gradient-to-br ${v.color} flex items-center justify-center relative`}>
                   <Play size={14} className="text-white/90" fill="white" />
                   <span className="absolute bottom-1.5 right-1.5 bg-black/50 text-white text-[9px] px-1.5 py-0.5 rounded font-mono">{v.duration}</span>
@@ -854,7 +854,7 @@ export function CombineSetupStep({ onNext }: { onNext: () => void }) {
           ) : (
             <div className="space-y-1.5 mb-4">
               {selectedVideos.map((v, idx) => (
-                <div key={v.id} className="flex items-center gap-2 bg-white border border-tv-border-light rounded-[10px] px-3 py-2">
+                <div key={v.id} className="flex items-center gap-2 bg-white border border-tv-border-light rounded-md px-3 py-2">
                   <span className="w-5 h-5 bg-tv-brand-tint text-tv-text-brand rounded-full text-[10px] font-bold flex items-center justify-center shrink-0">{idx + 1}</span>
                   <div className="flex-1 min-w-0">
                     <p className="text-[11px] font-semibold text-tv-text-primary truncate">{v.title}</p>
@@ -870,7 +870,7 @@ export function CombineSetupStep({ onNext }: { onNext: () => void }) {
             </div>
           )}
           {selectedIds.length >= 2 && (
-            <div className="bg-tv-brand-tint rounded-[10px] p-3 mb-4 border border-tv-border-strong">
+            <div className="bg-tv-brand-tint rounded-md p-3 mb-4 border border-tv-border-strong">
               <div className="flex items-center justify-between text-[12px]">
                 <span className="text-tv-text-label">Total duration:</span>
                 <span className="font-semibold text-tv-text-brand font-mono">{fmtTotal}</span>
@@ -1006,7 +1006,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
       <h2 className="text-[22px] font-black text-tv-text-primary mb-1">Trim, crop & rotate</h2>
       <p className="text-[14px] text-tv-text-secondary mb-6">Drag handles to trim, click the waveform to seek, and use the toolbar below.</p>
 
-      <div className="bg-white rounded-[20px] border border-tv-border-light p-6">
+      <div className="bg-white rounded-xl border border-tv-border-light p-6">
         {/* Preview */}
         <div className="rounded-[14px] bg-gradient-to-br from-[#7c45b0] to-[#995cd3] aspect-video mb-5 flex items-center justify-center relative overflow-hidden cursor-pointer group" onClick={togglePlay}>
           <div className="flex items-center justify-center transition-transform duration-300" style={{ transform: previewTransform }}>
@@ -1025,7 +1025,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
 
           {cropKey !== "original" && (
             <div className="absolute inset-0 pointer-events-none">
-              <div className="absolute inset-4 border-2 border-white/50 border-dashed rounded-[8px]" />
+              <div className="absolute inset-4 border-2 border-white/50 border-dashed rounded-sm" />
               <div className="absolute top-2 right-2 bg-black/50 rounded-full px-2 py-0.5">
                 <span className="text-white text-[10px] font-medium">{cropKey}</span>
               </div>
@@ -1060,7 +1060,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
 
         {/* Waveform timeline */}
         <div className="mb-5">
-          <div ref={waveRef} className="relative h-16 bg-tv-surface rounded-[10px] overflow-hidden select-none cursor-pointer" onClick={seekFromEvent}>
+          <div ref={waveRef} className="relative h-16 bg-tv-surface rounded-md overflow-hidden select-none cursor-pointer" onClick={seekFromEvent}>
             <div className="absolute inset-0 flex items-center px-2 gap-[2px] pointer-events-none">
               {WAVEFORM.map((h, i) => {
                 const pct = (i / WAVEFORM.length) * 100;
@@ -1111,7 +1111,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
         </div>
 
         {/* Transport controls */}
-        <div className="flex items-center justify-between bg-[#f9f8fc] rounded-[12px] px-4 py-3 mb-5">
+        <div className="flex items-center justify-between bg-[#f9f8fc] rounded-lg px-4 py-3 mb-5">
           <div className="flex items-center gap-2">
             <button onClick={undo} disabled={history.length === 0} title="Undo" aria-label="Undo"
               className="w-8 h-8 rounded-full flex items-center justify-center text-tv-text-secondary hover:bg-white hover:text-tv-text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
@@ -1155,7 +1155,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
 
         {/* Crop / Rotate / Flip */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-[#f9f8fc] rounded-[12px] p-4">
+          <div className="bg-[#f9f8fc] rounded-lg p-4">
             <div className="flex items-center gap-2 mb-3">
               <Crop size={14} className="text-tv-text-brand" />
               <label className="text-[12px] font-semibold text-tv-text-primary">Crop</label>
@@ -1163,21 +1163,21 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
             <div className="flex flex-wrap gap-1.5">
               {CROP_PRESETS.map(c => (
                 <button key={c.key} onClick={() => setCropH(c.key)}
-                  className={`px-3 py-1.5 rounded-[8px] text-[11px] font-medium border-2 transition-all ${cropKey === c.key ? "border-tv-brand-bg bg-tv-brand-tint text-tv-text-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`}>
+                  className={`px-3 py-1.5 rounded-sm text-[11px] font-medium border-2 transition-all ${cropKey === c.key ? "border-tv-brand-bg bg-tv-brand-tint text-tv-text-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`}>
                   {c.label}
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="bg-[#f9f8fc] rounded-[12px] p-4">
+          <div className="bg-[#f9f8fc] rounded-lg p-4">
             <div className="flex items-center gap-2 mb-3">
               <RotateCw size={14} className="text-tv-text-brand" />
               <label className="text-[12px] font-semibold text-tv-text-primary">Rotate</label>
             </div>
             <div className="flex items-center gap-2 flex-wrap">
               <button onClick={rotateH}
-                className="flex items-center gap-1.5 border-2 border-tv-border-light hover:border-tv-border-strong rounded-[8px] px-3 py-1.5 text-[11px] font-medium text-tv-text-primary transition-colors">
+                className="flex items-center gap-1.5 border-2 border-tv-border-light hover:border-tv-border-strong rounded-sm px-3 py-1.5 text-[11px] font-medium text-tv-text-primary transition-colors">
                 <RotateCw size={12} className="text-tv-text-brand" />90°
               </button>
               <span className="text-[11px] font-mono text-tv-text-secondary">{rotation}°</span>
@@ -1185,18 +1185,18 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
             </div>
           </div>
 
-          <div className="bg-[#f9f8fc] rounded-[12px] p-4">
+          <div className="bg-[#f9f8fc] rounded-lg p-4">
             <div className="flex items-center gap-2 mb-3">
               <RefreshCw size={14} className="text-tv-text-brand" />
               <label className="text-[12px] font-semibold text-tv-text-primary">Flip</label>
             </div>
             <div className="flex items-center gap-2">
               <button onClick={toggleFlipH}
-                className={`flex items-center gap-1.5 border-2 rounded-[8px] px-3 py-1.5 text-[11px] font-medium transition-all ${flipH ? "border-tv-brand-bg bg-tv-brand-tint text-tv-text-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`}>
+                className={`flex items-center gap-1.5 border-2 rounded-sm px-3 py-1.5 text-[11px] font-medium transition-all ${flipH ? "border-tv-brand-bg bg-tv-brand-tint text-tv-text-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`}>
                 ↔ Horiz
               </button>
               <button onClick={toggleFlipV}
-                className={`flex items-center gap-1.5 border-2 rounded-[8px] px-3 py-1.5 text-[11px] font-medium transition-all ${flipV ? "border-tv-brand-bg bg-tv-brand-tint text-tv-text-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`}>
+                className={`flex items-center gap-1.5 border-2 rounded-sm px-3 py-1.5 text-[11px] font-medium transition-all ${flipV ? "border-tv-brand-bg bg-tv-brand-tint text-tv-text-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`}>
                 ↕ Vert
               </button>
             </div>
@@ -1245,7 +1245,7 @@ export function ThumbnailStep({ onNext }: { onNext: () => void }) {
 
       {/* Custom upload */}
       <button onClick={() => { setCustomUpl(!customUpl); setSelected(0); }}
-        className={`w-full flex items-center justify-center gap-2 text-[13px] font-medium border-2 border-dashed rounded-[12px] px-5 py-3 mb-4 transition-colors ${customUpl ? "border-tv-brand-bg bg-tv-brand-tint text-tv-text-brand" : "border-[#d8d0e8] text-tv-text-secondary hover:border-tv-border-strong hover:text-tv-brand"}`}>
+        className={`w-full flex items-center justify-center gap-2 text-[13px] font-medium border-2 border-dashed rounded-lg px-5 py-3 mb-4 transition-colors ${customUpl ? "border-tv-brand-bg bg-tv-brand-tint text-tv-text-brand" : "border-[#d8d0e8] text-tv-text-secondary hover:border-tv-border-strong hover:text-tv-brand"}`}>
         <ImageIcon size={15} />
         {customUpl ? "Custom image selected (hartwell_thumb.jpg)" : "Upload custom thumbnail"}
         {customUpl && <Check size={13} className="text-tv-text-brand" />}
@@ -1254,7 +1254,7 @@ export function ThumbnailStep({ onNext }: { onNext: () => void }) {
       {/* Animated GIF toggle */}
       <div className="flex items-center justify-between bg-white border border-tv-border-light rounded-[14px] px-5 py-4 mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-tv-brand-tint rounded-[8px] flex items-center justify-center">
+          <div className="w-8 h-8 bg-tv-brand-tint rounded-sm flex items-center justify-center">
             <Sparkles size={14} className="text-tv-text-brand" />
           </div>
           <div>
@@ -1368,7 +1368,7 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
         {/* Left: video preview + details */}
         <div className="w-[340px] shrink-0 space-y-4">
           {/* Mini video preview */}
-          <div className="relative rounded-[16px] overflow-hidden bg-gradient-to-br from-[#7c45b0] to-[#995cd3] aspect-video flex items-center justify-center shadow-md">
+          <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-[#7c45b0] to-[#995cd3] aspect-video flex items-center justify-center shadow-md">
             <div className="w-16 h-16 rounded-full bg-white/20 border-2 border-white/60 flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors">
               <Play size={22} className="text-white ml-1" fill="white" />
             </div>
@@ -1384,14 +1384,14 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
           </div>
 
           {/* Video details form */}
-          <div className="bg-white border border-tv-border-light rounded-[16px] p-4 space-y-4">
+          <div className="bg-white border border-tv-border-light rounded-xl p-4 space-y-4">
             {/* Title (required) */}
             <div>
               <label className="text-[10px] font-semibold text-tv-text-label uppercase tracking-wider mb-1.5 flex items-center gap-1">
                 Video title <span className="text-tv-danger">*</span>
               </label>
               <input value={videoTitle} onChange={e => setVideoTitle(e.target.value)}
-                className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30 focus:border-tv-brand-bg" />
+                className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30 focus:border-tv-brand-bg" />
             </div>
 
             {/* Description */}
@@ -1400,7 +1400,7 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
               <textarea value={description} onChange={e => setDescription(e.target.value)}
                 placeholder="Add a description for this video…"
                 rows={3}
-                className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30 focus:border-tv-brand-bg resize-none leading-relaxed" />
+                className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30 focus:border-tv-brand-bg resize-none leading-relaxed" />
             </div>
 
             {/* Tags */}
@@ -1413,7 +1413,7 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
                 <User size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-tv-text-secondary" />
                 <input value={recipient} onChange={e => setRecipient(e.target.value)}
                   placeholder="Who is this video for?"
-                  className="w-full border border-tv-border-light rounded-[8px] pl-8 pr-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30 focus:border-tv-brand-bg" />
+                  className="w-full border border-tv-border-light rounded-sm pl-8 pr-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30 focus:border-tv-brand-bg" />
               </div>
             </div>
 
@@ -1423,7 +1423,7 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
               <div className="relative">
                 <Folder size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-tv-text-secondary" />
                 <select value={folder} onChange={e => setFolder(e.target.value)}
-                  className="w-full border border-tv-border-light rounded-[8px] pl-8 pr-3 py-2 text-[12px] text-tv-text-primary outline-none appearance-none focus:ring-2 focus:ring-tv-brand-bg/30">
+                  className="w-full border border-tv-border-light rounded-sm pl-8 pr-3 py-2 text-[12px] text-tv-text-primary outline-none appearance-none focus:ring-2 focus:ring-tv-brand-bg/30">
                   {["Thank You Videos", "Solicitation 2025", "Replies", "No folder"].map(f => <option key={f}>{f}</option>)}
                 </select>
               </div>
@@ -1438,7 +1438,7 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
                   { key: "org"     as const, icon: Globe, label: "Organization",     sub: "Anyone at Hartwell" },
                 ].map(opt => (
                   <button key={opt.key} onClick={() => setPrivacy(opt.key)}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-[8px] border-2 transition-all ${privacy === opt.key ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                    className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-sm border-2 transition-all ${privacy === opt.key ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                     <opt.icon size={13} className={privacy === opt.key ? "text-tv-text-brand" : "text-tv-text-secondary"} />
                     <div className="flex-1 text-left">
                       <p className={`text-[11px] font-semibold ${privacy === opt.key ? "text-tv-text-primary" : "text-tv-text-secondary"}`}>{opt.label}</p>
@@ -1483,7 +1483,7 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
           </div>
 
           {captionProcessing ? (
-            <div className="flex-1 bg-[#fafbff] border-2 border-dashed border-tv-border-strong rounded-[20px] flex flex-col items-center justify-center gap-3 py-12">
+            <div className="flex-1 bg-[#fafbff] border-2 border-dashed border-tv-border-strong rounded-xl flex flex-col items-center justify-center gap-3 py-12">
               <div className="w-10 h-10 border-3 border-tv-brand-bg border-t-transparent rounded-full animate-spin" />
               <p className="text-[14px] font-semibold text-tv-text-primary">Processing captions…</p>
               <p className="text-[12px] text-tv-text-secondary">This may take a moment. You can cancel if it seems stuck.</p>
@@ -1492,7 +1492,7 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
               </button>
             </div>
           ) : captions.length > 0 ? (
-            <div className="bg-white rounded-[20px] border border-tv-border-light divide-y divide-tv-border-divider overflow-hidden flex-1">
+            <div className="bg-white rounded-xl border border-tv-border-light divide-y divide-tv-border-divider overflow-hidden flex-1">
               {captions.map(cap => (
                 <div key={cap.id}
                   onClick={() => setActiveCapId(cap.id)}
@@ -1502,7 +1502,7 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
                     {editing === cap.id ? (
                       <div className="flex items-center gap-2">
                         <input value={editText} onChange={e => setEditText(e.target.value)}
-                          className="flex-1 text-[13px] text-tv-text-primary border border-tv-border-strong rounded-[8px] px-3 py-1.5 outline-none focus:border-tv-brand-bg"
+                          className="flex-1 text-[13px] text-tv-text-primary border border-tv-border-strong rounded-sm px-3 py-1.5 outline-none focus:border-tv-brand-bg"
                           onKeyDown={e => e.key === "Enter" && saveEdit()} autoFocus />
                         <button onClick={saveEdit} className="w-7 h-7 bg-tv-brand-bg rounded-full flex items-center justify-center text-white shrink-0"><Check size={12} /></button>
                         <button onClick={() => setEditing(null)} className="w-7 h-7 bg-tv-surface rounded-full flex items-center justify-center text-tv-text-secondary shrink-0"><X size={12} /></button>
@@ -1519,7 +1519,7 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
               ))}
             </div>
           ) : (
-            <div className="flex-1 bg-[#fafbff] border-2 border-dashed border-[#d8d0e8] rounded-[20px] flex flex-col items-center justify-center gap-3 py-12">
+            <div className="flex-1 bg-[#fafbff] border-2 border-dashed border-[#d8d0e8] rounded-xl flex flex-col items-center justify-center gap-3 py-12">
               <div className="w-12 h-12 bg-tv-brand-tint rounded-full flex items-center justify-center">
                 <FileText size={20} className="text-tv-text-decorative" />
               </div>

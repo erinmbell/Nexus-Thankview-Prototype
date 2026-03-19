@@ -167,7 +167,7 @@ function Sidebar({ collapsed, onToggle, onMobileClose }: SidebarProps) {
   }) {
     return (
       <UnstyledButton onClick={onClick} title={label} w="100%" h={41} px={16}
-        className={`flex items-center gap-[12px] rounded-[8px] transition-colors shrink-0 ${active ? "" : "hover:bg-tv-surface-hover"}`}
+        className={`flex items-center gap-[12px] rounded-sm transition-colors shrink-0 ${active ? "" : "hover:bg-tv-surface-hover"}`}
         bg={active ? TV.surfaceActive : undefined}
       >
         <Box className="shrink-0 w-5 h-5 flex items-center justify-center">{icon}</Box>
@@ -184,7 +184,7 @@ function Sidebar({ collapsed, onToggle, onMobileClose }: SidebarProps) {
     return (
       <Tooltip label={label} position="right" withArrow>
         <UnstyledButton onClick={onClick} title={label} w="100%" h={41}
-          className={`flex items-center justify-center rounded-[8px] transition-colors shrink-0 ${active ? "" : "hover:bg-tv-surface-hover"}`}
+          className={`flex items-center justify-center rounded-sm transition-colors shrink-0 ${active ? "" : "hover:bg-tv-surface-hover"}`}
           bg={active ? TV.surfaceActive : undefined}
         >
           <Box className="w-5 h-5 flex items-center justify-center">{icon}</Box>
@@ -201,7 +201,7 @@ function Sidebar({ collapsed, onToggle, onMobileClose }: SidebarProps) {
         <SubItemConnector isLast={isLast} />
         <UnstyledButton
           onClick={overrideClick ?? (() => navigate(path))} title={label}
-          className={`absolute left-[44px] top-0 right-0 flex items-center pl-[16px] pr-[8px] rounded-[8px] transition-colors ${active ? "" : "hover:bg-tv-surface-hover hover:opacity-100"}`}
+          className={`absolute left-[44px] top-0 right-0 flex items-center pl-[16px] pr-[8px] rounded-sm transition-colors ${active ? "" : "hover:bg-tv-surface-hover hover:opacity-100"}`}
           h={41}
           fz={13} lh="20px"
           c={active ? TV.brandHover : TV.textPrimary}
@@ -226,7 +226,7 @@ function Sidebar({ collapsed, onToggle, onMobileClose }: SidebarProps) {
         <div className="absolute bg-tv-border h-px left-[56px] top-[18px] w-[10px]" />
         <UnstyledButton
           onClick={() => navigate(path)} title={label}
-          className={`absolute left-[68px] top-0 right-0 flex items-center pl-[12px] rounded-[8px] transition-colors ${active ? "" : "hover:bg-tv-surface-hover hover:opacity-100"}`}
+          className={`absolute left-[68px] top-0 right-0 flex items-center pl-[12px] rounded-sm transition-colors ${active ? "" : "hover:bg-tv-surface-hover hover:opacity-100"}`}
           h={36}
           fz={12} lh="18px"
           c={active ? TV.brandHover : TV.textPrimary}
@@ -248,7 +248,7 @@ function Sidebar({ collapsed, onToggle, onMobileClose }: SidebarProps) {
       {/* Header / Logo */}
       <div className="shrink-0 overflow-hidden flex items-center gap-2 px-3.5" style={{ height: 77, borderBottom: `1px solid ${TV.borderStrong}` }}>
         <UnstyledButton onClick={() => navigate("/")} title="Dashboard"
-          className="shrink-0 w-[36px] h-[36px] rounded-[8px] flex items-center justify-center hover:opacity-90 transition-opacity"
+          className="shrink-0 w-[36px] h-[36px] rounded-sm flex items-center justify-center hover:opacity-90 transition-opacity"
         >
           <ThankViewLogoIcon size={30} />
         </UnstyledButton>

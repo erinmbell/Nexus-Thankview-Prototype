@@ -1,6 +1,6 @@
 /**
  * RichTextEditor — contentEditable-based rich text editor with a toolbar matching
- * the ThankView design system (bg-tv-surface, rounded-[8px] buttons, tv-brand active).
+ * the ThankView design system (bg-tv-surface, rounded-sm buttons, tv-brand active).
  *
  * Toolbar: B, I, U, Strikethrough | Link, Image | Align L/C/R/J | UL, OL | Indent, Outdent | Templates, Signature
  */
@@ -98,7 +98,7 @@ function PortalDropdown({
     <>
       <div className="fixed inset-0 z-[9998]" onClick={onClose} />
       <div
-        className="fixed z-[9999] bg-white rounded-[10px] border border-tv-border-light shadow-xl"
+        className="fixed z-[9999] bg-white rounded-md border border-tv-border-light shadow-xl"
         style={pos ? { top: pos.top, left: pos.left, width } : { visibility: "hidden" as const }}
       >
         {children}
@@ -298,7 +298,7 @@ export function RichTextEditor({
   }, [onInsertMergeField, handleInput]);
 
   return (
-    <div className={`border ${wrapperClassName || "border-tv-border-light"} rounded-[10px] overflow-visible transition-colors`}>
+    <div className={`border ${wrapperClassName || "border-tv-border-light"} rounded-md overflow-visible transition-colors`}>
       {/* ── Font & styling bar ── */}
       {onBodyFontFamilyChange && (
         <div className={`flex items-center gap-2.5 ${barPx} py-2 bg-tv-surface border-b border-tv-border-light flex-wrap rounded-t-[9px]`}>
@@ -309,7 +309,7 @@ export function RichTextEditor({
               value={bodyFontFamily || EMAIL_BODY_FONTS[0].value}
               onChange={e => onBodyFontFamilyChange?.(e.target.value)}
               title="Font Family"
-              className="border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
+              className="border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
               style={{ fontFamily: bodyFontFamily || EMAIL_BODY_FONTS[0].value }}
             >
               {EMAIL_BODY_FONTS.map(f => (
@@ -325,7 +325,7 @@ export function RichTextEditor({
               value={bodyFontSize || 14}
               onChange={e => onBodyFontSizeChange?.(Number(e.target.value))}
               title="Font Size"
-              className="border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
+              className="border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
             >
               {EMAIL_BODY_FONT_SIZES.map(s => (
                 <option key={s} value={s}>{s}px</option>
@@ -337,12 +337,12 @@ export function RichTextEditor({
           <div className="flex items-center gap-1.5">
             <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap" style={{ fontWeight: 600 }}>Color</label>
             <div className="relative group/tcRte">
-              <button type="button" title="Text Color" className="flex items-center gap-1.5 border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[13px] bg-white hover:border-tv-border-strong transition-colors cursor-pointer">
+              <button type="button" title="Text Color" className="flex items-center gap-1.5 border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] bg-white hover:border-tv-border-strong transition-colors cursor-pointer">
                 <span className="w-4 h-4 rounded-[4px] border border-tv-border-light shrink-0" style={{ backgroundColor: bodyTextColor || "#1e293b" }} />
                 <span className="text-tv-text-primary">{EMAIL_TEXT_COLORS.find(c => c.value === (bodyTextColor || "#1e293b"))?.label || "Custom"}</span>
                 <ChevronDown size={11} className="text-tv-text-secondary" />
               </button>
-              <div className="absolute top-full left-0 mt-1.5 p-2.5 bg-white border border-tv-border-light rounded-[10px] shadow-xl z-30 hidden group-hover/tcRte:grid grid-cols-5 gap-1.5 w-[155px]">
+              <div className="absolute top-full left-0 mt-1.5 p-2.5 bg-white border border-tv-border-light rounded-md shadow-xl z-30 hidden group-hover/tcRte:grid grid-cols-5 gap-1.5 w-[155px]">
                 {EMAIL_TEXT_COLORS.map(c => (
                   <button key={c.value} type="button" onClick={() => onBodyTextColorChange?.(c.value)} title={c.label}
                     className={`w-5.5 h-5.5 rounded-full border-2 transition-transform hover:scale-110 ${(bodyTextColor || "#1e293b") === c.value ? "border-tv-brand ring-1 ring-tv-brand/30" : "border-tv-border-light"}`}
@@ -359,7 +359,7 @@ export function RichTextEditor({
               value={bodyLineHeight || 1.5}
               onChange={e => onBodyLineHeightChange?.(Number(e.target.value))}
               title="Line Spacing"
-              className="border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
+              className="border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
             >
               {EMAIL_BODY_LINE_HEIGHTS.map(lh => (
                 <option key={lh.value} value={lh.value}>{lh.label}</option>
@@ -369,7 +369,7 @@ export function RichTextEditor({
           <div className="h-5 w-px bg-tv-border-light" />
           {/* Horizontal rule button */}
           <button type="button" onClick={() => exec("insertHorizontalRule")} title="Insert Horizontal Rule"
-            className="p-1.5 rounded-[8px] transition-colors text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-text-primary">
+            className="p-1.5 rounded-sm transition-colors text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-text-primary">
             <Minus size={iconSize} />
           </button>
         </div>
@@ -407,7 +407,7 @@ export function RichTextEditor({
                     value={linkUrl}
                     onChange={e => setLinkUrl(e.target.value)}
                     placeholder="https://example.com"
-                    className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
+                    className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
                   />
                 </div>
                 <div>
@@ -416,7 +416,7 @@ export function RichTextEditor({
                     value={linkText}
                     onChange={e => setLinkText(e.target.value)}
                     placeholder="Link text\u2026"
-                    className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
+                    className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
                   />
                 </div>
                 <label className="flex items-center gap-2 cursor-pointer">

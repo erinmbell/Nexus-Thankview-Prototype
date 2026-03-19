@@ -127,7 +127,7 @@ export function LandingPageLivePreviewModal({
                   <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
                   <div className="w-3 h-3 rounded-full bg-[#28c840]" />
                 </div>
-                <div className="flex-1 bg-[#1a1a1a] rounded-[8px] px-4 py-1.5 flex items-center gap-2 min-w-0">
+                <div className="flex-1 bg-[#1a1a1a] rounded-sm px-4 py-1.5 flex items-center gap-2 min-w-0">
                   <Globe size={11} className="text-white/30 shrink-0" />
                   <span className="text-[11px] text-white/50 font-mono truncate">
                     hartwell.thankview.com/{slug}
@@ -187,7 +187,7 @@ export function LandingPageLivePreviewModal({
 
                 {/* Video player placeholder */}
                 <div className="px-8 -mt-6 relative z-10 pb-4">
-                  <div className="rounded-[12px] overflow-hidden shadow-2xl max-w-[680px] mx-auto">
+                  <div className="rounded-lg overflow-hidden shadow-2xl max-w-[680px] mx-auto">
                     <div style={{ aspectRatio: "16/9" }} className="bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative">
                       <div className="w-20 h-20 rounded-full bg-white/25 flex items-center justify-center backdrop-blur-sm border border-white/30">
                         <Play size={28} className="text-white ml-1" fill="white" />

@@ -1467,7 +1467,7 @@ export function Contacts() {
       )}
 
       {/* Table */}
-      <div className="rounded-[16px] border" style={{ overflow: "hidden", borderColor: TV.borderLight }}>
+      <div className="rounded-xl border" style={{ overflow: "hidden", borderColor: TV.borderLight }}>
         {filtered.length === 0 ? (
           <Stack align="center" py="xl" gap="sm">
             <Box w={48} h={48} bg={TV.brandTint} style={{ borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>

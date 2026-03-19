@@ -82,9 +82,9 @@ export function ConfirmSend({
   return (
     <div className="flex-1 flex items-center justify-center p-8">
       <div className="w-full max-w-[520px]">
-        <div className="bg-white border border-tv-border-light rounded-[12px] shadow-sm overflow-hidden">
+        <div className="bg-white border border-tv-border-light rounded-lg shadow-sm overflow-hidden">
           <div className="px-6 pt-6 pb-4 flex items-start gap-3">
-            <div className="w-10 h-10 rounded-[10px] bg-tv-warning-bg flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-md bg-tv-warning-bg flex items-center justify-center shrink-0">
               <TriangleAlert size={18} className="text-tv-warning" />
             </div>
             <div>
@@ -93,7 +93,7 @@ export function ConfirmSend({
             </div>
           </div>
 
-          <div className="mx-6 mb-4 p-4 bg-tv-surface-muted border border-tv-border-divider rounded-[12px] space-y-2.5">
+          <div className="mx-6 mb-4 p-4 bg-tv-surface-muted border border-tv-border-divider rounded-lg space-y-2.5">
             {campaignName && <SummaryRow icon={<Mail size={13} className="text-tv-brand" />} label="Campaign" value={campaignName} />}
             {deliveryMethod && <SummaryRow icon={<Send size={13} className="text-tv-brand" />} label="Channel" value={deliveryMethod} />}
             <SummaryRow icon={<Users size={13} className="text-tv-brand" />} label="Constituents" value={`${constituentCount.toLocaleString()} constituents`} />
@@ -105,7 +105,7 @@ export function ConfirmSend({
 
           {mergeFieldWarnings.length > 0 && (
             <div className="mx-6 mb-4">
-              <div className={`border rounded-[12px] overflow-hidden transition-colors ${allResolved ? "border-tv-success/40 bg-tv-success-bg/50" : "border-tv-warning-border bg-tv-warning-bg/30"}`}>
+              <div className={`border rounded-lg overflow-hidden transition-colors ${allResolved ? "border-tv-success/40 bg-tv-success-bg/50" : "border-tv-warning-border bg-tv-warning-bg/30"}`}>
                 <div className={`px-4 py-3 flex items-center gap-2.5 ${allResolved ? "bg-tv-success-bg/60" : "bg-tv-warning-bg/60"}`}>
                   {allResolved ? <CheckCircle2 size={15} className="text-tv-success shrink-0" /> : <CircleAlert size={15} className="text-tv-warning shrink-0" />}
                   <div className="flex-1 min-w-0">
@@ -138,15 +138,15 @@ export function ConfirmSend({
                               </div>
                               {editingFallback === w.field && (
                                 <div className="mb-3 flex items-center gap-2">
-                                  <input type="text" value={fallbackValues[w.field] || ""} onChange={e => setFallbackValues(prev => ({ ...prev, [w.field]: e.target.value }))} placeholder={`Fallback for {{${w.field}}}`} className="flex-1 border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand-bg/20" autoFocus />
-                                  <button onClick={() => { if (fallbackValues[w.field]?.trim()) resolveField(w.field, "fallback"); }} disabled={!fallbackValues[w.field]?.trim()} className="px-3 py-1.5 text-[10px] rounded-[8px] bg-tv-brand-bg text-white disabled:opacity-50" style={{ fontWeight: 600 }}>Apply</button>
+                                  <input type="text" value={fallbackValues[w.field] || ""} onChange={e => setFallbackValues(prev => ({ ...prev, [w.field]: e.target.value }))} placeholder={`Fallback for {{${w.field}}}`} className="flex-1 border border-tv-border-light rounded-sm px-3 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand-bg/20" autoFocus />
+                                  <button onClick={() => { if (fallbackValues[w.field]?.trim()) resolveField(w.field, "fallback"); }} disabled={!fallbackValues[w.field]?.trim()} className="px-3 py-1.5 text-[10px] rounded-sm bg-tv-brand-bg text-white disabled:opacity-50" style={{ fontWeight: 600 }}>Apply</button>
                                   <button onClick={() => setEditingFallback(null)} className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-tv-surface-hover text-tv-text-secondary"><X size={11} /></button>
                                 </div>
                               )}
                               <div className="flex flex-wrap gap-2">
-                                <button onClick={() => resolveField(w.field, "removed")} className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] border border-tv-border-light rounded-[8px] text-tv-text-secondary hover:text-tv-text-primary bg-white" style={{ fontWeight: 500 }}><X size={10} />Remove field</button>
-                                <button onClick={() => setEditingFallback(w.field)} className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] border border-tv-border-light rounded-[8px] text-tv-text-secondary hover:text-tv-brand bg-white" style={{ fontWeight: 500 }}><Type size={10} />Set fallback</button>
-                                <button onClick={() => resolveField(w.field, "skipped")} className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] border border-tv-danger/30 rounded-[8px] text-tv-danger/80 hover:text-tv-danger bg-white" style={{ fontWeight: 500 }}><UserX size={10} />Skip constituents</button>
+                                <button onClick={() => resolveField(w.field, "removed")} className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] border border-tv-border-light rounded-sm text-tv-text-secondary hover:text-tv-text-primary bg-white" style={{ fontWeight: 500 }}><X size={10} />Remove field</button>
+                                <button onClick={() => setEditingFallback(w.field)} className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] border border-tv-border-light rounded-sm text-tv-text-secondary hover:text-tv-brand bg-white" style={{ fontWeight: 500 }}><Type size={10} />Set fallback</button>
+                                <button onClick={() => resolveField(w.field, "skipped")} className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] border border-tv-danger/30 rounded-sm text-tv-danger/80 hover:text-tv-danger bg-white" style={{ fontWeight: 500 }}><UserX size={10} />Skip constituents</button>
                               </div>
                             </div>
                           )}
@@ -159,7 +159,7 @@ export function ConfirmSend({
             </div>
           )}
 
-          <div className="mx-6 mb-5 p-3 bg-tv-warning-bg border border-tv-warning-border rounded-[10px] flex items-start gap-2">
+          <div className="mx-6 mb-5 p-3 bg-tv-warning-bg border border-tv-warning-border rounded-md flex items-start gap-2">
             <TriangleAlert size={13} className="text-tv-warning shrink-0 mt-0.5" />
             <p className="text-[11px] text-tv-text-primary leading-relaxed"><strong>This action cannot be undone.</strong></p>
           </div>

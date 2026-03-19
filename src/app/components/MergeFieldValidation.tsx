@@ -72,7 +72,7 @@ export function MergeFieldValidation({ compact = false, onRemovedFieldsChange, o
 
   if (allResolved) {
     return (
-      <div className={`${px} ${py} rounded-[12px] border border-tv-success-border bg-tv-success-bg flex items-center gap-3`}>
+      <div className={`${px} ${py} rounded-lg border border-tv-success-border bg-tv-success-bg flex items-center gap-3`}>
         <div className="w-8 h-8 rounded-full bg-tv-success-bg border border-tv-success-border flex items-center justify-center shrink-0">
           <ShieldCheck size={15} className="text-tv-success" />
         </div>
@@ -86,7 +86,7 @@ export function MergeFieldValidation({ compact = false, onRemovedFieldsChange, o
   }
 
   return (
-    <div className="rounded-[12px] border border-tv-warning-border overflow-hidden">
+    <div className="rounded-lg border border-tv-warning-border overflow-hidden">
       <div className={`${px} ${py} bg-tv-warning-bg flex items-center gap-2.5`}>
         <AlertTriangle size={14} className="text-tv-warning shrink-0" />
         <div className="flex-1 min-w-0">
@@ -129,13 +129,13 @@ export function MergeFieldValidation({ compact = false, onRemovedFieldsChange, o
                   {!isResolved ? (
                     <div className="space-y-2">
                       <div className="flex flex-wrap gap-2">
-                        <button onClick={(e) => { e.stopPropagation(); resolve(gap.field, { type: "removed" }); }} className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] border border-tv-border-light rounded-[8px] text-tv-text-secondary hover:border-tv-border-strong hover:text-tv-text-primary transition-colors" style={{ fontWeight: 500 }}><Trash2 size={11} />Remove field from message</button>
-                        <button onClick={(e) => { e.stopPropagation(); setShowFallbackInput(prev => ({ ...prev, [gap.field]: !prev[gap.field] })); }} className={`flex items-center gap-1.5 px-3 py-1.5 text-[11px] border rounded-[8px] transition-colors ${isFallbackOpen ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong hover:text-tv-text-primary"}`} style={{ fontWeight: 500 }}><Type size={11} />Set fallback text</button>
-                        <button onClick={(e) => { e.stopPropagation(); resolve(gap.field, { type: "skipped" }); }} className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] border border-tv-danger-border rounded-[8px] text-tv-danger hover:border-tv-danger hover:bg-tv-danger-bg transition-colors" style={{ fontWeight: 500 }}><UserX size={11} />Skip these constituents</button>
+                        <button onClick={(e) => { e.stopPropagation(); resolve(gap.field, { type: "removed" }); }} className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] border border-tv-border-light rounded-sm text-tv-text-secondary hover:border-tv-border-strong hover:text-tv-text-primary transition-colors" style={{ fontWeight: 500 }}><Trash2 size={11} />Remove field from message</button>
+                        <button onClick={(e) => { e.stopPropagation(); setShowFallbackInput(prev => ({ ...prev, [gap.field]: !prev[gap.field] })); }} className={`flex items-center gap-1.5 px-3 py-1.5 text-[11px] border rounded-sm transition-colors ${isFallbackOpen ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong hover:text-tv-text-primary"}`} style={{ fontWeight: 500 }}><Type size={11} />Set fallback text</button>
+                        <button onClick={(e) => { e.stopPropagation(); resolve(gap.field, { type: "skipped" }); }} className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] border border-tv-danger-border rounded-sm text-tv-danger hover:border-tv-danger hover:bg-tv-danger-bg transition-colors" style={{ fontWeight: 500 }}><UserX size={11} />Skip these constituents</button>
                       </div>
                       {isFallbackOpen && (
                         <div className="flex items-center gap-2">
-                          <input value={fallbackInputs[gap.field] || ""} onChange={e => setFallbackInputs(prev => ({ ...prev, [gap.field]: e.target.value }))} placeholder={`Default text for ${gap.fieldLabel}\u2026`} className="flex-1 border border-tv-border-light rounded-[8px] px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" onClick={e => e.stopPropagation()} />
+                          <input value={fallbackInputs[gap.field] || ""} onChange={e => setFallbackInputs(prev => ({ ...prev, [gap.field]: e.target.value }))} placeholder={`Default text for ${gap.fieldLabel}\u2026`} className="flex-1 border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" onClick={e => e.stopPropagation()} />
                           <button onClick={(e) => { e.stopPropagation(); const text = (fallbackInputs[gap.field] || "").trim(); if (text) resolve(gap.field, { type: "fallback", text }); }} disabled={!(fallbackInputs[gap.field] || "").trim()} className="px-3 py-1.5 text-[11px] text-white bg-tv-brand-bg rounded-full hover:bg-tv-brand-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed" style={{ fontWeight: 600 }}>Apply</button>
                         </div>
                       )}

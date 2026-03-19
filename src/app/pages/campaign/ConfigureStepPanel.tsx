@@ -130,7 +130,7 @@ export function ConfigureStepPanel({
 
       {/* 0. CAMPAIGN NAME */}
       {onCampaignNameChange && (
-        <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+        <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
           <div className="px-5 py-4">
             <div className="flex items-center gap-2 mb-3">
               <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Name</p>
@@ -139,7 +139,7 @@ export function ConfigureStepPanel({
               value={campaignName || ""}
               onChange={e => { onCampaignNameChange(e.target.value); markDirty?.(); }}
               placeholder="e.g. Spring Annual Fund Appeal"
-              className="w-full border border-tv-border-light rounded-[10px] px-4 py-3 text-[14px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand transition-colors placeholder:text-tv-text-secondary"
+              className="w-full border border-tv-border-light rounded-md px-4 py-3 text-[14px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand transition-colors placeholder:text-tv-text-secondary"
             />
             <p className="text-[11px] text-tv-text-secondary mt-2">Give your campaign a memorable name so it's easy to find later.</p>
           </div>
@@ -147,10 +147,10 @@ export function ConfigureStepPanel({
       )}
 
       {/* 1. SUCCESS METRICS */}
-      <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+      <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
         <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-tv-brand-tint rounded-[8px] flex items-center justify-center">
+            <div className="w-8 h-8 bg-tv-brand-tint rounded-sm flex items-center justify-center">
               <Target size={15} className="text-tv-brand" />
             </div>
             <div>
@@ -175,7 +175,7 @@ export function ConfigureStepPanel({
           </div>
 
           {showMetricsInfo && (
-            <div className="p-3 bg-tv-brand-tint border border-tv-brand-bg/20 rounded-[8px]">
+            <div className="p-3 bg-tv-brand-tint border border-tv-brand-bg/20 rounded-sm">
               <p className="text-[11px] text-tv-brand leading-relaxed">
                 Success metrics define which KPIs appear on your campaign dashboard after sending. Pick the outcomes that matter most to your team.
               </p>
@@ -183,13 +183,13 @@ export function ConfigureStepPanel({
           )}
 
           {selectedMetrics.length === 0 && (
-            <div className="flex items-center gap-1.5 p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[8px]">
+            <div className="flex items-center gap-1.5 p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-sm">
               <TriangleAlert size={11} className="text-tv-warning shrink-0" />
               <p className="text-[10px] text-tv-warning">Select at least 1 metric to continue.</p>
             </div>
           )}
           {selectedMetrics.length >= 5 && (
-            <div className="flex items-center gap-1.5 p-2.5 bg-tv-info-bg border border-tv-info-border rounded-[8px]">
+            <div className="flex items-center gap-1.5 p-2.5 bg-tv-info-bg border border-tv-info-border rounded-sm">
               <Info size={11} className="text-tv-info shrink-0" />
               <p className="text-[10px] text-tv-info">Maximum reached. Deselect one to swap.</p>
             </div>
@@ -221,7 +221,7 @@ export function ConfigureStepPanel({
               </button>
             </div>
             {showDropoffInfo && (
-              <div className="p-2.5 bg-tv-danger-bg border border-tv-danger/15 rounded-[8px] mb-1.5">
+              <div className="p-2.5 bg-tv-danger-bg border border-tv-danger/15 rounded-sm mb-1.5">
                 <p className="text-[10px] text-tv-danger/80 leading-relaxed">
                   These are watchdog metrics — track them to spot deliverability problems early.
                 </p>
@@ -236,7 +236,7 @@ export function ConfigureStepPanel({
 
           <button
             onClick={() => setShowMetricsInfo(true)}
-            className="w-full py-2.5 border-2 border-dashed border-tv-border-light rounded-[10px] text-[11px] text-tv-brand hover:border-tv-brand-bg/40 hover:bg-tv-brand-tint/20 transition-colors"
+            className="w-full py-2.5 border-2 border-dashed border-tv-border-light rounded-md text-[11px] text-tv-brand hover:border-tv-brand-bg/40 hover:bg-tv-brand-tint/20 transition-colors"
             style={{ fontWeight: 500 }}
           >
             + Add another success metric
@@ -245,10 +245,10 @@ export function ConfigureStepPanel({
       </section>
 
       {/* 2. CAMPAIGN TAGS */}
-      <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+      <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
         <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-tv-brand-tint rounded-[8px] flex items-center justify-center">
+            <div className="w-8 h-8 bg-tv-brand-tint rounded-sm flex items-center justify-center">
               <Tag size={15} className="text-tv-brand" />
             </div>
             <div>
@@ -263,13 +263,13 @@ export function ConfigureStepPanel({
       </section>
 
       {/* 3. ADVANCED SETTINGS */}
-      <section className="rounded-[12px] border border-tv-border-light bg-white overflow-hidden">
+      <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
         <button
           onClick={() => setAdvancedOpen(v => !v)}
           className="w-full flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider hover:bg-tv-surface/70 transition-colors"
         >
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-tv-surface-active rounded-[8px] flex items-center justify-center">
+            <div className="w-8 h-8 bg-tv-surface-active rounded-sm flex items-center justify-center">
               <Settings size={15} className="text-tv-text-secondary" />
             </div>
             <div className="text-left">
@@ -302,7 +302,7 @@ export function ConfigureStepPanel({
                   <button
                     key={opt.id}
                     onClick={() => { setSharingMode(opt.id); markDirty?.(); }}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-[10px] border-2 text-left transition-all ${
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-md border-2 text-left transition-all ${
                       sharingMode === opt.id
                         ? "border-tv-brand-bg bg-tv-brand-tint/40"
                         : "border-tv-border-light hover:border-tv-border-strong bg-white"
@@ -326,7 +326,7 @@ export function ConfigureStepPanel({
                 <div className="pl-10 space-y-2">
                   <PillSearchInput value={peopleSearch} onChange={setPeopleSearch} placeholder="Search team members\u2026" size="sm" />
                   {filteredTeam.length > 0 && (
-                    <div className="border border-tv-border-light rounded-[8px] overflow-hidden divide-y divide-tv-border-divider">
+                    <div className="border border-tv-border-light rounded-sm overflow-hidden divide-y divide-tv-border-divider">
                       {filteredTeam.slice(0, 4).map(t => (
                         <button key={t.id} onClick={() => { setSelectedPeople(p => [...p, t.id]); setPeopleSearch(""); markDirty?.(); }}
                           className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-tv-surface/60 transition-colors">
@@ -370,7 +370,7 @@ export function ConfigureStepPanel({
               </div>
 
               {removalRules.map((rule, idx) => (
-                <div key={rule.id} className="p-4 rounded-[10px] border border-tv-border-light bg-tv-surface/30 space-y-3">
+                <div key={rule.id} className="p-4 rounded-md border border-tv-border-light bg-tv-surface/30 space-y-3">
                   <div className="flex items-center justify-between">
                     <p className="text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Rule {idx + 1}</p>
                     <button onClick={() => removeRule(rule.id)} className="w-5 h-5 rounded-full flex items-center justify-center text-tv-text-decorative hover:text-tv-danger hover:bg-tv-danger-bg transition-colors">
@@ -414,7 +414,7 @@ export function ConfigureStepPanel({
 
               <button
                 onClick={addRemovalRule}
-                className="w-full py-2.5 border-2 border-dashed border-tv-border-light rounded-[10px] text-[11px] text-tv-brand hover:border-tv-brand-bg/40 hover:bg-tv-brand-tint/20 transition-colors"
+                className="w-full py-2.5 border-2 border-dashed border-tv-border-light rounded-md text-[11px] text-tv-brand hover:border-tv-brand-bg/40 hover:bg-tv-brand-tint/20 transition-colors"
                 style={{ fontWeight: 500 }}
               >
                 + Add another removal rule

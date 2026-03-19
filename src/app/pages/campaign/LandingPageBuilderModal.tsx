@@ -25,7 +25,7 @@ export function LandingPageBuilderModal({ onSave, onClose }: { onSave: (lp: Save
   return (
     <FocusTrap active>
     <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Landing page builder">
-      <div className="w-full max-w-[1140px] bg-white rounded-[20px] border border-tv-border-light shadow-2xl flex flex-col" style={{ maxHeight: "94vh" }}>
+      <div className="w-full max-w-[1140px] bg-white rounded-xl border border-tv-border-light shadow-2xl flex flex-col" style={{ maxHeight: "94vh" }}>
         <div className="px-6 py-4 border-b border-tv-border-divider shrink-0">
           <div className="flex items-center gap-3">
             <button onClick={onClose} className="w-7 h-7 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary transition-colors">
@@ -44,7 +44,7 @@ export function LandingPageBuilderModal({ onSave, onClose }: { onSave: (lp: Save
             <div className="flex-1 overflow-y-auto p-5 space-y-6">
               <div>
                 <p className="tv-label mb-2">Landing Page Title</p>
-                <input value={lpTitle} onChange={e => setLpTitle(e.target.value)} className="w-full border border-tv-border-light rounded-[10px] px-3 py-2.5 text-[13px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/20 focus:border-tv-brand transition-colors" />
+                <input value={lpTitle} onChange={e => setLpTitle(e.target.value)} className="w-full border border-tv-border-light rounded-md px-3 py-2.5 text-[13px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/20 focus:border-tv-brand transition-colors" />
               </div>
               <ColorSwatchPicker label="Primary Color" value={lpColor} onChange={(hex) => setLpColor(hex)} swatches={BRAND_PALETTE} swatchSize={32} />
               <ColorSwatchPicker label="Accent Color" value={lpAccent} onChange={(hex) => setLpAccent(hex)} swatches={BRAND_PALETTE} swatchSize={32} />
@@ -55,14 +55,14 @@ export function LandingPageBuilderModal({ onSave, onClose }: { onSave: (lp: Save
           <div className="flex-1 bg-tv-surface flex flex-col items-center justify-center p-6 overflow-y-auto">
             <p className="text-[10px] text-tv-text-secondary uppercase tracking-[0.15em] mb-4" style={{ fontWeight: 600 }}>Live preview</p>
             <div className="w-full max-w-[420px]">
-              <div className="aspect-[3/4] rounded-[12px] overflow-hidden shadow-xl relative" style={{ background: `linear-gradient(135deg, ${lpColor}, ${lpAccent})` }}>
+              <div className="aspect-[3/4] rounded-lg overflow-hidden shadow-xl relative" style={{ background: `linear-gradient(135deg, ${lpColor}, ${lpAccent})` }}>
                 {/* Header */}
                 <div className="p-4 flex items-center justify-between">
                   <div className="w-8 h-8 rounded-full bg-white/20" />
                   <p className="text-[10px] text-white/70" style={{ fontWeight: 500 }}>yourschool.edu</p>
                 </div>
                 {/* Video area */}
-                <div className="mx-4 aspect-video rounded-[8px] bg-black/20 flex items-center justify-center">
+                <div className="mx-4 aspect-video rounded-sm bg-black/20 flex items-center justify-center">
                   <div className="w-10 h-10 rounded-full bg-white/30 flex items-center justify-center">
                     <div className="w-0 h-0 border-l-[8px] border-l-white border-y-[5px] border-y-transparent ml-1" />
                   </div>
@@ -71,7 +71,7 @@ export function LandingPageBuilderModal({ onSave, onClose }: { onSave: (lp: Save
                 <div className="p-4 text-center">
                   <p className="text-[12px] text-white/90 mb-1" style={{ fontWeight: 600 }}>Sender Name</p>
                   <p className="text-[9px] text-white/60 mb-3">Your personal message preview...</p>
-                  <div className="inline-block px-5 py-2 rounded-[8px] bg-white/20 text-[10px] text-white" style={{ fontWeight: 600 }}>
+                  <div className="inline-block px-5 py-2 rounded-sm bg-white/20 text-[10px] text-white" style={{ fontWeight: 600 }}>
                     CTA Button
                   </div>
                 </div>

@@ -107,7 +107,7 @@ function ToolbarDropdown({
       <button
         ref={btnRef}
         onClick={onToggle}
-        className={`relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] text-[11px] transition-colors ${
+        className={`relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-sm text-[11px] transition-colors ${
           isOpen ? "bg-white/20 text-white" : "text-white/70 hover:text-white hover:bg-white/10"
         }`}
       >
@@ -121,7 +121,7 @@ function ToolbarDropdown({
       {isOpen && (
         <div
           ref={panelRef}
-          className={`absolute bottom-full mb-2 ${align === "right" ? "right-0" : "left-0"} z-50 min-w-[220px] bg-[#2a2a3e] border border-white/10 rounded-[12px] shadow-2xl overflow-hidden`}
+          className={`absolute bottom-full mb-2 ${align === "right" ? "right-0" : "left-0"} z-50 min-w-[220px] bg-[#2a2a3e] border border-white/10 rounded-lg shadow-2xl overflow-hidden`}
         >
           {children}
         </div>
@@ -505,7 +505,7 @@ export function RecordingStudio({
               <button
                 key={bg.id}
                 onClick={() => { setBackground(bg.id); }}
-                className={`flex flex-col items-center gap-1 p-1.5 rounded-[8px] transition-all ${
+                className={`flex flex-col items-center gap-1 p-1.5 rounded-sm transition-all ${
                   background === bg.id
                     ? "ring-2 ring-tv-brand-bg bg-white/10"
                     : "hover:bg-white/5"
@@ -525,7 +525,7 @@ export function RecordingStudio({
             {/* Upload option */}
             <button
               onClick={() => { /* upload handler */ }}
-              className="flex flex-col items-center gap-1 p-1.5 rounded-[8px] hover:bg-white/5 transition-colors"
+              className="flex flex-col items-center gap-1 p-1.5 rounded-sm hover:bg-white/5 transition-colors"
             >
               <div className="w-10 h-10 rounded-[6px] border border-dashed border-white/20 flex items-center justify-center">
                 <Upload size={14} className="text-white/30" />
@@ -581,7 +581,7 @@ export function RecordingStudio({
             <div className="w-px h-5 bg-white/10 mx-1 shrink-0" />
             <button
               onClick={startOver}
-              className="flex items-center gap-1 px-2.5 py-1.5 text-[11px] text-[#5eead4] hover:text-[#99f6e4] rounded-[8px] hover:bg-white/5 transition-colors"
+              className="flex items-center gap-1 px-2.5 py-1.5 text-[11px] text-[#5eead4] hover:text-[#99f6e4] rounded-sm hover:bg-white/5 transition-colors"
             >
               <RotateCcw size={11} />
               <span className="hidden sm:inline">Start Over</span>
@@ -592,7 +592,7 @@ export function RecordingStudio({
 
       {/* ══════════ SCRIPT PANEL (collapsible) ═══════════ */}
       {!hideBuiltInScript && scriptPanelOpen && (
-        <div className="bg-[#f8f6fc] border border-tv-border-light rounded-[12px] mt-2 overflow-hidden">
+        <div className="bg-[#f8f6fc] border border-tv-border-light rounded-lg mt-2 overflow-hidden">
           <div className="flex items-center justify-between px-4 py-2.5 border-b border-tv-border-divider">
             <span className="text-[12px] font-semibold text-tv-text-primary">Script / Teleprompter</span>
             <label className="flex items-center gap-2 cursor-pointer">
@@ -615,7 +615,7 @@ export function RecordingStudio({
               onChange={e => setScriptText(e.target.value)}
               rows={3}
               placeholder="Type or paste your script here…"
-              className="w-full bg-white border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] text-tv-text-primary placeholder:text-tv-text-decorative resize-none focus:outline-none focus:border-tv-brand-bg/40 transition-colors"
+              className="w-full bg-white border border-tv-border-light rounded-sm px-3 py-2 text-[12px] text-tv-text-primary placeholder:text-tv-text-decorative resize-none focus:outline-none focus:border-tv-brand-bg/40 transition-colors"
             />
           </div>
           <div className="flex items-center justify-between px-4 pb-3">

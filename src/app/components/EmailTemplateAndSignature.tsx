@@ -140,7 +140,7 @@ export function EmailTemplatePicker({ onSelect, onClose, compact }: EmailTemplat
 
   if (preview) {
     return (
-      <div className={`bg-white border border-tv-border-light rounded-[10px] shadow-xl overflow-hidden ${compact ? "w-[520px]" : "w-[640px]"}`}>
+      <div className={`bg-white border border-tv-border-light rounded-md shadow-xl overflow-hidden ${compact ? "w-[520px]" : "w-[640px]"}`}>
         {/* Preview header */}
         <div className="px-4 py-3 border-b border-tv-border-divider bg-tv-surface-muted flex items-center justify-between">
           <div className="flex items-center gap-2 min-w-0">
@@ -162,7 +162,7 @@ export function EmailTemplatePicker({ onSelect, onClose, compact }: EmailTemplat
           </div>
           <div>
             <p className="text-[9px] text-tv-text-decorative uppercase tracking-wider mb-1" style={{ fontWeight: 600 }}>Body</p>
-            <div className="p-3 bg-tv-surface-muted rounded-[10px] border border-tv-border-divider">
+            <div className="p-3 bg-tv-surface-muted rounded-md border border-tv-border-divider">
               <p className="text-[12px] text-tv-text-primary whitespace-pre-wrap leading-relaxed">{preview.body}</p>
             </div>
           </div>
@@ -184,7 +184,7 @@ export function EmailTemplatePicker({ onSelect, onClose, compact }: EmailTemplat
   }
 
   return (
-    <div className={`bg-white border border-tv-border-light rounded-[10px] shadow-xl overflow-hidden ${compact ? "w-[520px]" : "w-[640px]"}`}>
+    <div className={`bg-white border border-tv-border-light rounded-md shadow-xl overflow-hidden ${compact ? "w-[520px]" : "w-[640px]"}`}>
       {/* Header */}
       <div className="px-4 py-3 border-b border-tv-border-divider bg-tv-surface-muted flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -204,7 +204,7 @@ export function EmailTemplatePicker({ onSelect, onClose, compact }: EmailTemplat
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search templates\u2026"
-            className="w-full pl-8 pr-3 py-2 border border-tv-border-light rounded-[8px] text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
+            className="w-full pl-8 pr-3 py-2 border border-tv-border-light rounded-sm text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
           />
         </div>
         <div className="flex flex-wrap gap-1">
@@ -240,10 +240,10 @@ export function EmailTemplatePicker({ onSelect, onClose, compact }: EmailTemplat
                 <button
                   key={tpl.id}
                   onClick={() => setPreview(tpl)}
-                  className="w-full text-left px-3 py-2.5 rounded-[10px] border border-transparent hover:border-tv-brand/30 hover:bg-tv-surface-muted transition-all group"
+                  className="w-full text-left px-3 py-2.5 rounded-md border border-transparent hover:border-tv-brand/30 hover:bg-tv-surface-muted transition-all group"
                 >
                   <div className="flex items-start gap-2.5">
-                    <div className="w-8 h-8 rounded-[8px] bg-tv-surface-muted flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-8 h-8 rounded-sm bg-tv-surface-muted flex items-center justify-center shrink-0 mt-0.5">
                       {tpl.builtIn ? <Bookmark size={13} className="text-tv-brand" /> : <PenLine size={13} className="text-tv-text-secondary" />}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -288,7 +288,7 @@ export function SignaturePicker({ onInsert, onClose, compact }: SignaturePickerP
   const selected = USER_SIGNATURES.find(s => s.id === selectedId);
 
   return (
-    <div className={`bg-white border border-tv-border-light rounded-[10px] shadow-xl overflow-hidden ${compact ? "max-w-[380px]" : "max-w-[460px]"}`}>
+    <div className={`bg-white border border-tv-border-light rounded-md shadow-xl overflow-hidden ${compact ? "max-w-[380px]" : "max-w-[460px]"}`}>
       {/* Header */}
       <div className="px-4 py-3 border-b border-tv-border-divider bg-tv-surface-muted flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -306,7 +306,7 @@ export function SignaturePicker({ onInsert, onClose, compact }: SignaturePickerP
           <button
             key={sig.id}
             onClick={() => setSelectedId(sig.id)}
-            className={`w-full text-left px-3 py-2.5 rounded-[10px] border transition-all ${
+            className={`w-full text-left px-3 py-2.5 rounded-md border transition-all ${
               selectedId === sig.id
                 ? "border-tv-brand bg-tv-brand-tint/30"
                 : "border-tv-border-light hover:border-tv-border-strong"

@@ -324,7 +324,7 @@ export function LandingPageDesigns() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           {filtered.map(pg => (
-            <div key={pg.id} role="button" tabIndex={0} onClick={() => setPreviewId(pg.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(pg.id); }}} aria-label={`Preview: ${pg.name}`} className="bg-white rounded-[16px] border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer">
+            <div key={pg.id} role="button" tabIndex={0} onClick={() => setPreviewId(pg.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(pg.id); }}} aria-label={`Preview: ${pg.name}`} className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer">
               {/* Thumbnail */}
               <div className="h-40 relative overflow-hidden bg-tv-surface">
                 <ImageWithFallback src={pg.thumb} alt={pg.name} className="w-full h-full object-cover" />
@@ -408,7 +408,7 @@ export function LandingPageDesigns() {
                 </div>
 
                 {/* CTA bar */}
-                <div className="flex items-center gap-2 p-2 bg-tv-surface-muted rounded-[10px] border border-tv-border-divider">
+                <div className="flex items-center gap-2 p-2 bg-tv-surface-muted rounded-md border border-tv-border-divider">
                   <div className="h-6 flex-1 rounded-full flex items-center justify-center text-[10px] font-bold" style={{ backgroundColor: pg.ctaButton.bg, color: pg.ctaButton.text }}>{pg.ctaLabel}</div>
                 </div>
               </div>
@@ -422,7 +422,7 @@ export function LandingPageDesigns() {
         <>
           <div className="fixed inset-0 bg-black/50 z-[60]" onClick={() => { setPreviewId(null); setModalMenuOpen(false); }} />
           <div className="fixed inset-0 flex items-center justify-center z-[61] pointer-events-none p-4">
-            <div className="bg-white rounded-[20px] w-full max-w-lg shadow-2xl pointer-events-auto overflow-hidden max-h-[90vh] overflow-y-auto">
+            <div className="bg-white rounded-xl w-full max-w-lg shadow-2xl pointer-events-auto overflow-hidden max-h-[90vh] overflow-y-auto">
               {/* Header */}
               <div className="flex items-center justify-between px-5 py-4 border-b border-tv-border-divider sticky top-0 bg-white z-10">
                 <h2 className="text-[16px] font-black text-tv-text-primary truncate pr-3">{preview.name}</h2>

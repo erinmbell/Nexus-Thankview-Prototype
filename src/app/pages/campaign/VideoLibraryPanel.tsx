@@ -134,7 +134,7 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
         </div>
 
         {pickMode && (
-          <div className="flex items-center gap-2 mt-3 px-3 py-2.5 bg-tv-brand-tint border border-tv-brand-bg/20 rounded-[10px]">
+          <div className="flex items-center gap-2 mt-3 px-3 py-2.5 bg-tv-brand-tint border border-tv-brand-bg/20 rounded-md">
             <Info size={14} className="text-tv-brand shrink-0" />
             <p className="text-[12px] text-tv-brand" style={{ fontWeight: 500 }}>Select a video to use in your campaign</p>
           </div>
@@ -150,12 +150,12 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search videos\u2026"
-            className="w-full pl-9 pr-3 py-2 text-[12px] border border-tv-border-light rounded-[8px] outline-none focus:ring-2 focus:ring-tv-brand-bg/20 bg-tv-surface-muted"
+            className="w-full pl-9 pr-3 py-2 text-[12px] border border-tv-border-light rounded-sm outline-none focus:ring-2 focus:ring-tv-brand-bg/20 bg-tv-surface-muted"
           />
         </div>
 
         {/* Grid / List toggle */}
-        <div className="flex border border-tv-border-light rounded-[8px] overflow-hidden">
+        <div className="flex border border-tv-border-light rounded-sm overflow-hidden">
           {(["grid", "list"] as const).map(v => (
             <button key={v} onClick={() => setView(v)}
               className={`p-2 transition-colors ${view === v ? "bg-tv-brand-bg text-white" : "text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
@@ -167,13 +167,13 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
         {/* Folder dropdown */}
         <div className="relative">
           <button onClick={() => { setFolderOpen(!folderOpen); setSortOpen(false); }}
-            className="flex items-center gap-1.5 px-3 py-2 text-[12px] border border-tv-border-light rounded-[8px] hover:bg-tv-surface-hover transition-colors text-tv-text-primary">
+            className="flex items-center gap-1.5 px-3 py-2 text-[12px] border border-tv-border-light rounded-sm hover:bg-tv-surface-hover transition-colors text-tv-text-primary">
             <FolderOpen size={13} className="text-tv-text-tertiary" />
             <span style={{ fontWeight: 500 }}>{folder}</span>
             <ChevronDown size={12} className="text-tv-text-tertiary" />
           </button>
           {folderOpen && (
-            <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-[10px] border border-tv-border-light shadow-xl z-50 py-1">
+            <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-md border border-tv-border-light shadow-xl z-50 py-1">
               {FOLDERS.map(f => (
                 <button key={f} onClick={() => { setFolder(f); setFolderOpen(false); }}
                   className={`w-full text-left px-3 py-2 text-[12px] transition-colors hover:bg-tv-surface-hover flex items-center justify-between ${folder === f ? "text-tv-brand" : "text-tv-text-primary"}`}>
@@ -188,13 +188,13 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
         {/* Sort dropdown */}
         <div className="relative">
           <button onClick={() => { setSortOpen(!sortOpen); setFolderOpen(false); }}
-            className="flex items-center gap-1.5 px-3 py-2 text-[12px] border border-tv-border-light rounded-[8px] hover:bg-tv-surface-hover transition-colors text-tv-text-primary">
+            className="flex items-center gap-1.5 px-3 py-2 text-[12px] border border-tv-border-light rounded-sm hover:bg-tv-surface-hover transition-colors text-tv-text-primary">
             <Clock size={13} className="text-tv-text-tertiary" />
             <span style={{ fontWeight: 500 }}>{SORT_OPTIONS.find(s => s.key === sort)?.label}</span>
             <ChevronDown size={12} className="text-tv-text-tertiary" />
           </button>
           {sortOpen && (
-            <div className="absolute top-full left-0 mt-1 w-40 bg-white rounded-[10px] border border-tv-border-light shadow-xl z-50 py-1">
+            <div className="absolute top-full left-0 mt-1 w-40 bg-white rounded-md border border-tv-border-light shadow-xl z-50 py-1">
               {SORT_OPTIONS.map(s => (
                 <button key={s.key} onClick={() => { setSort(s.key); setSortOpen(false); }}
                   className={`w-full text-left px-3 py-2 text-[12px] transition-colors hover:bg-tv-surface-hover flex items-center justify-between ${sort === s.key ? "text-tv-brand" : "text-tv-text-primary"}`}>
@@ -208,7 +208,7 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
 
         {/* Favorites chip */}
         <button onClick={() => setFavOnly(!favOnly)}
-          className={`flex items-center gap-1.5 px-3 py-2 text-[12px] rounded-[8px] border transition-colors ${favOnly ? "bg-tv-brand-bg text-white border-tv-brand-bg" : "border-tv-border-light text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
+          className={`flex items-center gap-1.5 px-3 py-2 text-[12px] rounded-sm border transition-colors ${favOnly ? "bg-tv-brand-bg text-white border-tv-brand-bg" : "border-tv-border-light text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
           <Heart size={13} fill={favOnly ? "currentColor" : "none"} />
           <span style={{ fontWeight: 500 }}>Favorites</span>
         </button>
@@ -226,7 +226,7 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
           /* ── Grid View ── */
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filtered.map(v => (
-              <div key={v.id} className="group bg-white rounded-[12px] border border-tv-border-light shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+              <div key={v.id} className="group bg-white rounded-lg border border-tv-border-light shadow-sm overflow-hidden hover:shadow-md transition-shadow">
                 {/* Preview area */}
                 <div className="relative aspect-video flex items-center justify-center" style={{ backgroundColor: v.color }}>
                   <Play size={28} className="text-white/70 group-hover:text-white transition-colors" />
@@ -242,7 +242,7 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                     {pickMode ? (
                       <button onClick={() => onSelectVideo?.(v)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-tv-brand-bg text-white text-[11px] rounded-[8px] hover:bg-tv-brand-bg/90 transition-colors" style={{ fontWeight: 600 }}>
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-tv-brand-bg text-white text-[11px] rounded-sm hover:bg-tv-brand-bg/90 transition-colors" style={{ fontWeight: 600 }}>
                         <Check size={13} /> Use This Video
                       </button>
                     ) : (
@@ -276,7 +276,7 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
           </div>
         ) : (
           /* ── List View ── */
-          <div className="bg-white rounded-[12px] border border-tv-border-light shadow-sm overflow-hidden">
+          <div className="bg-white rounded-lg border border-tv-border-light shadow-sm overflow-hidden">
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-tv-border-light bg-tv-surface-muted">
@@ -349,11 +349,11 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
             </div>
             <div className="flex items-center justify-end gap-2 px-6 py-4 border-t border-tv-border-light bg-tv-surface-muted">
               <button onClick={() => setDeleteTarget(null)}
-                className="px-4 py-2 text-[12px] text-tv-text-secondary border border-tv-border-light rounded-[8px] hover:bg-tv-surface-hover transition-colors" style={{ fontWeight: 500 }}>
+                className="px-4 py-2 text-[12px] text-tv-text-secondary border border-tv-border-light rounded-sm hover:bg-tv-surface-hover transition-colors" style={{ fontWeight: 500 }}>
                 Cancel
               </button>
               <button onClick={confirmDelete}
-                className="px-4 py-2 text-[12px] text-white bg-tv-danger rounded-[8px] hover:opacity-90 transition-colors" style={{ fontWeight: 600 }}>
+                className="px-4 py-2 text-[12px] text-white bg-tv-danger rounded-sm hover:opacity-90 transition-colors" style={{ fontWeight: 600 }}>
                 Delete
               </button>
             </div>

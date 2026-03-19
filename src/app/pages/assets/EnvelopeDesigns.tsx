@@ -236,7 +236,7 @@ export function EnvelopeDesigns() {
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
           {filtered.map(env => (
-            <div key={env.id} role="button" tabIndex={0} onClick={() => setPreviewId(env.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(env.id); }}} aria-label={`Preview: ${env.name}`} className="bg-white rounded-[12px] border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer">
+            <div key={env.id} role="button" tabIndex={0} onClick={() => setPreviewId(env.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(env.id); }}} aria-label={`Preview: ${env.name}`} className="bg-white rounded-lg border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer">
               {/* Envelope mini-preview */}
               <div className="relative flex items-center justify-center py-2.5 bg-[#f9f7fc]">
                 <EnvelopePreview
@@ -313,7 +313,7 @@ export function EnvelopeDesigns() {
         <>
           <div className="fixed inset-0 bg-black/50 z-[60]" onClick={() => setPreviewId(null)} />
           <div className="fixed inset-0 flex items-center justify-center z-[61] pointer-events-none p-4">
-            <div className="bg-white rounded-[20px] w-full max-w-lg shadow-2xl pointer-events-auto overflow-hidden max-h-[90vh] overflow-y-auto">
+            <div className="bg-white rounded-xl w-full max-w-lg shadow-2xl pointer-events-auto overflow-hidden max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between px-5 py-4 border-b border-tv-border-divider sticky top-0 bg-white z-10">
                 <h2 className="text-[16px] font-black text-tv-text-primary">{preview.title}</h2>
                 <div className="flex items-center gap-1.5">

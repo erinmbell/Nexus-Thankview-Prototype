@@ -344,7 +344,7 @@ export function StatusChangeModal({
 
           {consequence && (
             <div
-              className="flex items-start gap-3 p-3 rounded-[8px]"
+              className="flex items-start gap-3 p-3 rounded-sm"
               style={{
                 backgroundColor: consequence.severity === "danger" ? TV.dangerBg : TV.warningBg,
                 border: `1px solid ${consequence.severity === "danger" ? TV.dangerBorder : TV.warningBorder}`,
@@ -362,7 +362,7 @@ export function StatusChangeModal({
           )}
 
           <div
-            className="flex items-center gap-3 p-3 rounded-[8px]"
+            className="flex items-center gap-3 p-3 rounded-sm"
             style={{ backgroundColor: TV.surface }}
           >
             <div className="flex items-center gap-2 flex-1">

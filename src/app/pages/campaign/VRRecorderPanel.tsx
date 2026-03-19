@@ -14,7 +14,7 @@ export function VRRecorderPanel() {
   if (recorded) {
     return (
       <div className="flex flex-col items-center justify-center py-16 px-8">
-        <div className="w-16 h-16 rounded-[16px] bg-tv-success-bg flex items-center justify-center mb-4">
+        <div className="w-16 h-16 rounded-xl bg-tv-success-bg flex items-center justify-center mb-4">
           <Check size={28} className="text-tv-success" />
         </div>
         <h3 className="text-[18px] text-tv-text-primary mb-2" style={{ fontWeight: 700 }}>Recording Complete</h3>

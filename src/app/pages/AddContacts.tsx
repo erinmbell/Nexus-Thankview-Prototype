@@ -477,7 +477,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
       {step === "mode" && (
         <Stack gap="md">
           {/* File badge */}
-          <div className="rounded-[12px] p-3" style={{ border: `1px solid ${TV.borderLight}` }}>
+          <div className="rounded-lg p-3" style={{ border: `1px solid ${TV.borderLight}` }}>
             <div className="flex items-center gap-3">
               <ThemeIcon size={36} radius="md" variant="light" color="green">
                 <FileSpreadsheet size={18} />
@@ -528,7 +528,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
           </Radio.Group>
 
           {mode === "update" && (
-            <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.brandTint, border: `1px solid ${TV.borderStrong}` }}>
+            <div className="rounded-lg p-4" style={{ backgroundColor: TV.brandTint, border: `1px solid ${TV.borderStrong}` }}>
               <Text fz={12} fw={700} c={TV.textLabel} tt="uppercase" lts="0.05em" mb="xs">Match Existing Constituents By</Text>
               <Radio.Group value={matchKey} onChange={setMatchKey}>
                 <div className="flex items-center gap-5">
@@ -581,7 +581,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
             We've auto-detected mappings where possible. Review and adjust as needed.
           </Text>
 
-          <div className="rounded-[12px]" style={{ border: `1px solid ${TV.borderLight}`, overflow: "hidden" }}>
+          <div className="rounded-lg" style={{ border: `1px solid ${TV.borderLight}`, overflow: "hidden" }}>
             {/* Header */}
             <div className="flex items-center px-4 py-2.5" style={{ borderBottom: `1px solid ${TV.borderLight}`, backgroundColor: TV.surface }}>
               <Text fz={11} fw={700} c={TV.textLabel} tt="uppercase" lts="0.04em" style={{ flex: 1 }}>CSV Column</Text>
@@ -671,7 +671,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
         <Stack gap="md">
           {/* Summary cards */}
           <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="sm">
-            <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.successBg, border: `1px solid ${TV.successBorder}` }}>
+            <div className="rounded-lg p-4" style={{ backgroundColor: TV.successBg, border: `1px solid ${TV.successBorder}` }}>
               <div className="flex items-center gap-2 mb-1">
                 <CheckCircle2 size={16} style={{ color: TV.success }} />
                 <Text fz={12} fw={700} c={TV.success}>Valid Rows</Text>
@@ -679,7 +679,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
               <Text fz={24} fw={900} c={TV.success}>{stats.valid - stats.flagged}</Text>
               <Text fz={11} c={TV.textSecondary}>Ready to import</Text>
             </div>
-            <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.dangerBg, border: `1px solid ${TV.dangerBorder}` }}>
+            <div className="rounded-lg p-4" style={{ backgroundColor: TV.dangerBg, border: `1px solid ${TV.dangerBorder}` }}>
               <div className="flex items-center gap-2 mb-1">
                 <AlertTriangle size={16} style={{ color: TV.danger }} />
                 <Text fz={12} fw={700} c={TV.danger}>Errors</Text>
@@ -687,7 +687,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
               <Text fz={24} fw={900} c={TV.danger}>{errorCount}</Text>
               <Text fz={11} c={TV.textSecondary}>Rows with invalid data</Text>
             </div>
-            <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
+            <div className="rounded-lg p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
               <div className="flex items-center gap-2 mb-1">
                 <Info size={16} style={{ color: TV.warning }} />
                 <Text fz={12} fw={700} c={TV.warning}>Warnings</Text>
@@ -699,7 +699,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
 
           {/* Mode-specific summary */}
           {mode === "update" && (
-            <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.surface, border: `1px solid ${TV.borderLight}` }}>
+            <div className="rounded-lg p-4" style={{ backgroundColor: TV.surface, border: `1px solid ${TV.borderLight}` }}>
               <div className="flex items-center gap-3 mb-2">
                 <RefreshCw size={16} style={{ color: TV.textBrand }} />
                 <Text fz={14} fw={700} c={TV.textPrimary}>Update Summary</Text>
@@ -735,7 +735,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
 
           {/* Error details */}
           {errors.length > 0 && (
-            <div className="rounded-[12px]" style={{ border: `1px solid ${TV.borderLight}`, overflow: "hidden" }}>
+            <div className="rounded-lg" style={{ border: `1px solid ${TV.borderLight}`, overflow: "hidden" }}>
               <div className="flex items-center justify-between px-4 py-3"
                 style={{ borderBottom: `1px solid ${TV.borderLight}`, backgroundColor: TV.surface }}>
                 <Text fz={13} fw={700} c={TV.textPrimary}>
@@ -845,7 +845,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
 
             {/* Results summary bar */}
             <SimpleGrid cols={{ base: 1, sm: hasFailures ? 3 : 2 }} spacing="sm">
-              <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.successBg, border: `1px solid ${TV.successBorder}` }}>
+              <div className="rounded-lg p-4" style={{ backgroundColor: TV.successBg, border: `1px solid ${TV.successBorder}` }}>
                 <div className="flex items-center gap-2 mb-1">
                   <CheckCircle2 size={16} style={{ color: TV.success }} />
                   <Text fz={12} fw={700} c={TV.success}>Successfully Imported</Text>
@@ -856,7 +856,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
                 </Text>
               </div>
               {hasFailures && (
-                <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.dangerBg, border: `1px solid ${TV.dangerBorder}` }}>
+                <div className="rounded-lg p-4" style={{ backgroundColor: TV.dangerBg, border: `1px solid ${TV.dangerBorder}` }}>
                   <div className="flex items-center gap-2 mb-1">
                     <X size={16} style={{ color: TV.danger }} />
                     <Text fz={12} fw={700} c={TV.danger}>Failed to Import</Text>
@@ -866,7 +866,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
                 </div>
               )}
               {warningCount > 0 && (
-                <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
+                <div className="rounded-lg p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
                   <div className="flex items-center gap-2 mb-1">
                     <AlertTriangle size={16} style={{ color: TV.warning }} />
                     <Text fz={12} fw={700} c={TV.warning}>Warnings</Text>
@@ -879,7 +879,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
 
             {/* Visual progress bar showing success vs failure ratio */}
             {hasFailures && (
-              <div className="rounded-[12px] p-4" style={{ border: `1px solid ${TV.borderLight}` }}>
+              <div className="rounded-lg p-4" style={{ border: `1px solid ${TV.borderLight}` }}>
                 <div className="flex items-center justify-between mb-2">
                   <Text fz={12} fw={700} c={TV.textLabel} tt="uppercase" lts="0.04em">Import Results</Text>
                   <Text fz={12} c={TV.textSecondary}>
@@ -913,7 +913,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
 
             {/* Detailed error table for failed rows */}
             {hasFailures && (
-              <div className="rounded-[12px]" style={{ border: `1px solid ${TV.dangerBorder}`, overflow: "hidden" }}>
+              <div className="rounded-lg" style={{ border: `1px solid ${TV.dangerBorder}`, overflow: "hidden" }}>
                 <div className="flex items-center justify-between px-4 py-3"
                   style={{ borderBottom: `1px solid ${TV.borderLight}`, backgroundColor: TV.dangerBg }}>
                   <div className="flex items-center gap-2">
@@ -981,7 +981,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
 
             {/* Warning rows (imported but with potential issues) */}
             {warningCount > 0 && (
-              <div className="rounded-[12px]" style={{ border: `1px solid ${TV.warningBorder}`, overflow: "hidden" }}>
+              <div className="rounded-lg" style={{ border: `1px solid ${TV.warningBorder}`, overflow: "hidden" }}>
                 <div className="flex items-center justify-between px-4 py-3"
                   style={{ borderBottom: `1px solid ${TV.borderLight}`, backgroundColor: TV.warningBg }}>
                   <div className="flex items-center gap-2">
@@ -1564,7 +1564,7 @@ function RenxtFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () 
         <Stack gap="md">
           {!integrationEnabled ? (
             /* Integration not enabled */
-            <div className="rounded-[16px] p-6" style={{ border: `2px dashed ${TV.borderStrong}`, textAlign: "center" }}>
+            <div className="rounded-xl p-6" style={{ border: `2px dashed ${TV.borderStrong}`, textAlign: "center" }}>
               <Stack align="center" gap="md">
                 <ThemeIcon size={64} radius="xl" variant="light" color="gray">
                   <Database size={28} />
@@ -1584,7 +1584,7 @@ function RenxtFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () 
             </div>
           ) : !connected ? (
             /* Ready to connect */
-            <div className="rounded-[16px] p-6" style={{ border: `2px solid ${TV.border}`, textAlign: "center" }}>
+            <div className="rounded-xl p-6" style={{ border: `2px solid ${TV.border}`, textAlign: "center" }}>
               <Stack align="center" gap="md">
                 <Box w={72} h={72} style={{
                   borderRadius: 18, display: "flex", alignItems: "center", justifyContent: "center",
@@ -1614,7 +1614,7 @@ function RenxtFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () 
             </div>
           ) : (
             /* Connected */
-            <div className="rounded-[16px] p-6" style={{ backgroundColor: TV.successBg, border: `1px solid ${TV.successBorder}`, textAlign: "center" }}>
+            <div className="rounded-xl p-6" style={{ backgroundColor: TV.successBg, border: `1px solid ${TV.successBorder}`, textAlign: "center" }}>
               <Stack align="center" gap="sm">
                 <ThemeIcon size={56} radius="xl" variant="light" color="green">
                   <CheckCircle2 size={28} />
@@ -1655,7 +1655,7 @@ function RenxtFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () 
           </div>
 
           {/* Results table */}
-          <div className="rounded-[12px]" style={{ border: `1px solid ${TV.borderLight}`, overflow: "hidden" }}>
+          <div className="rounded-lg" style={{ border: `1px solid ${TV.borderLight}`, overflow: "hidden" }}>
             <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: `1px solid ${TV.borderLight}`, backgroundColor: TV.surface }}>
               <div className="flex items-center gap-3">
                 <Checkbox checked={selectAll} onChange={handleSelectAll} color="tvPurple" size="xs" />
@@ -1759,7 +1759,7 @@ function RenxtFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () 
             Configure how constituent data from Blackbaud maps to your ThankView constituent fields.
           </Text>
 
-          <div className="rounded-[12px]" style={{ border: `1px solid ${TV.borderLight}`, overflow: "hidden" }}>
+          <div className="rounded-lg" style={{ border: `1px solid ${TV.borderLight}`, overflow: "hidden" }}>
             <div className="flex items-center px-4 py-2" style={{ borderBottom: `1px solid ${TV.borderLight}`, backgroundColor: TV.surface }}>
               <Text fz={11} fw={700} c={TV.textLabel} tt="uppercase" lts="0.04em" style={{ flex: 1 }}>RE NXT Field</Text>
               <Box w={28} />
@@ -1823,7 +1823,7 @@ function RenxtFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () 
       {/* ── Preview ── */}
       {step === "preview" && (
         <Stack gap="md">
-          <div className="p-4 rounded-[12px]" style={{ backgroundColor: TV.surface, border: `1px solid ${TV.borderLight}` }}>
+          <div className="p-4 rounded-lg" style={{ backgroundColor: TV.surface, border: `1px solid ${TV.borderLight}` }}>
             <div className="flex items-center gap-2 mb-1">
               <CloudDownload size={18} style={{ color: TV.textBrand }} />
               <Text fz={16} fw={700} c={TV.textPrimary}>Import Summary</Text>
@@ -1846,7 +1846,7 @@ function RenxtFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () 
 
           {/* Preview data */}
           <Text fz={12} fw={700} c={TV.textLabel} tt="uppercase" lts="0.05em">Data Preview (first 3 records)</Text>
-          <div className="rounded-[12px]" style={{ border: `1px solid ${TV.borderLight}`, overflow: "auto", maxHeight: "60vh" }}>
+          <div className="rounded-lg" style={{ border: `1px solid ${TV.borderLight}`, overflow: "auto", maxHeight: "60vh" }}>
             <Table verticalSpacing={0} horizontalSpacing={0} styles={{ table: { borderCollapse: "collapse", minWidth: 500 }, td: { whiteSpace: "nowrap" } }}>
               <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: "#fff" }}>
                 <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
@@ -2018,27 +2018,27 @@ export function AddContacts() {
 
       {/* Flows */}
       {method === "csv" && (
-        <div className="p-4 sm:p-6 rounded-[16px]" style={{ border: `1px solid ${TV.borderLight}` }}>
+        <div className="p-4 sm:p-6 rounded-xl" style={{ border: `1px solid ${TV.borderLight}` }}>
           <CsvFlow onComplete={goBack} onBack={goBack} />
         </div>
       )}
       {method === "manual" && (
-        <div className="p-4 sm:p-6 rounded-[16px]" style={{ border: `1px solid ${TV.borderLight}` }}>
+        <div className="p-4 sm:p-6 rounded-xl" style={{ border: `1px solid ${TV.borderLight}` }}>
           <ManualFlow onComplete={goBack} onBack={goBack} />
         </div>
       )}
       {method === "renxt" && (
-        <div className="p-4 sm:p-6 rounded-[16px]" style={{ border: `1px solid ${TV.borderLight}` }}>
+        <div className="p-4 sm:p-6 rounded-xl" style={{ border: `1px solid ${TV.borderLight}` }}>
           <RenxtFlow onComplete={goBack} onBack={goBack} />
         </div>
       )}
       {method === "salesforce" && (
-        <div className="p-4 sm:p-6 rounded-[16px]" style={{ border: `1px solid ${TV.borderLight}` }}>
+        <div className="p-4 sm:p-6 rounded-xl" style={{ border: `1px solid ${TV.borderLight}` }}>
           <IntegrationPlaceholder name="Salesforce" onBack={goBack} />
         </div>
       )}
       {method === "bloomerang" && (
-        <div className="p-4 sm:p-6 rounded-[16px]" style={{ border: `1px solid ${TV.borderLight}` }}>
+        <div className="p-4 sm:p-6 rounded-xl" style={{ border: `1px solid ${TV.borderLight}` }}>
           <IntegrationPlaceholder name="Bloomerang" onBack={goBack} />
         </div>
       )}

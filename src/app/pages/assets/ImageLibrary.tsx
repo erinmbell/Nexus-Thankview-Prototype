@@ -224,7 +224,7 @@ export function ImageLibrary() {
 
       {/* Bulk actions */}
       {selected.length > 0 && (
-        <div className="flex items-center gap-3 mb-4 px-4 py-2.5 bg-tv-brand-tint border border-tv-border-strong rounded-[12px]">
+        <div className="flex items-center gap-3 mb-4 px-4 py-2.5 bg-tv-brand-tint border border-tv-border-strong rounded-lg">
           <Check size={14} className="text-tv-text-brand" />
           <span className="text-[12px] font-medium text-tv-text-brand">{selected.length} selected</span>
           <div className="flex-1" />
@@ -322,7 +322,7 @@ export function ImageLibrary() {
         <>
           <div className="fixed inset-0 bg-black/70 z-[60]" onClick={() => setPreviewId(null)} />
           <div className="fixed inset-0 flex items-center justify-center z-[61] pointer-events-none p-4">
-            <div className="bg-white rounded-[20px] w-full max-w-2xl shadow-2xl pointer-events-auto overflow-hidden">
+            <div className="bg-white rounded-xl w-full max-w-2xl shadow-2xl pointer-events-auto overflow-hidden">
               <div className="flex items-center justify-between px-5 py-4 border-b border-tv-border-divider">
                 <div>
                   <p className="text-[14px] font-semibold text-tv-text-primary">{preview.name}</p>
@@ -353,7 +353,7 @@ export function ImageLibrary() {
                 </div>
               </div>
               <div className="bg-tv-surface p-4 flex items-center justify-center" style={{ minHeight: 300, maxHeight: "60vh" }}>
-                <ImageWithFallback src={preview.url} alt={preview.name} className="max-w-full max-h-[55vh] object-contain rounded-[10px] shadow-lg" />
+                <ImageWithFallback src={preview.url} alt={preview.name} className="max-w-full max-h-[55vh] object-contain rounded-md shadow-lg" />
               </div>
               <div className="px-5 py-4 flex items-center gap-3">
                 <div className="flex-1 flex items-center gap-3 text-[11px] text-tv-text-secondary">

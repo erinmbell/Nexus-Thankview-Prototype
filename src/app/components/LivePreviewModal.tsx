@@ -48,14 +48,14 @@ export function LivePreviewModal({ open, onClose, envelopeColor, nameColor, prim
 
       <div className="relative flex-1 flex flex-col items-center justify-center overflow-y-auto">
         {/* Envelope preview */}
-        <div className="w-[440px] aspect-[3/2] rounded-[16px] overflow-hidden shadow-2xl relative" style={{ backgroundColor: envelopeColor }}>
+        <div className="w-[440px] aspect-[3/2] rounded-xl overflow-hidden shadow-2xl relative" style={{ backgroundColor: envelopeColor }}>
           <div className="absolute inset-0 flex items-center justify-center">
             <span className="text-[18px] italic" style={{ color: nameColor, fontWeight: 500 }}>Your Constituent's Name</span>
           </div>
         </div>
 
         {/* Video player */}
-        <div className="mt-8 relative w-full max-w-[600px] bg-black rounded-[12px] overflow-hidden shadow-2xl" style={{ aspectRatio: "16/10" }}>
+        <div className="mt-8 relative w-full max-w-[600px] bg-black rounded-lg overflow-hidden shadow-2xl" style={{ aspectRatio: "16/10" }}>
           <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
             <button onClick={() => setIsPlaying(!isPlaying)} aria-label={isPlaying ? "Pause" : "Play"} className="w-20 h-20 rounded-full bg-white/25 hover:bg-white/40 flex items-center justify-center transition-colors">
               {isPlaying ? <Pause size={32} className="text-white" /> : <Play size={32} className="text-white ml-1" />}

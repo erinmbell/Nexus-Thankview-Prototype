@@ -32,7 +32,7 @@ export function CtaButtonControls({
   const effectiveText = btnText || "#ffffff";
   const inputCls = compact
     ? "w-full border border-tv-border-light rounded-[6px] px-2 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
-    : "w-full border border-tv-border-light rounded-[8px] px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand";
+    : "w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand";
 
   return (
     <div className={`space-y-3 ${className}`}>
@@ -70,7 +70,7 @@ export function CtaButtonControls({
         <ColorPickerField label="Text" value={effectiveText} onChange={onBtnTextChange} compact={compact} />
       </div>
 
-      <div className={`p-3 bg-tv-surface rounded-[10px] border border-tv-border-divider ${compact ? "p-2.5" : ""}`}>
+      <div className={`p-3 bg-tv-surface rounded-md border border-tv-border-divider ${compact ? "p-2.5" : ""}`}>
         <p className="tv-label mb-2" style={{ fontSize: 9 }}>Button Preview</p>
         <div className="flex justify-center">
           <span

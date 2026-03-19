@@ -272,7 +272,7 @@ export function VisualizationsTab() {
           <Text fz={14} fw={700} c={TV.textPrimary}>Recipient Locations</Text>
           <Text fz={11} c={TV.textSecondary}>Click a country or row below to view recipients</Text>
         </div>
-        <div className="relative rounded-[12px] overflow-hidden" style={{ height: 380, backgroundColor: TV.surface }}>
+        <div className="relative rounded-lg overflow-hidden" style={{ height: 380, backgroundColor: TV.surface }}>
           <WorldMap
             countryValues={GEO_RECIPIENTS.reduce<Record<string, number>>((acc, r) => {
               acc[r.country] = (acc[r.country] || 0) + 1;
@@ -547,9 +547,9 @@ export function VisualizationsTab() {
                       <Text fz={11} c={TV.textSecondary} className="w-[38px] text-right">{d.pct}%</Text>
                     </div>
                   </div>
-                  <div className="h-[30px] rounded-[8px] overflow-hidden" style={{ backgroundColor: TV.borderLight }}>
+                  <div className="h-[30px] rounded-sm overflow-hidden" style={{ backgroundColor: TV.borderLight }}>
                     <div
-                      className="h-full rounded-[8px] transition-all"
+                      className="h-full rounded-sm transition-all"
                       style={{ width: `${Math.max(barPct, 3)}%`, backgroundColor: STAR_COLORS[d.stars - 1] }}
                     />
                   </div>

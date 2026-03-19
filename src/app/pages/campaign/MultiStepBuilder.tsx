@@ -153,7 +153,7 @@ function FlowNode({
       role="button"
       tabIndex={0}
       onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(); } }}
-      className={`w-[320px] text-left rounded-[12px] border-2 overflow-hidden transition-all hover:shadow-lg cursor-pointer ${
+      className={`w-[320px] text-left rounded-lg border-2 overflow-hidden transition-all hover:shadow-lg cursor-pointer ${
         selected ? "border-tv-brand-bg shadow-lg" : isCondition ? "border-tv-border hover:border-tv-brand-bg" : "border-tv-border-light hover:border-tv-border-strong"
       }`}
     >
@@ -162,7 +162,7 @@ function FlowNode({
       <div className="bg-white px-4 py-3">
         {/* ── Header row ── */}
         <div className="flex items-center gap-3">
-          <div className={`w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 ${typeDef?.bg || "bg-tv-brand-tint"}`}>
+          <div className={`w-8 h-8 rounded-sm flex items-center justify-center shrink-0 ${typeDef?.bg || "bg-tv-brand-tint"}`}>
             <Icon size={15} className={typeDef?.color || "text-tv-brand"} />
           </div>
           <div className="flex-1 min-w-0">
@@ -197,7 +197,7 @@ function FlowNode({
 
         {/* ── Rich email content preview ── */}
         {hasEmailContent && (
-          <div className="mt-2.5 p-2.5 bg-tv-surface-muted rounded-[8px] border border-tv-border-divider space-y-1.5">
+          <div className="mt-2.5 p-2.5 bg-tv-surface-muted rounded-sm border border-tv-border-divider space-y-1.5">
             {step.senderName && (
               <div className="flex items-center gap-1.5">
                 <span className="text-[9px] text-tv-text-decorative uppercase tracking-wider shrink-0" style={{ fontWeight: 600 }}>From</span>
@@ -228,7 +228,7 @@ function FlowNode({
 
         {/* ── Rich SMS content preview ── */}
         {hasSmsContent && (
-          <div className="mt-2.5 p-2.5 bg-tv-info-bg rounded-[8px] border border-tv-info-border/40 space-y-1.5">
+          <div className="mt-2.5 p-2.5 bg-tv-info-bg rounded-sm border border-tv-info-border/40 space-y-1.5">
             {step.senderName && (
               <div className="flex items-center gap-1.5">
                 <span className="text-[9px] text-tv-text-decorative uppercase tracking-wider shrink-0" style={{ fontWeight: 600 }}>From</span>
@@ -359,14 +359,14 @@ function AddStepPopover({ onAdd, onClose }: { onAdd: (type: FlowStepType) => voi
       <div className="fixed inset-0 z-40" onClick={onClose} />
       <div
         ref={popRef}
-        className={`absolute left-1/2 -translate-x-1/2 z-50 bg-white rounded-[10px] border border-tv-border-light shadow-xl p-2 w-[220px] ${above ? "bottom-full mb-2" : "top-full mt-2"}`}
+        className={`absolute left-1/2 -translate-x-1/2 z-50 bg-white rounded-md border border-tv-border-light shadow-xl p-2 w-[220px] ${above ? "bottom-full mb-2" : "top-full mt-2"}`}
       >
         <p className="tv-label px-2 py-1.5 text-tv-text-secondary">Add Step</p>
         {FLOW_STEP_TYPES.map(t => (
           <button
             key={t.id}
             onClick={() => { onAdd(t.id); onClose(); }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-[8px] hover:bg-tv-surface transition-colors text-left"
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm hover:bg-tv-surface transition-colors text-left"
           >
             <div className={`w-7 h-7 rounded-[6px] ${t.bg} flex items-center justify-center shrink-0`}>
               <t.icon size={13} className={t.color} />
@@ -391,7 +391,7 @@ function DrawerSection({
   title: string; icon: any; iconColor?: string; open: boolean; onToggle: () => void; badge?: string; children: ReactNode;
 }) {
   return (
-    <div className="border border-tv-border-light rounded-[10px] overflow-visible">
+    <div className="border border-tv-border-light rounded-md overflow-visible">
       <button onClick={onToggle} className={`w-full flex items-center gap-2.5 px-3.5 py-3 bg-tv-surface-muted hover:bg-tv-surface transition-colors text-left rounded-t-[9px] ${!open ? "rounded-b-[9px]" : ""}`}>
         <SectionIcon size={13} className={iconColor} />
         <span className="flex-1 text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>{title}</span>
@@ -455,7 +455,7 @@ function SocialSharingCard({
       </div>
 
       {/* Mini OG preview */}
-      <div className="border border-[#dadde1] rounded-[8px] overflow-hidden bg-[#f0f2f5]">
+      <div className="border border-[#dadde1] rounded-sm overflow-hidden bg-[#f0f2f5]">
         <div className="flex">
           <div className="w-[100px] shrink-0 bg-[#e4e6eb] flex items-center justify-center overflow-hidden" style={{ minHeight: 72 }}>
             {ogImage ? (
@@ -678,7 +678,7 @@ function StepDrawer({
           >
             <div className="space-y-1.5">
               {requirements.map(r => (
-                <div key={r.key} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-[8px] transition-colors ${
+                <div key={r.key} className={`flex items-center gap-2 px-2.5 py-1.5 rounded-sm transition-colors ${
                   r.met
                     ? "bg-tv-success-bg/50"
                     : r.severity === "error" ? "bg-tv-danger-bg" : r.severity === "warning" ? "bg-tv-warning-bg/50" : "bg-tv-surface"
@@ -704,7 +704,7 @@ function StepDrawer({
               ))}
             </div>
             {!allRequiredMet && (
-              <div className="mt-2 p-2.5 bg-tv-danger-bg border border-tv-danger-border rounded-[8px] flex items-start gap-2">
+              <div className="mt-2 p-2.5 bg-tv-danger-bg border border-tv-danger-border rounded-sm flex items-start gap-2">
                 <TriangleAlert size={11} className="text-tv-danger shrink-0 mt-0.5" />
                 <p className="text-[10px] text-tv-danger leading-relaxed">
                   Complete all required fields before sending this step. Missing fields will block campaign activation.
@@ -741,7 +741,7 @@ function StepDrawer({
             </div>
             <div>
               <label className="tv-label mb-1 block">Custom (days)</label>
-              <input type="number" min={1} max={365} value={step.waitDays || 3} onChange={e => onUpdate({ ...step, waitDays: Math.max(1, parseInt(e.target.value) || 1) })} className="w-24 border border-tv-border-light rounded-[8px] px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+              <input type="number" min={1} max={365} value={step.waitDays || 3} onChange={e => onUpdate({ ...step, waitDays: Math.max(1, parseInt(e.target.value) || 1) })} className="w-24 border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
             </div>
           </DrawerSection>
         )}
@@ -752,7 +752,7 @@ function StepDrawer({
             <div className="space-y-1.5">
               {CONDITION_OPTIONS.map(opt => (
                 <button key={opt.id} onClick={() => onUpdate({ ...step, conditionField: opt.label })}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-[8px] border transition-all text-[12px] ${step.conditionField === opt.label ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`}>
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-sm border transition-all text-[12px] ${step.conditionField === opt.label ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`}>
                   <div className="text-left">
                     <span className="block">{opt.label}</span>
                     <span className="text-[10px] opacity-70">{opt.desc}</span>
@@ -777,7 +777,7 @@ function StepDrawer({
                   { id: "link" as const,  label: "Shareable Link", desc: "Share a link anywhere", icon: Link2 },
                 ] as const).map(dt => (
                   <button key={dt.id} onClick={() => onUpdate({ ...step, vrDeliveryType: dt.id })}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-[8px] border text-left transition-all ${(step.vrDeliveryType || "email") === dt.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                    className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-sm border text-left transition-all ${(step.vrDeliveryType || "email") === dt.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                     <dt.icon size={13} className={(step.vrDeliveryType || "email") === dt.id ? "text-tv-brand" : "text-tv-text-secondary"} />
                     <div className="flex-1">
                       <p className={`text-[11px] ${(step.vrDeliveryType || "email") === dt.id ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{dt.label}</p>
@@ -788,7 +788,7 @@ function StepDrawer({
                 ))}
               </div>
               {(step.vrDeliveryType || "email") === "link" && (
-                <div className="mt-2 p-2.5 bg-tv-info-bg border border-tv-info-border rounded-[8px]">
+                <div className="mt-2 p-2.5 bg-tv-info-bg border border-tv-info-border rounded-sm">
                   <label className="tv-label mb-1 block text-tv-info">Shareable URL</label>
                   <div className="flex items-center gap-1.5 bg-white rounded-[6px] px-2 py-1.5 border border-tv-border-light">
                     <Link2 size={11} className="text-tv-info shrink-0" />
@@ -807,7 +807,7 @@ function StepDrawer({
               <div>
                 <textarea value={step.vrInstructions || VR_DEFAULT_INSTRUCTIONS}
                   onChange={e => onUpdate({ ...step, vrInstructions: e.target.value })} rows={4}
-                  className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] outline-none resize-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                  className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none resize-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
                 <button onClick={() => onUpdate({ ...step, vrInstructions: VR_DEFAULT_INSTRUCTIONS })}
                   className="mt-1 text-[9px] text-tv-info hover:underline">Reset to default</button>
               </div>
@@ -816,7 +816,7 @@ function StepDrawer({
               <div>
                 {step.vrInstructionVideoId ? (
                   <>
-                    <div className="flex items-center gap-2.5 p-2.5 bg-tv-surface rounded-[8px] border border-tv-border-light">
+                    <div className="flex items-center gap-2.5 p-2.5 bg-tv-surface rounded-sm border border-tv-border-light">
                       <div className={`w-[80px] h-[45px] rounded-[6px] bg-gradient-to-br ${step.vrInstructionVideoColor || "from-tv-info to-tv-info-hover"} flex items-center justify-center shrink-0`}>
                         <Play size={14} className="text-white ml-0.5" fill="white" />
                       </div>
@@ -833,14 +833,14 @@ function StepDrawer({
                   </>
                 ) : (
                   <button onClick={() => { setInstrVidSearch(""); setShowInstructionVideoPicker(true); }}
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-[8px] text-[11px] text-white bg-tv-info hover:bg-tv-info-hover transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-sm text-[11px] text-white bg-tv-info hover:bg-tv-info-hover transition-colors"
                     style={{ fontWeight: 600 }}>
                     <Film size={12} />Attach Instruction Video
                   </button>
                 )}
               </div>
 
-              <div className="p-2.5 bg-tv-surface rounded-[8px] border border-tv-border-divider space-y-1">
+              <div className="p-2.5 bg-tv-surface rounded-sm border border-tv-border-divider space-y-1">
                 <div className="flex items-center gap-1 mb-1">
                   <Lightbulb size={10} className="text-tv-info" />
                   <span className="tv-label">Tips shown to recorders</span>
@@ -860,12 +860,12 @@ function StepDrawer({
               <div>
                 <label className="tv-label mb-1 block">Due Date</label>
                 <input type="date" value={step.vrDueDate || ""} onChange={e => onUpdate({ ...step, vrDueDate: e.target.value })}
-                  className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                  className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
                 <p className="text-[9px] text-tv-text-secondary mt-1">Recorders see this deadline on their landing page.</p>
               </div>
               <button onClick={() => onUpdate({ ...step, vrReminderEnabled: !(step.vrReminderEnabled ?? true) })}
                 role="switch" aria-checked={step.vrReminderEnabled ?? true} aria-label="Automated reminders"
-                className="w-full flex items-center justify-between p-2.5 bg-tv-surface rounded-[8px] border border-tv-border-light">
+                className="w-full flex items-center justify-between p-2.5 bg-tv-surface rounded-sm border border-tv-border-light">
                 <div>
                   <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Automated Reminders</p>
                   <p className="text-[9px] text-tv-text-secondary">Send before the due date</p>
@@ -901,7 +901,7 @@ function StepDrawer({
                 <div className="space-y-1.5">
                   {[...globalLandingPages, ...LANDING_PAGES].map(p => (
                     <button key={p.id} onClick={() => onUpdate({ ...step, vrBrandedLandingPage: p.id })}
-                      className={`w-full flex items-center gap-2 px-3 py-2 rounded-[8px] border text-left transition-all ${(step.vrBrandedLandingPage || 1) === p.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                      className={`w-full flex items-center gap-2 px-3 py-2 rounded-sm border text-left transition-all ${(step.vrBrandedLandingPage || 1) === p.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                       <div className="w-5 h-3.5 rounded-[2px] overflow-hidden shrink-0">
                         {p.image ? (
                           <img src={p.image} alt="" className="w-full h-full object-cover" />
@@ -918,7 +918,7 @@ function StepDrawer({
               </div>
               <button onClick={() => onUpdate({ ...step, vrSubmissionsEnabled: !(step.vrSubmissionsEnabled ?? true) })}
                 role="switch" aria-checked={step.vrSubmissionsEnabled ?? true} aria-label="Accept submissions"
-                className="w-full flex items-center justify-between p-2.5 bg-white rounded-[8px] border border-tv-border-light">
+                className="w-full flex items-center justify-between p-2.5 bg-white rounded-sm border border-tv-border-light">
                 <div>
                   <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Accept Submissions</p>
                   <p className="text-[9px] text-tv-text-secondary">{(step.vrSubmissionsEnabled ?? true) ? "Submissions are open" : "Link is disabled"}</p>
@@ -930,7 +930,7 @@ function StepDrawer({
               {/* Include Library Video toggle */}
               <button onClick={() => onUpdate({ ...step, vrIncludeLibraryVideo: !step.vrIncludeLibraryVideo })}
                 role="switch" aria-checked={!!step.vrIncludeLibraryVideo} aria-label="Instruction video"
-                className="w-full flex items-center justify-between p-2.5 bg-white rounded-[8px] border border-tv-border-light">
+                className="w-full flex items-center justify-between p-2.5 bg-white rounded-sm border border-tv-border-light">
                 <div>
                   <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Instruction Video</p>
                   <p className="text-[9px] text-tv-text-secondary">Attach a video from your library</p>
@@ -941,20 +941,20 @@ function StepDrawer({
               </button>
               {step.vrIncludeLibraryVideo && !step.vrLibraryVideoTitle && (
                 <button onClick={() => setShowVideoPicker(true)}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-[8px] border border-dashed border-tv-border-light hover:border-tv-brand-bg hover:bg-tv-brand-tint/30 transition-all text-left">
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-sm border border-dashed border-tv-border-light hover:border-tv-brand-bg hover:bg-tv-brand-tint/30 transition-all text-left">
                   <Film size={12} className="text-tv-text-secondary" />
                   <span className="text-[11px] text-tv-text-secondary">Select from Library</span>
                 </button>
               )}
               {step.vrIncludeLibraryVideo && step.vrLibraryVideoTitle && (
-                <div className="flex items-center gap-2 p-2 bg-tv-brand-tint rounded-[8px] border border-tv-border-strong">
+                <div className="flex items-center gap-2 p-2 bg-tv-brand-tint rounded-sm border border-tv-border-strong">
                   <Play size={9} className="text-tv-brand shrink-0" />
                   <span className="text-[11px] text-tv-text-primary flex-1 truncate" style={{ fontWeight: 500 }}>{step.vrLibraryVideoTitle}</span>
                   <button onClick={() => onUpdate({ ...step, vrLibraryVideoId: undefined, vrLibraryVideoTitle: undefined })}
                     aria-label="Remove library video" className="w-5 h-5 rounded-full bg-white border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:text-tv-danger shrink-0" title="Remove library video"><X size={8} /></button>
                 </div>
               )}
-              <div className="p-2 bg-tv-surface rounded-[8px] border border-tv-border-divider flex items-start gap-1.5">
+              <div className="p-2 bg-tv-surface rounded-sm border border-tv-border-divider flex items-start gap-1.5">
                 <Info size={10} className="text-tv-brand shrink-0 mt-0.5" />
                 <p className="text-[9px] text-tv-text-secondary">Submitted videos appear on the Replies page and in the Requests folder.</p>
               </div>
@@ -968,7 +968,7 @@ function StepDrawer({
             badge={step.attachedVideo ? "\u2713 Attached" : "Optional"}>
             {step.attachedVideo ? (
               <div className="space-y-2.5">
-                <div className="flex items-center gap-2.5 px-3 py-2.5 bg-tv-brand-tint border border-tv-border-strong rounded-[10px]">
+                <div className="flex items-center gap-2.5 px-3 py-2.5 bg-tv-brand-tint border border-tv-border-strong rounded-md">
                   <div className={`w-11 h-7 rounded-[6px] bg-gradient-to-br ${step.attachedVideo.color} flex items-center justify-center shrink-0`}>
                     <Play size={10} className="text-white ml-0.5" fill="white" />
                   </div>
@@ -997,7 +997,7 @@ function StepDrawer({
             ) : (
               <div className="space-y-2">
                 <button onClick={() => { setVideoCreateInitialTab("record"); setShowVideoCreate(true); }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-[10px] border border-tv-border-light hover:border-tv-info hover:bg-tv-info-bg transition-all text-left">
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md border border-tv-border-light hover:border-tv-info hover:bg-tv-info-bg transition-all text-left">
                   <div className="w-7 h-7 rounded-[6px] bg-tv-info-bg flex items-center justify-center shrink-0">
                     <Camera size={13} className="text-tv-info" />
                   </div>
@@ -1007,7 +1007,7 @@ function StepDrawer({
                   </div>
                 </button>
                 <button onClick={() => { setVideoCreateInitialTab("upload"); setShowVideoCreate(true); }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-[10px] border border-tv-border-light hover:border-tv-brand-bg hover:bg-tv-brand-tint transition-all text-left">
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md border border-tv-border-light hover:border-tv-brand-bg hover:bg-tv-brand-tint transition-all text-left">
                   <div className="w-7 h-7 rounded-[6px] bg-tv-brand-tint flex items-center justify-center shrink-0">
                     <Upload size={13} className="text-tv-brand" />
                   </div>
@@ -1017,7 +1017,7 @@ function StepDrawer({
                   </div>
                 </button>
                 <button onClick={() => setShowVideoPicker(true)}
-                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-[10px] border border-tv-border-light hover:border-tv-brand-bg hover:bg-tv-brand-tint transition-all text-left">
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md border border-tv-border-light hover:border-tv-brand-bg hover:bg-tv-brand-tint transition-all text-left">
                   <div className="w-7 h-7 rounded-[6px] bg-tv-surface flex items-center justify-center shrink-0">
                     <Film size={13} className="text-tv-text-secondary" />
                   </div>
@@ -1056,10 +1056,10 @@ function StepDrawer({
                 <input value={step.subject || ""} onChange={e => onUpdate({ ...step, subject: e.target.value })}
                   maxLength={CHAR_LIMITS.subject}
                   placeholder="A personal message for you, {{first_name}}"
-                  className="flex-1 border border-tv-border-light rounded-[8px] px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                  className="flex-1 border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
                 {/* Emoji picker */}
                 <div className="relative">
-                  <button onClick={() => { setShowEmoji(!showEmoji); setShowMerge(false); }} className="p-2 border border-tv-border-light rounded-[8px] text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert emoji">
+                  <button onClick={() => { setShowEmoji(!showEmoji); setShowMerge(false); }} className="p-2 border border-tv-border-light rounded-sm text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert emoji">
                     <Smile size={13} />
                   </button>
                   {showEmoji && (
@@ -1070,7 +1070,7 @@ function StepDrawer({
                   )}
                 </div>
                 <div className="relative">
-                  <button onClick={() => { setShowMerge(!showMerge); setShowEmoji(false); }} className="p-2 border border-tv-border-light rounded-[8px] text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert merge field">
+                  <button onClick={() => { setShowMerge(!showMerge); setShowEmoji(false); }} className="p-2 border border-tv-border-light rounded-sm text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert merge field">
                     <span className="font-mono text-[11px]">{"{}"}</span>
                   </button>
                   {showMerge && (
@@ -1090,15 +1090,15 @@ function StepDrawer({
                   <label className="tv-label">Sender Name</label>
                   <CharCount current={(step.senderName || "").length} max={CHAR_LIMITS.senderName} />
                 </div>
-                <input value={step.senderName || ""} onChange={e => onUpdate({ ...step, senderName: e.target.value })} maxLength={CHAR_LIMITS.senderName} className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                <input value={step.senderName || ""} onChange={e => onUpdate({ ...step, senderName: e.target.value })} maxLength={CHAR_LIMITS.senderName} className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
               </div>
               <div>
                 <label className="tv-label mb-1 block">Sender Email</label>
-                <input value={step.senderEmail || ""} onChange={e => onUpdate({ ...step, senderEmail: e.target.value })} className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                <input value={step.senderEmail || ""} onChange={e => onUpdate({ ...step, senderEmail: e.target.value })} className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
               </div>
               <div className="col-span-2">
                 <label className="tv-label mb-1 block">Reply-To <span className="text-tv-text-decorative normal-case" style={{ fontWeight: 400 }}>(multiple allowed)</span></label>
-                <div className="border border-tv-border-light rounded-[8px] px-2 py-1.5 flex flex-wrap gap-1 items-center min-h-[34px] focus-within:ring-2 focus-within:ring-tv-brand/40 focus-within:border-tv-brand">
+                <div className="border border-tv-border-light rounded-sm px-2 py-1.5 flex flex-wrap gap-1 items-center min-h-[34px] focus-within:ring-2 focus-within:ring-tv-brand/40 focus-within:border-tv-brand">
                   {(step.replyToList || []).map((email, i) => (
                     <span key={i} className="inline-flex items-center gap-1 bg-tv-brand-tint border border-tv-border rounded-full px-2 py-0.5 text-[10px] text-tv-brand">
                       {email}
@@ -1122,7 +1122,7 @@ function StepDrawer({
               </div>
               <div>
                 <label className="tv-label mb-1 block">Font</label>
-                <select value={step.font || "Serif (Garamond)"} onChange={e => onUpdate({ ...step, font: e.target.value })} className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-2 text-[12px] outline-none focus:ring-1 focus:ring-tv-brand/40">
+                <select value={step.font || "Serif (Garamond)"} onChange={e => onUpdate({ ...step, font: e.target.value })} className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-1 focus:ring-tv-brand/40">
                   <option>Serif (Garamond)</option><option>Sans-Serif (Inter)</option><option>Script (Playfair)</option>
                 </select>
               </div>
@@ -1138,13 +1138,13 @@ function StepDrawer({
                   <label className="tv-label mb-1 block">CC</label>
                   <input value={step.ccAddresses || ""} onChange={e => onUpdate({ ...step, ccAddresses: e.target.value })}
                     placeholder="cc@example.com"
-                    className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                    className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
                 </div>
                 <div>
                   <label className="tv-label mb-1 block">BCC</label>
                   <input value={step.bccAddresses || ""} onChange={e => onUpdate({ ...step, bccAddresses: e.target.value })}
                     placeholder="bcc@example.com"
-                    className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                    className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
                 </div>
               </div>
               <p className="text-[9px] text-tv-text-decorative mt-1">Comma-separated. Applies per constituent on send.</p>
@@ -1203,7 +1203,7 @@ function StepDrawer({
                   const nColor = env.nameColor || (isDarkColor(env.color) ? "#ffffff" : "#1e293b");
                   return (
                     <button key={env.id} onClick={() => onUpdate({ ...step, envelopeId: env.id })}
-                      className={`rounded-[8px] border-2 overflow-hidden transition-all text-left relative ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                      className={`rounded-sm border-2 overflow-hidden transition-all text-left relative ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                       <div className="aspect-[4/3] relative" style={{ backgroundColor: env.color }}>
                         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: PAPER_TEXTURE, backgroundSize: "200px 200px", mixBlendMode: "overlay" }} />
                         {(env as any).holidayType && (
@@ -1259,7 +1259,7 @@ function StepDrawer({
                   const Icon = opt.icon;
                   return (
                     <button key={opt.key} onClick={() => onUpdate({ ...step, thumbnailType: opt.key })}
-                      className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-[10px] border text-left transition-all ${
+                      className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md border text-left transition-all ${
                         active
                           ? "border-tv-brand-bg bg-tv-brand-tint/30 shadow-sm"
                           : "border-tv-border-light hover:border-tv-brand-bg/40 hover:bg-tv-surface/60"
@@ -1313,7 +1313,7 @@ function StepDrawer({
                   {/* Emoji picker — same pattern as email subject */}
                   <div className="relative shrink-0">
                     <button onClick={() => { setShowEmoji(!showEmoji); setShowMerge(false); }}
-                      className="p-1.5 border border-tv-border-light rounded-[8px] text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert emoji">
+                      className="p-1.5 border border-tv-border-light rounded-sm text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert emoji">
                       <Smile size={12} />
                     </button>
                     {showEmoji && (
@@ -1326,7 +1326,7 @@ function StepDrawer({
                   {/* Merge field popover — same pattern as email subject */}
                   <div className="relative shrink-0">
                     <button onClick={() => { setShowMerge(!showMerge); setShowEmoji(false); }}
-                      className="p-1.5 border border-tv-border-light rounded-[8px] text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert merge field">
+                      className="p-1.5 border border-tv-border-light rounded-sm text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert merge field">
                       <span className="font-mono text-[10px]">{"{}"}</span>
                     </button>
                     {showMerge && (
@@ -1355,13 +1355,13 @@ function StepDrawer({
                 <input value={step.senderName || ""} onChange={e => onUpdate({ ...step, senderName: e.target.value })}
                   maxLength={CHAR_LIMITS.senderName}
                   placeholder="ThankView"
-                  className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                  className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
               </div>
               <div>
                 <label className="tv-label mb-1 block">Phone Number</label>
                 <input value={step.smsPhoneNumber || ""} onChange={e => onUpdate({ ...step, smsPhoneNumber: e.target.value })}
                   placeholder="+1 (555) 000-0000"
-                  className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                  className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
               </div>
             </div>
             <p className="text-[9px] text-tv-text-decorative -mt-1">The phone number constituents will see. Must be a verified number.</p>
@@ -1375,7 +1375,7 @@ function StepDrawer({
                 {/* Link shortening toggle */}
                 <button onClick={() => onUpdate({ ...step, linkShortening: !step.linkShortening })}
                   role="switch" aria-checked={!!step.linkShortening} aria-label="Shorten links"
-                  className="w-full flex items-center justify-between p-2.5 bg-white rounded-[10px] border border-tv-border-light">
+                  className="w-full flex items-center justify-between p-2.5 bg-white rounded-md border border-tv-border-light">
                   <div>
                     <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Shorten Links</p>
                     <p className="text-[9px] text-tv-text-secondary">Replace long URLs with trackable short links</p>
@@ -1388,7 +1388,7 @@ function StepDrawer({
                 {/* Quiet hours toggle */}
                 <button onClick={() => onUpdate({ ...step, smsQuietHours: !step.smsQuietHours })}
                   role="switch" aria-checked={!!step.smsQuietHours} aria-label="Quiet hours"
-                  className="w-full flex items-center justify-between p-2.5 bg-white rounded-[10px] border border-tv-border-light">
+                  className="w-full flex items-center justify-between p-2.5 bg-white rounded-md border border-tv-border-light">
                   <div>
                     <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Quiet Hours</p>
                     <p className="text-[9px] text-tv-text-secondary">Don't send between 9 PM – 8 AM constituent local time</p>
@@ -1419,7 +1419,7 @@ function StepDrawer({
             </div>
 
             {/* SMS compliance — matches email info callout pattern */}
-            <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[10px] flex gap-2">
+            <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-md flex gap-2">
               <CircleAlert size={12} className="text-tv-warning shrink-0 mt-0.5" />
               <div>
                 <p className="text-[11px] text-tv-warning" style={{ fontWeight: 600 }}>SMS Compliance</p>
@@ -1436,7 +1436,7 @@ function StepDrawer({
             {/* Enable toggle */}
             <button onClick={() => onUpdate({ ...step, landingPageEnabled: !step.landingPageEnabled })}
               role="switch" aria-checked={!!step.landingPageEnabled} aria-label="Enable landing page"
-              className="w-full flex items-center justify-between p-2.5 bg-white rounded-[10px] border border-tv-border-light">
+              className="w-full flex items-center justify-between p-2.5 bg-white rounded-md border border-tv-border-light">
               <div>
                 <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Enable Landing Page</p>
                 <p className="text-[9px] text-tv-text-secondary flex items-center gap-1">Constituents see this after clicking through</p>
@@ -1456,7 +1456,7 @@ function StepDrawer({
                       const active = (step.landingPageId || 1) === p.id;
                       return (
                         <button key={p.id} onClick={() => onUpdate({ ...step, landingPageId: p.id })}
-                          className={`rounded-[8px] border-2 overflow-hidden transition-all text-left relative group ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                          className={`rounded-sm border-2 overflow-hidden transition-all text-left relative group ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                           <div className="aspect-[4/3] relative overflow-hidden"
                             style={{ background: `linear-gradient(135deg, ${p.color || "#7c45b0"}, ${p.accent || "#a78bfa"})` }}>
                             {p.image && <img src={p.image} alt="" className="absolute inset-0 w-full h-full object-cover" />}
@@ -1511,7 +1511,7 @@ function StepDrawer({
                     />
                     <div>
                       <label className="tv-label mb-1 block">Button URL</label>
-                      <input value={step.ctaUrl || ""} onChange={e => onUpdate({ ...step, ctaUrl: e.target.value })} className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                      <input value={step.ctaUrl || ""} onChange={e => onUpdate({ ...step, ctaUrl: e.target.value })} className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
                     </div>
                   </div>
                 )}
@@ -1521,7 +1521,7 @@ function StepDrawer({
                   <div className="space-y-3">
                     <label className="tv-label mb-1 block">PDF Attachment</label>
                     {step.pdfFileName ? (
-                      <div className="flex items-center gap-2.5 p-3 bg-tv-surface rounded-[12px] border border-tv-border-light">
+                      <div className="flex items-center gap-2.5 p-3 bg-tv-surface rounded-lg border border-tv-border-light">
                         <div className="w-8 h-8 bg-tv-danger-bg rounded-[6px] flex items-center justify-center shrink-0">
                           <FileText size={14} className="text-tv-danger" />
                         </div>
@@ -1536,10 +1536,10 @@ function StepDrawer({
                       </div>
                     ) : (
                       <div
-                        className="w-full border-2 border-dashed border-tv-border-light rounded-[12px] p-5 flex flex-col items-center gap-2 hover:border-tv-brand-bg hover:bg-tv-brand-tint/30 transition-all cursor-pointer"
+                        className="w-full border-2 border-dashed border-tv-border-light rounded-lg p-5 flex flex-col items-center gap-2 hover:border-tv-brand-bg hover:bg-tv-brand-tint/30 transition-all cursor-pointer"
                         onClick={() => onUpdate({ ...step, pdfFileName: "Impact_Report_2025.pdf", pdfPages: 12, pdfSize: "2.4 MB", pdfAllowDownload: true, pdfShareWithConstituents: true })}
                       >
-                        <div className="w-10 h-10 rounded-[8px] bg-tv-surface-active flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-sm bg-tv-surface-active flex items-center justify-center">
                           <FileText size={18} className="text-tv-text-secondary" />
                         </div>
                         <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Upload PDF</p>
@@ -1612,7 +1612,7 @@ function StepDrawer({
                           <ExternalLink size={11} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-tv-text-secondary" />
                           <input value={formUrl} onChange={e => onUpdate({ ...step, formUrl: e.target.value })}
                             placeholder="Paste your Givebutter, BoostMySchool, or Typeform URL"
-                            className="w-full border border-tv-border-light rounded-[8px] pl-7 pr-2.5 py-2 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                            className="w-full border border-tv-border-light rounded-sm pl-7 pr-2.5 py-2 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
                         </div>
                       </div>
 
@@ -1647,7 +1647,7 @@ function StepDrawer({
                             }}
                             min={200}
                             max={2000}
-                            className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
+                            className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
                           />
                         </div>
                         <div className="pt-5">
@@ -1676,7 +1676,7 @@ function StepDrawer({
                 {/* Subscribe CTA toggle */}
                 <button onClick={() => onUpdate({ ...step, subscribeCta: !step.subscribeCta })}
                   role="switch" aria-checked={!!step.subscribeCta} aria-label="Subscribe CTA"
-                  className="w-full flex items-center justify-between px-2.5 py-2 bg-white rounded-[8px] border border-tv-border-light">
+                  className="w-full flex items-center justify-between px-2.5 py-2 bg-white rounded-sm border border-tv-border-light">
                   <div className="flex items-center gap-1.5">
                     <MailCheck size={11} className="text-tv-text-secondary" />
                     <div>
@@ -1694,7 +1694,7 @@ function StepDrawer({
                   <label className="tv-label block">Landing Page Buttons</label>
 
                   {/* Live preview strip */}
-                  <div className="p-2.5 bg-tv-surface rounded-[8px] border border-tv-border-divider">
+                  <div className="p-2.5 bg-tv-surface rounded-sm border border-tv-border-divider">
                     <p className="tv-label mb-1.5" style={{ fontSize: 8 }}>Preview</p>
                     <div className="bg-white rounded-[6px] border border-tv-border-light px-2 py-1.5">
                       {(step.allowEmailReply || step.allowVideoReply || step.allowSaveButton || step.allowShareButton || step.allowDownloadVideo || step.closedCaptionsEnabled) ? (
@@ -1724,7 +1724,7 @@ function StepDrawer({
                     const enabled = !!step[opt.key];
                     return (
                       <button key={opt.key} onClick={() => onUpdate({ ...step, [opt.key]: !step[opt.key] })}
-                        className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[8px] border transition-all ${enabled ? "bg-white border-tv-brand-bg/40" : "bg-white border-tv-border-light"}`}>
+                        className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-sm border transition-all ${enabled ? "bg-white border-tv-brand-bg/40" : "bg-white border-tv-border-light"}`}>
                         <span className={`shrink-0 inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border text-[8px] transition-all ${
                           enabled ? "bg-tv-surface border-tv-border-light text-tv-text-primary" : "bg-tv-surface/50 border-dashed border-tv-border-light text-tv-text-decorative line-through"
                         }`}>
@@ -1742,7 +1742,7 @@ function StepDrawer({
                 {/* White gradient overlay */}
                 <button onClick={() => onUpdate({ ...step, lpWhiteGradient: !step.lpWhiteGradient })}
                   role="switch" aria-checked={!!step.lpWhiteGradient} aria-label="White gradient overlay"
-                  className="w-full flex items-center justify-between px-2.5 py-2 bg-white rounded-[8px] border border-tv-border-light">
+                  className="w-full flex items-center justify-between px-2.5 py-2 bg-white rounded-sm border border-tv-border-light">
                   <div>
                     <p className="text-[11px] text-tv-text-primary text-left">White Gradient Overlay</p>
                     <p className="text-[9px] text-tv-text-secondary text-left">Fade background for readability</p>
@@ -1756,7 +1756,7 @@ function StepDrawer({
                 <div>
                   <label className="tv-label mb-1 block">Language</label>
                   <select value={step.language || "en"} onChange={e => onUpdate({ ...step, language: e.target.value })}
-                    className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand">
+                    className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand">
                     {LANGUAGE_OPTIONS.map(l => <option key={l.id} value={l.id}>{l.label}</option>)}
                   </select>
                   <p className="text-[9px] text-tv-text-secondary mt-0.5">Applies to unsubscribe link and button text</p>
@@ -1773,7 +1773,7 @@ function StepDrawer({
             <div role="button" tabIndex={0}
               onClick={() => onUpdate({ ...step, automationEnabled: !step.automationEnabled })}
               onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onUpdate({ ...step, automationEnabled: !step.automationEnabled }); } }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 bg-tv-surface border border-tv-border-light rounded-[10px] hover:bg-tv-surface-hover transition-colors cursor-pointer">
+              className="w-full flex items-center gap-3 px-3 py-2.5 bg-tv-surface border border-tv-border-light rounded-md hover:bg-tv-surface-hover transition-colors cursor-pointer">
               <Toggle enabled={step.automationEnabled} onToggle={() => {}} className="pointer-events-none" />
               <span className={`text-[12px] ${step.automationEnabled ? "text-tv-brand" : "text-tv-text-secondary"}`} style={{ fontWeight: 500 }}>
                 Automation {step.automationEnabled ? "enabled" : "disabled"}
@@ -1788,7 +1788,7 @@ function StepDrawer({
                   <div className="grid grid-cols-2 gap-1.5">
                     <button
                       onClick={() => onUpdate({ ...step, contactDateFieldId: undefined })}
-                      className={`px-2.5 py-2 rounded-[8px] border text-[11px] text-left transition-all ${
+                      className={`px-2.5 py-2 rounded-sm border text-[11px] text-left transition-all ${
                         !step.contactDateFieldId
                           ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand"
                           : "border-tv-border-light bg-white text-tv-text-secondary hover:border-tv-border-strong"
@@ -1799,7 +1799,7 @@ function StepDrawer({
                     </button>
                     <button
                       onClick={() => onUpdate({ ...step, contactDateFieldId: step.contactDateFieldId || "birthday" })}
-                      className={`px-2.5 py-2 rounded-[8px] border text-[11px] text-left transition-all ${
+                      className={`px-2.5 py-2 rounded-sm border text-[11px] text-left transition-all ${
                         step.contactDateFieldId
                           ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand"
                           : "border-tv-border-light bg-white text-tv-text-secondary hover:border-tv-border-strong"
@@ -1837,7 +1837,7 @@ function StepDrawer({
                           const sel = step.contactDateFieldId === f.id;
                           return (
                             <button key={f.id} onClick={() => onUpdate({ ...step, contactDateFieldId: f.id })}
-                              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] border text-left transition-all ${
+                              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-sm border text-left transition-all ${
                                 sel ? "border-tv-brand-bg bg-white text-tv-brand" : "border-tv-border-light bg-white hover:border-tv-border-strong text-tv-text-secondary"
                               }`}>
                               <CFIcon size={11} className={sel ? "text-tv-brand" : "text-tv-text-decorative"} />
@@ -1869,7 +1869,7 @@ function StepDrawer({
 
             {/* Action Required notice */}
             {isMessaging && !step.automationEnabled && (
-              <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[10px]">
+              <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-md">
                 <div className="flex items-start gap-2">
                   <div className="w-4 h-4 rounded-full bg-tv-warning-bg flex items-center justify-center shrink-0 mt-0.5">
                     <TriangleAlert size={9} className="text-tv-warning" />
@@ -1932,7 +1932,7 @@ function StepDrawer({
       {/* Instruction video picker modal */}
       {showInstructionVideoPicker && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/40" role="dialog" aria-modal="true" aria-labelledby="instruction-video-title">
-          <div className="bg-white rounded-[20px] border border-tv-border-light shadow-2xl w-full max-w-xl mx-4 overflow-hidden flex flex-col" style={{ maxHeight: "80vh" }}>
+          <div className="bg-white rounded-xl border border-tv-border-light shadow-2xl w-full max-w-xl mx-4 overflow-hidden flex flex-col" style={{ maxHeight: "80vh" }}>
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-tv-border-divider shrink-0">
               <div>
@@ -1946,7 +1946,7 @@ function StepDrawer({
             </div>
             {/* Search */}
             <div className="px-5 py-2.5 border-b border-tv-border-divider shrink-0">
-              <div className="flex items-center gap-2 border border-tv-border-light rounded-[8px] px-3 py-2">
+              <div className="flex items-center gap-2 border border-tv-border-light rounded-sm px-3 py-2">
                 <Search size={13} className="text-tv-text-secondary shrink-0" />
                 <input value={instrVidSearch} onChange={e => setInstrVidSearch(e.target.value)}
                   placeholder="Search videos…"
@@ -1979,7 +1979,7 @@ function StepDrawer({
                         setShowInstructionVideoPicker(false);
                         show(`"${v.title}" attached as instruction video`, "success");
                       }}
-                        className="rounded-[10px] overflow-hidden border border-tv-border-light hover:border-tv-brand-bg hover:shadow-md transition-all group text-left">
+                        className="rounded-md overflow-hidden border border-tv-border-light hover:border-tv-brand-bg hover:shadow-md transition-all group text-left">
                         <div className={`aspect-[16/9] bg-gradient-to-br ${v.color} flex items-center justify-center relative`}>
                           <div className="w-8 h-8 rounded-full bg-white/20 border border-white/40 flex items-center justify-center group-hover:scale-110 transition-transform">
                             <Play size={12} className="text-white ml-0.5" fill="white" />
@@ -2006,7 +2006,7 @@ function StepDrawer({
       <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Envelope library"
         onClick={(e: React.MouseEvent) => { if (e.target === e.currentTarget) setShowEnvelopeLibrary(false); }}
         onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Escape") setShowEnvelopeLibrary(false); }}>
-        <div className="w-full max-w-[680px] bg-white rounded-[20px] border border-tv-border-light shadow-2xl flex flex-col" style={{ maxHeight: "85vh" }}>
+        <div className="w-full max-w-[680px] bg-white rounded-xl border border-tv-border-light shadow-2xl flex flex-col" style={{ maxHeight: "85vh" }}>
           <div className="px-5 py-4 border-b border-tv-border-divider shrink-0 flex items-center justify-between">
             <div>
               <h2 className="text-[17px] text-tv-text-primary" style={{ fontWeight: 900 }}>Envelope Library</h2>
@@ -2017,7 +2017,7 @@ function StepDrawer({
             </button>
           </div>
           <div className="px-5 py-3 border-b border-tv-border-divider shrink-0">
-            <div className="flex items-center gap-2 border border-tv-border-light rounded-[8px] px-3 py-2">
+            <div className="flex items-center gap-2 border border-tv-border-light rounded-sm px-3 py-2">
               <Search size={13} className="text-tv-text-secondary shrink-0" />
               <input value={envLibSearch} onChange={e => setEnvLibSearch(e.target.value)} placeholder="Search envelopes…" aria-label="Search envelopes"
                 className="flex-1 text-[12px] text-tv-text-primary placeholder:text-tv-text-secondary outline-none bg-transparent" />
@@ -2036,7 +2036,7 @@ function StepDrawer({
                       const nColor = env.nameColor || (isDarkColor(env.color) ? "#ffffff" : "#1e293b");
                       return (
                         <button key={env.id} onClick={() => { onUpdate({ ...step, envelopeId: env.id }); setShowEnvelopeLibrary(false); show(`"${env.name}" selected`, "success"); }}
-                          className={`rounded-[10px] border-2 overflow-hidden transition-all text-left relative ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                          className={`rounded-md border-2 overflow-hidden transition-all text-left relative ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                           <div className="aspect-[4/3] relative" style={{ backgroundColor: env.color }}>
                             <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: PAPER_TEXTURE, backgroundSize: "200px 200px", mixBlendMode: "overlay" }} />
                             {env.holidayType && (
@@ -2093,7 +2093,7 @@ function StepDrawer({
       <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Landing page library"
         onClick={(e: React.MouseEvent) => { if (e.target === e.currentTarget) setShowLpLibrary(false); }}
         onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Escape") setShowLpLibrary(false); }}>
-        <div className="w-full max-w-[680px] bg-white rounded-[20px] border border-tv-border-light shadow-2xl flex flex-col" style={{ maxHeight: "85vh" }}>
+        <div className="w-full max-w-[680px] bg-white rounded-xl border border-tv-border-light shadow-2xl flex flex-col" style={{ maxHeight: "85vh" }}>
           <div className="px-5 py-4 border-b border-tv-border-divider shrink-0 flex items-center justify-between">
             <div>
               <h2 className="text-[17px] text-tv-text-primary" style={{ fontWeight: 900 }}>Landing Page Library</h2>
@@ -2104,7 +2104,7 @@ function StepDrawer({
             </button>
           </div>
           <div className="px-5 py-3 border-b border-tv-border-divider shrink-0">
-            <div className="flex items-center gap-2 border border-tv-border-light rounded-[8px] px-3 py-2">
+            <div className="flex items-center gap-2 border border-tv-border-light rounded-sm px-3 py-2">
               <Search size={13} className="text-tv-text-secondary shrink-0" />
               <input value={lpLibSearch} onChange={e => setLpLibSearch(e.target.value)} placeholder="Search landing pages…" aria-label="Search landing pages"
                 className="flex-1 text-[12px] text-tv-text-primary placeholder:text-tv-text-secondary outline-none bg-transparent" />
@@ -2116,7 +2116,7 @@ function StepDrawer({
                 const active = (step.landingPageId || 1) === p.id;
                 return (
                   <button key={p.id} onClick={() => { onUpdate({ ...step, landingPageId: p.id }); setShowLpLibrary(false); show(`"${p.name}" selected`, "success"); }}
-                    className={`rounded-[10px] border-2 overflow-hidden transition-all text-left relative group ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                    className={`rounded-md border-2 overflow-hidden transition-all text-left relative group ${active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                     <div className="aspect-[4/3] relative overflow-hidden"
                       style={{ background: `linear-gradient(135deg, ${p.color || "#7c45b0"}, ${p.accent || "#a78bfa"})` }}>
                       {p.image && <img src={p.image} alt="" className="absolute inset-0 w-full h-full object-cover" />}
@@ -2295,12 +2295,12 @@ function StepCreationModal({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 16 }}
         transition={{ duration: 0.25, ease: "easeOut" }}
-        className={`relative w-[95vw] ${activeTab === "design" ? "max-w-[1060px] 2xl:max-w-[1320px]" : "max-w-[900px] xl:max-w-[1020px] 2xl:max-w-[1200px]"} max-h-[90vh] bg-white rounded-[20px] border border-tv-border-light shadow-2xl flex flex-col overflow-hidden transition-[max-width] duration-300`}
+        className={`relative w-[95vw] ${activeTab === "design" ? "max-w-[1060px] 2xl:max-w-[1320px]" : "max-w-[900px] xl:max-w-[1020px] 2xl:max-w-[1200px]"} max-h-[90vh] bg-white rounded-xl border border-tv-border-light shadow-2xl flex flex-col overflow-hidden transition-[max-width] duration-300`}
       >
         {/* ── Header ── */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-tv-border-divider shrink-0">
           <div className="flex items-center gap-3">
-            <div className={`w-9 h-9 rounded-[10px] ${typeDef?.bg || "bg-tv-brand-tint"} flex items-center justify-center shrink-0`}>
+            <div className={`w-9 h-9 rounded-md ${typeDef?.bg || "bg-tv-brand-tint"} flex items-center justify-center shrink-0`}>
               {typeDef?.icon && <typeDef.icon size={17} className={typeDef?.color || "text-tv-brand"} />}
             </div>
             <div>
@@ -2327,14 +2327,14 @@ function StepCreationModal({
 
         {/* ── Tab bar ── */}
         <div className="px-6 pt-4 shrink-0">
-          <div className="flex gap-1 bg-tv-surface rounded-[10px] p-1">
+          <div className="flex gap-1 bg-tv-surface rounded-md p-1">
             {TABS.map(tab => {
               const active = activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-[8px] text-[12px] transition-all ${
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-sm text-[12px] transition-all ${
                     active
                       ? "bg-white text-tv-brand shadow-sm"
                       : "text-tv-text-secondary hover:text-tv-text-primary"
@@ -2548,7 +2548,7 @@ function StepCreationModal({
 
               {/* Skip to design shortcut */}
               <button onClick={() => setActiveTab("design")}
-                className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-[10px] border border-dashed border-tv-border-light text-tv-text-secondary hover:border-tv-brand hover:text-tv-brand transition-colors">
+                className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-md border border-dashed border-tv-border-light text-tv-text-secondary hover:border-tv-brand hover:text-tv-brand transition-colors">
                 <Palette size={12} />
                 <span className="text-[12px]">Skip to Design &amp; Landing Page</span>
               </button>
@@ -2627,7 +2627,7 @@ function StepCreationModal({
                     {/* Emoji picker — same pattern as email subject */}
                     <div className="relative shrink-0">
                       <button onClick={() => { setShowEmoji(!showEmoji); setShowMerge(false); }}
-                        className="p-2 border border-tv-border-light rounded-[8px] text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert emoji">
+                        className="p-2 border border-tv-border-light rounded-sm text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert emoji">
                         <Smile size={13} />
                       </button>
                       {showEmoji && (
@@ -2672,7 +2672,7 @@ function StepCreationModal({
                 {/* Link shortening */}
                 <button onClick={() => setStep(s => ({ ...s, linkShortening: !s.linkShortening }))}
                   role="switch" aria-checked={!!step.linkShortening} aria-label="Shorten links"
-                  className="w-full flex items-center justify-between p-3.5 bg-white rounded-[12px] border border-tv-border-light">
+                  className="w-full flex items-center justify-between p-3.5 bg-white rounded-lg border border-tv-border-light">
                   <div>
                     <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Shorten Links</p>
                     <p className="text-[10px] text-tv-text-secondary">Replace long URLs with trackable short links</p>
@@ -2685,7 +2685,7 @@ function StepCreationModal({
                 {/* Quiet hours */}
                 <button onClick={() => setStep(s => ({ ...s, smsQuietHours: !s.smsQuietHours }))}
                   role="switch" aria-checked={!!step.smsQuietHours} aria-label="Quiet hours"
-                  className="w-full flex items-center justify-between p-3.5 bg-white rounded-[12px] border border-tv-border-light">
+                  className="w-full flex items-center justify-between p-3.5 bg-white rounded-lg border border-tv-border-light">
                   <div>
                     <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Quiet Hours</p>
                     <p className="text-[10px] text-tv-text-secondary">Don't send between 9 PM – 8 AM constituent local time</p>
@@ -2715,7 +2715,7 @@ function StepCreationModal({
               </div>
 
               {/* SMS compliance — matches email info callout pattern */}
-              <div className="p-3 bg-tv-warning-bg border border-tv-warning-border rounded-[12px] flex gap-2.5">
+              <div className="p-3 bg-tv-warning-bg border border-tv-warning-border rounded-lg flex gap-2.5">
                 <CircleAlert size={13} className="text-tv-warning shrink-0 mt-0.5" />
                 <div>
                   <p className="text-[12px] text-tv-warning" style={{ fontWeight: 600 }}>SMS Compliance</p>
@@ -2728,7 +2728,7 @@ function StepCreationModal({
           {/* ═════ VIDEO TAB (replaced — see TV Video Builder prototype) ═════ */}
           {activeTab === "video" && (
             <div className="max-w-[620px] xl:max-w-[720px] 2xl:max-w-[840px] flex flex-col items-center justify-center py-10 text-center">
-              <div className="w-16 h-16 rounded-[12px] bg-tv-surface-muted border border-tv-border-light flex items-center justify-center mb-5">
+              <div className="w-16 h-16 rounded-lg bg-tv-surface-muted border border-tv-border-light flex items-center justify-center mb-5">
                 <Video size={28} className="text-tv-text-decorative" />
               </div>
               <p className="text-[36px] text-tv-text-decorative mb-1.5" style={{ fontWeight: 900 }}>404</p>
@@ -2752,7 +2752,7 @@ function StepCreationModal({
                     { id: "link" as const,  label: "Shareable Link", desc: "Share a link anywhere", icon: Link2 },
                   ] as const).map(dt => (
                     <button key={dt.id} onClick={() => setStep(s => ({ ...s, vrDeliveryType: dt.id }))}
-                      className={`p-4 rounded-[12px] border-2 text-left transition-all ${(step.vrDeliveryType || "email") === dt.id ? "border-tv-brand-bg bg-tv-brand-tint shadow-md" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                      className={`p-4 rounded-lg border-2 text-left transition-all ${(step.vrDeliveryType || "email") === dt.id ? "border-tv-brand-bg bg-tv-brand-tint shadow-md" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                       <dt.icon size={16} className={(step.vrDeliveryType || "email") === dt.id ? "text-tv-brand" : "text-tv-text-secondary"} />
                       <p className={`text-[12px] mt-2 ${(step.vrDeliveryType || "email") === dt.id ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{dt.label}</p>
                       <p className="text-[10px] text-tv-text-secondary mt-0.5">{dt.desc}</p>
@@ -2776,7 +2776,7 @@ function StepCreationModal({
               </div>
 
               {/* Recording tips */}
-              <div className="p-3.5 bg-tv-surface rounded-[12px] border border-tv-border-divider">
+              <div className="p-3.5 bg-tv-surface rounded-lg border border-tv-border-divider">
                 <div className="flex items-center gap-1.5 mb-2">
                   <Lightbulb size={12} className="text-tv-info" />
                   <span className="tv-label">Recording Tips (shown to recorders)</span>
@@ -2792,7 +2792,7 @@ function StepCreationModal({
               </div>
 
               {/* Include instruction video */}
-              <div className="bg-white rounded-[12px] border border-tv-border-light p-4 space-y-3">
+              <div className="bg-white rounded-lg border border-tv-border-light p-4 space-y-3">
                 <button onClick={() => setStep(s => ({ ...s, vrIncludeLibraryVideo: !s.vrIncludeLibraryVideo }))}
                   role="switch" aria-checked={!!step.vrIncludeLibraryVideo} aria-label="Include instruction video"
                   className="w-full flex items-center justify-between">
@@ -2807,7 +2807,7 @@ function StepCreationModal({
                 {step.vrIncludeLibraryVideo && (
                   <div className="pt-2 border-t border-tv-border-divider">
                     {step.vrLibraryVideoTitle ? (
-                      <div className="flex items-center gap-3 p-3 bg-tv-brand-tint border border-tv-border-strong rounded-[10px]">
+                      <div className="flex items-center gap-3 p-3 bg-tv-brand-tint border border-tv-border-strong rounded-md">
                         <div className="w-10 h-7 rounded-[5px] bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shrink-0">
                           <Play size={9} className="text-white ml-0.5" fill="white" />
                         </div>
@@ -2817,7 +2817,7 @@ function StepCreationModal({
                       </div>
                     ) : (
                       <button onClick={() => setShowVideoPicker(true)}
-                        className="w-full flex items-center gap-3 p-3 rounded-[10px] border-2 border-dashed border-tv-border-light hover:border-tv-brand-bg hover:bg-tv-brand-tint/30 transition-all text-left">
+                        className="w-full flex items-center gap-3 p-3 rounded-md border-2 border-dashed border-tv-border-light hover:border-tv-brand-bg hover:bg-tv-brand-tint/30 transition-all text-left">
                         <Film size={16} className="text-tv-text-secondary shrink-0" />
                         <div className="flex-1">
                           <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Select from Library</p>
@@ -2850,7 +2850,7 @@ function StepCreationModal({
               </div>
 
               {/* Automated reminders */}
-              <div className="bg-white rounded-[12px] border border-tv-border-light p-4 space-y-3">
+              <div className="bg-white rounded-lg border border-tv-border-light p-4 space-y-3">
                 <button onClick={() => setStep(s => ({ ...s, vrReminderEnabled: !(s.vrReminderEnabled ?? true) }))}
                   className="w-full flex items-center justify-between">
                   <div>
@@ -2882,7 +2882,7 @@ function StepCreationModal({
               </div>
 
               {step.vrDueDate && (
-                <div className="flex items-center gap-2 p-3.5 bg-tv-success-bg border border-tv-success-border rounded-[12px]">
+                <div className="flex items-center gap-2 p-3.5 bg-tv-success-bg border border-tv-success-border rounded-lg">
                   <Check size={13} className="text-tv-success shrink-0" />
                   <p className="text-[11px] text-tv-success">
                     Due {new Date(step.vrDueDate + "T00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
@@ -2898,9 +2898,9 @@ function StepCreationModal({
             <div className="max-w-[620px] xl:max-w-[720px] 2xl:max-w-[840px] space-y-5">
               {/* Shareable link */}
               {(step.vrDeliveryType || "email") === "link" && (
-                <div className="bg-white rounded-[12px] border border-tv-border-light p-4">
+                <div className="bg-white rounded-lg border border-tv-border-light p-4">
                   <label className="tv-label mb-2 block">Shareable Video Request Link</label>
-                  <div className="flex items-center gap-2 bg-tv-surface rounded-[8px] px-3 py-2.5 border border-tv-border-light">
+                  <div className="flex items-center gap-2 bg-tv-surface rounded-sm px-3 py-2.5 border border-tv-border-light">
                     <Link2 size={14} className="text-tv-brand shrink-0" />
                     <span className="text-[13px] text-tv-text-primary font-mono flex-1 truncate">{step.vrShareableUrl || "https://thankview.com/r/..."}</span>
                     <button onClick={() => show("Link copied!", "success")}
@@ -2913,12 +2913,12 @@ function StepCreationModal({
               )}
 
               {/* Branded landing page */}
-              <div className="bg-white rounded-[12px] border border-tv-border-light p-4">
+              <div className="bg-white rounded-lg border border-tv-border-light p-4">
                 <label className="tv-label mb-2 block">Branded Landing Page</label>
                 <div className="space-y-1.5">
                   {allLandingPageDesigns.map(p => (
                     <button key={p.id} onClick={() => setStep(s => ({ ...s, vrBrandedLandingPage: p.id }))}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-[10px] border text-left transition-all ${(step.vrBrandedLandingPage || 1) === p.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md border text-left transition-all ${(step.vrBrandedLandingPage || 1) === p.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                       <div className="w-7 h-5 rounded-[4px] flex items-center justify-center shrink-0"
                         style={{ background: `linear-gradient(135deg, ${p.color}, ${p.accent})` }}>
                         <Camera size={7} className="text-white" />
@@ -2932,7 +2932,7 @@ function StepCreationModal({
               </div>
 
               {/* Submissions toggle */}
-              <div className="bg-white rounded-[12px] border border-tv-border-light p-4">
+              <div className="bg-white rounded-lg border border-tv-border-light p-4">
                 <button onClick={() => setStep(s => ({ ...s, vrSubmissionsEnabled: !(s.vrSubmissionsEnabled ?? true) }))}
                   className="w-full flex items-center justify-between">
                   <div>
@@ -2946,7 +2946,7 @@ function StepCreationModal({
               </div>
 
               {/* Replies info */}
-              <div className="p-3.5 bg-tv-info-bg border border-tv-info-border rounded-[12px] flex items-start gap-2.5">
+              <div className="p-3.5 bg-tv-info-bg border border-tv-info-border rounded-lg flex items-start gap-2.5">
                 <Info size={13} className="text-tv-info shrink-0 mt-0.5" />
                 <p className="text-[11px] text-tv-info">Submitted videos will appear on the campaign&rsquo;s Replies page and in the &ldquo;Requests&rdquo; folder of your Video Library.</p>
               </div>
@@ -2972,7 +2972,7 @@ function StepCreationModal({
               <div role="button" tabIndex={0}
                 onClick={() => setStep(s => ({ ...s, automationEnabled: !s.automationEnabled }))}
                 onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setStep(s => ({ ...s, automationEnabled: !s.automationEnabled })); } }}
-                className="w-full flex items-center gap-4 px-4 py-4 bg-white border-2 border-tv-border-light rounded-[12px] hover:bg-tv-surface transition-colors cursor-pointer">
+                className="w-full flex items-center gap-4 px-4 py-4 bg-white border-2 border-tv-border-light rounded-lg hover:bg-tv-surface transition-colors cursor-pointer">
                 <Toggle enabled={step.automationEnabled} onToggle={() => {}} className="pointer-events-none" />
                 <div>
                   <p className={`text-[13px] ${step.automationEnabled ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>
@@ -2992,7 +2992,7 @@ function StepCreationModal({
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         onClick={() => setStep(s => ({ ...s, contactDateFieldId: undefined }))}
-                        className={`flex items-center gap-2.5 px-3.5 py-3 rounded-[10px] border-2 text-left transition-all ${
+                        className={`flex items-center gap-2.5 px-3.5 py-3 rounded-md border-2 text-left transition-all ${
                           !step.contactDateFieldId
                             ? "border-tv-brand-bg bg-tv-brand-tint"
                             : "border-tv-border-light hover:border-tv-border-strong"
@@ -3006,7 +3006,7 @@ function StepCreationModal({
                       </button>
                       <button
                         onClick={() => setStep(s => ({ ...s, contactDateFieldId: s.contactDateFieldId || "birthday" }))}
-                        className={`flex items-center gap-2.5 px-3.5 py-3 rounded-[10px] border-2 text-left transition-all ${
+                        className={`flex items-center gap-2.5 px-3.5 py-3 rounded-md border-2 text-left transition-all ${
                           step.contactDateFieldId
                             ? "border-tv-brand-bg bg-tv-brand-tint"
                             : "border-tv-border-light hover:border-tv-border-strong"
@@ -3033,7 +3033,7 @@ function StepCreationModal({
                           { value: "evening", label: "Evening", desc: "5\u20138 PM constituent local time" },
                         ] as const).map(opt => (
                           <button key={opt.value} onClick={() => setStep(s => ({ ...s, sendTimePreference: opt.value }))}
-                            className={`text-left px-3.5 py-3 rounded-[10px] border-2 transition-all ${step.sendTimePreference === opt.value ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                            className={`text-left px-3.5 py-3 rounded-md border-2 transition-all ${step.sendTimePreference === opt.value ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                             <p className={`text-[12px] ${step.sendTimePreference === opt.value ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{opt.label}</p>
                             <p className="text-[10px] text-tv-text-secondary mt-0.5">{opt.desc}</p>
                           </button>
@@ -3053,7 +3053,7 @@ function StepCreationModal({
                             const sel = step.contactDateFieldId === f.id;
                             return (
                               <button key={f.id} onClick={() => setStep(s => ({ ...s, contactDateFieldId: f.id }))}
-                                className={`flex items-center gap-2 px-3 py-2 rounded-[8px] border text-left transition-all ${
+                                className={`flex items-center gap-2 px-3 py-2 rounded-sm border text-left transition-all ${
                                   sel ? "border-tv-brand-bg bg-white text-tv-brand" : "border-tv-border-light bg-white hover:border-tv-border-strong text-tv-text-secondary"
                                 }`}>
                                 <CFIcon size={13} className={sel ? "text-tv-brand" : "text-tv-text-decorative"} />
@@ -3084,7 +3084,7 @@ function StepCreationModal({
 
               {/* Action Required notice */}
               {!step.automationEnabled && (
-                <div className="p-3.5 bg-tv-warning-bg border border-tv-warning-border rounded-[12px]">
+                <div className="p-3.5 bg-tv-warning-bg border border-tv-warning-border rounded-lg">
                   <div className="flex items-start gap-2.5">
                     <div className="w-5 h-5 rounded-full bg-tv-warning-bg flex items-center justify-center shrink-0 mt-0.5">
                       <TriangleAlert size={11} className="text-tv-warning" />
@@ -3158,7 +3158,7 @@ function ConditionCreationModal({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 16 }}
         transition={{ duration: 0.25, ease: "easeOut" }}
-        className="relative w-[95vw] max-w-[600px] max-h-[90vh] bg-white rounded-[20px] border border-tv-border-light shadow-2xl flex flex-col overflow-hidden"
+        className="relative w-[95vw] max-w-[600px] max-h-[90vh] bg-white rounded-xl border border-tv-border-light shadow-2xl flex flex-col overflow-hidden"
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-tv-border-divider shrink-0">
@@ -3181,7 +3181,7 @@ function ConditionCreationModal({
               <button
                 key={opt.id}
                 onClick={() => setSelected(opt.label)}
-                className={`w-full flex items-center gap-4 px-5 py-4 rounded-[12px] border-2 text-left transition-all ${
+                className={`w-full flex items-center gap-4 px-5 py-4 rounded-lg border-2 text-left transition-all ${
                   isSelected
                     ? "border-tv-brand-bg bg-tv-brand-tint"
                     : "border-tv-border-light hover:border-tv-border-strong"
@@ -3240,7 +3240,7 @@ function BranchAddButton({ parentId, branchType, onAdd }: { parentId: string; br
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-50 bg-white rounded-[10px] border border-tv-border-light shadow-xl p-2 w-[200px]">
+          <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-50 bg-white rounded-md border border-tv-border-light shadow-xl p-2 w-[200px]">
             <p className="text-[10px] text-tv-text-secondary uppercase tracking-wider px-2 py-1" style={{ fontWeight: 600 }}>Add to {branchType} branch</p>
             {[...FLOW_STEP_TYPES, { id: "exit" as FlowStepType, label: "End Campaign", icon: XCircle, color: "text-tv-danger", bg: "bg-tv-danger-bg", desc: "End the flow here" }].map(t => (
               <button
@@ -3401,7 +3401,7 @@ function AutomationConfigPanel({
   return (
     <div className="space-y-3">
       {/* Info banner */}
-      <div className="flex items-center gap-2 p-2.5 bg-tv-brand-tint border border-tv-brand-bg/20 rounded-[8px]">
+      <div className="flex items-center gap-2 p-2.5 bg-tv-brand-tint border border-tv-brand-bg/20 rounded-sm">
         <Info size={11} className="text-tv-brand shrink-0" />
         <p className="text-[10px] text-tv-brand">
           {fieldDesc}. Missing constituents will be skipped.
@@ -3475,7 +3475,7 @@ function AutomationConfigPanel({
           type="time"
           value={contactFieldSendTime}
           onChange={e => setContactFieldSendTime(e.target.value)}
-          className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white"
+          className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white"
         />
       </div>
 
@@ -3485,7 +3485,7 @@ function AutomationConfigPanel({
           <label className="tv-label mb-2 block">
             Upcoming Birthdays (Next 30 Days)
           </label>
-          <div className="p-3 border border-tv-border-light rounded-[10px] bg-white inline-block">
+          <div className="p-3 border border-tv-border-light rounded-md bg-white inline-block">
             <BirthdayMiniCalendar daysBefore={daysBefore} />
           </div>
           <p className="text-[8px] text-tv-text-decorative mt-1.5">
@@ -3495,7 +3495,7 @@ function AutomationConfigPanel({
       )}
 
       {/* ── 3. Recur annually toggle ── */}
-      <div className="flex items-center justify-between p-2.5 border border-tv-border-light rounded-[8px] bg-white">
+      <div className="flex items-center justify-between p-2.5 border border-tv-border-light rounded-sm bg-white">
         <div className="flex items-center gap-2">
           <Repeat size={12} className={recurAnnually ? "text-tv-brand" : "text-tv-text-secondary"} />
           <div>
@@ -3510,7 +3510,7 @@ function AutomationConfigPanel({
 
       {/* ── 4. Feb 29 leap-year banner ── */}
       {isBirthday && FEB29_COUNT > 0 && (
-        <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[8px] space-y-2">
+        <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-sm space-y-2">
           <div className="flex items-center gap-1.5">
             <TriangleAlert size={11} className="text-tv-warning shrink-0" />
             <span className="text-[10px] text-tv-warning" style={{ fontWeight: 600 }}>
@@ -3979,7 +3979,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
         </div>
       ))}
       {branchSteps.length === 0 && (
-        <div className="border border-tv-border rounded-[12px] px-5 py-4 text-center">
+        <div className="border border-tv-border rounded-lg px-5 py-4 text-center">
           <p className="text-[11px] text-tv-text-decorative">No steps yet</p>
         </div>
       )}
@@ -4142,8 +4142,8 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
           <div ref={canvasRef} className="flex-1 overflow-auto bg-tv-surface-muted p-8 relative">
             {/* Template banner */}
             {initialTemplate && !templateBannerDismissed && (
-              <div className="mb-4 max-w-[600px] xl:max-w-[700px] 2xl:max-w-[820px] mx-auto flex items-center gap-3 p-3.5 rounded-[12px] border border-tv-info-border bg-tv-info-bg">
-                <div className="w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 bg-white">
+              <div className="mb-4 max-w-[600px] xl:max-w-[700px] 2xl:max-w-[820px] mx-auto flex items-center gap-3 p-3.5 rounded-lg border border-tv-info-border bg-tv-info-bg">
+                <div className="w-9 h-9 rounded-sm flex items-center justify-center shrink-0 bg-white">
                   <Bookmark size={15} className="text-tv-info" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -4168,7 +4168,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
 
               {steps.length === 0 ? (
                 <div className="flex flex-col items-center">
-                  <div className="border border-tv-border rounded-[12px] px-8 py-7 text-center relative">
+                  <div className="border border-tv-border rounded-lg px-8 py-7 text-center relative">
                     <p className="text-[14px] text-tv-text-primary mb-3 text-center" style={{ fontWeight: 700 }}>
                       {campaignName}
                     </p>
@@ -4278,7 +4278,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
             {/* Send Test Modal */}
             {showSendTestModal && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-                <div className="bg-white rounded-[20px] border border-tv-border-light shadow-xl w-full max-w-[560px] overflow-hidden">
+                <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-[560px] overflow-hidden">
                   <div className="px-6 pt-5 pb-3 border-b border-tv-border-divider flex items-center justify-between">
                     <div>
                       <h3 className="text-[16px] text-tv-text-primary" style={{ fontWeight: 900 }}>Send Test</h3>
@@ -4291,7 +4291,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                       <label className="tv-label mb-1 block">Send test to</label>
                       <input value={sendTestEmail} onChange={e => setSendTestEmail(e.target.value)}
                         placeholder="Enter email address"
-                        className="w-full border border-tv-border-light rounded-[8px] px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                        className="w-full border border-tv-border-light rounded-sm px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
                       <p className="text-[10px] text-tv-text-decorative mt-1">The test will be sent to this email address.</p>
                     </div>
                     <div>
@@ -4303,7 +4303,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                       <div className="space-y-1.5">
                         {MSB_TEST_CONSTITUENTS.map(r => (
                           <button key={r.id} onClick={() => setSendTestPreviewAs(r.id)}
-                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-[8px] border text-left transition-all ${sendTestPreviewAs === r.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-sm border text-left transition-all ${sendTestPreviewAs === r.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                             <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${sendTestPreviewAs === r.id ? "border-tv-brand-bg bg-tv-brand-bg" : "border-tv-border-light"}`}>
                               {sendTestPreviewAs === r.id && <Check size={8} className="text-white" />}
                             </div>
@@ -4347,7 +4347,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
             <div className="space-y-4 mb-16">
               <div className="space-y-4">
                 {/* Schedule mode — compact 3-across row */}
-                <div className="p-4 rounded-[12px] border border-tv-border-light bg-white">
+                <div className="p-4 rounded-lg border border-tv-border-light bg-white">
                   <div className="flex items-center gap-2 mb-3">
                     <Calendar size={13} className="text-tv-brand" />
                     <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 700 }}>Scheduling</p>
@@ -4366,10 +4366,10 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                       const active = scheduleType === card.type;
                       return (
                         <button key={card.type} onClick={() => setScheduleType(card.type)}
-                          className={`flex-1 min-w-0 p-3 rounded-[12px] border-2 transition-all flex flex-col items-center text-center gap-1.5 ${
+                          className={`flex-1 min-w-0 p-3 rounded-lg border-2 transition-all flex flex-col items-center text-center gap-1.5 ${
                             active ? "border-tv-brand-bg bg-tv-brand-tint shadow-md" : "border-tv-border-light hover:border-tv-border-strong bg-white"
                           }`}>
-                          <div className={`w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 ${active ? "bg-tv-brand-bg" : "bg-tv-surface"}`}>
+                          <div className={`w-9 h-9 rounded-sm flex items-center justify-center shrink-0 ${active ? "bg-tv-brand-bg" : "bg-tv-surface"}`}>
                             <card.icon size={16} className={active ? "text-white" : "text-tv-text-secondary"} />
                           </div>
                           <p className={`text-[12px] ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{card.label}</p>
@@ -4382,27 +4382,27 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
 
                 {/* Expanded config panels */}
                 {scheduleType === "later" && (
-                  <div className="p-4 rounded-[12px] border border-tv-brand-bg/20 bg-tv-brand-tint/30 space-y-3">
+                  <div className="p-4 rounded-lg border border-tv-brand-bg/20 bg-tv-brand-tint/30 space-y-3">
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="tv-label mb-1 block">Date</label>
                         <input type="date" value={scheduledDate} min={today} onChange={e => setScheduledDate(e.target.value)} aria-label="Scheduled date"
-                          className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white" />
+                          className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white" />
                       </div>
                       <div>
                         <label className="tv-label mb-1 block">Time</label>
                         <input type="time" value={scheduledTime} onChange={e => setScheduledTime(e.target.value)} aria-label="Scheduled time"
-                          className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white" />
+                          className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white" />
                       </div>
                     </div>
                     {scheduleDateInPast && (
-                      <div className="flex items-center gap-2 p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[8px]">
+                      <div className="flex items-center gap-2 p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-sm">
                         <TriangleAlert size={12} className="text-tv-warning shrink-0" />
                         <p className="text-[10px] text-tv-warning">This date is in the past. Choose a future date.</p>
                       </div>
                     )}
                     {scheduledDate && !scheduleDateInPast && (
-                      <div className="flex items-center gap-2 p-2.5 bg-tv-success-bg border border-tv-success-border rounded-[8px]">
+                      <div className="flex items-center gap-2 p-2.5 bg-tv-success-bg border border-tv-success-border rounded-sm">
                         <Check size={12} className="text-tv-success shrink-0" />
                         <p className="text-[10px] text-tv-success">
                           {new Date(`${scheduledDate}T${scheduledTime}`).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} at {scheduledTime}
@@ -4413,7 +4413,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                 )}
 
                 {scheduleType === "contact-field" && (
-                  <div className="p-4 rounded-[12px] border border-tv-brand-bg/20 bg-tv-brand-tint/30 space-y-3">
+                  <div className="p-4 rounded-lg border border-tv-brand-bg/20 bg-tv-brand-tint/30 space-y-3">
                     <label className="tv-label block">Select Date Field</label>
                     <div className="grid grid-cols-2 gap-2">
                       {CONSTITUENT_DATE_FIELDS.map(f => {
@@ -4421,7 +4421,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                         const selected = contactDateField === f.id;
                         return (
                           <button key={f.id} onClick={() => setContactDateField(f.id)}
-                            className={`flex items-center gap-2 px-3 py-2 rounded-[8px] border text-left transition-all ${
+                            className={`flex items-center gap-2 px-3 py-2 rounded-sm border text-left transition-all ${
                               selected ? "border-tv-brand-bg bg-white text-tv-brand" : "border-tv-border-light bg-white hover:border-tv-border-strong text-tv-text-secondary"
                             }`}>
                             <Icon size={13} className={selected ? "text-tv-brand" : "text-tv-text-decorative"} />
@@ -4450,17 +4450,17 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                 )}
 
                 {!scheduleType && (
-                  <div className="flex items-center gap-2 p-3 bg-tv-surface-muted border border-tv-border-light rounded-[10px]">
+                  <div className="flex items-center gap-2 p-3 bg-tv-surface-muted border border-tv-border-light rounded-md">
                     <Info size={12} className="text-tv-text-secondary shrink-0" />
                     <p className="text-[11px] text-tv-text-secondary">Select a scheduling option above to continue.</p>
                   </div>
                 )}
 
                 {/* Timezone — inline compact */}
-                <div className="p-3.5 rounded-[12px] border border-tv-border-light bg-white flex items-center gap-3">
+                <div className="p-3.5 rounded-lg border border-tv-border-light bg-white flex items-center gap-3">
                   <Globe size={13} className="text-tv-text-secondary shrink-0" />
                   <label className="tv-label shrink-0">Timezone</label>
-                  <select aria-label="Timezone" className="flex-1 border border-tv-border-light rounded-[8px] px-2.5 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white">
+                  <select aria-label="Timezone" className="flex-1 border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white">
                     <option>(UTC-05:00) Eastern Time (US &amp; Canada)</option>
                     <option>(UTC-06:00) Central Time (US &amp; Canada)</option>
                     <option>(UTC-07:00) Mountain Time (US &amp; Canada)</option>
@@ -4472,7 +4472,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
               </div>
 
               {/* Campaign Summary */}
-              <div className="p-4 rounded-[12px] border border-tv-border-light bg-white space-y-1.5">
+              <div className="p-4 rounded-lg border border-tv-border-light bg-white space-y-1.5">
                   <div className="flex items-center gap-2 mb-1">
                     <BarChart3 size={13} className="text-tv-text-secondary" />
                     <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 700 }}>Summary</p>
@@ -4505,9 +4505,9 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
             <h2 className="text-tv-text-primary mb-2" style={{ fontSize: "24px", fontWeight: 900 }}>Review &amp; Activate</h2>
             <p className="text-[13px] text-tv-text-secondary mb-6">Review your campaign settings before activating.</p>
 
-            <div className="p-5 rounded-[12px] border border-tv-border-light bg-white space-y-4 mb-5">
+            <div className="p-5 rounded-lg border border-tv-border-light bg-white space-y-4 mb-5">
               <div className="flex items-center gap-3 mb-1">
-                <div className="w-10 h-10 rounded-[10px] bg-tv-brand-tint flex items-center justify-center">
+                <div className="w-10 h-10 rounded-md bg-tv-brand-tint flex items-center justify-center">
                   <GitBranch size={18} className="text-tv-brand" />
                 </div>
                 <div>
@@ -4521,7 +4521,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                   { icon: MessageSquare, label: "SMS Steps", value: String(stepCounts.sms || 0), color: "text-tv-info" },
                   { icon: GitBranch, label: "Conditions", value: String(stepCounts.condition || 0), color: "text-tv-brand" },
                 ].map(card => (
-                  <div key={card.label} className="p-3 rounded-[10px] bg-tv-surface text-center">
+                  <div key={card.label} className="p-3 rounded-md bg-tv-surface text-center">
                     <card.icon size={16} className={`${card.color} mx-auto mb-1`} />
                     <p className="text-[16px] text-tv-text-primary" style={{ fontWeight: 700 }}>{card.value}</p>
                     <p className="text-[10px] text-tv-text-secondary">{card.label}</p>
@@ -4530,7 +4530,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
               </div>
             </div>
 
-            <div className="p-5 rounded-[12px] border border-tv-border-light bg-white space-y-3 mb-5">
+            <div className="p-5 rounded-lg border border-tv-border-light bg-white space-y-3 mb-5">
               {[
                 { icon: Users, label: "Constituents", value: "250 constituents", status: "ok" as const },
                 { icon: Calendar, label: "Schedule", value: scheduleLabel, status: (isScheduleValid ? "ok" : "warn") as const },
@@ -4538,7 +4538,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
               ].map(row => (
                 <div key={row.label} className="flex items-center justify-between py-2 border-b border-tv-border-divider last:border-b-0">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-[8px] bg-tv-surface flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-sm bg-tv-surface flex items-center justify-center">
                       <row.icon size={14} className="text-tv-text-secondary" />
                     </div>
                     <span className="text-[13px] text-tv-text-secondary">{row.label}</span>
@@ -4561,7 +4561,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
             </div>
 
             {steps.length === 0 && (
-              <div className="flex items-start gap-3 p-4 bg-tv-warning-bg border border-tv-warning-border rounded-[12px] mb-5">
+              <div className="flex items-start gap-3 p-4 bg-tv-warning-bg border border-tv-warning-border rounded-lg mb-5">
                 <TriangleAlert size={15} className="text-tv-warning shrink-0 mt-0.5" />
                 <div>
                   <p className="text-[12px] text-tv-warning-hover" style={{ fontWeight: 600 }}>No Steps Added</p>
@@ -4571,7 +4571,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
             )}
 
             {selectedMetrics.length === 0 && (
-              <div className="flex items-start gap-3 p-4 bg-tv-warning-bg border border-tv-warning-border rounded-[12px] mb-5">
+              <div className="flex items-start gap-3 p-4 bg-tv-warning-bg border border-tv-warning-border rounded-lg mb-5">
                 <TriangleAlert size={15} className="text-tv-warning shrink-0 mt-0.5" />
                 <div>
                   <p className="text-[12px] text-tv-warning-hover" style={{ fontWeight: 600 }}>No Success Metrics</p>
@@ -4581,7 +4581,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
             )}
 
             {!isScheduleValid && (
-              <div className="flex items-start gap-3 p-4 bg-tv-warning-bg border border-tv-warning-border rounded-[12px] mb-5">
+              <div className="flex items-start gap-3 p-4 bg-tv-warning-bg border border-tv-warning-border rounded-lg mb-5">
                 <TriangleAlert size={15} className="text-tv-warning shrink-0 mt-0.5" />
                 <div>
                   <p className="text-[12px] text-tv-warning-hover" style={{ fontWeight: 600 }}>Send Not Scheduled</p>
@@ -4642,7 +4642,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                 {nextStepLabel}<ChevronRight size={13} />
               </button>
               {!canAdvancePhase && advanceBlockReason && (
-                <div className="absolute bottom-full mb-2 right-0 w-56 p-2.5 bg-[#1e293b] text-white text-[11px] rounded-[8px] shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20 leading-relaxed">
+                <div className="absolute bottom-full mb-2 right-0 w-56 p-2.5 bg-[#1e293b] text-white text-[11px] rounded-sm shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20 leading-relaxed">
                   {advanceBlockReason}
                   <div className="absolute -bottom-1 right-6 w-2 h-2 bg-[#1e293b] rotate-45" />
                 </div>
@@ -4673,7 +4673,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
       {/* Change Mode confirmation overlay */}
       {showModeConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="bg-white rounded-[20px] border border-tv-border-light shadow-xl w-full max-w-sm mx-4 p-6">
+          <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-sm mx-4 p-6">
             <h3 className="text-tv-text-primary mb-2">Change campaign mode?</h3>
             <p className="text-[13px] text-tv-text-secondary mb-6">
               Your current progress will be lost. Are you sure you want to go back?
@@ -4699,10 +4699,10 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
       {/* ── Save as Template modal ── */}
       {showSaveTemplate && (
         <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center" onClick={() => setShowSaveTemplate(false)} role="dialog" aria-modal="true" aria-labelledby="ms-save-template-title">
-          <div className="bg-white rounded-[20px] border border-tv-border-light shadow-xl w-full max-w-[460px] mx-4" onClick={e => e.stopPropagation()}>
+          <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-[460px] mx-4" onClick={e => e.stopPropagation()}>
             <div className="px-6 pt-6 pb-4 border-b border-tv-border-divider">
               <div className="flex items-center gap-3 mb-1">
-                <div className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0 bg-tv-star-bg">
+                <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0 bg-tv-star-bg">
                   <Bookmark size={18} className="text-tv-warning" />
                 </div>
                 <div>
@@ -4733,7 +4733,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                   className={TEXTAREA_CLS}
                 />
               </div>
-              <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-divider">
+              <div className="p-3 bg-tv-surface rounded-md border border-tv-border-divider">
                 <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2" style={{ fontWeight: 600 }}>Configuration to save</p>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1">
                   <span className="text-[11px] text-tv-text-secondary">Mode:</span>

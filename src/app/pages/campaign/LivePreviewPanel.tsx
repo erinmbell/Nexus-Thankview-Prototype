@@ -590,7 +590,7 @@ export function LivePreviewPanel({
   const thumbColor = "#7c45b0";
 
   return (
-    <div className="bg-white rounded-[12px] border border-tv-border-light shadow-sm overflow-hidden">
+    <div className="bg-white rounded-lg border border-tv-border-light shadow-sm overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2.5 lg:px-5 lg:py-3 bg-tv-surface/60 border-b border-tv-border-divider">
         <div className="flex items-center gap-2">
@@ -654,7 +654,7 @@ export function LivePreviewPanel({
           <div ref={dropdownRef} className="relative flex-1 min-w-0">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-[8px] bg-white border border-tv-border-light hover:border-tv-brand-bg/40 transition-colors"
+              className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-sm bg-white border border-tv-border-light hover:border-tv-brand-bg/40 transition-colors"
             >
               <div className="w-5 h-5 rounded-full shrink-0 flex items-center justify-center" style={{
                 backgroundColor: previewMode === "custom"
@@ -687,7 +687,7 @@ export function LivePreviewPanel({
 
             {/* Dropdown menu */}
             {dropdownOpen && (
-              <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-tv-border-light rounded-[10px] shadow-lg overflow-hidden">
+              <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-tv-border-light rounded-md shadow-lg overflow-hidden">
                 {/* Custom option */}
                 <button
                   onClick={switchToCustom}
@@ -887,7 +887,7 @@ export function LivePreviewPanel({
 
           {/* ── + Add Merge Field form ── */}
           {showAddFieldForm ? (
-            <div className="mt-1 p-2.5 rounded-[8px] border border-tv-brand-bg/20 bg-tv-brand-tint/20 space-y-2">
+            <div className="mt-1 p-2.5 rounded-sm border border-tv-brand-bg/20 bg-tv-brand-tint/20 space-y-2">
               <div className="flex items-center justify-between">
                 <p className="text-[9px] text-tv-text-primary" style={{ fontWeight: 600 }}>New Merge Field</p>
                 <button
@@ -1004,7 +1004,7 @@ export function LivePreviewPanel({
             const nameString = fmtName;
 
             return (
-              <div className="bg-white rounded-[12px] border border-tv-border-light shadow-lg overflow-hidden">
+              <div className="bg-white rounded-lg border border-tv-border-light shadow-lg overflow-hidden">
                 {/* Organization header */}
                 <div className="px-4 py-3 border-b border-tv-border-divider flex items-center gap-2.5 bg-white">
                   <div className="w-7 h-7 rounded-[6px] flex items-center justify-center" style={{ backgroundColor: lpColor }}>
@@ -1080,7 +1080,7 @@ export function LivePreviewPanel({
                   {/* CTA Button */}
                   {ctaText && (
                     <div className="text-center mb-4">
-                      <span className={`inline-block px-6 py-2.5 rounded-[8px] text-white transition-colors ${isMobile ? "text-[11px]" : "text-[13px]"}`}
+                      <span className={`inline-block px-6 py-2.5 rounded-sm text-white transition-colors ${isMobile ? "text-[11px]" : "text-[13px]"}`}
                         style={{ backgroundColor: btnBg || lpColor, color: btnText || "#ffffff", fontWeight: 600 }}>
                         {isVideoRequest ? "Record Your Video" : ctaText}
                       </span>
@@ -1089,9 +1089,9 @@ export function LivePreviewPanel({
 
                   {/* PDF viewer block */}
                   {pdfFileName && (
-                    <div className={`mb-4 rounded-[10px] border border-tv-border-light bg-tv-surface overflow-hidden ${isMobile ? "mx-1" : "mx-2"}`}>
+                    <div className={`mb-4 rounded-md border border-tv-border-light bg-tv-surface overflow-hidden ${isMobile ? "mx-1" : "mx-2"}`}>
                       <div className={`flex flex-col items-center justify-center ${isMobile ? "py-6 gap-2" : "py-8 gap-2.5"}`}>
-                        <div className={`rounded-[10px] bg-tv-surface-active flex items-center justify-center ${isMobile ? "w-10 h-10" : "w-12 h-12"}`}>
+                        <div className={`rounded-md bg-tv-surface-active flex items-center justify-center ${isMobile ? "w-10 h-10" : "w-12 h-12"}`}>
                           <FileText size={isMobile ? 18 : 22} className="text-tv-text-secondary" />
                         </div>
                         <p className={`text-tv-text-primary text-center truncate max-w-[85%] ${isMobile ? "text-[10px]" : "text-[12px]"}`} style={{ fontWeight: 600 }}>{pdfFileName}</p>
@@ -1106,7 +1106,7 @@ export function LivePreviewPanel({
 
                   {/* Form embed placeholder */}
                   {formUrl && (
-                    <div className={`mb-4 border-2 border-dashed border-tv-border-light rounded-[10px] flex flex-col items-center justify-center gap-1.5 ${isMobile ? "mx-3 py-8" : "mx-6 py-12"}`}>
+                    <div className={`mb-4 border-2 border-dashed border-tv-border-light rounded-md flex flex-col items-center justify-center gap-1.5 ${isMobile ? "mx-3 py-8" : "mx-6 py-12"}`}>
                       <FormInput size={isMobile ? 14 : 18} className="text-tv-text-decorative" />
                       <p className={`text-tv-text-primary ${isMobile ? "text-[9px]" : "text-[11px]"}`} style={{ fontWeight: 600 }}>Embedded Form</p>
                       <p className={`text-tv-text-decorative ${isMobile ? "text-[7px]" : "text-[9px]"}`}>Form will appear here</p>
@@ -1246,7 +1246,7 @@ export function LivePreviewPanel({
                     </div>
                     <div className={`${msgPadX} pt-1.5 pb-1 flex justify-start`}>
                       <div className={`relative ${bubbleMaxW}`}>
-                        <div className={`bg-[#34c759] rounded-[16px] rounded-bl-[4px] ${isTabletView ? "px-4 py-2.5" : "px-3 py-2"} shadow-sm`}>
+                        <div className={`bg-[#34c759] rounded-xl rounded-bl-[4px] ${isTabletView ? "px-4 py-2.5" : "px-3 py-2"} shadow-sm`}>
                           <p style={{ fontSize: isTabletView ? "13px" : "11px", lineHeight: "1.45" }} className="text-white whitespace-pre-wrap">{resolvedSms}</p>
                         </div>
                         <svg className="absolute -bottom-[1px] -left-[5px]" width="12" height="10" viewBox="0 0 12 10" fill="none">
@@ -1257,7 +1257,7 @@ export function LivePreviewPanel({
                     {hasLink && (
                       <div className={`${msgPadX} pt-1 pb-1 flex justify-start`}>
                         <div className={linkMaxW}>
-                          <div className="bg-[#f2f2f7] rounded-[12px] overflow-hidden border border-[#e5e5ea] shadow-sm">
+                          <div className="bg-[#f2f2f7] rounded-lg overflow-hidden border border-[#e5e5ea] shadow-sm">
                             <div className={`bg-gradient-to-br from-[#7c45b0]/15 to-[#7c45b0]/5 ${isTabletView ? "h-[80px]" : "h-[60px]"} flex items-center justify-center`}>
                               <div className={`${isTabletView ? "w-8 h-8" : "w-7 h-7"} rounded-full bg-[#7c45b0] flex items-center justify-center shadow-sm`}>
                                 <Play size={isTabletView ? 10 : 9} className="text-white ml-[1px]" fill="white" />
@@ -1308,7 +1308,7 @@ export function LivePreviewPanel({
             if (device === "desktop") {
               return (
                 <div className="flex flex-col items-center gap-3">
-                  <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-[10px] bg-tv-info/8 border border-tv-info/15">
+                  <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-md bg-tv-info/8 border border-tv-info/15">
                     <Info size={13} className="text-tv-info shrink-0" />
                     <p className="text-[10px] text-tv-text-secondary leading-snug">
                       <span className="text-tv-text-primary" style={{ fontWeight: 600 }}>SMS messages are received on mobile devices</span>
@@ -1341,7 +1341,7 @@ export function LivePreviewPanel({
             if (envTextAfter) emailPersonLines.push(envTextAfter);
 
             return (
-          <div className="bg-white rounded-[10px] lg:rounded-[12px] border border-tv-border-light shadow-sm overflow-hidden">
+          <div className="bg-white rounded-md lg:rounded-lg border border-tv-border-light shadow-sm overflow-hidden">
             {/* Email client chrome */}
             <div className="px-3.5 py-2.5 lg:px-4 lg:py-3 border-b border-tv-border-divider bg-tv-surface/30 space-y-0.5 lg:space-y-1">
               <p className="text-[10px] lg:text-[11px] text-tv-text-secondary leading-relaxed">From: <span className="text-tv-text-primary" style={{ fontWeight: 500 }}>{senderName || "Sender"} &lt;{senderEmail || "email@example.com"}&gt;</span></p>
@@ -1397,7 +1397,7 @@ export function LivePreviewPanel({
 
             {/* 2) "View Your ThankView" button — below envelope */}
             <div className="flex justify-center px-4 pb-3 lg:px-5 lg:pb-4">
-              <div className="px-5 py-2 lg:px-6 lg:py-2.5 rounded-[8px] text-[10px] lg:text-[11px] text-center cursor-pointer shadow-sm transition-transform hover:scale-[1.02]" style={{ backgroundColor: btnBg, color: btnText, fontWeight: 600 }}>
+              <div className="px-5 py-2 lg:px-6 lg:py-2.5 rounded-sm text-[10px] lg:text-[11px] text-center cursor-pointer shadow-sm transition-transform hover:scale-[1.02]" style={{ backgroundColor: btnBg, color: btnText, fontWeight: 600 }}>
                 {isVideoRequest ? "Record Your Video" : "View Your ThankView"}
               </div>
             </div>
@@ -1432,9 +1432,9 @@ export function LivePreviewPanel({
 
             {/* PDF viewer block */}
             {pdfFileName && (
-              <div className="mx-3 mb-4 lg:mx-4 lg:mb-5 rounded-[10px] lg:rounded-[12px] border border-tv-border-light bg-tv-surface overflow-hidden">
+              <div className="mx-3 mb-4 lg:mx-4 lg:mb-5 rounded-md lg:rounded-lg border border-tv-border-light bg-tv-surface overflow-hidden">
                 <div className="flex flex-col items-center py-5 px-3 lg:py-6 lg:px-4 gap-2.5 lg:gap-3">
-                  <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-[8px] lg:rounded-[10px] bg-tv-surface-active flex items-center justify-center">
+                  <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-sm lg:rounded-md bg-tv-surface-active flex items-center justify-center">
                     <FileText size={22} className="text-tv-text-secondary" />
                   </div>
                   <p className="text-[11px] lg:text-[12px] text-tv-text-primary text-center truncate max-w-[85%]" style={{ fontWeight: 600 }}>
@@ -1461,7 +1461,7 @@ export function LivePreviewPanel({
               const previewH = Math.max(60, Math.min(Math.round((formHeight ?? 600) * 0.35), 280));
               return (
                 <div
-                  className={`mb-4 border-2 border-dashed border-tv-border-light rounded-[10px] flex flex-col items-center justify-center gap-1.5 ${formFullWidth ? "mx-0" : "mx-4"}`}
+                  className={`mb-4 border-2 border-dashed border-tv-border-light rounded-md flex flex-col items-center justify-center gap-1.5 ${formFullWidth ? "mx-0" : "mx-4"}`}
                   style={{ height: previewH }}
                 >
                   <FormInput size={18} className="text-tv-text-decorative" />

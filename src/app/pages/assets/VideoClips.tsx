@@ -269,7 +269,7 @@ export function VideoClips() {
             const bgColorInfo = item.kind === "outro" && item.bgColor ? COLOR_PALETTE.find(c => c.hex === item.bgColor) : null;
 
             return (
-              <div key={item.id} role="button" tabIndex={0} onClick={() => setPreviewId(item.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(item.id); }}} aria-label={`Preview: ${item.name}`} className="bg-white rounded-[16px] border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer">
+              <div key={item.id} role="button" tabIndex={0} onClick={() => setPreviewId(item.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(item.id); }}} aria-label={`Preview: ${item.name}`} className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer">
                 {/* Thumbnail */}
                 <div className={`h-32 bg-gradient-to-br ${item.gradient} relative overflow-hidden`}>
                   {item.backgroundImage ? (
@@ -394,7 +394,7 @@ export function VideoClips() {
           <>
             <div className="fixed inset-0 bg-black/50 z-[60]" onClick={() => setPreviewId(null)} />
             <div className="fixed inset-0 flex items-center justify-center z-[61] pointer-events-none p-4">
-              <div className="bg-white rounded-[20px] w-full max-w-lg shadow-2xl pointer-events-auto overflow-hidden">
+              <div className="bg-white rounded-xl w-full max-w-lg shadow-2xl pointer-events-auto overflow-hidden">
                 <div className="flex items-center justify-between px-5 py-4 border-b border-tv-border-divider">
                   <div>
                     <p className="text-[14px] font-semibold text-tv-text-primary">{preview.name}</p>

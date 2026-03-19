@@ -160,8 +160,8 @@ export const PAPER_TEXTURE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 
 /* ── Shared sub-components ────────────────────────────────────────────────── */
 
-/** Standard input matching the app's `rounded-[10px] px-3 py-2.5 text-[13px]` pattern */
-const inputCls = "w-full border border-tv-border-light rounded-[10px] px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white";
+/** Standard input matching the app's `rounded-md px-3 py-2.5 text-[13px]` pattern */
+const inputCls = "w-full border border-tv-border-light rounded-md px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white";
 
 /** Standardised section label */
 function SectionLabel({ children }: { children: React.ReactNode }) {
@@ -450,9 +450,9 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
     return (
       <div className="space-y-2 mt-2">
         {INLINE_SECTIONS.map(sec => (
-          <details key={sec.id} className="group/design border border-tv-border-light rounded-[12px] overflow-hidden bg-white">
+          <details key={sec.id} className="group/design border border-tv-border-light rounded-lg overflow-hidden bg-white">
             <summary className="flex items-center gap-3 px-4 py-3 cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden hover:bg-tv-surface/50 transition-colors">
-              <div className="w-8 h-8 rounded-[8px] bg-tv-brand-tint flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-sm bg-tv-brand-tint flex items-center justify-center shrink-0">
                 <sec.icon size={15} className="text-tv-brand" />
               </div>
               <div className="flex-1 min-w-0">
@@ -484,7 +484,7 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
             const active = activeTab === tab.id;
             return (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                className={`mx-1.5 flex flex-col items-center gap-1 py-2.5 rounded-[10px] transition-all ${
+                className={`mx-1.5 flex flex-col items-center gap-1 py-2.5 rounded-md transition-all ${
                   active
                     ? "bg-tv-brand-bg text-white shadow-sm"
                     : "text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-text-primary"
@@ -550,10 +550,10 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
               <Play size={11} />
               <span>Preview Animation</span>
             </button>
-            <div className="flex items-center gap-0.5 bg-tv-surface rounded-[10px] p-1">
+            <div className="flex items-center gap-0.5 bg-tv-surface rounded-md p-1">
               {VIEWPORTS.map(vp => (
                 <button key={vp.key} onClick={() => props.onPreviewViewportChange(vp.key)}
-                  className={`px-2.5 py-1.5 rounded-[8px] transition-all flex items-center gap-1.5 ${
+                  className={`px-2.5 py-1.5 rounded-sm transition-all flex items-center gap-1.5 ${
                     props.previewViewport === vp.key
                       ? "bg-white text-tv-brand shadow-sm"
                       : "text-tv-text-secondary hover:text-tv-text-primary"
@@ -675,7 +675,7 @@ function PageTab(props: DesignStepPanelProps) {
                 <div key={p.id} onClick={() => props.onSelectLandingPage(p.id)}
                   role="button" tabIndex={0}
                   onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); props.onSelectLandingPage(p.id); } }}
-                  className={`group rounded-[10px] border-2 overflow-hidden transition-all text-left relative cursor-pointer ${
+                  className={`group rounded-md border-2 overflow-hidden transition-all text-left relative cursor-pointer ${
                     active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"
                   }`}>
                   <div className="aspect-[4/3] relative overflow-hidden"
@@ -779,7 +779,7 @@ function EnvelopeTab(props: DesignStepPanelProps) {
                 const nColor = env.nameColor || (isDarkColor(env.color) ? "#ffffff" : "#1e293b");
                 return (
                   <button key={env.id} onClick={() => props.onSelectEnvelope(env.id)}
-                    className={`rounded-[10px] border-2 overflow-hidden transition-all text-left relative ${
+                    className={`rounded-md border-2 overflow-hidden transition-all text-left relative ${
                       active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"
                     }`}>
                     {/* Flat envelope face — matches ThankView style */}
@@ -1058,13 +1058,13 @@ function ContentTab(props: DesignStepPanelProps & {
               <button
                 key={opt.key}
                 onClick={() => setEmailContentType(opt.key)}
-                className={`w-full flex items-center gap-3 p-3 rounded-[10px] border text-left transition-all ${
+                className={`w-full flex items-center gap-3 p-3 rounded-md border text-left transition-all ${
                   active
                     ? "border-tv-brand-bg bg-tv-brand-tint/30 shadow-sm"
                     : "border-tv-border-light hover:border-tv-brand-bg/40 hover:bg-tv-surface/60"
                 }`}
               >
-                <div className={`w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 transition-colors ${
+                <div className={`w-9 h-9 rounded-sm flex items-center justify-center shrink-0 transition-colors ${
                   active ? "bg-tv-brand-bg" : "bg-tv-surface"
                 }`}>
                   <Icon size={16} className={active ? "text-white" : "text-tv-text-secondary"} />
@@ -1098,13 +1098,13 @@ function ContentTab(props: DesignStepPanelProps & {
                   <button
                     key={animOpt.key}
                     onClick={() => setAnimatedStyle(animOpt.key)}
-                    className={`flex-1 flex flex-col items-center gap-2 p-3 rounded-[10px] border transition-all ${
+                    className={`flex-1 flex flex-col items-center gap-2 p-3 rounded-md border transition-all ${
                       active
                         ? "border-tv-brand-bg bg-tv-brand-tint/30"
                         : "border-tv-border-light hover:border-tv-brand-bg/40"
                     }`}
                   >
-                    <div className={`w-10 h-10 rounded-[8px] flex items-center justify-center transition-colors ${
+                    <div className={`w-10 h-10 rounded-sm flex items-center justify-center transition-colors ${
                       active ? "bg-tv-brand-bg" : "bg-tv-surface"
                     }`}>
                       <Icon size={18} className={active ? "text-white" : "text-tv-text-secondary"} />
@@ -1115,7 +1115,7 @@ function ContentTab(props: DesignStepPanelProps & {
                 );
               })}
             </div>
-            <div className="p-3 bg-tv-surface/60 rounded-[8px] flex items-start gap-2">
+            <div className="p-3 bg-tv-surface/60 rounded-sm flex items-start gap-2">
               <Info size={12} className="text-tv-text-decorative shrink-0 mt-0.5" />
               <p className="text-[11px] text-tv-text-secondary leading-relaxed">
                 {animatedStyle === "gif"
@@ -1129,7 +1129,7 @@ function ContentTab(props: DesignStepPanelProps & {
         {/* ── Envelope sub-info ── */}
         {emailContentType === "envelope" && (
           <div className="mt-3 pl-4 border-l-2 border-tv-brand-bg/20 ml-1 space-y-2">
-            <div className="p-3 bg-tv-surface/60 rounded-[8px] flex items-start gap-2">
+            <div className="p-3 bg-tv-surface/60 rounded-sm flex items-start gap-2">
               <Mail size={12} className="text-tv-brand shrink-0 mt-0.5" />
               <div>
                 <p className="text-[11px] text-tv-text-primary leading-relaxed" style={{ fontWeight: 600 }}>
@@ -1149,7 +1149,7 @@ function ContentTab(props: DesignStepPanelProps & {
           <div className="mt-3 pl-4 border-l-2 border-tv-brand-bg/20 ml-1 space-y-2">
             <SectionLabel>Upload Image</SectionLabel>
             {staticImageFile ? (
-              <div className="relative border border-tv-border-light rounded-[10px] overflow-hidden">
+              <div className="relative border border-tv-border-light rounded-md overflow-hidden">
                 <div className="h-[120px] bg-gradient-to-br from-tv-surface to-tv-surface-active flex items-center justify-center">
                   <div className="flex flex-col items-center gap-1.5">
                     <ImageIcon size={24} className="text-tv-text-secondary" />
@@ -1179,7 +1179,7 @@ function ContentTab(props: DesignStepPanelProps & {
             ) : (
               <button
                 onClick={handleStaticUpload}
-                className="w-full border-2 border-dashed border-tv-border-light rounded-[12px] p-5 text-center hover:border-tv-brand/40 transition-colors cursor-pointer"
+                className="w-full border-2 border-dashed border-tv-border-light rounded-lg p-5 text-center hover:border-tv-brand/40 transition-colors cursor-pointer"
               >
                 <Upload size={20} className="mx-auto text-tv-text-secondary mb-1.5" />
                 <p className="text-[12px] text-tv-text-secondary">Click to upload or drag & drop</p>
@@ -1248,9 +1248,9 @@ function ContentTab(props: DesignStepPanelProps & {
             <button
               type="button"
               onClick={() => setPdfFile({ name: "Impact_Report_2025.pdf", pages: 12, size: "2.4 MB" })}
-              className="w-full border-2 border-dashed border-tv-border-light rounded-[12px] p-6 flex flex-col items-center gap-2 hover:border-tv-brand/40 hover:bg-tv-brand-tint/30 transition-all cursor-pointer group"
+              className="w-full border-2 border-dashed border-tv-border-light rounded-lg p-6 flex flex-col items-center gap-2 hover:border-tv-brand/40 hover:bg-tv-brand-tint/30 transition-all cursor-pointer group"
             >
-              <div className="w-10 h-10 rounded-[10px] bg-tv-surface flex items-center justify-center group-hover:bg-tv-brand-tint transition-colors">
+              <div className="w-10 h-10 rounded-md bg-tv-surface flex items-center justify-center group-hover:bg-tv-brand-tint transition-colors">
                 <FileText size={20} className="text-tv-text-secondary group-hover:text-tv-brand transition-colors" />
               </div>
               <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 500 }}>Upload PDF</p>
@@ -1261,8 +1261,8 @@ function ContentTab(props: DesignStepPanelProps & {
             </button>
           ) : (
             /* ── Uploaded PDF card ───────────────────────────────────── */
-            <div className="flex items-center gap-3 p-3 bg-white border border-tv-border-light rounded-[12px]">
-              <div className="w-10 h-10 rounded-[8px] bg-tv-danger-bg flex items-center justify-center shrink-0">
+            <div className="flex items-center gap-3 p-3 bg-white border border-tv-border-light rounded-lg">
+              <div className="w-10 h-10 rounded-sm bg-tv-danger-bg flex items-center justify-center shrink-0">
                 <FileText size={18} className="text-tv-danger" />
               </div>
               <div className="flex-1 min-w-0">
@@ -1403,7 +1403,7 @@ function TrackingTab(props: DesignStepPanelProps) {
           placeholder="Add a tracking pixel to your landing page"
           className={inputCls} />
       </div>
-      <div className="rounded-[10px] p-3.5 bg-tv-info-bg border border-tv-info-border">
+      <div className="rounded-md p-3.5 bg-tv-info-bg border border-tv-info-border">
         <div className="flex gap-2">
           <Info size={13} className="text-tv-info shrink-0 mt-0.5" />
           <div>
@@ -1502,7 +1502,7 @@ function PreviewFrame({
   const isTablet = viewport === "tablet";
 
   return (
-    <div className={`bg-white rounded-[12px] border border-tv-border-light shadow-lg overflow-hidden transition-all ${widthClass}`}>
+    <div className={`bg-white rounded-lg border border-tv-border-light shadow-lg overflow-hidden transition-all ${widthClass}`}>
       {/* Organization header bar */}
       <div className="px-4 py-3 border-b border-tv-border-divider flex items-center gap-2.5 bg-white">
         <div className="w-7 h-7 rounded-[6px] flex items-center justify-center" style={{ backgroundColor: lpColor }}>
@@ -1575,7 +1575,7 @@ function PreviewFrame({
 
         {attachmentType === "button" && buttonText && (
           <div className="text-center mb-4">
-            <span className={`inline-block px-6 py-2.5 rounded-[8px] text-white ${isMobile ? "text-[11px]" : "text-[13px]"}`}
+            <span className={`inline-block px-6 py-2.5 rounded-sm text-white ${isMobile ? "text-[11px]" : "text-[13px]"}`}
               style={{ backgroundColor: step.btnBg || lpColor, fontWeight: 600 }}>
               {buttonText}
             </span>
@@ -1590,7 +1590,7 @@ function PreviewFrame({
           const previewH = Math.max(60, Math.min(Math.round(formHeight * 0.35), 280));
           return (
             <div
-              className={`mb-4 border-2 border-dashed border-tv-border-light rounded-[10px] flex flex-col items-center justify-center gap-1.5 ${formFullWidth ? "" : isMobile ? "mx-3" : "mx-6"}`}
+              className={`mb-4 border-2 border-dashed border-tv-border-light rounded-md flex flex-col items-center justify-center gap-1.5 ${formFullWidth ? "" : isMobile ? "mx-3" : "mx-6"}`}
               style={{ height: previewH }}
             >
               <FormInput size={isMobile ? 14 : 18} className="text-tv-text-decorative" />
@@ -1606,9 +1606,9 @@ function PreviewFrame({
 
         {/* PDF viewer block */}
         {attachmentType === "pdf" && pdfFile && (
-          <div className={`mb-4 rounded-[10px] border border-tv-border-light bg-tv-surface overflow-hidden ${isMobile ? "mx-1" : "mx-2"}`}>
+          <div className={`mb-4 rounded-md border border-tv-border-light bg-tv-surface overflow-hidden ${isMobile ? "mx-1" : "mx-2"}`}>
             <div className={`flex flex-col items-center justify-center ${isMobile ? "py-6 gap-2" : "py-8 gap-2.5"}`}>
-              <div className={`rounded-[10px] bg-tv-surface-active flex items-center justify-center ${isMobile ? "w-10 h-10" : "w-12 h-12"}`}>
+              <div className={`rounded-md bg-tv-surface-active flex items-center justify-center ${isMobile ? "w-10 h-10" : "w-12 h-12"}`}>
                 <FileText size={isMobile ? 18 : 22} className="text-tv-text-secondary" />
               </div>
               <p className={`text-tv-text-primary text-center truncate max-w-[85%] ${isMobile ? "text-[10px]" : "text-[12px]"}`} style={{ fontWeight: 600 }}>

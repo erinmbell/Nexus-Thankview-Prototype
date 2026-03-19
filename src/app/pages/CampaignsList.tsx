@@ -55,7 +55,7 @@ function CampaignThumbnail({ campaign, size = "md" }: { campaign: Campaign; size
   const dim = size === "md" ? "w-[100px] h-[68px]" : "w-[72px] h-[50px]";
   return (
     <div
-      className={`${dim} rounded-[10px] shrink-0 relative overflow-hidden`}
+      className={`${dim} rounded-md shrink-0 relative overflow-hidden`}
       style={imgSrc ? undefined : { background: FALLBACK_GRADIENT }}
     >
       {imgSrc ? (
@@ -105,7 +105,7 @@ function CreateCampaignDropdown({ navigate, compact, onOpenTemplates }: { naviga
           >
             <div className="flex items-center gap-3 w-full">
               <div
-                className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0"
+                className="w-10 h-10 rounded-md flex items-center justify-center shrink-0"
                 style={{ backgroundColor: item.bg }}
               >
                 <item.icon size={18} style={{ color: item.iconColor }} />
@@ -130,7 +130,7 @@ function CreateCampaignDropdown({ navigate, compact, onOpenTemplates }: { naviga
         >
           <div className="flex items-center gap-3 w-full">
             <div
-              className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0"
+              className="w-10 h-10 rounded-md flex items-center justify-center shrink-0"
               style={{ backgroundColor: "var(--tv-star-bg)" }}
             >
               <Bookmark size={18} className="text-tv-warning" />
@@ -394,9 +394,9 @@ function TemplatePickerModal({ onSelect, onCancel }: { onSelect: (tpl: CampaignT
         <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
           {filtered.map(tpl => (
             <button key={tpl.id} onClick={() => onSelect(tpl)}
-              className="w-full text-left p-4 rounded-[12px] border border-tv-border-light bg-white hover:border-tv-brand hover:shadow-sm transition-all group relative">
+              className="w-full text-left p-4 rounded-lg border border-tv-border-light bg-white hover:border-tv-brand hover:shadow-sm transition-all group relative">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: tpl.builtIn ? "var(--tv-brand-tint)" : "var(--tv-star-bg)" }}>
+                <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: tpl.builtIn ? "var(--tv-brand-tint)" : "var(--tv-star-bg)" }}>
                   <Bookmark size={17} className={tpl.builtIn ? "text-tv-brand" : "text-tv-warning"} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -428,7 +428,7 @@ function TemplatePickerModal({ onSelect, onCancel }: { onSelect: (tpl: CampaignT
                   </div>
                   {/* Content preview */}
                   {tpl.stepContent && (tpl.stepContent.subject || tpl.stepContent.smsBody) && (
-                    <div className="mt-2 p-2 bg-tv-surface-muted rounded-[8px] border border-tv-border-divider">
+                    <div className="mt-2 p-2 bg-tv-surface-muted rounded-sm border border-tv-border-divider">
                       {tpl.stepContent.subject && (
                         <p className="text-[10px] text-tv-text-label truncate"><span className="font-semibold">Subject:</span> {tpl.stepContent.subject}</p>
                       )}
@@ -465,7 +465,7 @@ function TemplatePickerModal({ onSelect, onCancel }: { onSelect: (tpl: CampaignT
       {/* Delete confirmation */}
       {confirmDelete && (
         <div className="fixed inset-0 bg-black/30 z-[1000] flex items-center justify-center" onClick={() => setConfirmDelete(null)} role="dialog" aria-modal="true" aria-labelledby="delete-template-title">
-          <div className="bg-white rounded-[20px] border border-tv-border-light p-6 max-w-[380px] w-full mx-4 shadow-xl" onClick={e => e.stopPropagation()}>
+          <div className="bg-white rounded-xl border border-tv-border-light p-6 max-w-[380px] w-full mx-4 shadow-xl" onClick={e => e.stopPropagation()}>
             <p id="delete-template-title" className="text-[15px] text-tv-text-primary mb-2" style={{ fontWeight: 900 }}>Delete template?</p>
             <p className="text-[13px] text-tv-text-secondary mb-5">"{confirmDelete.name}" will be permanently removed. This action cannot be undone.</p>
             <div className="flex justify-end gap-2">
@@ -669,7 +669,7 @@ function FilterDropdown({
       {open && createPortal(
         <div
           ref={dropRef}
-          className="fixed z-[9999] bg-white rounded-[10px] border border-tv-border-light shadow-lg py-1 min-w-[160px] max-h-[320px] flex flex-col"
+          className="fixed z-[9999] bg-white rounded-md border border-tv-border-light shadow-lg py-1 min-w-[160px] max-h-[320px] flex flex-col"
           style={{ top: pos.top, left: pos.left }}
         >
           {showSearch && (
@@ -905,7 +905,7 @@ export function CampaignsList() {
 
       {/* ── Bulk actions bar ── */}
       {bulkSelected.length > 0 && (
-        <div className="flex items-center gap-3 px-4 py-2.5 rounded-[12px] mb-3"
+        <div className="flex items-center gap-3 px-4 py-2.5 rounded-lg mb-3"
           style={{ backgroundColor: TV.brandTint, border: `1px solid ${TV.borderLight}` }}>
           <Text fz={13} fw={600} c={TV.textBrand}>
             {bulkSelected.length} selected
@@ -934,7 +934,7 @@ export function CampaignsList() {
       )}
 
       {/* ── Table / Cards ── */}
-      <div className="bg-white rounded-[12px] border border-tv-border-light overflow-hidden" role="region" aria-label={`${sortedFiltered.length} campaigns shown`}>
+      <div className="bg-white rounded-lg border border-tv-border-light overflow-hidden" role="region" aria-label={`${sortedFiltered.length} campaigns shown`}>
         <p className="sr-only" aria-live="polite">{sortedFiltered.length} campaigns shown</p>
         {sortedFiltered.length === 0 ? (
           <Stack align="center" gap="sm" py={60}>
@@ -1021,7 +1021,7 @@ export function CampaignsList() {
                                   <span className="inline-flex items-center justify-center size-[18px] rounded-full bg-tv-surface border border-tv-border-light text-tv-text-secondary cursor-default hover:bg-tv-brand-tint hover:border-tv-brand hover:text-tv-brand transition-colors">
                                     <Plus size={10} />
                                   </span>
-                                  <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1.5 z-50 hidden group-hover/tags:flex flex-wrap gap-1 bg-white border border-tv-border-light rounded-[10px] shadow-lg px-2.5 py-2 min-w-max max-w-[240px]">
+                                  <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1.5 z-50 hidden group-hover/tags:flex flex-wrap gap-1 bg-white border border-tv-border-light rounded-md shadow-lg px-2.5 py-2 min-w-max max-w-[240px]">
                                     {c.tags.map(tag => (
                                       <Badge key={tag} size="xs" variant="light" color="gray" radius="xl">{tag}</Badge>
                                     ))}

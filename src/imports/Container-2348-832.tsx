@@ -114,7 +114,7 @@ function Container4() {
 
 function Container3() {
   return (
-    <div className="absolute bg-[#f2fafc] content-stretch flex flex-col items-center justify-center left-0 rounded-[8px] size-[80px] top-0" data-name="Container">
+    <div className="absolute bg-[#f2fafc] content-stretch flex flex-col items-center justify-center left-0 rounded-sm size-[80px] top-0" data-name="Container">
       <Container4 />
       <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_0px_0px_0px_rgba(0,0,0,0.05)]" />
     </div>
@@ -246,7 +246,7 @@ function Container10() {
 
 function Container9() {
   return (
-    <div className="absolute bg-[#d9f2f8] content-stretch flex flex-col items-center justify-center left-0 rounded-[8px] size-[80px] top-0" data-name="Container">
+    <div className="absolute bg-[#d9f2f8] content-stretch flex flex-col items-center justify-center left-0 rounded-sm size-[80px] top-0" data-name="Container">
       <Container10 />
       <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_0px_0px_0px_rgba(0,0,0,0.05)]" />
     </div>
@@ -378,7 +378,7 @@ function Container16() {
 
 function Container15() {
   return (
-    <div className="absolute bg-[#b8e8f3] content-stretch flex flex-col items-center justify-center left-0 rounded-[8px] size-[80px] top-0" data-name="Container">
+    <div className="absolute bg-[#b8e8f3] content-stretch flex flex-col items-center justify-center left-0 rounded-sm size-[80px] top-0" data-name="Container">
       <Container16 />
       <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_0px_0px_0px_rgba(0,0,0,0.05)]" />
     </div>
@@ -510,7 +510,7 @@ function Container22() {
 
 function Container21() {
   return (
-    <div className="absolute bg-[#8dd9ed] content-stretch flex flex-col items-center justify-center left-0 rounded-[8px] size-[80px] top-0" data-name="Container">
+    <div className="absolute bg-[#8dd9ed] content-stretch flex flex-col items-center justify-center left-0 rounded-sm size-[80px] top-0" data-name="Container">
       <Container22 />
       <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_0px_0px_0px_rgba(0,0,0,0.05)]" />
     </div>
@@ -642,7 +642,7 @@ function Container28() {
 
 function Container27() {
   return (
-    <div className="absolute bg-[#5bcce5] content-stretch flex flex-col items-center justify-center left-0 rounded-[8px] size-[80px] top-0" data-name="Container">
+    <div className="absolute bg-[#5bcce5] content-stretch flex flex-col items-center justify-center left-0 rounded-sm size-[80px] top-0" data-name="Container">
       <Container28 />
       <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_0px_0px_0px_rgba(0,0,0,0.05)]" />
     </div>
@@ -774,7 +774,7 @@ function Container34() {
 
 function Container33() {
   return (
-    <div className="absolute bg-[#00c0f5] content-stretch flex flex-col items-center justify-center left-0 rounded-[8px] size-[80px] top-0" data-name="Container">
+    <div className="absolute bg-[#00c0f5] content-stretch flex flex-col items-center justify-center left-0 rounded-sm size-[80px] top-0" data-name="Container">
       <Container34 />
       <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_0px_0px_0px_rgba(0,0,0,0.05)]" />
     </div>
@@ -906,7 +906,7 @@ function Container40() {
 
 function Container39() {
   return (
-    <div className="absolute bg-[#00a0cc] content-stretch flex flex-col items-center justify-center left-0 rounded-[8px] size-[80px] top-0" data-name="Container">
+    <div className="absolute bg-[#00a0cc] content-stretch flex flex-col items-center justify-center left-0 rounded-sm size-[80px] top-0" data-name="Container">
       <Container40 />
       <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_0px_0px_0px_rgba(0,0,0,0.05)]" />
     </div>
@@ -1038,7 +1038,7 @@ function Container46() {
 
 function Container45() {
   return (
-    <div className="absolute bg-[#007c9e] content-stretch flex flex-col items-center justify-center left-0 rounded-[8px] size-[80px] top-0" data-name="Container">
+    <div className="absolute bg-[#007c9e] content-stretch flex flex-col items-center justify-center left-0 rounded-sm size-[80px] top-0" data-name="Container">
       <Container46 />
       <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_0px_0px_0px_rgba(0,0,0,0.05)]" />
     </div>
@@ -1170,7 +1170,7 @@ function Container52() {
 
 function Container51() {
   return (
-    <div className="absolute bg-[#005d77] content-stretch flex flex-col items-center justify-center left-0 rounded-[8px] size-[80px] top-0" data-name="Container">
+    <div className="absolute bg-[#005d77] content-stretch flex flex-col items-center justify-center left-0 rounded-sm size-[80px] top-0" data-name="Container">
       <Container52 />
       <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_0px_0px_0px_rgba(0,0,0,0.05)]" />
     </div>
@@ -1302,7 +1302,7 @@ function Container58() {
 
 function Container57() {
   return (
-    <div className="absolute bg-[#003d4f] content-stretch flex flex-col items-center justify-center left-0 rounded-[8px] size-[80px] top-0" data-name="Container">
+    <div className="absolute bg-[#003d4f] content-stretch flex flex-col items-center justify-center left-0 rounded-sm size-[80px] top-0" data-name="Container">
       <Container58 />
       <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_0px_0px_0px_rgba(0,0,0,0.05)]" />
     </div>

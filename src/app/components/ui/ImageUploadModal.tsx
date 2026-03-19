@@ -299,7 +299,7 @@ export function ImageUploadModal({
               <Text fz={11} fw={600} c={TV.textLabel} mb={6}>Image URL</Text>
               <div className="flex gap-2">
                 <div
-                  className="flex-1 flex items-center gap-2 border rounded-[10px] px-3 py-2"
+                  className="flex-1 flex items-center gap-2 border rounded-md px-3 py-2"
                   style={{ borderColor: urlError ? TV.danger : TV.borderLight }}
                 >
                   <Link2 size={13} style={{ color: TV.textSecondary }} className="shrink-0" />
@@ -315,7 +315,7 @@ export function ImageUploadModal({
                 <button
                   onClick={handleUrlImport}
                   disabled={urlLoading}
-                  className="px-4 rounded-[10px] text-[12px] font-semibold text-white transition-colors shrink-0 flex items-center gap-1.5"
+                  className="px-4 rounded-md text-[12px] font-semibold text-white transition-colors shrink-0 flex items-center gap-1.5"
                   style={{ backgroundColor: urlLoading ? TV.borderStrong : TV.brandBg }}
                 >
                   {urlLoading ? <Loader2 size={13} className="animate-spin" /> : <ImageIcon size={13} />}
@@ -335,7 +335,7 @@ export function ImageUploadModal({
           <div className="space-y-4">
             {/* Image preview */}
             <div
-              className="relative rounded-[12px] overflow-hidden"
+              className="relative rounded-lg overflow-hidden"
               style={{ backgroundColor: TV.surface, border: `1px solid ${TV.borderLight}` }}
             >
               <img
@@ -354,7 +354,7 @@ export function ImageUploadModal({
 
             {/* File info badge */}
             <div
-              className="flex items-center gap-3 rounded-[10px] px-3 py-2.5"
+              className="flex items-center gap-3 rounded-md px-3 py-2.5"
               style={{ backgroundColor: TV.surface, border: `1px solid ${TV.borderDivider}` }}
             >
               <CheckCircle2 size={16} style={{ color: TV.success }} className="shrink-0" />
@@ -370,7 +370,7 @@ export function ImageUploadModal({
               <input
                 value={fileName}
                 onChange={e => setFileName(e.target.value)}
-                className="w-full border rounded-[10px] px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30 focus:border-tv-brand-bg"
+                className="w-full border rounded-md px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30 focus:border-tv-brand-bg"
                 style={{ borderColor: TV.borderLight, color: TV.textPrimary }}
               />
             </div>
@@ -404,7 +404,7 @@ export function ImageUploadModal({
 function ErrorBanner({ message }: { message: string }) {
   return (
     <div
-      className="flex items-start gap-2 rounded-[8px] px-3 py-2 mt-3"
+      className="flex items-start gap-2 rounded-sm px-3 py-2 mt-3"
       style={{ backgroundColor: TV.dangerBg, border: `1px solid ${TV.dangerBorder}` }}
     >
       <AlertCircle size={13} style={{ color: TV.danger }} className="shrink-0 mt-0.5" />

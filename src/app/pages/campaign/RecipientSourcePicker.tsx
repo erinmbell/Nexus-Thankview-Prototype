@@ -273,7 +273,7 @@ export function ConstituentPickerInline({
       {/* ══ Header with tabs ══ */}
       <div className="px-5 pt-5 pb-3 shrink-0">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-9 h-9 rounded-[10px] bg-tv-brand-tint flex items-center justify-center">
+          <div className="w-9 h-9 rounded-md bg-tv-brand-tint flex items-center justify-center">
             <Users size={16} className="text-tv-brand" />
           </div>
           <div>
@@ -287,14 +287,14 @@ export function ConstituentPickerInline({
         </div>
 
         {/* Tab bar */}
-        <div className="flex gap-1 bg-tv-surface rounded-[10px] p-1">
+        <div className="flex gap-1 bg-tv-surface rounded-md p-1">
           {TABS.map(t => {
             const active = tab === t.id;
             return (
               <button
                 key={t.id}
                 onClick={() => { setTab(t.id); setExpandedSource(null); }}
-                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-[8px] text-[12px] transition-all ${
+                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-sm text-[12px] transition-all ${
                   active
                     ? "bg-white text-tv-brand shadow-sm"
                     : "text-tv-text-secondary hover:text-tv-text-primary"
@@ -458,7 +458,7 @@ export function ConstituentPickerInline({
                       <button
                         onClick={() => toggleId(c.id)}
                         disabled={isExisting}
-                        className={`w-full flex items-center gap-3 px-3 py-2 rounded-[8px] text-left transition-colors ${
+                        className={`w-full flex items-center gap-3 px-3 py-2 rounded-sm text-left transition-colors ${
                           isExisting
                             ? "opacity-50 cursor-default"
                             : isChecked
@@ -669,13 +669,13 @@ export function ConstituentSourcePicker({
 
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/40 p-6" role="dialog" aria-modal="true" aria-label="Select recipient source">
-      <div className="bg-white rounded-[20px] border border-tv-border-light shadow-2xl flex flex-col w-full max-w-[720px] max-h-[85vh] overflow-hidden">
+      <div className="bg-white rounded-xl border border-tv-border-light shadow-2xl flex flex-col w-full max-w-[720px] max-h-[85vh] overflow-hidden">
 
         {/* ══ Header ══ */}
         <div className="px-6 py-4 border-b border-tv-border-divider shrink-0">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-[10px] bg-tv-brand-tint flex items-center justify-center">
+              <div className="w-9 h-9 rounded-md bg-tv-brand-tint flex items-center justify-center">
                 <Users size={16} className="text-tv-brand" />
               </div>
               <div>
@@ -696,14 +696,14 @@ export function ConstituentSourcePicker({
           </div>
 
           {/* Tab bar */}
-          <div className="flex gap-1 bg-tv-surface rounded-[10px] p-1">
+          <div className="flex gap-1 bg-tv-surface rounded-md p-1">
             {TABS.map(t => {
               const active = tab === t.id;
               return (
                 <button
                   key={t.id}
                   onClick={() => { setTab(t.id); setExpandedSource(null); }}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-[8px] text-[12px] transition-all ${
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-sm text-[12px] transition-all ${
                     active
                       ? "bg-white text-tv-brand shadow-sm"
                       : "text-tv-text-secondary hover:text-tv-text-primary"
@@ -870,7 +870,7 @@ export function ConstituentSourcePicker({
                         <button
                           onClick={() => toggleId(c.id)}
                           disabled={isExisting}
-                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-[8px] text-left transition-colors ${
+                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-sm text-left transition-colors ${
                             isExisting
                               ? "opacity-50 cursor-default"
                               : isChecked
@@ -968,9 +968,9 @@ function SourceCard({
   const isSavedSearch = entry.type === "saved-search";
 
   return (
-    <div className="border border-tv-border-light rounded-[12px] p-3.5 hover:border-tv-border-strong transition-colors">
+    <div className="border border-tv-border-light rounded-lg p-3.5 hover:border-tv-border-strong transition-colors">
       <div className="flex items-start gap-3">
-        <div className={`w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 ${
+        <div className={`w-8 h-8 rounded-sm flex items-center justify-center shrink-0 ${
           isSavedSearch ? "bg-tv-warning-bg" : "bg-tv-brand-tint"
         }`}>
           {isSavedSearch ? <Bookmark size={14} className="text-tv-warning" /> : <List size={14} className="text-tv-brand" />}
@@ -1096,7 +1096,7 @@ function SourceDetail({
               key={c.id}
               onClick={() => onToggle(c.id)}
               disabled={isExisting}
-              className={`w-full flex items-center gap-3 px-3 py-2 rounded-[8px] text-left transition-colors ${
+              className={`w-full flex items-center gap-3 px-3 py-2 rounded-sm text-left transition-colors ${
                 isExisting
                   ? "opacity-50 cursor-default"
                   : isChecked

@@ -72,7 +72,7 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
         >
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={handleClose} />
           <motion.div
-            className="relative z-10 bg-white rounded-[16px] border border-tv-border-light shadow-2xl w-full overflow-hidden"
+            className="relative z-10 bg-white rounded-xl border border-tv-border-light shadow-2xl w-full overflow-hidden"
             style={{ maxWidth: 480 }}
             initial={{ y: 24, scale: 0.96 }}
             animate={{ y: 0, scale: 1 }}
@@ -108,7 +108,7 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
                     value={ogTitle}
                     onChange={e => setOgTitle(e.target.value)}
                     placeholder="Page title\u2026"
-                    className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-[#1877F2]/20 focus:border-[#1877F2]/40 transition-all"
+                    className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-[#1877F2]/20 focus:border-[#1877F2]/40 transition-all"
                   />
                 </div>
                 <div>
@@ -120,7 +120,7 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
                     onChange={e => setOgDescription(e.target.value)}
                     placeholder="Page description\u2026"
                     rows={2}
-                    className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[13px] outline-none resize-none focus:ring-2 focus:ring-[#1877F2]/20 focus:border-[#1877F2]/40 transition-all"
+                    className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none resize-none focus:ring-2 focus:ring-[#1877F2]/20 focus:border-[#1877F2]/40 transition-all"
                   />
                 </div>
                 <div>
@@ -131,7 +131,7 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
                     value={ogImage}
                     onChange={e => setOgImage(e.target.value)}
                     placeholder="https://example.com/image.jpg"
-                    className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[13px] font-mono outline-none focus:ring-2 focus:ring-[#1877F2]/20 focus:border-[#1877F2]/40 transition-all"
+                    className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[13px] font-mono outline-none focus:ring-2 focus:ring-[#1877F2]/20 focus:border-[#1877F2]/40 transition-all"
                   />
                 </div>
               </div>
@@ -140,7 +140,7 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
                 <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>
                   Facebook Preview
                 </p>
-                <div className="border border-[#dadde1] rounded-[8px] overflow-hidden bg-[#f0f2f5]">
+                <div className="border border-[#dadde1] rounded-sm overflow-hidden bg-[#f0f2f5]">
                   <div className="flex">
                     <div className="w-[158px] shrink-0 bg-[#e4e6eb] flex items-center justify-center overflow-hidden" style={{ minHeight: 120 }}>
                       {ogImage ? (
@@ -169,7 +169,7 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 bg-tv-surface rounded-[8px] px-3 py-2">
+              <div className="flex items-center gap-2 bg-tv-surface rounded-sm px-3 py-2">
                 <Globe size={12} className="text-tv-text-decorative shrink-0" />
                 <span className="text-[11px] text-tv-text-secondary font-mono truncate flex-1">
                   {shareUrl}
@@ -179,7 +179,7 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
 
               <button
                 onClick={handleCopy}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-[10px] text-[13px] text-white transition-colors"
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-md text-[13px] text-white transition-colors"
                 style={{
                   fontWeight: 600,
                   backgroundColor: copied ? "#16a34a" : "#4338ca",

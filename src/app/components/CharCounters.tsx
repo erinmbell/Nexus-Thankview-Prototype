@@ -95,7 +95,7 @@ export function SmsCharCounter({ length }: { length: number }) {
   return (
     <div className="mt-1.5 space-y-1.5">
       {/* Main counter bar */}
-      <div className={`flex items-center justify-between px-3 py-1.5 rounded-[8px] border transition-colors ${counterBarBg(level)}`}>
+      <div className={`flex items-center justify-between px-3 py-1.5 rounded-sm border transition-colors ${counterBarBg(level)}`}>
         <div className="flex items-center gap-2">
           <span className={`text-[12px] tabular-nums transition-colors ${cc}`} style={{ fontWeight: 700 }}>
             {length}/{limit}
@@ -119,7 +119,7 @@ export function SmsCharCounter({ length }: { length: number }) {
       </div>
       {/* Segment warning */}
       {overLimit && (
-        <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[8px] flex items-start gap-2">
+        <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-sm flex items-start gap-2">
           <TriangleAlert size={12} className="text-tv-warning shrink-0 mt-0.5" />
           <div>
             <p className="text-[11px] text-tv-warning" style={{ fontWeight: 600 }}>
@@ -146,7 +146,7 @@ export function EmailBodyCharCounter({ length }: { length: number }) {
   return (
     <div className="mt-1.5 space-y-1.5">
       {/* Main counter bar */}
-      <div className={`flex items-center justify-between px-3 py-1.5 rounded-[8px] border transition-colors ${counterBarBg(level)}`}>
+      <div className={`flex items-center justify-between px-3 py-1.5 rounded-sm border transition-colors ${counterBarBg(level)}`}>
         <div className="flex items-center gap-2">
           <span className={`text-[12px] tabular-nums transition-colors ${cc}`} style={{ fontWeight: 700 }}>
             {length.toLocaleString()}/{limit.toLocaleString()}
@@ -170,7 +170,7 @@ export function EmailBodyCharCounter({ length }: { length: number }) {
       </div>
       {/* Over-limit warning */}
       {overLimit && (
-        <div className="p-2.5 bg-tv-danger-bg border border-tv-danger-border rounded-[8px] flex items-start gap-2">
+        <div className="p-2.5 bg-tv-danger-bg border border-tv-danger-border rounded-sm flex items-start gap-2">
           <TriangleAlert size={12} className="text-tv-danger shrink-0 mt-0.5" />
           <div>
             <p className="text-[11px] text-tv-danger" style={{ fontWeight: 600 }}>

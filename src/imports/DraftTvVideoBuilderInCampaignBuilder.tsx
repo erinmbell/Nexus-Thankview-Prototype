@@ -38,7 +38,7 @@ function O() {
 
 function Button() {
   return (
-    <div className="absolute content-stretch flex items-center justify-center left-[13.99px] pr-[0.009px] rounded-[8px] size-[35.998px] top-[20.22px]" data-name="Button">
+    <div className="absolute content-stretch flex items-center justify-center left-[13.99px] pr-[0.009px] rounded-sm size-[35.998px] top-[20.22px]" data-name="Button">
       <O />
     </div>
   );
@@ -104,11 +104,11 @@ function Text() {
 
 function Button2() {
   return (
-    <div className="absolute bg-[#995cd3] left-[13.72px] rounded-[20px] size-[35.998px] top-[11.44px]" data-name="Button">
+    <div className="absolute bg-[#995cd3] left-[13.72px] rounded-xl size-[35.998px] top-[11.44px]" data-name="Button">
       <div className="content-stretch flex items-center justify-center overflow-clip p-[0.556px] relative rounded-[inherit] size-full">
         <Text />
       </div>
-      <div aria-hidden="true" className="absolute border-[0.556px] border-[rgba(0,0,0,0)] border-solid inset-0 pointer-events-none rounded-[20px]" />
+      <div aria-hidden="true" className="absolute border-[0.556px] border-[rgba(0,0,0,0)] border-solid inset-0 pointer-events-none rounded-xl" />
     </div>
   );
 }
@@ -158,7 +158,7 @@ function Container5() {
 
 function Button3() {
   return (
-    <div className="bg-[#e4daef] flex-[1_0_0] min-h-px min-w-px relative rounded-[8px] w-[55.451px]" data-name="Button">
+    <div className="bg-[#e4daef] flex-[1_0_0] min-h-px min-w-px relative rounded-sm w-[55.451px]" data-name="Button">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Container5 />
       </div>
@@ -281,7 +281,7 @@ function Icon2() {
 
 function Container12() {
   return (
-    <div className="bg-[#fffbeb] relative rounded-[10px] shrink-0 size-[35.998px]" data-name="Container">
+    <div className="bg-[#fffbeb] relative rounded-md shrink-0 size-[35.998px]" data-name="Container">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Icon2 />
       </div>
@@ -758,13 +758,13 @@ function Label() {
 
 function TextInput() {
   return (
-    <div className="h-[41.892px] relative rounded-[8px] shrink-0 w-full" data-name="Text Input">
+    <div className="h-[41.892px] relative rounded-sm shrink-0 w-full" data-name="Text Input">
       <div className="flex flex-row items-center overflow-clip rounded-[inherit] size-full">
         <div className="content-stretch flex items-center px-[12px] py-[8px] relative size-full">
           <p className="font-['Roboto:Regular',sans-serif] font-normal leading-[normal] relative shrink-0 text-[16px] text-[rgba(0,0,0,0.5)] whitespace-nowrap" style={{ fontVariationSettings: "'wdth' 100" }}>{`https://`}</p>
         </div>
       </div>
-      <div aria-hidden="true" className="absolute border-[#e0daea] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />
+      <div aria-hidden="true" className="absolute border-[#e0daea] border-[0.556px] border-solid inset-0 pointer-events-none rounded-sm" />
     </div>
   );
 }
@@ -805,7 +805,7 @@ function Label1() {
 
 function TextInput1() {
   return (
-    <div className="h-[41.892px] relative rounded-[8px] shrink-0 w-full" data-name="Text Input">
+    <div className="h-[41.892px] relative rounded-sm shrink-0 w-full" data-name="Text Input">
       <div className="flex flex-row items-center overflow-clip rounded-[inherit] size-full">
         <div className="content-stretch flex items-center px-[12px] py-[8px] relative size-full">
           <p className="font-['Roboto:Regular',sans-serif] font-normal leading-[normal] relative shrink-0 text-[16px] text-[rgba(0,0,0,0.5)] whitespace-nowrap" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -813,7 +813,7 @@ function TextInput1() {
           </p>
         </div>
       </div>
-      <div aria-hidden="true" className="absolute border-[#e0daea] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />
+      <div aria-hidden="true" className="absolute border-[#e0daea] border-[0.556px] border-solid inset-0 pointer-events-none rounded-sm" />
     </div>
   );
 }
@@ -1115,8 +1115,8 @@ function Text15() {
 
 function Container31() {
   return (
-    <div className="h-[37.101px] relative rounded-[8px] shrink-0 w-full" data-name="Container">
-      <div aria-hidden="true" className="absolute border-[#e0daea] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />
+    <div className="h-[37.101px] relative rounded-sm shrink-0 w-full" data-name="Container">
+      <div aria-hidden="true" className="absolute border-[#e0daea] border-[0.556px] border-solid inset-0 pointer-events-none rounded-sm" />
       <div className="flex flex-row items-center size-full">
         <div className="content-stretch flex gap-[7.995px] items-center pl-[8.551px] pr-[0.556px] py-[0.556px] relative size-full">
           <Button23 />
@@ -1181,8 +1181,8 @@ function Text16() {
 
 function Container32() {
   return (
-    <div className="h-[37.101px] relative rounded-[8px] shrink-0 w-full" data-name="Container">
-      <div aria-hidden="true" className="absolute border-[#e0daea] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[8px]" />
+    <div className="h-[37.101px] relative rounded-sm shrink-0 w-full" data-name="Container">
+      <div aria-hidden="true" className="absolute border-[#e0daea] border-[0.556px] border-solid inset-0 pointer-events-none rounded-sm" />
       <div className="flex flex-row items-center size-full">
         <div className="content-stretch flex gap-[7.995px] items-center pl-[8.551px] pr-[0.556px] py-[0.556px] relative size-full">
           <Button24 />
@@ -1515,8 +1515,8 @@ function Container40() {
 
 function Container38() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[7.995px] h-[50.313px] items-center left-0 pl-[13.664px] pr-[1.667px] py-[1.667px] rounded-[10px] top-0 w-[108.568px]" data-name="Container">
-      <div aria-hidden="true" className="absolute border-[#e0daea] border-[1.667px] border-dashed inset-0 pointer-events-none rounded-[10px]" />
+    <div className="absolute bg-white content-stretch flex gap-[7.995px] h-[50.313px] items-center left-0 pl-[13.664px] pr-[1.667px] py-[1.667px] rounded-md top-0 w-[108.568px]" data-name="Container">
+      <div aria-hidden="true" className="absolute border-[#e0daea] border-[1.667px] border-dashed inset-0 pointer-events-none rounded-md" />
       <Container39 />
       <Container40 />
     </div>
@@ -1589,8 +1589,8 @@ function Container44() {
 
 function Container42() {
   return (
-    <div className="absolute bg-[#f3eeff] content-stretch flex gap-[7.995px] h-[50.313px] items-center left-0 pl-[13.664px] pr-[1.667px] py-[1.667px] rounded-[10px] top-0 w-[108.568px]" data-name="Container">
-      <div aria-hidden="true" className="absolute border-[#b45309] border-[1.667px] border-solid inset-0 pointer-events-none rounded-[10px]" />
+    <div className="absolute bg-[#f3eeff] content-stretch flex gap-[7.995px] h-[50.313px] items-center left-0 pl-[13.664px] pr-[1.667px] py-[1.667px] rounded-md top-0 w-[108.568px]" data-name="Container">
+      <div aria-hidden="true" className="absolute border-[#b45309] border-[1.667px] border-solid inset-0 pointer-events-none rounded-md" />
       <Container43 />
       <Container44 />
     </div>
@@ -1622,7 +1622,7 @@ function Icon23() {
 
 function Button30() {
   return (
-    <div className="bg-[#995cd3] relative rounded-[10px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_0px_rgba(0,0,0,0.1)] shrink-0 size-[40px]" data-name="Button">
+    <div className="bg-[#995cd3] relative rounded-md shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_0px_rgba(0,0,0,0.1)] shrink-0 size-[40px]" data-name="Button">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center pr-[0.009px] relative size-full">
         <Icon23 />
       </div>
@@ -1875,13 +1875,13 @@ function MainContent() {
 
 function TextInput2() {
   return (
-    <div className="absolute bg-[#f5f3fa] h-[35.998px] left-0 rounded-[20px] top-0 w-[1458.247px]" data-name="Text Input">
+    <div className="absolute bg-[#f5f3fa] h-[35.998px] left-0 rounded-xl top-0 w-[1458.247px]" data-name="Text Input">
       <div className="content-stretch flex items-center overflow-clip pl-[34px] pr-[12px] relative rounded-[inherit] size-full">
         <p className="font-['Roboto:Regular',sans-serif] font-normal leading-[normal] relative shrink-0 text-[#adb5bd] text-[13px] whitespace-nowrap" style={{ fontVariationSettings: "'wdth' 100" }}>
           Search across ThankView…
         </p>
       </div>
-      <div aria-hidden="true" className="absolute border-[#e0daea] border-[0.556px] border-solid inset-0 pointer-events-none rounded-[20px]" />
+      <div aria-hidden="true" className="absolute border-[#e0daea] border-[0.556px] border-solid inset-0 pointer-events-none rounded-xl" />
     </div>
   );
 }
@@ -1918,8 +1918,8 @@ function Container66() {
 
 function MantineCoreAvatar() {
   return (
-    <div className="bg-[rgba(153,92,211,0.1)] content-stretch flex h-[31.997px] items-center justify-center p-[0.556px] relative rounded-[20px] shrink-0 w-full" data-name="@mantine/core/Avatar">
-      <div aria-hidden="true" className="absolute border-[0.556px] border-[rgba(0,0,0,0)] border-solid inset-0 pointer-events-none rounded-[20px]" />
+    <div className="bg-[rgba(153,92,211,0.1)] content-stretch flex h-[31.997px] items-center justify-center p-[0.556px] relative rounded-xl shrink-0 w-full" data-name="@mantine/core/Avatar">
+      <div aria-hidden="true" className="absolute border-[0.556px] border-[rgba(0,0,0,0)] border-solid inset-0 pointer-events-none rounded-xl" />
       <p className="font-['Roboto:Bold',sans-serif] font-bold leading-[19.84px] relative shrink-0 text-[#995cd3] text-[12.8px] whitespace-nowrap" style={{ fontVariationSettings: "'wdth' 100" }}>
         KM
       </p>
@@ -1929,7 +1929,7 @@ function MantineCoreAvatar() {
 
 function Container68() {
   return (
-    <div className="content-stretch flex flex-col h-[31.997px] items-start overflow-clip relative rounded-[20px] shrink-0 w-full" data-name="Container">
+    <div className="content-stretch flex flex-col h-[31.997px] items-start overflow-clip relative rounded-xl shrink-0 w-full" data-name="Container">
       <MantineCoreAvatar />
     </div>
   );
@@ -1971,7 +1971,7 @@ function Text26() {
 
 function Button32() {
   return (
-    <div className="absolute bg-[#f5f3fa] border-[0.556px] border-[rgba(0,0,0,0)] border-solid left-0 overflow-clip rounded-[8px] size-[31.997px] top-0" data-name="Button">
+    <div className="absolute bg-[#f5f3fa] border-[0.556px] border-[rgba(0,0,0,0)] border-solid left-0 overflow-clip rounded-sm size-[31.997px] top-0" data-name="Button">
       <Text26 />
     </div>
   );

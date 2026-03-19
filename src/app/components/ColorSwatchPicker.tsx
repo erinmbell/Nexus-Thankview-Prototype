@@ -166,7 +166,7 @@ export function ColorSwatchPicker({
                   className="fixed inset-0 z-40"
                   onClick={() => setShowPopup(false)}
                 />
-                <div className="absolute top-full left-0 mt-1 z-50 bg-white rounded-[8px] shadow-xl border border-tv-border-light p-2">
+                <div className="absolute top-full left-0 mt-1 z-50 bg-white rounded-sm shadow-xl border border-tv-border-light p-2">
                   <input
                     type="color"
                     value={safeHex(value)}

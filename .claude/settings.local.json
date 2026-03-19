@@ -66,7 +66,16 @@
       "Bash(grep -r \"Paper\\\\|Card\\\\|Box.*bg=\\\\|Box.*p=\" /Users/erinbell/Thankview/src/app/pages/*.tsx)",
       "Bash(grep -ro borderRadius:s*[0-9]+ /Users/erinbell/Thankview/src/app/pages/*.tsx /Users/erinbell/Thankview/src/app/components/*.tsx)",
       "Bash(grep -ro \"radius=[^]*\\\\|radius=''''[^'''']*''''\" /Users/erinbell/Thankview/src/app/pages/*.tsx /Users/erinbell/Thankview/src/app/components/*.tsx)",
-      "Bash(npm list:*)"
+      "Bash(npm list:*)",
+      "Bash(find src/app/pages src/app/components src/imports -name \"*.tsx\" -exec sed -i '' 's/rounded-\\\\[12px\\\\]/rounded-lg/g' {} +)",
+      "Bash(echo \"replaced rounded-[12px] -> rounded-lg\")",
+      "Bash(find src/app/pages src/app/components src/imports -name \"*.tsx\" -exec sed -i '' 's/rounded-\\\\[10px\\\\]/rounded-md/g' {} +)",
+      "Bash(echo \"replaced rounded-[10px] -> rounded-md\")",
+      "Bash(find src/app/pages src/app/components src/imports -name \"*.tsx\" -exec sed -i '' 's/rounded-\\\\[16px\\\\]/rounded-xl/g' {} +)",
+      "Bash(echo \"replaced rounded-[16px] -> rounded-xl\")",
+      "Bash(find src:*)",
+      "Bash(echo \"replaced rounded-[20px] -> rounded-xl\")",
+      "Bash(echo \"replaced rounded-[8px] -> rounded-sm\")"
     ]
   }
 }

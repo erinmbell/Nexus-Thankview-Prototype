@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { TV } from "../theme";
 
-/** Reusable section card shell — rounded-[16px], white bg, borderLight border */
+/** Reusable section card shell — rounded-xl, white bg, borderLight border */
 export function DashCard({ children, className = "", id }: { children: React.ReactNode; className?: string; id?: string }) {
   return (
     <div id={id} className={`bg-white rounded-xl border ${className}`} style={{ borderColor: TV.borderLight }}>

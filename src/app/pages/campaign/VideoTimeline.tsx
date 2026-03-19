@@ -212,7 +212,7 @@ export function VideoTimelineBar({
                 onDrop={reorderMode ? handleDrop(idx) : undefined}
                 onDragEnd={reorderMode ? handleDragEnd : undefined}
                 onClick={() => { if (!reorderMode) onNavigate(def.builderView); }}
-                className={`group relative flex items-center gap-2 px-2.5 py-1.5 rounded-[8px] transition-all shrink-0 ${
+                className={`group relative flex items-center gap-2 px-2.5 py-1.5 rounded-sm transition-all shrink-0 ${
                   reorderMode ? "cursor-grab" : "cursor-pointer"
                 } ${
                   dragging ? "opacity-40 scale-95" : ""
@@ -301,7 +301,7 @@ export function VideoTimelineBar({
           <button
             ref={addBtnRef}
             onClick={openAddMenu}
-            className="w-8 h-8 rounded-[8px] bg-tv-brand-bg text-white flex items-center justify-center shrink-0 hover:bg-tv-brand-hover transition-colors shadow-sm"
+            className="w-8 h-8 rounded-sm bg-tv-brand-bg text-white flex items-center justify-center shrink-0 hover:bg-tv-brand-hover transition-colors shadow-sm"
           >
             <Plus size={14} />
           </button>
@@ -327,7 +327,7 @@ export function VideoTimelineBar({
               el.style.left = `${left}px`;
               el.style.visibility = "visible";
             }}
-            className="fixed z-[9999] w-[280px] bg-white rounded-[12px] shadow-2xl border border-tv-border-light overflow-hidden"
+            className="fixed z-[9999] w-[280px] bg-white rounded-lg shadow-2xl border border-tv-border-light overflow-hidden"
             style={{ top: -9999, left: -9999, visibility: "hidden" as const }}
           >
             <div className="px-3 pt-2.5 pb-1">
@@ -348,7 +348,7 @@ export function VideoTimelineBar({
                   }}
                   className="w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors hover:bg-tv-surface cursor-pointer"
                 >
-                  <div className={`w-8 h-8 rounded-[8px] ${def.bgColor} flex items-center justify-center shrink-0`}>
+                  <div className={`w-8 h-8 rounded-sm ${def.bgColor} flex items-center justify-center shrink-0`}>
                     <def.icon size={14} className={def.color} />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -372,7 +372,7 @@ export function VideoTimelineBar({
                 onClick={handleModifyStructure}
                 className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-tv-surface transition-colors"
               >
-                <div className="w-8 h-8 rounded-[8px] bg-tv-surface flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 rounded-sm bg-tv-surface flex items-center justify-center shrink-0">
                   <Settings2 size={14} className="text-tv-text-secondary" />
                 </div>
                 <div className="flex-1 min-w-0 gap-0.5 flex flex-col">
@@ -478,7 +478,7 @@ export function VideoOverview({
           {/* ── Empty state ── */}
           {!hasAnyVideoElement && (
             <div className="flex flex-col items-center gap-3 px-6 text-center">
-              <div className="w-16 h-16 rounded-[16px] bg-white/[0.07] flex items-center justify-center">
+              <div className="w-16 h-16 rounded-xl bg-white/[0.07] flex items-center justify-center">
                 <Video size={30} className="text-white/30" />
               </div>
               <p className="text-white/80 text-[16px] font-semibold">No Elements Added Yet</p>

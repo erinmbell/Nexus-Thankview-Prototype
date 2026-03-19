@@ -229,7 +229,7 @@ export function AddRecipientsPanel({
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                   placeholder="Search by name or email…"
-                  className="w-full pl-7 pr-3 py-2 border border-tv-border-light rounded-[8px] text-[11px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30"
+                  className="w-full pl-7 pr-3 py-2 border border-tv-border-light rounded-sm text-[11px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30"
                 />
                 {search && (
                   <button

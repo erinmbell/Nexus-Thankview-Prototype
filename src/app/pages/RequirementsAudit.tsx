@@ -635,7 +635,7 @@ export function RequirementsAudit() {
           <div className="flex items-center gap-1 mb-3 overflow-x-auto pb-1">
             <button
               onClick={() => setActiveTab("base")}
-              className="flex items-center gap-2 px-4 py-2 rounded-[8px] text-[12px] transition-all shrink-0 font-bold"
+              className="flex items-center gap-2 px-4 py-2 rounded-sm text-[12px] transition-all shrink-0 font-bold"
               style={{
                 backgroundColor: activeTab === "base" ? TV.brandBg : "transparent",
                 color: activeTab === "base" ? "white" : TV.textSecondary,
@@ -646,7 +646,7 @@ export function RequirementsAudit() {
             </button>
             <button
               onClick={() => setActiveTab("settings")}
-              className="flex items-center gap-2 px-4 py-2 rounded-[8px] text-[12px] transition-all shrink-0 font-bold"
+              className="flex items-center gap-2 px-4 py-2 rounded-sm text-[12px] transition-all shrink-0 font-bold"
               style={{
                 backgroundColor: activeTab === "settings" ? TV.brandBg : "transparent",
                 color: activeTab === "settings" ? "white" : TV.textSecondary,
@@ -657,7 +657,7 @@ export function RequirementsAudit() {
             </button>
             <button
               onClick={() => setActiveTab("contacts")}
-              className="flex items-center gap-2 px-4 py-2 rounded-[8px] text-[12px] transition-all shrink-0 font-bold"
+              className="flex items-center gap-2 px-4 py-2 rounded-sm text-[12px] transition-all shrink-0 font-bold"
               style={{
                 backgroundColor: activeTab === "contacts" ? TV.brandBg : "transparent",
                 color: activeTab === "contacts" ? "white" : TV.textSecondary,
@@ -717,7 +717,7 @@ export function RequirementsAudit() {
             })}
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-1 px-3 py-2 rounded-[8px] text-[11px] transition-colors hover:bg-black/5 shrink-0"
+              className="flex items-center gap-1 px-3 py-2 rounded-sm text-[11px] transition-colors hover:bg-black/5 shrink-0"
               style={{ color: TV.textSecondary }}
             >
               <Plus size={12} />
@@ -888,7 +888,7 @@ export function RequirementsAudit() {
                             </button>
                             {isOpen && (
                               <div className="px-5 pb-4 pt-1" style={{ backgroundColor: `${cfg.bg}40`, marginLeft: 24 }}>
-                                <div className="rounded-[10px] p-4" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
+                                <div className="rounded-md p-4" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
                                   <p className="text-[12px] mb-3" style={{ color: TV.textPrimary, lineHeight: "1.6" }}>{r.description}</p>
                                   <div className="flex items-start gap-2 mb-2">
                                     <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded font-bold" style={{ backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Where</span>
@@ -911,10 +911,10 @@ export function RequirementsAudit() {
             })}
 
             {/* Summary */}
-            <div className="mt-8 rounded-[16px] p-6" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
+            <div className="mt-8 rounded-xl p-6" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
               <h3 className="text-[16px] mb-4" style={{ fontWeight: 800, color: TV.textPrimary }}>Summary</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
+                <div className="rounded-lg p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
                   <div className="flex items-center gap-2 mb-3">
                     <AlertTriangle size={16} style={{ color: TV.warning }} />
                     <span className="text-[13px] font-bold" style={{ color: TV.warningHover }}>Partial — Needs Attention ({stats.partial})</span>
@@ -934,7 +934,7 @@ export function RequirementsAudit() {
                     )}
                   </ul>
                 </div>
-                <div className="rounded-[12px] p-4" style={{ backgroundColor: "#f5f5f5", border: "1px solid #e5e5e5" }}>
+                <div className="rounded-lg p-4" style={{ backgroundColor: "#f5f5f5", border: "1px solid #e5e5e5" }}>
                   <div className="flex items-center gap-2 mb-3">
                     <MinusCircle size={16} style={{ color: "#737373" }} />
                     <span className="text-[13px] font-bold" style={{ color: "#525252" }}>Not Applicable to Prototype ({stats.na})</span>
@@ -1049,7 +1049,7 @@ export function RequirementsAudit() {
                             </button>
                             {isOpen && (
                               <div className="px-5 pb-4 pt-1" style={{ backgroundColor: `${cfg.bg}40`, marginLeft: 24 }}>
-                                <div className="rounded-[10px] p-4" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
+                                <div className="rounded-md p-4" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
                                   <p className="text-[12px] mb-3" style={{ color: TV.textPrimary, lineHeight: "1.6" }}>{r.description}</p>
                                   <div className="flex items-start gap-2 mb-2">
                                     <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded font-bold" style={{ backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Where</span>
@@ -1072,10 +1072,10 @@ export function RequirementsAudit() {
             })}
 
             {/* Summary */}
-            <div className="mt-8 rounded-[16px] p-6" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
+            <div className="mt-8 rounded-xl p-6" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
               <h3 className="text-[16px] mb-4" style={{ fontWeight: 800, color: TV.textPrimary }}>Summary</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
+                <div className="rounded-lg p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
                   <div className="flex items-center gap-2 mb-3">
                     <AlertTriangle size={16} style={{ color: TV.warning }} />
                     <span className="text-[13px] font-bold" style={{ color: TV.warningHover }}>Partial — Needs Attention ({settingsStats.partial})</span>
@@ -1095,7 +1095,7 @@ export function RequirementsAudit() {
                     )}
                   </ul>
                 </div>
-                <div className="rounded-[12px] p-4" style={{ backgroundColor: "#f5f5f5", border: "1px solid #e5e5e5" }}>
+                <div className="rounded-lg p-4" style={{ backgroundColor: "#f5f5f5", border: "1px solid #e5e5e5" }}>
                   <div className="flex items-center gap-2 mb-3">
                     <MinusCircle size={16} style={{ color: "#737373" }} />
                     <span className="text-[13px] font-bold" style={{ color: "#525252" }}>Not Applicable to Prototype ({settingsStats.na})</span>
@@ -1213,7 +1213,7 @@ export function RequirementsAudit() {
                             </button>
                             {isOpen && (
                               <div className="px-5 pb-4 pt-1" style={{ backgroundColor: `${cfg.bg}40`, marginLeft: 24 }}>
-                                <div className="rounded-[10px] p-4" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
+                                <div className="rounded-md p-4" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
                                   <p className="text-[12px] mb-3" style={{ color: TV.textPrimary, lineHeight: "1.6" }}>{r.description}</p>
                                   <div className="flex items-start gap-2 mb-2">
                                     <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded font-bold" style={{ backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Where</span>
@@ -1236,10 +1236,10 @@ export function RequirementsAudit() {
             })}
 
             {/* Summary */}
-            <div className="mt-8 rounded-[16px] p-6" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
+            <div className="mt-8 rounded-xl p-6" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
               <h3 className="text-[16px] mb-4" style={{ fontWeight: 800, color: TV.textPrimary }}>Summary</h3>
               <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
+                <div className="rounded-lg p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
                   <div className="flex items-center gap-2 mb-3">
                     <AlertTriangle size={16} style={{ color: TV.warning }} />
                     <span className="text-[13px] font-bold" style={{ color: TV.warningHover }}>Partial — Needs Attention ({contactsStats.partial})</span>
@@ -1259,7 +1259,7 @@ export function RequirementsAudit() {
                     )}
                   </ul>
                 </div>
-                <div className="rounded-[12px] p-4" style={{ backgroundColor: "#f5f5f5", border: "1px solid #e5e5e5" }}>
+                <div className="rounded-lg p-4" style={{ backgroundColor: "#f5f5f5", border: "1px solid #e5e5e5" }}>
                   <div className="flex items-center gap-2 mb-3">
                     <MinusCircle size={16} style={{ color: "#737373" }} />
                     <span className="text-[13px] font-bold" style={{ color: "#525252" }}>Not Applicable to Prototype ({contactsStats.na})</span>
@@ -1303,7 +1303,7 @@ export function RequirementsAudit() {
             <p className="text-[14px] mt-4" style={{ fontWeight: 600, color: TV.textSecondary }}>This imported CSV was removed.</p>
             <button
               onClick={() => setActiveTab("base")}
-              className="mt-3 px-4 py-2 rounded-[8px] text-[12px]"
+              className="mt-3 px-4 py-2 rounded-sm text-[12px]"
               style={{ fontWeight: 600, backgroundColor: TV.brandBg, color: "white" }}
             >
               Back to Video Creation
@@ -1494,7 +1494,7 @@ function ImportedCsvView({ csv, statusFilter, search, getGrouped, expandedImport
 
                       {isOpen && (
                         <div className="px-5 pb-4 pt-1" style={{ backgroundColor: `${cfg.bg}40`, marginLeft: 24 }}>
-                          <div className="rounded-[10px] p-4" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
+                          <div className="rounded-md p-4" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
                             <p className="text-[12px] mb-3" style={{ color: TV.textPrimary, lineHeight: "1.6" }}>{r.description}</p>
                             {r.where && (
                               <div className="flex items-start gap-2 mb-2">
@@ -1533,10 +1533,10 @@ function ImportedCsvView({ csv, statusFilter, search, getGrouped, expandedImport
       })}
 
       {/* Summary */}
-      <div className="mt-8 rounded-[16px] p-6" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
+      <div className="mt-8 rounded-xl p-6" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
         <h3 className="text-[16px] mb-4" style={{ fontWeight: 800, color: TV.textPrimary }}>Summary</h3>
         <div className="grid grid-cols-2 gap-4">
-          <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
+          <div className="rounded-lg p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
             <div className="flex items-center gap-2 mb-3">
               <AlertTriangle size={16} style={{ color: TV.warning }} />
               <span className="text-[13px] font-bold" style={{ color: TV.warningHover }}>Partial — Needs Attention ({iStats.partial})</span>
@@ -1556,7 +1556,7 @@ function ImportedCsvView({ csv, statusFilter, search, getGrouped, expandedImport
               )}
             </ul>
           </div>
-          <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.dangerBg, border: "1px solid #fecaca" }}>
+          <div className="rounded-lg p-4" style={{ backgroundColor: TV.dangerBg, border: "1px solid #fecaca" }}>
             <div className="flex items-center gap-2 mb-3">
               <XCircle size={16} style={{ color: TV.danger }} />
               <span className="text-[13px] font-bold" style={{ color: "#991b1b" }}>Missing — Not Yet Built ({iStats.missing})</span>
@@ -1578,7 +1578,7 @@ function ImportedCsvView({ csv, statusFilter, search, getGrouped, expandedImport
           </div>
         </div>
         {iStats.na > 0 && (
-          <div className="rounded-[12px] p-4 mt-4" style={{ backgroundColor: "#f5f5f5", border: "1px solid #e5e5e5" }}>
+          <div className="rounded-lg p-4 mt-4" style={{ backgroundColor: "#f5f5f5", border: "1px solid #e5e5e5" }}>
             <div className="flex items-center gap-2 mb-3">
               <MinusCircle size={16} style={{ color: "#737373" }} />
               <span className="text-[13px] font-bold" style={{ color: "#525252" }}>Not Applicable ({iStats.na})</span>

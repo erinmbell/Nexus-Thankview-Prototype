@@ -120,7 +120,7 @@ export function AIWritingPopover({
     : "e.g. Write a brief thank-you SMS\u2026";
 
   return (
-    <div className={`mt-2 ${pad} bg-tv-brand-tint border border-tv-border-strong rounded-[10px] ${gap}`}>
+    <div className={`mt-2 ${pad} bg-tv-brand-tint border border-tv-border-strong rounded-md ${gap}`}>
       {(phase === "idle" || phase === "error") && (
         <>
           <textarea
@@ -128,7 +128,7 @@ export function AIWritingPopover({
             onChange={e => setPrompt(e.target.value)}
             placeholder={placeholder}
             rows={2}
-            className={`w-full border border-tv-border rounded-[8px] px-2.5 py-1.5 ${textSm} outline-none resize-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand`}
+            className={`w-full border border-tv-border rounded-sm px-2.5 py-1.5 ${textSm} outline-none resize-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand`}
           />
           {promptHistory.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
@@ -148,7 +148,7 @@ export function AIWritingPopover({
       )}
 
       {phase === "error" && (
-        <div className="flex items-center gap-2 p-2 bg-tv-warning-bg border border-tv-warning-border rounded-[8px]">
+        <div className="flex items-center gap-2 p-2 bg-tv-warning-bg border border-tv-warning-border rounded-sm">
           <TriangleAlert size={12} className="text-tv-warning shrink-0" />
           <p className={`${textXs} text-tv-warning flex-1`} style={{ fontWeight: 500 }}>
             AI generation failed &mdash; try again
@@ -166,7 +166,7 @@ export function AIWritingPopover({
       {(phase === "streaming" || phase === "done") && (
         <div className="relative">
           <div
-            className={`w-full border border-tv-border rounded-[8px] px-2.5 py-2 ${textSm} text-tv-text-primary bg-white min-h-[60px] max-h-[180px] overflow-y-auto whitespace-pre-wrap leading-relaxed`}
+            className={`w-full border border-tv-border rounded-sm px-2.5 py-2 ${textSm} text-tv-text-primary bg-white min-h-[60px] max-h-[180px] overflow-y-auto whitespace-pre-wrap leading-relaxed`}
           >
             {streamedText}
             {phase === "streaming" && (

@@ -1119,7 +1119,7 @@ function ExportModal({ open, onClose }: { open: boolean; onClose: () => void }) 
       {/* Select All */}
       <button
         onClick={toggleAll}
-        className={`flex items-center gap-3 w-full px-4 py-2.5 rounded-[10px] mb-2 text-left transition-all ${allSelected ? "bg-tv-brand-tint" : "bg-tv-surface-muted hover:bg-tv-brand-tint"}`}
+        className={`flex items-center gap-3 w-full px-4 py-2.5 rounded-md mb-2 text-left transition-all ${allSelected ? "bg-tv-brand-tint" : "bg-tv-surface-muted hover:bg-tv-brand-tint"}`}
       >
         <Checkbox checked={allSelected} indeterminate={selected.length > 0 && !allSelected} onChange={toggleAll} color="tvPurple" aria-label={`Select all ${EXPORTS.length} reports`} />
         <Text fz={13} fw={600} c={TV.textPrimary}>Select All ({EXPORTS.length} reports)</Text>
@@ -1715,7 +1715,7 @@ export function Analytics() {
       {mainTab === "overview" && (
         <>
           {/* ── Performance Overview ──────────────────────────────────────── */}
-          <div className="bg-white rounded-[20px] border mb-4 overflow-visible" style={{ borderColor: TV.borderStrong }}>
+          <div className="bg-white rounded-xl border mb-4 overflow-visible" style={{ borderColor: TV.borderStrong }}>
             {/* Header row */}
             <div className="flex items-center justify-between px-5 py-3 border-b" style={{ borderColor: TV.borderLight }}>
               <span className="text-[13px] uppercase tracking-[0.6px] font-semibold" style={{ color: TV.textLabel }}>Performance Overview</span>
@@ -1725,7 +1725,7 @@ export function Analytics() {
                 {/* First-visit hint popover */}
                 {showGearHint && (
                   <div className="absolute z-20 pointer-events-auto" style={{ bottom: "calc(100% + 10px)", right: 0, width: 220 }}>
-                    <div className="rounded-[10px] px-3.5 py-3 shadow-lg" style={{ background: TV.brand, color: "#fff" }}>
+                    <div className="rounded-md px-3.5 py-3 shadow-lg" style={{ background: TV.brand, color: "#fff" }}>
                       <div className="flex items-start justify-between gap-2 mb-1">
                         <Text fz={12} fw={600} c="#fff" style={{ lineHeight: 1.3 }}>More metrics available</Text>
                         <button
@@ -1796,7 +1796,7 @@ export function Analytics() {
                                 {isActive && (
                                   <div className="absolute bottom-0 left-4 right-4 h-[3px] rounded-t-full bg-[#995cd3]" />
                                 )}
-                                <div className="w-[40px] h-[40px] rounded-[12px] flex items-center justify-center shrink-0" style={{ backgroundColor: m.iconBg, color: m.iconColor }}>
+                                <div className="w-[40px] h-[40px] rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: m.iconBg, color: m.iconColor }}>
                                   <IconComp size={18} />
                                 </div>
                                 <div className="min-w-0 flex-1 flex flex-col gap-[2px] overflow-hidden">
@@ -1858,7 +1858,7 @@ export function Analytics() {
                         setVisibleMetrics(prev => [...prev, m.key]);
                       }
                     }}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-[12px] text-left transition-all border-2 ${
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all border-2 ${
                       selected
                         ? "border-tv-brand bg-tv-brand-tint"
                         : visibleMetrics.length >= 16
@@ -1867,7 +1867,7 @@ export function Analytics() {
                     }`}
                     style={!selected ? { borderColor: TV.borderDivider } : undefined}
                   >
-                    <div className="w-[36px] h-[36px] rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: m.iconBg, color: m.iconColor }}>
+                    <div className="w-[36px] h-[36px] rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: m.iconBg, color: m.iconColor }}>
                       <IconComp size={16} />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -1953,7 +1953,7 @@ export function Analytics() {
                     <button onClick={() => setActiveMetric(null)} className="shrink-0 p-1 rounded-lg transition-colors" style={{ color: TV.textSecondary }} onMouseEnter={e => (e.currentTarget.style.backgroundColor = TV.borderDivider)} onMouseLeave={e => (e.currentTarget.style.backgroundColor = "transparent")}>
                       <ArrowLeft size={16} />
                     </button>
-                    <div className="w-[36px] h-[36px] rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: metricDef.iconBg, color: metricDef.iconColor }}>
+                    <div className="w-[36px] h-[36px] rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: metricDef.iconBg, color: metricDef.iconColor }}>
                       <metricDef.icon size={18} />
                     </div>
                     <div className="min-w-0">
@@ -2236,7 +2236,7 @@ export function Analytics() {
                 {/* Header */}
                 <div className="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b flex-wrap" style={{ borderColor: TV.borderDivider }}>
                   <div className="flex items-center gap-2.5">
-                    <div className="w-[36px] h-[36px] rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brandTint, color: TV.textBrand }}>
+                    <div className="w-[36px] h-[36px] rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brandTint, color: TV.textBrand }}>
                       <Goal size={18} />
                     </div>
                     <div>
@@ -2311,7 +2311,7 @@ export function Analytics() {
                           onMouseEnter={e => { if (!isActive) e.currentTarget.style.backgroundColor = TV.surfaceMuted; }}
                           onMouseLeave={e => { if (!isActive) e.currentTarget.style.backgroundColor = "#fff"; }}
                         >
-                          <div className="w-[32px] h-[32px] rounded-[8px] flex items-center justify-center shrink-0" style={{ backgroundColor: gs.bg, color: gs.color }}>
+                          <div className="w-[32px] h-[32px] rounded-sm flex items-center justify-center shrink-0" style={{ backgroundColor: gs.bg, color: gs.color }}>
                             <IconComp size={14} />
                           </div>
                           <div className="min-w-0 flex-1">
@@ -2505,7 +2505,7 @@ export function Analytics() {
                       const val = r[chartMode as keyof typeof r] as number;
                       const pct = total > 0 ? (val / total) * 100 : 0;
                       return (
-                        <div key={r.campaign} className="p-3 rounded-[12px] border transition-colors hover:bg-tv-surface-muted" style={{ borderColor: TV.borderLight }}>
+                        <div key={r.campaign} className="p-3 rounded-lg border transition-colors hover:bg-tv-surface-muted" style={{ borderColor: TV.borderLight }}>
                           <div className="flex items-center justify-between mb-1.5">
                             <button onClick={() => { setChartDrillDate(null); navigateToCampaign(r.campaign); }} className="text-[13px] font-semibold text-left truncate transition-colors hover:underline" style={{ color: TV.textBrand }}>{r.campaign}</button>
                             <Text fz={14} fw={700} c={chartColor}>{val}</Text>
@@ -2675,7 +2675,7 @@ export function Analytics() {
                           </td>
                           <td className="px-3 py-3">
                             <button onClick={() => setClipDrawer(clip)} className="flex items-center gap-3 text-left w-full group/clip">
-                              <div className="relative shrink-0 w-[72px] h-[44px] rounded-[8px] overflow-hidden bg-[#1a1a2e]">
+                              <div className="relative shrink-0 w-[72px] h-[44px] rounded-sm overflow-hidden bg-[#1a1a2e]">
                                 <img src={clip.thumbnail} alt="" className="w-full h-full object-cover opacity-85" />
                                 <div className="absolute inset-0 flex items-center justify-center">
                                   <div className="w-[22px] h-[22px] rounded-full bg-white/90 flex items-center justify-center">
@@ -2754,7 +2754,7 @@ export function Analytics() {
                           aria-label={`Compare ${clip.title}`}
                         />
                       <button onClick={() => setClipDrawer(clip)} className="flex gap-3 text-left flex-1 group/clip">
-                        <div className="relative shrink-0 w-[80px] h-[50px] rounded-[8px] overflow-hidden bg-[#1a1a2e]">
+                        <div className="relative shrink-0 w-[80px] h-[50px] rounded-sm overflow-hidden bg-[#1a1a2e]">
                           <img src={clip.thumbnail} alt="" className="w-full h-full object-cover opacity-85" />
                           <div className="absolute inset-0 flex items-center justify-center">
                             <div className="w-[24px] h-[24px] rounded-full bg-white/90 flex items-center justify-center">
@@ -2820,7 +2820,7 @@ export function Analytics() {
             {clipDrawer && (
               <div>
                 {/* Video preview */}
-                <div className="relative w-full aspect-video rounded-[12px] overflow-hidden bg-[#1a1a2e] mb-4">
+                <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-[#1a1a2e] mb-4">
                   <img src={clipDrawer.thumbnail} alt="" className="w-full h-full object-cover opacity-85" />
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-[56px] h-[56px] rounded-full bg-white/90 flex items-center justify-center">
@@ -2846,7 +2846,7 @@ export function Analytics() {
                     { label: "Total Views", value: clipDrawer.views.toLocaleString(), color: TV.textPrimary },
                     { label: "Avg Completion", value: `${clipDrawer.avgCompletion}%`, color: TV.success },
                   ].map(s => (
-                    <div key={s.label} className="p-3 rounded-[12px] border" style={{ borderColor: TV.borderLight }}>
+                    <div key={s.label} className="p-3 rounded-lg border" style={{ borderColor: TV.borderLight }}>
                       <Text fz={10} c={TV.textSecondary} tt="uppercase" lts="0.5px" mb={4}>{s.label}</Text>
                       <Text fz={18} fw={700} c={s.color}>{s.value}</Text>
                     </div>
@@ -2861,7 +2861,7 @@ export function Analytics() {
                 </div>
 
                 {/* Engagement timeline */}
-                <div className="mt-4 p-4 rounded-[12px]" style={{ backgroundColor: TV.surface, border: `1px solid ${TV.borderLight}` }}>
+                <div className="mt-4 p-4 rounded-lg" style={{ backgroundColor: TV.surface, border: `1px solid ${TV.borderLight}` }}>
                   <Text fz={11} fw={600} c={TV.textSecondary} tt="uppercase" lts="0.5px" mb={8}>Engagement timeline</Text>
                   <div className="space-y-2">
                     {[
@@ -2900,7 +2900,7 @@ export function Analytics() {
                   <div className={`grid gap-4 mb-6`} style={{ gridTemplateColumns: `repeat(${compareClips.length}, 1fr)` }}>
                     {compareClips.map(clip => (
                       <div key={clip.id} className="text-center">
-                        <div className="relative w-full aspect-video rounded-[12px] overflow-hidden bg-[#1a1a2e] mb-3">
+                        <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-[#1a1a2e] mb-3">
                           <img src={clip.thumbnail} alt="" className="w-full h-full object-cover opacity-85" />
                           <div className="absolute inset-0 flex items-center justify-center">
                             <div className="w-[40px] h-[40px] rounded-full bg-white/90 flex items-center justify-center">
@@ -2929,7 +2929,7 @@ export function Analytics() {
                     {metrics.map(m => {
                       const bestVal = best(m.key);
                       return (
-                        <div key={m.key} className="rounded-[12px] border p-3" style={{ borderColor: TV.borderLight }}>
+                        <div key={m.key} className="rounded-lg border p-3" style={{ borderColor: TV.borderLight }}>
                           <Text fz={10} c={TV.textSecondary} tt="uppercase" lts="0.5px" mb={8}>{m.label}</Text>
                           <div className={`grid gap-4`} style={{ gridTemplateColumns: `repeat(${compareClips.length}, 1fr)` }}>
                             {compareClips.map(clip => {
@@ -2964,7 +2964,7 @@ export function Analytics() {
                   </div>
 
                   {/* Engagement timeline comparison */}
-                  <div className="mt-4 rounded-[12px] border p-3" style={{ borderColor: TV.borderLight }}>
+                  <div className="mt-4 rounded-lg border p-3" style={{ borderColor: TV.borderLight }}>
                     <Text fz={10} c={TV.textSecondary} tt="uppercase" lts="0.5px" mb={8}>Details</Text>
                     <div className={`grid gap-4`} style={{ gridTemplateColumns: `repeat(${compareClips.length}, 1fr)` }}>
                       {compareClips.map(clip => (
@@ -3342,7 +3342,7 @@ export function Analytics() {
                 <div>
                   {/* Summary */}
                   <div className="flex items-center gap-3 mb-4 pb-3 border-b" style={{ borderColor: TV.borderDivider }}>
-                    <div className="w-10 h-10 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: tc.bg }}>
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: tc.bg }}>
                       <BarChart3 size={18} style={{ color: tc.color }} />
                     </div>
                     <div className="flex-1">
@@ -3508,14 +3508,14 @@ export function Analytics() {
               </UnstyledButton>
             )}
           </div>
-          <div className="flex items-center gap-2.5 px-4 py-3 mb-4 rounded-[12px]" style={{ backgroundColor: TV.brandTint, border: `1px solid ${TV.borderLight}` }}>
+          <div className="flex items-center gap-2.5 px-4 py-3 mb-4 rounded-lg" style={{ backgroundColor: TV.brandTint, border: `1px solid ${TV.borderLight}` }}>
             <Info size={14} style={{ color: TV.textBrand, flexShrink: 0 }} />
             <Text fz={12} c={TV.textSecondary}>This view shows <span className="font-semibold" style={{ color: TV.textBrand }}>all campaigns containing PDF attachments</span>. Global filters above (date range, creator, etc.) further refine these results.</Text>
           </div>
           <DashCard className="overflow-hidden mb-4">
             <div className="flex items-center justify-between px-5 py-3 bg-tv-surface-muted border-b" style={{ borderColor: TV.borderDivider }}>
               <div className="flex items-center gap-2.5">
-                <div className="w-[36px] h-[36px] rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: TV.infoBg, color: TV.info }}><FileText size={18} /></div>
+                <div className="w-[36px] h-[36px] rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: TV.infoBg, color: TV.info }}><FileText size={18} /></div>
                 <div>
                   <Text fz={14} fw={700} c={TV.textPrimary}>PDF Campaign Metrics</Text>
                   <Text fz={11} c={TV.textSecondary}>{filteredPdfCampaigns.length} campaign{filteredPdfCampaigns.length !== 1 ? "s" : ""}{pdfCampaignFilter.length > 0 ? " (filtered)" : ""}</Text>
@@ -3621,7 +3621,7 @@ export function Analytics() {
           <DashCard className="overflow-hidden mb-4">
             <div className="flex items-center justify-between px-5 py-3 bg-tv-surface-muted border-b" style={{ borderColor: TV.borderDivider }}>
               <div className="flex items-center gap-2.5">
-                <div className="w-[36px] h-[36px] rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: TV.infoBg, color: TV.info }}>
+                <div className="w-[36px] h-[36px] rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: TV.infoBg, color: TV.info }}>
                   <Layers size={18} />
                 </div>
                 <div>
@@ -3841,7 +3841,7 @@ export function Analytics() {
               {/* Header */}
               <div className="flex items-center justify-between px-5 py-3 bg-tv-surface-muted border-b" style={{ borderColor: TV.borderDivider }}>
                 <div className="flex items-center gap-2.5">
-                  <div className="w-[36px] h-[36px] rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: TV.infoBg, color: TV.info }}>
+                  <div className="w-[36px] h-[36px] rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: TV.infoBg, color: TV.info }}>
                     <GitCompareArrows size={18} />
                   </div>
                   <div>
@@ -3985,7 +3985,7 @@ export function Analytics() {
             <DashCard className="overflow-hidden mb-4">
               <div className="flex items-center justify-between px-5 py-3 bg-tv-surface-muted border-b" style={{ borderColor: TV.borderDivider }}>
                 <div className="flex items-center gap-2.5">
-                  <div className="w-[36px] h-[36px] rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: TV.infoBg, color: TV.info }}>
+                  <div className="w-[36px] h-[36px] rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: TV.infoBg, color: TV.info }}>
                     <Users size={18} />
                   </div>
                   <div>
@@ -4235,7 +4235,7 @@ export function Analytics() {
           {/* Aggregate KPI strip — Req Row 1: summation with all 6 data points */}
           <DashCard className="overflow-hidden mb-4">
             <div className="flex items-center gap-2.5 px-5 py-3 bg-tv-surface-muted border-b" style={{ borderColor: TV.borderDivider }}>
-              <div className="w-[36px] h-[36px] rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brandTint, color: TV.textBrand }}>
+              <div className="w-[36px] h-[36px] rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brandTint, color: TV.textBrand }}>
                 <Video size={18} />
               </div>
               <div>
@@ -4430,7 +4430,7 @@ export function Analytics() {
           <DashCard className="overflow-hidden mb-4">
             <div className="flex items-center justify-between px-4 sm:px-5 py-3 border-b flex-wrap gap-2" style={{ borderColor: TV.borderDivider }}>
               <div className="flex items-center gap-2.5">
-                <div className="w-[36px] h-[36px] rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brandTint, color: TV.textBrand }}>
+                <div className="w-[36px] h-[36px] rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brandTint, color: TV.textBrand }}>
                   <BarChart3 size={18} />
                 </div>
                 <div>
@@ -4459,7 +4459,7 @@ export function Analytics() {
                 return (
                   <button
                     key={d.fullTag}
-                    className="w-full flex items-center gap-3 py-1.5 group text-left transition-colors hover:bg-tv-surface-muted rounded-[8px] px-2 -mx-2"
+                    className="w-full flex items-center gap-3 py-1.5 group text-left transition-colors hover:bg-tv-surface-muted rounded-sm px-2 -mx-2"
                     onClick={() => {
                       const grp = searchedTags.find(g => g.tag === d.fullTag);
                       if (grp) { setTagDrawerGroup(grp); setTagDrawerSort({ col: "sent", dir: "desc" }); }
@@ -4493,7 +4493,7 @@ export function Analytics() {
           <DashCard className="overflow-hidden">
             <div className="flex items-center justify-between px-4 sm:px-5 py-3 border-b flex-wrap gap-2" style={{ borderColor: TV.borderDivider }}>
               <div className="flex items-center gap-2.5">
-                <div className="w-[36px] h-[36px] rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brandTint, color: TV.textBrand }}>
+                <div className="w-[36px] h-[36px] rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brandTint, color: TV.textBrand }}>
                   <Layers size={18} />
                 </div>
                 <div>
@@ -4562,7 +4562,7 @@ export function Analytics() {
                           {/* Tag */}
                           <div className="flex items-center gap-2.5 min-w-0">
                             <span className="text-[11px] font-semibold w-5 text-center shrink-0" style={{ color: TV.textDecorative }}>{rank}</span>
-                            <div className="w-[28px] h-[28px] rounded-[8px] flex items-center justify-center shrink-0" style={{ backgroundColor: tc?.bg || TV.surface }}>
+                            <div className="w-[28px] h-[28px] rounded-sm flex items-center justify-center shrink-0" style={{ backgroundColor: tc?.bg || TV.surface }}>
                               <Tag size={13} style={{ color: tc?.color || TV.textSecondary }} />
                             </div>
                             <div className="min-w-0">
@@ -4606,7 +4606,7 @@ export function Analytics() {
                   >
                     <div className="flex items-center gap-2.5 mb-2">
                       <span className="text-[11px] font-semibold w-4 text-center shrink-0" style={{ color: TV.textDecorative }}>{rank}</span>
-                      <div className="w-[28px] h-[28px] rounded-[8px] flex items-center justify-center shrink-0" style={{ backgroundColor: tc?.bg || TV.surface }}>
+                      <div className="w-[28px] h-[28px] rounded-sm flex items-center justify-center shrink-0" style={{ backgroundColor: tc?.bg || TV.surface }}>
                         <Tag size={13} style={{ color: tc?.color || TV.textSecondary }} />
                       </div>
                       <Text fz={14} fw={600} c={TV.textPrimary} className="flex-1 truncate">{g.tag}</Text>
@@ -4694,7 +4694,7 @@ export function Analytics() {
               return (
                 <div>
                   <div className="flex items-center gap-3 mb-4 pb-3 border-b" style={{ borderColor: TV.borderDivider }}>
-                    <div className="w-10 h-10 rounded-[12px] flex items-center justify-center" style={{ backgroundColor: tc.bg }}>
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: tc.bg }}>
                       <BarChart3 size={18} style={{ color: tc.color }} />
                     </div>
                     <div className="flex-1">
@@ -4887,7 +4887,7 @@ function FunnelRow({ cat, max, onCreateList, onViewContacts, expanded, onToggle 
       </div>
       {expanded && (
         <div className="px-5 pb-3 pt-0 space-y-2">
-          <div className="bg-tv-surface-muted rounded-[10px] p-3 text-[11px] flex items-center gap-4 flex-wrap" style={{ color: TV.textSecondary }}>
+          <div className="bg-tv-surface-muted rounded-md p-3 text-[11px] flex items-center gap-4 flex-wrap" style={{ color: TV.textSecondary }}>
             <span><span className="font-semibold" style={{ color: TV.textPrimary }}>{cat.count.toLocaleString()}</span> contacts in this segment</span>
             <span style={{ color: TV.textDecorative }} aria-hidden="true">|</span>
             <span>{pct}% of total sent</span>
@@ -4900,7 +4900,7 @@ function FunnelRow({ cat, max, onCreateList, onViewContacts, expanded, onToggle 
             </Button>
           </div>
           {/* Per-contact frequency sample with search (Row 15: search/filter through contacts) */}
-          <div className="bg-white border rounded-[10px] overflow-hidden" style={{ borderColor: TV.borderDivider }}>
+          <div className="bg-white border rounded-md overflow-hidden" style={{ borderColor: TV.borderDivider }}>
             <div className="flex items-center justify-between gap-3 px-3 py-2 bg-tv-surface-muted border-b" style={{ borderColor: TV.borderDivider }}>
               <span className="text-[11px] font-semibold uppercase tracking-[0.04em] shrink-0" style={{ color: TV.textSecondary }}>Contacts in &quot;{cat.label}&quot;</span>
               <TextInput

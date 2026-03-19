@@ -178,7 +178,7 @@ export function MergeFieldPicker({
         tabIndex={0}
         onClick={() => handleInsert(field.token)}
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleInsert(field.token); } }}
-        className={`w-full text-left group/row flex items-center gap-2 px-3 ${compact ? "py-1.5" : "py-2"} rounded-[8px] transition-all cursor-pointer ${
+        className={`w-full text-left group/row flex items-center gap-2 px-3 ${compact ? "py-1.5" : "py-2"} rounded-sm transition-all cursor-pointer ${
           isInserted ? "bg-tv-success-bg" : "hover:bg-tv-brand-tint"
         }`}
       >
@@ -224,7 +224,7 @@ export function MergeFieldPicker({
   const panelContent = (
     <div
       ref={panelRef}
-      className={`${panelW} bg-white rounded-[10px] border border-tv-border-light shadow-xl flex flex-col overflow-hidden ${inline ? "" : "fixed z-[9999]"}`}
+      className={`${panelW} bg-white rounded-md border border-tv-border-light shadow-xl flex flex-col overflow-hidden ${inline ? "" : "fixed z-[9999]"}`}
       style={inline ? {} : (pos ? { top: pos.top, left: pos.left } : { visibility: "hidden" as const })}
     >
       <div className={`${compact ? "px-3 py-2.5" : "px-4 py-3"} border-b border-tv-border-divider bg-tv-surface-muted`}>
@@ -323,7 +323,7 @@ export function MergeFieldPicker({
                 <div key={cat.id} className="mb-0.5">
                   <button
                     onClick={() => toggleCategory(cat.id)}
-                    className={`w-full flex items-center gap-2 px-3 ${compact ? "py-1.5" : "py-2"} rounded-[8px] hover:bg-tv-surface transition-colors text-left`}
+                    className={`w-full flex items-center gap-2 px-3 ${compact ? "py-1.5" : "py-2"} rounded-sm hover:bg-tv-surface transition-colors text-left`}
                   >
                     <div className={`w-5 h-5 rounded-[5px] flex items-center justify-center shrink-0 ${
                       isOpen ? "bg-tv-brand-tint text-tv-brand" : "bg-tv-surface text-tv-text-decorative"

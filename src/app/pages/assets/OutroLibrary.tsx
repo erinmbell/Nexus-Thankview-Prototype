@@ -211,7 +211,7 @@ export function OutroLibrary() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filtered.map(outro => (
-            <div key={outro.id} role="button" tabIndex={0} onClick={() => setPreviewId(outro.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(outro.id); }}} aria-label={`Preview: ${outro.name}`} className="bg-white rounded-[16px] border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer">
+            <div key={outro.id} role="button" tabIndex={0} onClick={() => setPreviewId(outro.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(outro.id); }}} aria-label={`Preview: ${outro.name}`} className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer">
               {/* Thumbnail */}
               <div className={`h-32 bg-gradient-to-br ${outro.gradient} relative overflow-hidden`}>
                 {outro.attachedImage ? (
@@ -295,7 +295,7 @@ export function OutroLibrary() {
         <>
           <div className="fixed inset-0 bg-black/50 z-[60]" onClick={() => setPreviewId(null)} />
           <div className="fixed inset-0 flex items-center justify-center z-[61] pointer-events-none p-4">
-            <div className="bg-white rounded-[20px] w-full max-w-lg shadow-2xl pointer-events-auto overflow-hidden">
+            <div className="bg-white rounded-xl w-full max-w-lg shadow-2xl pointer-events-auto overflow-hidden">
               <div className="flex items-center justify-between px-5 py-4 border-b border-tv-border-divider">
                 <div>
                   <p className="text-[14px] font-semibold text-tv-text-primary">{preview.name}</p>

@@ -85,8 +85,8 @@ function ChevronDown() {
 
 function UnstyledButton() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[6px] h-[32.594px] items-center left-[79.8px] px-[13px] py-px rounded-[20px] top-0 w-[101.781px]" data-name="UnstyledButton">
-      <div aria-hidden="true" className="absolute border border-[#e0daea] border-solid inset-0 pointer-events-none rounded-[20px]" />
+    <div className="absolute bg-white content-stretch flex gap-[6px] h-[32.594px] items-center left-[79.8px] px-[13px] py-px rounded-xl top-0 w-[101.781px]" data-name="UnstyledButton">
+      <div aria-hidden="true" className="absolute border border-[#e0daea] border-solid inset-0 pointer-events-none rounded-xl" />
       <Icon />
       <Text1 />
       <ChevronDown />
@@ -136,8 +136,8 @@ function ChevronDown1() {
 
 function UnstyledButton1() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[6px] h-[32.594px] items-center left-[189.59px] px-[13px] py-px rounded-[20px] top-0 w-[99.734px]" data-name="UnstyledButton">
-      <div aria-hidden="true" className="absolute border border-[#e0daea] border-solid inset-0 pointer-events-none rounded-[20px]" />
+    <div className="absolute bg-white content-stretch flex gap-[6px] h-[32.594px] items-center left-[189.59px] px-[13px] py-px rounded-xl top-0 w-[99.734px]" data-name="UnstyledButton">
+      <div aria-hidden="true" className="absolute border border-[#e0daea] border-solid inset-0 pointer-events-none rounded-xl" />
       <Icon1 />
       <Text2 />
       <ChevronDown1 />
@@ -185,8 +185,8 @@ function ChevronDown2() {
 
 function UnstyledButton2() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[6px] h-[32.594px] items-center left-[297.32px] px-[13px] py-px rounded-[20px] top-0 w-[96.594px]" data-name="UnstyledButton">
-      <div aria-hidden="true" className="absolute border border-[#e0daea] border-solid inset-0 pointer-events-none rounded-[20px]" />
+    <div className="absolute bg-white content-stretch flex gap-[6px] h-[32.594px] items-center left-[297.32px] px-[13px] py-px rounded-xl top-0 w-[96.594px]" data-name="UnstyledButton">
+      <div aria-hidden="true" className="absolute border border-[#e0daea] border-solid inset-0 pointer-events-none rounded-xl" />
       <Icon2 />
       <Text3 />
       <ChevronDown2 />
@@ -221,8 +221,8 @@ function Text4() {
 
 function UnstyledButton3() {
   return (
-    <div className="absolute content-stretch flex gap-[4px] h-[32.594px] items-center left-[401.91px] px-[11px] py-px rounded-[20px] top-0 w-[90.164px]" data-name="UnstyledButton">
-      <div aria-hidden="true" className="absolute border border-[#e0daea] border-solid inset-0 pointer-events-none rounded-[20px]" />
+    <div className="absolute content-stretch flex gap-[4px] h-[32.594px] items-center left-[401.91px] px-[11px] py-px rounded-xl top-0 w-[90.164px]" data-name="UnstyledButton">
+      <div aria-hidden="true" className="absolute border border-[#e0daea] border-solid inset-0 pointer-events-none rounded-xl" />
       <Plus />
       <Text4 />
     </div>
@@ -244,8 +244,8 @@ function Div() {
 
 export default function Container() {
   return (
-    <div className="bg-[#f5f3fa] content-stretch flex flex-col items-start pb-px pt-[13px] px-[17px] relative rounded-[12px] size-full" data-name="Container">
-      <div aria-hidden="true" className="absolute border border-[#e0daea] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="bg-[#f5f3fa] content-stretch flex flex-col items-start pb-px pt-[13px] px-[17px] relative rounded-lg size-full" data-name="Container">
+      <div aria-hidden="true" className="absolute border border-[#e0daea] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div />
     </div>
   );

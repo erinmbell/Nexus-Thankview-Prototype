@@ -33,7 +33,7 @@ function Span() {
 
 function Div() {
   return (
-    <div className="bg-[#f3eeff] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#f3eeff] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span />
       </div>
@@ -96,8 +96,8 @@ function Div2() {
 
 function Button() {
   return (
-    <div className="absolute bg-[#f3eeff] content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-0 w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#7c45b0] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-[#f3eeff] content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-0 w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#7c45b0] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div />
       <Div1 />
       <Div2 />
@@ -138,7 +138,7 @@ function Span1() {
 
 function Div3() {
   return (
-    <div className="bg-[#e0f8ff] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#e0f8ff] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span1 />
       </div>
@@ -201,8 +201,8 @@ function Div5() {
 
 function Button1() {
   return (
-    <div className="absolute bg-[#f3eeff] content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[75px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#7c45b0] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-[#f3eeff] content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[75px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#7c45b0] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div3 />
       <Div4 />
       <Div5 />
@@ -250,7 +250,7 @@ function Span2() {
 
 function Div6() {
   return (
-    <div className="bg-[#fef2f2] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#fef2f2] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span2 />
       </div>
@@ -291,8 +291,8 @@ function Div7() {
 
 function Button2() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[150px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[150px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div6 />
       <Div7 />
     </div>
@@ -339,7 +339,7 @@ function Span3() {
 
 function Div8() {
   return (
-    <div className="bg-[#fef2f2] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#fef2f2] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span3 />
       </div>
@@ -380,8 +380,8 @@ function Div9() {
 
 function Button3() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[225px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[225px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div8 />
       <Div9 />
     </div>
@@ -428,7 +428,7 @@ function Span4() {
 
 function Div10() {
   return (
-    <div className="bg-[#fef9ee] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#fef9ee] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span4 />
       </div>
@@ -469,8 +469,8 @@ function Div11() {
 
 function Button4() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[300px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[300px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div10 />
       <Div11 />
     </div>
@@ -510,7 +510,7 @@ function Span5() {
 
 function Div12() {
   return (
-    <div className="bg-[#e0f8ff] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#e0f8ff] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span5 />
       </div>
@@ -573,8 +573,8 @@ function Div14() {
 
 function Button5() {
   return (
-    <div className="absolute bg-[#f3eeff] content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[375px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#7c45b0] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-[#f3eeff] content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[375px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#7c45b0] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div12 />
       <Div13 />
       <Div14 />
@@ -636,7 +636,7 @@ function Span6() {
 
 function Div15() {
   return (
-    <div className="bg-[#e0f8ff] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#e0f8ff] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span6 />
       </div>
@@ -677,8 +677,8 @@ function Div16() {
 
 function Button6() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[450px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[450px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div15 />
       <Div16 />
     </div>
@@ -718,7 +718,7 @@ function Span7() {
 
 function Div17() {
   return (
-    <div className="bg-[#f0fdf4] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#f0fdf4] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span7 />
       </div>
@@ -759,8 +759,8 @@ function Div18() {
 
 function Button7() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[525px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[525px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div17 />
       <Div18 />
     </div>
@@ -814,7 +814,7 @@ function Span8() {
 
 function Div19() {
   return (
-    <div className="bg-[#f0fdf4] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#f0fdf4] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span8 />
       </div>
@@ -855,8 +855,8 @@ function Div20() {
 
 function Button8() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[600px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[600px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div19 />
       <Div20 />
     </div>
@@ -889,7 +889,7 @@ function Span9() {
 
 function Div21() {
   return (
-    <div className="bg-[#f3eeff] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#f3eeff] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span9 />
       </div>
@@ -930,8 +930,8 @@ function Div22() {
 
 function Button9() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[675px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[675px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div21 />
       <Div22 />
     </div>
@@ -971,7 +971,7 @@ function Span10() {
 
 function Div23() {
   return (
-    <div className="bg-[#f0fdf4] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#f0fdf4] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span10 />
       </div>
@@ -1012,8 +1012,8 @@ function Div24() {
 
 function Button10() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[750px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[750px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div23 />
       <Div24 />
     </div>
@@ -1053,7 +1053,7 @@ function Span11() {
 
 function Div25() {
   return (
-    <div className="bg-[#fef9ee] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#fef9ee] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span11 />
       </div>
@@ -1116,8 +1116,8 @@ function Div27() {
 
 function Button11() {
   return (
-    <div className="absolute bg-[#f3eeff] content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[825px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#7c45b0] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-[#f3eeff] content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[825px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#7c45b0] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div25 />
       <Div26 />
       <Div27 />
@@ -1165,7 +1165,7 @@ function Span12() {
 
 function Div28() {
   return (
-    <div className="bg-[#fef9ee] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#fef9ee] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span12 />
       </div>
@@ -1206,8 +1206,8 @@ function Div29() {
 
 function Button12() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[900px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[900px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div28 />
       <Div29 />
     </div>
@@ -1254,7 +1254,7 @@ function Span13() {
 
 function Div30() {
   return (
-    <div className="bg-[#fef9ee] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#fef9ee] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span13 />
       </div>
@@ -1295,8 +1295,8 @@ function Div31() {
 
 function Button13() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[975px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[975px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div30 />
       <Div31 />
     </div>
@@ -1357,7 +1357,7 @@ function Span14() {
 
 function Div32() {
   return (
-    <div className="bg-[#e0f8ff] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#e0f8ff] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span14 />
       </div>
@@ -1398,8 +1398,8 @@ function Div33() {
 
 function Button14() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[1050px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[1050px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div32 />
       <Div33 />
     </div>
@@ -1446,7 +1446,7 @@ function Span15() {
 
 function Div34() {
   return (
-    <div className="bg-[#f5f3fa] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#f5f3fa] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span15 />
       </div>
@@ -1487,8 +1487,8 @@ function Div35() {
 
 function Button15() {
   return (
-    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[1125px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-white content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[1125px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#f0eaf8] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div34 />
       <Div35 />
     </div>
@@ -1521,7 +1521,7 @@ function Span16() {
 
 function Div36() {
   return (
-    <div className="bg-[#f0fdf4] relative rounded-[10px] shrink-0 size-[36px]" data-name="div">
+    <div className="bg-[#f0fdf4] relative rounded-md shrink-0 size-[36px]" data-name="div">
       <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-center relative size-full">
         <Span16 />
       </div>
@@ -1584,8 +1584,8 @@ function Div38() {
 
 function Button16() {
   return (
-    <div className="absolute bg-[#f3eeff] content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-[12px] top-[1200px] w-[408px]" data-name="button">
-      <div aria-hidden="true" className="absolute border-2 border-[#7c45b0] border-solid inset-0 pointer-events-none rounded-[12px]" />
+    <div className="absolute bg-[#f3eeff] content-stretch flex gap-[12px] h-[69px] items-center left-0 px-[20px] py-[2px] rounded-lg top-[1200px] w-[408px]" data-name="button">
+      <div aria-hidden="true" className="absolute border-2 border-[#7c45b0] border-solid inset-0 pointer-events-none rounded-lg" />
       <Div36 />
       <Div37 />
       <Div38 />

@@ -199,7 +199,7 @@ export function EmailTemplates() {
               onClick={() => setPreviewId(tpl.id)}
               onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(tpl.id); }}}
               aria-label={`Preview: ${tpl.name}`}
-              className="bg-white rounded-[16px] border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer"
+              className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer"
             >
               {/* Color bar */}
               <div className={`h-1.5 w-full ${tpl.channel === "sms" ? "bg-tv-record-bg" : "bg-tv-brand-bg"}`} />
@@ -208,7 +208,7 @@ export function EmailTemplates() {
                 {/* Top row */}
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <div className={`w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 ${tpl.channel === "sms" ? "bg-tv-info-bg" : "bg-tv-brand-tint"}`}>
+                    <div className={`w-8 h-8 rounded-sm flex items-center justify-center shrink-0 ${tpl.channel === "sms" ? "bg-tv-info-bg" : "bg-tv-brand-tint"}`}>
                       {tpl.channel === "sms" ? <MessageSquare size={14} className="text-tv-info" /> : <Mail size={14} className="text-tv-brand" />}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -241,7 +241,7 @@ export function EmailTemplates() {
                 </div>
 
                 {/* Subject preview */}
-                <div className="bg-tv-surface rounded-[10px] px-3 py-2.5 mb-3">
+                <div className="bg-tv-surface rounded-md px-3 py-2.5 mb-3">
                   <p className="text-[10px] text-tv-text-secondary uppercase tracking-wider mb-1">Subject</p>
                   <p className="text-[12px] text-tv-text-primary truncate">{tpl.subject}</p>
                 </div>
@@ -262,10 +262,10 @@ export function EmailTemplates() {
         <>
           <div className="fixed inset-0 bg-black/50 z-[60]" onClick={() => setPreviewId(null)} />
           <div className="fixed inset-0 flex items-center justify-center z-[61] pointer-events-none p-4">
-            <div className="bg-white rounded-[20px] w-full max-w-lg shadow-2xl pointer-events-auto overflow-hidden">
+            <div className="bg-white rounded-xl w-full max-w-lg shadow-2xl pointer-events-auto overflow-hidden">
               <div className="flex items-center justify-between px-5 py-4 border-b border-tv-border-divider">
                 <div className="flex items-center gap-2">
-                  <div className={`w-8 h-8 rounded-[8px] flex items-center justify-center ${preview.channel === "sms" ? "bg-tv-info-bg" : "bg-tv-brand-tint"}`}>
+                  <div className={`w-8 h-8 rounded-sm flex items-center justify-center ${preview.channel === "sms" ? "bg-tv-info-bg" : "bg-tv-brand-tint"}`}>
                     {preview.channel === "sms" ? <MessageSquare size={14} className="text-tv-info" /> : <Mail size={14} className="text-tv-brand" />}
                   </div>
                   <div>
@@ -298,16 +298,16 @@ export function EmailTemplates() {
                 </div>
               </div>
               <div className="p-5">
-                <div className="bg-tv-surface-muted rounded-[12px] border border-tv-border-light p-4 mb-4">
+                <div className="bg-tv-surface-muted rounded-lg border border-tv-border-light p-4 mb-4">
                   <p className="text-[10px] text-tv-text-secondary uppercase tracking-wider mb-1">Subject Line</p>
                   <p className="text-[14px] font-semibold text-tv-text-primary">{preview.subject}</p>
                 </div>
-                <div className="bg-tv-surface-muted rounded-[12px] border border-tv-border-light p-4 mb-4">
+                <div className="bg-tv-surface-muted rounded-lg border border-tv-border-light p-4 mb-4">
                   <p className="text-[10px] text-tv-text-secondary uppercase tracking-wider mb-2">Body Preview</p>
                   <div className="space-y-2">
                     <p className="text-[13px] text-tv-text-label">{`Dear {{first_name}},`}</p>
                     <p className="text-[13px] text-tv-text-label">I wanted to personally reach out and share a message that I recorded just for you. Your support means the world to our community at Hartwell University…</p>
-                    <div className="h-24 bg-[#1a1a2e] rounded-[10px] flex items-center justify-center mt-3">
+                    <div className="h-24 bg-[#1a1a2e] rounded-md flex items-center justify-center mt-3">
                       <div className="w-10 h-10 rounded-full bg-white/20 border-2 border-white/50 flex items-center justify-center">
                         <div className="w-0 h-0 ml-0.5 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[10px] border-l-white" />
                       </div>

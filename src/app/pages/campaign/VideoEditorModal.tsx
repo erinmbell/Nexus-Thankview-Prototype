@@ -356,7 +356,7 @@ export function VideoEditorModal({
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-[16px] shadow-2xl flex flex-col w-full max-w-[1000px] max-h-[92vh] overflow-hidden">
+      <div className="bg-white rounded-xl shadow-2xl flex flex-col w-full max-w-[1000px] max-h-[92vh] overflow-hidden">
 
         {/* ══ Header ══ */}
         <div className="px-6 py-3.5 border-b border-tv-border-divider shrink-0 flex items-center justify-between gap-3">
@@ -411,7 +411,7 @@ export function VideoEditorModal({
                   <input
                     value={data.name}
                     onChange={e => upd("name", e.target.value)}
-                    className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors"
+                    className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors"
                   />
                 </div>
                 <div className="mb-4">
@@ -421,7 +421,7 @@ export function VideoEditorModal({
                     onChange={e => upd("description", e.target.value)}
                     placeholder="Add a description\u2026"
                     rows={3}
-                    className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors resize-none placeholder:text-tv-text-secondary"
+                    className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors resize-none placeholder:text-tv-text-secondary"
                   />
                 </div>
                 <div className="mb-4">
@@ -432,7 +432,7 @@ export function VideoEditorModal({
                     value={data.recipientName}
                     onChange={e => upd("recipientName", e.target.value)}
                     placeholder="Who is this video for?"
-                    className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-secondary"
+                    className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-secondary"
                   />
                 </div>
                 <div className="mb-4">
@@ -445,9 +445,9 @@ export function VideoEditorModal({
                       onChange={e => setTagInput(e.target.value)}
                       onKeyDown={e => e.key === "Enter" && addTag()}
                       placeholder="Add a tag"
-                      className="flex-1 border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-secondary"
+                      className="flex-1 border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-secondary"
                     />
-                    <button onClick={addTag} className="w-8 h-8 rounded-[8px] border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface transition-colors shrink-0">
+                    <button onClick={addTag} className="w-8 h-8 rounded-sm border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface transition-colors shrink-0">
                       <Plus size={13} />
                     </button>
                   </div>
@@ -485,13 +485,13 @@ export function VideoEditorModal({
                   </label>
                   <button
                     onClick={() => setFolderOpen(!folderOpen)}
-                    className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[12px] text-left flex items-center justify-between hover:bg-tv-surface transition-colors"
+                    className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] text-left flex items-center justify-between hover:bg-tv-surface transition-colors"
                   >
                     <span>{data.folder}</span>
                     <ChevronDown size={12} className={`text-tv-text-secondary transition-transform ${folderOpen ? "rotate-180" : ""}`} />
                   </button>
                   {folderOpen && (
-                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-tv-border-light rounded-[8px] shadow-lg z-10 overflow-hidden">
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-tv-border-light rounded-sm shadow-lg z-10 overflow-hidden">
                       {FOLDERS.map(f => (
                         <button
                           key={f}
@@ -523,7 +523,7 @@ export function VideoEditorModal({
                     <input value={fmtSec(data.trimEnd)} readOnly className="w-full border border-tv-border-light rounded-[6px] px-2 py-1.5 text-[11px] font-mono text-center bg-tv-surface" />
                   </div>
                 </div>
-                <div className="bg-tv-surface rounded-[8px] p-3 text-center">
+                <div className="bg-tv-surface rounded-sm p-3 text-center">
                   <p className="text-[10px] text-tv-text-secondary">Trimmed duration</p>
                   <p className="text-[18px] font-mono text-tv-text-primary mt-1">{fmtSec(trimmedDuration)}</p>
                   <p className="text-[9px] text-tv-text-decorative mt-0.5">Original: {data.duration}</p>
@@ -539,14 +539,14 @@ export function VideoEditorModal({
                   <p className="text-[11px] font-semibold text-tv-text-primary flex items-center gap-1.5">
                     <Crop size={12} />Crop
                   </p>
-                  <div className="bg-tv-surface rounded-[8px] p-3">
+                  <div className="bg-tv-surface rounded-sm p-3">
                     <p className="text-[10px] text-tv-text-secondary mb-1">Active preset</p>
                     <p className="text-[13px] font-medium text-tv-text-primary">
                       {CROP_PRESETS.find(p => p.ratio === cropPreset)?.label ?? "Custom"}
                     </p>
                   </div>
                   {data.cropArea && (
-                    <div className="bg-tv-brand-tint rounded-[8px] p-3 text-[10px] text-tv-brand">
+                    <div className="bg-tv-brand-tint rounded-sm p-3 text-[10px] text-tv-brand">
                       Crop applied: {data.cropArea.x},{data.cropArea.y} &mdash; {data.cropArea.w}&times;{data.cropArea.h}
                     </div>
                   )}
@@ -567,7 +567,7 @@ export function VideoEditorModal({
                       <button
                         key={opt.deg}
                         onClick={() => setRotationDeg(opt.deg)}
-                        className={`w-full flex items-center gap-3 px-3 py-2 rounded-[8px] border transition-colors ${
+                        className={`w-full flex items-center gap-3 px-3 py-2 rounded-sm border transition-colors ${
                           data.rotation === opt.deg
                             ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand"
                             : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"
@@ -579,7 +579,7 @@ export function VideoEditorModal({
                     ))}
                   </div>
                   <button onClick={rotate90}
-                    className="w-full flex items-center justify-center gap-2 px-3 py-2 text-[11px] text-tv-brand font-medium border border-tv-brand-bg/30 rounded-[8px] hover:bg-tv-brand-tint transition-colors">
+                    className="w-full flex items-center justify-center gap-2 px-3 py-2 text-[11px] text-tv-brand font-medium border border-tv-brand-bg/30 rounded-sm hover:bg-tv-brand-tint transition-colors">
                     <RotateCw size={12} />Rotate 90&deg; clockwise
                   </button>
                   {data.rotation !== 0 && (
@@ -681,7 +681,7 @@ export function VideoEditorModal({
                     <div className="mb-3">
                       <label className="text-[9px] text-tv-text-secondary mb-1 block">Language</label>
                       <select value={captionLang} onChange={e => { setCaptionLang(e.target.value); setHasChanges(true); }}
-                        className="w-full border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[11px] outline-none focus:border-tv-brand-bg bg-white">
+                        className="w-full border border-tv-border-light rounded-sm px-3 py-1.5 text-[11px] outline-none focus:border-tv-brand-bg bg-white">
                         {LANGUAGES.map(l => <option key={l}>{l}</option>)}
                       </select>
                     </div>
@@ -753,7 +753,7 @@ export function VideoEditorModal({
                         <>
                           <div className="space-y-2 max-h-[200px] overflow-y-auto">
                             {data.captions.map((line, idx) => (
-                              <div key={line.id} className="bg-tv-surface border border-tv-border-light rounded-[8px] p-2">
+                              <div key={line.id} className="bg-tv-surface border border-tv-border-light rounded-sm p-2">
                                 <div className="flex items-center justify-between mb-1">
                                   <span className="text-[9px] font-mono text-tv-text-secondary">{line.start} &ndash; {line.end}</span>
                                   <button onClick={() => removeCaption(idx)} className="text-tv-text-secondary hover:text-tv-danger"><X size={10} /></button>
@@ -782,7 +782,7 @@ export function VideoEditorModal({
 
                 {/* Current thumbnail preview */}
                 {data.thumbnailUrl ? (
-                  <div className="relative rounded-[8px] overflow-hidden border border-tv-border-light">
+                  <div className="relative rounded-sm overflow-hidden border border-tv-border-light">
                     <img src={data.thumbnailUrl} alt="Current thumbnail" className="w-full h-[130px] object-cover" />
                     <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 bg-black/60 text-white text-[8px] font-semibold rounded backdrop-blur-sm">
                       {thumbnailSource === "frame" ? "From video" : thumbnailSource === "upload" ? "Uploaded" : "Custom"}
@@ -795,7 +795,7 @@ export function VideoEditorModal({
                     </button>
                   </div>
                 ) : (
-                  <div className="bg-tv-surface rounded-[8px] p-4 text-center">
+                  <div className="bg-tv-surface rounded-sm p-4 text-center">
                     <Image size={20} className="text-tv-text-secondary/40 mx-auto mb-1" />
                     <p className="text-[10px] text-tv-text-secondary">No thumbnail set</p>
                     <p className="text-[8px] text-tv-text-decorative mt-0.5">Choose from a frame or upload an image</p>
@@ -847,7 +847,7 @@ export function VideoEditorModal({
                       upd("thumbnailUrl", generateFrameThumbnail(currentSec, hue));
                       show(`Thumbnail set from ${fmtSec(currentSec)}`, "success");
                     }}
-                    className="w-full flex items-center justify-center gap-2 px-3 py-2 text-[11px] text-tv-brand font-medium border border-tv-brand-bg/30 rounded-[8px] hover:bg-tv-brand-tint transition-colors"
+                    className="w-full flex items-center justify-center gap-2 px-3 py-2 text-[11px] text-tv-brand font-medium border border-tv-brand-bg/30 rounded-sm hover:bg-tv-brand-tint transition-colors"
                   >
                     <Play size={11} />Use current position ({fmtSec(Math.round((scrubber / 100) * data.originalDuration))})
                   </button>
@@ -881,7 +881,7 @@ export function VideoEditorModal({
                     }}
                   />
                   <button onClick={() => thumbnailInputRef.current?.click()}
-                    className="w-full border-2 border-dashed border-tv-border-light rounded-[8px] p-4 flex flex-col items-center justify-center cursor-pointer hover:border-tv-border-strong hover:bg-tv-surface/50 transition-colors">
+                    className="w-full border-2 border-dashed border-tv-border-light rounded-sm p-4 flex flex-col items-center justify-center cursor-pointer hover:border-tv-border-strong hover:bg-tv-surface/50 transition-colors">
                     <Upload size={18} className="text-tv-text-secondary mb-1.5" />
                     <p className="text-[11px] text-tv-text-primary font-medium">Click to upload</p>
                     <p className="text-[9px] text-tv-text-secondary mt-0.5">JPG, PNG, or GIF &middot; Max 5 MB</p>
@@ -895,7 +895,7 @@ export function VideoEditorModal({
           <div className="flex-1 flex flex-col min-h-0 min-w-0 bg-tv-surface-muted overflow-y-auto">
             <div className="flex-1 flex items-center justify-center p-4 min-h-0">
               <div
-                className="relative rounded-[12px] overflow-hidden bg-[#1a1a2e] flex items-center justify-center w-full max-w-[500px] max-h-full cursor-pointer aspect-[4/3]"
+                className="relative rounded-lg overflow-hidden bg-[#1a1a2e] flex items-center justify-center w-full max-w-[500px] max-h-full cursor-pointer aspect-[4/3]"
                 onClick={() => setPlaying(!playing)}
                 style={{ transform: `rotate(${data.rotation}deg)`, transition: "transform 0.3s ease" }}
               >
@@ -946,7 +946,7 @@ export function VideoEditorModal({
 
             {/* Trim controls */}
             {tab === "trim" && (
-              <div className="mx-5 mb-4 p-4 bg-white border border-tv-border-light rounded-[12px] shrink-0">
+              <div className="mx-5 mb-4 p-4 bg-white border border-tv-border-light rounded-lg shrink-0">
                 <div className="flex items-center justify-between mb-3">
                   <p className="text-[12px] font-semibold text-tv-text-primary">Trim Video</p>
                   <div className="flex items-center gap-2">
@@ -954,7 +954,7 @@ export function VideoEditorModal({
                     {data.isTrimmed && <button onClick={resetTrim} className="text-[10px] text-tv-danger font-medium hover:underline">Reset Trim</button>}
                   </div>
                 </div>
-                <div className="relative h-10 bg-tv-surface rounded-[8px] overflow-hidden mb-3 border border-tv-border-light">
+                <div className="relative h-10 bg-tv-surface rounded-sm overflow-hidden mb-3 border border-tv-border-light">
                   <div className="absolute inset-0 flex items-center px-1">
                     {Array.from({ length: 50 }).map((_, i) => (
                       <div key={i} className="flex-1 mx-px rounded-full"
@@ -980,7 +980,7 @@ export function VideoEditorModal({
 
             {/* Crop & Rotate controls */}
             {tab === "crop" && (
-              <div className="mx-5 mb-4 p-4 bg-white border border-tv-border-light rounded-[12px] shrink-0">
+              <div className="mx-5 mb-4 p-4 bg-white border border-tv-border-light rounded-lg shrink-0">
                 <div className="flex items-center justify-between mb-3">
                   <p className="text-[12px] font-semibold text-tv-text-primary">Crop & Rotate</p>
                   <button onClick={rotate90}
@@ -1002,7 +1002,7 @@ export function VideoEditorModal({
                     <div key={label}>
                       <label className="text-[9px] text-tv-text-secondary mb-0.5 block">{label}</label>
                       <input type="number" min={0} max={100} value={val} onChange={e => { setter(Number(e.target.value)); setHasChanges(true); }}
-                        className="w-full border border-tv-border-light rounded-[8px] px-2 py-1 text-[11px] font-mono text-center outline-none focus:border-tv-brand-bg" />
+                        className="w-full border border-tv-border-light rounded-sm px-2 py-1 text-[11px] font-mono text-center outline-none focus:border-tv-brand-bg" />
                     </div>
                   ))}
                 </div>

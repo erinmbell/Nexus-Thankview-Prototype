@@ -315,14 +315,14 @@ function TagManagerModal({ selectedTags, onToggle, onAdd, onClose }: TagManagerM
       }}
     >
       <div
-        className="bg-white rounded-[20px] border border-tv-border-light shadow-2xl w-full max-w-[520px] mx-4 flex flex-col relative"
+        className="bg-white rounded-xl border border-tv-border-light shadow-2xl w-full max-w-[520px] mx-4 flex flex-col relative"
         style={{ maxHeight: "min(640px, 85vh)" }}
       >
         {/* ── Header ─────────────────────────────────────────────────────── */}
         <div className="flex items-center justify-between px-5 pt-5 pb-3">
           <div className="flex items-center gap-2.5">
             <div
-              className="w-8 h-8 rounded-[8px] flex items-center justify-center"
+              className="w-8 h-8 rounded-sm flex items-center justify-center"
               style={{ backgroundColor: TV.brandTint }}
             >
               <Tag size={15} style={{ color: TV.brand }} />
@@ -432,7 +432,7 @@ function TagManagerModal({ selectedTags, onToggle, onAdd, onClose }: TagManagerM
                     key={tag}
                     type="button"
                     onClick={() => handleToggle(tag)}
-                    className={`w-full flex items-center gap-2.5 px-4 py-2 text-left rounded-[8px] mx-0 transition-colors ${
+                    className={`w-full flex items-center gap-2.5 px-4 py-2 text-left rounded-sm mx-0 transition-colors ${
                       isSelected ? "bg-tv-brand-tint/50" : "hover:bg-tv-surface"
                     }`}
                   >
@@ -480,7 +480,7 @@ function TagManagerModal({ selectedTags, onToggle, onAdd, onClose }: TagManagerM
                   setQuery("");
                   showToast(tag, "created");
                 }}
-                className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-[8px] bg-tv-brand-tint/60 hover:bg-tv-brand-tint transition-colors"
+                className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-sm bg-tv-brand-tint/60 hover:bg-tv-brand-tint transition-colors"
               >
                 <span className="w-4 h-4 rounded-[4px] bg-tv-brand-bg flex items-center justify-center shrink-0">
                   <Plus size={10} className="text-white" />
@@ -550,14 +550,14 @@ function TagManagerModal({ selectedTags, onToggle, onAdd, onClose }: TagManagerM
                   }
                 }}
                 placeholder="Type a new tag name\u2026"
-                className="w-full px-3 py-2 text-[13px] border border-tv-border-light rounded-[8px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
+                className="w-full px-3 py-2 text-[13px] border border-tv-border-light rounded-sm outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
               />
             </div>
             <button
               type="button"
               onClick={handleCreateTag}
               disabled={!newTagInput.trim()}
-              className={`px-4 py-2 rounded-[8px] text-[12px] flex items-center gap-1.5 transition-colors ${
+              className={`px-4 py-2 rounded-sm text-[12px] flex items-center gap-1.5 transition-colors ${
                 newTagInput.trim()
                   ? "bg-tv-brand-bg text-white hover:bg-tv-brand-hover"
                   : "bg-tv-surface text-tv-text-decorative cursor-not-allowed"

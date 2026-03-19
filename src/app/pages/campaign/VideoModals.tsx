@@ -69,7 +69,7 @@ export function VideoPickerView({ onBack, onSelect }: { onBack: () => void; onSe
                 onClick={() => setEditorVideo(v)}
                 onMouseEnter={() => setHoveredId(v.id)}
                 onMouseLeave={() => setHoveredId(null)}
-                className="rounded-[12px] overflow-hidden border border-tv-border-light hover:border-tv-brand-bg hover:shadow-lg transition-all text-left group"
+                className="rounded-lg overflow-hidden border border-tv-border-light hover:border-tv-brand-bg hover:shadow-lg transition-all text-left group"
               >
                 <div className={`aspect-[4/3] bg-gradient-to-br ${v.color} flex items-center justify-center relative`}>
                   <div className={`w-9 h-9 rounded-full bg-white/20 border-2 border-white/60 flex items-center justify-center transition-transform ${hoveredId === v.id ? "scale-110" : ""}`}>
@@ -108,7 +108,7 @@ export function VideoPickerView({ onBack, onSelect }: { onBack: () => void; onSe
 // ── Assigned video chip ───────────────────────────────────────────────────────
 export function AssignedVideoChip({ video, onRemove }: { video: PickerVideo; onRemove: () => void }) {
   return (
-    <div className="flex items-center gap-3 px-3 py-2 bg-tv-brand-tint border border-tv-border-strong rounded-[12px]">
+    <div className="flex items-center gap-3 px-3 py-2 bg-tv-brand-tint border border-tv-border-strong rounded-lg">
       <div className={`w-10 h-7 rounded-[6px] bg-gradient-to-br ${video.color} flex items-center justify-center shrink-0`}>
         <Play size={10} className="text-white ml-0.5" fill="white" />
       </div>

@@ -239,9 +239,9 @@ export function VideoEditorView({
 
   /* ── Compact video info card ── */
   const VideoInfoCard = () => (
-    <div className="mb-4 p-3 bg-tv-surface rounded-[8px] border border-tv-border-light">
+    <div className="mb-4 p-3 bg-tv-surface rounded-sm border border-tv-border-light">
       <div className="flex items-center gap-2.5">
-        <div className="w-10 h-10 rounded-[8px] bg-[#1a1a2e] flex items-center justify-center shrink-0">
+        <div className="w-10 h-10 rounded-sm bg-[#1a1a2e] flex items-center justify-center shrink-0">
           <Play size={10} className="text-white ml-0.5" fill="white" />
         </div>
         <div className="min-w-0 flex-1">
@@ -259,28 +259,28 @@ export function VideoEditorView({
       <div className="mb-4">
         <label className="text-[12px] font-semibold text-tv-text-primary mb-1.5 block">Video Name</label>
         <input value={videoName} onChange={e => { setVideoName(e.target.value); markChanged(); }}
-          className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors" />
+          className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors" />
       </div>
       <div className="mb-4">
         <label className="text-[12px] font-semibold text-tv-text-primary mb-1.5 block">Description</label>
         <textarea value={description} onChange={e => { setDescription(e.target.value); markChanged(); }}
           placeholder="Add a description for this video" rows={3}
-          className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors resize-none placeholder:text-tv-text-secondary" />
+          className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors resize-none placeholder:text-tv-text-secondary" />
       </div>
       <div className="mb-4">
         <label className="text-[12px] font-semibold text-tv-text-primary mb-1.5 flex items-center gap-1.5"><User size={12} />Constituent <ConstituentTooltip size={11} /></label>
         <input value={recipient} onChange={e => { setRecipient(e.target.value); markChanged(); }}
           placeholder="Who is this video for?"
-          className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-secondary" />
+          className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-secondary" />
       </div>
       <div className="mb-4">
         <label className="text-[12px] font-semibold text-tv-text-primary mb-1.5 flex items-center gap-1.5"><Tag size={12} />Tags</label>
         <div className="flex items-center gap-2">
           <input value={tagInput} onChange={e => setTagInput(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAddTag()}
             placeholder="Add a tag"
-            className="flex-1 border border-tv-border-light rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-secondary"
+            className="flex-1 border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg focus:ring-2 focus:ring-tv-brand-bg/20 transition-colors placeholder:text-tv-text-secondary"
             onFocus={() => setTagInputFocused(true)} onBlur={() => setTagInputFocused(false)} />
-          <button onClick={handleAddTag} className="w-8 h-8 rounded-[8px] border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface transition-colors shrink-0">
+          <button onClick={handleAddTag} className="w-8 h-8 rounded-sm border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface transition-colors shrink-0">
             <Plus size={14} />
           </button>
         </div>
@@ -315,13 +315,13 @@ export function VideoEditorView({
       </div>
       <div className="relative">
         <label className="text-[12px] font-semibold text-tv-text-primary mb-1.5 flex items-center gap-1.5"><FolderOpen size={12} />Folder</label>
-        <button className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[13px] text-left flex items-center justify-between hover:bg-tv-surface transition-colors"
+        <button className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[13px] text-left flex items-center justify-between hover:bg-tv-surface transition-colors"
           onClick={() => setFolderOpen(!folderOpen)}>
           <span>{folder}</span>
           <ChevronDown size={14} className={`text-tv-text-secondary transition-transform ${folderOpen ? "rotate-180" : ""}`} />
         </button>
         {folderOpen && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-tv-border-light rounded-[8px] shadow-lg z-10 overflow-hidden">
+          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-tv-border-light rounded-sm shadow-lg z-10 overflow-hidden">
             {FOLDERS.map(f => (
               <button key={f} onClick={() => { setFolder(f); setFolderOpen(false); markChanged(); }}
                 className={`block w-full text-left px-3 py-2 text-[12px] transition-colors ${
@@ -349,7 +349,7 @@ export function VideoEditorView({
       )}
       <div className="mb-3">
         <label className="text-[11px] text-tv-text-secondary mb-1.5 block">Timeline</label>
-        <div className="relative h-12 bg-tv-brand-tint rounded-[8px] overflow-hidden border-2 border-tv-brand-bg">
+        <div className="relative h-12 bg-tv-brand-tint rounded-sm overflow-hidden border-2 border-tv-brand-bg">
           <div className="absolute inset-0 flex items-center px-1">
             {Array.from({ length: 40 }).map((_, i) => (
               <div key={i} className="flex-1 mx-px bg-tv-brand-bg rounded-full"
@@ -364,12 +364,12 @@ export function VideoEditorView({
         <div>
           <label className="text-[10px] text-tv-text-secondary mb-1 block">Start</label>
           <input value={trimStart} onChange={e => { setTrimStart(e.target.value); setIsTrimmed(true); markChanged(); }}
-            className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-1.5 text-[12px] font-mono text-center outline-none focus:border-tv-brand-bg" />
+            className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] font-mono text-center outline-none focus:border-tv-brand-bg" />
         </div>
         <div>
           <label className="text-[10px] text-tv-text-secondary mb-1 block">End</label>
           <input value={trimEnd} onChange={e => { setTrimEnd(e.target.value); setIsTrimmed(true); markChanged(); }}
-            className="w-full border border-tv-border-light rounded-[8px] px-2.5 py-1.5 text-[12px] font-mono text-center outline-none focus:border-tv-brand-bg" />
+            className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] font-mono text-center outline-none focus:border-tv-brand-bg" />
         </div>
       </div>
       <p className="text-[10px] text-tv-text-secondary mb-3">Original duration: {video.duration}</p>
@@ -378,7 +378,7 @@ export function VideoEditorView({
         <div className="grid grid-cols-2 gap-1.5">
           {TRIM_QUICK.map(q => (
             <button key={q} onClick={() => { setIsTrimmed(true); markChanged(); show(`Applied "${q}"`, "info"); }}
-              className="text-[11px] text-tv-brand font-medium hover:bg-tv-brand-tint px-2.5 py-1.5 rounded-[8px] transition-colors border border-tv-border-light text-center">
+              className="text-[11px] text-tv-brand font-medium hover:bg-tv-brand-tint px-2.5 py-1.5 rounded-sm transition-colors border border-tv-border-light text-center">
               {q}
             </button>
           ))}
@@ -400,7 +400,7 @@ export function VideoEditorView({
         <div className="grid grid-cols-2 gap-1.5">
           {CROP_PRESETS.map(p => (
             <button key={p} onClick={() => { setCropPreset(p); markChanged(); }}
-              className={`text-[12px] font-medium px-3 py-2 rounded-[8px] border transition-colors ${
+              className={`text-[12px] font-medium px-3 py-2 rounded-sm border transition-colors ${
                 cropPreset === p
                   ? "bg-tv-brand-bg text-white border-tv-brand-bg"
                   : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"
@@ -412,7 +412,7 @@ export function VideoEditorView({
       </div>
 
       <button onClick={() => { markChanged(); show("Cropping mode activated", "info"); }}
-        className="w-full flex items-center justify-center gap-1.5 bg-tv-brand-bg text-white text-[12px] font-semibold px-3.5 py-2.5 rounded-[8px] hover:bg-tv-brand-hover transition-colors mb-4">
+        className="w-full flex items-center justify-center gap-1.5 bg-tv-brand-bg text-white text-[12px] font-semibold px-3.5 py-2.5 rounded-sm hover:bg-tv-brand-hover transition-colors mb-4">
         <Crop size={13} />Start Cropping
       </button>
 
@@ -430,7 +430,7 @@ export function VideoEditorView({
             <button
               key={opt.deg}
               onClick={() => { setRotation(opt.deg); markChanged(); }}
-              className={`w-full flex items-center gap-3 px-3 py-2 rounded-[8px] border transition-colors ${
+              className={`w-full flex items-center gap-3 px-3 py-2 rounded-sm border transition-colors ${
                 rotation === opt.deg
                   ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand"
                   : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"
@@ -444,12 +444,12 @@ export function VideoEditorView({
 
         <div className="space-y-2">
           <button onClick={() => { setRotation(r => (r + 90) % 360); markChanged(); }}
-            className="w-full flex items-center justify-center gap-1.5 bg-tv-brand-bg text-white text-[12px] font-semibold px-3.5 py-2.5 rounded-[8px] hover:bg-tv-brand-hover transition-colors">
+            className="w-full flex items-center justify-center gap-1.5 bg-tv-brand-bg text-white text-[12px] font-semibold px-3.5 py-2.5 rounded-sm hover:bg-tv-brand-hover transition-colors">
             <RotateCw size={13} />Rotate 90&deg; Clockwise
           </button>
           {rotation !== 0 && (
             <button onClick={() => { setRotation(0); markChanged(); }}
-              className="w-full flex items-center justify-center gap-1.5 border border-tv-border-light text-tv-text-label text-[12px] font-semibold px-3.5 py-2.5 rounded-[8px] hover:bg-tv-surface transition-colors">
+              className="w-full flex items-center justify-center gap-1.5 border border-tv-border-light text-tv-text-label text-[12px] font-semibold px-3.5 py-2.5 rounded-sm hover:bg-tv-surface transition-colors">
               Reset to 0&deg;
             </button>
           )}
@@ -490,7 +490,7 @@ export function VideoEditorView({
           <div className="mb-4 pb-4 border-b border-tv-border-divider">
             <label className="text-[11px] text-tv-text-secondary mb-2 block">Add Captions</label>
             {captionProcessing !== "idle" && (
-              <div className="mb-3 p-2.5 bg-tv-info-bg border border-tv-info-border rounded-[8px]">
+              <div className="mb-3 p-2.5 bg-tv-info-bg border border-tv-info-border rounded-sm">
                 <div className="flex items-center gap-2 mb-1.5">
                   <Loader2 size={12} className="text-tv-info animate-spin" />
                   <span className="text-[11px] font-semibold text-tv-text-primary">
@@ -505,19 +505,19 @@ export function VideoEditorView({
             )}
             <div className="space-y-1.5">
               <button onClick={handleCaptionFileUpload} disabled={captionProcessing !== "idle"}
-                className="w-full flex items-center gap-2.5 p-2.5 bg-tv-surface border border-tv-border-light rounded-[8px] text-left hover:bg-tv-surface-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                className="w-full flex items-center gap-2.5 p-2.5 bg-tv-surface border border-tv-border-light rounded-sm text-left hover:bg-tv-surface-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                 <div className="w-7 h-7 rounded-[6px] bg-white border border-tv-border-light flex items-center justify-center shrink-0"><FileUp size={13} className="text-tv-text-secondary" /></div>
                 <div><p className="text-[11px] font-semibold text-tv-text-primary">Upload VTT / SRT file</p><p className="text-[9px] text-tv-text-secondary">Import existing caption file</p></div>
                 {captionSource === "upload" && <span className="ml-auto text-[8px] font-semibold text-tv-success bg-tv-success-bg px-1.5 py-0.5 rounded-full">Active</span>}
               </button>
               <button onClick={handleAICaptions} disabled={captionProcessing !== "idle"}
-                className="w-full flex items-center gap-2.5 p-2.5 bg-tv-surface border border-tv-border-light rounded-[8px] text-left hover:bg-tv-surface-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                className="w-full flex items-center gap-2.5 p-2.5 bg-tv-surface border border-tv-border-light rounded-sm text-left hover:bg-tv-surface-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                 <div className="w-7 h-7 rounded-[6px] bg-white border border-tv-border-light flex items-center justify-center shrink-0"><Sparkles size={13} className="text-tv-brand" /></div>
                 <div><p className="text-[11px] font-semibold text-tv-text-primary">Auto-generate (AI)</p><p className="text-[9px] text-tv-text-secondary">Transcribe audio automatically</p></div>
                 {captionSource === "ai" && <span className="ml-auto text-[8px] font-semibold text-tv-success bg-tv-success-bg px-1.5 py-0.5 rounded-full">Active</span>}
               </button>
               <button onClick={handleREVCaptions} disabled={captionProcessing !== "idle"}
-                className="w-full flex items-center gap-2.5 p-2.5 bg-tv-surface border border-tv-border-light rounded-[8px] text-left hover:bg-tv-surface-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                className="w-full flex items-center gap-2.5 p-2.5 bg-tv-surface border border-tv-border-light rounded-sm text-left hover:bg-tv-surface-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                 <div className="w-7 h-7 rounded-[6px] bg-white border border-tv-border-light flex items-center justify-center shrink-0"><Wand2 size={13} className="text-tv-text-secondary" /></div>
                 <div><p className="text-[11px] font-semibold text-tv-text-primary">Human captions (REV)</p><p className="text-[9px] text-tv-text-secondary">Professional transcription &middot; 1 credit</p></div>
                 {captionSource === "rev" && <span className="ml-auto text-[8px] font-semibold text-tv-success bg-tv-success-bg px-1.5 py-0.5 rounded-full">Active</span>}
@@ -528,7 +528,7 @@ export function VideoEditorView({
           {/* Appearance */}
           <div className="border-b border-tv-border-divider pb-4 mb-4">
             <button onClick={() => setCaptionAppearanceOpen(!captionAppearanceOpen)}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-[10px] border transition-colors ${captionAppearanceOpen ? "bg-tv-surface border-tv-border-light" : "bg-transparent border-tv-border-light hover:bg-tv-surface-muted"}`}>
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md border transition-colors ${captionAppearanceOpen ? "bg-tv-surface border-tv-border-light" : "bg-transparent border-tv-border-light hover:bg-tv-surface-muted"}`}>
               <span className="text-[12px] font-semibold text-tv-text-primary">Customize Appearance</span>
               <ChevronDown size={14} className={`text-tv-text-secondary transition-transform ${captionAppearanceOpen ? "rotate-180" : ""}`} />
             </button>
@@ -540,7 +540,7 @@ export function VideoEditorView({
                 <div>
                   <label className="text-[11px] text-tv-text-secondary mb-1 block">Language</label>
                   <select value={captionLang} onChange={e => { setCaptionLang(e.target.value); markChanged(); }}
-                    className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg bg-white">
+                    className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:border-tv-brand-bg bg-white">
                     <option>English</option><option>Spanish</option><option>French</option><option>German</option>
                   </select>
                 </div>
@@ -549,7 +549,7 @@ export function VideoEditorView({
                   <div className="flex gap-1">
                     {(["Small", "Medium", "Large"] as const).map(s => (
                       <button key={s} onClick={() => { setCaptionSize(s); markChanged(); }}
-                        className={`px-3 py-1.5 text-[11px] font-medium rounded-[8px] border transition-colors ${captionSize === s ? "bg-tv-brand-bg text-white border-tv-brand-bg" : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"}`}>
+                        className={`px-3 py-1.5 text-[11px] font-medium rounded-sm border transition-colors ${captionSize === s ? "bg-tv-brand-bg text-white border-tv-brand-bg" : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"}`}>
                         {s}
                       </button>
                     ))}
@@ -560,7 +560,7 @@ export function VideoEditorView({
                   <div className="flex gap-1">
                     {(["Top", "Bottom"] as const).map(p => (
                       <button key={p} onClick={() => { setCaptionPos(p); markChanged(); }}
-                        className={`px-3 py-1.5 text-[11px] font-medium rounded-[8px] border transition-colors ${captionPos === p ? "bg-tv-brand-bg text-white border-tv-brand-bg" : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"}`}>
+                        className={`px-3 py-1.5 text-[11px] font-medium rounded-sm border transition-colors ${captionPos === p ? "bg-tv-brand-bg text-white border-tv-brand-bg" : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"}`}>
                         {p}
                       </button>
                     ))}
@@ -616,7 +616,7 @@ export function VideoEditorView({
               <>
                 <div className="space-y-2">
                   {captionLines.map((line, idx) => (
-                    <div key={line.id} className="bg-tv-surface border border-tv-border-light rounded-[8px] p-2.5">
+                    <div key={line.id} className="bg-tv-surface border border-tv-border-light rounded-sm p-2.5">
                       <div className="flex items-center justify-between mb-1.5">
                         <span className="text-[10px] font-mono text-tv-text-secondary">{line.start} &ndash; {line.end}</span>
                         <button onClick={() => { setCaptionLines(prev => prev.filter((_, i) => i !== idx)); markChanged(); }}
@@ -646,7 +646,7 @@ export function VideoEditorView({
 
       {/* Current thumbnail preview */}
       {thumbnailUrl ? (
-        <div className="relative rounded-[8px] overflow-hidden border border-tv-border-light mb-4">
+        <div className="relative rounded-sm overflow-hidden border border-tv-border-light mb-4">
           <img src={thumbnailUrl} alt="Current thumbnail" className="w-full h-[130px] object-cover" />
           <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 bg-black/60 text-white text-[8px] font-semibold rounded backdrop-blur-sm">
             {thumbnailSource === "frame" ? "From video" : thumbnailSource === "upload" ? "Uploaded" : "Custom"}
@@ -657,7 +657,7 @@ export function VideoEditorView({
           </button>
         </div>
       ) : (
-        <div className="bg-tv-surface rounded-[8px] p-4 text-center mb-4">
+        <div className="bg-tv-surface rounded-sm p-4 text-center mb-4">
           <Image size={20} className="text-tv-text-secondary/40 mx-auto mb-1" />
           <p className="text-[10px] text-tv-text-secondary">No thumbnail set</p>
           <p className="text-[8px] text-tv-text-decorative mt-0.5">Choose from a frame or upload an image</p>
@@ -708,7 +708,7 @@ export function VideoEditorView({
           markChanged();
           show(`Thumbnail set from ${fmtSec(currentSec)}`, "success");
         }}
-          className="w-full flex items-center justify-center gap-2 px-3 py-2 text-[11px] text-tv-brand font-medium border border-tv-brand-bg/30 rounded-[8px] hover:bg-tv-brand-tint transition-colors">
+          className="w-full flex items-center justify-center gap-2 px-3 py-2 text-[11px] text-tv-brand font-medium border border-tv-brand-bg/30 rounded-sm hover:bg-tv-brand-tint transition-colors">
           <Play size={11} />Use current position ({fmtSec(Math.round((scrubber / 100) * originalDuration))})
         </button>
       </div>
@@ -742,7 +742,7 @@ export function VideoEditorView({
           }}
         />
         <button onClick={() => thumbnailInputRef.current?.click()}
-          className="w-full border-2 border-dashed border-tv-border-light rounded-[8px] p-5 flex flex-col items-center justify-center cursor-pointer hover:border-tv-border-strong hover:bg-tv-surface/50 transition-colors">
+          className="w-full border-2 border-dashed border-tv-border-light rounded-sm p-5 flex flex-col items-center justify-center cursor-pointer hover:border-tv-border-strong hover:bg-tv-surface/50 transition-colors">
           <Upload size={20} className="text-tv-text-secondary mb-2" />
           <p className="text-[12px] text-tv-text-primary font-medium">Click to upload</p>
           <p className="text-[10px] text-tv-text-secondary mt-0.5">JPG, PNG, or GIF &middot; Max 5 MB</p>
@@ -813,7 +813,7 @@ export function VideoEditorView({
           {/* Video preview */}
           <div className="flex-1 flex items-center justify-center px-6 py-3 bg-[#f8f8fa] min-h-0">
             <div
-              className="relative rounded-[12px] overflow-hidden bg-[#1a1a2e] flex items-center justify-center w-full max-w-[580px] max-h-full cursor-pointer aspect-[16/9]"
+              className="relative rounded-lg overflow-hidden bg-[#1a1a2e] flex items-center justify-center w-full max-w-[580px] max-h-full cursor-pointer aspect-[16/9]"
               onClick={() => { setPlaying(!playing); if (!playing) show("Playing preview\u2026", "info"); }}
               style={{ transform: `rotate(${rotation}deg)`, transition: "transform 0.3s ease" }}
             >

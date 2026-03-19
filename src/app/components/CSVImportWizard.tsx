@@ -331,7 +331,7 @@ export function CSVImportWizard({ existingEmails = new Set(), onImport }: CSVImp
             className="hidden"
           />
           <div
-            className={`w-full border-2 border-dashed rounded-[12px] p-10 flex flex-col items-center gap-4 transition-colors cursor-pointer ${
+            className={`w-full border-2 border-dashed rounded-lg p-10 flex flex-col items-center gap-4 transition-colors cursor-pointer ${
               dragOver
                 ? "border-tv-brand-bg bg-tv-brand-tint/30"
                 : "border-tv-border-light hover:border-tv-border-strong bg-tv-surface/40"
@@ -341,7 +341,7 @@ export function CSVImportWizard({ existingEmails = new Set(), onImport }: CSVImp
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
           >
-            <div className="w-12 h-12 rounded-[12px] bg-tv-brand-tint flex items-center justify-center">
+            <div className="w-12 h-12 rounded-lg bg-tv-brand-tint flex items-center justify-center">
               <Upload size={20} className="text-tv-brand" />
             </div>
             <div className="text-center">
@@ -420,7 +420,7 @@ export function CSVImportWizard({ existingEmails = new Set(), onImport }: CSVImp
                     <select
                       value={mapped}
                       onChange={e => updateMapping(i, e.target.value as TVFieldId)}
-                      className={`w-full appearance-none pl-3 pr-7 py-2 rounded-[8px] border text-[12px] outline-none transition-colors cursor-pointer ${
+                      className={`w-full appearance-none pl-3 pr-7 py-2 rounded-sm border text-[12px] outline-none transition-colors cursor-pointer ${
                         mapped === "skip"
                           ? "border-tv-border-light text-tv-text-secondary bg-tv-surface"
                           : "border-tv-brand-bg/30 text-tv-text-primary bg-tv-brand-tint/20"
@@ -564,7 +564,7 @@ export function CSVImportWizard({ existingEmails = new Set(), onImport }: CSVImp
                 <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Duplicate Handling</p>
                 <p className="text-[10px] text-tv-text-secondary">What to do when an email already exists in this campaign</p>
               </div>
-              <div className="flex items-center bg-tv-surface rounded-[8px] p-0.5">
+              <div className="flex items-center bg-tv-surface rounded-sm p-0.5">
                 <button
                   onClick={() => setDuplicateMode("skip")}
                   className={`px-3 py-1.5 rounded-[6px] text-[11px] transition-colors ${
@@ -608,7 +608,7 @@ export function CSVImportWizard({ existingEmails = new Set(), onImport }: CSVImp
       {step === 4 && importResult && (
         <div className="flex-1 flex flex-col min-h-0 px-5 pt-2 pb-5">
           {/* Summary banner */}
-          <div className={`rounded-[12px] p-5 mb-4 ${
+          <div className={`rounded-lg p-5 mb-4 ${
             importResult.errors.length === 0
               ? "bg-tv-success-bg border border-tv-success-border"
               : "bg-tv-warning-bg border border-tv-warning-border"
@@ -655,7 +655,7 @@ export function CSVImportWizard({ existingEmails = new Set(), onImport }: CSVImp
 
           {/* Error list (expandable) */}
           {importResult.errors.length > 0 && (
-            <div className="rounded-[12px] border border-tv-border-light overflow-hidden mb-4">
+            <div className="rounded-lg border border-tv-border-light overflow-hidden mb-4">
               <button
                 onClick={() => setExpandErrors(!expandErrors)}
                 className="w-full flex items-center justify-between px-4 py-3 hover:bg-tv-surface/50 transition-colors"

@@ -284,7 +284,7 @@ const ACTIVITY_TIMELINE_FILTERS: FilterDef[] = [
 ];
 
 function DashCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <div className={`rounded-[20px] border ${className}`} style={{ borderColor: TV.borderLight }}>{children}</div>;
+  return <div className={`rounded-xl border ${className}`} style={{ borderColor: TV.borderLight }}>{children}</div>;
 }
 
 // ── Giving History Panel ────────────────────────────────────────────────────
@@ -910,7 +910,7 @@ export function ContactProfile() {
                 {/* Recent sends (up to 3) */}
                 <div className="flex flex-col gap-1.5">
                   {sends.slice(0, 3).map(send => (
-                    <div key={send.id} className="flex items-center gap-3 px-3 py-2 rounded-[10px] hover:bg-black/[0.02] transition-colors">
+                    <div key={send.id} className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-black/[0.02] transition-colors">
                       <div className="flex items-center justify-center w-8 h-8 rounded-full" style={{
                         backgroundColor: send.engagementScore >= 70 ? TV.successBg : send.engagementScore >= 40 ? TV.warningBg : TV.dangerBg,
                       }}>
@@ -1079,7 +1079,7 @@ export function ContactProfile() {
               ) : (
                 <Stack gap="sm">
                   {/* ── Contact Info (collapsible, compact) ── */}
-                  <div className="rounded-[12px] border overflow-hidden" style={{ borderColor: TV.borderLight }}>
+                  <div className="rounded-lg border overflow-hidden" style={{ borderColor: TV.borderLight }}>
                     <button onClick={() => toggleSection("contactInfo")} className="w-full flex items-center gap-2 px-4 py-2.5 hover:bg-black/[0.02] transition-colors">
                       <ChevronDown size={12} style={{ color: TV.textSecondary, transform: openSections.contactInfo ? "rotate(0deg)" : "rotate(-90deg)", transition: "transform 0.15s" }} />
                       <Text fz={11} fw={700} c={TV.textPrimary} className="flex-1 text-left">Contact Details</Text>
@@ -1123,7 +1123,7 @@ export function ContactProfile() {
                   </div>
 
                   {/* ── Extended Details (collapsible) ── */}
-                  <div className="rounded-[12px] border overflow-hidden" style={{ borderColor: TV.borderLight }}>
+                  <div className="rounded-lg border overflow-hidden" style={{ borderColor: TV.borderLight }}>
                     <button onClick={() => toggleSection("extendedDetails")} className="w-full flex items-center gap-2 px-4 py-2.5 hover:bg-black/[0.02] transition-colors">
                       <ChevronDown size={12} style={{ color: TV.textSecondary, transform: openSections.extendedDetails ? "rotate(0deg)" : "rotate(-90deg)", transition: "transform 0.15s" }} />
                       <Text fz={11} fw={700} c={TV.textPrimary} className="flex-1 text-left">More Details</Text>
@@ -1158,7 +1158,7 @@ export function ContactProfile() {
                   </div>
 
                   {/* ── Scores & Ratings (collapsible) ── */}
-                  <div className="rounded-[12px] border overflow-hidden" style={{ borderColor: TV.borderLight }}>
+                  <div className="rounded-lg border overflow-hidden" style={{ borderColor: TV.borderLight }}>
                     <button onClick={() => toggleSection("scores")} className="w-full flex items-center gap-2 px-4 py-2.5 hover:bg-black/[0.02] transition-colors">
                       <ChevronDown size={12} style={{ color: TV.textSecondary, transform: openSections.scores ? "rotate(0deg)" : "rotate(-90deg)", transition: "transform 0.15s" }} />
                       <Text fz={11} fw={700} c={TV.textPrimary} className="flex-1 text-left">Scores & Ratings</Text>
@@ -1569,7 +1569,7 @@ export function ContactProfile() {
                                 {givingEvents.map((g, i) => {
                                   const gType = GIVING_TYPE_LABEL[g.type] ?? { label: g.type, color: "gray" };
                                   return (
-                                    <div key={i} className="flex items-center gap-3 px-3 py-2 rounded-[10px]" style={{ backgroundColor: TV.surface }}>
+                                    <div key={i} className="flex items-center gap-3 px-3 py-2 rounded-md" style={{ backgroundColor: TV.surface }}>
                                       <Box w={28} h={28} bg={g.attributed ? TV.successBg : TV.surfaceMuted} style={{ borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                                         <DollarSign size={13} style={{ color: g.attributed ? TV.success : TV.textSecondary }} />
                                       </Box>
@@ -2183,7 +2183,7 @@ export function ContactProfile() {
                   {givingEvents.map((g, i) => {
                     const gType = GIVING_TYPE_LABEL[g.type] ?? { label: g.type, color: "gray" };
                     return (
-                      <div key={i} className="flex items-center gap-3 px-4 py-3 rounded-[12px]" style={{ backgroundColor: TV.surface }}>
+                      <div key={i} className="flex items-center gap-3 px-4 py-3 rounded-lg" style={{ backgroundColor: TV.surface }}>
                         <Box w={36} h={36} bg={g.attributed ? TV.successBg : TV.surfaceMuted} style={{ borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                           <DollarSign size={16} style={{ color: g.attributed ? TV.success : TV.textSecondary }} />
                         </Box>

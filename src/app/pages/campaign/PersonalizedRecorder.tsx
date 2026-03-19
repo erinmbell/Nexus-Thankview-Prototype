@@ -574,13 +574,13 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
     <div className="relative">
       <button
         onClick={e => { e.stopPropagation(); setOpenDrop(openDrop === id ? null : id); }}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-[12px] transition-all hover:bg-black/5"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-[12px] transition-all hover:bg-black/5"
         style={{ fontWeight: 500, color: TV.textSecondary }}
       >
         {icon}<span>{label}</span><ChevronDown size={10} />
       </button>
       {openDrop === id && (
-        <div className="absolute bottom-full mb-2 left-0 bg-white border rounded-[12px] p-1.5 min-w-[180px] shadow-xl z-50" style={{ borderColor: TV.borderLight }}>
+        <div className="absolute bottom-full mb-2 left-0 bg-white border rounded-lg p-1.5 min-w-[180px] shadow-xl z-50" style={{ borderColor: TV.borderLight }}>
           {children}
         </div>
       )}
@@ -659,7 +659,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
       <div className="border-t p-2" style={{ borderColor: TV.borderLight }}>
         <button
           onClick={() => setShowAddMidSession(!showAddMidSession)}
-          className="w-full flex items-center justify-center gap-1.5 py-2 rounded-[8px] text-[11px] transition-colors hover:bg-black/[0.03]"
+          className="w-full flex items-center justify-center gap-1.5 py-2 rounded-sm text-[11px] transition-colors hover:bg-black/[0.03]"
           style={{ fontWeight: 500, color: TV.textBrand }}
         >
           <UserPlus size={11} />Add Constituents
@@ -668,7 +668,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
 
       {/* Mid-session add popup */}
       {showAddMidSession && (
-        <div className="absolute bottom-14 left-2 right-2 bg-white border rounded-[12px] shadow-xl z-50 max-h-[280px] flex flex-col overflow-hidden" style={{ borderColor: TV.borderLight }}>
+        <div className="absolute bottom-14 left-2 right-2 bg-white border rounded-lg shadow-xl z-50 max-h-[280px] flex flex-col overflow-hidden" style={{ borderColor: TV.borderLight }}>
           <div className="px-3 py-2 border-b" style={{ borderColor: TV.borderLight }}>
             <div className="flex items-center justify-between mb-1.5">
               <p className="text-[11px]" style={{ fontWeight: 700, color: TV.textPrimary }}>Add to Queue</p>
@@ -734,7 +734,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
   /* ── Render ── */
   return (
     <div className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px] flex items-center justify-center p-6" onClick={() => openDrop && setOpenDrop(null)}>
-      <div className="bg-white rounded-[20px] shadow-2xl w-full max-w-[1100px] h-[min(92vh,740px)] flex flex-col overflow-hidden">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-[1100px] h-[min(92vh,740px)] flex flex-col overflow-hidden">
 
         {/* ══ Header ══ */}
         <div className="flex items-center gap-3 px-6 py-4 border-b" style={{ borderColor: TV.borderLight }}>
@@ -807,7 +807,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
 
                     {/* Re-record notice if already done */}
                     {completedIds.has(currentContact.id) && (
-                      <div className="flex items-center gap-2 mb-4 px-4 py-2.5 rounded-[10px] border" style={{ borderColor: TV.warningBorder, backgroundColor: TV.warningBg }}>
+                      <div className="flex items-center gap-2 mb-4 px-4 py-2.5 rounded-md border" style={{ borderColor: TV.warningBorder, backgroundColor: TV.warningBg }}>
                         <AlertCircle size={13} style={{ color: TV.warning }} />
                         <span className="text-[11px]" style={{ color: TV.warningHover }}>This constituent already has a video. Recording again will replace it.</span>
                       </div>
@@ -820,10 +820,10 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                     <div className="grid grid-cols-3 gap-4">
                       <button
                         onClick={() => setPhase("record")}
-                        className="group flex flex-col items-center gap-3 p-8 rounded-[16px] border-2 transition-all hover:border-tv-brand-bg hover:shadow-md"
+                        className="group flex flex-col items-center gap-3 p-8 rounded-xl border-2 transition-all hover:border-tv-brand-bg hover:shadow-md"
                         style={{ borderColor: TV.borderLight }}
                       >
-                        <div className="w-12 h-12 rounded-[12px] flex items-center justify-center transition-colors" style={{ backgroundColor: TV.surface }}>
+                        <div className="w-12 h-12 rounded-lg flex items-center justify-center transition-colors" style={{ backgroundColor: TV.surface }}>
                           <Camera size={22} style={{ color: TV.textBrand }} />
                         </div>
                         <div className="text-center">
@@ -834,10 +834,10 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
 
                       <button
                         onClick={() => setPhase("upload")}
-                        className="group flex flex-col items-center gap-3 p-8 rounded-[16px] border-2 transition-all hover:border-tv-brand-bg hover:shadow-md"
+                        className="group flex flex-col items-center gap-3 p-8 rounded-xl border-2 transition-all hover:border-tv-brand-bg hover:shadow-md"
                         style={{ borderColor: TV.borderLight }}
                       >
-                        <div className="w-12 h-12 rounded-[12px] flex items-center justify-center transition-colors" style={{ backgroundColor: TV.surface }}>
+                        <div className="w-12 h-12 rounded-lg flex items-center justify-center transition-colors" style={{ backgroundColor: TV.surface }}>
                           <Upload size={22} style={{ color: TV.textBrand }} />
                         </div>
                         <div className="text-center">
@@ -848,10 +848,10 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
 
                       <button
                         onClick={() => setPhase("library")}
-                        className="group flex flex-col items-center gap-3 p-8 rounded-[16px] border-2 transition-all hover:border-tv-brand-bg hover:shadow-md"
+                        className="group flex flex-col items-center gap-3 p-8 rounded-xl border-2 transition-all hover:border-tv-brand-bg hover:shadow-md"
                         style={{ borderColor: TV.borderLight }}
                       >
-                        <div className="w-12 h-12 rounded-[12px] flex items-center justify-center transition-colors" style={{ backgroundColor: TV.surface }}>
+                        <div className="w-12 h-12 rounded-lg flex items-center justify-center transition-colors" style={{ backgroundColor: TV.surface }}>
                           <Grid3X3 size={22} style={{ color: TV.textBrand }} />
                         </div>
                         <div className="text-center">
@@ -934,7 +934,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
 
                       {/* Current contact mini-card */}
                       {currentContact && (
-                        <div className="flex items-center gap-2.5 mb-5 p-3 rounded-[10px] border" style={{ borderColor: TV.borderLight }}>
+                        <div className="flex items-center gap-2.5 mb-5 p-3 rounded-md border" style={{ borderColor: TV.borderLight }}>
                           <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-[10px] shrink-0" style={{ fontWeight: 700, backgroundColor: currentContact.color }}>
                             {currentContact.name.split(" ").map(n => n[0]).join("")}
                           </div>
@@ -946,7 +946,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                       )}
 
                       {/* Tips card */}
-                      <div className="rounded-[12px] border p-4 mb-4" style={{ borderColor: TV.borderLight }}>
+                      <div className="rounded-lg border p-4 mb-4" style={{ borderColor: TV.borderLight }}>
                         <div className="flex items-center gap-2 mb-3">
                           <Lightbulb size={14} style={{ color: TV.warning }} />
                           <p className="text-[12px]" style={{ fontWeight: 700, color: TV.textPrimary }}>Tips</p>
@@ -968,7 +968,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                       </div>
 
                       {/* Script card */}
-                      <div className="rounded-[12px] border p-4" style={{ borderColor: showScript ? TV.brand : TV.borderLight, backgroundColor: showScript ? `${TV.brand}05` : "transparent" }}>
+                      <div className="rounded-lg border p-4" style={{ borderColor: showScript ? TV.brand : TV.borderLight, backgroundColor: showScript ? `${TV.brand}05` : "transparent" }}>
                         <div className="flex items-center gap-2 mb-3">
                           <FileText size={14} style={{ color: TV.textBrand }} />
                           <p className="text-[12px] flex-1" style={{ fontWeight: 700, color: TV.textPrimary }}>Script</p>
@@ -987,7 +987,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                               value={script}
                               onChange={e => setScript(e.target.value)}
                               placeholder="Hi {{First Name}}, thank you for…"
-                              className="w-full border rounded-[10px] p-3 text-[12px] outline-none resize-none"
+                              className="w-full border rounded-md p-3 text-[12px] outline-none resize-none"
                               style={{ borderColor: TV.borderLight, color: TV.textPrimary, minHeight: 100 }}
                               rows={5}
                             />
@@ -1007,7 +1007,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                             </div>
                             {/* Resolved preview */}
                             {currentContact && script.includes("{{") && (
-                              <div className="mt-2 p-2 rounded-[8px] text-[10px]" style={{ backgroundColor: `${TV.brand}06`, color: TV.textPrimary, lineHeight: "1.5" }}>
+                              <div className="mt-2 p-2 rounded-sm text-[10px]" style={{ backgroundColor: `${TV.brand}06`, color: TV.textPrimary, lineHeight: "1.5" }}>
                                 <p className="text-[8px] mb-0.5" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Preview for {currentContact.name}:</p>
                                 {resolvedScript}
                               </div>
@@ -1020,7 +1020,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                     {/* Right column: Camera preview + controls */}
                     <div className="flex-1 flex flex-col p-5 overflow-hidden" onClick={() => openDrop && setOpenDrop(null)}>
                       {/* Camera viewfinder */}
-                      <div className="flex-1 rounded-[16px] bg-gradient-to-br from-[#6b3fa0] to-[#995cd3] flex items-center justify-center relative overflow-hidden min-h-[200px]">
+                      <div className="flex-1 rounded-xl bg-gradient-to-br from-[#6b3fa0] to-[#995cd3] flex items-center justify-center relative overflow-hidden min-h-[200px]">
                         {camOn ? (
                           <div className="flex flex-col items-center gap-2">
                             <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(255,255,255,0.15)" }}>
@@ -1095,7 +1095,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                         <span className="text-[10px] text-black/15 mx-0.5">|</span>
                         <button
                           onClick={() => setCamOn(!camOn)}
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-[12px] transition-all hover:bg-black/5"
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-[12px] transition-all hover:bg-black/5"
                           style={{ fontWeight: 500, color: TV.textSecondary }}
                         >
                           <MonitorPlay size={12} />BG
@@ -1169,7 +1169,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                     )}
                     <div
                       onClick={() => setUploaded(true)}
-                      className="w-full max-w-[400px] border-2 border-dashed rounded-[16px] p-12 flex flex-col items-center gap-3 cursor-pointer transition-all"
+                      className="w-full max-w-[400px] border-2 border-dashed rounded-xl p-12 flex flex-col items-center gap-3 cursor-pointer transition-all"
                       style={{ borderColor: uploaded ? TV.success : TV.borderStrong, backgroundColor: uploaded ? TV.successBg : "transparent" }}
                     >
                       {uploaded ? (
@@ -1188,10 +1188,10 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                     </div>
                     {uploaded && (
                       <div className="flex gap-3 mt-6">
-                        <button onClick={() => setUploaded(false)} className="px-4 py-2 rounded-[10px] text-[12px] border hover:bg-black/5 transition-colors" style={{ fontWeight: 500, borderColor: TV.borderLight, color: TV.textPrimary }}>
+                        <button onClick={() => setUploaded(false)} className="px-4 py-2 rounded-md text-[12px] border hover:bg-black/5 transition-colors" style={{ fontWeight: 500, borderColor: TV.borderLight, color: TV.textPrimary }}>
                           Replace
                         </button>
-                        <button onClick={handleUploadSave} className="px-6 py-2 rounded-[10px] text-[12px] text-white hover:opacity-90 transition-colors" style={{ fontWeight: 600, backgroundColor: TV.brand }}>
+                        <button onClick={handleUploadSave} className="px-6 py-2 rounded-md text-[12px] text-white hover:opacity-90 transition-colors" style={{ fontWeight: 600, backgroundColor: TV.brand }}>
                           Use This Video
                         </button>
                       </div>
@@ -1213,7 +1213,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                         <button
                           key={title}
                           onClick={handleLibrarySelect}
-                          className="rounded-[12px] border overflow-hidden text-left transition-all hover:border-tv-brand-bg hover:shadow-md"
+                          className="rounded-lg border overflow-hidden text-left transition-all hover:border-tv-brand-bg hover:shadow-md"
                           style={{ borderColor: TV.borderLight }}
                         >
                           <div className="aspect-video flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${["#7c45b0", "#0e7490", "#15803d", "#b45309", "#dc2626", "#3b5998"][i]}40, ${["#7c45b0", "#0e7490", "#15803d", "#b45309", "#dc2626", "#3b5998"][i]}20)` }}>
@@ -1262,7 +1262,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                   </button>
 
                   {/* Recipients summary */}
-                  <div className="rounded-[10px] border p-3" style={{ borderColor: TV.borderLight, backgroundColor: TV.surfaceMuted }}>
+                  <div className="rounded-md border p-3" style={{ borderColor: TV.borderLight, backgroundColor: TV.surfaceMuted }}>
                     <div className="flex items-center gap-2 mb-2">
                       <Users size={13} style={{ color: TV.brand }} />
                       <p className="text-[11px]" style={{ fontWeight: 700, color: TV.textPrimary }}>
@@ -1296,7 +1296,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                         <label className="text-[10px] uppercase tracking-wider mb-2 block" style={{ fontWeight: 600, color: TV.textSecondary, letterSpacing: "0.5px" }}>Envelope Design</label>
                         <div className="grid grid-cols-4 gap-2">
                           {ENVELOPE_PRESETS.map((ep, i) => (
-                            <button key={ep.title} onClick={() => updateLp({ envelopeIdx: i })} className="rounded-[8px] border-2 p-1 transition-all hover:shadow-sm" style={{ borderColor: lpConfig.envelopeIdx === i ? TV.brand : TV.borderLight }}>
+                            <button key={ep.title} onClick={() => updateLp({ envelopeIdx: i })} className="rounded-sm border-2 p-1 transition-all hover:shadow-sm" style={{ borderColor: lpConfig.envelopeIdx === i ? TV.brand : TV.borderLight }}>
                               <EnvelopePreview envelopeColor={ep.envelopeColor} linerColor={ep.linerColor} primaryColor={ep.primaryColor} secondaryColor={ep.secondaryColor} frontDesign={ep.frontDesign} frontDesignColor={ep.frontDesignColor} frontLeftLogo={ep.frontLeftLogo} stampSelection={ep.stampSelection} postmarkColor={ep.postmarkColor} recipientNameColor={ep.recipientNameColor} mode="thumbnail" width={60} />
                               <p className="text-[8px] text-center mt-0.5 truncate" style={{ color: lpConfig.envelopeIdx === i ? TV.textBrand : TV.textSecondary, fontWeight: lpConfig.envelopeIdx === i ? 600 : 400 }}>{ep.title}</p>
                             </button>
@@ -1305,21 +1305,21 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                       </div>
                       <div>
                         <label className="text-[10px] uppercase tracking-wider mb-1.5 block" style={{ fontWeight: 600, color: TV.textSecondary, letterSpacing: "0.5px" }}>Headline</label>
-                        <input value={lpConfig.headline} onChange={e => updateLp({ headline: e.target.value })} className="w-full border rounded-[10px] px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/30 bg-white" style={{ borderColor: TV.borderLight, color: TV.textPrimary }} />
+                        <input value={lpConfig.headline} onChange={e => updateLp({ headline: e.target.value })} className="w-full border rounded-md px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/30 bg-white" style={{ borderColor: TV.borderLight, color: TV.textPrimary }} />
                       </div>
                       <div>
                         <label className="text-[10px] uppercase tracking-wider mb-1.5 block" style={{ fontWeight: 600, color: TV.textSecondary, letterSpacing: "0.5px" }}>Sub-headline</label>
-                        <input value={lpConfig.subheadline} onChange={e => updateLp({ subheadline: e.target.value })} className="w-full border rounded-[10px] px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/30 bg-white" style={{ borderColor: TV.borderLight, color: TV.textPrimary }} />
+                        <input value={lpConfig.subheadline} onChange={e => updateLp({ subheadline: e.target.value })} className="w-full border rounded-md px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/30 bg-white" style={{ borderColor: TV.borderLight, color: TV.textPrimary }} />
                       </div>
                       <div>
                         <label className="text-[10px] uppercase tracking-wider mb-1.5 block" style={{ fontWeight: 600, color: TV.textSecondary, letterSpacing: "0.5px" }}>Body Text <span className="font-normal normal-case">(optional)</span></label>
-                        <textarea value={lpConfig.body} onChange={e => updateLp({ body: e.target.value })} placeholder="Impact story or personal note…" className="w-full box-border border rounded-[10px] px-3 py-2.5 text-[13px] outline-none resize-y focus:ring-2 focus:ring-tv-brand/30 bg-white" style={{ borderColor: TV.borderLight, color: TV.textPrimary, minHeight: 72, lineHeight: "1.5" }} rows={3} />
+                        <textarea value={lpConfig.body} onChange={e => updateLp({ body: e.target.value })} placeholder="Impact story or personal note…" className="w-full box-border border rounded-md px-3 py-2.5 text-[13px] outline-none resize-y focus:ring-2 focus:ring-tv-brand/30 bg-white" style={{ borderColor: TV.borderLight, color: TV.textPrimary, minHeight: 72, lineHeight: "1.5" }} rows={3} />
                       </div>
                       <div>
                         <label className="text-[10px] uppercase tracking-wider mb-1.5 block" style={{ fontWeight: 600, color: TV.textSecondary, letterSpacing: "0.5px" }}>Call to Action</label>
                         <div className="flex gap-2">
-                          <input value={lpConfig.ctaLabel} onChange={e => updateLp({ ctaLabel: e.target.value })} placeholder="Button label" className="flex-1 min-w-0 border rounded-[10px] px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/30 bg-white" style={{ borderColor: TV.borderLight, color: TV.textPrimary }} />
-                          <input value={lpConfig.ctaUrl} onChange={e => updateLp({ ctaUrl: e.target.value })} placeholder="URL" className="flex-1 min-w-0 border rounded-[10px] px-3 py-2.5 text-[13px] outline-none font-mono focus:ring-2 focus:ring-tv-brand/30 bg-white" style={{ borderColor: TV.borderLight, color: TV.textPrimary }} />
+                          <input value={lpConfig.ctaLabel} onChange={e => updateLp({ ctaLabel: e.target.value })} placeholder="Button label" className="flex-1 min-w-0 border rounded-md px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/30 bg-white" style={{ borderColor: TV.borderLight, color: TV.textPrimary }} />
+                          <input value={lpConfig.ctaUrl} onChange={e => updateLp({ ctaUrl: e.target.value })} placeholder="URL" className="flex-1 min-w-0 border rounded-md px-3 py-2.5 text-[13px] outline-none font-mono focus:ring-2 focus:ring-tv-brand/30 bg-white" style={{ borderColor: TV.borderLight, color: TV.textPrimary }} />
                         </div>
                       </div>
                       {/* Toggles */}
@@ -1357,7 +1357,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                             const active = lpConfig.logo === lo.id;
                             return (
                               <button key={lo.id} onClick={() => updateLp({ logo: lo.id })}
-                                className="flex flex-col items-center gap-1 py-2.5 rounded-[10px] border transition-all text-[10px]"
+                                className="flex flex-col items-center gap-1 py-2.5 rounded-md border transition-all text-[10px]"
                                 style={{ fontWeight: active ? 600 : 400, borderColor: active ? TV.brand : TV.borderLight, color: active ? TV.textBrand : TV.textSecondary, backgroundColor: active ? `${TV.brand}08` : "transparent" }}>
                                 <lo.icon size={15} />
                                 {lo.label}
@@ -1368,7 +1368,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
 
                         {/* Upload zone */}
                         {lpConfig.logoFile ? (
-                          <div className="relative w-full h-20 rounded-[10px] border overflow-hidden flex items-center justify-center group mb-2" style={{ borderColor: TV.borderLight, backgroundColor: `${TV.surfaceMuted}30` }}>
+                          <div className="relative w-full h-20 rounded-md border overflow-hidden flex items-center justify-center group mb-2" style={{ borderColor: TV.borderLight, backgroundColor: `${TV.surfaceMuted}30` }}>
                             <img src={lpConfig.logoFile} alt="Logo" className="max-h-full max-w-full object-contain" />
                             <button type="button" onClick={() => updateLp({ logoFile: null })}
                               className="absolute top-1 right-1 w-5 h-5 rounded-full bg-tv-danger/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1377,13 +1377,13 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                           </div>
                         ) : null}
                         <button type="button" onClick={() => lpLogoInputRef.current?.click()}
-                          className="w-full border-2 border-dashed rounded-[12px] p-5 text-center transition-colors cursor-pointer hover:border-tv-brand/40" style={{ borderColor: TV.borderLight }}>
+                          className="w-full border-2 border-dashed rounded-lg p-5 text-center transition-colors cursor-pointer hover:border-tv-brand/40" style={{ borderColor: TV.borderLight }}>
                           <Upload size={20} className="mx-auto mb-1.5" style={{ color: TV.textSecondary }} />
                           <p className="text-[12px]" style={{ color: TV.textSecondary }}>Drag an image to upload</p>
                           <p className="text-[9px] mt-1" style={{ color: TV.textSecondary }}>High-quality .png or .jpeg recommended.</p>
                         </button>
                         <button type="button" onClick={() => lpLogoInputRef.current?.click()}
-                          className="mt-2 w-full py-2.5 text-center rounded-[10px] border text-[12px] transition-all cursor-pointer hover:border-tv-brand" style={{ fontWeight: 500, borderColor: TV.borderLight, color: TV.textPrimary }}>
+                          className="mt-2 w-full py-2.5 text-center rounded-md border text-[12px] transition-all cursor-pointer hover:border-tv-brand" style={{ fontWeight: 500, borderColor: TV.borderLight, color: TV.textPrimary }}>
                           Choose File
                         </button>
                       </div>
@@ -1395,7 +1395,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                     helper="Place an image, solid color, or gradient behind your video." hasInfo>
                     <div className="space-y-4">
                       {/* Tab bar: Image | Color | Gradient */}
-                      <div className="flex rounded-[10px] border overflow-hidden" style={{ borderColor: TV.borderLight }}>
+                      <div className="flex rounded-md border overflow-hidden" style={{ borderColor: TV.borderLight }}>
                         {([
                           { key: "image" as BgKind, label: "Image", icon: ImageIcon },
                           { key: "color" as BgKind, label: "Color", icon: Palette },
@@ -1413,7 +1413,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
 
                       {/* Fade gradient toggle */}
                       <button type="button" onClick={() => updateLp({ fadeGradient: !lpConfig.fadeGradient })}
-                        className="w-full flex items-center justify-between px-3 py-2.5 rounded-[10px] border text-[12px] transition-all"
+                        className="w-full flex items-center justify-between px-3 py-2.5 rounded-md border text-[12px] transition-all"
                         style={{ borderColor: lpConfig.fadeGradient ? TV.brand : TV.borderLight, backgroundColor: lpConfig.fadeGradient ? `${TV.brand}08` : "transparent" }}>
                         <div className="text-left">
                           <p style={{ fontWeight: 500, color: TV.textPrimary }}>Fade to white overlay</p>
@@ -1440,7 +1440,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                               }
                             }}
                             onClick={() => lpBgInputRef.current?.click()}
-                            className={`w-full border-2 border-dashed rounded-[12px] p-5 text-center cursor-pointer transition-all ${
+                            className={`w-full border-2 border-dashed rounded-lg p-5 text-center cursor-pointer transition-all ${
                               lpBgDragOver ? "border-tv-brand scale-[1.01]" : "hover:border-tv-brand/40"
                             }`} style={{ borderColor: lpBgDragOver ? TV.brand : TV.borderLight, backgroundColor: lpBgDragOver ? `${TV.brand}08` : "transparent" }}>
                             <Upload size={20} className="mx-auto mb-1.5" style={{ color: lpBgDragOver ? TV.brand : TV.textSecondary }} />
@@ -1452,9 +1452,9 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
 
                           {/* Upload naming dialog */}
                           {lpShowUploadNaming && (
-                            <div className="p-3 rounded-[10px] border space-y-2" style={{ backgroundColor: TV.surfaceMuted, borderColor: TV.borderLight }}>
+                            <div className="p-3 rounded-md border space-y-2" style={{ backgroundColor: TV.surfaceMuted, borderColor: TV.borderLight }}>
                               {lpPendingBgFile && (
-                                <div className="w-full h-16 rounded-[8px] overflow-hidden mb-1">
+                                <div className="w-full h-16 rounded-sm overflow-hidden mb-1">
                                   <img src={lpPendingBgFile} alt="Preview" className="w-full h-full object-cover" />
                                 </div>
                               )}
@@ -1468,7 +1468,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                                   if (e.key === "Escape") { setLpShowUploadNaming(false); setLpPendingBgFile(null); }
                                 }}
                                 placeholder="e.g. Spring Campus 2026"
-                                className="w-full border rounded-[8px] px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/30" style={{ borderColor: TV.borderLight }} />
+                                className="w-full border rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/30" style={{ borderColor: TV.borderLight }} />
                               <div className="flex items-center gap-2">
                                 <button type="button" onClick={() => { setLpShowUploadNaming(false); setLpPendingBgFile(null); }} className="px-2.5 py-1 text-[11px] font-medium text-tv-danger border border-tv-danger-border rounded-full hover:bg-tv-danger-bg transition-colors">Cancel</button>
                                 <button type="button" onClick={() => {
@@ -1486,13 +1486,13 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                           {/* Thumbnail grid */}
                           <div className="grid grid-cols-2 gap-2">
                             <button type="button" onClick={() => updateLp({ selectedBgId: null })}
-                              className={`group relative rounded-[10px] overflow-hidden border-2 transition-all ${lpConfig.selectedBgId === null ? "border-tv-brand ring-2 ring-tv-brand/20" : "hover:border-tv-border-strong"}`} style={{ borderColor: lpConfig.selectedBgId === null ? TV.brand : TV.borderLight }}>
+                              className={`group relative rounded-md overflow-hidden border-2 transition-all ${lpConfig.selectedBgId === null ? "border-tv-brand ring-2 ring-tv-brand/20" : "hover:border-tv-border-strong"}`} style={{ borderColor: lpConfig.selectedBgId === null ? TV.brand : TV.borderLight }}>
                               <div className="aspect-[4/3] flex items-center justify-center" style={{ backgroundColor: TV.surfaceMuted }}><X size={16} style={{ color: TV.textSecondary }} /></div>
                               <div className="px-2 py-1.5 bg-white"><p className="text-[10px] truncate" style={{ fontWeight: 500, color: lpConfig.selectedBgId === null ? TV.textBrand : TV.textSecondary }}>No Background</p></div>
                               {lpConfig.selectedBgId === null && (<div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: TV.brand }}><Check size={10} className="text-white" strokeWidth={3} /></div>)}
                             </button>
                             {lpBackgrounds.filter(bg => bg.kind === "image").map(bg => (
-                              <div key={bg.id} className={`group relative rounded-[10px] overflow-hidden border-2 transition-all cursor-pointer ${lpConfig.selectedBgId === bg.id ? "ring-2 ring-tv-brand/20" : "hover:border-tv-border-strong"}`} style={{ borderColor: lpConfig.selectedBgId === bg.id ? TV.brand : TV.borderLight }} onClick={() => updateLp({ selectedBgId: bg.id })}>
+                              <div key={bg.id} className={`group relative rounded-md overflow-hidden border-2 transition-all cursor-pointer ${lpConfig.selectedBgId === bg.id ? "ring-2 ring-tv-brand/20" : "hover:border-tv-border-strong"}`} style={{ borderColor: lpConfig.selectedBgId === bg.id ? TV.brand : TV.borderLight }} onClick={() => updateLp({ selectedBgId: bg.id })}>
                                 <div className="aspect-[4/3] overflow-hidden">{bg.url?.startsWith("blob:") ? <img src={bg.url} alt={bg.name} className="w-full h-full object-cover" /> : <ImageWithFallback src={bg.url!} alt={bg.name} className="w-full h-full object-cover" />}</div>
                                 <div className="px-2 py-1.5 bg-white flex items-center justify-between">
                                   {lpRenamingId === bg.id ? (
@@ -1517,15 +1517,15 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                       {/* COLOR TAB */}
                       {lpBgTab === "color" && (
                         <div className="space-y-3">
-                          <div className="p-3 rounded-[10px] border space-y-3" style={{ backgroundColor: TV.surfaceMuted, borderColor: TV.borderLight }}>
+                          <div className="p-3 rounded-md border space-y-3" style={{ backgroundColor: TV.surfaceMuted, borderColor: TV.borderLight }}>
                             <p className="text-[10px] uppercase tracking-wider" style={{ fontWeight: 600, color: TV.textSecondary, letterSpacing: "0.5px" }}>Create Solid Color</p>
                             <div className="flex items-center gap-2">
-                              <label className="w-12 h-12 rounded-[10px] border cursor-pointer shrink-0 relative overflow-hidden shadow-sm" style={{ backgroundColor: lpSafeHex(lpNewColorHex), borderColor: TV.borderLight }}>
+                              <label className="w-12 h-12 rounded-md border cursor-pointer shrink-0 relative overflow-hidden shadow-sm" style={{ backgroundColor: lpSafeHex(lpNewColorHex), borderColor: TV.borderLight }}>
                                 <input type="color" value={lpSafeHex(lpNewColorHex)} onChange={e => setLpNewColorHex(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" />
                               </label>
                               <div className="flex-1 space-y-1.5">
-                                <input value={lpNewColorHex} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setLpNewColorHex(v); }} className="w-full border rounded-[8px] px-2.5 py-1.5 text-[12px] font-mono outline-none focus:ring-2 focus:ring-tv-brand/30" style={{ borderColor: TV.borderLight }} placeholder="#1a1a2e" />
-                                <input value={lpNewColorName} onChange={e => setLpNewColorName(e.target.value)} placeholder="Name (e.g. Deep Navy)" className="w-full border rounded-[8px] px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/30" style={{ borderColor: TV.borderLight }} />
+                                <input value={lpNewColorHex} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setLpNewColorHex(v); }} className="w-full border rounded-sm px-2.5 py-1.5 text-[12px] font-mono outline-none focus:ring-2 focus:ring-tv-brand/30" style={{ borderColor: TV.borderLight }} placeholder="#1a1a2e" />
+                                <input value={lpNewColorName} onChange={e => setLpNewColorName(e.target.value)} placeholder="Name (e.g. Deep Navy)" className="w-full border rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/30" style={{ borderColor: TV.borderLight }} />
                               </div>
                             </div>
                             <button type="button" onClick={() => {
@@ -1538,13 +1538,13 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                           </div>
                           <div className="grid grid-cols-2 gap-2">
                             <button type="button" onClick={() => updateLp({ selectedBgId: null })}
-                              className={`group relative rounded-[10px] overflow-hidden border-2 transition-all ${lpConfig.selectedBgId === null ? "ring-2 ring-tv-brand/20" : ""}`} style={{ borderColor: lpConfig.selectedBgId === null ? TV.brand : TV.borderLight }}>
+                              className={`group relative rounded-md overflow-hidden border-2 transition-all ${lpConfig.selectedBgId === null ? "ring-2 ring-tv-brand/20" : ""}`} style={{ borderColor: lpConfig.selectedBgId === null ? TV.brand : TV.borderLight }}>
                               <div className="aspect-[4/3] flex items-center justify-center" style={{ backgroundColor: TV.surfaceMuted }}><X size={16} style={{ color: TV.textSecondary }} /></div>
                               <div className="px-2 py-1.5 bg-white"><p className="text-[10px] truncate" style={{ fontWeight: 500, color: lpConfig.selectedBgId === null ? TV.textBrand : TV.textSecondary }}>No Background</p></div>
                               {lpConfig.selectedBgId === null && (<div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: TV.brand }}><Check size={10} className="text-white" strokeWidth={3} /></div>)}
                             </button>
                             {lpBackgrounds.filter(bg => bg.kind === "color").map(bg => (
-                              <div key={bg.id} className={`group relative rounded-[10px] overflow-hidden border-2 transition-all cursor-pointer ${lpConfig.selectedBgId === bg.id ? "ring-2 ring-tv-brand/20" : ""}`} style={{ borderColor: lpConfig.selectedBgId === bg.id ? TV.brand : TV.borderLight }} onClick={() => updateLp({ selectedBgId: bg.id })}>
+                              <div key={bg.id} className={`group relative rounded-md overflow-hidden border-2 transition-all cursor-pointer ${lpConfig.selectedBgId === bg.id ? "ring-2 ring-tv-brand/20" : ""}`} style={{ borderColor: lpConfig.selectedBgId === bg.id ? TV.brand : TV.borderLight }} onClick={() => updateLp({ selectedBgId: bg.id })}>
                                 <div className="aspect-[4/3]" style={{ backgroundColor: bg.color }} />
                                 <div className="px-2 py-1.5 bg-white flex items-center justify-between">
                                   <div className="flex items-center gap-1.5 flex-1 min-w-0"><div className="w-3 h-3 rounded-full shrink-0 border" style={{ backgroundColor: bg.color, borderColor: TV.borderLight }} /><p className="text-[10px] truncate" style={{ fontWeight: 500, color: lpConfig.selectedBgId === bg.id ? TV.textBrand : TV.textPrimary }}>{bg.name}</p></div>
@@ -1560,9 +1560,9 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                       {/* GRADIENT TAB */}
                       {lpBgTab === "gradient" && (
                         <div className="space-y-3">
-                          <div className="p-3 rounded-[10px] border space-y-3" style={{ backgroundColor: TV.surfaceMuted, borderColor: TV.borderLight }}>
+                          <div className="p-3 rounded-md border space-y-3" style={{ backgroundColor: TV.surfaceMuted, borderColor: TV.borderLight }}>
                             <p className="text-[10px] uppercase tracking-wider" style={{ fontWeight: 600, color: TV.textSecondary, letterSpacing: "0.5px" }}>Create Gradient</p>
-                            <div className="h-14 rounded-[10px] border overflow-hidden" style={{ borderColor: TV.borderLight, background: `linear-gradient(${lpNewGradDir}, ${lpSafeHex(lpNewGradFrom)}, ${lpSafeHex(lpNewGradTo)})` }} />
+                            <div className="h-14 rounded-md border overflow-hidden" style={{ borderColor: TV.borderLight, background: `linear-gradient(${lpNewGradDir}, ${lpSafeHex(lpNewGradFrom)}, ${lpSafeHex(lpNewGradTo)})` }} />
                             <div className="grid grid-cols-2 gap-2">
                               <div>
                                 <label className="text-[9px] mb-1 block" style={{ color: TV.textSecondary }}>From</label>
@@ -1584,13 +1584,13 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                               <div className="flex items-center gap-1.5">
                                 {LP_GRADIENT_DIRS.map(d => (
                                   <button key={d.dir} type="button" onClick={() => setLpNewGradDir(d.dir)}
-                                    className="w-8 h-8 rounded-[8px] flex items-center justify-center border transition-all"
+                                    className="w-8 h-8 rounded-sm flex items-center justify-center border transition-all"
                                     style={{ borderColor: lpNewGradDir === d.dir ? TV.brand : TV.borderLight, backgroundColor: lpNewGradDir === d.dir ? `${TV.brand}08` : "transparent", color: lpNewGradDir === d.dir ? TV.brand : TV.textSecondary }}
                                     title={d.dir}><d.icon size={13} /></button>
                                 ))}
                               </div>
                             </div>
-                            <input value={lpNewGradName} onChange={e => setLpNewGradName(e.target.value)} placeholder="Name (e.g. Sunset Glow)" className="w-full border rounded-[8px] px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/30" style={{ borderColor: TV.borderLight }} />
+                            <input value={lpNewGradName} onChange={e => setLpNewGradName(e.target.value)} placeholder="Name (e.g. Sunset Glow)" className="w-full border rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/30" style={{ borderColor: TV.borderLight }} />
                             <button type="button" onClick={() => {
                               const gName = lpNewGradName.trim() || `${lpSafeHex(lpNewGradFrom)} → ${lpSafeHex(lpNewGradTo)}`;
                               const newBg: LpBackground = { id: Date.now(), kind: "gradient", name: gName, gradientFrom: lpSafeHex(lpNewGradFrom), gradientTo: lpSafeHex(lpNewGradTo), gradientDir: lpNewGradDir };
@@ -1601,13 +1601,13 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                           </div>
                           <div className="grid grid-cols-2 gap-2">
                             <button type="button" onClick={() => updateLp({ selectedBgId: null })}
-                              className={`group relative rounded-[10px] overflow-hidden border-2 transition-all ${lpConfig.selectedBgId === null ? "ring-2 ring-tv-brand/20" : ""}`} style={{ borderColor: lpConfig.selectedBgId === null ? TV.brand : TV.borderLight }}>
+                              className={`group relative rounded-md overflow-hidden border-2 transition-all ${lpConfig.selectedBgId === null ? "ring-2 ring-tv-brand/20" : ""}`} style={{ borderColor: lpConfig.selectedBgId === null ? TV.brand : TV.borderLight }}>
                               <div className="aspect-[4/3] flex items-center justify-center" style={{ backgroundColor: TV.surfaceMuted }}><X size={16} style={{ color: TV.textSecondary }} /></div>
                               <div className="px-2 py-1.5 bg-white"><p className="text-[10px] truncate" style={{ fontWeight: 500, color: lpConfig.selectedBgId === null ? TV.textBrand : TV.textSecondary }}>No Background</p></div>
                               {lpConfig.selectedBgId === null && (<div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: TV.brand }}><Check size={10} className="text-white" strokeWidth={3} /></div>)}
                             </button>
                             {lpBackgrounds.filter(bg => bg.kind === "gradient").map(bg => (
-                              <div key={bg.id} className={`group relative rounded-[10px] overflow-hidden border-2 transition-all cursor-pointer ${lpConfig.selectedBgId === bg.id ? "ring-2 ring-tv-brand/20" : ""}`} style={{ borderColor: lpConfig.selectedBgId === bg.id ? TV.brand : TV.borderLight }} onClick={() => updateLp({ selectedBgId: bg.id })}>
+                              <div key={bg.id} className={`group relative rounded-md overflow-hidden border-2 transition-all cursor-pointer ${lpConfig.selectedBgId === bg.id ? "ring-2 ring-tv-brand/20" : ""}`} style={{ borderColor: lpConfig.selectedBgId === bg.id ? TV.brand : TV.borderLight }} onClick={() => updateLp({ selectedBgId: bg.id })}>
                                 <div className="aspect-[4/3]" style={{ background: lpBgCss(bg) }} />
                                 <div className="px-2 py-1.5 bg-white flex items-center justify-between">
                                   <div className="flex items-center gap-1.5 flex-1 min-w-0"><div className="w-3 h-3 rounded-full shrink-0 border" style={{ background: lpBgCss(bg), borderColor: TV.borderLight }} /><p className="text-[10px] truncate" style={{ fontWeight: 500, color: lpConfig.selectedBgId === bg.id ? TV.textBrand : TV.textPrimary }}>{bg.name}</p></div>
@@ -1653,14 +1653,14 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-[11px]" style={{ fontWeight: 500, color: TV.textSecondary }}>Preview as:</span>
-                    <div className="flex items-center gap-1 rounded-[10px] p-1 border" style={{ backgroundColor: TV.surfaceMuted, borderColor: TV.borderLight }}>
+                    <div className="flex items-center gap-1 rounded-md p-1 border" style={{ backgroundColor: TV.surfaceMuted, borderColor: TV.borderLight }}>
                       {([
                         { key: "desktop" as const, icon: Monitor, label: "Desktop" },
                         { key: "tablet" as const, icon: Tablet, label: "Tablet" },
                         { key: "mobile" as const, icon: Smartphone, label: "Mobile" },
                       ]).map(d => (
                         <button key={d.key} onClick={() => setPreviewDevice(d.key)} title={d.label}
-                          className={`w-8 h-8 rounded-[8px] flex items-center justify-center transition-all ${
+                          className={`w-8 h-8 rounded-sm flex items-center justify-center transition-all ${
                             previewDevice === d.key ? "bg-white shadow-sm border" : ""
                           }`}
                           style={{
@@ -1752,7 +1752,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                                       transform: envelopeOpen ? "translateY(0) scale(1)" : "translateY(20px) scale(0.9)",
                                       pointerEvents: envelopeOpen ? "auto" : "none",
                                     }}>
-                                      <div className="rounded-[10px] overflow-hidden shadow-lg" style={{ width: isMobile ? "90%" : "80%" }}>
+                                      <div className="rounded-md overflow-hidden shadow-lg" style={{ width: isMobile ? "90%" : "80%" }}>
                                         <div style={{ aspectRatio: isMobile ? "1/1" : "16/9" }} className="bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative">
                                           <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `radial-gradient(circle at 50% 50%, ${lpConfig.ctaBtnColor} 0%, transparent 70%)` }} />
                                           <div className={`${isMobile ? "w-10 h-10" : "w-14 h-14"} rounded-full bg-white/15 flex items-center justify-center backdrop-blur-sm border border-white/20`}>
@@ -1793,7 +1793,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                                       transform: envelopeOpen ? "translateY(0) scale(1)" : "translateY(20px) scale(0.9)",
                                       pointerEvents: envelopeOpen ? "auto" : "none",
                                     }}>
-                                      <div className="rounded-[10px] overflow-hidden shadow-lg" style={{ width: isMobile ? "90%" : "80%" }}>
+                                      <div className="rounded-md overflow-hidden shadow-lg" style={{ width: isMobile ? "90%" : "80%" }}>
                                         <div style={{ aspectRatio: isMobile ? "1/1" : "16/9" }} className="bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative">
                                           <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `radial-gradient(circle at 50% 50%, ${lpConfig.ctaBtnColor} 0%, transparent 70%)` }} />
                                           <div className={`${isMobile ? "w-10 h-10" : "w-14 h-14"} rounded-full bg-white/15 flex items-center justify-center backdrop-blur-sm border border-white/20`}>
@@ -1838,7 +1838,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                                   transform: envelopeOpen ? "translateY(0) scale(1)" : "translateY(20px) scale(0.9)",
                                   pointerEvents: envelopeOpen ? "auto" : "none",
                                 }}>
-                                  <div className="rounded-[10px] overflow-hidden shadow-lg" style={{ width: isMobile ? "90%" : "80%" }}>
+                                  <div className="rounded-md overflow-hidden shadow-lg" style={{ width: isMobile ? "90%" : "80%" }}>
                                     <div style={{ aspectRatio: isMobile ? "1/1" : "16/9" }} className="bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative">
                                       <div className={`${isMobile ? "w-10 h-10" : "w-14 h-14"} rounded-full bg-white/15 flex items-center justify-center backdrop-blur-sm border border-white/20`}>
                                         <Play size={isMobile ? 14 : 20} className="text-white ml-0.5" fill="white" />
@@ -1871,7 +1871,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                               <p className="text-[11px] leading-relaxed mb-3" style={{ color: TV.textLabel }}>{lpConfig.body}</p>
                             )}
                             {lpConfig.showFundContext && (
-                              <div className="rounded-[10px] p-4 border mb-3" style={{ borderColor: TV.borderLight }}>
+                              <div className="rounded-md p-4 border mb-3" style={{ borderColor: TV.borderLight }}>
                                 <div className="flex items-center justify-between mb-2">
                                   <p className="text-[11px]" style={{ fontWeight: 700, color: TV.textPrimary }}>Hartwell Annual Fund</p>
                                   <span className="text-[9px] px-2 py-0.5 rounded-full" style={{ fontWeight: 600, backgroundColor: `${lpConfig.ctaBtnColor}15`, color: lpConfig.ctaBtnColor }}>68%</span>
@@ -1937,7 +1937,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
               {/* Stats row */}
               <div className="flex items-center gap-4 mb-6">
                 <div className="flex items-center gap-3 flex-1">
-                  <div className="w-10 h-10 rounded-[10px] flex items-center justify-center" style={{ backgroundColor: `${TV.brand}12` }}>
+                  <div className="w-10 h-10 rounded-md flex items-center justify-center" style={{ backgroundColor: `${TV.brand}12` }}>
                     <Link2 size={18} style={{ color: TV.brand }} />
                   </div>
                   <div>
@@ -1971,7 +1971,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                   const isCopied = copiedLinkId === c.id;
                   const isSent = rec?.sendStatus === "sent";
                   return (
-                    <div key={c.id} className="flex items-center gap-3 px-4 py-3 rounded-[12px] border transition-colors" style={{ borderColor: TV.borderLight, backgroundColor: isSent ? TV.successBg : isCopied ? "#faf5ff" : "white" }}>
+                    <div key={c.id} className="flex items-center gap-3 px-4 py-3 rounded-lg border transition-colors" style={{ borderColor: TV.borderLight, backgroundColor: isSent ? TV.successBg : isCopied ? "#faf5ff" : "white" }}>
                       <div className="w-9 h-9 rounded-full flex items-center justify-center text-white text-[11px] shrink-0" style={{ fontWeight: 700, backgroundColor: c.color }}>
                         {c.name.split(" ").map(n => n[0]).join("")}
                       </div>
@@ -1999,7 +1999,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                               show(`Link copied for ${c.name}`, "success");
                               setTimeout(() => setCopiedLinkId(prev => prev === c.id ? null : prev), 2000);
                             }}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] border text-[11px] transition-all hover:bg-black/[0.02]"
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm border text-[11px] transition-all hover:bg-black/[0.02]"
                             style={{ fontWeight: 500, borderColor: isCopied ? TV.brand : TV.borderLight, color: isCopied ? TV.textBrand : TV.textSecondary }}
                           >
                             {isCopied ? <Check size={11} /> : <Copy size={11} />}
@@ -2008,7 +2008,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                           {!isSent ? (
                             <button
                               onClick={() => sendToContact(c.id)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-[11px] text-white transition-all hover:opacity-90"
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-[11px] text-white transition-all hover:opacity-90"
                               style={{ fontWeight: 500, backgroundColor: TV.brand }}
                             >
                               <Send size={11} />Send
@@ -2016,7 +2016,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                           ) : (
                             <button
                               onClick={() => sendToContact(c.id)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] border text-[11px] transition-all hover:bg-black/[0.02]"
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm border text-[11px] transition-all hover:bg-black/[0.02]"
                               style={{ fontWeight: 500, borderColor: TV.borderLight, color: TV.textSecondary }}
                             >
                               <Send size={11} />Resend
@@ -2026,7 +2026,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                       ) : (
                         <button
                           onClick={() => { setCurrentContactId(c.id); setPhase("queue"); }}
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] border text-[11px] transition-all hover:bg-black/[0.02]"
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm border text-[11px] transition-all hover:bg-black/[0.02]"
                           style={{ fontWeight: 500, borderColor: TV.borderLight, color: TV.textBrand }}
                         >
                           <Camera size={11} />Record
@@ -2054,7 +2054,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                         URL.revokeObjectURL(url);
                         show("CSV downloaded!", "success");
                       }}
-                      className="flex items-center gap-1.5 px-4 py-2 rounded-[8px] border text-[12px] transition-all hover:bg-black/[0.02]"
+                      className="flex items-center gap-1.5 px-4 py-2 rounded-sm border text-[12px] transition-all hover:bg-black/[0.02]"
                       style={{ fontWeight: 500, borderColor: TV.borderLight, color: TV.textPrimary }}
                     >
                       <ExternalLink size={12} />Export CSV
@@ -2282,10 +2282,10 @@ function LpColorField({ label, value, onChange, required }: {
           if (!v.startsWith("#")) v = "#" + v;
           if (v.length <= 7) onChange(v);
         }}
-          className="flex-1 min-w-0 border rounded-[10px] px-3 py-2.5 text-[13px] font-mono outline-none focus:ring-2 focus:ring-tv-brand/30 bg-white"
+          className="flex-1 min-w-0 border rounded-md px-3 py-2.5 text-[13px] font-mono outline-none focus:ring-2 focus:ring-tv-brand/30 bg-white"
           style={{ borderColor: TV.borderLight, color: TV.textPrimary }}
           placeholder="#000000" />
-        <label className="w-10 h-10 rounded-[8px] border cursor-pointer shrink-0 relative overflow-hidden shadow-sm"
+        <label className="w-10 h-10 rounded-sm border cursor-pointer shrink-0 relative overflow-hidden shadow-sm"
           style={{ backgroundColor: lpSafeHex(value), borderColor: TV.borderLight }}>
           <input type="color" value={lpSafeHex(value)} onChange={e => onChange(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" />
         </label>

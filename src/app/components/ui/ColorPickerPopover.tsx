@@ -106,7 +106,7 @@ function SatBrightCanvas({ hue, sat, bright, onChange }: {
 
   return (
     <div className="relative" style={{ width: W, height: H }}>
-      <canvas ref={canvasRef} width={W} height={H} className="rounded-[8px] cursor-crosshair" style={{ width: W, height: H }}
+      <canvas ref={canvasRef} width={W} height={H} className="rounded-sm cursor-crosshair" style={{ width: W, height: H }}
         onMouseDown={(e) => { dragging.current = true; setFromMouse(e); }} />
       <div className="absolute pointer-events-none" style={{
         left: sat * W - 7, top: (1 - bright) * H - 7,
@@ -223,17 +223,17 @@ export function ColorPickerPopover({ value, onChange, presets, children, side = 
           </button>
         )}
       </PopoverTrigger>
-      <PopoverContent side={side} align={align} className="w-auto p-0 rounded-[12px] border border-tv-border-light bg-white shadow-lg z-[999]" sideOffset={8}>
+      <PopoverContent side={side} align={align} className="w-auto p-0 rounded-lg border border-tv-border-light bg-white shadow-lg z-[999]" sideOffset={8}>
         <div className="p-3 space-y-3">
           <SatBrightCanvas hue={hsv.h} sat={hsv.s} bright={hsv.v} onChange={handleSatBright} />
           <HueSlider hue={hsv.h} onChange={handleHue} />
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-[8px] border border-tv-border-light shrink-0" style={{ backgroundColor: currentHex }} />
+            <div className="w-9 h-9 rounded-sm border border-tv-border-light shrink-0" style={{ backgroundColor: currentHex }} />
             <div className="flex-1 min-w-0">
               <label className="text-[9px] text-tv-text-secondary uppercase tracking-wider block mb-0.5">Hex</label>
               <input value={hexInput} onChange={(e) => setHexInput(e.target.value)} onBlur={handleHexCommit}
                 onKeyDown={(e) => e.key === "Enter" && handleHexCommit()}
-                className="w-full h-7 px-2 rounded-[8px] border border-tv-border-light text-[12px] font-mono outline-none focus:ring-2 focus:ring-tv-brand-bg/30" spellCheck={false} />
+                className="w-full h-7 px-2 rounded-sm border border-tv-border-light text-[12px] font-mono outline-none focus:ring-2 focus:ring-tv-brand-bg/30" spellCheck={false} />
             </div>
           </div>
           <div className="flex gap-2">
@@ -242,7 +242,7 @@ export function ColorPickerPopover({ value, onChange, presets, children, side = 
                 <label className="text-[9px] text-tv-text-secondary uppercase tracking-wider block mb-0.5">{ch.toUpperCase()}</label>
                 <input type="number" min={0} max={255} value={rgb[ch]}
                   onChange={(e) => handleRgbChange(ch, Number(e.target.value))}
-                  className="w-full h-7 px-2 rounded-[8px] border border-tv-border-light text-[12px] font-mono outline-none focus:ring-2 focus:ring-tv-brand-bg/30 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
+                  className="w-full h-7 px-2 rounded-sm border border-tv-border-light text-[12px] font-mono outline-none focus:ring-2 focus:ring-tv-brand-bg/30 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
               </div>
             ))}
           </div>

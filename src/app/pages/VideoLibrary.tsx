@@ -277,7 +277,7 @@ function SendAsOneToOneDrawer({ video, onClose }: { video: VideoItem; onClose: (
       {/* Video preview + link — compact top bar */}
       <div className="px-5 pt-4 pb-3 border-b shrink-0" style={{ borderColor: TV.borderDivider }}>
         <div className="flex items-center gap-3 mb-3">
-          <div className={`w-14 h-9 rounded-[8px] bg-gradient-to-br ${THUMB_CLASSES[video.thumb]} flex items-center justify-center shrink-0`}>
+          <div className={`w-14 h-9 rounded-sm bg-gradient-to-br ${THUMB_CLASSES[video.thumb]} flex items-center justify-center shrink-0`}>
             <Play size={12} className="text-white" fill="white" />
           </div>
           <div className="flex-1 min-w-0">
@@ -286,7 +286,7 @@ function SendAsOneToOneDrawer({ video, onClose }: { video: VideoItem; onClose: (
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex-1 bg-white border rounded-[8px] px-3 py-1.5 text-[11px] font-mono truncate" style={{ borderColor: TV.borderLight, color: TV.textSecondary }}>{oneToOneLink}</div>
+          <div className="flex-1 bg-white border rounded-sm px-3 py-1.5 text-[11px] font-mono truncate" style={{ borderColor: TV.borderLight, color: TV.textSecondary }}>{oneToOneLink}</div>
           <Tooltip label="Copy link">
             <ActionIcon variant="default" size="sm" onClick={() => { navigator.clipboard.writeText(oneToOneLink).catch((_e) => {}); show("1:1 link copied!", "success"); }}>
               <Copy size={12} />
@@ -458,7 +458,7 @@ function VideoListRow({ v, selected, openMenu, onSelect, onOpen, onMenuToggle, o
           {selected.includes(v.id) && <Check size={10} className="text-white" strokeWidth={3} />}
         </div>
       </div>
-      <div className={`w-10 h-10 bg-gradient-to-br ${THUMB_CLASSES[v.thumb]} rounded-[8px] flex items-center justify-center shrink-0 relative overflow-hidden`}>
+      <div className={`w-10 h-10 bg-gradient-to-br ${THUMB_CLASSES[v.thumb]} rounded-sm flex items-center justify-center shrink-0 relative overflow-hidden`}>
         {v.thumbnailImage ? (
           <img src={v.thumbnailImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
         ) : (
@@ -796,7 +796,7 @@ export function VideoLibrary() {
             <div className="border-t border-tv-border-divider p-3">
               {newFolder ? (
                 <div className="flex gap-1">
-                  <input autoFocus value={newFolderName} onChange={e => setNewFolderName(e.target.value)} onKeyDown={e => e.key === "Enter" && addFolder()} placeholder="Folder name" className="flex-1 border border-tv-border-light rounded-[8px] px-2 py-1.5 text-[12px] outline-none focus:border-tv-brand-bg" />
+                  <input autoFocus value={newFolderName} onChange={e => setNewFolderName(e.target.value)} onKeyDown={e => e.key === "Enter" && addFolder()} placeholder="Folder name" className="flex-1 border border-tv-border-light rounded-sm px-2 py-1.5 text-[12px] outline-none focus:border-tv-brand-bg" />
                   <button onClick={addFolder} className="w-7 h-7 bg-tv-brand-bg rounded-full flex items-center justify-center text-white shrink-0"><Check size={11} /></button>
                 </div>
               ) : (
@@ -958,7 +958,7 @@ export function VideoLibrary() {
             <div className="space-y-8">
               {/* ── 1:1 Videos Section ─────────────────────────── */}
               {clipFiltered.length > 0 && (
-                <div className="rounded-[16px] border border-tv-border-light bg-white overflow-hidden">
+                <div className="rounded-xl border border-tv-border-light bg-white overflow-hidden">
                   <div className="flex items-center gap-2.5 px-5 py-3 border-b border-tv-border-light bg-tv-surface-muted">
                     <div className="flex items-center gap-1.5 bg-white border border-tv-border-light rounded-full px-3 py-1 shadow-sm">
                       <Camera size={12} className="text-tv-text-label" />
@@ -998,7 +998,7 @@ export function VideoLibrary() {
 
               {/* ── Campaign Videos Section ────────────────────── */}
               {campaignFiltered.length > 0 && (
-                <div className="rounded-[16px] border border-tv-border-light bg-white overflow-hidden">
+                <div className="rounded-xl border border-tv-border-light bg-white overflow-hidden">
                   <div className="flex items-center gap-2.5 px-5 py-3 border-b border-tv-border-light bg-tv-surface-muted">
                     <div className="flex items-center gap-1.5 bg-tv-brand-tint border border-tv-brand-bg/20 rounded-full px-3 py-1 shadow-sm">
                       <Film size={12} className="text-tv-brand" />
@@ -1073,7 +1073,7 @@ export function VideoLibrary() {
         <Drawer opened onClose={() => setShowLinksView(false)} title="1:1 Video Links" position="right" size={560}>
           <Stack gap="sm">
             <Text size="sm" c="dimmed">All library videos with their 1:1 links. Copy any link to share via email.</Text>
-            <div className="rounded-[12px] border overflow-hidden" style={{ borderColor: TV.borderLight }}>
+            <div className="rounded-lg border overflow-hidden" style={{ borderColor: TV.borderLight }}>
               {/* Header */}
               <div className="sticky top-0 z-20 flex items-center gap-3 px-4 py-2 bg-tv-surface-muted border-b text-[10px] font-semibold text-tv-text-label uppercase tracking-wider" style={{ borderColor: TV.borderLight }}>
                 <div className="flex-1">Title</div>

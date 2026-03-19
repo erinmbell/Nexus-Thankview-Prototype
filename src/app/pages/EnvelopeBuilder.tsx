@@ -395,7 +395,7 @@ export function EnvelopeBuilder() {
                 {/* ── COLORS TAB ─────────────────────────────────────────── */}
                 {activeTab === "colors" && (
                   <div className="space-y-5">
-                    <div className="flex items-center gap-2 px-3 py-2 bg-tv-brand-tint/50 rounded-[8px] border border-tv-brand-bg/20">
+                    <div className="flex items-center gap-2 px-3 py-2 bg-tv-brand-tint/50 rounded-sm border border-tv-brand-bg/20">
                       <div className="w-4 h-4 rounded-full border-2 border-tv-brand-bg flex items-center justify-center shrink-0">
                         <div className="w-1.5 h-1.5 rounded-full bg-tv-brand-bg" />
                       </div>
@@ -435,9 +435,9 @@ export function EnvelopeBuilder() {
 
                       {/* Uploaded file preview */}
                       {frontLogo === "custom" && logoPreview && (
-                        <div className="relative w-full rounded-[12px] border border-tv-border-light overflow-hidden bg-tv-surface/30 mb-3 group">
+                        <div className="relative w-full rounded-lg border border-tv-border-light overflow-hidden bg-tv-surface/30 mb-3 group">
                           <div className="flex items-center gap-3 p-3">
-                            <div className="w-12 h-12 rounded-[8px] border border-tv-border-light bg-white flex items-center justify-center overflow-hidden shrink-0">
+                            <div className="w-12 h-12 rounded-sm border border-tv-border-light bg-white flex items-center justify-center overflow-hidden shrink-0">
                               <img src={logoPreview} alt="Front logo" className="max-w-full max-h-full object-contain" />
                             </div>
                             <div className="flex-1 min-w-0">
@@ -479,7 +479,7 @@ export function EnvelopeBuilder() {
                             show(`"${f.name}" uploaded`, "success");
                           }}
                           onClick={() => logoInputRef.current?.click()}
-                          className={`w-full flex items-center gap-3 px-3 py-3 mb-3 rounded-[12px] border-2 border-dashed cursor-pointer transition-all ${
+                          className={`w-full flex items-center gap-3 px-3 py-3 mb-3 rounded-lg border-2 border-dashed cursor-pointer transition-all ${
                             frontLogoDragOver
                               ? "border-tv-brand bg-tv-brand-tint/50 scale-[1.01]"
                               : "border-tv-border text-tv-text-secondary hover:border-tv-brand hover:text-tv-brand hover:bg-tv-brand-tint/30"
@@ -505,7 +505,7 @@ export function EnvelopeBuilder() {
                           const selected = frontLogo === "custom" && frontLogoName === logo.id;
                           return (
                             <button key={logo.id} onClick={() => { setFrontLogo("custom"); setFrontLogoName(logo.id); setLogoPreview(null); show(`"${logo.name}" selected`, "success"); }}
-                              className={`shrink-0 w-[52px] flex flex-col items-center gap-1 py-2 px-1 rounded-[8px] border transition-all ${
+                              className={`shrink-0 w-[52px] flex flex-col items-center gap-1 py-2 px-1 rounded-sm border transition-all ${
                                 selected ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"
                               }`}
                               title={`${logo.name} — ${logo.usedAt}`}>
@@ -528,7 +528,7 @@ export function EnvelopeBuilder() {
                           const selected = frontLogo === opt.id;
                           return (
                             <button key={opt.id} onClick={() => { setFrontLogo(opt.id); setFrontLogoName(null); setLogoPreview(null); }}
-                              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-[12px] border transition-all ${
+                              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-all ${
                                 selected
                                   ? "border-tv-brand-bg bg-tv-brand-tint"
                                   : "border-tv-border-light hover:border-tv-border-strong"
@@ -557,9 +557,9 @@ export function EnvelopeBuilder() {
 
                       {/* Uploaded file preview */}
                       {backLogo === "custom" && backFlapLogoPreview && (
-                        <div className="relative w-full rounded-[12px] border border-tv-border-light overflow-hidden bg-tv-surface/30 mb-3 group">
+                        <div className="relative w-full rounded-lg border border-tv-border-light overflow-hidden bg-tv-surface/30 mb-3 group">
                           <div className="flex items-center gap-3 p-3">
-                            <div className="w-12 h-12 rounded-[8px] border border-tv-border-light bg-white flex items-center justify-center overflow-hidden shrink-0">
+                            <div className="w-12 h-12 rounded-sm border border-tv-border-light bg-white flex items-center justify-center overflow-hidden shrink-0">
                               <img src={backFlapLogoPreview} alt="Back logo" className="max-w-full max-h-full object-contain" />
                             </div>
                             <div className="flex-1 min-w-0">
@@ -601,7 +601,7 @@ export function EnvelopeBuilder() {
                             show(`"${f.name}" uploaded`, "success");
                           }}
                           onClick={() => backLogoInputRef.current?.click()}
-                          className={`w-full flex items-center gap-3 px-3 py-3 mb-3 rounded-[12px] border-2 border-dashed cursor-pointer transition-all ${
+                          className={`w-full flex items-center gap-3 px-3 py-3 mb-3 rounded-lg border-2 border-dashed cursor-pointer transition-all ${
                             backLogoDragOver
                               ? "border-tv-brand bg-tv-brand-tint/50 scale-[1.01]"
                               : "border-tv-border text-tv-text-secondary hover:border-tv-brand hover:text-tv-brand hover:bg-tv-brand-tint/30"
@@ -627,7 +627,7 @@ export function EnvelopeBuilder() {
                           const selected = backLogo === "custom" && backLogoName === logo.id;
                           return (
                             <button key={logo.id} onClick={() => { setBackLogo("custom"); setBackLogoName(logo.id); setBackFlapLogoPreview(null); show(`"${logo.name}" selected`, "success"); }}
-                              className={`shrink-0 w-[52px] flex flex-col items-center gap-1 py-2 px-1 rounded-[8px] border transition-all ${
+                              className={`shrink-0 w-[52px] flex flex-col items-center gap-1 py-2 px-1 rounded-sm border transition-all ${
                                 selected ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"
                               }`}
                               title={`${logo.name} — ${logo.usedAt}`}>
@@ -650,7 +650,7 @@ export function EnvelopeBuilder() {
                           const selected = backLogo === opt.id;
                           return (
                             <button key={opt.id} onClick={() => { setBackLogo(opt.id); setBackLogoName(null); setBackFlapLogoPreview(null); }}
-                              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-[12px] border transition-all ${
+                              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-all ${
                                 selected
                                   ? "border-tv-brand-bg bg-tv-brand-tint"
                                   : "border-tv-border-light hover:border-tv-border-strong"
@@ -705,7 +705,7 @@ export function EnvelopeBuilder() {
                               if (val.length <= 40 && lineCount <= 3) setPostmarkText(val);
                             }}
                             rows={3}
-                            className="w-full border border-tv-border-light rounded-[8px] text-[13px] text-tv-text-primary p-2.5 outline-none focus:border-tv-brand transition-colors bg-white resize-y"
+                            className="w-full border border-tv-border-light rounded-sm text-[13px] text-tv-text-primary p-2.5 outline-none focus:border-tv-brand transition-colors bg-white resize-y"
                             style={{ fontWeight: 500, minHeight: 56 }}
                             placeholder="Hartwell University" />
                           <p className="text-[9px] text-tv-text-decorative mt-1">{40 - postmarkText.length} characters remaining</p>
@@ -719,7 +719,7 @@ export function EnvelopeBuilder() {
                       <p className="text-[11px] text-tv-text-secondary mb-2">Your envelope always includes a postage stamp. Choose a style below, or upload a custom image to fill the stamp.</p>
 
                       {/* Live stamp preview */}
-                      <div className="flex items-center gap-3 mb-3 px-3 py-2.5 rounded-[10px] bg-tv-surface/50 border border-tv-border-light">
+                      <div className="flex items-center gap-3 mb-3 px-3 py-2.5 rounded-md bg-tv-surface/50 border border-tv-border-light">
                         <PerforatedStamp size={52} accentColor={primaryColor} stampStyle={stampStyle} customImage={stampImagePreview} />
                         <div className="flex-1 min-w-0">
                           <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>
@@ -731,9 +731,9 @@ export function EnvelopeBuilder() {
 
                       {/* Uploaded stamp preview */}
                       {stampImagePreview && (
-                        <div className="relative w-full rounded-[12px] border border-tv-border-light overflow-hidden bg-tv-surface/30 mb-3 group">
+                        <div className="relative w-full rounded-lg border border-tv-border-light overflow-hidden bg-tv-surface/30 mb-3 group">
                           <div className="flex items-center gap-3 p-3">
-                            <div className="w-16 h-16 rounded-[8px] border border-tv-border-light bg-white flex items-center justify-center overflow-hidden shrink-0">
+                            <div className="w-16 h-16 rounded-sm border border-tv-border-light bg-white flex items-center justify-center overflow-hidden shrink-0">
                               <img src={stampImagePreview} alt="Custom stamp" className="max-w-full max-h-full object-cover" />
                             </div>
                             <div className="flex-1 min-w-0">
@@ -773,7 +773,7 @@ export function EnvelopeBuilder() {
                             show(`"${f.name}" uploaded as stamp`, "success");
                           }}
                           onClick={() => stampInputRef.current?.click()}
-                          className={`w-full flex flex-col items-center gap-2 px-3 py-4 mb-3 rounded-[12px] border-2 border-dashed cursor-pointer transition-all ${
+                          className={`w-full flex flex-col items-center gap-2 px-3 py-4 mb-3 rounded-lg border-2 border-dashed cursor-pointer transition-all ${
                             stampDragOver
                               ? "border-tv-brand bg-tv-brand-tint/50 scale-[1.01]"
                               : "border-tv-border text-tv-text-secondary hover:border-tv-brand hover:text-tv-brand hover:bg-tv-brand-tint/30"
@@ -799,7 +799,7 @@ export function EnvelopeBuilder() {
                           const selected = stampStyle === opt.id;
                           return (
                             <button key={opt.id} onClick={() => { setStampStyle(opt.id); setStampImagePreview(null); setStampFileName(null); setStampFileSize(null); }}
-                              className={`flex flex-col items-center gap-1.5 px-3 py-3 rounded-[12px] border transition-all ${
+                              className={`flex flex-col items-center gap-1.5 px-3 py-3 rounded-lg border transition-all ${
                                 selected && !stampImagePreview
                                   ? "border-tv-brand-bg bg-tv-brand-tint"
                                   : "border-tv-border-light hover:border-tv-border-strong"
@@ -881,7 +881,7 @@ export function EnvelopeBuilder() {
                 <div className="h-px bg-tv-border-divider mb-5" />
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {(["front", "back", "open"] as const).map(v => (
-                    <div key={v} className="rounded-[10px] overflow-hidden border border-tv-border-light shadow-sm">
+                    <div key={v} className="rounded-md overflow-hidden border border-tv-border-light shadow-sm">
                       {renderEnvelopePreview(v, true)}
                       <div className="px-2 py-1.5 bg-white">
                         <p className="text-[9px] text-tv-text-secondary text-center" style={{ fontWeight: 500 }}>
@@ -901,10 +901,10 @@ export function EnvelopeBuilder() {
       <div className="shrink-0 border-t border-tv-border-divider px-6 py-3.5 flex items-center justify-between bg-white">
         {/* Left: Undo / Redo */}
         <div className="flex items-center gap-1">
-          <button className="flex items-center gap-1 px-3 py-1.5 text-[12px] text-tv-text-secondary rounded-[8px] hover:bg-tv-surface transition-colors" style={{ fontWeight: 500 }}>
+          <button className="flex items-center gap-1 px-3 py-1.5 text-[12px] text-tv-text-secondary rounded-sm hover:bg-tv-surface transition-colors" style={{ fontWeight: 500 }}>
             <Undo2 size={13} /> Undo
           </button>
-          <button className="flex items-center gap-1 px-3 py-1.5 text-[12px] text-tv-text-secondary rounded-[8px] hover:bg-tv-surface transition-colors" style={{ fontWeight: 500 }}>
+          <button className="flex items-center gap-1 px-3 py-1.5 text-[12px] text-tv-text-secondary rounded-sm hover:bg-tv-surface transition-colors" style={{ fontWeight: 500 }}>
             <Redo2 size={13} /> Redo
           </button>
         </div>
@@ -1007,7 +1007,7 @@ function SwatchRow({ value, onChange, label }: { value: string; onChange: (v: st
           {showCustom && (
             <>
               <div className="fixed inset-0 z-40" onClick={() => setShowCustom(false)} />
-              <div className="absolute top-full left-0 mt-1 z-50 bg-white rounded-[8px] shadow-xl border border-tv-border-light p-2">
+              <div className="absolute top-full left-0 mt-1 z-50 bg-white rounded-sm shadow-xl border border-tv-border-light p-2">
                 <input type="color" value={safeHex(value)} onChange={e => onChange(e.target.value)}
                   className="w-28 h-28 cursor-pointer border-0" />
               </div>
@@ -1259,7 +1259,7 @@ function EnvelopePreview({
   // ── FRONT ──
   if (view === "front") {
     return (
-      <div className="aspect-[3/2] rounded-[12px] overflow-hidden relative"
+      <div className="aspect-[3/2] rounded-lg overflow-hidden relative"
         style={{ backgroundColor: envelopeColor, boxShadow: compact ? "2px 3px 8px rgba(0,0,0,0.15)" : "4px 6px 20px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.08)" }}>
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: PAPER_TEXTURE, backgroundSize: "200px 200px", mixBlendMode: "overlay" }} />
 
@@ -1360,7 +1360,7 @@ function EnvelopePreview({
     const hlAlpha = dark ? 0.08 : 0.12;
 
     return (
-      <div className="aspect-[3/2] rounded-[12px] overflow-hidden relative"
+      <div className="aspect-[3/2] rounded-lg overflow-hidden relative"
         style={{ backgroundColor: envelopeColor, boxShadow: compact ? "2px 3px 8px rgba(0,0,0,0.15)" : "4px 6px 20px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.08)" }}>
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: PAPER_TEXTURE, backgroundSize: "200px 200px", mixBlendMode: "overlay" }} />
 

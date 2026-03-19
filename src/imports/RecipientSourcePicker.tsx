@@ -191,7 +191,7 @@ export function RecipientPickerInline({ existingIds, onAdd }: RecipientPickerInl
   }) => (
     <button
       onClick={() => setTab(t)}
-      className={`flex items-center gap-1.5 px-3 py-2 text-[11px] transition-colors rounded-[8px] ${
+      className={`flex items-center gap-1.5 px-3 py-2 text-[11px] transition-colors rounded-sm ${
         tab === t
           ? "bg-tv-brand-tint text-tv-brand font-semibold"
           : "text-tv-text-secondary hover:bg-tv-surface font-medium"
@@ -226,9 +226,9 @@ export function RecipientPickerInline({ existingIds, onAdd }: RecipientPickerInl
                   key={l.id}
                   onClick={() => addFromList(l.contactIds)}
                   disabled={addable === 0}
-                  className="w-full flex items-center gap-3 px-3.5 py-3 rounded-[10px] border border-tv-border-light bg-white text-left transition-all hover:shadow-sm hover:border-tv-border-strong disabled:opacity-40 disabled:cursor-not-allowed group"
+                  className="w-full flex items-center gap-3 px-3.5 py-3 rounded-md border border-tv-border-light bg-white text-left transition-all hover:shadow-sm hover:border-tv-border-strong disabled:opacity-40 disabled:cursor-not-allowed group"
                 >
-                  <div className="w-8 h-8 rounded-[8px] bg-tv-brand-tint flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-sm bg-tv-brand-tint flex items-center justify-center shrink-0">
                     <Users size={14} className="text-tv-brand" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -277,9 +277,9 @@ export function RecipientPickerInline({ existingIds, onAdd }: RecipientPickerInl
                   key={s.id}
                   onClick={() => addFromList(s.contactIds)}
                   disabled={addable === 0}
-                  className="w-full flex items-center gap-3 px-3.5 py-3 rounded-[10px] border border-tv-border-light bg-white text-left transition-all hover:shadow-sm hover:border-tv-border-strong disabled:opacity-40 disabled:cursor-not-allowed group"
+                  className="w-full flex items-center gap-3 px-3.5 py-3 rounded-md border border-tv-border-light bg-white text-left transition-all hover:shadow-sm hover:border-tv-border-strong disabled:opacity-40 disabled:cursor-not-allowed group"
                 >
-                  <div className="w-8 h-8 rounded-[8px] bg-amber-50 flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-sm bg-amber-50 flex items-center justify-center shrink-0">
                     <Filter size={14} className="text-amber-600" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -330,7 +330,7 @@ export function RecipientPickerInline({ existingIds, onAdd }: RecipientPickerInl
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     placeholder="Search by name, email, or tag..."
-                    className="w-full pl-7 pr-7 py-2 border border-tv-border-light rounded-[8px] text-[11px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30 bg-white"
+                    className="w-full pl-7 pr-7 py-2 border border-tv-border-light rounded-sm text-[11px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30 bg-white"
                   />
                   {search && (
                     <button
@@ -343,7 +343,7 @@ export function RecipientPickerInline({ existingIds, onAdd }: RecipientPickerInl
                 </div>
                 <button
                   onClick={() => setShowFilters(!showFilters)}
-                  className={`w-8 h-8 rounded-[8px] flex items-center justify-center transition-colors shrink-0 border ${
+                  className={`w-8 h-8 rounded-sm flex items-center justify-center transition-colors shrink-0 border ${
                     filterTags.length > 0 || filterGiving.length > 0
                       ? "bg-tv-brand-tint border-tv-brand text-tv-brand"
                       : "border-tv-border-light text-tv-text-secondary hover:bg-tv-surface"
@@ -355,7 +355,7 @@ export function RecipientPickerInline({ existingIds, onAdd }: RecipientPickerInl
 
               {/* Filter chips */}
               {showFilters && (
-                <div className="space-y-2 p-2.5 rounded-[10px] bg-white border border-tv-border-light">
+                <div className="space-y-2 p-2.5 rounded-md bg-white border border-tv-border-light">
                   <div>
                     <p className="text-[9px] font-bold text-tv-text-secondary uppercase tracking-wider mb-1.5 flex items-center gap-1">
                       <Tag size={9} />

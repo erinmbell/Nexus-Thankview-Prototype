@@ -55,7 +55,7 @@ export function AssetActionMenu({
         <div
           role="menu"
           aria-label="Actions"
-          className="fixed bg-white rounded-[12px] border overflow-hidden"
+          className="fixed bg-white rounded-lg border overflow-hidden"
           style={{ zIndex: zIndex + 1, width, top: pos.top, left: pos.left, borderColor: TV.borderLight, boxShadow: "0 25px 50px -12px rgba(0,0,0,.25)" }}
         >
           {normal.map(a => (

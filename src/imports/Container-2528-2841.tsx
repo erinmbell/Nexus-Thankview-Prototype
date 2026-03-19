@@ -151,11 +151,11 @@ function Text() {
 
 function MantineCoreBox() {
   return (
-    <div className="bg-[#f5f3fa] h-[34px] relative rounded-[20px] shrink-0 w-full" data-name="@mantine/core/Box">
+    <div className="bg-[#f5f3fa] h-[34px] relative rounded-xl shrink-0 w-full" data-name="@mantine/core/Box">
       <div className="overflow-clip relative rounded-[inherit] size-full">
         <Text />
       </div>
-      <div aria-hidden="true" className="absolute border border-[rgba(0,0,0,0)] border-solid inset-0 pointer-events-none rounded-[20px]" />
+      <div aria-hidden="true" className="absolute border border-[rgba(0,0,0,0)] border-solid inset-0 pointer-events-none rounded-xl" />
     </div>
   );
 }
