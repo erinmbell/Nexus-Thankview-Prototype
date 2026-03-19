@@ -3403,11 +3403,6 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               <ChevronLeft size={13} />
               <span className="hidden sm:inline">Previous Step</span>
             </button>
-            <button onClick={() => { setSaveTemplateName(campaignName || ""); setSaveTemplateDesc(""); setShowSaveTemplate(true); }}
-              className="flex items-center gap-1.5 px-4 py-2 text-[13px] text-tv-text-secondary border border-tv-border-light rounded-full hover:bg-tv-surface hover:text-tv-text-primary transition-colors shrink-0"
-              title="Save current configuration as a reusable template">
-              <Bookmark size={13} /><span className="hidden sm:inline">Save as Template</span>
-            </button>
 
             {/* ── CENTER: spacer ── */}
             <div className="flex-1" />

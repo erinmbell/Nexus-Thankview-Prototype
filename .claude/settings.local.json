@@ -49,7 +49,24 @@
       "Bash(wc -l /Users/erinbell/Thankview/src/app/pages/*.tsx)",
       "Bash(gh auth:*)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(ls -d */)",
+      "Bash(ls *.tsx *.ts)",
+      "Bash(git rm:*)",
+      "Bash(grep -rn \"import.*FilterBar\\\\|<FilterBar\" /Users/erinbell/Thankview/src/app/pages/*.tsx)",
+      "Bash(grep -rn SegmentedControl /Users/erinbell/Thankview/src/app/pages/*.tsx)",
+      "Bash(find /Users/erinbell/Thankview -type f -name *Campaigns* -o -name *CampaignBuilder* -o -name *SingleStepBuilder* -o -name *StepDrawer*)",
+      "Bash(grep -r \"Title\\\\|<h1\\\\|<h2\\\\|<h3\\\\|Page.*Title\" /Users/erinbell/Thankview/src/app/pages/*.tsx)",
+      "Bash(grep -r \"borderRadius:\\\\|border:\\\\s*\\\\`1px\\\\|p\\\\s*=\" /Users/erinbell/Thankview/src/app/pages/*.tsx)",
+      "Bash(grep -r \"Paper\\\\|Card\\\\|Box.*bg=\\\\|Box.*p=\" /Users/erinbell/Thankview/src/app/pages/*.tsx)",
+      "Bash(grep -ro borderRadius:s*[0-9]+ /Users/erinbell/Thankview/src/app/pages/*.tsx /Users/erinbell/Thankview/src/app/components/*.tsx)",
+      "Bash(grep -ro \"radius=[^]*\\\\|radius=''''[^'''']*''''\" /Users/erinbell/Thankview/src/app/pages/*.tsx /Users/erinbell/Thankview/src/app/components/*.tsx)",
+      "Bash(npm list:*)"
     ]
   }
 }

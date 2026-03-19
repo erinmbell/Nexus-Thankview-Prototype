@@ -33,7 +33,7 @@ import { createTheme, MantineColorsTuple } from "@mantine/core";
  * BRAND PALETTE
  *   --tv-brand:          #7c45b0   text & icons                        ( 6.29:1)
  *   --tv-brand-hover:    #653a92   hover state                         ( 8.35:1)
- *   --tv-brand-bg:       #995cd3   fills where text is white
+ *   --tv-brand-bg:       #7c45b0   fills where text is white          ( 4.87:1)
  *   --tv-brand-tint:     #f3eeff   light tint background
  *
  * SEMANTIC STATUS COLORS (AA-compliant on white)

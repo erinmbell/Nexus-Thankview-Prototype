@@ -913,10 +913,6 @@ export function EnvelopeBuilder() {
         <div className="flex items-center gap-3">
           {wizardStep === "build" ? (
             <>
-              <button onClick={() => setLivePreviewOpen(true)}
-                className="flex items-center gap-1.5 px-4 py-2 text-[12px] rounded-full border border-tv-border-light text-tv-text-secondary hover:border-tv-brand hover:text-tv-brand transition-all" style={{ fontWeight: 500 }}>
-                <Eye size={13} /> Open view
-              </button>
               <button onClick={() => handleSave(false)} disabled={saving}
                 className="flex items-center gap-1.5 px-5 py-2 text-[13px] rounded-full border border-tv-border text-tv-brand hover:bg-tv-brand-tint transition-all" style={{ fontWeight: 600 }}>
                 {saving ? "Saving..." : "Save to Library"}
