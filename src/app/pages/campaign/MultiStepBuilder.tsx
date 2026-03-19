@@ -333,10 +333,24 @@ function Connector() {
 }
 
 function AddStepPopover({ onAdd, onClose }: { onAdd: (type: FlowStepType) => void; onClose: () => void }) {
+  const popRef = useRef<HTMLDivElement>(null);
+  const [above, setAbove] = useState(false);
+
+  // Measure on mount: if not enough room below, flip above
+  useEffect(() => {
+    const el = popRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    if (rect.bottom > window.innerHeight - 20) setAbove(true);
+  }, []);
+
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
-      <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-50 bg-white rounded-[10px] border border-tv-border-light shadow-xl p-2 w-[220px]">
+      <div
+        ref={popRef}
+        className={`absolute left-1/2 -translate-x-1/2 z-50 bg-white rounded-[10px] border border-tv-border-light shadow-xl p-2 w-[220px] ${above ? "bottom-full mb-2" : "top-full mt-2"}`}
+      >
         <p className="tv-label px-2 py-1.5 text-tv-text-secondary">Add Step</p>
         {FLOW_STEP_TYPES.map(t => (
           <button

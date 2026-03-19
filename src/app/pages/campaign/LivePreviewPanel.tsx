@@ -1348,15 +1348,8 @@ export function LivePreviewPanel({
               <p className="text-[10px] lg:text-[11px] text-tv-text-secondary leading-relaxed">Subject: <span className="text-tv-text-primary" style={{ fontWeight: 500 }}>{resolvedSubject}</span></p>
             </div>
 
-            {/* 1) CTA Button — "View Your ThankView" */}
-            <div className="flex justify-center px-4 pt-5 pb-3 lg:px-5 lg:pt-6 lg:pb-4">
-              <div className="px-7 py-3 lg:px-8 lg:py-3.5 rounded-[8px] text-[11px] lg:text-[12px] text-center cursor-pointer shadow-sm transition-transform hover:scale-[1.02]" style={{ backgroundColor: btnBg, color: btnText, fontWeight: 600 }}>
-                {isVideoRequest ? "Record Your Video" : (ctaText || "View Your ThankView")}
-              </div>
-            </div>
-
-            {/* 2) Full envelope front — pixel-perfect with stamp, texture, postmark, name */}
-            <div className="flex justify-center px-4 pb-4 lg:px-5 lg:pb-5">
+            {/* 1) Full envelope front — pixel-perfect with stamp, texture, postmark, name */}
+            <div className="flex justify-center px-4 pt-5 pb-2 lg:px-5 lg:pt-6 lg:pb-2.5">
               <div
                 className={`relative overflow-hidden shadow-lg ${isMob ? "w-[90%]" : "w-[80%]"}`}
                 style={{ backgroundColor: envColor, aspectRatio: "16/10", boxShadow: "4px 6px 20px rgba(0,0,0,0.15), 0 2px 6px rgba(0,0,0,0.06)" }}
@@ -1399,6 +1392,13 @@ export function LivePreviewPanel({
                   </div>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 h-[8%] pointer-events-none" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.06), transparent)" }} />
+              </div>
+            </div>
+
+            {/* 2) "View Your ThankView" button — below envelope */}
+            <div className="flex justify-center px-4 pb-3 lg:px-5 lg:pb-4">
+              <div className="px-5 py-2 lg:px-6 lg:py-2.5 rounded-[8px] text-[10px] lg:text-[11px] text-center cursor-pointer shadow-sm transition-transform hover:scale-[1.02]" style={{ backgroundColor: btnBg, color: btnText, fontWeight: 600 }}>
+                {isVideoRequest ? "Record Your Video" : "View Your ThankView"}
               </div>
             </div>
 
