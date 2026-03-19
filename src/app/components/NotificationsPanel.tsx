@@ -78,7 +78,7 @@ export function NotificationsPanel({ onClose }: Props) {
         aria-label="Notifications"
         tabIndex={-1}
         onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Escape") onClose(); }}
-        style={{ borderRadius: 16, border: `1px solid ${TV.borderLight}`, boxShadow: "0 25px 50px -12px rgba(0,0,0,.25)", maxHeight: "min(520px, calc(100vh - 80px))" }}
+        style={{ borderRadius: 20, border: `1px solid ${TV.borderLight}`, boxShadow: TV.shadowModal, maxHeight: "min(520px, calc(100vh - 80px))" }}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-2.5 shrink-0" style={{ borderBottom: `1px solid ${TV.borderDivider}`, backgroundColor: TV.surfaceMuted }}>

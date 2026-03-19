@@ -462,7 +462,7 @@ function GeneralTab() {
           <Box
             w={96} h={96}
             style={{
-              borderRadius: 16,
+              borderRadius: 20,
               border: logoUploaded ? `2px solid ${TV.borderStrong}` : `2px dashed ${TV.border}`,
               backgroundColor: logoUploaded ? TV.brandTint : TV.surface,
               display: "flex", alignItems: "center", justifyContent: "center",
@@ -981,7 +981,7 @@ function DnsSetupTab() {
               <AlertCircle size={20} style={{ color: TV.danger }} />
             </Box>
             <div style={{ flex: 1 }}>
-              <Title order={3} fz={17} mb={4}>Remove Domain</Title>
+              <Title order={3} fz={16} mb={4}>Remove Domain</Title>
               <Text fz={13} c={TV.textSecondary}>
                 Are you sure you want to remove <Text span fw={600} c={TV.textPrimary}>{domains.find(d => d.id === confirmRemove)?.domain}</Text>? Sends from this domain will fall back to the default domain or @mail-et.com.
               </Text>
@@ -2058,7 +2058,7 @@ function OneToOneTab() {
   return (
     <Stack gap="lg" maw={672}>
       {/* Explainer */}
-      <Box bg={TV.brandTint} p="md" style={{ borderRadius: 16, border: `1px solid ${TV.borderStrong}` }}>
+      <Box bg={TV.brandTint} p="md" style={{ borderRadius: 20, border: `1px solid ${TV.borderStrong}` }}>
         <div className="flex items-start gap-3 flex-nowrap">
           <Link2 size={18} style={{ color: TV.brand, flexShrink: 0, marginTop: 2 }} />
           <div>

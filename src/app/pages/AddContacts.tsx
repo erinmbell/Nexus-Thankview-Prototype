@@ -255,7 +255,7 @@ function MethodCard({ icon: Icon, title, desc, badge, disabled, onClick }: {
       p="lg"
       style={{
         border: `2px solid ${disabled ? TV.borderLight : TV.border}`,
-        borderRadius: 16,
+        borderRadius: 20,
         backgroundColor: disabled ? "#fafbfc" : undefined,
         opacity: disabled ? 0.6 : 1,
         transition: "all 0.2s",
@@ -411,7 +411,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
             p="xl"
             style={{
               border: `2px dashed ${dragOver ? TV.textBrand : TV.borderStrong}`,
-              borderRadius: 16, cursor: "pointer", textAlign: "center",
+              borderRadius: 20, cursor: "pointer", textAlign: "center",
               backgroundColor: dragOver ? TV.brandTint : undefined,
               transition: "all 0.2s",
               minHeight: 200, display: "flex", alignItems: "center", justifyContent: "center",

@@ -476,7 +476,7 @@ function RecentlyUsedSidebar({ lists, onSelect }: { lists: ContactList[]; onSele
       <Stack gap={0}>
         {lists.map(l => (
           <UnstyledButton key={l.id} onClick={() => onSelect(l)}
-            py={10} px="sm"
+            py="xs" px="sm"
             style={{ borderRadius: 10, transition: "all 0.15s" }}
             className="hover:bg-tv-surface">
             <div className="flex items-center gap-3 flex-nowrap">

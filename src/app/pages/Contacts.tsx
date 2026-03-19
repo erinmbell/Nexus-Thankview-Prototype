@@ -305,7 +305,7 @@ function ImportModal({ onClose, onImport }: { onClose: () => void; onImport: (mo
             p="xl"
             style={{
               border: `2px dashed ${uploaded ? TV.success : TV.borderStrong}`,
-              borderRadius: 16, cursor: "pointer", textAlign: "center",
+              borderRadius: 20, cursor: "pointer", textAlign: "center",
               backgroundColor: uploaded ? TV.successBg : undefined,
               transition: "all 0.2s",
             }}

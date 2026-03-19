@@ -132,6 +132,11 @@ const TV = {
   recordBg:      "#00c0f5",   //  Blue 5  — fills where text is white
   recordTint:    "#d9f2f8",   //  Blue 1  — light tint background
   recordBorder:  "#8dd9ed",   //  Blue 3  — border accent
+
+  /* ── Shadows ─────────────────────────────────────────────────────────────── */
+  shadowDropdown:  "0 8px 30px rgba(0,0,0,0.10)",
+  shadowTooltip:   "0 4px 12px rgba(0,0,0,0.08)",
+  shadowModal:     "0 25px 50px -12px rgba(0,0,0,0.25)",
 } as const;
 
 export { TV };
@@ -462,7 +467,7 @@ export const thankviewTheme = createTheme({
       styles: {
         dropdown: {
           borderColor: TV.borderLight,
-          boxShadow: "0 25px 50px -12px rgba(0,0,0,.25)",
+          boxShadow: TV.shadowModal,
         },
         item: {
           fontSize: "13px",

@@ -502,14 +502,14 @@ export function VideoEditor({
                   <Play size={14} className="text-white ml-0.5" fill="white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[12px] text-tv-text-primary truncate" style={{ fontWeight: 600 }}>{videoType}</p>
+                  <p className="text-[12px] text-tv-text-primary truncate font-semibold">{videoType}</p>
                   <p className="text-[10px] text-tv-text-secondary">{data.duration} &middot; {data.folder}</p>
                 </div>
               </div>
 
               {/* Video Name */}
               <div className="mb-4">
-                <label className="text-[11px] text-tv-text-primary mb-1.5 block" style={{ fontWeight: 600 }}>Video Name</label>
+                <label className="text-[11px] text-tv-text-primary mb-1.5 block font-semibold">Video Name</label>
                 <input
                   value={data.name}
                   onChange={e => upd("name", e.target.value)}
@@ -519,7 +519,7 @@ export function VideoEditor({
 
               {/* Description */}
               <div className="mb-4">
-                <label className="text-[11px] text-tv-text-primary mb-1.5 block" style={{ fontWeight: 600 }}>Description</label>
+                <label className="text-[11px] text-tv-text-primary mb-1.5 block font-semibold">Description</label>
                 <textarea
                   value={data.description}
                   onChange={e => upd("description", e.target.value)}
@@ -531,7 +531,7 @@ export function VideoEditor({
 
               {/* Constituent */}
               <div className="mb-4">
-                <label className="text-[11px] text-tv-text-primary mb-1.5 flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+                <label className="text-[11px] text-tv-text-primary mb-1.5 flex items-center gap-1.5 font-semibold">
                   <User size={11} />Constituent <ConstituentTooltip size={10} />
                 </label>
                 <input
@@ -544,7 +544,7 @@ export function VideoEditor({
 
               {/* Tags */}
               <div className="mb-4">
-                <label className="text-[11px] text-tv-text-primary mb-1.5 flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+                <label className="text-[11px] text-tv-text-primary mb-1.5 flex items-center gap-1.5 font-semibold">
                   <Tag size={11} />Tags
                   {data.tags.length > 0 && (
                     <span className="ml-auto text-[9px] text-tv-text-decorative tabular-nums" style={{ fontWeight: 500 }}>
@@ -604,7 +604,7 @@ export function VideoEditor({
 
               {/* Folder */}
               <div className="mb-4 relative">
-                <label className="text-[11px] text-tv-text-primary mb-1.5 flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+                <label className="text-[11px] text-tv-text-primary mb-1.5 flex items-center gap-1.5 font-semibold">
                   <FolderOpen size={11} />Folder
                 </label>
                 <button
@@ -638,7 +638,7 @@ export function VideoEditor({
           {/* ━━ TRIM TAB ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
           {tab === "trim" && (
             <div className="space-y-3">
-              <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Trim Settings</p>
+              <p className="text-[11px] text-tv-text-primary font-semibold">Trim Settings</p>
               <div className="flex items-center gap-2">
                 <div className="flex-1">
                   <label className="text-[9px] text-tv-text-secondary mb-0.5 block">Start</label>
@@ -664,7 +664,7 @@ export function VideoEditor({
             <div className="space-y-4">
               {/* Crop section */}
               <div className="space-y-3">
-                <p className="text-[11px] text-tv-text-primary flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+                <p className="text-[11px] text-tv-text-primary flex items-center gap-1.5 font-semibold">
                   <Crop size={12} />Crop
                 </p>
                 <div className="bg-tv-surface rounded-lg p-3">
@@ -685,10 +685,10 @@ export function VideoEditor({
 
               {/* Rotate section */}
               <div className="space-y-3">
-                <p className="text-[11px] text-tv-text-primary flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+                <p className="text-[11px] text-tv-text-primary flex items-center gap-1.5 font-semibold">
                   <RotateCw size={12} />Rotate
                   {data.rotation !== 0 && (
-                    <span className="text-[9px] text-tv-brand bg-tv-brand-tint px-1.5 py-0.5 rounded-full" style={{ fontWeight: 600 }}>
+                    <span className="text-[9px] text-tv-brand bg-tv-brand-tint px-1.5 py-0.5 rounded-full font-semibold">
                       {data.rotation}°
                     </span>
                   )}
@@ -733,7 +733,7 @@ export function VideoEditor({
             <>
               {/* Enable toggle */}
               <div className="flex items-center justify-between mb-4">
-                <label className="text-[11px] text-tv-text-primary flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+                <label className="text-[11px] text-tv-text-primary flex items-center gap-1.5 font-semibold">
                   <Captions size={12} />Closed Captions
                 </label>
                 <button
@@ -750,7 +750,7 @@ export function VideoEditor({
                   {/* Show by default */}
                   <div className="flex items-center justify-between mb-3 pb-3 border-b border-tv-border-divider">
                     <div>
-                      <label className="text-[10px] text-tv-text-primary flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+                      <label className="text-[10px] text-tv-text-primary flex items-center gap-1.5 font-semibold">
                         {showCaptionsByDefault ? <Eye size={10} /> : <EyeOff size={10} />}
                         Show by default
                       </label>
@@ -772,7 +772,7 @@ export function VideoEditor({
                       <div className="mb-2 p-2 bg-tv-info-bg border border-tv-info-border rounded-md">
                         <div className="flex items-center gap-1.5 mb-1">
                           <Loader2 size={10} className="text-tv-info animate-spin" />
-                          <span className="text-[10px] text-tv-text-primary" style={{ fontWeight: 600 }}>
+                          <span className="text-[10px] text-tv-text-primary font-semibold">
                             {captionProcessing === "ai" ? "AI generating\u2026" : "REV processing\u2026"}
                           </span>
                         </div>
@@ -792,11 +792,11 @@ export function VideoEditor({
                           <FileUp size={11} className="text-tv-text-secondary" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[10px] text-tv-text-primary" style={{ fontWeight: 600 }}>Upload VTT / SRT</p>
+                          <p className="text-[10px] text-tv-text-primary font-semibold">Upload VTT / SRT</p>
                           <p className="text-[8px] text-tv-text-secondary">Import caption file</p>
                         </div>
                         {captionSource === "upload" && (
-                          <span className="text-[7px] text-tv-success bg-tv-success-bg px-1 py-0.5 rounded-full shrink-0" style={{ fontWeight: 600 }}>Active</span>
+                          <span className="text-[7px] text-tv-success bg-tv-success-bg px-1 py-0.5 rounded-full shrink-0 font-semibold">Active</span>
                         )}
                       </button>
                       <button onClick={handleAICaptions} disabled={captionProcessing !== "idle"}
@@ -805,11 +805,11 @@ export function VideoEditor({
                           <Sparkles size={11} className="text-tv-brand" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[10px] text-tv-text-primary" style={{ fontWeight: 600 }}>Auto-generate (AI)</p>
+                          <p className="text-[10px] text-tv-text-primary font-semibold">Auto-generate (AI)</p>
                           <p className="text-[8px] text-tv-text-secondary">Transcribe automatically</p>
                         </div>
                         {captionSource === "ai" && (
-                          <span className="text-[7px] text-tv-success bg-tv-success-bg px-1 py-0.5 rounded-full shrink-0" style={{ fontWeight: 600 }}>Active</span>
+                          <span className="text-[7px] text-tv-success bg-tv-success-bg px-1 py-0.5 rounded-full shrink-0 font-semibold">Active</span>
                         )}
                       </button>
                       <button onClick={handleREVCaptions} disabled={captionProcessing !== "idle"}
@@ -818,11 +818,11 @@ export function VideoEditor({
                           <Wand2 size={11} className="text-tv-text-secondary" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[10px] text-tv-text-primary" style={{ fontWeight: 600 }}>Human captions (REV)</p>
+                          <p className="text-[10px] text-tv-text-primary font-semibold">Human captions (REV)</p>
                           <p className="text-[8px] text-tv-text-secondary">Professional &middot; 1 credit</p>
                         </div>
                         {captionSource === "rev" && (
-                          <span className="text-[7px] text-tv-success bg-tv-success-bg px-1 py-0.5 rounded-full shrink-0" style={{ fontWeight: 600 }}>Active</span>
+                          <span className="text-[7px] text-tv-success bg-tv-success-bg px-1 py-0.5 rounded-full shrink-0 font-semibold">Active</span>
                         )}
                       </button>
                     </div>
@@ -907,7 +907,7 @@ export function VideoEditor({
                   {/* Caption lines */}
                   <div className="border-t border-tv-border-divider pt-3 mt-3">
                     <div className="flex items-center justify-between mb-2">
-                      <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>
+                      <p className="text-[11px] text-tv-text-primary font-semibold">
                         Lines ({data.captions.length})
                       </p>
                       <div className="flex items-center gap-2">
@@ -965,13 +965,13 @@ export function VideoEditor({
           {/* ━━ THUMBNAIL TAB ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
           {tab === "thumbnail" && (
             <div className="space-y-4">
-              <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Video Thumbnail</p>
+              <p className="text-[11px] text-tv-text-primary font-semibold">Video Thumbnail</p>
 
               {/* Current thumbnail preview */}
               {data.thumbnailUrl ? (
                 <div className="relative rounded-lg overflow-hidden border border-tv-border-light">
                   <img src={data.thumbnailUrl} alt="Current thumbnail" className="w-full h-[130px] object-cover" />
-                  <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 bg-black/60 text-white text-[8px] rounded backdrop-blur-sm" style={{ fontWeight: 600 }}>
+                  <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 bg-black/60 text-white text-[8px] rounded backdrop-blur-sm font-semibold">
                     {thumbnailSource === "frame" ? "From video" : thumbnailSource === "upload" ? "Uploaded" : "Custom"}
                   </div>
                   <button
@@ -992,7 +992,7 @@ export function VideoEditor({
 
               {/* ── Pick from video frame ── */}
               <div className="space-y-2">
-                <p className="text-[10px] text-tv-text-primary flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+                <p className="text-[10px] text-tv-text-primary flex items-center gap-1.5 font-semibold">
                   <Play size={10} />Choose from video frame
                 </p>
                 <p className="text-[8px] text-tv-text-secondary">Select a frame from the video timeline to use as thumbnail</p>
@@ -1038,7 +1038,7 @@ export function VideoEditor({
                           background: `linear-gradient(135deg, hsl(${(idx / FRAME_COUNT) * 360}, 40%, 25%), hsl(${((idx / FRAME_COUNT) * 360 + 60) % 360}, 50%, 35%))`,
                         }}
                       >
-                        <span className="text-white/80 text-[9px] font-mono" style={{ fontWeight: 600 }}>
+                        <span className="text-white/80 text-[9px] font-mono font-semibold">
                           {fmtSec(sec)}
                         </span>
                       </div>
@@ -1095,7 +1095,7 @@ export function VideoEditor({
 
               {/* ── Upload image ── */}
               <div className="space-y-2">
-                <p className="text-[10px] text-tv-text-primary flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+                <p className="text-[10px] text-tv-text-primary flex items-center gap-1.5 font-semibold">
                   <Upload size={10} />Upload custom image
                 </p>
                 <input
@@ -1135,7 +1135,7 @@ export function VideoEditor({
 
               {/* ── Shareable URL ── */}
               <div className="space-y-2">
-                <p className="text-[11px] text-tv-text-primary flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+                <p className="text-[11px] text-tv-text-primary flex items-center gap-1.5 font-semibold">
                   <Link2 size={12} />Shareable Link
                 </p>
                 <p className="text-[8px] text-tv-text-secondary">
@@ -1152,8 +1152,7 @@ export function VideoEditor({
                       linkCopied
                         ? "bg-green-50 border-green-300 text-green-700"
                         : "bg-tv-brand-bg text-white border-tv-brand-bg hover:bg-tv-brand-hover"
-                    }`}
-                    style={{ fontWeight: 600 }}
+                    } font-semibold`}
                   >
                     {linkCopied ? <><Check size={11} />Copied</> : <><Copy size={11} />Copy</>}
                   </button>
@@ -1165,7 +1164,7 @@ export function VideoEditor({
 
               {/* ── Landing Page Selection ── */}
               <div className="space-y-2">
-                <p className="text-[11px] text-tv-text-primary flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+                <p className="text-[11px] text-tv-text-primary flex items-center gap-1.5 font-semibold">
                   <Globe size={12} />Landing Page
                 </p>
                 <p className="text-[8px] text-tv-text-secondary">
@@ -1212,7 +1211,7 @@ export function VideoEditor({
 
               {/* ── CTA Button Configuration ── */}
               <div className="space-y-3">
-                <p className="text-[11px] text-tv-text-primary flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+                <p className="text-[11px] text-tv-text-primary flex items-center gap-1.5 font-semibold">
                   <MousePointerClick size={12} />CTA Button
                 </p>
                 <p className="text-[8px] text-tv-text-secondary">
@@ -1253,8 +1252,8 @@ export function VideoEditor({
                         data.ctaText.trim()
                           ? "bg-tv-brand-bg text-white"
                           : "bg-tv-border-light text-tv-text-decorative"
-                      }`}
-                      style={{ fontWeight: 600, minWidth: 120 }}
+                      } font-semibold`}
+                      style={{ minWidth: 120 }}
                     >
                       {data.ctaText.trim() || "No button text"}
                     </div>
@@ -1272,7 +1271,7 @@ export function VideoEditor({
 
               {/* ── Email Thumbnail Preview ── */}
               <div className="space-y-2">
-                <p className="text-[11px] text-tv-text-primary flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+                <p className="text-[11px] text-tv-text-primary flex items-center gap-1.5 font-semibold">
                   <Mail size={12} />Email Preview
                 </p>
                 <p className="text-[8px] text-tv-text-secondary">
@@ -1306,7 +1305,7 @@ export function VideoEditor({
                   {/* Meta info */}
                   <div className="p-3 space-y-1">
                     <p className="text-[9px] text-tv-text-decorative truncate">teamview.app</p>
-                    <p className="text-[12px] text-tv-text-primary truncate" style={{ fontWeight: 600 }}>
+                    <p className="text-[12px] text-tv-text-primary truncate font-semibold">
                       {data.name || "Untitled Video"}
                     </p>
                     <p className="text-[10px] text-tv-text-secondary line-clamp-2">
@@ -1415,10 +1414,10 @@ export function VideoEditor({
           {tab === "trim" && (
             <div className="mx-5 mb-4 p-4 bg-white border border-tv-border-light rounded-xl shrink-0">
               <div className="flex items-center justify-between mb-3">
-                <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Trim Video</p>
+                <p className="text-[12px] text-tv-text-primary font-semibold">Trim Video</p>
                 <div className="flex items-center gap-2">
                   {data.isTrimmed && (
-                    <span className="px-2 py-0.5 bg-tv-brand-tint text-tv-brand text-[10px] rounded-full" style={{ fontWeight: 600 }}>Trimmed</span>
+                    <span className="px-2 py-0.5 bg-tv-brand-tint text-tv-brand text-[10px] rounded-full font-semibold">Trimmed</span>
                   )}
                   {data.isTrimmed && (
                     <button onClick={resetTrim} className="text-[10px] text-tv-danger hover:underline" style={{ fontWeight: 500 }}>
@@ -1488,7 +1487,7 @@ export function VideoEditor({
           {tab === "crop" && (
             <div className="mx-5 mb-4 p-4 bg-white border border-tv-border-light rounded-xl shrink-0">
               <div className="flex items-center justify-between mb-3">
-                <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Crop & Rotate</p>
+                <p className="text-[12px] text-tv-text-primary font-semibold">Crop & Rotate</p>
                 <button
                   onClick={rotate90}
                   className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] text-tv-brand border border-tv-brand-bg/30 rounded-md hover:bg-tv-brand-tint transition-colors"
@@ -1535,8 +1534,7 @@ export function VideoEditor({
               <div className="flex items-center gap-2">
                 <button
                   onClick={applyCrop}
-                  className="flex items-center gap-1 px-3 py-1.5 bg-tv-brand-bg text-white text-[11px] rounded-md hover:bg-tv-brand-hover transition-colors"
-                  style={{ fontWeight: 600 }}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-tv-brand-bg text-white text-[11px] rounded-md hover:bg-tv-brand-hover transition-colors font-semibold"
                 >
                   <Crop size={11} />Apply Crop
                 </button>
@@ -1553,7 +1551,7 @@ export function VideoEditor({
           {tab === "videoLink" && (
             <div className="mx-5 mb-4 p-5 bg-white border border-tv-border-light rounded-xl shrink-0">
               <div className="flex items-center justify-between mb-3">
-                <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Landing Page Preview</p>
+                <p className="text-[12px] text-tv-text-primary font-semibold">Landing Page Preview</p>
                 <span className="text-[9px] text-tv-text-secondary px-2 py-0.5 bg-tv-surface rounded-full">
                   {data.landingPage} Template
                 </span>
@@ -1582,7 +1580,7 @@ export function VideoEditor({
                       <div className="w-6 h-6 rounded bg-tv-brand-bg flex items-center justify-center">
                         <span className="text-white text-[8px]" style={{ fontWeight: 800 }}>TV</span>
                       </div>
-                      <span className="text-[10px] text-tv-text-primary" style={{ fontWeight: 600 }}>TeamView</span>
+                      <span className="text-[10px] text-tv-text-primary font-semibold">TeamView</span>
                     </div>
                   )}
 
@@ -1603,7 +1601,7 @@ export function VideoEditor({
 
                   {/* Title & description */}
                   <div>
-                    <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>{data.name || "Untitled Video"}</p>
+                    <p className="text-[11px] text-tv-text-primary font-semibold">{data.name || "Untitled Video"}</p>
                     {data.description && (
                       <p className="text-[9px] text-tv-text-secondary mt-0.5 line-clamp-2">{data.description}</p>
                     )}
@@ -1629,8 +1627,8 @@ export function VideoEditor({
                   {data.landingPage === "Event Invite" && (
                     <div className="flex items-center gap-3 bg-tv-surface rounded-lg p-2">
                       <div className="text-center">
-                        <p className="text-[8px] text-tv-brand" style={{ fontWeight: 600 }}>APR</p>
-                        <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>12</p>
+                        <p className="text-[8px] text-tv-brand font-semibold">APR</p>
+                        <p className="text-[14px] text-tv-text-primary font-bold">12</p>
                       </div>
                       <div>
                         <p className="text-[9px] text-tv-text-primary" style={{ fontWeight: 500 }}>Spring Gala 2026</p>
@@ -1644,7 +1642,7 @@ export function VideoEditor({
                     <div className="grid grid-cols-3 gap-2">
                       {[{ n: "142", l: "Students helped" }, { n: "$8.2K", l: "Scholarships" }, { n: "12", l: "Programs" }].map(s => (
                         <div key={s.l} className="text-center bg-tv-surface rounded-lg p-2">
-                          <p className="text-[12px] text-tv-brand" style={{ fontWeight: 700 }}>{s.n}</p>
+                          <p className="text-[12px] text-tv-brand font-bold">{s.n}</p>
                           <p className="text-[7px] text-tv-text-secondary">{s.l}</p>
                         </div>
                       ))}
@@ -1654,8 +1652,7 @@ export function VideoEditor({
                   {/* CTA Button */}
                   {data.ctaText.trim() && (
                     <button
-                      className="w-full py-2 rounded-lg text-[11px] text-white bg-tv-brand-bg hover:bg-tv-brand-hover transition-colors"
-                      style={{ fontWeight: 600 }}
+                      className="w-full py-2 rounded-lg text-[11px] text-white bg-tv-brand-bg hover:bg-tv-brand-hover transition-colors font-semibold"
                       onClick={() => data.ctaLink && window.open(data.ctaLink, "_blank")}
                     >
                       {data.ctaText}
@@ -1694,8 +1691,7 @@ export function VideoEditor({
           )}
           <button
             onClick={handleSave}
-            className="flex items-center gap-1.5 px-5 py-2 text-[13px] text-white bg-tv-brand-bg rounded-full hover:bg-tv-brand-hover transition-colors"
-            style={{ fontWeight: 600 }}
+            className="flex items-center gap-1.5 px-5 py-2 text-[13px] text-white bg-tv-brand-bg rounded-full hover:bg-tv-brand-hover transition-colors font-semibold"
           >
             <Save size={13} />Save Changes
           </button>

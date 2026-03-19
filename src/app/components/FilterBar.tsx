@@ -633,7 +633,7 @@ function AddFilterMenu({ available, onAdd }: {
             value={searchText}
             onChange={e => setSearchText(e.currentTarget.value)}
             leftSection={<Search size={13} style={{ color: TV.textSecondary }} />}
-            styles={{ input: { borderColor: TV.borderLight, fontSize: 12 } }}
+            styles={{ input: { borderColor: TV.borderLight, fontSize: 11 } }}
           />
         </Box>
         <ScrollArea.Autosize mah={320} type="auto" offsetScrollbars>

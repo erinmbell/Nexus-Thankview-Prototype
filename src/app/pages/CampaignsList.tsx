@@ -77,7 +77,7 @@ function CampaignThumbnail({ campaign, size = "md" }: { campaign: Campaign; size
 function CreateCampaignDropdown({ navigate, compact, onOpenTemplates }: { navigate: (path: string) => void; compact?: boolean; onOpenTemplates: () => void }) {
   return (
     <Menu position="bottom-end" withinPortal styles={{
-      dropdown: { borderColor: TV.borderLight, borderRadius: 10, padding: "6px 6px 2px", minWidth: 300, boxShadow: "0 8px 30px rgba(0,0,0,0.10)" },
+      dropdown: { borderColor: TV.borderLight, borderRadius: 10, padding: "6px 6px 2px", minWidth: 300, boxShadow: TV.shadowDropdown },
     }}>
       <Menu.Target>
         <Button
@@ -92,7 +92,7 @@ function CreateCampaignDropdown({ navigate, compact, onOpenTemplates }: { naviga
       </Menu.Target>
       <Menu.Dropdown>
         <div className="px-3 pt-2 pb-1.5">
-          <span className="text-[11px] text-tv-text-secondary tracking-widest uppercase" style={{ fontWeight: 600 }}>Create Campaign</span>
+          <span className="text-[11px] text-tv-text-secondary tracking-widest uppercase font-semibold">Create Campaign</span>
         </div>
         {CREATE_ITEMS.map((item) => (
           <Menu.Item
@@ -111,7 +111,7 @@ function CreateCampaignDropdown({ navigate, compact, onOpenTemplates }: { naviga
                 <item.icon size={18} style={{ color: item.iconColor }} />
               </div>
               <div className="min-w-0">
-                <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 600 }}>{item.label}</p>
+                <p className="text-[13px] text-tv-text-primary font-semibold">{item.label}</p>
                 <p className="text-[11px] text-tv-text-secondary">{item.desc}</p>
               </div>
             </div>
@@ -119,7 +119,7 @@ function CreateCampaignDropdown({ navigate, compact, onOpenTemplates }: { naviga
         ))}
         <div className="mx-2 my-1 border-t border-tv-border-divider" />
         <div className="px-3 pt-1.5 pb-1">
-          <span className="text-[11px] text-tv-text-secondary tracking-widest uppercase" style={{ fontWeight: 600 }}>From Template</span>
+          <span className="text-[11px] text-tv-text-secondary tracking-widest uppercase font-semibold">From Template</span>
         </div>
         <Menu.Item
           onClick={onOpenTemplates}
@@ -136,7 +136,7 @@ function CreateCampaignDropdown({ navigate, compact, onOpenTemplates }: { naviga
               <Bookmark size={18} className="text-tv-warning" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 600 }}>Start from Template</p>
+              <p className="text-[13px] text-tv-text-primary font-semibold">Start from Template</p>
               <p className="text-[11px] text-tv-text-secondary">Pre-populate from a saved template</p>
             </div>
             <ChevronRight size={14} className="text-tv-text-decorative shrink-0" />
@@ -387,7 +387,7 @@ function TemplatePickerModal({ onSelect, onCancel }: { onSelect: (tpl: CampaignT
       {filtered.length === 0 ? (
         <div className="flex flex-col items-center py-12 gap-3">
           <Bookmark size={28} className="text-tv-text-decorative" />
-          <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 600 }}>No templates found</p>
+          <p className="text-[14px] text-tv-text-primary font-semibold">No templates found</p>
           <p className="text-[12px] text-tv-text-secondary">Try adjusting your search or create a campaign and save it as a template.</p>
         </div>
       ) : (
@@ -401,9 +401,9 @@ function TemplatePickerModal({ onSelect, onCancel }: { onSelect: (tpl: CampaignT
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <p className="text-[14px] text-tv-text-primary truncate" style={{ fontWeight: 600 }}>{tpl.name}</p>
+                    <p className="text-[14px] text-tv-text-primary truncate font-semibold">{tpl.name}</p>
                     {tpl.builtIn && (
-                      <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-tv-brand-tint text-tv-brand shrink-0" style={{ fontWeight: 600 }}>BUILT-IN</span>
+                      <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-tv-brand-tint text-tv-brand shrink-0 font-semibold">BUILT-IN</span>
                     )}
                   </div>
                   <p className="text-[12px] text-tv-text-secondary mb-2 line-clamp-2">{tpl.description}</p>
@@ -430,13 +430,13 @@ function TemplatePickerModal({ onSelect, onCancel }: { onSelect: (tpl: CampaignT
                   {tpl.stepContent && (tpl.stepContent.subject || tpl.stepContent.smsBody) && (
                     <div className="mt-2 p-2 bg-tv-surface-muted rounded-[8px] border border-tv-border-divider">
                       {tpl.stepContent.subject && (
-                        <p className="text-[10px] text-tv-text-label truncate"><span style={{ fontWeight: 600 }}>Subject:</span> {tpl.stepContent.subject}</p>
+                        <p className="text-[10px] text-tv-text-label truncate"><span className="font-semibold">Subject:</span> {tpl.stepContent.subject}</p>
                       )}
                       {tpl.stepContent.body && (
                         <p className="text-[10px] text-tv-text-secondary truncate mt-0.5">{tpl.stepContent.body.replace(/<[^>]+>/g, "").slice(0, 90)}{tpl.stepContent.body.replace(/<[^>]+>/g, "").length > 90 ? "\u2026" : ""}</p>
                       )}
                       {tpl.stepContent.smsBody && (
-                        <p className="text-[10px] text-tv-text-secondary truncate"><span style={{ fontWeight: 600 }}>SMS:</span> {tpl.stepContent.smsBody.slice(0, 90)}{tpl.stepContent.smsBody.length > 90 ? "\u2026" : ""}</p>
+                        <p className="text-[10px] text-tv-text-secondary truncate"><span className="font-semibold">SMS:</span> {tpl.stepContent.smsBody.slice(0, 90)}{tpl.stepContent.smsBody.length > 90 ? "\u2026" : ""}</p>
                       )}
                       {tpl.mode === "multi" && tpl.multiSteps && (
                         <p className="text-[10px] text-tv-text-label mt-0.5" style={{ fontWeight: 500 }}>{tpl.multiSteps.length} steps pre-configured</p>
@@ -478,7 +478,7 @@ function TemplatePickerModal({ onSelect, onCancel }: { onSelect: (tpl: CampaignT
                 show(`Template "${confirmDelete.name}" deleted`, "success");
                 setConfirmDelete(null);
               }}
-                className="px-4 py-2 text-[13px] text-white bg-tv-danger rounded-full hover:bg-tv-danger-hover transition-colors" style={{ fontWeight: 600 }}>
+                className="px-4 py-2 text-[13px] text-white bg-tv-danger rounded-full hover:bg-tv-danger-hover transition-colors font-semibold">
                 Delete
               </button>
             </div>
@@ -644,7 +644,7 @@ function FilterDropdown({
         {isActive ? (
           <>
             <Icon size={13} className="text-tv-brand shrink-0" />
-            <span className="text-tv-brand" style={{ fontWeight: 600 }}>{label}</span>
+            <span className="text-tv-brand font-semibold">{label}</span>
             <div className="w-px h-[14px] bg-tv-brand/30 shrink-0" />
             <span className="text-tv-brand" style={{ fontWeight: 500 }}>{activeLabel}</span>
             <span
@@ -872,9 +872,8 @@ export function CampaignsList() {
                 <span>{tab.label}</span>
                 {tab.key !== "all" ? (
                   <span
-                    className="inline-flex items-center justify-center px-[7px] py-[1px] rounded-full text-[12px]"
+                    className="inline-flex items-center justify-center px-[7px] py-[1px] rounded-full text-[12px] font-semibold"
                     style={{
-                      fontWeight: 600,
                       backgroundColor: isActive ? "rgba(255,255,255,0.25)" : TV.brandTint,
                       color: isActive ? "white" : TV.textBrand,
                     }}

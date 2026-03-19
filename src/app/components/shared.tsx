@@ -4,7 +4,7 @@ import { TV } from "../theme";
 /** Reusable section card shell — rounded-[16px], white bg, borderLight border */
 export function DashCard({ children, className = "", id }: { children: React.ReactNode; className?: string; id?: string }) {
   return (
-    <div id={id} className={`bg-white rounded-[16px] border ${className}`} style={{ borderColor: TV.borderLight }}>
+    <div id={id} className={`bg-white rounded-xl border ${className}`} style={{ borderColor: TV.borderLight }}>
       {children}
     </div>
   );
@@ -38,8 +38,8 @@ export function ChartBox({ height, flex, children }: { height?: number; flex?: b
 /** Shared Mantine Drawer styles -- compact title, tighter padding */
 export const DRAWER_STYLES = {
   header: { padding: "14px 20px 10px 20px", borderBottom: `1px solid ${TV.borderDivider}`, marginBottom: 0, minHeight: "unset" as const },
-  title: { fontSize: 15, fontWeight: 700, color: TV.textPrimary, lineHeight: 1.4 },
+  title: { fontSize: 15, fontWeight: 900, color: TV.textPrimary, lineHeight: 1.4 },
   body: { padding: "16px 20px 20px 20px" },
   close: { color: TV.textSecondary, width: 28, height: 28, minWidth: 28, minHeight: 28 },
-  content: { borderRadius: "16px 0 0 16px" },
+  content: { borderRadius: "20px 0 0 20px" },
 };

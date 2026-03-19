@@ -275,7 +275,7 @@ export function LandingPageBuilder() {
                   <AccordionSection title="Landing Page Title" open={!!openSections.title} onToggle={() => toggleSection("title")}
                     helper="Use a memorable name to find it quickly.">
                     <div>
-                      <label className="text-[11px] text-tv-text-label mb-1.5 block" style={{ fontWeight: 600 }}>
+                      <label className="text-[11px] text-tv-text-label mb-1.5 block font-semibold">
                         Page Title <span className="text-tv-danger">*</span>
                       </label>
                       <input value={name}
@@ -300,7 +300,7 @@ export function LandingPageBuilder() {
 
                       {/* Organization Logo */}
                       <div>
-                        <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2 block" style={{ fontWeight: 600 }}>
+                        <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2 block font-semibold">
                           Organization Logo
                         </label>
                         {/* Preset logos */}
@@ -403,7 +403,7 @@ export function LandingPageBuilder() {
                                   <img src={pendingBgFile} alt="Preview" className="w-full h-full object-cover" />
                                 </div>
                               )}
-                              <label className="text-[10px] text-tv-text-label uppercase tracking-wider block" style={{ fontWeight: 600 }}>Name this image *</label>
+                              <label className="text-[10px] text-tv-text-label uppercase tracking-wider block font-semibold">Name this image *</label>
                               <input autoFocus value={newBgName} onChange={e => setNewBgName(e.target.value)}
                                 onKeyDown={e => {
                                   if (e.key === "Enter" && newBgName.trim()) {
@@ -421,7 +421,7 @@ export function LandingPageBuilder() {
                                   const newBg: Background = { id: Date.now(), kind: "image", name: newBgName.trim(), url: pendingBgFile || "https://images.unsplash.com/photo-1605221011656-10dff4f1549b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1bml2ZXJzaXR5JTIwY2FtcHVzJTIwYWVyaWFsJTIwZHJvbmUlMjBncmVlbiUyMHF1YWR8ZW58MXx8fHwxNzczMDc3OTEyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" };
                                   setBackgrounds(prev => [...prev, newBg]); setSelectedBgId(newBg.id); setShowUploadNaming(false); setNewBgName(""); setPendingBgFile(null); show(`"${newBg.name}" saved`, "success");
                                 }} disabled={!newBgName.trim()}
-                                  className="px-3 py-1 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors disabled:opacity-40 flex items-center gap-1" style={{ fontWeight: 600 }}>
+                                  className="px-3 py-1 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors disabled:opacity-40 flex items-center gap-1 font-semibold">
                                   <Upload size={10} />Save
                                 </button>
                               </div>
@@ -463,7 +463,7 @@ export function LandingPageBuilder() {
                       {bgTab === "color" && (
                         <div className="space-y-3">
                           <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-light space-y-3">
-                            <p className="text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Create Solid Color</p>
+                            <p className="text-[10px] text-tv-text-label uppercase tracking-wider font-semibold">Create Solid Color</p>
                             <div className="flex items-center gap-2">
                               <label className="w-12 h-12 rounded-[10px] border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden shadow-sm" style={{ backgroundColor: safeHex(newColorHex) }}>
                                 <input type="color" value={safeHex(newColorHex)} onChange={e => setNewColorHex(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" />
@@ -477,7 +477,7 @@ export function LandingPageBuilder() {
                               const cName = newColorName.trim() || safeHex(newColorHex);
                               const newBg: Background = { id: Date.now(), kind: "color", name: cName, color: safeHex(newColorHex) };
                               setBackgrounds(prev => [...prev, newBg]); setSelectedBgId(newBg.id); setNewColorName(""); show(`"${cName}" added`, "success");
-                            }} className="w-full py-2 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors flex items-center justify-center gap-1" style={{ fontWeight: 600 }}>
+                            }} className="w-full py-2 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors flex items-center justify-center gap-1 font-semibold">
                               <Plus size={11} />Add Color
                             </button>
                           </div>
@@ -505,7 +505,7 @@ export function LandingPageBuilder() {
                       {bgTab === "gradient" && (
                         <div className="space-y-3">
                           <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-light space-y-3">
-                            <p className="text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Create Gradient</p>
+                            <p className="text-[10px] text-tv-text-label uppercase tracking-wider font-semibold">Create Gradient</p>
                             <div className="h-14 rounded-[10px] border border-tv-border-light overflow-hidden" style={{ background: `linear-gradient(${newGradDir}, ${safeHex(newGradFrom)}, ${safeHex(newGradTo)})` }} />
                             <div className="grid grid-cols-2 gap-2">
                               <div>
@@ -536,7 +536,7 @@ export function LandingPageBuilder() {
                               const gName = newGradName.trim() || `${safeHex(newGradFrom)} → ${safeHex(newGradTo)}`;
                               const newBg: Background = { id: Date.now(), kind: "gradient", name: gName, gradientFrom: safeHex(newGradFrom), gradientTo: safeHex(newGradTo), gradientDir: newGradDir };
                               setBackgrounds(prev => [...prev, newBg]); setSelectedBgId(newBg.id); setNewGradName(""); show(`"${gName}" added`, "success");
-                            }} className="w-full py-2 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors flex items-center justify-center gap-1" style={{ fontWeight: 600 }}>
+                            }} className="w-full py-2 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors flex items-center justify-center gap-1 font-semibold">
                               <Plus size={11} />Add Gradient
                             </button>
                           </div>
@@ -583,7 +583,7 @@ export function LandingPageBuilder() {
             <div className="flex-1 min-w-0 flex flex-col bg-tv-surface/20 overflow-hidden">
               {/* Top bar */}
               <div className="px-5 py-3 border-b border-tv-border-divider bg-white flex items-center justify-between shrink-0">
-                <p className="text-[14px] text-tv-text-primary italic" style={{ fontFamily: "var(--tv-font-display, 'Fraunces', Roboto, sans-serif)", fontWeight: 600 }}>
+                <p className="text-[14px] text-tv-text-primary italic font-semibold" style={{ fontFamily: "var(--tv-font-display, 'Fraunces', Roboto, sans-serif)" }}>
                   {name || "Untitled Landing Page"}
                 </p>
                 <div className="flex items-center gap-2">
@@ -618,7 +618,7 @@ export function LandingPageBuilder() {
             {/* Left: success */}
             <div className="w-[42%] shrink-0 border-r border-tv-border-divider flex items-center justify-center p-10">
               <div>
-                <h2 className="font-display text-tv-text-primary mb-3" style={{ fontSize: "40px", fontWeight: 700 }}>
+                <h2 className="font-display text-tv-text-primary mb-3 font-bold" style={{ fontSize: "40px" }}>
                   Huzzah!
                 </h2>
                 <p className="text-[15px] text-tv-text-primary mb-4" style={{ fontWeight: 500 }}>
@@ -633,7 +633,7 @@ export function LandingPageBuilder() {
             {/* Right: 3-device summary */}
             <div className="flex-1 min-w-0 flex flex-col items-center justify-center p-8 bg-tv-surface/30 overflow-y-auto">
               <div className="w-full max-w-[680px]">
-                <h3 className="text-tv-text-primary mb-1" style={{ fontSize: "17px", fontWeight: 700 }}>{name || "Untitled Landing Page"}</h3>
+                <h3 className="text-tv-text-primary mb-1 font-bold" style={{ fontSize: "17px" }}>{name || "Untitled Landing Page"}</h3>
                 <div className="h-px bg-tv-border-divider mb-5" />
                 <div className="grid grid-cols-3 gap-4 items-start">
                   {(["desktop", "tablet", "mobile"] as const).map(d => (
@@ -690,7 +690,7 @@ export function LandingPageBuilder() {
                 <Eye size={13} /> Open view
               </button>
               <button onClick={() => handleSave(false)} disabled={saving}
-                className="flex items-center gap-1.5 px-5 py-2 text-[13px] rounded-full border border-tv-border text-tv-brand hover:bg-tv-brand-tint transition-all" style={{ fontWeight: 600 }}>
+                className="flex items-center gap-1.5 px-5 py-2 text-[13px] rounded-full border border-tv-border text-tv-brand hover:bg-tv-brand-tint transition-all font-semibold">
                 {saving ? "Saving..." : "Save to Library"}
               </button>
               <button onClick={() => handleSave(true)} disabled={saving}
@@ -698,7 +698,7 @@ export function LandingPageBuilder() {
                   saving
                     ? "bg-tv-surface-active text-tv-text-secondary cursor-not-allowed"
                     : "bg-tv-brand-bg hover:bg-tv-brand-hover text-white"
-                }`} style={{ fontWeight: 600 }}>
+                } font-semibold`}>
                 <span>{saving ? "Processing..." : "Save & Use in Campaign"}</span>
                 <ChevronRight size={14} />
               </button>
@@ -715,7 +715,7 @@ export function LandingPageBuilder() {
                 <Eye size={13} /> Live Preview
               </button>
               <button onClick={() => navigate(returnTo)}
-                className="flex items-center gap-1.5 px-5 py-2 text-[13px] rounded-full bg-tv-brand-bg hover:bg-tv-brand-hover text-white transition-all" style={{ fontWeight: 600 }}>
+                className="flex items-center gap-1.5 px-5 py-2 text-[13px] rounded-full bg-tv-brand-bg hover:bg-tv-brand-hover text-white transition-all font-semibold">
                 <span>Use This Landing Page</span>
                 <ChevronRight size={14} />
               </button>
@@ -758,7 +758,7 @@ function AccordionSection({ title, open, onToggle, helper, hasInfo, children }: 
     <div className="border-b border-tv-border-divider">
       <button onClick={onToggle} type="button"
         className="w-full flex items-center justify-between py-3.5 text-left group">
-        <span className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>{title}</span>
+        <span className="text-[13px] text-tv-text-primary font-bold">{title}</span>
         <ChevronDown size={15} className={`text-tv-text-secondary transition-transform ${open ? "rotate-0" : "-rotate-90"}`} />
       </button>
       {open && (
@@ -788,7 +788,7 @@ function ColorField({ label, value, onChange, required }: {
 }) {
   return (
     <div>
-      <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5 block" style={{ fontWeight: 600 }}>
+      <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5 block font-semibold">
         {label} {required && <span className="text-tv-danger">*</span>}
       </label>
       <div className="flex items-center gap-2">
@@ -896,10 +896,10 @@ function LandingPagePreview({
                   {logo === "mail" && <Mail size={11} style={{ color: navTextColor }} />}
                 </div>
               )}
-              <span className="text-[10px]" style={{ color: navTextColor, fontWeight: 600 }}>Hartwell University</span>
+              <span className="text-[10px] font-semibold" style={{ color: navTextColor }}>Hartwell University</span>
             </div>
           ) : (
-            <span className="text-[10px]" style={{ color: navTextColor, fontWeight: 600 }}>Hartwell University</span>
+            <span className="text-[10px] font-semibold" style={{ color: navTextColor }}>Hartwell University</span>
           )}
           <span className="ml-auto text-[8px]" style={{ color: navTextColor, opacity: 0.4 }}>thankview.com</span>
         </div>
@@ -950,8 +950,8 @@ function LandingPagePreview({
 
         {/* CTA Button */}
         <div className="px-5 py-3 flex justify-center">
-          <span className={`inline-block ${isMobile ? "px-5 py-2" : "px-7 py-2.5"} rounded-full text-[12px] cursor-default`}
-            style={{ backgroundColor: ctaBtnColor, color: ctaTextColor, fontWeight: 600 }}>
+          <span className={`inline-block ${isMobile ? "px-5 py-2" : "px-7 py-2.5"} rounded-full text-[12px] cursor-default font-semibold`}
+            style={{ backgroundColor: ctaBtnColor, color: ctaTextColor }}>
             Give to the Annual Fund
           </span>
         </div>
@@ -990,7 +990,7 @@ function LandingPagePreview({
 
       {/* Label */}
       <div className="text-center mt-4">
-        <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>{name || "Untitled Landing Page"}</p>
+        <p className="text-[12px] text-tv-text-primary font-semibold">{name || "Untitled Landing Page"}</p>
         <p className="text-[10px] text-tv-text-secondary mt-0.5">
           {device === "desktop" ? "Desktop" : device === "tablet" ? "Tablet" : "Mobile"} Preview &middot; {selectedBg ? selectedBg.name : "No background"}
         </p>

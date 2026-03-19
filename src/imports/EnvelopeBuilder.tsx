@@ -322,7 +322,7 @@ export function EnvelopeBuilder() {
                       </button>
 
                       {/* Swoops subgroup */}
-                      <p className="text-[11px] text-tv-text-primary mb-1.5" style={{ fontWeight: 600 }}>Swoops</p>
+                      <p className="text-[11px] text-tv-text-primary mb-1.5 font-semibold">Swoops</p>
                       <div className="flex gap-3 mb-3">
                         {(["single-swoop", "double-swoop"] as const).map(opt => (
                           <button key={opt} onClick={() => { setDesignGroup("swoops"); setDesign(opt); }}
@@ -345,7 +345,7 @@ export function EnvelopeBuilder() {
                       )}
 
                       {/* Stripes subgroup */}
-                      <p className="text-[11px] text-tv-text-primary mb-1.5" style={{ fontWeight: 600 }}>Stripes</p>
+                      <p className="text-[11px] text-tv-text-primary mb-1.5 font-semibold">Stripes</p>
                       <div className="flex flex-wrap gap-x-3 gap-y-1.5 mb-3">
                         {(["single-stripe", "double-stripes", "triple-stripes", "airmail-stripe"] as const).map(opt => (
                           <button key={opt} onClick={() => { setDesignGroup("stripes"); setDesign(opt); }}
@@ -417,7 +417,7 @@ export function EnvelopeBuilder() {
                               <img src={logoPreview} alt="Front logo" className="max-w-full max-h-full object-contain" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-[12px] text-tv-text-primary truncate" style={{ fontWeight: 600 }}>{frontLogoFileName || "Custom Logo"}</p>
+                              <p className="text-[12px] text-tv-text-primary truncate font-semibold">{frontLogoFileName || "Custom Logo"}</p>
                               <p className="text-[10px] text-tv-text-decorative">
                                 {frontLogoFileSize ? `${(frontLogoFileSize / 1024).toFixed(1)} KB` : "Uploaded"}
                               </p>
@@ -465,7 +465,7 @@ export function EnvelopeBuilder() {
                             <Upload size={14} className={frontLogoDragOver ? "text-tv-brand" : ""} />
                           </div>
                           <div className="text-left">
-                            <span className="text-[12px] block" style={{ fontWeight: 600 }}>
+                            <span className="text-[12px] block font-semibold">
                               {frontLogoDragOver ? "Drop image here" : "Upload Logo"}
                             </span>
                             <span className="text-[10px] text-tv-text-decorative">PNG, JPG — max 500 KB</span>
@@ -474,7 +474,7 @@ export function EnvelopeBuilder() {
                       )}
 
                       {/* Recently Used */}
-                      <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>Recently Used</p>
+                      <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5 font-semibold">Recently Used</p>
                       <div className="flex gap-1.5 mb-3 overflow-x-auto pb-1 scrollbar-none">
                         {RECENT_LOGOS.map(logo => {
                           const Icon = logo.icon;
@@ -497,7 +497,7 @@ export function EnvelopeBuilder() {
                       </div>
 
                       {/* Preset options */}
-                      <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>Presets</p>
+                      <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5 font-semibold">Presets</p>
                       <div className="space-y-1.5">
                         {LOGO_OPTIONS.filter(o => o.id !== "custom").map(opt => {
                           const Icon = opt.icon;
@@ -539,7 +539,7 @@ export function EnvelopeBuilder() {
                               <img src={backFlapLogoPreview} alt="Back logo" className="max-w-full max-h-full object-contain" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-[12px] text-tv-text-primary truncate" style={{ fontWeight: 600 }}>{backLogoFileName || "Custom Logo"}</p>
+                              <p className="text-[12px] text-tv-text-primary truncate font-semibold">{backLogoFileName || "Custom Logo"}</p>
                               <p className="text-[10px] text-tv-text-decorative">
                                 {backLogoFileSize ? `${(backLogoFileSize / 1024).toFixed(1)} KB` : "Uploaded"}
                               </p>
@@ -587,7 +587,7 @@ export function EnvelopeBuilder() {
                             <Upload size={14} className={backLogoDragOver ? "text-tv-brand" : ""} />
                           </div>
                           <div className="text-left">
-                            <span className="text-[12px] block" style={{ fontWeight: 600 }}>
+                            <span className="text-[12px] block font-semibold">
                               {backLogoDragOver ? "Drop image here" : "Upload Logo"}
                             </span>
                             <span className="text-[10px] text-tv-text-decorative">PNG, JPG — max 500 KB</span>
@@ -596,7 +596,7 @@ export function EnvelopeBuilder() {
                       )}
 
                       {/* Recently Used */}
-                      <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>Recently Used</p>
+                      <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5 font-semibold">Recently Used</p>
                       <div className="flex gap-1.5 mb-3 overflow-x-auto pb-1 scrollbar-none">
                         {RECENT_LOGOS.map(logo => {
                           const Icon = logo.icon;
@@ -619,7 +619,7 @@ export function EnvelopeBuilder() {
                       </div>
 
                       {/* Preset options */}
-                      <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>Presets</p>
+                      <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5 font-semibold">Presets</p>
                       <div className="space-y-1.5">
                         {LOGO_OPTIONS.filter(o => o.id !== "custom").map(opt => {
                           const Icon = opt.icon;
@@ -673,7 +673,7 @@ export function EnvelopeBuilder() {
 
                       {postmark !== "none" && (
                         <div className="mt-3">
-                          <label className="text-[11px] text-tv-text-primary mb-1.5 block" style={{ fontWeight: 600 }}>Postmark Inner Copy</label>
+                          <label className="text-[11px] text-tv-text-primary mb-1.5 block font-semibold">Postmark Inner Copy</label>
                           <textarea value={postmarkText}
                             onChange={e => {
                               const val = e.target.value;
@@ -702,7 +702,7 @@ export function EnvelopeBuilder() {
                               <img src={stampImagePreview} alt="Custom stamp" className="max-w-full max-h-full object-cover" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-[12px] text-tv-text-primary truncate" style={{ fontWeight: 600 }}>{stampFileName || "Custom Stamp"}</p>
+                              <p className="text-[12px] text-tv-text-primary truncate font-semibold">{stampFileName || "Custom Stamp"}</p>
                               <p className="text-[10px] text-tv-text-decorative">
                                 {stampFileSize ? `${(stampFileSize / 1024).toFixed(1)} KB` : "Uploaded"}
                               </p>
@@ -748,7 +748,7 @@ export function EnvelopeBuilder() {
                             <Upload size={14} className={stampDragOver ? "text-tv-brand" : ""} />
                           </div>
                           <div className="text-center">
-                            <span className="text-[12px] block" style={{ fontWeight: 600 }}>
+                            <span className="text-[12px] block font-semibold">
                               {stampDragOver ? "Drop image here" : "Choose File"}
                             </span>
                             <span className="text-[10px] text-tv-text-decorative">PNG, JPG — max 5 MB</span>
@@ -757,7 +757,7 @@ export function EnvelopeBuilder() {
                       )}
 
                       {/* Stamp Style presets */}
-                      <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5 mt-3" style={{ fontWeight: 600 }}>Stamp Style</p>
+                      <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5 mt-3 font-semibold">Stamp Style</p>
                       <div className="grid grid-cols-2 gap-2">
                         {STAMP_OPTIONS.map(opt => {
                           const Icon = opt.icon;
@@ -848,7 +848,7 @@ export function EnvelopeBuilder() {
             {/* Left: success */}
             <div className="w-[42%] shrink-0 border-r border-tv-border-divider flex items-center justify-center p-10">
               <div>
-                <h2 className="font-display text-tv-text-primary mb-3" style={{ fontSize: "40px", fontWeight: 700 }}>
+                <h2 className="font-display text-tv-text-primary mb-3 font-bold" style={{ fontSize: "40px" }}>
                   Huzzah!
                 </h2>
                 <p className="text-[15px] text-tv-text-primary mb-4" style={{ fontWeight: 500 }}>
@@ -863,7 +863,7 @@ export function EnvelopeBuilder() {
             {/* Right: 3-view summary */}
             <div className="flex-1 min-w-0 flex flex-col items-center justify-center p-8 bg-tv-surface/30 overflow-y-auto">
               <div className="w-full max-w-[480px]">
-                <h3 className="text-tv-text-primary mb-1" style={{ fontSize: "17px", fontWeight: 700 }}>{title || "Untitled Envelope"}</h3>
+                <h3 className="text-tv-text-primary mb-1 font-bold" style={{ fontSize: "17px" }}>{title || "Untitled Envelope"}</h3>
                 <div className="h-px bg-tv-border-divider mb-5" />
                 <div className="grid grid-cols-3 gap-3">
                   {(["front", "back", "open"] as const).map(v => (
@@ -920,7 +920,7 @@ export function EnvelopeBuilder() {
                 <Eye size={13} /> Open view
               </button>
               <button onClick={() => handleSave(false)} disabled={saving}
-                className="flex items-center gap-1.5 px-5 py-2 text-[13px] rounded-full border border-tv-border text-tv-brand hover:bg-tv-brand-tint transition-all" style={{ fontWeight: 600 }}>
+                className="flex items-center gap-1.5 px-5 py-2 text-[13px] rounded-full border border-tv-border text-tv-brand hover:bg-tv-brand-tint transition-all font-semibold">
                 {saving ? "Saving..." : "Save to Library"}
               </button>
               <button onClick={() => handleSave(true)} disabled={saving}
@@ -928,7 +928,7 @@ export function EnvelopeBuilder() {
                   saving
                     ? "bg-tv-surface-active text-tv-text-secondary cursor-not-allowed"
                     : "bg-tv-brand-bg hover:bg-tv-brand-hover text-white"
-                }`} style={{ fontWeight: 600 }}>
+                } font-semibold`}>
                 <span>{saving ? "Processing..." : "Save & Use in Campaign"}</span>
                 <ChevronRight size={14} />
               </button>
@@ -945,7 +945,7 @@ export function EnvelopeBuilder() {
                 <Eye size={13} /> Live Preview
               </button>
               <button onClick={() => navigate(returnTo)}
-                className="flex items-center gap-1.5 px-5 py-2 text-[13px] rounded-full bg-tv-brand-bg hover:bg-tv-brand-hover text-white transition-all" style={{ fontWeight: 600 }}>
+                className="flex items-center gap-1.5 px-5 py-2 text-[13px] rounded-full bg-tv-brand-bg hover:bg-tv-brand-hover text-white transition-all font-semibold">
                 <span>Use This Envelope</span>
                 <ChevronRight size={14} />
               </button>
@@ -986,7 +986,7 @@ export default EnvelopeBuilder;
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2" style={{ fontWeight: 700 }}>
+    <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2 font-bold">
       {children}
     </p>
   );

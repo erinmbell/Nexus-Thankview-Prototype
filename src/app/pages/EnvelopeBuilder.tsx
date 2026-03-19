@@ -297,7 +297,7 @@ export function EnvelopeBuilder() {
                       className={`flex items-center gap-1.5 px-3 py-1.5 text-[12px] whitespace-nowrap shrink-0 transition-colors ${
                         active ? "text-tv-brand" : "text-tv-text-secondary hover:text-tv-text-primary"
                       }`}
-                      style={{ fontWeight: active ? 600 : 400, borderBottom: active ? "2px solid var(--tv-brand)" : "2px solid transparent" }}>
+                      style={{ fontWeight: active ? 600 : 400, borderBottom: active ? "1px solid var(--tv-brand)" : "1px solid transparent" }}>
                       <Icon size={13} />
                       {t.label}
                     </button>
@@ -862,7 +862,7 @@ export function EnvelopeBuilder() {
             {/* Left: success */}
             <div className="w-[42%] shrink-0 border-r border-tv-border-divider flex items-center justify-center p-10">
               <div>
-                <h2 className="font-display text-tv-text-primary mb-3" style={{ fontSize: "40px", fontWeight: 700 }}>
+                <h2 className="font-display text-tv-text-primary mb-3 font-bold" style={{ fontSize: "40px" }}>
                   Huzzah!
                 </h2>
                 <p className="text-[15px] text-tv-text-primary mb-4" style={{ fontWeight: 500 }}>
@@ -877,7 +877,7 @@ export function EnvelopeBuilder() {
             {/* Right: 3-view summary */}
             <div className="flex-1 min-w-0 flex flex-col items-center justify-center p-8 bg-tv-surface/30 overflow-y-auto">
               <div className="w-full max-w-[480px]">
-                <h3 className="text-tv-text-primary mb-1" style={{ fontSize: "17px", fontWeight: 700 }}>{title || "Untitled Envelope"}</h3>
+                <h3 className="text-tv-text-primary mb-1 font-bold" style={{ fontSize: "17px" }}>{title || "Untitled Envelope"}</h3>
                 <div className="h-px bg-tv-border-divider mb-5" />
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {(["front", "back", "open"] as const).map(v => (
@@ -970,7 +970,7 @@ export default EnvelopeBuilder;
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2" style={{ fontWeight: 700 }}>
+    <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2 font-bold">
       {children}
     </p>
   );

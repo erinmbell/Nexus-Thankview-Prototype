@@ -223,7 +223,7 @@ function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
           </Menu.Target>
           <Menu.Dropdown>
             <div className="px-3 pt-2 pb-1.5">
-              <span className="text-[11px] text-tv-text-secondary tracking-widest uppercase" style={{ fontWeight: 600 }}>Create Campaign</span>
+              <span className="text-[11px] text-tv-text-secondary tracking-widest uppercase font-semibold">Create Campaign</span>
             </div>
             {[
               { mode: "single", label: "Single-Step", desc: "One message, one send", icon: Send, bg: "#f3eeff", iconColor: "#7c45b0" },
@@ -233,11 +233,11 @@ function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
               <Menu.Item key={item.mode} onClick={() => navigate(`/campaigns/create?mode=${item.mode}`)}
                 styles={{ item: { borderRadius: 10, padding: "10px 12px", marginBottom: 2 }, itemLabel: { display: "flex", alignItems: "center", gap: 12 } }}>
                 <div className="flex items-center gap-3 w-full">
-                  <div className="w-9 h-9 rounded-[9px] flex items-center justify-center shrink-0" style={{ backgroundColor: item.bg }}>
+                  <div className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0" style={{ backgroundColor: item.bg }}>
                     <item.icon size={16} style={{ color: item.iconColor }} />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 600 }}>{item.label}</p>
+                    <p className="text-[13px] text-tv-text-primary font-semibold">{item.label}</p>
                     <p className="text-[11px] text-tv-text-secondary">{item.desc}</p>
                   </div>
                 </div>
@@ -360,7 +360,7 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
             <div aria-hidden="true" className="absolute border border-tv-border-strong inset-0 pointer-events-none rounded-[14px]" />
             <div className="flex flex-col gap-[8px] items-start pl-[17px] pr-[8px] py-[17px] h-full">
               {/* Icon container */}
-              <div className="bg-white rounded-[10px] w-[36px] h-[36px] flex items-center justify-center shrink-0">
+              <div className="bg-white rounded-[10px] w-10 h-10 flex items-center justify-center shrink-0">
                 {action.icon}
               </div>
               {/* Label */}
@@ -606,7 +606,7 @@ function KeyStatsBar({ selectedIds, onOpenSettings }: { selectedIds: string[]; o
               i < 2 ? "border-b border-tv-border-light" : "",
             ].join(" ")}
           >
-            <div className={`w-9 h-9 rounded-[10px] ${stat.iconBg} flex items-center justify-center shrink-0`}>
+            <div className={`w-10 h-10 rounded-[10px] ${stat.iconBg} flex items-center justify-center shrink-0`}>
               <stat.icon size={17} className={stat.iconColor} />
             </div>
             <div className="min-w-0">
@@ -633,7 +633,7 @@ function KeyStatsBar({ selectedIds, onOpenSettings }: { selectedIds: string[]; o
               onClick={() => navigate(getRoute(stat))}
               className="flex-1 flex items-center gap-2.5 px-3 lg:px-5 py-4 lg:py-5 min-w-0 hover:bg-tv-surface-muted transition-colors group text-left"
             >
-              <div className={`w-10 h-10 lg:w-11 lg:h-11 rounded-[12px] ${stat.iconBg} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform`}><stat.icon size={18} className={stat.iconColor} /></div>
+              <div className={`w-11 h-11 rounded-[12px] ${stat.iconBg} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform`}><stat.icon size={18} className={stat.iconColor} /></div>
               <div className="min-w-0 flex-1">
                 <p className="text-[10px] font-medium text-tv-text-label uppercase tracking-wider mb-0.5 truncate">{stat.label}</p>
                 <p className="text-[20px] lg:text-[22px] font-bold text-tv-text-primary leading-tight group-hover:text-tv-brand transition-colors font-display truncate">{stat.value}</p>
@@ -643,7 +643,7 @@ function KeyStatsBar({ selectedIds, onOpenSettings }: { selectedIds: string[]; o
           ))}
         </div>
         <div className="border-l border-tv-border-light flex items-center px-3 lg:px-4 shrink-0">
-          <button onClick={onOpenSettings} title="Customize metrics" className="w-9 h-9 rounded-full bg-tv-surface border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:bg-tv-brand-tint hover:border-tv-border-strong hover:text-tv-brand transition-all group">
+          <button onClick={onOpenSettings} title="Customize metrics" className="w-10 h-10 rounded-full bg-tv-surface border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:bg-tv-brand-tint hover:border-tv-border-strong hover:text-tv-brand transition-all group">
             <Settings size={15} className="group-hover:rotate-45 transition-transform duration-200" />
           </button>
         </div>

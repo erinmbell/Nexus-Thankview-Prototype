@@ -1109,11 +1109,11 @@ function ExportModal({ open, onClose }: { open: boolean; onClose: () => void }) 
   if (!open) return null;
   return (
     <Modal opened onClose={onClose} title="Request Report Export" size="lg" styles={{
-      header: { padding: "14px 20px 10px 20px", borderBottom: `1px solid ${TV.borderDivider}`, minHeight: "unset" },
-      title: { fontSize: 15, fontWeight: 700, color: TV.textPrimary, lineHeight: 1.4 },
+      header: { padding: "16px 20px 12px 20px", borderBottom: `1px solid ${TV.borderDivider}`, minHeight: "unset" },
+      title: { fontSize: 15, fontWeight: 900, color: TV.textPrimary, lineHeight: 1.4 },
       body: { padding: "16px 20px 20px 20px" },
       close: { color: TV.textSecondary, width: 28, height: 28, minWidth: 28, minHeight: 28 },
-      content: { borderRadius: 16 },
+      content: { borderRadius: 20 },
     }}>
       <Text fz={13} c={TV.textSecondary} mb="md">Select one or more reports. They'll be generated and emailed to your address when ready.</Text>
       {/* Select All */}
@@ -1682,7 +1682,7 @@ export function Analytics() {
         {Object.values(analyticsFilterValues).some(v => v?.length > 0) && (
           <div className="flex items-center gap-2 mt-2 pt-2 border-t" style={{ borderColor: TV.borderLight }}>
             <Text fz={11} c={TV.textSecondary}>
-              Showing filtered results: <span style={{ color: TV.textBrand, fontWeight: 600 }}>{fSends.toLocaleString()}</span> sends across <span style={{ color: TV.textBrand, fontWeight: 600 }}>{filteredCampaigns.length}</span> campaign{filteredCampaigns.length !== 1 ? "s" : ""}
+              Showing filtered results: <span className="font-semibold" style={{ color: TV.textBrand }}>{fSends.toLocaleString()}</span> sends across <span className="font-semibold" style={{ color: TV.textBrand }}>{filteredCampaigns.length}</span> campaign{filteredCampaigns.length !== 1 ? "s" : ""}
             </Text>
             <button
               onClick={() => { setAnalyticsFilterValues({}); }}
@@ -1718,7 +1718,7 @@ export function Analytics() {
           <div className="bg-white rounded-[20px] border mb-4 overflow-visible" style={{ borderColor: TV.borderStrong }}>
             {/* Header row */}
             <div className="flex items-center justify-between px-5 py-3 border-b" style={{ borderColor: TV.borderLight }}>
-              <span className="text-[13px] uppercase tracking-[0.6px]" style={{ fontWeight: 600, color: TV.textLabel }}>Performance Overview</span>
+              <span className="text-[13px] uppercase tracking-[0.6px] font-semibold" style={{ color: TV.textLabel }}>Performance Overview</span>
               <div className="flex items-center gap-2">
 
               <div className="relative">
@@ -1828,7 +1828,7 @@ export function Analytics() {
                             transform: metricsExpanded ? "rotate(180deg)" : "rotate(0deg)",
                           }}
                         />
-                        <span className="text-[12px]" style={{ color: TV.textBrand, fontWeight: 600 }}>
+                        <span className="text-[12px] font-semibold" style={{ color: TV.textBrand }}>
                           {metricsExpanded ? "Show less" : `Show ${hiddenMetricCount} more metric${hiddenMetricCount !== 1 ? "s" : ""}`}
                         </span>
                       </button>
@@ -2341,7 +2341,7 @@ export function Analytics() {
                         { col: "status", label: "Status" },
                       ].map(h => (
                         <button key={h.col} onClick={() => toggleGoalSort(h.col)} className="flex items-center gap-0.5 text-left" style={{ cursor: "pointer" }}>
-                          <span className="text-[10px] uppercase tracking-wider" style={{ fontWeight: 600, letterSpacing: "0.04em", color: goalSort.col === h.col ? TV.textBrand : TV.textLabel }}>{h.label}</span>
+                          <span className="text-[10px] uppercase tracking-wider font-semibold" style={{ letterSpacing: "0.04em", color: goalSort.col === h.col ? TV.textBrand : TV.textLabel }}>{h.label}</span>
                           <GoalSortIcon col={h.col} />
                         </button>
                       ))}
@@ -2360,8 +2360,8 @@ export function Analytics() {
                             <div className="w-[5px] h-[5px] rounded-full shrink-0" style={{ backgroundColor: tagColor?.color || TV.textSecondary }} />
                             <button
                               onClick={(e) => { e.stopPropagation(); navigateToCampaign(g.campaignName); }}
-                              className="truncate text-left transition-colors hover:underline"
-                              style={{ color: TV.textBrand, fontSize: 11, fontWeight: 600 }}
+                              className="truncate text-left transition-colors hover:underline font-semibold"
+                              style={{ color: TV.textBrand, fontSize: 11 }}
                               title={CAMPAIGN_NAME_TO_ID[g.campaignName] ? `Open "${g.campaignName}" campaign` : `View "${g.campaignName}" in Performance`}
                             >
                               {g.campaignName}
@@ -3385,7 +3385,7 @@ export function Analytics() {
                       { col: "replyRate", label: "Reply %" },
                     ].map(h => (
                       <button key={h.col} onClick={() => toggleDrawerTagSort(h.col)} className="flex items-center gap-0.5 text-left">
-                        <span className="text-[10px] uppercase tracking-wider" style={{ fontWeight: 600, color: tagDrawerSort.col === h.col ? TV.textBrand : TV.textSecondary }}>{h.label}</span>
+                        <span className="text-[10px] uppercase tracking-wider font-semibold" style={{ color: tagDrawerSort.col === h.col ? TV.textBrand : TV.textSecondary }}>{h.label}</span>
                         <DrawerSortIcon col={h.col} />
                       </button>
                     ))}
@@ -3510,7 +3510,7 @@ export function Analytics() {
           </div>
           <div className="flex items-center gap-2.5 px-4 py-3 mb-4 rounded-[12px]" style={{ backgroundColor: TV.brandTint, border: `1px solid ${TV.borderLight}` }}>
             <Info size={14} style={{ color: TV.textBrand, flexShrink: 0 }} />
-            <Text fz={12} c={TV.textSecondary}>This view shows <span style={{ color: TV.textBrand, fontWeight: 600 }}>all campaigns containing PDF attachments</span>. Global filters above (date range, creator, etc.) further refine these results.</Text>
+            <Text fz={12} c={TV.textSecondary}>This view shows <span className="font-semibold" style={{ color: TV.textBrand }}>all campaigns containing PDF attachments</span>. Global filters above (date range, creator, etc.) further refine these results.</Text>
           </div>
           <DashCard className="overflow-hidden mb-4">
             <div className="flex items-center justify-between px-5 py-3 bg-tv-surface-muted border-b" style={{ borderColor: TV.borderDivider }}>
@@ -4732,7 +4732,7 @@ export function Analytics() {
                       { col: "replyRate", label: "Reply %" },
                     ].map(h => (
                       <button key={h.col} onClick={() => toggleDrawerSort(h.col)} className="flex items-center gap-0.5 text-left">
-                        <span className="text-[10px] uppercase tracking-wider" style={{ fontWeight: 600, color: tagDrawerSort.col === h.col ? TV.textBrand : TV.textSecondary }}>{h.label}</span>
+                        <span className="text-[10px] uppercase tracking-wider font-semibold" style={{ color: tagDrawerSort.col === h.col ? TV.textBrand : TV.textSecondary }}>{h.label}</span>
                         <DrawerSortIcon col={h.col} />
                       </button>
                     ))}

@@ -26,7 +26,7 @@ export function DeleteModal({ title, description, onConfirm, onCancel }: DeleteM
           <TriangleAlert size={20} style={{ color: TV.danger }} />
         </Box>
         <div style={{ flex: 1 }}>
-          <Title order={3} fz={17} mb={4}>{title}</Title>
+          <Title order={3} fz={16} mb={4}>{title}</Title>
           <Text fz={13} c={TV.textSecondary}>
             {description ?? "This action cannot be undone."}
           </Text>

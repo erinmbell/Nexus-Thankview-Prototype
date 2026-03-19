@@ -635,9 +635,8 @@ export function RequirementsAudit() {
           <div className="flex items-center gap-1 mb-3 overflow-x-auto pb-1">
             <button
               onClick={() => setActiveTab("base")}
-              className="flex items-center gap-2 px-4 py-2 rounded-[8px] text-[12px] transition-all shrink-0"
+              className="flex items-center gap-2 px-4 py-2 rounded-[8px] text-[12px] transition-all shrink-0 font-bold"
               style={{
-                fontWeight: 700,
                 backgroundColor: activeTab === "base" ? TV.brandBg : "transparent",
                 color: activeTab === "base" ? "white" : TV.textSecondary,
               }}
@@ -647,9 +646,8 @@ export function RequirementsAudit() {
             </button>
             <button
               onClick={() => setActiveTab("settings")}
-              className="flex items-center gap-2 px-4 py-2 rounded-[8px] text-[12px] transition-all shrink-0"
+              className="flex items-center gap-2 px-4 py-2 rounded-[8px] text-[12px] transition-all shrink-0 font-bold"
               style={{
-                fontWeight: 700,
                 backgroundColor: activeTab === "settings" ? TV.brandBg : "transparent",
                 color: activeTab === "settings" ? "white" : TV.textSecondary,
               }}
@@ -659,9 +657,8 @@ export function RequirementsAudit() {
             </button>
             <button
               onClick={() => setActiveTab("contacts")}
-              className="flex items-center gap-2 px-4 py-2 rounded-[8px] text-[12px] transition-all shrink-0"
+              className="flex items-center gap-2 px-4 py-2 rounded-[8px] text-[12px] transition-all shrink-0 font-bold"
               style={{
-                fontWeight: 700,
                 backgroundColor: activeTab === "contacts" ? TV.brandBg : "transparent",
                 color: activeTab === "contacts" ? "white" : TV.textSecondary,
               }}
@@ -749,7 +746,7 @@ export function RequirementsAudit() {
                     }}
                   >
                     <Icon size={14} style={{ color: cfg.color }} />
-                    <span className="text-[13px]" style={{ fontWeight: 700, color: cfg.color }}>{count}</span>
+                    <span className="text-[13px] font-bold" style={{ color: cfg.color }}>{count}</span>
                     <span className="text-[12px]" style={{ fontWeight: 500, color: TV.textSecondary }}>{cfg.label}</span>
                   </button>
                 );
@@ -763,7 +760,7 @@ export function RequirementsAudit() {
                   <div className="h-full" style={{ width: `${(s_.partial / actionable) * 100}%`, backgroundColor: "#f59e0b" }} />
                   <div className="h-full" style={{ width: `${(s_.missing / actionable) * 100}%`, backgroundColor: "#ef4444" }} />
                 </div>
-                <span className="text-[13px]" style={{ fontWeight: 700, color: s_.done === actionable ? TV.success : TV.textSecondary }}>
+                <span className="text-[13px] font-bold" style={{ color: s_.done === actionable ? TV.success : TV.textSecondary }}>
                   {Math.round(((s_.done + s_.partial * 0.5) / actionable) * 100)}%
                 </span>
               </div>
@@ -837,12 +834,12 @@ export function RequirementsAudit() {
                   {isExpanded && (
                     <div className="bg-white rounded-b-[14px] overflow-hidden shadow-sm" style={{ border: `1px solid ${TV.borderLight}`, borderTop: "none" }}>
                       <div className="flex items-center gap-3 px-5 py-2" style={{ backgroundColor: TV.surfaceMuted }}>
-                        <span className="w-6 text-center text-[9px]" style={{ fontWeight: 700, color: TV.textSecondary }}>#</span>
-                        <span className="text-[9px] flex-1" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Requirement</span>
-                        <span className="text-[9px] w-[72px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Priority</span>
-                        <span className="text-[9px] w-[72px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Kelley</span>
-                        <span className="text-[9px] w-[80px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Design Rev</span>
-                        <span className="text-[9px] w-[80px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Prototype</span>
+                        <span className="w-6 text-center text-[9px] font-bold" style={{ color: TV.textSecondary }}>#</span>
+                        <span className="text-[9px] flex-1 font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Requirement</span>
+                        <span className="text-[9px] w-[72px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Priority</span>
+                        <span className="text-[9px] w-[72px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Kelley</span>
+                        <span className="text-[9px] w-[80px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Design Rev</span>
+                        <span className="text-[9px] w-[80px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Prototype</span>
                       </div>
                       {items.map((r, i) => {
                         const cfg = STATUS_CONFIG[r.status];
@@ -894,11 +891,11 @@ export function RequirementsAudit() {
                                 <div className="rounded-[10px] p-4" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
                                   <p className="text-[12px] mb-3" style={{ color: TV.textPrimary, lineHeight: "1.6" }}>{r.description}</p>
                                   <div className="flex items-start gap-2 mb-2">
-                                    <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded" style={{ fontWeight: 700, backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Where</span>
+                                    <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded font-bold" style={{ backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Where</span>
                                     <span className="text-[11px] font-mono" style={{ color: TV.textBrand, lineHeight: "1.5" }}>{r.where}</span>
                                   </div>
                                   <div className="flex items-start gap-2">
-                                    <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded" style={{ fontWeight: 700, backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Notes</span>
+                                    <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded font-bold" style={{ backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Notes</span>
                                     <span className="text-[11px]" style={{ color: TV.textSecondary, lineHeight: "1.6" }}>{r.notes}</span>
                                   </div>
                                 </div>
@@ -920,7 +917,7 @@ export function RequirementsAudit() {
                 <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
                   <div className="flex items-center gap-2 mb-3">
                     <AlertTriangle size={16} style={{ color: TV.warning }} />
-                    <span className="text-[13px]" style={{ fontWeight: 700, color: TV.warningHover }}>Partial — Needs Attention ({stats.partial})</span>
+                    <span className="text-[13px] font-bold" style={{ color: TV.warningHover }}>Partial — Needs Attention ({stats.partial})</span>
                   </div>
                   <ul className="space-y-2">
                     {REQUIREMENTS.filter(r => r.status === "partial").map(r => (
@@ -940,7 +937,7 @@ export function RequirementsAudit() {
                 <div className="rounded-[12px] p-4" style={{ backgroundColor: "#f5f5f5", border: "1px solid #e5e5e5" }}>
                   <div className="flex items-center gap-2 mb-3">
                     <MinusCircle size={16} style={{ color: "#737373" }} />
-                    <span className="text-[13px]" style={{ fontWeight: 700, color: "#525252" }}>Not Applicable to Prototype ({stats.na})</span>
+                    <span className="text-[13px] font-bold" style={{ color: "#525252" }}>Not Applicable to Prototype ({stats.na})</span>
                   </div>
                   <ul className="space-y-2">
                     {REQUIREMENTS.filter(r => r.status === "n/a").map(r => (
@@ -998,12 +995,12 @@ export function RequirementsAudit() {
                   {isExpanded && (
                     <div className="bg-white rounded-b-[14px] overflow-hidden shadow-sm" style={{ border: `1px solid ${TV.borderLight}`, borderTop: "none" }}>
                       <div className="flex items-center gap-3 px-5 py-2" style={{ backgroundColor: TV.surfaceMuted }}>
-                        <span className="w-6 text-center text-[9px]" style={{ fontWeight: 700, color: TV.textSecondary }}>#</span>
-                        <span className="text-[9px] flex-1" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Requirement</span>
-                        <span className="text-[9px] w-[72px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Priority</span>
-                        <span className="text-[9px] w-[72px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Kelley</span>
-                        <span className="text-[9px] w-[80px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Design Rev</span>
-                        <span className="text-[9px] w-[80px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Prototype</span>
+                        <span className="w-6 text-center text-[9px] font-bold" style={{ color: TV.textSecondary }}>#</span>
+                        <span className="text-[9px] flex-1 font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Requirement</span>
+                        <span className="text-[9px] w-[72px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Priority</span>
+                        <span className="text-[9px] w-[72px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Kelley</span>
+                        <span className="text-[9px] w-[80px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Design Rev</span>
+                        <span className="text-[9px] w-[80px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Prototype</span>
                       </div>
                       {items.map((r, i) => {
                         const cfg = STATUS_CONFIG[r.status];
@@ -1055,11 +1052,11 @@ export function RequirementsAudit() {
                                 <div className="rounded-[10px] p-4" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
                                   <p className="text-[12px] mb-3" style={{ color: TV.textPrimary, lineHeight: "1.6" }}>{r.description}</p>
                                   <div className="flex items-start gap-2 mb-2">
-                                    <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded" style={{ fontWeight: 700, backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Where</span>
+                                    <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded font-bold" style={{ backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Where</span>
                                     <span className="text-[11px] font-mono" style={{ color: TV.textBrand, lineHeight: "1.5" }}>{r.where}</span>
                                   </div>
                                   <div className="flex items-start gap-2">
-                                    <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded" style={{ fontWeight: 700, backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Notes</span>
+                                    <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded font-bold" style={{ backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Notes</span>
                                     <span className="text-[11px]" style={{ color: TV.textSecondary, lineHeight: "1.6" }}>{r.notes}</span>
                                   </div>
                                 </div>
@@ -1081,7 +1078,7 @@ export function RequirementsAudit() {
                 <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
                   <div className="flex items-center gap-2 mb-3">
                     <AlertTriangle size={16} style={{ color: TV.warning }} />
-                    <span className="text-[13px]" style={{ fontWeight: 700, color: TV.warningHover }}>Partial — Needs Attention ({settingsStats.partial})</span>
+                    <span className="text-[13px] font-bold" style={{ color: TV.warningHover }}>Partial — Needs Attention ({settingsStats.partial})</span>
                   </div>
                   <ul className="space-y-2">
                     {SETTINGS_REQUIREMENTS.filter(r => r.status === "partial").map(r => (
@@ -1101,7 +1098,7 @@ export function RequirementsAudit() {
                 <div className="rounded-[12px] p-4" style={{ backgroundColor: "#f5f5f5", border: "1px solid #e5e5e5" }}>
                   <div className="flex items-center gap-2 mb-3">
                     <MinusCircle size={16} style={{ color: "#737373" }} />
-                    <span className="text-[13px]" style={{ fontWeight: 700, color: "#525252" }}>Not Applicable to Prototype ({settingsStats.na})</span>
+                    <span className="text-[13px] font-bold" style={{ color: "#525252" }}>Not Applicable to Prototype ({settingsStats.na})</span>
                   </div>
                   <ul className="space-y-2">
                     {SETTINGS_REQUIREMENTS.filter(r => r.status === "n/a").map(r => (
@@ -1162,12 +1159,12 @@ export function RequirementsAudit() {
                   {isExpanded && (
                     <div className="bg-white rounded-b-[14px] overflow-hidden shadow-sm" style={{ border: `1px solid ${TV.borderLight}`, borderTop: "none" }}>
                       <div className="flex items-center gap-3 px-5 py-2" style={{ backgroundColor: TV.surfaceMuted }}>
-                        <span className="w-6 text-center text-[9px]" style={{ fontWeight: 700, color: TV.textSecondary }}>#</span>
-                        <span className="text-[9px] flex-1" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Requirement</span>
-                        <span className="text-[9px] w-[72px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Priority</span>
-                        <span className="text-[9px] w-[72px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Kelley</span>
-                        <span className="text-[9px] w-[80px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Design Rev</span>
-                        <span className="text-[9px] w-[80px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Prototype</span>
+                        <span className="w-6 text-center text-[9px] font-bold" style={{ color: TV.textSecondary }}>#</span>
+                        <span className="text-[9px] flex-1 font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Requirement</span>
+                        <span className="text-[9px] w-[72px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Priority</span>
+                        <span className="text-[9px] w-[72px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Kelley</span>
+                        <span className="text-[9px] w-[80px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Design Rev</span>
+                        <span className="text-[9px] w-[80px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Prototype</span>
                       </div>
                       {items.map((r, i) => {
                         const cfg = STATUS_CONFIG[r.status];
@@ -1219,11 +1216,11 @@ export function RequirementsAudit() {
                                 <div className="rounded-[10px] p-4" style={{ backgroundColor: "white", border: `1px solid ${TV.borderLight}` }}>
                                   <p className="text-[12px] mb-3" style={{ color: TV.textPrimary, lineHeight: "1.6" }}>{r.description}</p>
                                   <div className="flex items-start gap-2 mb-2">
-                                    <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded" style={{ fontWeight: 700, backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Where</span>
+                                    <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded font-bold" style={{ backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Where</span>
                                     <span className="text-[11px] font-mono" style={{ color: TV.textBrand, lineHeight: "1.5" }}>{r.where}</span>
                                   </div>
                                   <div className="flex items-start gap-2">
-                                    <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded" style={{ fontWeight: 700, backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Notes</span>
+                                    <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded font-bold" style={{ backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Notes</span>
                                     <span className="text-[11px]" style={{ color: TV.textSecondary, lineHeight: "1.6" }}>{r.notes}</span>
                                   </div>
                                 </div>
@@ -1245,7 +1242,7 @@ export function RequirementsAudit() {
                 <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
                   <div className="flex items-center gap-2 mb-3">
                     <AlertTriangle size={16} style={{ color: TV.warning }} />
-                    <span className="text-[13px]" style={{ fontWeight: 700, color: TV.warningHover }}>Partial — Needs Attention ({contactsStats.partial})</span>
+                    <span className="text-[13px] font-bold" style={{ color: TV.warningHover }}>Partial — Needs Attention ({contactsStats.partial})</span>
                   </div>
                   <ul className="space-y-2">
                     {CONTACTS_REQUIREMENTS.filter(r => r.status === "partial").map(r => (
@@ -1265,7 +1262,7 @@ export function RequirementsAudit() {
                 <div className="rounded-[12px] p-4" style={{ backgroundColor: "#f5f5f5", border: "1px solid #e5e5e5" }}>
                   <div className="flex items-center gap-2 mb-3">
                     <MinusCircle size={16} style={{ color: "#737373" }} />
-                    <span className="text-[13px]" style={{ fontWeight: 700, color: "#525252" }}>Not Applicable to Prototype ({contactsStats.na})</span>
+                    <span className="text-[13px] font-bold" style={{ color: "#525252" }}>Not Applicable to Prototype ({contactsStats.na})</span>
                   </div>
                   <ul className="space-y-2">
                     {CONTACTS_REQUIREMENTS.filter(r => r.status === "n/a").map(r => (
@@ -1347,7 +1344,7 @@ function ImportStatsBar({ csv, getStats, statusFilter, setStatusFilter }: {
             }}
           >
             <Icon size={14} style={{ color: cfg.color }} />
-            <span className="text-[13px]" style={{ fontWeight: 700, color: cfg.color }}>{count}</span>
+            <span className="text-[13px] font-bold" style={{ color: cfg.color }}>{count}</span>
             <span className="text-[12px]" style={{ fontWeight: 500, color: TV.textSecondary }}>{cfg.label}</span>
           </button>
         );
@@ -1361,7 +1358,7 @@ function ImportStatsBar({ csv, getStats, statusFilter, setStatusFilter }: {
             <div className="h-full" style={{ width: `${(iStats.partial / actionable) * 100}%`, backgroundColor: "#f59e0b" }} />
             <div className="h-full" style={{ width: `${(iStats.missing / actionable) * 100}%`, backgroundColor: "#ef4444" }} />
           </div>
-          <span className="text-[13px]" style={{ fontWeight: 700, color: iStats.done === actionable ? TV.success : TV.textSecondary }}>
+          <span className="text-[13px] font-bold" style={{ color: iStats.done === actionable ? TV.success : TV.textSecondary }}>
             {actionable > 0 ? Math.round(((iStats.done + iStats.partial * 0.5) / actionable) * 100) : 0}%
           </span>
         </div>
@@ -1432,12 +1429,12 @@ function ImportedCsvView({ csv, statusFilter, search, getGrouped, expandedImport
             {isExpanded && (
               <div className="bg-white rounded-b-[14px] overflow-hidden shadow-sm" style={{ border: `1px solid ${TV.borderLight}`, borderTop: "none" }}>
                 <div className="flex items-center gap-3 px-5 py-2" style={{ backgroundColor: TV.surfaceMuted }}>
-                  <span className="w-6 text-center text-[9px]" style={{ fontWeight: 700, color: TV.textSecondary }}>#</span>
-                  <span className="text-[9px] flex-1" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Requirement</span>
-                  <span className="text-[9px] w-[72px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Priority</span>
-                  <span className="text-[9px] w-[72px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Kelley</span>
-                  <span className="text-[9px] w-[80px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Design Rev</span>
-                  <span className="text-[9px] w-[80px] text-center" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Prototype</span>
+                  <span className="w-6 text-center text-[9px] font-bold" style={{ color: TV.textSecondary }}>#</span>
+                  <span className="text-[9px] flex-1 font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Requirement</span>
+                  <span className="text-[9px] w-[72px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Priority</span>
+                  <span className="text-[9px] w-[72px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Kelley</span>
+                  <span className="text-[9px] w-[80px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Design Rev</span>
+                  <span className="text-[9px] w-[80px] text-center font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Prototype</span>
                 </div>
 
                 {rows.map((r, i) => {
@@ -1501,19 +1498,19 @@ function ImportedCsvView({ csv, statusFilter, search, getGrouped, expandedImport
                             <p className="text-[12px] mb-3" style={{ color: TV.textPrimary, lineHeight: "1.6" }}>{r.description}</p>
                             {r.where && (
                               <div className="flex items-start gap-2 mb-2">
-                                <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded" style={{ fontWeight: 700, backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Where</span>
+                                <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded font-bold" style={{ backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Where</span>
                                 <span className="text-[11px] font-mono" style={{ color: TV.textBrand, lineHeight: "1.5" }}>{r.where}</span>
                               </div>
                             )}
                             {r.notes && (
                               <div className="flex items-start gap-2 mb-2">
-                                <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded" style={{ fontWeight: 700, backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Notes</span>
+                                <span className="text-[9px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded font-bold" style={{ backgroundColor: TV.surfaceMuted, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Notes</span>
                                 <span className="text-[11px]" style={{ color: TV.textSecondary, lineHeight: "1.6" }}>{r.notes}</span>
                               </div>
                             )}
                             {/* Collapsed raw CSV data */}
                             <details className="mt-2 pt-2 border-t" style={{ borderColor: TV.borderLight }}>
-                              <summary className="text-[9px] cursor-pointer select-none" style={{ fontWeight: 700, color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>All CSV Columns</summary>
+                              <summary className="text-[9px] cursor-pointer select-none font-bold" style={{ color: TV.textSecondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>All CSV Columns</summary>
                               <div className="grid grid-cols-2 gap-x-4 gap-y-1 mt-2">
                                 {Object.entries(r.rawCols).map(([key, val]) => (
                                   <div key={key} className="flex items-start gap-2">
@@ -1542,7 +1539,7 @@ function ImportedCsvView({ csv, statusFilter, search, getGrouped, expandedImport
           <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.warningBg, border: `1px solid ${TV.warningBorder}` }}>
             <div className="flex items-center gap-2 mb-3">
               <AlertTriangle size={16} style={{ color: TV.warning }} />
-              <span className="text-[13px]" style={{ fontWeight: 700, color: TV.warningHover }}>Partial — Needs Attention ({iStats.partial})</span>
+              <span className="text-[13px] font-bold" style={{ color: TV.warningHover }}>Partial — Needs Attention ({iStats.partial})</span>
             </div>
             <ul className="space-y-2">
               {allRows.filter(r => r.status === "partial").map(r => (
@@ -1562,7 +1559,7 @@ function ImportedCsvView({ csv, statusFilter, search, getGrouped, expandedImport
           <div className="rounded-[12px] p-4" style={{ backgroundColor: TV.dangerBg, border: "1px solid #fecaca" }}>
             <div className="flex items-center gap-2 mb-3">
               <XCircle size={16} style={{ color: TV.danger }} />
-              <span className="text-[13px]" style={{ fontWeight: 700, color: "#991b1b" }}>Missing — Not Yet Built ({iStats.missing})</span>
+              <span className="text-[13px] font-bold" style={{ color: "#991b1b" }}>Missing — Not Yet Built ({iStats.missing})</span>
             </div>
             <ul className="space-y-2">
               {allRows.filter(r => r.status === "missing").map(r => (
@@ -1584,7 +1581,7 @@ function ImportedCsvView({ csv, statusFilter, search, getGrouped, expandedImport
           <div className="rounded-[12px] p-4 mt-4" style={{ backgroundColor: "#f5f5f5", border: "1px solid #e5e5e5" }}>
             <div className="flex items-center gap-2 mb-3">
               <MinusCircle size={16} style={{ color: "#737373" }} />
-              <span className="text-[13px]" style={{ fontWeight: 700, color: "#525252" }}>Not Applicable ({iStats.na})</span>
+              <span className="text-[13px] font-bold" style={{ color: "#525252" }}>Not Applicable ({iStats.na})</span>
             </div>
             <ul className="space-y-2">
               {allRows.filter(r => r.status === "n/a").map(r => (

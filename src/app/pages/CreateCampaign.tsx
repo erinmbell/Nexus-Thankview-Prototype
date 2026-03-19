@@ -79,8 +79,7 @@ function SmsMergeBar({ onInsert, body, onChange, placeholder }: {
         <div className="relative">
           <button
             onClick={() => setShowPicker(!showPicker)}
-            className={`text-[9px] px-1.5 py-0.5 rounded transition-colors ${showPicker ? "bg-tv-brand-tint text-tv-brand" : "text-tv-brand hover:bg-tv-brand-tint"}`}
-            style={{ fontWeight: 600 }}
+            className={`text-[9px] px-1.5 py-0.5 rounded transition-colors ${showPicker ? "bg-tv-brand-tint text-tv-brand" : "text-tv-brand hover:bg-tv-brand-tint"} font-semibold`}
           >
             + More
           </button>
@@ -296,7 +295,7 @@ function StepSetupModal({
           </div>
           {/* CC / BCC (collapsible) */}
           <details className="group col-span-2">
-            <summary className="text-[10px] text-tv-brand uppercase tracking-wider cursor-pointer hover:underline list-none flex items-center gap-1" style={{ fontWeight: 600 }}>
+            <summary className="text-[10px] text-tv-brand uppercase tracking-wider cursor-pointer hover:underline list-none flex items-center gap-1 font-semibold">
               <ChevronRight size={10} className="transition-transform group-open:rotate-90" />CC / BCC <span className="text-tv-text-decorative normal-case" style={{ fontWeight: 400 }}>(optional)</span>
             </summary>
             <div className="grid grid-cols-2 gap-2 mt-2">
@@ -383,7 +382,7 @@ function StepSetupModal({
                 <ChevronRight size={12} className="text-tv-text-decorative transition-transform group-open/body:rotate-90" />
                 <label className={LABEL_CLS} style={{ marginBottom: 0, cursor: "pointer" }}>Message Body</label>
                 {(step.body || "").trim().length > 0 && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-tv-success-bg text-tv-success shrink-0" style={{ fontWeight: 600 }}>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-tv-success-bg text-tv-success shrink-0 font-semibold">
                     {htmlTextLength(step.body || "").toLocaleString()} chars
                   </span>
                 )}
@@ -395,7 +394,7 @@ function StepSetupModal({
             <div className="flex items-center gap-2.5 flex-wrap">
               {/* Font family */}
               <div className="flex items-center gap-1.5">
-                <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap" style={{ fontWeight: 600 }}>Font</label>
+                <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap font-semibold">Font</label>
                 <select
                   value={step.bodyFontFamily || EMAIL_BODY_FONTS[0].value}
                   onChange={e => setStep(s => ({ ...s, bodyFontFamily: e.target.value }))}
@@ -411,7 +410,7 @@ function StepSetupModal({
               <div className="h-5 w-px bg-tv-border-light" />
               {/* Font size */}
               <div className="flex items-center gap-1.5">
-                <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap" style={{ fontWeight: 600 }}>Size</label>
+                <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap font-semibold">Size</label>
                 <select
                   value={step.bodyFontSize || 14}
                   onChange={e => setStep(s => ({ ...s, bodyFontSize: Number(e.target.value) }))}
@@ -426,7 +425,7 @@ function StepSetupModal({
               <div className="h-5 w-px bg-tv-border-light" />
               {/* Text color picker */}
               <div className="flex items-center gap-1.5">
-                <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap" style={{ fontWeight: 600 }}>Color</label>
+                <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap font-semibold">Color</label>
                 <div className="relative group/tc2">
                   <button type="button" title="Text Color" className="flex items-center gap-1.5 border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[13px] bg-white hover:border-tv-border-strong transition-colors cursor-pointer">
                     <span className="w-4 h-4 rounded-[4px] border border-tv-border-light shrink-0" style={{ backgroundColor: step.bodyTextColor || "#1e293b" }} />
@@ -485,7 +484,7 @@ function StepSetupModal({
           <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[10px] flex gap-2">
             <CircleAlert size={12} className="text-tv-warning shrink-0 mt-0.5" />
             <div>
-              <p className="text-[11px] text-tv-warning" style={{ fontWeight: 600 }}>SMS Compliance</p>
+              <p className="text-[11px] text-tv-warning font-semibold">SMS Compliance</p>
               <p className="text-[10px] text-tv-warning">&ldquo;Reply STOP to unsubscribe&rdquo; will be automatically appended.</p>
             </div>
           </div>
@@ -507,7 +506,7 @@ function StepSetupModal({
             <div className="flex items-center gap-2">
               <button onClick={() => setShowAi(false)} className="px-2.5 py-1 text-[11px] text-tv-text-secondary hover:text-tv-brand">Cancel</button>
               <button onClick={handleAiGenerate} disabled={!aiPrompt.trim() || aiGenerating}
-                className="px-3 py-1 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1" style={{ fontWeight: 600 }}>
+                className="px-3 py-1 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 font-semibold">
                 {aiGenerating ? <><div className="w-2.5 h-2.5 border-2 border-white/40 border-t-white rounded-full animate-spin" />Generating&hellip;</> : <><Sparkles size={10} />Generate</>}
               </button>
             </div>
@@ -543,7 +542,7 @@ function StepSetupModal({
         { label: "Sender",     value: step.senderName || "\u2014" },
       ].map((row, i) => (
         <div key={i} className="flex items-center justify-between px-4 py-3 rounded-[10px] bg-tv-surface-muted border border-tv-border-divider">
-          <span className="text-[11px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>{row.label}</span>
+          <span className="text-[11px] text-tv-text-label uppercase tracking-wider font-semibold">{row.label}</span>
           <span className="text-[13px] text-tv-text-primary truncate max-w-[60%] text-right">{row.value}</span>
         </div>
       ))}
@@ -634,12 +633,12 @@ function StepSetupModal({
             </button>
             {phase === "review" ? (
               <button onClick={handleFinish}
-                className="flex items-center gap-1.5 px-5 py-2.5 text-[13px] text-white bg-tv-brand-bg rounded-full hover:bg-tv-brand-hover transition-colors" style={{ fontWeight: 600 }}>
+                className="flex items-center gap-1.5 px-5 py-2.5 text-[13px] text-white bg-tv-brand-bg rounded-full hover:bg-tv-brand-hover transition-colors font-semibold">
                 <Check size={13} />Add to Flow
               </button>
             ) : (
               <button onClick={goNext}
-                className="flex items-center gap-1.5 px-5 py-2.5 text-[13px] text-white bg-tv-brand-bg rounded-full hover:bg-tv-brand-hover transition-colors" style={{ fontWeight: 600 }}>
+                className="flex items-center gap-1.5 px-5 py-2.5 text-[13px] text-white bg-tv-brand-bg rounded-full hover:bg-tv-brand-hover transition-colors font-semibold">
                 Next<ChevronRight size={13} />
               </button>
             )}
@@ -740,7 +739,7 @@ function StepModeSelect({ onSelect }: { onSelect: (mode: StepMode) => void }) {
               selected
                 ? "text-white bg-tv-brand-bg hover:bg-tv-brand-hover"
                 : "text-white/60 bg-tv-brand-bg/40 cursor-not-allowed"
-            }`} style={{ fontWeight: 600 }}>
+            } font-semibold`}>
             Next<ChevronRight size={13} />
           </button>
         </div>
@@ -1331,7 +1330,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             <Bookmark size={15} className="text-tv-info" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 600 }}>
+            <p className="text-[13px] text-tv-text-primary font-semibold">
               Started from template: {initialTemplate.name}
             </p>
             <p className="text-[11px] text-tv-text-secondary">
@@ -1400,7 +1399,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     <div className={`w-10 h-10 rounded-[10px] ${selected ? "bg-tv-brand-tint" : "bg-tv-surface"} flex items-center justify-center mb-3`}>
                       <opt.icon size={18} className={selected ? "text-tv-brand" : "text-tv-text-secondary"} />
                     </div>
-                    <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 600 }}>{opt.label}</p>
+                    <p className="text-[14px] text-tv-text-primary font-semibold">{opt.label}</p>
                     <p className="text-[11px] text-tv-text-secondary mt-0.5">{opt.desc}</p>
                     {selected && (
                       <div className="absolute top-3 right-3 w-5 h-5 rounded-full bg-tv-brand-bg flex items-center justify-center">
@@ -1442,7 +1441,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                       <div className={`w-10 h-10 rounded-[10px] ${selected ? "bg-tv-brand-tint" : "bg-tv-surface"} flex items-center justify-center mb-3`}>
                         <dt.icon size={18} className={selected ? "text-tv-brand" : "text-tv-text-secondary"} />
                       </div>
-                      <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 600 }}>{dt.label}</p>
+                      <p className="text-[14px] text-tv-text-primary font-semibold">{dt.label}</p>
                       <p className="text-[11px] text-tv-text-secondary mt-0.5">{dt.desc}</p>
                     </button>
                   );
@@ -1452,7 +1451,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 <div className="mt-4 p-3 bg-tv-info-bg border border-tv-info-border rounded-[10px] flex gap-2">
                   <Info size={12} className="text-tv-info shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-[11px] text-tv-info" style={{ fontWeight: 600 }}>Shareable Link</p>
+                    <p className="text-[11px] text-tv-info font-semibold">Shareable Link</p>
                     <p className="text-[10px] text-tv-info">A unique URL will be generated that you can copy and share anywhere — social media, websites, QR codes, etc.</p>
                   </div>
                 </div>
@@ -1473,7 +1472,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     <div className={`w-10 h-10 rounded-[10px] ${selected ? ch.bg : "bg-tv-surface"} flex items-center justify-center mb-3`}>
                       <ch.icon size={18} className={selected ? ch.color : "text-tv-text-secondary"} />
                     </div>
-                    <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 600 }}>{ch.label}</p>
+                    <p className="text-[14px] text-tv-text-primary font-semibold">{ch.label}</p>
                     <p className="text-[11px] text-tv-text-secondary mt-0.5">{ch.desc}</p>
                   </button>
                 );
@@ -1502,7 +1501,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             <span className={`text-[10px] px-2 py-0.5 rounded-full ${selectedMetrics.length >= 1 ? "bg-tv-success-bg text-tv-success border border-tv-success-border" : "bg-tv-surface text-tv-text-secondary border border-tv-border-light"}`} style={{ fontWeight: 700 }}>
               {selectedMetrics.length}/5
             </span>
-            <span className="text-[9px] px-2 py-0.5 rounded-full bg-tv-danger-bg text-tv-danger border border-tv-danger-border" style={{ fontWeight: 600 }}>REQUIRED</span>
+            <span className="text-[9px] px-2 py-0.5 rounded-full bg-tv-danger-bg text-tv-danger border border-tv-danger-border font-semibold">REQUIRED</span>
           </div>
         </div>
         <div className="p-5 space-y-3">
@@ -1528,14 +1527,14 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           )}
 
           <div>
-            <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>Delivery</p>
+            <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5 font-semibold">Delivery</p>
             <div className="flex flex-wrap gap-1.5">
               {SUCCESS_METRICS.filter(m => m.category === "delivery").map(m => <MetricChip key={m.id} metric={m} active={selectedMetrics.includes(m.id)} disabled={!selectedMetrics.includes(m.id) && selectedMetrics.length >= 5} onToggle={toggleMetric} />)}
             </div>
           </div>
 
           <div>
-            <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>Engagement</p>
+            <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5 font-semibold">Engagement</p>
             <div className="flex flex-wrap gap-1.5">
               {SUCCESS_METRICS.filter(m => m.category === "engagement").map(m => <MetricChip key={m.id} metric={m} active={selectedMetrics.includes(m.id)} disabled={!selectedMetrics.includes(m.id) && selectedMetrics.length >= 5} onToggle={toggleMetric} />)}
             </div>
@@ -1543,7 +1542,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
           <div>
             <div className="flex items-center gap-1.5 mb-1.5">
-              <p className="text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Drop-off & Issues</p>
+              <p className="text-[10px] text-tv-text-label uppercase tracking-wider font-semibold">Drop-off & Issues</p>
               <button onClick={() => setShowDropoffInfo(v => !v)} className={`w-4 h-4 rounded-full flex items-center justify-center transition-colors ${showDropoffInfo ? "bg-tv-danger text-white" : "bg-tv-surface text-tv-text-decorative hover:bg-tv-surface-hover"}`}>
                 <Info size={8} />
               </button>
@@ -1574,7 +1573,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               <p className="text-[11px] text-tv-text-secondary">Organize and categorize your campaign</p>
             </div>
           </div>
-          <span className="text-[10px] px-2.5 py-1 rounded-full bg-tv-surface border border-tv-border-light text-tv-text-secondary" style={{ fontWeight: 600 }}>OPTIONAL</span>
+          <span className="text-[10px] px-2.5 py-1 rounded-full bg-tv-surface border border-tv-border-light text-tv-text-secondary font-semibold">OPTIONAL</span>
         </div>
         <div className="p-5">
           <TagPicker
@@ -1730,7 +1729,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
           {/* CC / BCC (collapsible) */}
           <details className="group">
-            <summary className="text-[10px] text-tv-brand uppercase tracking-wider cursor-pointer hover:underline list-none flex items-center gap-1" style={{ fontWeight: 600 }}>
+            <summary className="text-[10px] text-tv-brand uppercase tracking-wider cursor-pointer hover:underline list-none flex items-center gap-1 font-semibold">
               <ChevronRight size={10} className="transition-transform group-open:rotate-90" />CC / BCC <span className="text-tv-text-decorative normal-case" style={{ fontWeight: 400 }}>(optional)</span>
             </summary>
             <div className="grid grid-cols-2 gap-2 mt-2">
@@ -1757,7 +1756,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 <ChevronRight size={12} className="text-tv-text-decorative transition-transform group-open/body:rotate-90" />
                 <label className={LABEL_CLS} style={{ marginBottom: 0, cursor: "pointer" }}>Message Body</label>
                 {(step.body || "").trim().length > 0 && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-tv-success-bg text-tv-success shrink-0" style={{ fontWeight: 600 }}>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-tv-success-bg text-tv-success shrink-0 font-semibold">
                     {htmlTextLength(step.body || "").toLocaleString()} chars
                   </span>
                 )}
@@ -1771,7 +1770,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               <div className="flex items-center gap-2.5 px-3 py-2 bg-tv-surface border-b border-tv-border-light flex-wrap rounded-t-[9px]">
                 {/* Font family */}
                 <div className="flex items-center gap-1.5">
-                  <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap" style={{ fontWeight: 600 }}>Font</label>
+                  <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap font-semibold">Font</label>
                   <select
                     value={step.bodyFontFamily || EMAIL_BODY_FONTS[0].value}
                     onChange={e => setStep(s => ({ ...s, bodyFontFamily: e.target.value }))}
@@ -1787,7 +1786,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 <div className="h-5 w-px bg-tv-border-light" />
                 {/* Font size */}
                 <div className="flex items-center gap-1.5">
-                  <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap" style={{ fontWeight: 600 }}>Size</label>
+                  <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap font-semibold">Size</label>
                   <select
                     value={step.bodyFontSize || 14}
                     onChange={e => setStep(s => ({ ...s, bodyFontSize: Number(e.target.value) }))}
@@ -1802,7 +1801,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 <div className="h-5 w-px bg-tv-border-light" />
                 {/* Text color picker */}
                 <div className="flex items-center gap-1.5">
-                  <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap" style={{ fontWeight: 600 }}>Color</label>
+                  <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap font-semibold">Color</label>
                   <div className="relative group/tcolor">
                     <button
                       type="button"
@@ -1830,7 +1829,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 <div className="h-5 w-px bg-tv-border-light" />
                 {/* Line height */}
                 <div className="flex items-center gap-1.5">
-                  <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap" style={{ fontWeight: 600 }}>Spacing</label>
+                  <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap font-semibold">Spacing</label>
                   <select
                     value={step.bodyLineHeight || 1.5}
                     onChange={e => setStep(s => ({ ...s, bodyLineHeight: Number(e.target.value) }))}
@@ -1884,7 +1883,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                         })()}
                       >
                         <div className="px-3 py-2 border-b border-tv-border-divider">
-                          <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Insert Signature</p>
+                          <p className="text-[11px] text-tv-text-primary font-semibold">Insert Signature</p>
                         </div>
                         <div className="py-1.5 max-h-[240px] overflow-y-auto">
                           {SAVED_SIGNATURES.map(sig => (
@@ -1962,7 +1961,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               <div className="p-2 bg-tv-warning-bg border border-tv-warning-border rounded-[8px] flex items-start gap-1.5">
                 <CircleAlert size={11} className="text-tv-warning shrink-0 mt-0.5" />
                 <div className="text-[10px] text-tv-warning">
-                  <p className="mb-0.5" style={{ fontWeight: 600 }}>Some constituents are missing data for merge fields you&rsquo;re using:</p>
+                  <p className="mb-0.5 font-semibold">Some constituents are missing data for merge fields you&rsquo;re using:</p>
                   <ul className="space-y-0.5">
                     {mergeFieldsWithMissingData.map(f => (
                       <li key={f.field}><span className="font-mono">{`{{${f.field}}}`}</span> &mdash; {f.missingCount} constituent{f.missingCount > 1 ? "s" : ""} missing this field (will appear blank)</li>
@@ -1986,18 +1985,18 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                   <div className="flex items-center gap-2">
                     <button onClick={() => setShowAi(false)} className="px-2.5 py-1 text-[11px] text-tv-text-secondary hover:text-tv-brand">Cancel</button>
                     {aiGenerating ? (
-                      <button onClick={() => { setAiGenerating(false); }} className="px-3 py-1 bg-tv-danger text-white text-[11px] rounded-full hover:bg-tv-danger-hover transition-colors flex items-center gap-1" style={{ fontWeight: 600 }}>
+                      <button onClick={() => { setAiGenerating(false); }} className="px-3 py-1 bg-tv-danger text-white text-[11px] rounded-full hover:bg-tv-danger-hover transition-colors flex items-center gap-1 font-semibold">
                         <StopCircle size={10} />Stop
                       </button>
                     ) : (
                       <>
                         <button onClick={handleAiGenerate} disabled={!aiPrompt.trim()}
-                          className="px-3 py-1 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1" style={{ fontWeight: 600 }}>
+                          className="px-3 py-1 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 font-semibold">
                           <Sparkles size={10} />{aiHasResult ? "Regenerate" : "Generate"}
                         </button>
                         {aiHasResult && (
                           <button onClick={() => { setAiPrompt(""); setAiHasResult(false); handleAiGenerate(); }}
-                            className="px-3 py-1 border border-tv-border-light text-tv-text-secondary text-[11px] rounded-full hover:border-tv-brand hover:text-tv-brand transition-colors flex items-center gap-1" style={{ fontWeight: 600 }}>
+                            className="px-3 py-1 border border-tv-border-light text-tv-text-secondary text-[11px] rounded-full hover:border-tv-brand hover:text-tv-brand transition-colors flex items-center gap-1 font-semibold">
                             <RefreshCw size={10} />New prompt
                           </button>
                         )}
@@ -2008,7 +2007,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     <div className="p-2 bg-tv-danger-bg border border-tv-danger-border rounded-[8px] flex items-start gap-1.5">
                       <AlertTriangle size={11} className="text-tv-danger shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-[10px] text-tv-danger" style={{ fontWeight: 600 }}>AI service unavailable</p>
+                        <p className="text-[10px] text-tv-danger font-semibold">AI service unavailable</p>
                         <p className="text-[10px] text-tv-danger">The AI writing service is temporarily down. Please try again in a moment or write your message manually.</p>
                       </div>
                     </div>
@@ -2206,7 +2205,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             role="switch" aria-checked={smsS.linkShortening} aria-label="Shorten links"
             className="w-full flex items-center justify-between p-2.5 bg-white rounded-[10px] border border-tv-border-light">
             <div>
-              <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Shorten Links</p>
+              <p className="text-[11px] text-tv-text-primary font-semibold">Shorten Links</p>
               <p className="text-[9px] text-tv-text-secondary">Replace long URLs with trackable short links</p>
             </div>
             <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${smsS.linkShortening ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
@@ -2218,7 +2217,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-[10px] flex gap-2">
             <CircleAlert size={12} className="text-tv-warning shrink-0 mt-0.5" />
             <div>
-              <p className="text-[11px] text-tv-warning" style={{ fontWeight: 600 }}>SMS Compliance</p>
+              <p className="text-[11px] text-tv-warning font-semibold">SMS Compliance</p>
               <p className="text-[10px] text-tv-warning">&ldquo;Reply STOP to unsubscribe&rdquo; will be automatically appended.</p>
             </div>
           </div>
@@ -2237,7 +2236,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 <div className="flex items-center gap-2">
                   <button onClick={() => setShowAi(false)} className="px-2.5 py-1 text-[11px] text-tv-text-secondary">Cancel</button>
                   <button onClick={handleAiGenerate} disabled={!aiPrompt.trim() || aiGenerating}
-                    className="px-3 py-1 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1" style={{ fontWeight: 600 }}>
+                    className="px-3 py-1 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 font-semibold">
                     {aiGenerating ? <><div className="w-2.5 h-2.5 border-2 border-white/40 border-t-white rounded-full animate-spin" />&hellip;</> : <><Sparkles size={10} />Generate</>}
                   </button>
                 </div>
@@ -2248,7 +2247,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           }
           right={
           <div>
-            <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2" style={{ fontWeight: 600 }}>Live Preview</p>
+            <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2 font-semibold">Live Preview</p>
             <div className="w-[280px] max-w-full mx-auto">
               {/* iPhone shell */}
               <div className="relative rounded-[38px] bg-[#1c1c1e] p-[6px] shadow-[0_8px_40px_rgba(0,0,0,0.25)]">
@@ -2264,7 +2263,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                   </div>
                   {/* Status bar */}
                   <div className="flex items-center justify-between px-6 pt-[2px] pb-[6px] bg-white">
-                    <span style={{ fontSize: "10px", fontWeight: 600 }} className="text-[#1c1c1e] tabular-nums">9:41</span>
+                    <span style={{ fontSize: "10px" }} className="text-[#1c1c1e] tabular-nums font-semibold">9:41</span>
                     <div className="flex items-center gap-[3px]">
                       <Signal size={9} className="text-[#1c1c1e]" />
                       <Wifi size={10} className="text-[#1c1c1e]" />
@@ -2279,9 +2278,9 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     </button>
                     <div className="flex flex-col items-center gap-0.5">
                       <div className="w-[28px] h-[28px] rounded-full bg-[#c7c7cc] flex items-center justify-center">
-                        <span style={{ fontSize: "12px", fontWeight: 600 }} className="text-white">{senderInitial}</span>
+                        <span style={{ fontSize: "12px" }} className="text-white font-semibold">{senderInitial}</span>
                       </div>
-                      <span style={{ fontSize: "9px", fontWeight: 600 }} className="text-[#1c1c1e] max-w-[120px] truncate">{senderLabel}</span>
+                      <span style={{ fontSize: "9px" }} className="text-[#1c1c1e] max-w-[120px] truncate font-semibold">{senderLabel}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <div className="w-[22px] h-[22px] rounded-full bg-[#f2f2f7] flex items-center justify-center">
@@ -2317,7 +2316,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                               </div>
                             </div>
                             <div className="px-2.5 py-1.5">
-                              <p style={{ fontSize: "9px", fontWeight: 600 }} className="text-[#1c1c1e]">ThankView</p>
+                              <p style={{ fontSize: "9px" }} className="text-[#1c1c1e] font-semibold">ThankView</p>
                               <p style={{ fontSize: "8px" }} className="text-[#8e8e93]">A personal video message for you</p>
                               <p style={{ fontSize: "7px" }} className="text-[#007aff] mt-0.5">thankview.com</p>
                             </div>
@@ -2399,7 +2398,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-divider">
             <div className="flex items-center gap-1.5 mb-2">
               <Lightbulb size={11} className="text-tv-info" />
-              <span className="text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Recording Tips (shown to recorders)</span>
+              <span className="text-[10px] text-tv-text-label uppercase tracking-wider font-semibold">Recording Tips (shown to recorders)</span>
             </div>
             <div className="space-y-1">
               {VR_RECORDING_TIPS.map((tip, i) => (
@@ -2415,7 +2414,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
         {/* Branded Landing Page */}
         <div className="bg-white rounded-[12px] border border-tv-border-light p-4">
           <div className="mb-2">
-            <label className="text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Branded Landing Page</label>
+            <label className="text-[10px] text-tv-text-label uppercase tracking-wider font-semibold">Branded Landing Page</label>
           </div>
           <div className="space-y-1.5">
             {allLandingPages.map(p => (
@@ -2439,7 +2438,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             role="switch" aria-checked={vrIncludeLibraryVideo} aria-label="Include instruction video"
             className="w-full flex items-center justify-between">
             <div>
-              <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Include Instruction Video</p>
+              <p className="text-[12px] text-tv-text-primary font-semibold">Include Instruction Video</p>
               <p className="text-[10px] text-tv-text-secondary">Attach a video from your library to accompany the recording instructions</p>
             </div>
             <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${vrIncludeLibraryVideo ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
@@ -2455,7 +2454,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     <Play size={10} className="text-white ml-0.5" fill="white" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[12px] text-tv-text-primary truncate" style={{ fontWeight: 600 }}>{vrLibraryVideoTitle}</p>
+                    <p className="text-[12px] text-tv-text-primary truncate font-semibold">{vrLibraryVideoTitle}</p>
                     <p className="text-[10px] text-tv-text-secondary">Instruction video</p>
                   </div>
                   <button onClick={() => { setVrLibraryVideoId(null); setVrLibraryVideoTitle(""); }}
@@ -2470,7 +2469,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     <Film size={16} className="text-tv-text-secondary" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Select from Library</p>
+                    <p className="text-[12px] text-tv-text-primary font-semibold">Select from Library</p>
                     <p className="text-[10px] text-tv-text-secondary">Choose a video to show alongside your instructions</p>
                   </div>
                   <ChevronRight size={14} className="text-tv-text-decorative" />
@@ -2482,7 +2481,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
         {/* Automated Reminders */}
         <div className="bg-white rounded-[12px] border border-tv-border-light p-4 space-y-3">
-          <label className="text-[10px] text-tv-text-label uppercase tracking-wider block" style={{ fontWeight: 600 }}>Automated Reminders</label>
+          <label className="text-[10px] text-tv-text-label uppercase tracking-wider block font-semibold">Automated Reminders</label>
           <p className="text-[10px] text-tv-text-secondary">Send reminders to people who haven&rsquo;t submitted a video yet.</p>
           <div className="space-y-1.5">
             {vrReminderDays.map((days, idx) => (
@@ -2588,12 +2587,12 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
       {isVideoRequest && vrDeliveryType === "link" ? (
         <div className="space-y-3">
           <div className="p-4 rounded-[12px] border border-tv-border-light bg-white">
-            <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2 block" style={{ fontWeight: 600 }}>Shareable Video Request Link</label>
+            <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2 block font-semibold">Shareable Video Request Link</label>
             <div className="flex items-center gap-2 bg-tv-surface rounded-[8px] px-3 py-2.5 border border-tv-border-light">
               <Link2 size={14} className="text-tv-brand shrink-0" />
               <span className="text-[13px] text-tv-text-primary font-mono flex-1 truncate">{vrShareableUrl}</span>
               <button onClick={() => show("Link copied!", "success")}
-                className="px-2.5 py-1 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors flex items-center gap-1 shrink-0" style={{ fontWeight: 600 }}>
+                className="px-2.5 py-1 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors flex items-center gap-1 shrink-0 font-semibold">
                 <Copy size={10} />Copy
               </button>
             </div>
@@ -2604,7 +2603,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             role="switch" aria-checked={vrSubmissionsEnabled} aria-label="Accept submissions"
             className="w-full flex items-center justify-between p-3.5 bg-white rounded-[10px] border border-tv-border-light">
             <div>
-              <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Accept Submissions</p>
+              <p className="text-[12px] text-tv-text-primary font-semibold">Accept Submissions</p>
               <p className="text-[10px] text-tv-text-secondary">{vrSubmissionsEnabled ? "Submissions are open" : "Link is disabled — no new submissions"}</p>
             </div>
             <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${vrSubmissionsEnabled ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
@@ -2615,7 +2614,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           {/* Submissions routing */}
           {vrSubmissionsEnabled && (
             <div className="p-3.5 bg-white rounded-[10px] border border-tv-border-light space-y-2">
-              <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Submission Routing</p>
+              <p className="text-[11px] text-tv-text-primary font-semibold">Submission Routing</p>
               <p className="text-[9px] text-tv-text-secondary">Choose where submitted videos are delivered after approval.</p>
               <div className="space-y-1.5">
                 {([
@@ -2626,7 +2625,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                   <label key={opt.id} className="flex items-start gap-2 px-2.5 py-2 rounded-[8px] border border-tv-border-light hover:bg-tv-surface cursor-pointer transition-colors">
                     <input type="radio" name="vr-routing" defaultChecked={opt.id === "library"} className="mt-0.5 accent-tv-brand" />
                     <div>
-                      <p className="text-[10px] text-tv-text-primary" style={{ fontWeight: 600 }}>{opt.label}</p>
+                      <p className="text-[10px] text-tv-text-primary font-semibold">{opt.label}</p>
                       <p className="text-[9px] text-tv-text-secondary">{opt.desc}</p>
                     </div>
                   </label>
@@ -2645,7 +2644,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           {/* Add methods */}
           <div className="p-4 rounded-[12px] border border-tv-border-light bg-white">
             <div className="flex items-center justify-between mb-3">
-              <label className="text-[10px] text-tv-text-label uppercase tracking-wider flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+              <label className="text-[10px] text-tv-text-label uppercase tracking-wider flex items-center gap-1.5 font-semibold">
                 Add {isVideoRequest ? "Recorders" : "Constituents"}
               </label>
               <span className="text-[11px] text-tv-text-secondary">{constituents.length} added</span>
@@ -2659,7 +2658,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 <button key={m.key} onClick={() => setShowAddMethod(showAddMethod === m.key ? null : m.key)}
                   className={`flex flex-col items-center text-center p-3 rounded-[10px] border transition-all ${showAddMethod === m.key ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                   <m.icon size={16} className={showAddMethod === m.key ? "text-tv-brand" : "text-tv-text-secondary"} />
-                  <p className={`text-[11px] mt-1.5 ${showAddMethod === m.key ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{m.label}</p>
+                  <p className={`text-[11px] mt-1.5 ${showAddMethod === m.key ? "text-tv-brand" : "text-tv-text-primary"} font-semibold`}>{m.label}</p>
                   <p className="text-[9px] text-tv-text-secondary">{m.desc}</p>
                 </button>
               ))}
@@ -2670,7 +2669,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-light space-y-2">
                 <div className="border-2 border-dashed border-tv-border-light rounded-[10px] p-6 text-center hover:border-tv-brand-bg transition-colors cursor-pointer" role="button" tabIndex={0} onClick={addCsvConstituents} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); addCsvConstituents(); } }}>
                   <Upload size={20} className="text-tv-text-secondary mx-auto mb-2" />
-                  <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Drop a CSV file here or click to browse</p>
+                  <p className="text-[12px] text-tv-text-primary font-semibold">Drop a CSV file here or click to browse</p>
                   <p className="text-[10px] text-tv-text-secondary mt-1">Columns: Name, Email, Phone (optional)</p>
                 </div>
                 <p className="text-[9px] text-tv-text-secondary">Errors and duplicates will be flagged after upload. Max 10,000 rows per file.</p>
@@ -2680,9 +2679,9 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             {/* Manual add panel */}
             {showAddMethod === "manual" && (
               <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-light space-y-2">
-                <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Add a constituent manually</p>
+                <p className="text-[11px] text-tv-text-primary font-semibold">Add a constituent manually</p>
                 <button onClick={addManualConstituent}
-                  className="w-full flex items-center justify-center gap-1.5 py-2 text-[12px] text-tv-brand border border-tv-brand-bg/30 rounded-[8px] hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 600 }}>
+                  className="w-full flex items-center justify-center gap-1.5 py-2 text-[12px] text-tv-brand border border-tv-brand-bg/30 rounded-[8px] hover:bg-tv-brand-tint transition-colors font-semibold">
                   <Plus size={12} />Add Constituent
                 </button>
               </div>
@@ -2715,7 +2714,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           {constituents.length > 0 && (
             <div className="p-4 rounded-[12px] border border-tv-border-light bg-white">
               <div className="flex items-center justify-between mb-3">
-                <label className="text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>{isVideoRequest ? "Recorder" : "Constituent"} List</label>
+                <label className="text-[10px] text-tv-text-label uppercase tracking-wider font-semibold">{isVideoRequest ? "Recorder" : "Constituent"} List</label>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1 border border-tv-border-light rounded-full px-2 py-1">
                     <Search size={10} className="text-tv-text-secondary" />
@@ -2728,7 +2727,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               {/* Table header + rows */}
               <div className="overflow-x-auto">
                 <div className="min-w-[480px]">
-              <div className="grid grid-cols-[1fr_1.2fr_0.8fr_0.6fr_44px] gap-1.5 px-2 py-1.5 text-[9px] text-tv-text-label uppercase tracking-wider border-b border-tv-border-divider" style={{ fontWeight: 600 }}>
+              <div className="grid grid-cols-[1fr_1.2fr_0.8fr_0.6fr_44px] gap-1.5 px-2 py-1.5 text-[9px] text-tv-text-label uppercase tracking-wider border-b border-tv-border-divider font-semibold">
                 <span>Name</span><span>Email</span><span>Phone</span><span>Source</span><span />
               </div>
 
@@ -2742,7 +2741,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                         <input value={r.email} onChange={e => setConstituents(rs => rs.map(x => x.id === r.id ? { ...x, email: e.target.value } : x))} className="text-[11px] border border-tv-border-light rounded px-1.5 py-0.5 outline-none focus:ring-1 focus:ring-tv-brand/40" placeholder="Email" aria-label="Constituent email" />
                         <input value={r.phone} onChange={e => setConstituents(rs => rs.map(x => x.id === r.id ? { ...x, phone: e.target.value } : x))} className="text-[11px] border border-tv-border-light rounded px-1.5 py-0.5 outline-none focus:ring-1 focus:ring-tv-brand/40" placeholder="Phone" aria-label="Constituent phone" />
                         <span className="text-[10px] text-tv-text-secondary truncate">{r.source}</span>
-                        <button onClick={() => setEditingConstituent(null)} className="text-tv-brand text-[10px]" style={{ fontWeight: 600 }}>Done</button>
+                        <button onClick={() => setEditingConstituent(null)} className="text-tv-brand text-[10px] font-semibold">Done</button>
                       </>
                     ) : (
                       <>
@@ -2766,7 +2765,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
           {/* Estimated count */}
           <div className="p-4 rounded-[12px] border border-tv-border-light bg-white">
-            <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1 flex items-center gap-1.5" style={{ fontWeight: 600 }}>
+            <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1 flex items-center gap-1.5 font-semibold">
               Estimated {isVideoRequest ? "Recorders" : "Constituents"}
             </label>
             <p className="font-display text-[24px] text-tv-brand" style={{ fontWeight: 900 }}>{constituents.length.toLocaleString()}</p>
@@ -2787,7 +2786,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                   role="switch" aria-checked={vrReminderEnabled} aria-label="Automated reminders"
                   className="w-full flex items-center justify-between p-2.5 bg-tv-surface rounded-[8px] border border-tv-border-light">
                   <div>
-                    <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Automated Reminders</p>
+                    <p className="text-[11px] text-tv-text-primary font-semibold">Automated Reminders</p>
                     <p className="text-[9px] text-tv-text-secondary">Send reminders before the due date</p>
                   </div>
                   <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${vrReminderEnabled ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
@@ -2798,7 +2797,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 {/* Multiple reminder schedule */}
                 {vrReminderEnabled && (
                   <div className="space-y-2 pl-1">
-                    <label className="text-[9px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Remind before due date</label>
+                    <label className="text-[9px] text-tv-text-label uppercase tracking-wider font-semibold">Remind before due date</label>
                     <div className="flex flex-wrap gap-1.5">
                       {[14, 7, 5, 3, 2, 1].map(d => {
                         const active = vrReminderDays.includes(d);
@@ -2819,7 +2818,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 role="switch" aria-checked={vrSubmissionsEnabled} aria-label="Accept submissions"
                 className="w-full flex items-center justify-between p-3.5 bg-white rounded-[10px] border border-tv-border-light">
                 <div>
-                  <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Accept Submissions</p>
+                  <p className="text-[12px] text-tv-text-primary font-semibold">Accept Submissions</p>
                   <p className="text-[10px] text-tv-text-secondary">{vrSubmissionsEnabled ? "Submissions are open" : "Submissions are closed"}</p>
                 </div>
                 <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${vrSubmissionsEnabled ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
@@ -2895,7 +2894,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           <div className={`w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 ${active ? "bg-tv-brand-bg" : "bg-tv-surface"}`}>
             <CardIcon size={16} className={active ? "text-white" : "text-tv-text-secondary"} />
           </div>
-          <p className={`text-[12px] ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{label}</p>
+          <p className={`text-[12px] ${active ? "text-tv-brand" : "text-tv-text-primary"} font-semibold`}>{label}</p>
           <p className="text-[10px] text-tv-text-secondary leading-tight">{desc}</p>
         </button>
       );
@@ -2911,7 +2910,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
           </div>
           <button
             onClick={() => setShowSendTestModal(true)}
-            className="shrink-0 flex items-center gap-1.5 px-4 py-2 text-[12px] text-tv-brand border border-tv-brand-bg/30 rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 600 }}
+            className="shrink-0 flex items-center gap-1.5 px-4 py-2 text-[12px] text-tv-brand border border-tv-brand-bg/30 rounded-full hover:bg-tv-brand-tint transition-colors font-semibold"
           >
             <Send size={12} />Send Test
           </button>
@@ -2931,8 +2930,8 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               <div className="px-6 py-4 space-y-4">
                 {/* Single vs Group toggle */}
                 <div className="flex rounded-[8px] border border-tv-border-light overflow-hidden">
-                  <button onClick={() => setSendTestMode("single")} className={`flex-1 py-2 text-[11px] transition-colors ${sendTestMode === "single" ? "bg-tv-brand-bg text-white" : "text-tv-text-secondary hover:bg-tv-surface-hover"}`} style={{ fontWeight: 600 }}>Single Email</button>
-                  <button onClick={() => setSendTestMode("group")} className={`flex-1 py-2 text-[11px] transition-colors ${sendTestMode === "group" ? "bg-tv-brand-bg text-white" : "text-tv-text-secondary hover:bg-tv-surface-hover"}`} style={{ fontWeight: 600 }}>Test Group</button>
+                  <button onClick={() => setSendTestMode("single")} className={`flex-1 py-2 text-[11px] transition-colors ${sendTestMode === "single" ? "bg-tv-brand-bg text-white" : "text-tv-text-secondary hover:bg-tv-surface-hover"} font-semibold`}>Single Email</button>
+                  <button onClick={() => setSendTestMode("group")} className={`flex-1 py-2 text-[11px] transition-colors ${sendTestMode === "group" ? "bg-tv-brand-bg text-white" : "text-tv-text-secondary hover:bg-tv-surface-hover"} font-semibold`}>Test Group</button>
                 </div>
                 {sendTestMode === "single" ? (
                 <div>
@@ -2970,7 +2969,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 </div>
                 )}
                 <div>
-                  <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5 block flex items-center gap-1" style={{ fontWeight: 600 }}>
+                  <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5 block flex items-center gap-1 font-semibold">
                     Preview as constituent
                     <span className="text-[8px] px-1.5 py-0.5 bg-tv-brand-tint text-tv-brand rounded-full" style={{ fontWeight: 700 }}>Merge fields</span>
                   </label>
@@ -3005,7 +3004,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     }, 1500);
                   }}
                   disabled={(sendTestMode === "single" ? !sendTestEmail.trim() : sendTestGroup.length === 0) || sendTestSending}
-                  className={`flex items-center gap-1.5 px-5 py-2.5 text-[13px] rounded-full transition-colors ${sendTestSending ? "bg-tv-brand-bg/70 text-white cursor-not-allowed" : "bg-tv-brand-bg text-white hover:bg-tv-brand-hover"} disabled:opacity-50`} style={{ fontWeight: 600 }}
+                  className={`flex items-center gap-1.5 px-5 py-2.5 text-[13px] rounded-full transition-colors ${sendTestSending ? "bg-tv-brand-bg/70 text-white cursor-not-allowed" : "bg-tv-brand-bg text-white hover:bg-tv-brand-hover"} disabled:opacity-50 font-semibold`}
                 >
                   {sendTestSending ? <><span className="animate-spin">&#9696;</span>Sending...</> : <><Send size={12} />Send Test</>}
                 </button>
@@ -3025,7 +3024,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 <Calendar size={13} className="text-tv-brand" />
                 <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 700 }}>Scheduling</p>
                 {scheduleType && (
-                  <span className="ml-auto text-[10px] text-tv-success bg-tv-success-bg border border-tv-success-border px-2 py-0.5 rounded-full flex items-center gap-1" style={{ fontWeight: 600 }}>
+                  <span className="ml-auto text-[10px] text-tv-success bg-tv-success-bg border border-tv-success-border px-2 py-0.5 rounded-full flex items-center gap-1 font-semibold">
                     <Check size={8} />{scheduleType === "now" ? "Immediate" : scheduleType === "later" ? "Scheduled" : "Date Field"}
                   </span>
                 )}
@@ -3071,7 +3070,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
 
             {scheduleType === "contact-field" && (
               <div className="p-4 rounded-[12px] border border-tv-brand-bg/20 bg-tv-brand-tint/30 space-y-3">
-                <label className="text-[10px] text-tv-text-label uppercase tracking-wider block" style={{ fontWeight: 600 }}>Select Date Field</label>
+                <label className="text-[10px] text-tv-text-label uppercase tracking-wider block font-semibold">Select Date Field</label>
                 <div className="grid grid-cols-2 gap-2">
                   {CONSTITUENT_DATE_FIELDS.map(f => {
                     const Icon = CONSTITUENT_FIELD_ICONS[f.icon] || CalendarDays;
@@ -3082,7 +3081,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                           selected ? "border-tv-brand-bg bg-white text-tv-brand" : "border-tv-border-light bg-white hover:border-tv-border-strong text-tv-text-secondary"
                         }`}>
                         <Icon size={13} className={selected ? "text-tv-brand" : "text-tv-text-decorative"} />
-                        <p className="text-[11px] truncate" style={selected ? { fontWeight: 600 } : undefined}>{f.label}</p>
+                        <p className={`text-[11px] truncate ${selected ? "font-semibold" : ""}`}>{f.label}</p>
                         {selected && <Check size={10} className="text-tv-brand shrink-0 ml-auto" />}
                       </button>
                     );
@@ -3108,12 +3107,12 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                         <div className="p-3 bg-white border border-tv-warning-border rounded-[8px] space-y-2">
                           <div className="flex items-center gap-1.5">
                             <AlertTriangle size={11} className="text-tv-warning shrink-0" />
-                            <p className="text-[10px] text-tv-warning" style={{ fontWeight: 600 }}>Date Field Validation</p>
+                            <p className="text-[10px] text-tv-warning font-semibold">Date Field Validation</p>
                           </div>
                           <div className="flex items-center gap-3 text-[10px]">
-                            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-tv-success inline-block" /> <span style={{ fontWeight: 600 }}>{validCount}</span> valid</span>
-                            <span className="flex items-center gap-1 text-tv-warning"><span className="w-2 h-2 rounded-full bg-tv-warning inline-block" /> <span style={{ fontWeight: 600 }}>{missingCount}</span> missing</span>
-                            {malformedCount > 0 && <span className="flex items-center gap-1 text-tv-danger"><span className="w-2 h-2 rounded-full bg-tv-danger inline-block" /> <span style={{ fontWeight: 600 }}>{malformedCount}</span> bad format</span>}
+                            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-tv-success inline-block" /> <span className="font-semibold">{validCount}</span> valid</span>
+                            <span className="flex items-center gap-1 text-tv-warning"><span className="w-2 h-2 rounded-full bg-tv-warning inline-block" /> <span className="font-semibold">{missingCount}</span> missing</span>
+                            {malformedCount > 0 && <span className="flex items-center gap-1 text-tv-danger"><span className="w-2 h-2 rounded-full bg-tv-danger inline-block" /> <span className="font-semibold">{malformedCount}</span> bad format</span>}
                           </div>
                           <div className="h-1.5 bg-tv-border-light rounded-full overflow-hidden flex">
                             <div className="h-full bg-tv-success rounded-full" style={{ width: `${(validCount / constituents.length) * 100}%` }} />
@@ -3136,11 +3135,11 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                           <label className={LABEL_CLS}>Feb 29 Handling</label>
                           <div className="flex gap-1.5">
                             <button onClick={() => setLeapYearHandling("feb28")}
-                              className={`flex-1 px-2 py-2 rounded-[8px] border text-[10px] transition-all ${leapYearHandling === "feb28" ? "border-tv-brand-bg bg-white text-tv-brand" : "border-tv-border-light bg-white text-tv-text-secondary"}`} style={leapYearHandling === "feb28" ? { fontWeight: 600 } : undefined}>
+                              className={`flex-1 px-2 py-2 rounded-[8px] border text-[10px] transition-all ${leapYearHandling === "feb28" ? "border-tv-brand-bg bg-white text-tv-brand font-semibold" : "border-tv-border-light bg-white text-tv-text-secondary"}`}>
                               Feb 28
                             </button>
                             <button onClick={() => setLeapYearHandling("mar1")}
-                              className={`flex-1 px-2 py-2 rounded-[8px] border text-[10px] transition-all ${leapYearHandling === "mar1" ? "border-tv-brand-bg bg-white text-tv-brand" : "border-tv-border-light bg-white text-tv-text-secondary"}`} style={leapYearHandling === "mar1" ? { fontWeight: 600 } : undefined}>
+                              className={`flex-1 px-2 py-2 rounded-[8px] border text-[10px] transition-all ${leapYearHandling === "mar1" ? "border-tv-brand-bg bg-white text-tv-brand font-semibold" : "border-tv-border-light bg-white text-tv-text-secondary"}`}>
                               Mar 1
                             </button>
                           </div>
@@ -3162,7 +3161,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             {/* Timezone — inline compact */}
             <div className="p-3.5 rounded-[12px] border border-tv-border-light bg-white flex items-center gap-3">
               <Globe size={13} className="text-tv-text-secondary shrink-0" />
-              <label className="text-[10px] text-tv-text-label uppercase tracking-wider shrink-0" style={{ fontWeight: 600 }}>Timezone</label>
+              <label className="text-[10px] text-tv-text-label uppercase tracking-wider shrink-0 font-semibold">Timezone</label>
               <select aria-label="Timezone" className="flex-1 border border-tv-border-light rounded-[8px] px-2.5 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white">
                 <option>(UTC-05:00) Eastern Time (US &amp; Canada)</option>
                 <option>(UTC-06:00) Central Time (US &amp; Canada)</option>
@@ -3181,7 +3180,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               <div className="p-3 rounded-[12px] border border-tv-success-border bg-tv-success-bg/50 flex items-center gap-2">
                 <Target size={12} className="text-tv-success shrink-0" />
                 <p className="text-[11px] text-tv-success flex-1">
-                  <span style={{ fontWeight: 600 }}>{selectedMetrics.length} metric{selectedMetrics.length !== 1 ? "s" : ""}</span> selected in Configure step
+                  <span className="font-semibold">{selectedMetrics.length} metric{selectedMetrics.length !== 1 ? "s" : ""}</span> selected in Configure step
                 </p>
                 <Check size={11} className="text-tv-success shrink-0" />
               </div>
@@ -3210,7 +3209,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                     {row.ok ? <Check size={9} className="text-tv-success" /> : <div className="w-[9px] h-[9px] rounded-full border border-tv-border-light" />}
                     {row.label}
                   </span>
-                  <span className={`text-[10px] ${row.ok ? "text-tv-text-primary" : "text-tv-text-decorative"}`} style={{ fontWeight: 600 }}>{row.value}</span>
+                  <span className={`text-[10px] ${row.ok ? "text-tv-text-primary" : "text-tv-text-decorative"} font-semibold`}>{row.value}</span>
                 </div>
               ))}
             </div>
@@ -3314,7 +3313,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                       : isActive
                       ? "bg-white border-tv-brand-bg text-tv-brand"
                       : "bg-white border-tv-border-light text-tv-text-decorative hover:border-tv-border-strong"
-                  }`} style={{ fontWeight: 600 }}>
+                  } font-semibold`}>
                     {isPast ? <Check size={11} /> : visIdx + 1}
                   </div>
                   <span className={`text-[11px] whitespace-nowrap hidden sm:inline transition-colors ${
@@ -3379,7 +3378,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                       configBlocked
                         ? "text-white/60 bg-tv-brand-bg/40 cursor-not-allowed"
                         : "text-white bg-tv-brand-bg hover:bg-tv-brand-hover"
-                    }`} style={{ fontWeight: 600 }}>
+                    } font-semibold`}>
                     Next<ChevronRight size={13} />
                   </button>
                   {configBlocked && (
@@ -3419,7 +3418,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               if (currentKey === "video") {
                 return (
                   <button onClick={goNext}
-                    className="flex items-center gap-1.5 px-6 py-2.5 text-[13px] text-white bg-tv-brand-bg rounded-full hover:bg-tv-brand-hover transition-colors shrink-0" style={{ fontWeight: 600 }}>
+                    className="flex items-center gap-1.5 px-6 py-2.5 text-[13px] text-white bg-tv-brand-bg rounded-full hover:bg-tv-brand-hover transition-colors shrink-0 font-semibold">
                     Next: Schedule<ChevronRight size={13} />
                   </button>
                 );
@@ -3434,8 +3433,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                         canAdvance
                           ? "text-white bg-tv-brand-bg hover:bg-tv-brand-hover"
                           : "text-white/60 bg-tv-brand-bg/40 cursor-not-allowed"
-                      }`}
-                      style={{ fontWeight: 600 }}>
+                      } font-semibold`}>
                       Next: Review &amp; Send<ChevronRight size={13} />
                     </button>
                     {!canAdvance && (
@@ -3555,7 +3553,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
             </div>
             <div className="px-6 py-5 space-y-4">
               <div>
-                <label className="text-[12px] text-tv-text-label mb-1.5 block" style={{ fontWeight: 600 }}>Template Name</label>
+                <label className="text-[12px] text-tv-text-label mb-1.5 block font-semibold">Template Name</label>
                 <input
                   type="text"
                   value={saveTemplateName}
@@ -3566,7 +3564,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                 />
               </div>
               <div>
-                <label className="text-[12px] text-tv-text-label mb-1.5 block" style={{ fontWeight: 600 }}>Description <span className="text-tv-text-decorative">(optional)</span></label>
+                <label className="text-[12px] text-tv-text-label mb-1.5 block font-semibold">Description <span className="text-tv-text-decorative">(optional)</span></label>
                 <textarea
                   value={saveTemplateDesc}
                   onChange={e => setSaveTemplateDesc(e.target.value)}
@@ -3577,7 +3575,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
               </div>
               {/* Summary of what will be saved */}
               <div className="p-3 bg-tv-surface rounded-[10px] border border-tv-border-divider">
-                <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2" style={{ fontWeight: 600 }}>Configuration to save</p>
+                <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2 font-semibold">Configuration to save</p>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1">
                   <span className="text-[11px] text-tv-text-secondary">Mode:</span>
                   <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>Single-Step</span>
@@ -3653,7 +3651,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null }
                   saveTemplateName.trim()
                     ? "text-white bg-tv-brand-bg hover:bg-tv-brand-hover"
                     : "text-white/60 bg-tv-brand-bg/40 cursor-not-allowed"
-                }`} style={{ fontWeight: 600 }}>
+                } font-semibold`}>
                 <Bookmark size={13} />Save Template
               </button>
             </div>

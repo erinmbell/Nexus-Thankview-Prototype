@@ -155,7 +155,7 @@ function ArchiveModal({ count, isUnarchive, onConfirm, onCancel }: { count: numb
           <Archive size={20} style={{ color: TV.warning }} />
         </Box>
         <div style={{ flex: 1 }}>
-          <Title order={3} fz={17} mb={4}>{verb} {noun}?</Title>
+          <Title order={3} fz={16} mb={4}>{verb} {noun}?</Title>
           <Text fz={13} c={TV.textSecondary}>
             {isUnarchive
               ? "This will restore the video to its original folder and make it visible in the default view."
