@@ -23,6 +23,7 @@ import { RichTextEditor } from "../../components/RichTextEditor";
 import { MergeFieldPicker } from "../../components/MergeFieldPicker";
 import { VRRecorderPanel } from "./VRRecorderPanel";
 import { EnvelopeBuilderModal } from "./EnvelopeBuilderModal";
+import { LandingPageBuilderModal } from "./LandingPageBuilderModal";
 import {
   type FlowStepType, type FlowStep, type ConstituentDateFieldId,
   FLOW_STEP_TYPES, CONDITION_OPTIONS, WAIT_PRESETS, makeId, SMS_MAX,
@@ -89,11 +90,13 @@ function FlowNode({
   selected,
   onSelect,
   onDelete,
+  onToggleAutomation,
 }: {
   step: FlowStep;
   selected: boolean;
   onSelect: () => void;
   onDelete: () => void;
+  onToggleAutomation?: () => void;
 }) {
   const typeDef = FLOW_STEP_TYPES.find(t => t.id === step.type);
   const Icon = typeDef?.icon ?? Mail;
@@ -297,7 +300,14 @@ function FlowNode({
         )}
         {/* Automation row */}
         {!isCondition && (
-          <div className="flex items-center gap-2 mt-2.5 pt-2.5 border-t border-tv-border-divider">
+          <div
+            className="flex items-center gap-2 mt-2.5 pt-2.5 border-t border-tv-border-divider cursor-pointer hover:bg-tv-surface/40 -mx-3 px-3 -mb-2.5 pb-2.5 rounded-b-[10px] transition-colors"
+            onClick={(e) => { e.stopPropagation(); onToggleAutomation?.(); }}
+            role="switch"
+            aria-checked={step.automationEnabled}
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); onToggleAutomation?.(); } }}
+          >
             <Toggle enabled={step.automationEnabled} onToggle={() => {}} size="compact" className="pointer-events-none" />
             <span className={`text-[11px] ${step.automationEnabled ? "text-tv-brand" : "text-tv-text-secondary"}`} style={{ fontWeight: 500 }}>
               {step.automationEnabled && step.contactDateFieldId
@@ -513,8 +523,9 @@ function StepDrawer({
   const [showEnvelopeBuilder, setShowEnvelopeBuilder] = useState(false);
   const [envLibSearch, setEnvLibSearch] = useState("");
 
-  // Landing page library modal
+  // Landing page library + builder modals
   const [showLpLibrary, setShowLpLibrary] = useState(false);
+  const [showLpBuilder, setShowLpBuilder] = useState(false);
   const [lpLibSearch, setLpLibSearch] = useState("");
 
   // Instruction video picker (VR Recording Instructions)
@@ -1468,7 +1479,7 @@ function StepDrawer({
                       className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-[11px] text-tv-brand border border-tv-border rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 500 }}>
                       <Search size={11} />Browse All
                     </button>
-                    <button onClick={() => { show("Opening Landing Page Builder…", "info"); }}
+                    <button onClick={() => setShowLpBuilder(true)}
                       className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-[11px] text-tv-brand border border-tv-border rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 500 }}>
                       <Plus size={11} />Create New
                     </button>
@@ -2124,8 +2135,22 @@ function StepDrawer({
               })}
             </div>
           </div>
+          <div className="px-5 py-3 border-t border-tv-border-divider shrink-0 flex justify-end">
+            <button onClick={() => { setShowLpLibrary(false); setShowLpBuilder(true); }}
+              className="flex items-center gap-1.5 px-4 py-2 text-[12px] text-white rounded-full bg-tv-brand-bg hover:bg-tv-brand-hover transition-colors" style={{ fontWeight: 600 }}>
+              <Plus size={13} />Create New Landing Page
+            </button>
+          </div>
         </div>
       </div>
+    )}
+
+    {/* ── Landing Page Builder Modal ─────────────────────────────────── */}
+    {showLpBuilder && (
+      <LandingPageBuilderModal
+        onSave={(lp) => { onUpdate({ ...step, landingPageId: lp.id, landingPageColor: lp.color, landingPageAccent: lp.accent, landingPageImage: lp.image }); setShowLpBuilder(false); show(`"${lp.name}" created and selected`, "success"); }}
+        onClose={() => setShowLpBuilder(false)}
+      />
     )}
     </>
   );
@@ -3948,6 +3973,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
             selected={selectedId === bs.id}
             onSelect={() => setSelectedId(bs.id)}
             onDelete={() => deleteStep(bs.id)}
+            onToggleAutomation={() => updateStep({ ...bs, automationEnabled: !bs.automationEnabled })}
           />
           {bi < branchSteps.length - 1 && <Connector />}
         </div>
@@ -4174,7 +4200,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                           </div>
                         )}
                       </div>
-                      <FlowNode step={step} selected={selectedId === step.id} onSelect={() => setSelectedId(step.id)} onDelete={() => deleteStep(step.id)} />
+                      <FlowNode step={step} selected={selectedId === step.id} onSelect={() => setSelectedId(step.id)} onDelete={() => deleteStep(step.id)} onToggleAutomation={() => updateStep({ ...step, automationEnabled: !step.automationEnabled })} />
                       {step.type === "condition" && (
                         <>
                           <Connector />
