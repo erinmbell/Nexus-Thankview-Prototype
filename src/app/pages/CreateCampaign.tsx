@@ -17,6 +17,7 @@ import {
   Signal, Wifi, Battery, Phone, Bookmark, Braces,
   AlignCenter, AlignRight, AlignJustify, Strikethrough, Minus, ChevronDown, PenLine, Tag, Palette, Lock,
 } from "lucide-react";
+import { SegmentedControl } from "@mantine/core";
 import { useToast } from "../contexts/ToastContext";
 import { useDesignLibrary } from "../contexts/DesignLibraryContext";
 import { useTemplates, type CampaignTemplate } from "../contexts/TemplateContext";
@@ -1177,8 +1178,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
   const [showBodySigPicker, setShowBodySigPicker] = useState(false);
   const bodySigRef = useRef<HTMLDivElement>(null);
   const [replyToInput, setReplyToInput] = useState("");
-  const [contentSectionOpen, setContentSectionOpen] = useState(true);
-  const [designSectionOpen, setDesignSectionOpen] = useState(true);
+  const [contentTab, setContentTab] = useState<"message" | "design">("message");
   const [campaignLanguage, setCampaignLanguage] = useState("en");
   const bodyRef = useRef<HTMLTextAreaElement>(null);
   const bodyMergeRef = useRef<HTMLDivElement>(null);
@@ -1702,19 +1702,37 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
           left={
           <div className="space-y-4">
 
-          {/* ── Collapsible: Content ── */}
-          <button onClick={() => setContentSectionOpen(v => !v)}
-            className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-tv-border-light bg-tv-surface/50 hover:bg-tv-surface transition-colors">
-            <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 bg-tv-brand-tint rounded-[7px] flex items-center justify-center">
-                <Mail size={13} className="text-tv-brand" />
-              </div>
-              <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Email Content</p>
-            </div>
-            <ChevronDown size={14} className={`text-tv-text-secondary transition-transform ${contentSectionOpen ? "rotate-180" : ""}`} />
-          </button>
+          {/* ── Tab bar: Message / Design ── */}
+          {showDesignSections && (
+            <SegmentedControl
+              value={contentTab}
+              onChange={v => {
+                setContentTab(v as "message" | "design");
+                setShowEmoji(false);
+                setShowMerge(false);
+                setShowBodySigPicker(false);
+                setShowBodyMergePicker(false);
+              }}
+              fullWidth
+              size="sm"
+              data={[
+                { value: "message", label: (
+                  <div className="flex items-center gap-1.5 justify-center">
+                    <Mail size={13} />
+                    <span>Message</span>
+                  </div>
+                )},
+                { value: "design", label: (
+                  <div className="flex items-center gap-1.5 justify-center">
+                    <Palette size={13} />
+                    <span>Design</span>
+                  </div>
+                )},
+              ]}
+            />
+          )}
 
-          {contentSectionOpen && <>
+          {(contentTab === "message" || !showDesignSections) && <>
           {/* Template & Signature actions */}
           <EmailTemplateActions
             onApplyTemplate={(tpl) => {
@@ -1822,12 +1840,11 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
             <p className={HELPER_CLS}>Comma-separated. Applies per constituent on send.</p>
           </details>
 
-          {/* Body with toolbar — collapsible */}
-          <details open className="group/body">
-            <summary className="flex items-center justify-between cursor-pointer list-none select-none mb-1 [&::-webkit-details-marker]:hidden">
+          {/* Message Body */}
+          <div>
+            <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-1.5">
-                <ChevronRight size={12} className="text-tv-text-decorative transition-transform group-open/body:rotate-90" />
-                <label className={LABEL_CLS} style={{ marginBottom: 0, cursor: "pointer" }}>Message Body</label>
+                <label className={LABEL_CLS} style={{ marginBottom: 0 }}>Message Body</label>
                 {(step.body || "").trim().length > 0 && (
                   <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-tv-success-bg text-tv-success shrink-0 font-semibold">
                     {htmlTextLength(step.body || "").toLocaleString()} chars
@@ -1835,8 +1852,8 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                 )}
               </div>
               <BodyHeaderCount length={htmlTextLength(step.body || "")} limit={CHAR_LIMITS.body} />
-            </summary>
-            <div className="space-y-3 mt-1">
+            </div>
+            <div className="space-y-3">
             {(() => { const _ew = getEditorWarnCls(htmlTextLength(step.body || ""), CHAR_LIMITS.body); return (
             <div className={`${RTE_WRAPPER_BASE_CLS} relative transition-colors ${_ew.wrapperCls || "border-tv-border-light"}`}>
               {/* Row 1: Font family, size, text color, line height */}
@@ -2089,7 +2106,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               )}
             </div>
             </div>
-          </details>
+          </div>
 
           {/* Video thumbnail toggle (only for email campaigns with video) */}
           {step.type === "email" && campaignGoal !== "send-without-video" && (
@@ -2097,22 +2114,12 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
           )}
           </>}
 
-          {/* ── Collapsible: Design ── */}
-          {showDesignSections && (
+          {/* ── Design tab ── */}
+          {contentTab === "design" && showDesignSections && (
             <>
-              <button onClick={() => setDesignSectionOpen(v => !v)}
-                className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-tv-border-light bg-tv-surface/50 hover:bg-tv-surface transition-colors">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 bg-tv-brand-tint rounded-[7px] flex items-center justify-center">
-                    <Palette size={13} className="text-tv-brand" />
-                  </div>
-                  <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Design & Appearance</p>
-                </div>
-                <ChevronDown size={14} className={`text-tv-text-secondary transition-transform ${designSectionOpen ? "rotate-180" : ""}`} />
-              </button>
-              {designSectionOpen && <>
               <DesignStepPanel
                 inline
+                hideVideoActions={campaignGoal === "send-without-video"}
                 lpSearch={lpSearch}
                 onLpSearchChange={setLpSearch}
                 lpSectionOpen={lpSectionOpen}
@@ -2153,7 +2160,6 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                 selectedLandingPageData={allLandingPages.find(p => p.id === (step.landingPageId || 1)) as any}
                 onDesignDataChange={setDesignSnapshot}
               />
-              </>}
             </>
           )}
 
@@ -2167,22 +2173,22 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               senderName={step.senderName}
               senderEmail={step.senderEmail}
               font={step.font}
-              thumbnailType={step.thumbnailType}
-              includeVideoThumbnail={step.includeVideoThumbnail}
+              thumbnailType={campaignGoal === "send-without-video" ? undefined : step.thumbnailType}
+              includeVideoThumbnail={campaignGoal === "send-without-video" ? false : step.includeVideoThumbnail}
               envelopeId={step.envelopeId}
               btnBg={step.btnBg}
               btnText={step.btnText}
               ctaText={step.ctaText}
               ctaUrl={step.ctaUrl}
-              attachedVideo={step.attachedVideo}
+              attachedVideo={campaignGoal === "send-without-video" ? null : step.attachedVideo}
               isVideoRequest={campaignGoal === "request-video"}
               language={campaignLanguage}
               allowEmailReply={step.allowEmailReply}
-              allowVideoReply={step.allowVideoReply}
-              allowSaveButton={step.allowSaveButton}
-              allowShareButton={step.allowShareButton}
-              allowDownloadVideo={step.allowDownloadVideo}
-              closedCaptionsEnabled={step.closedCaptionsEnabled}
+              allowVideoReply={campaignGoal === "send-without-video" ? false : step.allowVideoReply}
+              allowSaveButton={campaignGoal === "send-without-video" ? false : step.allowSaveButton}
+              allowShareButton={campaignGoal === "send-without-video" ? false : step.allowShareButton}
+              allowDownloadVideo={campaignGoal === "send-without-video" ? false : step.allowDownloadVideo}
+              closedCaptionsEnabled={campaignGoal === "send-without-video" ? false : step.closedCaptionsEnabled}
               smsMode={step.type === "sms"}
               smsBody={step.smsBody}
               smsPhoneNumber={step.smsPhoneNumber}
@@ -2203,6 +2209,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               formUrl={designSnapshot.formUrl}
               formHeight={designSnapshot.formHeight}
               formFullWidth={designSnapshot.formFullWidth}
+              hideVideo={campaignGoal === "send-without-video"}
             />
           </div>
           }
@@ -2359,9 +2366,11 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                       <div className="w-[22px] h-[22px] rounded-full bg-[#f2f2f7] flex items-center justify-center">
                         <Phone size={10} className="text-[#007aff]" />
                       </div>
-                      <div className="w-[22px] h-[22px] rounded-full bg-[#f2f2f7] flex items-center justify-center">
-                        <Video size={10} className="text-[#007aff]" />
-                      </div>
+                      {campaignGoal !== "send-without-video" && (
+                        <div className="w-[22px] h-[22px] rounded-full bg-[#f2f2f7] flex items-center justify-center">
+                          <Video size={10} className="text-[#007aff]" />
+                        </div>
+                      )}
                     </div>
                   </div>
                   {/* Messages area */}
@@ -2384,13 +2393,19 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                         <div className="max-w-[80%]">
                           <div className="bg-[#f2f2f7] rounded-lg overflow-hidden border border-[#e5e5ea] shadow-sm">
                             <div className="bg-gradient-to-br from-[#7c45b0]/15 to-[#7c45b0]/5 h-[60px] flex items-center justify-center">
-                              <div className="w-7 h-7 rounded-full bg-[#7c45b0] flex items-center justify-center shadow-sm">
-                                <Play size={9} className="text-white ml-[1px]" fill="white" />
-                              </div>
+                              {campaignGoal !== "send-without-video" ? (
+                                <div className="w-7 h-7 rounded-full bg-[#7c45b0] flex items-center justify-center shadow-sm">
+                                  <Play size={9} className="text-white ml-[1px]" fill="white" />
+                                </div>
+                              ) : (
+                                <div className="w-7 h-7 rounded-full bg-[#7c45b0] flex items-center justify-center shadow-sm">
+                                  <Mail size={9} className="text-white" />
+                                </div>
+                              )}
                             </div>
                             <div className="px-2.5 py-1.5">
                               <p style={{ fontSize: "9px" }} className="text-[#1c1c1e] font-semibold">ThankView</p>
-                              <p style={{ fontSize: "8px" }} className="text-[#8e8e93]">A personal video message for you</p>
+                              <p style={{ fontSize: "8px" }} className="text-[#8e8e93]">{campaignGoal === "send-without-video" ? "A personal message for you" : "A personal video message for you"}</p>
                               <p style={{ fontSize: "7px" }} className="text-[#007aff] mt-0.5">thankview.com</p>
                             </div>
                           </div>
@@ -3316,7 +3331,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
   const renderReviewStep = () => (
     <ConfirmSend
       constituentCount={constituents.length}
-      videoSegments={confirmVideoSegments}
+      videoSegments={campaignGoal === "send-without-video" ? [] : confirmVideoSegments}
       personalizedCount={confirmPersonalizedCount}
       deliveryType={confirmDeliveryType}
       mergeFieldWarnings={mergeFieldsWithMissingData}

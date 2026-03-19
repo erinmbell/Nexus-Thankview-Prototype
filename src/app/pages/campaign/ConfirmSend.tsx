@@ -98,7 +98,7 @@ export function ConfirmSend({
             {campaignName && <SummaryRow icon={<Mail size={13} className="text-tv-brand" />} label="Campaign" value={campaignName} />}
             {deliveryMethod && <SummaryRow icon={<Send size={13} className="text-tv-brand" />} label="Channel" value={deliveryMethod} />}
             <SummaryRow icon={<Users size={13} className="text-tv-brand" />} label="Constituents" value={`${constituentCount.toLocaleString()} constituents`} />
-            <SummaryRow icon={<Video size={13} className="text-tv-brand" />} label="Video segments" value={videoSegments.length > 0 ? videoSegments.join(" + ") : "None"} />
+            {videoSegments.length > 0 && <SummaryRow icon={<Video size={13} className="text-tv-brand" />} label="Video segments" value={videoSegments.join(" + ")} />}
             {personalizedCount > 0 && <SummaryRow icon={<Mail size={13} className="text-tv-brand" />} label="Personalized clips" value={`${personalizedCount} clips`} />}
             {contentSummary && <SummaryRow icon={<Mail size={13} className="text-tv-brand" />} label="Content" value={contentSummary} />}
             <SummaryRow icon={<Clock size={13} className="text-tv-brand" />} label="Delivery" value={deliveryType} />
