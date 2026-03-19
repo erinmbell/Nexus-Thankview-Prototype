@@ -2119,6 +2119,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
             <>
               <DesignStepPanel
                 inline
+                hideVideoActions={campaignGoal === "send-without-video"}
                 lpSearch={lpSearch}
                 onLpSearchChange={setLpSearch}
                 lpSectionOpen={lpSectionOpen}
@@ -2172,22 +2173,22 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               senderName={step.senderName}
               senderEmail={step.senderEmail}
               font={step.font}
-              thumbnailType={step.thumbnailType}
-              includeVideoThumbnail={step.includeVideoThumbnail}
+              thumbnailType={campaignGoal === "send-without-video" ? undefined : step.thumbnailType}
+              includeVideoThumbnail={campaignGoal === "send-without-video" ? false : step.includeVideoThumbnail}
               envelopeId={step.envelopeId}
               btnBg={step.btnBg}
               btnText={step.btnText}
               ctaText={step.ctaText}
               ctaUrl={step.ctaUrl}
-              attachedVideo={step.attachedVideo}
+              attachedVideo={campaignGoal === "send-without-video" ? null : step.attachedVideo}
               isVideoRequest={campaignGoal === "request-video"}
               language={campaignLanguage}
               allowEmailReply={step.allowEmailReply}
-              allowVideoReply={step.allowVideoReply}
-              allowSaveButton={step.allowSaveButton}
-              allowShareButton={step.allowShareButton}
-              allowDownloadVideo={step.allowDownloadVideo}
-              closedCaptionsEnabled={step.closedCaptionsEnabled}
+              allowVideoReply={campaignGoal === "send-without-video" ? false : step.allowVideoReply}
+              allowSaveButton={campaignGoal === "send-without-video" ? false : step.allowSaveButton}
+              allowShareButton={campaignGoal === "send-without-video" ? false : step.allowShareButton}
+              allowDownloadVideo={campaignGoal === "send-without-video" ? false : step.allowDownloadVideo}
+              closedCaptionsEnabled={campaignGoal === "send-without-video" ? false : step.closedCaptionsEnabled}
               smsMode={step.type === "sms"}
               smsBody={step.smsBody}
               smsPhoneNumber={step.smsPhoneNumber}
@@ -2208,6 +2209,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               formUrl={designSnapshot.formUrl}
               formHeight={designSnapshot.formHeight}
               formFullWidth={designSnapshot.formFullWidth}
+              hideVideo={campaignGoal === "send-without-video"}
             />
           </div>
           }
@@ -2364,9 +2366,11 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                       <div className="w-[22px] h-[22px] rounded-full bg-[#f2f2f7] flex items-center justify-center">
                         <Phone size={10} className="text-[#007aff]" />
                       </div>
-                      <div className="w-[22px] h-[22px] rounded-full bg-[#f2f2f7] flex items-center justify-center">
-                        <Video size={10} className="text-[#007aff]" />
-                      </div>
+                      {campaignGoal !== "send-without-video" && (
+                        <div className="w-[22px] h-[22px] rounded-full bg-[#f2f2f7] flex items-center justify-center">
+                          <Video size={10} className="text-[#007aff]" />
+                        </div>
+                      )}
                     </div>
                   </div>
                   {/* Messages area */}
@@ -2389,13 +2393,19 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                         <div className="max-w-[80%]">
                           <div className="bg-[#f2f2f7] rounded-lg overflow-hidden border border-[#e5e5ea] shadow-sm">
                             <div className="bg-gradient-to-br from-[#7c45b0]/15 to-[#7c45b0]/5 h-[60px] flex items-center justify-center">
-                              <div className="w-7 h-7 rounded-full bg-[#7c45b0] flex items-center justify-center shadow-sm">
-                                <Play size={9} className="text-white ml-[1px]" fill="white" />
-                              </div>
+                              {campaignGoal !== "send-without-video" ? (
+                                <div className="w-7 h-7 rounded-full bg-[#7c45b0] flex items-center justify-center shadow-sm">
+                                  <Play size={9} className="text-white ml-[1px]" fill="white" />
+                                </div>
+                              ) : (
+                                <div className="w-7 h-7 rounded-full bg-[#7c45b0] flex items-center justify-center shadow-sm">
+                                  <Mail size={9} className="text-white" />
+                                </div>
+                              )}
                             </div>
                             <div className="px-2.5 py-1.5">
                               <p style={{ fontSize: "9px" }} className="text-[#1c1c1e] font-semibold">ThankView</p>
-                              <p style={{ fontSize: "8px" }} className="text-[#8e8e93]">A personal video message for you</p>
+                              <p style={{ fontSize: "8px" }} className="text-[#8e8e93]">{campaignGoal === "send-without-video" ? "A personal message for you" : "A personal video message for you"}</p>
                               <p style={{ fontSize: "7px" }} className="text-[#007aff] mt-0.5">thankview.com</p>
                             </div>
                           </div>
@@ -3321,7 +3331,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
   const renderReviewStep = () => (
     <ConfirmSend
       constituentCount={constituents.length}
-      videoSegments={confirmVideoSegments}
+      videoSegments={campaignGoal === "send-without-video" ? [] : confirmVideoSegments}
       personalizedCount={confirmPersonalizedCount}
       deliveryType={confirmDeliveryType}
       mergeFieldWarnings={mergeFieldsWithMissingData}

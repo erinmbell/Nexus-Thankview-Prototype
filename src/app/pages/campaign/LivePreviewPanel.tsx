@@ -20,8 +20,8 @@ function isDarkColor(hex: string) {
   return (r * 299 + g * 587 + b * 114) / 1000 < 128;
 }
 
-/** Perforated stamp — matches ThankView's zigzag-edged postage stamp with play button */
-function PerforatedStamp({ size = 48, accentColor = "#c09696" }: { size?: number; accentColor?: string }) {
+/** Perforated stamp — matches ThankView's zigzag-edged postage stamp with play button (or mail icon when hidePlay) */
+function PerforatedStamp({ size = 48, accentColor = "#c09696", hidePlay = false }: { size?: number; accentColor?: string; hidePlay?: boolean }) {
   const notchR = size * 0.04;
   const notchCount = Math.round(size / (notchR * 3.2));
   const buildEdge = (x1: number, y1: number, x2: number, y2: number, count: number) => {
@@ -53,14 +53,23 @@ function PerforatedStamp({ size = 48, accentColor = "#c09696" }: { size?: number
   const playSize = size * 0.32;
   const cx = size / 2;
   const cy = size / 2;
+  const iconR = playSize * 0.58;
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none">
       <path d={path} fill={`${accentColor}40`} stroke={accentColor} strokeWidth={0.8} />
-      <circle cx={cx} cy={cy} r={playSize * 0.58} fill="none" stroke={accentColor} strokeWidth={1.2} />
-      <polygon
-        points={`${cx - playSize * 0.18},${cy - playSize * 0.28} ${cx - playSize * 0.18},${cy + playSize * 0.28} ${cx + playSize * 0.28},${cy}`}
-        fill={accentColor}
-      />
+      <circle cx={cx} cy={cy} r={iconR} fill="none" stroke={accentColor} strokeWidth={1.2} />
+      {hidePlay ? (
+        /* Mail/envelope icon */
+        <g transform={`translate(${cx - iconR * 0.55}, ${cy - iconR * 0.38})`}>
+          <rect width={iconR * 1.1} height={iconR * 0.76} rx={iconR * 0.08} fill="none" stroke={accentColor} strokeWidth={1} />
+          <polyline points={`0,0 ${iconR * 0.55},${iconR * 0.42} ${iconR * 1.1},0`} fill="none" stroke={accentColor} strokeWidth={1} />
+        </g>
+      ) : (
+        <polygon
+          points={`${cx - playSize * 0.18},${cy - playSize * 0.28} ${cx - playSize * 0.18},${cy + playSize * 0.28} ${cx + playSize * 0.28},${cy}`}
+          fill={accentColor}
+        />
+      )}
     </svg>
   );
 }
@@ -301,6 +310,8 @@ interface LivePreviewPanelProps {
   envTextAfter?: string;
   /** Selected email signature — rendered below email body in preview */
   selectedSignature?: { id: number; name: string; title?: string; org?: string; phone?: string; email?: string } | null;
+  /** Hide video-specific UI elements (play buttons, video labels) for send-without-video campaigns */
+  hideVideo?: boolean;
 }
 
 function resolveMergeFields(text: string, constituent: TestConstituent): string {
@@ -410,6 +421,7 @@ export function LivePreviewPanel({
   envNameFormat,
   envTextAfter,
   selectedSignature,
+  hideVideo,
 }: LivePreviewPanelProps) {
   const { customEnvelopes: globalEnvelopes, customLandingPages: globalLandingPages } = useDesignLibrary();
   const allEnvelopeDesigns = [...globalEnvelopes, ...ENVELOPE_DESIGNS];
@@ -1035,7 +1047,7 @@ export function LivePreviewPanel({
                       )}
                       {/* Perforated stamp — top right */}
                       <div className={`absolute ${isMobile ? "top-2 right-2" : "top-3 right-3"}`}>
-                        <PerforatedStamp size={isMobile ? 36 : isTab ? 44 : 52} accentColor={envAccent} />
+                        <PerforatedStamp size={isMobile ? 36 : isTab ? 44 : 52} accentColor={envAccent} hidePlay={hideVideo} />
                       </div>
                       {/* Postmark circle — top left */}
                       <div className={`absolute ${isMobile ? "top-[5%] left-[4%]" : "top-[5%] left-[4%]"}`}>
@@ -1260,12 +1272,12 @@ export function LivePreviewPanel({
                           <div className="bg-[#f2f2f7] rounded-lg overflow-hidden border border-[#e5e5ea] shadow-sm">
                             <div className={`bg-gradient-to-br from-[#7c45b0]/15 to-[#7c45b0]/5 ${isTabletView ? "h-[80px]" : "h-[60px]"} flex items-center justify-center`}>
                               <div className={`${isTabletView ? "w-8 h-8" : "w-7 h-7"} rounded-full bg-[#7c45b0] flex items-center justify-center shadow-sm`}>
-                                <Play size={isTabletView ? 10 : 9} className="text-white ml-[1px]" fill="white" />
+                                {hideVideo ? <Mail size={isTabletView ? 10 : 9} className="text-white" /> : <Play size={isTabletView ? 10 : 9} className="text-white ml-[1px]" fill="white" />}
                               </div>
                             </div>
                             <div className={`${isTabletView ? "px-3 py-2" : "px-2.5 py-1.5"}`}>
                               <p style={{ fontSize: isTabletView ? "10px" : "9px", fontWeight: 600 }} className="text-[#1c1c1e]">ThankView</p>
-                              <p style={{ fontSize: isTabletView ? "9px" : "8px" }} className="text-[#8e8e93]">A personal video message for you</p>
+                              <p style={{ fontSize: isTabletView ? "9px" : "8px" }} className="text-[#8e8e93]">{hideVideo ? "A personal message for you" : "A personal video message for you"}</p>
                               <p style={{ fontSize: isTabletView ? "8px" : "7px" }} className="text-[#007aff] mt-0.5">thankview.com</p>
                             </div>
                           </div>
@@ -1361,7 +1373,7 @@ export function LivePreviewPanel({
                   </div>
                 )}
                 <div className={`absolute ${isMob ? "top-[6%] right-[4%]" : "top-[6%] right-[4%]"}`}>
-                  <PerforatedStamp size={isMob ? 32 : 44} accentColor={envAccent} />
+                  <PerforatedStamp size={isMob ? 32 : 44} accentColor={envAccent} hidePlay={hideVideo} />
                 </div>
                 <div className={`absolute ${isMob ? "top-[5%] left-[4%]" : "top-[5%] left-[4%]"}`}>
                   <svg width={isMob ? 36 : 48} height={isMob ? 36 : 48} viewBox="0 0 48 48" fill="none">
@@ -1398,7 +1410,7 @@ export function LivePreviewPanel({
             {/* 2) "View Your ThankView" button — below envelope */}
             <div className="flex justify-center px-4 pb-3 lg:px-5 lg:pb-4">
               <div className="px-5 py-2 lg:px-6 lg:py-2.5 rounded-sm text-[10px] lg:text-[11px] text-center cursor-pointer shadow-sm transition-transform hover:scale-[1.02]" style={{ backgroundColor: btnBg, color: btnText, fontWeight: 600 }}>
-                {isVideoRequest ? "Record Your Video" : "View Your ThankView"}
+                {isVideoRequest ? "Record Your Video" : hideVideo ? "View Your Message" : "View Your ThankView"}
               </div>
             </div>
 
