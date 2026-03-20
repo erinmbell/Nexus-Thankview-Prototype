@@ -565,7 +565,7 @@ export function LandingPageDesigns() {
                     <div className="flex items-center justify-between py-2 border-b border-tv-border-divider">
                       <span className="text-[12px] text-tv-text-secondary">Background image</span>
                       {preview.bgImage ? (
-                        <div className="w-16 h-10 rounded-[6px] border border-tv-border-light overflow-hidden shrink-0">
+                        <div className="w-16 h-10 rounded-sm border border-tv-border-light overflow-hidden shrink-0">
                           <img src={preview.bgImage} alt="Background" className="w-full h-full object-cover" />
                         </div>
                       ) : (

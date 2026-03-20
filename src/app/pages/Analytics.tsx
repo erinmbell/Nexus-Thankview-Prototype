@@ -1127,7 +1127,7 @@ function ExportModal({ open, onClose }: { open: boolean; onClose: () => void }) 
       </button>
       <Stack gap="xs" mb="lg">
         {EXPORTS.map(exp => (
-          <button key={exp.id} onClick={() => toggle(exp.id)} className={`flex items-start gap-3 p-4 rounded-[14px] border-2 text-left transition-all ${selected.includes(exp.id) ? "border-[#995cd3] bg-tv-brand-tint" : "border-[#e0daea] bg-white hover:border-[#b5a4cd]"}`}>
+          <button key={exp.id} onClick={() => toggle(exp.id)} className={`flex items-start gap-3 p-4 rounded-[14px] border-2 text-left transition-all ${selected.includes(exp.id) ? "border-[#7c45b0] bg-tv-brand-tint" : "border-[#e0daea] bg-white hover:border-[#b5a4cd]"}`}>
             <Checkbox checked={selected.includes(exp.id)} onChange={() => toggle(exp.id)} color="tvPurple" aria-label={exp.label} />
             <div>
               <p className="text-[13px] font-semibold" style={{ color: TV.textPrimary }}>{exp.label}</p>
@@ -1732,7 +1732,7 @@ export function Analytics() {
       {mainTab === "overview" && (
         <>
           {/* ── Performance Overview ──────────────────────────────────────── */}
-          <div className="bg-white rounded-xl border mb-4 overflow-visible" style={{ borderColor: TV.borderStrong }}>
+          <div className="bg-white rounded-lg border mb-4 overflow-visible" style={{ borderColor: TV.borderLight }}>
             {/* Header row */}
             <div className="flex items-center justify-between px-5 py-3 border-b" style={{ borderColor: TV.borderLight }}>
               <span className="text-[13px] uppercase tracking-[0.6px] font-semibold" style={{ color: TV.textLabel }}>Performance Overview</span>
@@ -1811,7 +1811,7 @@ export function Analytics() {
                                 }`}
                               >
                                 {isActive && (
-                                  <div className="absolute bottom-0 left-4 right-4 h-[3px] rounded-t-full bg-[#995cd3]" />
+                                  <div className="absolute bottom-0 left-4 right-4 h-[3px] rounded-t-full bg-[#7c45b0]" />
                                 )}
                                 <div className="w-[40px] h-[40px] rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: m.iconBg, color: m.iconColor }}>
                                   <IconComp size={18} />
@@ -3754,8 +3754,8 @@ export function Analytics() {
                           { label: "Views", value: pdf.uniqueViews, color: TV.info },
                           { label: "Downloads", value: pdf.downloads, color: "#3b82f6" },
                           { label: "Prints", value: pdf.prints, color: TV.brand },
-                          { label: "Shares", value: pdf.shares, color: "#f59e0b" },
-                          { label: "Req. Print", value: pdf.requestPrint, color: "#ef4444" },
+                          { label: "Shares", value: pdf.shares, color: "#b45309" },
+                          { label: "Req. Print", value: pdf.requestPrint, color: "#dc2626" },
                         ];
                         const engTotal = engSegments.reduce((s, seg) => s + seg.value, 0);
                         return (
@@ -3847,7 +3847,7 @@ export function Analytics() {
               { key: "opened", label: "Opened Email", count: odderAgg.opened, color: TV.info, icon: MailOpen },
               { key: "viewed", label: "Viewed PDF", count: odderAgg.uniqueViews, color: "#3b82f6", icon: Eye },
               { key: "completed", label: "Completed PDF", count: odderAgg.completedReaders, color: TV.brand, icon: CircleCheckBig },
-              { key: "acted", label: "Took Action", count: odderAgg.actionTakers, color: "#f59e0b", icon: MousePointerClick },
+              { key: "acted", label: "Took Action", count: odderAgg.actionTakers, color: "#b45309", icon: MousePointerClick },
             ];
             const maxCount = funnelStages[0]?.count || 1;
             const endToEnd = maxCount > 0 ? ((funnelStages[funnelStages.length - 1].count / maxCount) * 100).toFixed(1) : "0.0";
@@ -4105,7 +4105,7 @@ export function Analytics() {
                             <div className="relative w-7 h-7">
                               <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
                                 <circle cx="18" cy="18" r="14" fill="none" stroke={TV.borderLight} strokeWidth="3" />
-                                <circle cx="18" cy="18" r="14" fill="none" stroke={r.pdfCompletion >= 90 ? TV.brand : r.pdfCompletion >= 50 ? "#3b82f6" : "#f59e0b"} strokeWidth="3" strokeDasharray={`${(r.pdfCompletion / 100) * 87.96} 87.96`} strokeLinecap="round" />
+                                <circle cx="18" cy="18" r="14" fill="none" stroke={r.pdfCompletion >= 90 ? TV.brand : r.pdfCompletion >= 50 ? "#3b82f6" : "#b45309"} strokeWidth="3" strokeDasharray={`${(r.pdfCompletion / 100) * 87.96} 87.96`} strokeLinecap="round" />
                               </svg>
                               <span className="absolute inset-0 flex items-center justify-center text-[7px] font-bold" style={{ color: TV.textPrimary }}>{r.pdfCompletion}</span>
                             </div>
@@ -4483,9 +4483,9 @@ export function Analytics() {
                     <span className="text-[11px] font-semibold w-4 text-center shrink-0" style={{ color: TV.textDecorative }}>{i + 1}</span>
                     <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: tc?.color || TV.textBrand }} />
                     <span className="text-[12px] font-semibold w-[140px] shrink-0 truncate" style={{ color: TV.textPrimary }}>{d.tag}</span>
-                    <div className="flex-1 h-[18px] rounded-[6px] overflow-hidden relative" style={{ backgroundColor: TV.borderLight }}>
+                    <div className="flex-1 h-[18px] rounded-sm overflow-hidden relative" style={{ backgroundColor: TV.borderLight }}>
                       <div
-                        className="h-full rounded-[6px] transition-all"
+                        className="h-full rounded-sm transition-all"
                         style={{ width: `${Math.max(pct, 2)}%`, backgroundColor: tc?.color || TV.textBrand, opacity: 0.75 }}
                       />
                     </div>

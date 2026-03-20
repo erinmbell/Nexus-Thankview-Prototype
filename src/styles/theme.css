@@ -150,6 +150,8 @@ textarea:focus-visible {
 
 /* ═══════════════════════════════════════════════════════════════════════════════
    WCAG AA Color Accessibility Overrides
+   Safety net for Figma-generated imports in src/imports/ that may still
+   reference legacy hex values. App source files use AA-safe tokens directly.
    ═══════════════════════════════════════════════════════════════════════════════ */
 
 /* ── Primary Purple: #995cd3 → #7c45b0 ────────────────────── */

@@ -1170,7 +1170,7 @@ function UsersTab() {
           <Table verticalSpacing={0} horizontalSpacing={0} highlightOnHover
             styles={{ table: { borderCollapse: "collapse", minWidth: 700 }, td: { whiteSpace: "nowrap" } }}
           >
-            <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: "#fff" }}>
+            <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
               <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
                 {usersActiveCols.map(colKey => {
                   const col = USERS_ALL_COLUMNS.find(c => c.key === colKey);
@@ -1349,7 +1349,7 @@ function UsersTab() {
             <Table verticalSpacing={0} horizontalSpacing={0} highlightOnHover
               styles={{ table: { borderCollapse: "collapse", minWidth: 700 }, td: { whiteSpace: "nowrap" } }}
             >
-              <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: "#fff" }}>
+              <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
                 <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
                   <Table.Th style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap", textAlign: "left", minWidth: 200 }}>
                     <SortableHeader label="Permission" sortKey="permission" currentSort={matrixSort.key} currentDir={matrixSort.dir} onSort={handleMatrixSort} />
@@ -2338,7 +2338,7 @@ function SubscriptionTab() {
         <Box style={{ overflowX: "auto", maxHeight: "70vh", overflowY: "auto" }}>
           <Table verticalSpacing={0} horizontalSpacing={0} highlightOnHover
             styles={{ table: { borderCollapse: "collapse", minWidth: 600 }, td: { whiteSpace: "nowrap" } }}>
-            <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: "#fff" }}>
+            <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
               <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
                 {billingActiveCols.map(colKey => {
                   const col = BILLING_ALL_COLUMNS.find(c => c.key === colKey);

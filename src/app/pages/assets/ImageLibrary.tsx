@@ -118,7 +118,7 @@ export function ImageLibrary() {
       case "Logo":       return "bg-tv-brand-tint text-tv-text-brand";
       case "Header":     return "bg-tv-info-bg text-tv-info";
       case "Photo":      return "bg-tv-success-bg text-tv-success";
-      case "Icon":       return "bg-[#fef9ee] text-[#F59E0B]";
+      case "Icon":       return "bg-[#fef9ee] text-[#b45309]";
       case "Background": return "bg-[#f5f3ff] text-[#8b5cf6]";
       default:           return "bg-[#f0f0f0] text-tv-text-secondary";
     }

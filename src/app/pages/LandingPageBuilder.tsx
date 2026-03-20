@@ -704,15 +704,15 @@ export function LandingPageBuilder() {
                               <div>
                                 <label htmlFor="lp-grad-from-color" className="text-[9px] text-tv-text-secondary mb-1 block">From</label>
                                 <div className="flex items-center gap-1.5">
-                                  <label htmlFor="lp-grad-from-color" className="w-8 h-8 rounded-[6px] border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden" style={{ backgroundColor: safeHex(newGradFrom) }}><input id="lp-grad-from-color" type="color" value={safeHex(newGradFrom)} onChange={e => setNewGradFrom(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" /></label>
-                                  <input value={newGradFrom} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setNewGradFrom(v); }} className="flex-1 min-w-0 border border-tv-border-light rounded-[6px] px-2 py-1 text-[10px] font-mono outline-none focus:ring-1 focus:ring-tv-brand-bg/30" />
+                                  <label htmlFor="lp-grad-from-color" className="w-8 h-8 rounded-sm border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden" style={{ backgroundColor: safeHex(newGradFrom) }}><input id="lp-grad-from-color" type="color" value={safeHex(newGradFrom)} onChange={e => setNewGradFrom(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" /></label>
+                                  <input value={newGradFrom} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setNewGradFrom(v); }} className="flex-1 min-w-0 border border-tv-border-light rounded-sm px-2 py-1 text-[10px] font-mono outline-none focus:ring-1 focus:ring-tv-brand-bg/30" />
                                 </div>
                               </div>
                               <div>
                                 <label htmlFor="lp-grad-to-color" className="text-[9px] text-tv-text-secondary mb-1 block">To</label>
                                 <div className="flex items-center gap-1.5">
-                                  <label htmlFor="lp-grad-to-color" className="w-8 h-8 rounded-[6px] border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden" style={{ backgroundColor: safeHex(newGradTo) }}><input id="lp-grad-to-color" type="color" value={safeHex(newGradTo)} onChange={e => setNewGradTo(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" /></label>
-                                  <input value={newGradTo} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setNewGradTo(v); }} className="flex-1 min-w-0 border border-tv-border-light rounded-[6px] px-2 py-1 text-[10px] font-mono outline-none focus:ring-1 focus:ring-tv-brand-bg/30" />
+                                  <label htmlFor="lp-grad-to-color" className="w-8 h-8 rounded-sm border border-tv-border-light cursor-pointer shrink-0 relative overflow-hidden" style={{ backgroundColor: safeHex(newGradTo) }}><input id="lp-grad-to-color" type="color" value={safeHex(newGradTo)} onChange={e => setNewGradTo(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" /></label>
+                                  <input value={newGradTo} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setNewGradTo(v); }} className="flex-1 min-w-0 border border-tv-border-light rounded-sm px-2 py-1 text-[10px] font-mono outline-none focus:ring-1 focus:ring-tv-brand-bg/30" />
                                 </div>
                               </div>
                             </div>
@@ -1073,7 +1073,7 @@ export function LandingPagePreview({
           <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
           <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
         </div>
-        <div className="flex-1 bg-[#1a1a1a] rounded-[6px] px-3 py-1 flex items-center gap-1.5 min-w-0">
+        <div className="flex-1 bg-[#1a1a1a] rounded-sm px-3 py-1 flex items-center gap-1.5 min-w-0">
           <Globe size={9} className="text-white/30 shrink-0" />
           <span className="text-[9px] text-white/50 font-mono truncate">
             hartwell.thankview.com/{name ? name.toLowerCase().replace(/\s+/g, "-") : "untitled-page"}

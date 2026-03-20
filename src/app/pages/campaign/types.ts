@@ -49,14 +49,14 @@ export interface PickerVideo {
 }
 
 export const PICKER_VIDEOS: PickerVideo[] = [
-  { id: 1, title: "Spring Thank You Message",     duration: "1:32", date: "Feb 28, 2026", color: "from-[#7c45b0] to-[#995cd3]" },
+  { id: 1, title: "Spring Thank You Message",     duration: "1:32", date: "Feb 28, 2026", color: "from-[#7c45b0] to-[#7c45b0]" },
   { id: 2, title: "Scholarship Recipient Story",  duration: "2:15", date: "Feb 20, 2026", color: "from-[#1e3a8a] to-[#3b82f6]" },
   { id: 3, title: "Campus Tour Highlight",        duration: "1:48", date: "Jan 15, 2026", color: "from-[#374151] to-[#6b7280]" },
   { id: 4, title: "Purple Branded Intro",          duration: "0:08", date: "Jan 30, 2026", color: "from-[#6B21A8] to-[#a855f7]" },
-  { id: 5, title: "Gratitude Outro with CTA",     duration: "0:12", date: "Jan 28, 2026", color: "from-[#991b1b] to-[#ef4444]" },
+  { id: 5, title: "Gratitude Outro with CTA",     duration: "0:12", date: "Jan 28, 2026", color: "from-[#b91c1c] to-[#dc2626]" },
   { id: 6, title: "End of Year Appeal",           duration: "3:05", date: "Dec 20, 2025", color: "from-[#14532d] to-[#22c55e]" },
-  { id: 7, title: "Student Testimonial Reel",     duration: "2:41", date: "Dec 5, 2025",  color: "from-[#0090bb] to-[#00C0F5]" },
-  { id: 8, title: "Alumni Networking Event Recap", duration: "1:55", date: "Nov 18, 2025", color: "from-[#b45309] to-[#f59e0b]" },
+  { id: 7, title: "Student Testimonial Reel",     duration: "2:41", date: "Dec 5, 2025",  color: "from-[#007c9e] to-[#00C0F5]" },
+  { id: 8, title: "Alumni Networking Event Recap", duration: "1:55", date: "Nov 18, 2025", color: "from-[#b45309] to-[#b45309]" },
 ];
 
 // Runtime field manifest for audit auto-detection (keys match FlowStep fields)
@@ -524,7 +524,7 @@ export const ENV_COLORS = [
   { label: "True Purple",  value: "#7c45b0", light: "#f0eafc" },
   { label: "Navy Blue",    value: "#1e3a8a", light: "#e0f0ff" },
   { label: "Forest Green", value: "#14532d", light: "#f0fdf4" },
-  { label: "Crimson",      value: "#991b1b", light: "#fef2f2" },
+  { label: "Crimson",      value: "#b91c1c", light: "#fef2f2" },
   { label: "Slate",        value: "#374151", light: "#f1f5f9" },
   { label: "Midnight",     value: "#1a1a2e", light: "#f0f0f8" },
   { label: "Teal",         value: "#0f766e", light: "#f0fdfa" },
@@ -567,7 +567,7 @@ export const EMAIL_TEXT_COLORS = [
   { label: "Purple",    value: "#6B21A8" },
   { label: "Teal",      value: "#0f766e" },
   { label: "Forest",    value: "#166534" },
-  { label: "Crimson",   value: "#991b1b" },
+  { label: "Crimson",   value: "#b91c1c" },
   { label: "Brown",     value: "#78350f" },
 ] as const;
 

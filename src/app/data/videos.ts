@@ -56,11 +56,11 @@ export const DEFAULT_CAPTIONS: CaptionLine[] = [
 ];
 
 export const THUMB_CLASSES: Record<string, string> = {
-  purple: "from-[#7c45b0] to-[#995cd3]",
-  teal:   "from-[#0090bb] to-[#00C0F5]",
-  green:  "from-[#0e8a45] to-[#16b364]",
-  orange: "from-[#c97c0a] to-[#F59E0B]",
-  red:    "from-[#991b1b] to-[#ef4444]",
+  purple: "from-[#7c45b0] to-[#7c45b0]",
+  teal:   "from-[#007c9e] to-[#00C0F5]",
+  green:  "from-[#166534] to-[#15803d]",
+  orange: "from-[#b45309] to-[#b45309]",
+  red:    "from-[#b91c1c] to-[#dc2626]",
 };
 
 export const TAG_LABELS: Record<string, string> = {

@@ -321,7 +321,7 @@ export function SignaturePicker({ onInsert, onClose, compact }: SignaturePickerP
               </div>
               {selectedId === sig.id && <Check size={13} className="text-tv-brand shrink-0" />}
             </div>
-            <div className="p-2 bg-tv-surface-muted rounded-[6px] border border-tv-border-divider mt-1">
+            <div className="p-2 bg-tv-surface-muted rounded-sm border border-tv-border-divider mt-1">
               <p className="text-[10px] text-tv-text-secondary whitespace-pre-wrap leading-relaxed">{sig.html.trim()}</p>
             </div>
           </button>

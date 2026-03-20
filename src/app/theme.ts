@@ -53,7 +53,7 @@ import { createTheme, MantineColorsTuple } from "@mantine/core";
  *   borderRadius: 12px
  *   size: 44×44 (default), 32×32 (compact)
  *
- * Brand color: True Purple #995cd3
+ * Brand color: True Purple #7c45b0
  * 10-shade palette from lightest (0) to darkest (9).
  * Shade 6 is the "base" brand color by Mantine convention.
  */

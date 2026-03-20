@@ -773,7 +773,7 @@ function SearchDetail({ search, onBack, onEdit, onDuplicate, onToggleActive, onT
         </div>
       </div>
 
-      <div className="rounded-xl border" style={{ borderColor: TV.borderLight, padding: 20, marginBottom: 16 }}>
+      <div className="rounded-lg border" style={{ borderColor: TV.borderLight, padding: 20, marginBottom: 16 }}>
         <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
           <Text fz={12} fw={700} c={TV.textLabel} tt="uppercase" lts="0.05em">
             Search Criteria (matches ALL)
@@ -811,7 +811,7 @@ function SearchDetail({ search, onBack, onEdit, onDuplicate, onToggleActive, onT
         </Stack>
       </div>
 
-      <div className="rounded-xl border" style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
+      <div className="rounded-lg border" style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
         <Box px="lg" py="md" bg={TV.surfaceMuted} style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -853,7 +853,7 @@ function SearchDetail({ search, onBack, onEdit, onDuplicate, onToggleActive, onT
         <div className="overflow-x-auto max-h-[60vh] overflow-y-auto">
         <Table verticalSpacing={0} horizontalSpacing={0} highlightOnHover
           styles={{ table: { borderCollapse: "collapse", minWidth: 500 }, td: { whiteSpace: "nowrap" } }}>
-          <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: "#fff" }}>
+          <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
             <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
               <Table.Th w={44} style={{ padding: "10px 0 10px 16px", verticalAlign: "middle" }}>
                 <Checkbox
@@ -1238,7 +1238,7 @@ export function SavedSearches() {
       <div className="flex gap-5 flex-nowrap items-stretch">
         {/* Table */}
         <Box style={{ flex: 1, minWidth: 0 }}>
-          <div className="rounded-xl border" style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
+          <div className="rounded-lg border" style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
             {filtered.length === 0 ? (
               <Stack align="center" py="xl" gap="sm">
                 <Box w={48} h={48} bg={TV.brandTint}
@@ -1259,7 +1259,7 @@ export function SavedSearches() {
                 <Box visibleFrom="md" className="overflow-x-auto max-h-[70vh] overflow-y-auto">
                   <Table verticalSpacing={0} horizontalSpacing={0} highlightOnHover
                     styles={{ table: { borderCollapse: "collapse", minWidth: Math.max(1000, activeColumns.length * 170 + 100) }, td: { whiteSpace: "nowrap" } }}>
-                    <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: "#fff" }}>
+                    <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
                       <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
                         <Table.Th w={44} style={{ padding: "10px 0 10px 16px", verticalAlign: "middle" }}>
                           <Checkbox

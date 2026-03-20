@@ -512,7 +512,7 @@ export function RecordingStudio({
                 }`}
               >
                 <div
-                  className="w-10 h-10 rounded-[6px] flex items-center justify-center text-[16px] border border-white/10"
+                  className="w-10 h-10 rounded-sm flex items-center justify-center text-[16px] border border-white/10"
                   style={{
                     background: bg.color.startsWith("linear") ? bg.color : bg.color === "transparent" ? "#2a2a3e" : bg.color,
                   }}
@@ -527,7 +527,7 @@ export function RecordingStudio({
               onClick={() => { /* upload handler */ }}
               className="flex flex-col items-center gap-1 p-1.5 rounded-sm hover:bg-white/5 transition-colors"
             >
-              <div className="w-10 h-10 rounded-[6px] border border-dashed border-white/20 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-sm border border-dashed border-white/20 flex items-center justify-center">
                 <Upload size={14} className="text-white/30" />
               </div>
               <span className="text-[8px] text-white/50">Upload</span>

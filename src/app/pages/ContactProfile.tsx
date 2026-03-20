@@ -436,7 +436,7 @@ function GivingHistoryPanel({ givingEvents, contactName }: { givingEvents: Givin
               <YAxis key="area-yaxis" tick={{ fontSize: 11, fill: TV.textSecondary }} tickLine={false} axisLine={false} tickFormatter={v => `$${(v / 1000).toFixed(0)}k`} width={50} />
               <RTooltip
                 key="area-tooltip"
-                contentStyle={{ fontSize: 12, borderRadius: 12, borderColor: TV.borderLight, boxShadow: "0 4px 12px rgba(0,0,0,0.08)" }}
+                contentStyle={{ fontSize: 12, borderRadius: 12, borderColor: TV.borderLight, boxShadow: TV.shadowTooltip }}
                 formatter={(value: number, name: string) => [`$${value.toLocaleString()}`, name === "total" ? "Total" : "Attributed"]}
               />
               <Area key="area-total" type="monotone" dataKey="total" stroke={TV.brand} strokeWidth={2} fill="url(#gTotal)" name="total" />

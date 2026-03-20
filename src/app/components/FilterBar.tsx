@@ -46,7 +46,7 @@ export function ChipFilter({ label, icon: Icon, options, values, onChange, searc
   );
 
   const getSummary = (): string => {
-    if (values.length === 0) return "";
+    if (values.length === 0) return "All";
     if (values.length === 1) {
       const opt = options.find(o => o.value === values[0]);
       return opt?.label ?? values[0];
@@ -85,14 +85,10 @@ export function ChipFilter({ label, icon: Icon, options, values, onChange, searc
           <Text fz={12} fw={isActive ? 600 : 500} c={isActive ? TV.textBrand : TV.textPrimary}>
             {label}
           </Text>
-          {isActive && (
-            <>
-              <Box w={1} h={14} bg={TV.borderStrong} style={{ flexShrink: 0, opacity: 0.4 }} />
-              <Text fz={11} fw={600} c={TV.textBrand} style={{ maxWidth: 160 }} truncate>
-                {getSummary()}
-              </Text>
-            </>
-          )}
+          <Box w={1} h={14} bg={isActive ? TV.borderStrong : TV.borderLight} style={{ flexShrink: 0, opacity: isActive ? 0.4 : 0.6 }} />
+          <Text fz={11} fw={isActive ? 600 : 500} c={isActive ? TV.textBrand : TV.textSecondary} style={{ maxWidth: 160 }} truncate>
+            {getSummary()}
+          </Text>
           {isActive ? (
             <Box
               component="button"
@@ -459,7 +455,7 @@ function FilterChip({ def, values, onChange, onRemove, removable }: {
   );
 
   const getSummary = (): string => {
-    if (values.length === 0) return "";
+    if (values.length === 0) return "All";
     if (values.length === 1) {
       const opt = def.options.find(o => o.value === values[0]);
       return opt?.label ?? values[0];
@@ -502,14 +498,10 @@ function FilterChip({ def, values, onChange, onRemove, removable }: {
           <Text fz={12} fw={isActive ? 600 : 500} c={isActive ? TV.textBrand : TV.textPrimary}>
             {def.label}
           </Text>
-          {isActive && (
-            <>
-              <Box w={1} h={14} bg={TV.borderStrong} style={{ flexShrink: 0, opacity: 0.4 }} />
-              <Text fz={11} fw={600} c={TV.textBrand} style={{ maxWidth: 160 }} truncate>
-                {getSummary()}
-              </Text>
-            </>
-          )}
+          <Box w={1} h={14} bg={isActive ? TV.borderStrong : TV.borderLight} style={{ flexShrink: 0, opacity: isActive ? 0.4 : 0.6 }} />
+          <Text fz={11} fw={isActive ? 600 : 500} c={isActive ? TV.textBrand : TV.textSecondary} style={{ maxWidth: 160 }} truncate>
+            {getSummary()}
+          </Text>
           {isActive ? (
             <Box
               component="button"

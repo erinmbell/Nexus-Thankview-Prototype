@@ -228,7 +228,7 @@ export function VideoEditorView({
   const SidebarSection = ({ icon: Icon, title, children }: { icon: typeof Scissors; title: string; children: React.ReactNode }) => (
     <>
       <div className="flex items-center gap-2 mb-4 pb-3 border-b border-tv-border-divider">
-        <div className="w-6 h-6 rounded-[6px] bg-tv-brand-tint flex items-center justify-center shrink-0">
+        <div className="w-6 h-6 rounded-sm bg-tv-brand-tint flex items-center justify-center shrink-0">
           <Icon size={12} className="text-tv-brand" />
         </div>
         <span className="text-[13px] font-semibold text-tv-text-primary">{title}</span>
@@ -506,19 +506,19 @@ export function VideoEditorView({
             <div className="space-y-1.5">
               <button onClick={handleCaptionFileUpload} disabled={captionProcessing !== "idle"}
                 className="w-full flex items-center gap-2.5 p-2.5 bg-tv-surface border border-tv-border-light rounded-sm text-left hover:bg-tv-surface-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                <div className="w-7 h-7 rounded-[6px] bg-white border border-tv-border-light flex items-center justify-center shrink-0"><FileUp size={13} className="text-tv-text-secondary" /></div>
+                <div className="w-7 h-7 rounded-sm bg-white border border-tv-border-light flex items-center justify-center shrink-0"><FileUp size={13} className="text-tv-text-secondary" /></div>
                 <div><p className="text-[11px] font-semibold text-tv-text-primary">Upload VTT / SRT file</p><p className="text-[9px] text-tv-text-secondary">Import existing caption file</p></div>
                 {captionSource === "upload" && <span className="ml-auto text-[8px] font-semibold text-tv-success bg-tv-success-bg px-1.5 py-0.5 rounded-full">Active</span>}
               </button>
               <button onClick={handleAICaptions} disabled={captionProcessing !== "idle"}
                 className="w-full flex items-center gap-2.5 p-2.5 bg-tv-surface border border-tv-border-light rounded-sm text-left hover:bg-tv-surface-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                <div className="w-7 h-7 rounded-[6px] bg-white border border-tv-border-light flex items-center justify-center shrink-0"><Sparkles size={13} className="text-tv-brand" /></div>
+                <div className="w-7 h-7 rounded-sm bg-white border border-tv-border-light flex items-center justify-center shrink-0"><Sparkles size={13} className="text-tv-brand" /></div>
                 <div><p className="text-[11px] font-semibold text-tv-text-primary">Auto-generate (AI)</p><p className="text-[9px] text-tv-text-secondary">Transcribe audio automatically</p></div>
                 {captionSource === "ai" && <span className="ml-auto text-[8px] font-semibold text-tv-success bg-tv-success-bg px-1.5 py-0.5 rounded-full">Active</span>}
               </button>
               <button onClick={handleREVCaptions} disabled={captionProcessing !== "idle"}
                 className="w-full flex items-center gap-2.5 p-2.5 bg-tv-surface border border-tv-border-light rounded-sm text-left hover:bg-tv-surface-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                <div className="w-7 h-7 rounded-[6px] bg-white border border-tv-border-light flex items-center justify-center shrink-0"><Wand2 size={13} className="text-tv-text-secondary" /></div>
+                <div className="w-7 h-7 rounded-sm bg-white border border-tv-border-light flex items-center justify-center shrink-0"><Wand2 size={13} className="text-tv-text-secondary" /></div>
                 <div><p className="text-[11px] font-semibold text-tv-text-primary">Human captions (REV)</p><p className="text-[9px] text-tv-text-secondary">Professional transcription &middot; 1 credit</p></div>
                 {captionSource === "rev" && <span className="ml-auto text-[8px] font-semibold text-tv-success bg-tv-success-bg px-1.5 py-0.5 rounded-full">Active</span>}
               </button>
@@ -623,7 +623,7 @@ export function VideoEditorView({
                           aria-label="Remove caption line" className="text-tv-text-secondary hover:text-tv-danger"><X size={11} /></button>
                       </div>
                       <input value={line.text} onChange={e => { setCaptionLines(prev => prev.map((l, i) => i === idx ? { ...l, text: e.target.value } : l)); markChanged(); }}
-                        className="w-full bg-white border border-tv-border-light rounded-[6px] px-2.5 py-1.5 text-[12px] outline-none focus:border-tv-brand-bg" placeholder="Caption text..." />
+                        className="w-full bg-white border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:border-tv-brand-bg" placeholder="Caption text..." />
                     </div>
                   ))}
                 </div>
@@ -652,7 +652,7 @@ export function VideoEditorView({
             {thumbnailSource === "frame" ? "From video" : thumbnailSource === "upload" ? "Uploaded" : "Custom"}
           </div>
           <button onClick={() => { setThumbnailUrl(null); setThumbnailSource("none"); setSelectedFrameIdx(null); markChanged(); }}
-            className="absolute top-1.5 right-1.5 flex items-center gap-1 px-2 py-1 bg-black/60 text-white text-[10px] font-medium rounded-[6px] hover:bg-black/80 transition-colors backdrop-blur-sm">
+            className="absolute top-1.5 right-1.5 flex items-center gap-1 px-2 py-1 bg-black/60 text-white text-[10px] font-medium rounded-sm hover:bg-black/80 transition-colors backdrop-blur-sm">
             <X size={10} />Remove
           </button>
         </div>
@@ -681,7 +681,7 @@ export function VideoEditorView({
                   setThumbnailUrl(generateFrameThumbnail(sec, hue));
                   markChanged();
                 }}
-                className={`relative aspect-video rounded-[6px] overflow-hidden border-2 transition-all ${
+                className={`relative aspect-video rounded-sm overflow-hidden border-2 transition-all ${
                   selectedFrameIdx === idx && thumbnailSource === "frame"
                     ? "border-tv-brand-bg ring-2 ring-tv-brand-bg/30 scale-[1.02]"
                     : "border-tv-border-light hover:border-tv-border-strong"

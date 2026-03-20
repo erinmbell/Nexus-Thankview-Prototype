@@ -128,7 +128,7 @@ function TbBtn({
         type="button"
         onClick={onClick}
         aria-label={title}
-        className={`p-1.5 rounded-[6px] transition-colors ${
+        className={`p-1.5 rounded-sm transition-colors ${
           active
             ? "bg-tv-brand-bg/10 text-tv-brand"
             : "text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-text-primary"
@@ -479,7 +479,7 @@ export function RichTextEditor({
           <button
             type="button"
             onClick={() => setShowTemplates(!showTemplates)}
-            className={`flex items-center gap-1 px-2 py-1.5 rounded-[6px] text-[11px] transition-colors ${
+            className={`flex items-center gap-1 px-2 py-1.5 rounded-sm text-[11px] transition-colors ${
               showTemplates
                 ? "bg-tv-brand-bg/10 text-tv-brand"
                 : "text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-text-primary"
@@ -517,7 +517,7 @@ export function RichTextEditor({
           <button
             type="button"
             onClick={() => { setShowSigPicker(!showSigPicker); setShowTemplates(false); setShowMergePicker(false); }}
-            className={`flex items-center gap-1 px-2 py-1.5 rounded-[6px] text-[11px] transition-colors ${
+            className={`flex items-center gap-1 px-2 py-1.5 rounded-sm text-[11px] transition-colors ${
               showSigPicker
                 ? "bg-tv-brand-bg/10 text-tv-brand"
                 : "text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-text-primary"
@@ -574,7 +574,7 @@ export function RichTextEditor({
           <button
             type="button"
             onClick={() => setShowMergePicker(!showMergePicker)}
-            className={`flex items-center gap-1 px-2 py-1.5 rounded-[6px] text-[11px] transition-colors ${
+            className={`flex items-center gap-1 px-2 py-1.5 rounded-sm text-[11px] transition-colors ${
               showMergePicker
                 ? "bg-tv-brand-bg/10 text-tv-brand"
                 : "text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-text-primary"

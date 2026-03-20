@@ -148,7 +148,7 @@ export function RichTextToolbar({
           <div className="relative">
             <button
               onClick={() => { setShowPicker(!showPicker); setShowSigPicker(false); }}
-              className={`flex items-center gap-1 px-2 py-1 rounded-[6px] text-[10px] transition-colors ${
+              className={`flex items-center gap-1 px-2 py-1 rounded-sm text-[10px] transition-colors ${
                 showPicker
                   ? "bg-tv-brand-bg/10 text-tv-brand"
                   : "text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-brand"
@@ -175,7 +175,7 @@ export function RichTextToolbar({
             <button
               ref={sigBtnRef}
               onClick={openSigPicker}
-              className={`flex items-center gap-1 px-2 py-1 rounded-[6px] text-[10px] transition-colors ${
+              className={`flex items-center gap-1 px-2 py-1 rounded-sm text-[10px] transition-colors ${
                 showSigPicker
                   ? "bg-tv-brand-bg/10 text-tv-brand"
                   : "text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-brand"
