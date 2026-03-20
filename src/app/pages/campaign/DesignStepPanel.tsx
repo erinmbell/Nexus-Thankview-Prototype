@@ -120,9 +120,6 @@ export interface DesignStepPanelProps {
 
   /** Callback fired whenever local design data changes — lets parent sync the live preview */
   onDesignDataChange?: (data: DesignSnapshot) => void;
-
-  /** When true, hides video-specific action toggles (for send-without-video campaigns) */
-  hideVideoActions?: boolean;
 }
 
 export interface DesignSnapshot {
@@ -1372,13 +1369,13 @@ function ContentTab(props: DesignStepPanelProps & {
         <p className="text-[12px] text-tv-text-secondary mb-3 mt-1">Allow your constituents to:</p>
         <div className="space-y-3">
           {([
-            { key: "allowVideoReply" as const,       label: "Reply with a video recording",  videoOnly: true },
-            { key: "allowEmailReply" as const,       label: "Reply with an email",            videoOnly: false },
-            { key: "allowSaveButton" as const,       label: "Save your video",                videoOnly: true },
-            { key: "allowShareButton" as const,      label: "Share your video on Facebook",   videoOnly: true },
-            { key: "allowDownloadVideo" as const,    label: "Download your video",            videoOnly: true },
-            { key: "closedCaptionsEnabled" as const, label: "Enable closed captions",         videoOnly: true },
-          ]).filter(opt => !props.hideVideoActions || !opt.videoOnly).map(opt => {
+            { key: "allowVideoReply" as const,       label: "Reply with a video recording" },
+            { key: "allowEmailReply" as const,       label: "Reply with an email" },
+            { key: "allowSaveButton" as const,       label: "Save your video" },
+            { key: "allowShareButton" as const,      label: "Share your video on Facebook" },
+            { key: "allowDownloadVideo" as const,    label: "Download your video" },
+            { key: "closedCaptionsEnabled" as const, label: "Enable closed captions" },
+          ]).map(opt => {
             const enabled = props.step[opt.key] !== false;
             return (
               <div key={opt.key} className="flex items-center justify-between gap-3">
