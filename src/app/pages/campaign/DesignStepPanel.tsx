@@ -381,7 +381,7 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
 
   // Derive LivePreviewModal props from selected envelope data
   const envData = props.selectedEnvelopeData;
-  const envColor = envData?.color || "#995cd3";
+  const envColor = envData?.color || "#7c45b0";
   const envAccent = envData?.accent || "#a78bfa";
 
   // Local state for fields that may not be controlled by parent
@@ -839,8 +839,8 @@ function EnvelopeTab(props: DesignStepPanelProps) {
               <input value={props.envTextBefore} onChange={e => { if (e.target.value.length <= 40) props.onEnvTextBeforeChange(e.target.value); }}
                 className={`${inputCls} !pr-16`} />
               <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                <button className="p-1 rounded-[6px] hover:bg-tv-surface transition-colors"><Type size={13} className="text-tv-text-secondary" /></button>
-                <button className="p-1 rounded-[6px] hover:bg-tv-surface transition-colors"><Smile size={13} className="text-tv-text-secondary" /></button>
+                <button className="p-1 rounded-sm hover:bg-tv-surface transition-colors"><Type size={13} className="text-tv-text-secondary" /></button>
+                <button className="p-1 rounded-sm hover:bg-tv-surface transition-colors"><Smile size={13} className="text-tv-text-secondary" /></button>
               </div>
             </div>
           </div>
@@ -879,8 +879,8 @@ function EnvelopeTab(props: DesignStepPanelProps) {
               <input value={props.envTextAfter} onChange={e => { if (e.target.value.length <= 40) props.onEnvTextAfterChange(e.target.value); }}
                 className={`${inputCls} !pr-16`} />
               <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                <button className="p-1 rounded-[6px] hover:bg-tv-surface transition-colors"><Type size={13} className="text-tv-text-secondary" /></button>
-                <button className="p-1 rounded-[6px] hover:bg-tv-surface transition-colors"><Smile size={13} className="text-tv-text-secondary" /></button>
+                <button className="p-1 rounded-sm hover:bg-tv-surface transition-colors"><Type size={13} className="text-tv-text-secondary" /></button>
+                <button className="p-1 rounded-sm hover:bg-tv-surface transition-colors"><Smile size={13} className="text-tv-text-secondary" /></button>
               </div>
             </div>
           </div>
@@ -1426,7 +1426,7 @@ function TrackingTab(props: DesignStepPanelProps) {
 function ToolbarBtn({ children, active, onClick }: { children: React.ReactNode; active?: boolean; onClick?: () => void }) {
   return (
     <button onClick={onClick}
-      className={`p-1.5 rounded-[6px] transition-colors ${
+      className={`p-1.5 rounded-sm transition-colors ${
         active ? "bg-tv-brand-bg/10 text-tv-brand" : "text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-text-primary"
       }`}>
       {children}
@@ -1508,7 +1508,7 @@ function PreviewFrame({
     <div className={`bg-white rounded-lg border border-tv-border-light shadow-lg overflow-hidden transition-all ${widthClass}`}>
       {/* Organization header bar */}
       <div className="px-4 py-3 border-b border-tv-border-divider flex items-center gap-2.5 bg-white">
-        <div className="w-7 h-7 rounded-[6px] flex items-center justify-center" style={{ backgroundColor: lpColor }}>
+        <div className="w-7 h-7 rounded-sm flex items-center justify-center" style={{ backgroundColor: lpColor }}>
           <span className="text-white text-[10px]" style={{ fontWeight: 800 }}>E</span>
         </div>
         <span className={`text-tv-text-primary ${isMobile ? "text-[12px]" : "text-[13px]"}`} style={{ fontWeight: 700 }}>evertrue</span>
@@ -1630,18 +1630,18 @@ function PreviewFrame({
 
         <div className={`flex items-center justify-center ${isMobile ? "flex-wrap gap-1.5" : "gap-2.5"}`}>
           {step.allowVideoReply !== false && step.allowEmailReply !== false && (
-            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[6px] border border-tv-brand-bg text-tv-brand ${isMobile ? "text-[9px]" : "text-[11px]"}`} style={{ fontWeight: 500 }}>
+            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm border border-tv-brand-bg text-tv-brand ${isMobile ? "text-[9px]" : "text-[11px]"}`} style={{ fontWeight: 500 }}>
               <Reply size={isMobile ? 10 : 11} />Reply
             </span>
           )}
           {step.allowSaveButton !== false && (
-            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[6px] text-white ${isMobile ? "text-[9px]" : "text-[11px]"}`}
+            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-white ${isMobile ? "text-[9px]" : "text-[11px]"}`}
               style={{ backgroundColor: TV.success, fontWeight: 500 }}>
               <Download size={isMobile ? 10 : 11} />Save
             </span>
           )}
           {step.allowShareButton !== false && (
-            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[6px] border border-tv-border-light text-tv-text-primary ${isMobile ? "text-[9px]" : "text-[11px]"}`} style={{ fontWeight: 500 }}>
+            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm border border-tv-border-light text-tv-text-primary ${isMobile ? "text-[9px]" : "text-[11px]"}`} style={{ fontWeight: 500 }}>
               Share <ExternalLink size={isMobile ? 8 : 9} />
             </span>
           )}

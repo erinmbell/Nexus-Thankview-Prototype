@@ -567,7 +567,7 @@ export function CSVImportWizard({ existingEmails = new Set(), onImport }: CSVImp
               <div className="flex items-center bg-tv-surface rounded-sm p-0.5">
                 <button
                   onClick={() => setDuplicateMode("skip")}
-                  className={`px-3 py-1.5 rounded-[6px] text-[11px] transition-colors ${
+                  className={`px-3 py-1.5 rounded-sm text-[11px] transition-colors ${
                     duplicateMode === "skip"
                       ? "bg-white text-tv-brand shadow-sm"
                       : "text-tv-text-secondary"
@@ -578,7 +578,7 @@ export function CSVImportWizard({ existingEmails = new Set(), onImport }: CSVImp
                 </button>
                 <button
                   onClick={() => setDuplicateMode("update")}
-                  className={`px-3 py-1.5 rounded-[6px] text-[11px] transition-colors ${
+                  className={`px-3 py-1.5 rounded-sm text-[11px] transition-colors ${
                     duplicateMode === "update"
                       ? "bg-white text-tv-brand shadow-sm"
                       : "text-tv-text-secondary"

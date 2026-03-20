@@ -734,7 +734,7 @@ export function VideoLibrary() {
         <div className="px-3 py-3 border-b border-tv-border-divider flex items-center justify-between gap-2">
           {!sidebarCollapsed && <p className="text-[11px] font-semibold text-tv-text-label uppercase tracking-wider pl-1">Folders</p>}
           <Tooltip label={sidebarCollapsed ? "Show folders" : "Hide folders"} withArrow position="right" openDelay={300}>
-            <button onClick={() => setSidebarCollapsed(c => !c)} className="w-7 h-7 rounded-[6px] flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface hover:text-tv-brand transition-colors shrink-0">
+            <button onClick={() => setSidebarCollapsed(c => !c)} className="w-7 h-7 rounded-sm flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface hover:text-tv-brand transition-colors shrink-0">
               {sidebarCollapsed ? <PanelLeftOpen size={14} /> : <PanelLeftClose size={14} />}
             </button>
           </Tooltip>
@@ -747,7 +747,7 @@ export function VideoLibrary() {
               const count = f === "All Videos" ? videos.filter(v => archivedFilter === "active" ? !v.archived : true).length : videos.filter(v => v.folder === f && (archivedFilter === "active" ? !v.archived : true)).length;
               return (
                 <Tooltip key={f} label={`${f} (${count})`} withArrow position="right" openDelay={200}>
-                  <button onClick={() => setActiveFolder(f)} className={`w-8 h-8 rounded-[6px] flex items-center justify-center transition-colors ${activeFolder === f ? "bg-tv-brand-tint text-tv-brand" : "text-tv-text-label hover:bg-tv-surface"}`}>
+                  <button onClick={() => setActiveFolder(f)} className={`w-8 h-8 rounded-sm flex items-center justify-center transition-colors ${activeFolder === f ? "bg-tv-brand-tint text-tv-brand" : "text-tv-text-label hover:bg-tv-surface"}`}>
                     <Folder size={15} />
                   </button>
                 </Tooltip>
@@ -762,7 +762,7 @@ export function VideoLibrary() {
                 <div key={f} className="relative group">
                   {editingFolder === f ? (
                     <div className="flex items-center gap-1 px-3 py-1.5">
-                      <input autoFocus value={editFolderName} onChange={e => setEditFolderName(e.target.value)} onKeyDown={e => e.key === "Enter" && renameFolder(f)} className="flex-1 border border-tv-border-strong rounded-[6px] px-2 py-1 text-[12px] outline-none focus:border-tv-brand-bg" />
+                      <input autoFocus value={editFolderName} onChange={e => setEditFolderName(e.target.value)} onKeyDown={e => e.key === "Enter" && renameFolder(f)} className="flex-1 border border-tv-border-strong rounded-sm px-2 py-1 text-[12px] outline-none focus:border-tv-brand-bg" />
                       <button onClick={() => renameFolder(f)} className="w-6 h-6 bg-tv-brand-bg rounded-full flex items-center justify-center text-white shrink-0"><Check size={10} /></button>
                       <button onClick={() => setEditingFolder(null)} className="w-6 h-6 bg-tv-surface rounded-full flex items-center justify-center text-tv-text-secondary shrink-0"><X size={10} /></button>
                     </div>

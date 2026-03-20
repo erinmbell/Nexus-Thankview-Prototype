@@ -373,7 +373,7 @@ export function EnvelopeDesigns() {
                       { label: "Tertiary", color: preview.tertiaryColor },
                     ].map(c => (
                       <div key={c.label} className="flex items-center gap-2 flex-1 min-w-0">
-                        <div className="w-7 h-7 rounded-[6px] shrink-0 border border-black/10 shadow-sm" style={{ backgroundColor: c.color }} />
+                        <div className="w-7 h-7 rounded-sm shrink-0 border border-black/10 shadow-sm" style={{ backgroundColor: c.color }} />
                         <div className="min-w-0">
                           <p className="text-[11px] text-tv-text-secondary truncate">{c.label}</p>
                           <p className="text-[12px] font-mono text-tv-text-primary truncate">{c.color}</p>

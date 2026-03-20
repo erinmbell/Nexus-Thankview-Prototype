@@ -21,22 +21,22 @@ interface OutroTheme {
 }
 
 const OUTRO_THEMES: OutroTheme[] = [
-  { id: 1, name: "Thanks!", category: "saved", gradient: "linear-gradient(143.13deg, #7c45b0 0%, #995cd3 100%)", ctaLabel: "Thank You" },
-  { id: 2, name: "Donate", category: "saved", gradient: "linear-gradient(143.13deg, #0e8a45 0%, #16b364 100%)", ctaLabel: "Donate Now" },
-  { id: 3, name: "Visit", category: "saved", gradient: "linear-gradient(143.13deg, #0090bb 0%, #00c0f5 100%)", ctaLabel: "Visit Us" },
-  { id: 4, name: "Connect", category: "saved", gradient: "linear-gradient(143.13deg, #b45309 0%, #f59e0b 100%)", ctaLabel: "Connect" },
+  { id: 1, name: "Thanks!", category: "saved", gradient: "linear-gradient(143.13deg, #7c45b0 0%, #7c45b0 100%)", ctaLabel: "Thank You" },
+  { id: 2, name: "Donate", category: "saved", gradient: "linear-gradient(143.13deg, #166534 0%, #15803d 100%)", ctaLabel: "Donate Now" },
+  { id: 3, name: "Visit", category: "saved", gradient: "linear-gradient(143.13deg, #007c9e 0%, #00c0f5 100%)", ctaLabel: "Visit Us" },
+  { id: 4, name: "Connect", category: "saved", gradient: "linear-gradient(143.13deg, #b45309 0%, #b45309 100%)", ctaLabel: "Connect" },
   { id: 5, name: "Give Now", category: "video", gradient: "linear-gradient(143.13deg, #1B3461 0%, #3b82f6 100%)", ctaLabel: "Give Now" },
-  { id: 6, name: "Support", category: "video", gradient: "linear-gradient(143.13deg, #991b1b 0%, #ef4444 100%)", ctaLabel: "Support Us" },
+  { id: 6, name: "Support", category: "video", gradient: "linear-gradient(143.13deg, #b91c1c 0%, #dc2626 100%)", ctaLabel: "Support Us" },
   { id: 7, name: "Learn More", category: "video", gradient: "linear-gradient(143.13deg, #0f766e 0%, #2dd4bf 100%)", ctaLabel: "Learn More" },
   { id: 8, name: "Register", category: "video", gradient: "linear-gradient(143.13deg, #374151 0%, #6b7280 100%)", ctaLabel: "Register" },
   { id: 9, name: "Explore", category: "video", gradient: "linear-gradient(143.13deg, #4c1d95 0%, #7c3aed 100%)", ctaLabel: "Explore" },
-  { id: 10, name: "Classic CTA", category: "legacy", gradient: "linear-gradient(143.13deg, #7c45b0 0%, #995cd3 100%)", ctaLabel: "Click Here" },
+  { id: 10, name: "Classic CTA", category: "legacy", gradient: "linear-gradient(143.13deg, #7c45b0 0%, #7c45b0 100%)", ctaLabel: "Click Here" },
   { id: 11, name: "Simple End", category: "legacy", gradient: "linear-gradient(143.13deg, #374151 0%, #6b7280 100%)", ctaLabel: "" },
   { id: 12, name: "Branded", category: "legacy", gradient: "linear-gradient(143.13deg, #1B3461 0%, #3b82f6 100%)", ctaLabel: "Visit" },
 ];
 
 const BG_COLORS = [
-  "#7c45b0", "#1e3a8a", "#14532d", "#991b1b", "#0f766e", "#374151", "#b45309", "#ffffff",
+  "#7c45b0", "#1e3a8a", "#14532d", "#b91c1c", "#0f766e", "#374151", "#b45309", "#ffffff",
 ];
 
 const MUSIC_OPTIONS = [
@@ -60,8 +60,8 @@ const MUSIC_TRACKS = [
 // Mock edit data for pre-population
 const EDIT_DATA: Record<string, { bgColor: string; ctaLabel: string; ctaUrl: string; music: string; mood: string; themeId: number; saveAsTemplate: boolean }> = {
   "1": { bgColor: "#7c45b0", ctaLabel: "Thank You", ctaUrl: "https://give.hartwell.edu", music: "bright-horizons", mood: "uplifting", themeId: 1, saveAsTemplate: false },
-  "2": { bgColor: "#0e8a45", ctaLabel: "Donate Now", ctaUrl: "https://give.hartwell.edu", music: "still-waters", mood: "calm", themeId: 2, saveAsTemplate: false },
-  "3": { bgColor: "#0090bb", ctaLabel: "Visit Us", ctaUrl: "https://hartwell.edu", music: "bright-horizons", mood: "uplifting", themeId: 3, saveAsTemplate: false },
+  "2": { bgColor: "#166534", ctaLabel: "Donate Now", ctaUrl: "https://give.hartwell.edu", music: "still-waters", mood: "calm", themeId: 2, saveAsTemplate: false },
+  "3": { bgColor: "#007c9e", ctaLabel: "Visit Us", ctaUrl: "https://hartwell.edu", music: "bright-horizons", mood: "uplifting", themeId: 3, saveAsTemplate: false },
   "4": { bgColor: "#b45309", ctaLabel: "Connect", ctaUrl: "https://hartwell.edu/connect", music: "forward-motion", mood: "corporate", themeId: 4, saveAsTemplate: false },
 };
 

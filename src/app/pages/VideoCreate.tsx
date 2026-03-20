@@ -50,20 +50,20 @@ const RECORDING_MODES = [
 const BG_OPTS = [
   { key: "none",    label: "None",    preview: "bg-[#1a1a2e]",                   gradient: false },
   { key: "blur",    label: "Blur",    preview: "bg-[#374151]",                   gradient: false },
-  { key: "campus",  label: "Campus",  preview: "bg-gradient-to-br from-[#2A5038] to-[#16b364]", gradient: true },
+  { key: "campus",  label: "Campus",  preview: "bg-gradient-to-br from-[#2A5038] to-[#15803d]", gradient: true },
   { key: "office",  label: "Office",  preview: "bg-gradient-to-br from-[#4A6280] to-[#8ba5c0]", gradient: true },
-  { key: "branded", label: "Branded", preview: "bg-gradient-to-br from-[#7c45b0] to-[#995cd3]", gradient: true },
+  { key: "branded", label: "Branded", preview: "bg-gradient-to-br from-[#7c45b0] to-[#7c45b0]", gradient: true },
 ];
 
 const COUNTDOWN_OPTS = ["None", "3s", "5s", "10s"];
 
 const LIBRARY_VIDEOS = [
-  { id: 1, title: "Welcome Message – Class of 2026",  duration: "0:42", date: "Feb 14", views: 127, color: "from-[#7c45b0] to-[#995cd3]" },
-  { id: 2, title: "Annual Fund Thank You",             duration: "1:08", date: "Feb 10", views: 89,  color: "from-[#0090bb] to-[#00C0F5]" },
-  { id: 3, title: "Campaign Kick-off – Spring 2026",  duration: "0:55", date: "Feb 6",  views: 203, color: "from-[#0e8a45] to-[#16b364]" },
-  { id: 4, title: "Personal Outreach – Major Donors", duration: "1:22", date: "Jan 28", views: 56,  color: "from-[#c97c0a] to-[#F59E0B]" },
-  { id: 5, title: "Board Member Spotlight",           duration: "2:01", date: "Jan 20", views: 311, color: "from-[#7c45b0] to-[#995cd3]" },
-  { id: 6, title: "Matching Gift Challenge",          duration: "0:38", date: "Jan 15", views: 74,  color: "from-[#0090bb] to-[#00C0F5]" },
+  { id: 1, title: "Welcome Message – Class of 2026",  duration: "0:42", date: "Feb 14", views: 127, color: "from-[#7c45b0] to-[#7c45b0]" },
+  { id: 2, title: "Annual Fund Thank You",             duration: "1:08", date: "Feb 10", views: 89,  color: "from-[#007c9e] to-[#00C0F5]" },
+  { id: 3, title: "Campaign Kick-off – Spring 2026",  duration: "0:55", date: "Feb 6",  views: 203, color: "from-[#166534] to-[#15803d]" },
+  { id: 4, title: "Personal Outreach – Major Donors", duration: "1:22", date: "Jan 28", views: 56,  color: "from-[#b45309] to-[#b45309]" },
+  { id: 5, title: "Board Member Spotlight",           duration: "2:01", date: "Jan 20", views: 311, color: "from-[#7c45b0] to-[#7c45b0]" },
+  { id: 6, title: "Matching Gift Challenge",          duration: "0:38", date: "Jan 15", views: 74,  color: "from-[#007c9e] to-[#00C0F5]" },
 ];
 
 const CAPTIONS_DATA = [
@@ -83,10 +83,10 @@ const WAVEFORM = Array.from({ length: 60 }, (_, i) =>
 );
 
 const THUMB_FRAMES = [
-  { id: 1, ts: "0:03", gradient: "from-[#7c45b0] to-[#995cd3]" },
+  { id: 1, ts: "0:03", gradient: "from-[#7c45b0] to-[#7c45b0]" },
   { id: 2, ts: "0:11", gradient: "from-[#0e4f6e] to-[#00C0F5]" },
-  { id: 3, ts: "0:22", gradient: "from-[#7c3a00] to-[#F59E0B]" },
-  { id: 4, ts: "0:31", gradient: "from-[#0a4a26] to-[#16b364]" },
+  { id: 3, ts: "0:22", gradient: "from-[#7c3a00] to-[#b45309]" },
+  { id: 4, ts: "0:31", gradient: "from-[#0a4a26] to-[#15803d]" },
   { id: 5, ts: "0:38", gradient: "from-[#4A1942] to-[#6B1E33]" },
   { id: 6, ts: "0:45", gradient: "from-[#1B3461] to-[#4A6280]" },
 ];
@@ -882,7 +882,7 @@ export function CombineSetupStep({ onNext }: { onNext: () => void }) {
 
       <div className="flex justify-between items-center mt-6">
         {selectedIds.length < 2 && (
-          <div className="flex items-center gap-1.5 text-[12px] text-[#c97c0a]">
+          <div className="flex items-center gap-1.5 text-[12px] text-[#b45309]">
             <CircleAlert size={13} />Select at least 2 videos to combine.
           </div>
         )}
@@ -1008,7 +1008,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
 
       <div className="bg-white rounded-xl border border-tv-border-light p-6">
         {/* Preview */}
-        <div role="button" tabIndex={0} className="rounded-[14px] bg-gradient-to-br from-[#7c45b0] to-[#995cd3] aspect-video mb-5 flex items-center justify-center relative overflow-hidden cursor-pointer group" onClick={togglePlay} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); togglePlay(); } }}>
+        <div role="button" tabIndex={0} className="rounded-[14px] bg-gradient-to-br from-[#7c45b0] to-[#7c45b0] aspect-video mb-5 flex items-center justify-center relative overflow-hidden cursor-pointer group" onClick={togglePlay} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); togglePlay(); } }}>
           <div className="flex items-center justify-center transition-transform duration-300" style={{ transform: previewTransform }}>
             <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
               <div className="w-14 h-14 bg-tv-brand-bg rounded-full flex items-center justify-center text-white text-[22px] font-black">KM</div>
@@ -1073,9 +1073,9 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
 
             {/* Split markers */}
             {splits.map(s => (
-              <div key={s} className="absolute top-0 bottom-0 w-0.5 bg-[#F59E0B] z-10 pointer-events-none" style={{ left: `${s}%` }}>
+              <div key={s} className="absolute top-0 bottom-0 w-0.5 bg-[#b45309] z-10 pointer-events-none" style={{ left: `${s}%` }}>
                 <button onClick={e => { e.stopPropagation(); removeSplit(s); }}
-                  className="absolute -top-1.5 -left-[5px] w-3 h-3 bg-[#F59E0B] rounded-full flex items-center justify-center pointer-events-auto hover:bg-[#d97706] transition-colors" title="Remove split">
+                  className="absolute -top-1.5 -left-[5px] w-3 h-3 bg-[#b45309] rounded-full flex items-center justify-center pointer-events-auto hover:bg-[#d97706] transition-colors" title="Remove split">
                   <X size={6} className="text-white" />
                 </button>
               </div>
@@ -1149,7 +1149,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
               {muted ? <MicOff size={13} /> : <Volume2 size={13} />}
             </button>
             <input type="range" min={0} max={100} value={muted ? 0 : volume} onChange={e => { setVolume(Number(e.target.value)); if (muted) setMuted(false); }}
-              className="w-16 accent-[#995cd3] h-1" title={`Volume: ${muted ? 0 : volume}%`} />
+              className="w-16 accent-[#7c45b0] h-1" title={`Volume: ${muted ? 0 : volume}%`} />
           </div>
         </div>
 
@@ -1358,7 +1358,7 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
           </span>
         )}
         {!captionProcessing && captionSrc === "rev" && captions.length > 0 && (
-          <span className="flex items-center gap-1.5 text-[12px] text-[#c97c0a] bg-[#FEF3C7] border border-[#FCD34D] rounded-full px-3 py-1 font-medium">
+          <span className="flex items-center gap-1.5 text-[12px] text-[#b45309] bg-[#FEF3C7] border border-[#FCD34D] rounded-full px-3 py-1 font-medium">
             <Check size={12} strokeWidth={3} />REV human captions
           </span>
         )}
@@ -1368,7 +1368,7 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
         {/* Left: video preview + details */}
         <div className="w-[340px] shrink-0 space-y-4">
           {/* Mini video preview */}
-          <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-[#7c45b0] to-[#995cd3] aspect-video flex items-center justify-center shadow-md">
+          <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-[#7c45b0] to-[#7c45b0] aspect-video flex items-center justify-center shadow-md">
             <div className="w-16 h-16 rounded-full bg-white/20 border-2 border-white/60 flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors">
               <Play size={22} className="text-white ml-1" fill="white" />
             </div>
@@ -1465,7 +1465,7 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
               <UploadCloud size={11} />Upload SRT / VTT
             </button>
             <button onClick={handleRequestRev} disabled={captionProcessing}
-              className={`flex items-center gap-1.5 text-[11px] font-medium px-3 py-1.5 rounded-full border transition-colors disabled:opacity-40 ${captionSrc === "rev" && captions.length > 0 ? "border-[#c97c0a] bg-[#FEF3C7] text-[#c97c0a]" : "border-tv-border-light text-tv-text-secondary hover:border-[#c97c0a] hover:text-[#c97c0a]"}`}>
+              className={`flex items-center gap-1.5 text-[11px] font-medium px-3 py-1.5 rounded-full border transition-colors disabled:opacity-40 ${captionSrc === "rev" && captions.length > 0 ? "border-[#b45309] bg-[#FEF3C7] text-[#b45309]" : "border-tv-border-light text-tv-text-secondary hover:border-[#b45309] hover:text-[#b45309]"}`}>
               <FileText size={11} />REV (Human)
             </button>
             {captionProcessing && (

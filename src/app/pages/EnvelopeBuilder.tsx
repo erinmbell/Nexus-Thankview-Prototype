@@ -1458,7 +1458,7 @@ function EnvelopePreview({
           <polygon points="0,0 200,120 400,0" fill="black" fillOpacity="0.06" />
         </svg>
         <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ height: "1.5px", backgroundColor: `${primaryColor}20` }} />
-        <div className={`absolute ${compact ? "inset-x-3 top-[8%] bottom-3" : "inset-x-5 top-[6%] bottom-4"} bg-white rounded-[6px] flex items-center justify-center`}
+        <div className={`absolute ${compact ? "inset-x-3 top-[8%] bottom-3" : "inset-x-5 top-[6%] bottom-4"} bg-white rounded-sm flex items-center justify-center`}
           style={{ boxShadow: compact ? "0 1px 4px rgba(0,0,0,0.12)" : "0 2px 8px rgba(0,0,0,0.12)" }}>
           <div className="text-center">
             <div className={`${compact ? "w-8 h-8" : "w-14 h-14"} rounded-full bg-tv-brand-tint flex items-center justify-center mx-auto mb-2`}>

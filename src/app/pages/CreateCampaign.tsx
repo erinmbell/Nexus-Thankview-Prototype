@@ -2008,7 +2008,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                   <button
                     type="button"
                     onClick={() => setShowBodyMergePicker(!showBodyMergePicker)}
-                    className={`flex items-center gap-1 px-2 py-1.5 rounded-[6px] text-[11px] transition-colors ${
+                    className={`flex items-center gap-1 px-2 py-1.5 rounded-sm text-[11px] transition-colors ${
                       showBodyMergePicker
                         ? "bg-tv-brand-bg/10 text-tv-brand"
                         : "text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-text-primary"
@@ -2538,7 +2538,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
             <div className="pt-2 border-t border-tv-border-divider">
               {vrLibraryVideoId ? (
                 <div className="flex items-center gap-3 p-3 bg-tv-brand-tint border border-tv-border-strong rounded-md">
-                  <div className="w-12 h-8 rounded-[6px] bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shrink-0">
+                  <div className="w-12 h-8 rounded-sm bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shrink-0">
                     <Play size={10} className="text-white ml-0.5" fill="white" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -2579,7 +2579,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                 <select value={days} onChange={e => {
                   const val = Number(e.target.value);
                   setVrReminderDays(prev => prev.map((d, i) => i === idx ? val : d));
-                }} aria-label={`Reminder ${idx + 1} days`} className="border border-tv-border-light rounded-[6px] px-2 py-1 text-[11px] outline-none focus:ring-1 focus:ring-tv-brand/40 bg-white">
+                }} aria-label={`Reminder ${idx + 1} days`} className="border border-tv-border-light rounded-sm px-2 py-1 text-[11px] outline-none focus:ring-1 focus:ring-tv-brand/40 bg-white">
                   {[1, 2, 3, 5, 7, 10, 14, 21, 30].map(d => (
                     <option key={d} value={d}>{d} day{d !== 1 ? "s" : ""} before deadline</option>
                   ))}

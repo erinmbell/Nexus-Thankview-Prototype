@@ -244,7 +244,7 @@ function FlowNode({
         {/* ── Condition branch preview ── */}
         {isCondition && (
           <div className="mt-2 grid grid-cols-2 gap-1.5">
-            <div className="p-1.5 rounded-[6px] bg-tv-success-bg border border-tv-success-border/40">
+            <div className="p-1.5 rounded-sm bg-tv-success-bg border border-tv-success-border/40">
               <p className="text-[8px] text-tv-success uppercase tracking-wider" style={{ fontWeight: 700 }}>Yes</p>
               <p className="text-[9px] text-tv-text-secondary truncate" style={{ fontWeight: 500 }}>
                 {step.trueBranch && step.trueBranch.length > 0
@@ -252,7 +252,7 @@ function FlowNode({
                   : "No steps yet"}
               </p>
             </div>
-            <div className="p-1.5 rounded-[6px] bg-tv-danger-bg border border-tv-danger-border/40">
+            <div className="p-1.5 rounded-sm bg-tv-danger-bg border border-tv-danger-border/40">
               <p className="text-[8px] text-tv-danger uppercase tracking-wider" style={{ fontWeight: 700 }}>No</p>
               <p className="text-[9px] text-tv-text-secondary truncate" style={{ fontWeight: 500 }}>
                 {step.falseBranch && step.falseBranch.length > 0
@@ -368,7 +368,7 @@ function AddStepPopover({ onAdd, onClose }: { onAdd: (type: FlowStepType) => voi
             onClick={() => { onAdd(t.id); onClose(); }}
             className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm hover:bg-tv-surface transition-colors text-left"
           >
-            <div className={`w-7 h-7 rounded-[6px] ${t.bg} flex items-center justify-center shrink-0`}>
+            <div className={`w-7 h-7 rounded-sm ${t.bg} flex items-center justify-center shrink-0`}>
               <t.icon size={13} className={t.color} />
             </div>
             <div>
@@ -597,7 +597,7 @@ function StepDrawer({
       {/* Drawer header */}
       <div className="flex items-center justify-between px-5 py-3.5 border-b border-tv-border-divider shrink-0">
         <div className="flex items-center gap-2.5 flex-1 min-w-0">
-          <div className={`w-7 h-7 rounded-[6px] ${typeDef?.bg || "bg-tv-brand-tint"} flex items-center justify-center shrink-0`}>
+          <div className={`w-7 h-7 rounded-sm ${typeDef?.bg || "bg-tv-brand-tint"} flex items-center justify-center shrink-0`}>
             <Icon size={13} className={typeDef?.color || "text-tv-brand"} />
           </div>
           <div className="flex-1 min-w-0">
@@ -790,7 +790,7 @@ function StepDrawer({
               {(step.vrDeliveryType || "email") === "link" && (
                 <div className="mt-2 p-2.5 bg-tv-info-bg border border-tv-info-border rounded-sm">
                   <label className="tv-label mb-1 block text-tv-info">Shareable URL</label>
-                  <div className="flex items-center gap-1.5 bg-white rounded-[6px] px-2 py-1.5 border border-tv-border-light">
+                  <div className="flex items-center gap-1.5 bg-white rounded-sm px-2 py-1.5 border border-tv-border-light">
                     <Link2 size={11} className="text-tv-info shrink-0" />
                     <span className="text-[10px] font-mono text-tv-text-primary flex-1 truncate">{step.vrShareableUrl || "https://thankview.com/r/..."}</span>
                     <button onClick={() => show("Link copied!", "success")}
@@ -817,7 +817,7 @@ function StepDrawer({
                 {step.vrInstructionVideoId ? (
                   <>
                     <div className="flex items-center gap-2.5 p-2.5 bg-tv-surface rounded-sm border border-tv-border-light">
-                      <div className={`w-[80px] h-[45px] rounded-[6px] bg-gradient-to-br ${step.vrInstructionVideoColor || "from-tv-info to-tv-info-hover"} flex items-center justify-center shrink-0`}>
+                      <div className={`w-[80px] h-[45px] rounded-sm bg-gradient-to-br ${step.vrInstructionVideoColor || "from-tv-info to-tv-info-hover"} flex items-center justify-center shrink-0`}>
                         <Play size={14} className="text-white ml-0.5" fill="white" />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -969,7 +969,7 @@ function StepDrawer({
             {step.attachedVideo ? (
               <div className="space-y-2.5">
                 <div className="flex items-center gap-2.5 px-3 py-2.5 bg-tv-brand-tint border border-tv-border-strong rounded-md">
-                  <div className={`w-11 h-7 rounded-[6px] bg-gradient-to-br ${step.attachedVideo.color} flex items-center justify-center shrink-0`}>
+                  <div className={`w-11 h-7 rounded-sm bg-gradient-to-br ${step.attachedVideo.color} flex items-center justify-center shrink-0`}>
                     <Play size={10} className="text-white ml-0.5" fill="white" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -998,7 +998,7 @@ function StepDrawer({
               <div className="space-y-2">
                 <button onClick={() => { setVideoCreateInitialTab("record"); setShowVideoCreate(true); }}
                   className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md border border-tv-border-light hover:border-tv-info hover:bg-tv-info-bg transition-all text-left">
-                  <div className="w-7 h-7 rounded-[6px] bg-tv-info-bg flex items-center justify-center shrink-0">
+                  <div className="w-7 h-7 rounded-sm bg-tv-info-bg flex items-center justify-center shrink-0">
                     <Camera size={13} className="text-tv-info" />
                   </div>
                   <div className="flex-1">
@@ -1008,7 +1008,7 @@ function StepDrawer({
                 </button>
                 <button onClick={() => { setVideoCreateInitialTab("upload"); setShowVideoCreate(true); }}
                   className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md border border-tv-border-light hover:border-tv-brand-bg hover:bg-tv-brand-tint transition-all text-left">
-                  <div className="w-7 h-7 rounded-[6px] bg-tv-brand-tint flex items-center justify-center shrink-0">
+                  <div className="w-7 h-7 rounded-sm bg-tv-brand-tint flex items-center justify-center shrink-0">
                     <Upload size={13} className="text-tv-brand" />
                   </div>
                   <div className="flex-1">
@@ -1018,7 +1018,7 @@ function StepDrawer({
                 </button>
                 <button onClick={() => setShowVideoPicker(true)}
                   className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md border border-tv-border-light hover:border-tv-brand-bg hover:bg-tv-brand-tint transition-all text-left">
-                  <div className="w-7 h-7 rounded-[6px] bg-tv-surface flex items-center justify-center shrink-0">
+                  <div className="w-7 h-7 rounded-sm bg-tv-surface flex items-center justify-center shrink-0">
                     <Film size={13} className="text-tv-text-secondary" />
                   </div>
                   <div className="flex-1">
@@ -1264,7 +1264,7 @@ function StepDrawer({
                           ? "border-tv-brand-bg bg-tv-brand-tint/30 shadow-sm"
                           : "border-tv-border-light hover:border-tv-brand-bg/40 hover:bg-tv-surface/60"
                       }`}>
-                      <div className={`w-7 h-7 rounded-[6px] flex items-center justify-center shrink-0 transition-colors ${
+                      <div className={`w-7 h-7 rounded-sm flex items-center justify-center shrink-0 transition-colors ${
                         active ? "bg-tv-brand-bg" : "bg-tv-surface"
                       }`}>
                         <Icon size={13} className={active ? "text-white" : "text-tv-text-secondary"} />
@@ -1522,7 +1522,7 @@ function StepDrawer({
                     <label className="tv-label mb-1 block">PDF Attachment</label>
                     {step.pdfFileName ? (
                       <div className="flex items-center gap-2.5 p-3 bg-tv-surface rounded-lg border border-tv-border-light">
-                        <div className="w-8 h-8 bg-tv-danger-bg rounded-[6px] flex items-center justify-center shrink-0">
+                        <div className="w-8 h-8 bg-tv-danger-bg rounded-sm flex items-center justify-center shrink-0">
                           <FileText size={14} className="text-tv-danger" />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -1696,7 +1696,7 @@ function StepDrawer({
                   {/* Live preview strip */}
                   <div className="p-2.5 bg-tv-surface rounded-sm border border-tv-border-divider">
                     <p className="tv-label mb-1.5" style={{ fontSize: 8 }}>Preview</p>
-                    <div className="bg-white rounded-[6px] border border-tv-border-light px-2 py-1.5">
+                    <div className="bg-white rounded-sm border border-tv-border-light px-2 py-1.5">
                       {(step.allowEmailReply || step.allowVideoReply || step.allowSaveButton || step.allowShareButton || step.allowDownloadVideo || step.closedCaptionsEnabled) ? (
                         <div className="flex flex-wrap items-center justify-center gap-1">
                           {step.allowEmailReply && <span className="inline-flex items-center gap-0.5 px-1.5 py-1 rounded-full bg-tv-surface border border-tv-border-light text-[8px] text-tv-text-primary"><Reply size={8} className="text-tv-text-secondary" />Reply</span>}
@@ -3246,7 +3246,7 @@ function BranchAddButton({ parentId, branchType, onAdd }: { parentId: string; br
               <button
                 key={t.id}
                 onClick={() => { onAdd(parentId, branchType, t.id); setOpen(false); }}
-                className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-[6px] hover:bg-tv-surface transition-colors text-left"
+                className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-sm hover:bg-tv-surface transition-colors text-left"
               >
                 <div className={`w-6 h-6 rounded-[5px] ${t.bg} flex items-center justify-center shrink-0`}>
                   <t.icon size={11} className={t.color} />
@@ -3414,7 +3414,7 @@ function AutomationConfigPanel({
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>Send</span>
           {/* Number stepper */}
-          <div className="flex items-center border border-tv-border-light rounded-[6px] overflow-hidden">
+          <div className="flex items-center border border-tv-border-light rounded-sm overflow-hidden">
             <button
               type="button"
               onClick={() => setDaysBefore(Math.max(0, daysBefore - 1))}

@@ -468,7 +468,7 @@ function ListCellValue({ col, list }: { col: string; list: ContactList }) {
 function RecentlyUsedSidebar({ lists, onSelect }: { lists: ContactList[]; onSelect: (l: ContactList) => void }) {
   if (lists.length === 0) return null;
   return (
-    <div className="rounded-lg border p-4" style={{ borderColor: TV.borderStrong, minWidth: 220, maxWidth: 260, flexShrink: 0, alignSelf: "flex-start", position: "sticky", top: 24 }}>
+    <div className="rounded-lg border p-4" style={{ borderColor: TV.borderLight, minWidth: 220, maxWidth: 260, flexShrink: 0, alignSelf: "flex-start", position: "sticky", top: 24 }}>
       <div className="flex items-center gap-3 mb-4">
         <Clock size={14} style={{ color: TV.textBrand }} />
         <Text fz={12} fw={700} c={TV.textPrimary}>Recently Used</Text>
@@ -568,7 +568,7 @@ function ListDetail({ list, onBack, onManage, isOwner }: {
         </div>
       </div>
 
-      <div className="rounded-xl border" style={{ borderColor: TV.borderStrong, overflow: "hidden" }}>
+      <div className="rounded-lg border" style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
         {list.contacts.length === 0 ? (
           <div className="flex flex-col items-center py-12 px-6">
             <Box w={64} h={64} bg={TV.brandTint} style={{ borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }} mb={16}>
@@ -989,7 +989,7 @@ export function Lists() {
       {/* Main content: table */}
       <div>
         <Box>
-        <div className="rounded-lg border" style={{ borderColor: TV.borderStrong, overflow: "hidden" }}>
+        <div className="rounded-lg border" style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
         {filtered.length === 0 ? (
           <Stack align="center" py="xl" gap="sm">
             <Box w={48} h={48} bg={TV.brandTint}

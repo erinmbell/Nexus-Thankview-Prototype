@@ -620,7 +620,7 @@ export function LivePreviewPanel({
             { key: "mobile" as const, Icon: Smartphone },
           ]).map(({ key, Icon }) => (
             <button key={key} onClick={() => setDevice(key)}
-              className={`w-6 h-6 lg:w-7 lg:h-7 rounded-[6px] flex items-center justify-center transition-colors ${device === key ? "bg-tv-brand-bg text-white" : "text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
+              className={`w-6 h-6 lg:w-7 lg:h-7 rounded-sm flex items-center justify-center transition-colors ${device === key ? "bg-tv-brand-bg text-white" : "text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
               <Icon size={12} />
             </button>
           ))}
@@ -655,7 +655,7 @@ export function LivePreviewPanel({
           <button
             onClick={goToPrev}
             disabled={previewMode === "custom" || addedPreviewUsers.length === 0}
-            className={`w-6 h-6 rounded-[6px] flex items-center justify-center transition-colors shrink-0 ${
+            className={`w-6 h-6 rounded-sm flex items-center justify-center transition-colors shrink-0 ${
               previewMode === "custom" || addedPreviewUsers.length === 0 ? "text-tv-text-decorative cursor-not-allowed" : "text-tv-brand hover:bg-tv-brand-bg/10"
             }`}
           >
@@ -821,7 +821,7 @@ export function LivePreviewPanel({
           <button
             onClick={goToNext}
             disabled={previewMode === "custom" || addedPreviewUsers.length === 0}
-            className={`w-6 h-6 rounded-[6px] flex items-center justify-center transition-colors shrink-0 ${
+            className={`w-6 h-6 rounded-sm flex items-center justify-center transition-colors shrink-0 ${
               previewMode === "custom" || addedPreviewUsers.length === 0 ? "text-tv-text-decorative cursor-not-allowed" : "text-tv-brand hover:bg-tv-brand-bg/10"
             }`}
           >
@@ -878,7 +878,7 @@ export function LivePreviewPanel({
                   value={testConstituent[field.key] || ""}
                   onChange={e => updateField(field.key, e.target.value)}
                   placeholder={field.placeholder}
-                  className={`flex-1 border rounded-[6px] px-2 py-1 text-[10px] outline-none focus:ring-1 focus:ring-tv-brand/40 transition-colors ${
+                  className={`flex-1 border rounded-sm px-2 py-1 text-[10px] outline-none focus:ring-1 focus:ring-tv-brand/40 transition-colors ${
                     isUsed
                       ? "border-tv-brand-bg/30 bg-white focus:ring-2 focus:ring-tv-brand-bg/20 text-tv-text-primary"
                       : "border-tv-border-light bg-tv-surface/50 text-tv-text-secondary"
@@ -919,7 +919,7 @@ export function LivePreviewPanel({
                   onChange={e => setNewFieldLabel(e.target.value)}
                   placeholder="e.g. Graduation Year"
                   onKeyDown={e => { if (e.key === "Enter") addCustomField(); }}
-                  className="flex-1 border border-tv-brand-bg/30 rounded-[6px] px-2 py-1 text-[10px] bg-white text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand-bg/20"
+                  className="flex-1 border border-tv-brand-bg/30 rounded-sm px-2 py-1 text-[10px] bg-white text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand-bg/20"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -931,7 +931,7 @@ export function LivePreviewPanel({
                   onChange={e => setNewFieldPlaceholder(e.target.value)}
                   placeholder="e.g. 2024"
                   onKeyDown={e => { if (e.key === "Enter") addCustomField(); }}
-                  className="flex-1 border border-tv-border-light rounded-[6px] px-2 py-1 text-[10px] bg-white text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand-bg/20"
+                  className="flex-1 border border-tv-border-light rounded-sm px-2 py-1 text-[10px] bg-white text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand-bg/20"
                 />
               </div>
               {newFieldLabel.trim() && (
@@ -945,7 +945,7 @@ export function LivePreviewPanel({
               <div className="flex justify-end gap-1.5 pt-0.5">
                 <button
                   onClick={() => { setShowAddFieldForm(false); setNewFieldLabel(""); setNewFieldPlaceholder(""); }}
-                  className="px-2.5 py-1 rounded-[6px] text-[9px] text-tv-text-secondary border border-tv-border-light hover:bg-tv-surface transition-colors"
+                  className="px-2.5 py-1 rounded-sm text-[9px] text-tv-text-secondary border border-tv-border-light hover:bg-tv-surface transition-colors"
                 >
                   Cancel
                 </button>
@@ -1019,7 +1019,7 @@ export function LivePreviewPanel({
               <div className="bg-white rounded-lg border border-tv-border-light shadow-lg overflow-hidden">
                 {/* Organization header */}
                 <div className="px-4 py-3 border-b border-tv-border-divider flex items-center gap-2.5 bg-white">
-                  <div className="w-7 h-7 rounded-[6px] flex items-center justify-center" style={{ backgroundColor: lpColor }}>
+                  <div className="w-7 h-7 rounded-sm flex items-center justify-center" style={{ backgroundColor: lpColor }}>
                     <span className="text-white text-[10px]" style={{ fontWeight: 800 }}>E</span>
                   </div>
                   <span className={`text-tv-text-primary ${isMobile ? "text-[12px]" : "text-[13px]"}`} style={{ fontWeight: 700 }}>evertrue</span>
@@ -1128,30 +1128,30 @@ export function LivePreviewPanel({
                   {/* Action buttons */}
                   <div className={`flex items-center justify-center ${isMobile ? "flex-wrap gap-1.5" : "gap-2.5"}`}>
                     {allowVideoReply !== false && (
-                      <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[6px] border text-[11px]`}
+                      <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm border text-[11px]`}
                         style={{ borderColor: btnBg || lpColor, color: btnBg || lpColor, fontWeight: 500 }}>
                         <Camera size={11} />Record Reply
                       </span>
                     )}
                     {allowEmailReply !== false && (
-                      <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[6px] border text-[11px]`}
+                      <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm border text-[11px]`}
                         style={{ borderColor: btnBg || lpColor, color: btnBg || lpColor, fontWeight: 500 }}>
                         <Reply size={11} />Reply
                       </span>
                     )}
                     {allowSaveButton !== false && (
-                      <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[6px] text-white text-[11px]`}
+                      <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-white text-[11px]`}
                         style={{ backgroundColor: "#22c55e", fontWeight: 500 }}>
                         <Download size={11} />Save
                       </span>
                     )}
                     {allowShareButton !== false && (
-                      <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[6px] border border-tv-border-light text-tv-text-primary text-[11px]" style={{ fontWeight: 500 }}>
+                      <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm border border-tv-border-light text-tv-text-primary text-[11px]" style={{ fontWeight: 500 }}>
                         Share <ExternalLink size={9} />
                       </span>
                     )}
                     {allowDownloadVideo !== false && (
-                      <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[6px] border border-tv-border-light text-tv-text-primary text-[11px]" style={{ fontWeight: 500 }}>
+                      <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm border border-tv-border-light text-tv-text-primary text-[11px]" style={{ fontWeight: 500 }}>
                         <Download size={11} />Download
                       </span>
                     )}

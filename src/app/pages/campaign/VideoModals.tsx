@@ -109,7 +109,7 @@ export function VideoPickerView({ onBack, onSelect }: { onBack: () => void; onSe
 export function AssignedVideoChip({ video, onRemove }: { video: PickerVideo; onRemove: () => void }) {
   return (
     <div className="flex items-center gap-3 px-3 py-2 bg-tv-brand-tint border border-tv-border-strong rounded-lg">
-      <div className={`w-10 h-7 rounded-[6px] bg-gradient-to-br ${video.color} flex items-center justify-center shrink-0`}>
+      <div className={`w-10 h-7 rounded-sm bg-gradient-to-br ${video.color} flex items-center justify-center shrink-0`}>
         <Play size={10} className="text-white ml-0.5" fill="white" />
       </div>
       <div className="flex-1 min-w-0">

@@ -31,7 +31,7 @@ export function CtaButtonControls({
   const effectiveBg = btnBg || TV.brand;
   const effectiveText = btnText || "#ffffff";
   const inputCls = compact
-    ? "w-full border border-tv-border-light rounded-[6px] px-2 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
+    ? "w-full border border-tv-border-light rounded-sm px-2 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
     : "w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand";
 
   return (
@@ -89,7 +89,7 @@ function ColorPickerField({ label, value, onChange, compact }: { label: string; 
   return (
     <div className="flex items-center gap-1.5">
       <label className="text-[10px] text-tv-text-secondary">{label}</label>
-      <div className="flex items-center gap-1 border border-tv-border-light rounded-[6px] px-1.5 py-1">
+      <div className="flex items-center gap-1 border border-tv-border-light rounded-sm px-1.5 py-1">
         <label className="w-4 h-4 rounded border border-tv-border-light relative overflow-hidden cursor-pointer shrink-0" style={{ backgroundColor: value }}>
           <input type="color" value={value} onChange={e => onChange(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
         </label>

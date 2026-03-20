@@ -124,10 +124,10 @@ export function VideoRecorder({
   // ── Derived: active video for preview ──
   const getActiveVideo = useCallback((): PickerVideo | null => {
     if (tab === "record" && recordedDuration) {
-      return { id: 999, title: "New Recording", duration: recordedDuration, date: "Just now", color: "from-[#0e8a45] to-[#16b364]" };
+      return { id: 999, title: "New Recording", duration: recordedDuration, date: "Just now", color: "from-[#166534] to-[#15803d]" };
     }
     if (tab === "upload" && uploadedFile) {
-      return { id: 998, title: uploadedFile, duration: "1:00", date: "Just now", color: "from-[#0090bb] to-[#00C0F5]" };
+      return { id: 998, title: uploadedFile, duration: "1:00", date: "Just now", color: "from-[#007c9e] to-[#00C0F5]" };
     }
     if (tab === "library" && selectedLibVideo) return selectedLibVideo;
     return null;
@@ -394,7 +394,7 @@ export function VideoRecorder({
                             : "border-tv-border-light hover:border-tv-border-strong hover:bg-tv-surface"
                         }`}
                       >
-                        <div className={`w-12 h-9 rounded-[6px] bg-gradient-to-br ${v.color} flex items-center justify-center shrink-0 relative`}>
+                        <div className={`w-12 h-9 rounded-sm bg-gradient-to-br ${v.color} flex items-center justify-center shrink-0 relative`}>
                           <Play size={10} className="text-white/80" />
                           {selected && (
                             <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-tv-brand-bg flex items-center justify-center">

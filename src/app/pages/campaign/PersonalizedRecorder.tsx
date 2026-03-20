@@ -590,7 +590,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
   const DropItem = ({ sel, onClick, children }: { sel?: boolean; onClick: () => void; children: React.ReactNode }) => (
     <button
       onClick={() => { onClick(); setOpenDrop(null); }}
-      className="w-full text-left flex items-center gap-2 px-3 py-1.5 rounded-[6px] text-[11px] transition-colors hover:bg-black/5"
+      className="w-full text-left flex items-center gap-2 px-3 py-1.5 rounded-sm text-[11px] transition-colors hover:bg-black/5"
       style={{ fontWeight: sel ? 600 : 400, color: sel ? TV.textBrand : TV.textSecondary }}
     >
       {children}
@@ -676,7 +676,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
             </div>
             <div className="relative">
               <Search size={10} className="absolute left-2 top-1/2 -translate-y-1/2 text-tv-text-secondary" />
-              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search…" aria-label="Search recipients" className="w-full border border-tv-border-light bg-white rounded-[6px] pl-6 pr-2 py-1 text-[10px] text-tv-text-primary outline-none placeholder:text-tv-text-decorative focus:border-tv-border-strong" />
+              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search…" aria-label="Search recipients" className="w-full border border-tv-border-light bg-white rounded-sm pl-6 pr-2 py-1 text-[10px] text-tv-text-primary outline-none placeholder:text-tv-text-decorative focus:border-tv-border-strong" />
             </div>
           </div>
           <div className="flex-1 overflow-y-auto">
@@ -1020,7 +1020,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                     {/* Right column: Camera preview + controls */}
                     <div className="flex-1 flex flex-col p-5 overflow-hidden" onClick={() => openDrop && setOpenDrop(null)}>
                       {/* Camera viewfinder */}
-                      <div className="flex-1 rounded-xl bg-gradient-to-br from-[#6b3fa0] to-[#995cd3] flex items-center justify-center relative overflow-hidden min-h-[200px]">
+                      <div className="flex-1 rounded-xl bg-gradient-to-br from-[#6b3fa0] to-[#7c45b0] flex items-center justify-center relative overflow-hidden min-h-[200px]">
                         {camOn ? (
                           <div className="flex flex-col items-center gap-2">
                             <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(255,255,255,0.15)" }}>
@@ -1134,7 +1134,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                             <button
                               onClick={stopRecording}
                               className="flex items-center gap-2 px-8 py-3 rounded-full text-[13px] text-white transition-all hover:opacity-90"
-                              style={{ fontWeight: 600, backgroundColor: "#ef4444" }}
+                              style={{ fontWeight: 600, backgroundColor: "#dc2626" }}
                             >
                               <Square size={12} fill="white" />Stop Recording
                             </button>
@@ -1567,15 +1567,15 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                               <div>
                                 <label className="text-[9px] mb-1 block" style={{ color: TV.textSecondary }}>From</label>
                                 <div className="flex items-center gap-1.5">
-                                  <label className="w-8 h-8 rounded-[6px] border cursor-pointer shrink-0 relative overflow-hidden" style={{ backgroundColor: lpSafeHex(lpNewGradFrom), borderColor: TV.borderLight }}><input type="color" value={lpSafeHex(lpNewGradFrom)} onChange={e => setLpNewGradFrom(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" /></label>
-                                  <input value={lpNewGradFrom} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setLpNewGradFrom(v); }} className="flex-1 min-w-0 border rounded-[6px] px-2 py-1 text-[10px] font-mono outline-none focus:ring-1 focus:ring-tv-brand/30" style={{ borderColor: TV.borderLight }} />
+                                  <label className="w-8 h-8 rounded-sm border cursor-pointer shrink-0 relative overflow-hidden" style={{ backgroundColor: lpSafeHex(lpNewGradFrom), borderColor: TV.borderLight }}><input type="color" value={lpSafeHex(lpNewGradFrom)} onChange={e => setLpNewGradFrom(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" /></label>
+                                  <input value={lpNewGradFrom} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setLpNewGradFrom(v); }} className="flex-1 min-w-0 border rounded-sm px-2 py-1 text-[10px] font-mono outline-none focus:ring-1 focus:ring-tv-brand/30" style={{ borderColor: TV.borderLight }} />
                                 </div>
                               </div>
                               <div>
                                 <label className="text-[9px] mb-1 block" style={{ color: TV.textSecondary }}>To</label>
                                 <div className="flex items-center gap-1.5">
-                                  <label className="w-8 h-8 rounded-[6px] border cursor-pointer shrink-0 relative overflow-hidden" style={{ backgroundColor: lpSafeHex(lpNewGradTo), borderColor: TV.borderLight }}><input type="color" value={lpSafeHex(lpNewGradTo)} onChange={e => setLpNewGradTo(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" /></label>
-                                  <input value={lpNewGradTo} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setLpNewGradTo(v); }} className="flex-1 min-w-0 border rounded-[6px] px-2 py-1 text-[10px] font-mono outline-none focus:ring-1 focus:ring-tv-brand/30" style={{ borderColor: TV.borderLight }} />
+                                  <label className="w-8 h-8 rounded-sm border cursor-pointer shrink-0 relative overflow-hidden" style={{ backgroundColor: lpSafeHex(lpNewGradTo), borderColor: TV.borderLight }}><input type="color" value={lpSafeHex(lpNewGradTo)} onChange={e => setLpNewGradTo(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" /></label>
+                                  <input value={lpNewGradTo} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setLpNewGradTo(v); }} className="flex-1 min-w-0 border rounded-sm px-2 py-1 text-[10px] font-mono outline-none focus:ring-1 focus:ring-tv-brand/30" style={{ borderColor: TV.borderLight }} />
                                 </div>
                               </div>
                             </div>
@@ -1690,7 +1690,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                             <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
                             <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
                           </div>
-                          <div className="flex-1 bg-[#1a1a1a] rounded-[6px] px-3 py-1 flex items-center gap-1.5 min-w-0">
+                          <div className="flex-1 bg-[#1a1a1a] rounded-sm px-3 py-1 flex items-center gap-1.5 min-w-0">
                             <Globe size={9} className="text-white/30 shrink-0" />
                             <span className="text-[9px] text-white/50 font-mono truncate">hartwell.thankview.com/1to1/abc123</span>
                           </div>

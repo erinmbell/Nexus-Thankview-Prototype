@@ -196,7 +196,7 @@ export function ColorSwatchPicker({
         <input
           value={value}
           onChange={(e) => handleHexInput(e.target.value)}
-          className="w-[80px] text-[11px] font-mono text-tv-text-secondary border border-tv-border-light rounded-[6px] px-1.5 py-0.5 outline-none focus:ring-1 focus:ring-tv-brand/40 focus:border-tv-brand uppercase"
+          className="w-[80px] text-[11px] font-mono text-tv-text-secondary border border-tv-border-light rounded-sm px-1.5 py-0.5 outline-none focus:ring-1 focus:ring-tv-brand/40 focus:border-tv-brand uppercase"
           placeholder="#000000"
         />
         <span className="text-[10px] text-tv-text-decorative">

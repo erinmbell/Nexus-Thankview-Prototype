@@ -214,7 +214,7 @@ function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
       <div className="flex items-center justify-between gap-2 flex-wrap px-4 sm:px-6 py-4 sm:py-6" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
         <Title order={3} fz={{ base: 16, sm: 18 }} className="min-w-0 truncate">Your Ongoing Campaigns</Title>
         <Menu position="bottom-end" withinPortal styles={{
-          dropdown: { borderColor: TV.borderLight, borderRadius: 10, padding: "6px 6px 2px", minWidth: 280, boxShadow: "0 8px 30px rgba(0,0,0,0.10)" },
+          dropdown: { borderColor: TV.borderLight, borderRadius: 10, padding: "6px 6px 2px", minWidth: 280, boxShadow: TV.shadowDropdown },
         }}>
           <Menu.Target>
             <Button color="tvPurple" size="sm" leftSection={<Plus size={13} />} rightSection={<ChevronDown size={11} />} className="shrink-0">

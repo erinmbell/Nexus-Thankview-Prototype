@@ -757,8 +757,8 @@ export function RequirementsAudit() {
                 <span className="text-[12px]" style={{ fontWeight: 600, color: TV.textSecondary }}>Coverage</span>
                 <div className="w-40 h-2.5 rounded-full overflow-hidden flex" style={{ backgroundColor: TV.surface }}>
                   <div className="h-full" style={{ width: `${(s_.done / actionable) * 100}%`, backgroundColor: TV.success }} />
-                  <div className="h-full" style={{ width: `${(s_.partial / actionable) * 100}%`, backgroundColor: "#f59e0b" }} />
-                  <div className="h-full" style={{ width: `${(s_.missing / actionable) * 100}%`, backgroundColor: "#ef4444" }} />
+                  <div className="h-full" style={{ width: `${(s_.partial / actionable) * 100}%`, backgroundColor: "#b45309" }} />
+                  <div className="h-full" style={{ width: `${(s_.missing / actionable) * 100}%`, backgroundColor: "#dc2626" }} />
                 </div>
                 <span className="text-[13px] font-bold" style={{ color: s_.done === actionable ? TV.success : TV.textSecondary }}>
                   {Math.round(((s_.done + s_.partial * 0.5) / actionable) * 100)}%
@@ -822,7 +822,7 @@ export function RequirementsAudit() {
                       <div className="flex items-center gap-2">
                         <div className="w-20 h-1.5 rounded-full overflow-hidden flex" style={{ backgroundColor: TV.surface }}>
                           <div className="h-full" style={{ width: `${(themeDone / themeActionable) * 100}%`, backgroundColor: TV.success }} />
-                          <div className="h-full" style={{ width: `${(themePartial / themeActionable) * 100}%`, backgroundColor: "#f59e0b" }} />
+                          <div className="h-full" style={{ width: `${(themePartial / themeActionable) * 100}%`, backgroundColor: "#b45309" }} />
                         </div>
                         <span className="text-[11px]" style={{ fontWeight: 600, color: themeDone === themeActionable ? TV.success : TV.textSecondary }}>
                           {themeDone}/{themeActionable}
@@ -983,7 +983,7 @@ export function RequirementsAudit() {
                       <div className="flex items-center gap-2">
                         <div className="w-20 h-1.5 rounded-full overflow-hidden flex" style={{ backgroundColor: TV.surface }}>
                           <div className="h-full" style={{ width: `${(themeDone / themeActionable) * 100}%`, backgroundColor: TV.success }} />
-                          <div className="h-full" style={{ width: `${(themePartial / themeActionable) * 100}%`, backgroundColor: "#f59e0b" }} />
+                          <div className="h-full" style={{ width: `${(themePartial / themeActionable) * 100}%`, backgroundColor: "#b45309" }} />
                         </div>
                         <span className="text-[11px]" style={{ fontWeight: 600, color: themeDone === themeActionable ? TV.success : TV.textSecondary }}>
                           {themeDone}/{themeActionable}
@@ -1147,7 +1147,7 @@ export function RequirementsAudit() {
                       <div className="flex items-center gap-2">
                         <div className="w-20 h-1.5 rounded-full overflow-hidden flex" style={{ backgroundColor: TV.surface }}>
                           <div className="h-full" style={{ width: `${(themeDone / themeActionable) * 100}%`, backgroundColor: TV.success }} />
-                          <div className="h-full" style={{ width: `${(themePartial / themeActionable) * 100}%`, backgroundColor: "#f59e0b" }} />
+                          <div className="h-full" style={{ width: `${(themePartial / themeActionable) * 100}%`, backgroundColor: "#b45309" }} />
                         </div>
                         <span className="text-[11px]" style={{ fontWeight: 600, color: themeDone === themeActionable ? TV.success : TV.textSecondary }}>
                           {themeDone}/{themeActionable}
@@ -1355,8 +1355,8 @@ function ImportStatsBar({ csv, getStats, statusFilter, setStatusFilter }: {
           <span className="text-[12px]" style={{ fontWeight: 600, color: TV.textSecondary }}>Coverage</span>
           <div className="w-40 h-2.5 rounded-full overflow-hidden flex" style={{ backgroundColor: TV.surface }}>
             <div className="h-full" style={{ width: `${(iStats.done / actionable) * 100}%`, backgroundColor: TV.success }} />
-            <div className="h-full" style={{ width: `${(iStats.partial / actionable) * 100}%`, backgroundColor: "#f59e0b" }} />
-            <div className="h-full" style={{ width: `${(iStats.missing / actionable) * 100}%`, backgroundColor: "#ef4444" }} />
+            <div className="h-full" style={{ width: `${(iStats.partial / actionable) * 100}%`, backgroundColor: "#b45309" }} />
+            <div className="h-full" style={{ width: `${(iStats.missing / actionable) * 100}%`, backgroundColor: "#dc2626" }} />
           </div>
           <span className="text-[13px] font-bold" style={{ color: iStats.done === actionable ? TV.success : TV.textSecondary }}>
             {actionable > 0 ? Math.round(((iStats.done + iStats.partial * 0.5) / actionable) * 100) : 0}%
@@ -1417,7 +1417,7 @@ function ImportedCsvView({ csv, statusFilter, search, getGrouped, expandedImport
                 <div className="flex items-center gap-2">
                   <div className="w-20 h-1.5 rounded-full overflow-hidden flex" style={{ backgroundColor: TV.surface }}>
                     <div className="h-full" style={{ width: `${(tDone / tActionable) * 100}%`, backgroundColor: TV.success }} />
-                    <div className="h-full" style={{ width: `${(tPartial / tActionable) * 100}%`, backgroundColor: "#f59e0b" }} />
+                    <div className="h-full" style={{ width: `${(tPartial / tActionable) * 100}%`, backgroundColor: "#b45309" }} />
                   </div>
                   <span className="text-[11px]" style={{ fontWeight: 600, color: tDone === tActionable ? TV.success : TV.textSecondary }}>
                     {tDone}/{tActionable}
@@ -1559,20 +1559,20 @@ function ImportedCsvView({ csv, statusFilter, search, getGrouped, expandedImport
           <div className="rounded-lg p-4" style={{ backgroundColor: TV.dangerBg, border: "1px solid #fecaca" }}>
             <div className="flex items-center gap-2 mb-3">
               <XCircle size={16} style={{ color: TV.danger }} />
-              <span className="text-[13px] font-bold" style={{ color: "#991b1b" }}>Missing — Not Yet Built ({iStats.missing})</span>
+              <span className="text-[13px] font-bold" style={{ color: "#b91c1c" }}>Missing — Not Yet Built ({iStats.missing})</span>
             </div>
             <ul className="space-y-2">
               {allRows.filter(r => r.status === "missing").map(r => (
                 <li key={r.uid} className="flex items-start gap-2">
-                  <span className="text-[10px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded-full" style={{ fontWeight: 600, backgroundColor: TV.dangerBg, color: "#991b1b" }}>#{allRows.indexOf(r) + 1}</span>
-                  <span className="text-[11px]" style={{ color: "#991b1b", lineHeight: "1.5" }}>
+                  <span className="text-[10px] shrink-0 mt-0.5 px-1.5 py-0.5 rounded-full" style={{ fontWeight: 600, backgroundColor: TV.dangerBg, color: "#b91c1c" }}>#{allRows.indexOf(r) + 1}</span>
+                  <span className="text-[11px]" style={{ color: "#b91c1c", lineHeight: "1.5" }}>
                     <span style={{ fontWeight: 600 }}>{r.description.slice(0, 80)}{r.description.length > 80 ? "…" : ""}</span>
                     {r.notes ? ` — ${r.notes}` : ""}
                   </span>
                 </li>
               ))}
               {iStats.missing === 0 && (
-                <li className="text-[12px]" style={{ color: "#991b1b" }}>None — all requirements have been addressed!</li>
+                <li className="text-[12px]" style={{ color: "#b91c1c" }}>None — all requirements have been addressed!</li>
               )}
             </ul>
           </div>

@@ -265,7 +265,7 @@ function ImportModal({ onClose, onImport }: { onClose: () => void; onImport: (mo
                 <AlertTriangle size={16} style={{ color: TV.danger }} />
                 <Text fz={13} fw={700} c={TV.danger}>Destructive Operation</Text>
               </div>
-              <Text fz={12} c="#991b1b">
+              <Text fz={12} c="#b91c1c">
                 Full Replace will <b>permanently delete</b> every constituent in your database that is <b>not</b> present in the uploaded CSV.
                 This action cannot be undone. Make sure you have a recent backup before proceeding.
               </Text>
@@ -459,13 +459,13 @@ function ImportModal({ onClose, onImport }: { onClose: () => void; onImport: (mo
                     {stats.deleted.toLocaleString()} constituents will be permanently deleted
                   </Text>
                 </div>
-                <Text fz={12} c="#991b1b" mb="md">
+                <Text fz={12} c="#b91c1c" mb="md">
                   These constituents are <b>not</b> present in the uploaded CSV and will be removed from your database.
                   This action is <b>irreversible</b>. All associated campaign history, engagement data, and custom fields for these constituents will also be deleted.
                 </Text>
                 <TextInput
                   label={
-                    <Text fz={12} c="#991b1b" fw={600}>
+                    <Text fz={12} c="#b91c1c" fw={600}>
                       Type <b>DELETE {stats.deleted.toLocaleString()}</b> to confirm
                     </Text>
                   }
@@ -1445,7 +1445,7 @@ export function Contacts() {
       )}
 
       {/* Table */}
-      <div className="rounded-xl border" style={{ overflow: "hidden", borderColor: TV.borderLight }}>
+      <div className="rounded-lg border" style={{ overflow: "hidden", borderColor: TV.borderLight }}>
         {filtered.length === 0 ? (
           <Stack align="center" py="xl" gap="sm">
             <Box w={48} h={48} bg={TV.brandTint} style={{ borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>

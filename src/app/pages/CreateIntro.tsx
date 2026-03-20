@@ -19,12 +19,12 @@ interface IntroTheme {
 }
 
 const IMAGE_THEMES: IntroTheme[] = [
-  { id: 1, name: "Welcome", category: "image", gradient: "linear-gradient(143.13deg, #7c45b0 0%, #995cd3 100%)", thumbnail: "https://images.unsplash.com/photo-1607369542452-78f59815692d?w=400" },
-  { id: 2, name: "Thank You", category: "image", gradient: "linear-gradient(143.134deg, #0e8a45 0%, #16b364 100%)", thumbnail: "https://images.unsplash.com/photo-1591218214141-45545921d2d9?w=400" },
+  { id: 1, name: "Welcome", category: "image", gradient: "linear-gradient(143.13deg, #7c45b0 0%, #7c45b0 100%)", thumbnail: "https://images.unsplash.com/photo-1607369542452-78f59815692d?w=400" },
+  { id: 2, name: "Thank You", category: "image", gradient: "linear-gradient(143.134deg, #166534 0%, #15803d 100%)", thumbnail: "https://images.unsplash.com/photo-1591218214141-45545921d2d9?w=400" },
   { id: 3, name: "Hello", category: "image", gradient: "linear-gradient(143.134deg, #374151 0%, #6b7280 100%)", thumbnail: "https://images.unsplash.com/photo-1763890965405-a376a73dc8ed?w=400" },
-  { id: 4, name: "Dear You", category: "image", gradient: "linear-gradient(143.13deg, #991b1b 0%, #ef4444 100%)", thumbnail: "https://images.unsplash.com/photo-1607369542452-78f59815692d?w=400" },
-  { id: 5, name: "Hi there", category: "image", gradient: "linear-gradient(143.134deg, #0090bb 0%, #00c0f5 100%)", thumbnail: "https://images.unsplash.com/photo-1591218214141-45545921d2d9?w=400" },
-  { id: 6, name: "Greetings", category: "image", gradient: "linear-gradient(143.134deg, #b45309 0%, #f59e0b 100%)", thumbnail: "https://images.unsplash.com/photo-1763890965405-a376a73dc8ed?w=400" },
+  { id: 4, name: "Dear You", category: "image", gradient: "linear-gradient(143.13deg, #b91c1c 0%, #dc2626 100%)", thumbnail: "https://images.unsplash.com/photo-1607369542452-78f59815692d?w=400" },
+  { id: 5, name: "Hi there", category: "image", gradient: "linear-gradient(143.134deg, #007c9e 0%, #00c0f5 100%)", thumbnail: "https://images.unsplash.com/photo-1591218214141-45545921d2d9?w=400" },
+  { id: 6, name: "Greetings", category: "image", gradient: "linear-gradient(143.134deg, #b45309 0%, #b45309 100%)", thumbnail: "https://images.unsplash.com/photo-1763890965405-a376a73dc8ed?w=400" },
   { id: 7, name: "Welcome", category: "message", gradient: "linear-gradient(143.13deg, #4c1d95 0%, #7c3aed 100%)", thumbnail: "" },
   { id: 8, name: "Hello", category: "message", gradient: "linear-gradient(143.134deg, #1e3a8a 0%, #3b82f6 100%)", thumbnail: "" },
   { id: 9, name: "Thanks", category: "message", gradient: "linear-gradient(143.134deg, #0f766e 0%, #2dd4bf 100%)", thumbnail: "" },

@@ -212,8 +212,8 @@ function buildVideoSlots(opts: { intro: boolean; personal: boolean; addon1: bool
   return [
     { label: "Intro", type: "intro", set: opts.intro, thumbnailGradient: "from-tv-brand to-tv-brand-bg", description: "Plays before the personal video for every constituent" },
     { label: "Personal Videos", type: "personal", set: opts.personal, thumbnailGradient: "from-tv-info to-[#00C0F5]", description: "Unique video recorded for each constituent" },
-    { label: "Add-On Video 1", type: "addon1", set: opts.addon1, thumbnailGradient: opts.addon1 ? "from-tv-success to-[#16B364]" : "from-tv-border-light to-tv-border-strong", description: "Extra clip appended after personal video" },
-    { label: "Add-On Video 2", type: "addon2", set: opts.addon2, thumbnailGradient: opts.addon2 ? "from-tv-warning to-[#f59e0b]" : "from-tv-border-light to-tv-border-strong", description: "Second extra clip" },
+    { label: "Add-On Video 1", type: "addon1", set: opts.addon1, thumbnailGradient: opts.addon1 ? "from-tv-success to-[#15803d]" : "from-tv-border-light to-tv-border-strong", description: "Extra clip appended after personal video" },
+    { label: "Add-On Video 2", type: "addon2", set: opts.addon2, thumbnailGradient: opts.addon2 ? "from-tv-warning to-[#b45309]" : "from-tv-border-light to-tv-border-strong", description: "Second extra clip" },
     { label: "Outro", type: "outro", set: opts.outro, thumbnailGradient: opts.outro ? "from-tv-brand to-[#c084fc]" : "from-tv-border-light to-tv-border-strong", description: "Plays at the end of every constituent's video" },
   ];
 }
@@ -227,7 +227,7 @@ const MOCK_CAMPAIGNS: Record<string, CampaignData> = {
     senderName: "Kelley Molt", senderEmail: "kelley.molt@hartwell.edu", replyTo: "giving@hartwell.edu",
     bodyPreview: "Dear {{first_name}},\n\nThis spring, our community came together in an extraordinary way. Your generous gift of {{gift_amount}} helped us reach 12 first-generation students who would not otherwise have access to a Hartwell education.\n\nI recorded a quick video just for you — please take a moment to watch it.\n\nWarmly,\nKelley Molt",
     mergeFieldsInMessage: ["{{first_name}}", "{{gift_amount}}"],
-    envelope: { color: "#995cd3", colorName: "Purple", returnAddress: "Office of Advancement, Hartwell University, 100 Campus Dr, Hartford, CT 06106", logo: true, logoPosition: "Top Left" },
+    envelope: { color: "#7c45b0", colorName: "Purple", returnAddress: "Office of Advancement, Hartwell University, 100 Campus Dr, Hartford, CT 06106", logo: true, logoPosition: "Top Left" },
     landingPage: {
       headline: "Thank you, {{first_name}}!",
       bodyHtml: "Your generous support of {{gift_amount}} is making a real difference at Hartwell University. Watch the video above for a personal message from our team.",
@@ -535,7 +535,7 @@ const MOCK_CAMPAIGNS: Record<string, CampaignData> = {
     senderName: "Kelley Molt", senderEmail: "kelley.molt@hartwell.edu", replyTo: "endowment@hartwell.edu",
     bodyPreview: "Dear {{first_name}},\n\nAttached you'll find your personalized Endowment Impact Report for 2025. This year, your endowed scholarship of {{endowment_name}} supported {{scholar_count}} students in {{college_name}}.",
     mergeFieldsInMessage: ["{{first_name}}", "{{endowment_name}}", "{{scholar_count}}", "{{college_name}}"],
-    envelope: { color: "#995cd3", colorName: "Purple", returnAddress: "Endowment Services, Hartwell University, 100 Campus Dr, Hartford, CT 06106", logo: true, logoPosition: "Top Left" },
+    envelope: { color: "#7c45b0", colorName: "Purple", returnAddress: "Endowment Services, Hartwell University, 100 Campus Dr, Hartford, CT 06106", logo: true, logoPosition: "Top Left" },
     landingPage: {
       headline: "Your Impact Report, {{first_name}}",
       bodyHtml: "Your {{endowment_name}} scholarship supported {{scholar_count}} students this year. Watch the video above for a personal update from the scholars themselves.",
@@ -577,7 +577,7 @@ const MOCK_CAMPAIGNS: Record<string, CampaignData> = {
     senderName: "Michelle Park", senderEmail: "m.park@hartwell.edu", replyTo: "reunion@hartwell.edu",
     bodyPreview: "Hi {{first_name}},\n\nYour 10-year reunion is right around the corner! To celebrate this milestone, we're launching a class giving challenge. Can the Class of {{class_year}} reach 50% participation?",
     mergeFieldsInMessage: ["{{first_name}}", "{{class_year}}"],
-    envelope: { color: "#16B364", colorName: "Green", returnAddress: "Alumni Relations, Hartwell University, 100 Campus Dr, Hartford, CT 06106", logo: true, logoPosition: "Top Left" },
+    envelope: { color: "#15803d", colorName: "Green", returnAddress: "Alumni Relations, Hartwell University, 100 Campus Dr, Hartford, CT 06106", logo: true, logoPosition: "Top Left" },
     landingPage: {
       headline: "Class of {{class_year}} Reunion Challenge",
       bodyHtml: "Hey {{first_name}}, can the Class of {{class_year}} reach 50% participation? Watch the video and make your gift today!",
@@ -688,10 +688,10 @@ const MOCK_CAMPAIGNS: Record<string, CampaignData> = {
     vrShareableUrl: "https://thankview.com/hartwell/vr/student-testimonials-2026",
     vrSubmissions: [
       { id: 1, recorderName: "Jordan Blake", recorderEmail: "j.blake@alumni.edu", submittedDate: "Feb 4, 2026", duration: "1:23", thumbnailColor: "#7c45b0", status: "approved" },
-      { id: 2, recorderName: "Samira Patel", recorderEmail: "s.patel@email.com", submittedDate: "Feb 5, 2026", duration: "0:58", thumbnailColor: "#0090bb", status: "approved" },
+      { id: 2, recorderName: "Samira Patel", recorderEmail: "s.patel@email.com", submittedDate: "Feb 5, 2026", duration: "0:58", thumbnailColor: "#007c9e", status: "approved" },
       { id: 3, recorderName: "Maria Gonzalez", recorderEmail: "m.gonzalez@corp.com", submittedDate: "Feb 4, 2026", duration: "1:45", thumbnailColor: "#15803d", status: "reviewed" },
       { id: 4, recorderName: "Alex Kim", recorderEmail: "a.kim@alumni.edu", submittedDate: "Feb 6, 2026", duration: "2:01", thumbnailColor: "#b45309", status: "received" },
-      { id: 5, recorderName: "Priya Nair", recorderEmail: "p.nair@foundation.org", submittedDate: "Feb 7, 2026", duration: "1:10", thumbnailColor: "#995cd3", status: "approved" },
+      { id: 5, recorderName: "Priya Nair", recorderEmail: "p.nair@foundation.org", submittedDate: "Feb 7, 2026", duration: "1:10", thumbnailColor: "#7c45b0", status: "approved" },
     ],
     spamRate: "\u2014", bounceRate: "\u2014",
     subject: "We'd love to hear your story, {{first_name}}!",
@@ -1010,7 +1010,7 @@ function FlowStepNode({ step, isLast, isExpanded, onToggle }: { step: CampaignFl
           {/* Header row */}
           <div className="flex items-center gap-2.5 mb-1.5">
             <div
-              className="w-6 h-6 rounded-[6px] flex items-center justify-center shrink-0"
+              className="w-6 h-6 rounded-sm flex items-center justify-center shrink-0"
               style={{ backgroundColor: vis.bg, color: vis.color }}
             >
               {vis.icon}
@@ -1336,7 +1336,7 @@ function CampaignFlowMap({ steps, rules }: { steps: CampaignFlowStep[]; rules: A
                     key={rule.id}
                     className="flex items-center gap-2.5 p-2.5 rounded-sm border border-tv-border-light bg-white"
                   >
-                    <div className="w-6 h-6 rounded-[6px] bg-tv-brand-tint flex items-center justify-center shrink-0">
+                    <div className="w-6 h-6 rounded-sm bg-tv-brand-tint flex items-center justify-center shrink-0">
                       <Zap size={11} className="text-tv-brand" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -1484,7 +1484,7 @@ function CopyCampaignModal({ campaign, onCopy, onCancel }: {
                     </div>
                     {/* Icon + label */}
                     <div
-                      className="w-6 h-6 rounded-[6px] flex items-center justify-center shrink-0"
+                      className="w-6 h-6 rounded-sm flex items-center justify-center shrink-0"
                       style={{ backgroundColor: vis.bg, color: vis.color }}
                     >
                       {vis.icon}
@@ -1540,7 +1540,7 @@ function CopyCampaignModal({ campaign, onCopy, onCancel }: {
                       onClick={e => e.stopPropagation()}
                     />
                     <div
-                      className="w-6 h-6 rounded-[6px] flex items-center justify-center shrink-0"
+                      className="w-6 h-6 rounded-sm flex items-center justify-center shrink-0"
                       style={{ backgroundColor: TV.brandTint, color: TV.brand }}
                     >
                       <Zap size={12} />
@@ -2230,7 +2230,7 @@ export function CampaignDetail() {
                 <div>
                   <Text fz={11} fw={600} tt="uppercase" lts="0.05em" c={TV.textLabel} mb={6}>Envelope Color</Text>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-7 rounded-[6px] border border-tv-border-light" style={{ backgroundColor: campaign.envelope.color }} />
+                    <div className="w-10 h-7 rounded-sm border border-tv-border-light" style={{ backgroundColor: campaign.envelope.color }} />
                     <Text fz={13} c={TV.textPrimary}>{campaign.envelope.colorName}</Text>
                   </div>
                 </div>
@@ -2589,7 +2589,7 @@ export function CampaignDetail() {
                       <Text fz={11} c={TV.textSecondary}>{sub.recorderEmail}</Text>
                     </td>
                     <td className="px-4 py-3">
-                      <div className="w-16 h-12 rounded-[6px] flex items-center justify-center relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${sub.thumbnailColor}, ${sub.thumbnailColor}88)` }}>
+                      <div className="w-16 h-12 rounded-sm flex items-center justify-center relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${sub.thumbnailColor}, ${sub.thumbnailColor}88)` }}>
                         <Play size={14} className="text-white" fill="white" />
                       </div>
                     </td>
@@ -2963,7 +2963,7 @@ export function CampaignDetail() {
                   <Text fz={11} fw={600} c={TV.textLabel} tt="uppercase" mb={4}>Send History</Text>
                   <div className="space-y-1">
                     {campaign.resendHistory!.map((h, i) => (
-                      <div key={i} className="flex items-center justify-between px-2.5 py-1.5 bg-tv-surface rounded-[6px]">
+                      <div key={i} className="flex items-center justify-between px-2.5 py-1.5 bg-tv-surface rounded-sm">
                         <div className="flex items-center gap-2">
                           <div className="w-5 h-5 rounded-full bg-tv-brand-tint flex items-center justify-center"><Text fz={9} fw={700} c={TV.brand}>#{h.sendNumber}</Text></div>
                           <div><Text fz={11} c={TV.textPrimary}>{h.date}</Text><Text fz={9} c={TV.textSecondary}>{h.constituentCount} constituents • {h.opened} opened • {h.clicked} clicked</Text></div>

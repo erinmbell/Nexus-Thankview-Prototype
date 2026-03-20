@@ -603,7 +603,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                 if (!r) return null;
                 const inCampaign = campaignConstituentIds.has(id);
                 return (
-                  <div key={id} className={`flex items-center gap-2 px-2 py-1 rounded-[6px] ${inCampaign ? "opacity-50" : ""}`}>
+                  <div key={id} className={`flex items-center gap-2 px-2 py-1 rounded-sm ${inCampaign ? "opacity-50" : ""}`}>
                     <span style={{ fontSize: "10px" }} className="text-tv-text-primary truncate">{r.name}</span>
                     <span style={{ fontSize: "9px" }} className="text-tv-text-decorative truncate ml-auto">{r.email}</span>
                     {inCampaign && <span style={{ fontSize: "7px", fontWeight: 600 }} className="text-tv-text-decorative bg-tv-surface px-1 py-0.5 rounded shrink-0">Added</span>}
@@ -1459,7 +1459,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
               {/* Video preview */}
               {hasPersonalizedClips && focusConstituent.videoAssigned && (
                 <div className="bg-white border border-tv-border-light rounded-lg overflow-hidden">
-                  <div className="aspect-[4/3] bg-gradient-to-br from-[#7c45b0] to-[#995cd3] flex items-center justify-center relative">
+                  <div className="aspect-[4/3] bg-gradient-to-br from-[#7c45b0] to-[#7c45b0] flex items-center justify-center relative">
                     <div className="w-12 h-12 rounded-full bg-black/30 flex items-center justify-center backdrop-blur-sm cursor-pointer hover:bg-black/40 transition-colors">
                       <Play size={18} className="text-white ml-0.5" />
                     </div>
