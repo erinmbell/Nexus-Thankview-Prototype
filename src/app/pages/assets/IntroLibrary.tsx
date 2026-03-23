@@ -232,7 +232,7 @@ export function IntroLibrary() {
           {filtered.map(intro => {
             const theme = themeInfo(intro.theme);
             return (
-              <div key={intro.id} role="button" tabIndex={0} onClick={() => setPreviewId(intro.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(intro.id); }}} aria-label={`Preview: ${intro.name}`} className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer">
+              <div role="button" tabIndex={0} key={intro.id} onClick={() => setPreviewId(intro.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(intro.id); }}} aria-label={`Preview: ${intro.name}`} className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer text-left">
                 {/* Thumbnail */}
                 <div className={`h-32 bg-gradient-to-br ${intro.gradient} relative overflow-hidden`}>
                   {intro.backgroundImage ? (

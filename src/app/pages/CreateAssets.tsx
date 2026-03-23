@@ -46,7 +46,7 @@ const ASSET_CATEGORIES = [
     icon: Film,
     color: "text-tv-info",
     bg: "bg-tv-info-bg",
-    borderColor: "border-[#8dd9ed]",
+    borderColor: "border-tv-record-border",
     count: 31,
     recentCount: 4,
     route: "/videos",
@@ -60,7 +60,7 @@ const ASSET_CATEGORIES = [
     icon: Mail,
     color: "text-tv-info",
     bg: "bg-tv-info-bg",
-    borderColor: "border-[#b2e4f3]",
+    borderColor: "border-tv-info-border",
     count: 8,
     recentCount: 2,
     route: "/assets/envelopes",
@@ -74,7 +74,7 @@ const ASSET_CATEGORIES = [
     icon: Globe,
     color: "text-tv-success",
     bg: "bg-tv-success-bg",
-    borderColor: "border-[#bbf7d0]",
+    borderColor: "border-tv-success-border",
     count: 12,
     recentCount: 3,
     route: "/assets/landing-pages",
@@ -88,7 +88,7 @@ const ASSET_CATEGORIES = [
     icon: ImageIcon,
     color: "text-tv-warning",
     bg: "bg-tv-warning-bg",
-    borderColor: "border-[#fde68a]",
+    borderColor: "border-tv-warning-border",
     count: 8,
     recentCount: 3,
     route: "/assets/images",
@@ -100,9 +100,9 @@ const ASSET_CATEGORIES = [
     label: "Intros & Intro Templates",
     description: "Themed slideshows with photos, text, color palettes, and music",
     icon: Clapperboard,
-    color: "text-[#7c3aed]",
+    color: "text-tv-brand",
     bg: "bg-tv-brand-tint",
-    borderColor: "border-[#c4b5fd]",
+    borderColor: "border-tv-border",
     count: 14,
     recentCount: 2,
     route: "/assets/intros",
@@ -116,7 +116,7 @@ const ASSET_CATEGORIES = [
     icon: MonitorPlay,
     color: "text-tv-info",
     bg: "bg-tv-info-bg",
-    borderColor: "border-[#7dd3fc]",
+    borderColor: "border-tv-info-border",
     count: 8,
     recentCount: 1,
     route: "/assets/outros",
@@ -148,8 +148,8 @@ function typeColor(type: AssetType): string {
     case "envelopes":     return "bg-tv-info-bg text-tv-info";
     case "landing-pages": return "bg-tv-success-bg text-tv-success";
     case "images":        return "bg-tv-warning-bg text-tv-warning";
-    case "templates":     return "bg-[#fef2f2] text-[#dc2626]";
-    case "intros":        return "bg-tv-brand-tint text-[#7c3aed]";
+    case "templates":     return "bg-tv-danger-bg text-tv-danger";
+    case "intros":        return "bg-tv-brand-tint text-tv-brand";
     case "outros":        return "bg-tv-info-bg text-tv-info";
     default:              return "bg-tv-surface text-tv-text-secondary";
   }
@@ -157,10 +157,10 @@ function typeColor(type: AssetType): string {
 
 function statusColor(status: string) {
   switch (status) {
-    case "Active":   return "bg-[#dcfce7] text-[#15803d]";
+    case "Active":   return "bg-tv-success-bg text-tv-success";
     case "Draft":    return "bg-tv-brand-tint text-tv-brand";
-    case "Archived": return "bg-[#f0f0f0] text-tv-text-secondary";
-    default:         return "bg-[#f0f0f0] text-tv-text-secondary";
+    case "Archived": return "bg-tv-surface-muted text-tv-text-secondary";
+    default:         return "bg-tv-surface-muted text-tv-text-secondary";
   }
 }
 
@@ -184,7 +184,7 @@ const WIZARD_CATEGORIES: WizardCategory[] = [
   {
     key: "templates" as WizardAssetType, label: "Email Template", shortLabel: "Email",
     description: "Email content — subject, body copy, merge tags, video, and CTA",
-    icon: FileText, colorHex: "#7c45b0", bgHex: "#f3eeff",
+    icon: FileText, colorHex: TV.brand, bgHex: TV.brandTint,
     hasBuilder: true, builderRoute: "/template/create?channel=email",
     startOptions: [
       { key: "blank", label: "Start from scratch", description: "Write email content with default fields" },
@@ -194,7 +194,7 @@ const WIZARD_CATEGORIES: WizardCategory[] = [
   {
     key: "templates" as WizardAssetType, label: "SMS Template", shortLabel: "SMS",
     description: "Short text message with merge tags for personalization",
-    icon: MessageSquare, colorHex: "#0e7490", bgHex: "#e0f8ff",
+    icon: MessageSquare, colorHex: TV.info, bgHex: TV.infoBg,
     hasBuilder: true, builderRoute: "/template/create?channel=sms",
     startOptions: [
       { key: "blank", label: "Start from scratch", description: "Compose a new SMS message from scratch" },
@@ -204,7 +204,7 @@ const WIZARD_CATEGORIES: WizardCategory[] = [
   {
     key: "videos", label: "Library Video", shortLabel: "Video",
     description: "Upload or record a video for your library",
-    icon: Film, colorHex: "#007c9e", bgHex: "#d9f2f8",
+    icon: Film, colorHex: TV.record, bgHex: TV.recordTint,
     hasBuilder: false, builderRoute: "/video/create",
     startOptions: [
       { key: "record", label: "Record new video", description: "Open the video recorder to capture a new clip" },
@@ -214,7 +214,7 @@ const WIZARD_CATEGORIES: WizardCategory[] = [
   {
     key: "images", label: "Image", shortLabel: "Image",
     description: "Upload an image for backgrounds, headers, or campaign content",
-    icon: ImageIcon, colorHex: "#b45309", bgHex: "#fef9ee",
+    icon: ImageIcon, colorHex: TV.warning, bgHex: TV.warningBg,
     hasBuilder: false, builderRoute: null,
     startOptions: [
       { key: "upload", label: "Upload image", description: "Upload a PNG, JPG, or SVG from your computer" },
@@ -224,7 +224,7 @@ const WIZARD_CATEGORIES: WizardCategory[] = [
   {
     key: "intros", label: "Intro", shortLabel: "Intro",
     description: "Themed slideshow with photos, text, color palette, and music",
-    icon: Clapperboard, colorHex: "#7c3aed", bgHex: "#f5f3ff",
+    icon: Clapperboard, colorHex: TV.brand, bgHex: TV.brandTint,
     hasBuilder: false, builderRoute: "/intro/create",
     startOptions: [
       { key: "theme", label: "Choose a theme", description: "Pick from 9 carried-over intro themes (Logo, Full Frame, etc.)" },
@@ -234,7 +234,7 @@ const WIZARD_CATEGORIES: WizardCategory[] = [
   {
     key: "outros", label: "Outro", shortLabel: "Outro",
     description: "Static end-screen with background color, CTA button, and music",
-    icon: MonitorPlay, colorHex: "#0369a1", bgHex: "#f0f9ff",
+    icon: MonitorPlay, colorHex: TV.info, bgHex: TV.infoBg,
     hasBuilder: true, builderRoute: "/outro/create",
     startOptions: [
       { key: "blank", label: "Start from scratch", description: "Create a new outro with a title and attached image" },
@@ -244,7 +244,7 @@ const WIZARD_CATEGORIES: WizardCategory[] = [
   {
     key: "envelopes", label: "Envelope Design", shortLabel: "Envelope",
     description: "Custom envelope with branding, colors, textures, and postmarks",
-    icon: Mail, colorHex: "#0e7490", bgHex: "#e0f8ff",
+    icon: Mail, colorHex: TV.info, bgHex: TV.infoBg,
     hasBuilder: true, builderRoute: "/envelope",
     startOptions: [
       { key: "blank", label: "Start from scratch", description: "Open the Envelope Builder with a blank canvas" },
@@ -255,7 +255,7 @@ const WIZARD_CATEGORIES: WizardCategory[] = [
   {
     key: "landing-pages", label: "Landing Page", shortLabel: "Landing Page",
     description: "Recipient-facing page with video, CTA, and reply form",
-    icon: Globe, colorHex: "#15803d", bgHex: "#f0fdf4",
+    icon: Globe, colorHex: TV.success, bgHex: TV.successBg,
     hasBuilder: true, builderRoute: "/landing?returnTo=/assets",
     startOptions: [
       { key: "blank", label: "Start from scratch", description: "Open the Landing Page Builder with default blocks" },
@@ -541,6 +541,9 @@ export function CreateAssets() {
           <div>
             <h2 className="text-[16px] font-black text-tv-text-primary">All Assets</h2>
             <p className="text-[12px] text-tv-text-secondary mt-0.5">{filtered.length} asset{filtered.length !== 1 ? "s" : ""} {filterType !== "all" ? `in ${ASSET_CATEGORIES.find(c => c.key === filterType)?.label || filterType}` : ""}</p>
+            <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+              {filtered.length} {filtered.length === 1 ? "result" : "results"}
+            </div>
           </div>
           <div className="flex items-center gap-2">
             {/* View toggle */}
@@ -556,7 +559,7 @@ export function CreateAssets() {
         </div>
 
         {/* Search & filters */}
-        <div className="flex items-center gap-3 px-4 pt-3 pb-3 border-b border-[#f0eaf8] bg-[#fafbfc] overflow-x-auto">
+        <div className="flex items-center gap-3 px-4 pt-3 pb-3 border-b border-tv-border-divider bg-tv-surface-muted overflow-x-auto">
           <div className="flex items-center gap-2 bg-white rounded-full px-4 py-1.5 border border-tv-border-light min-w-[200px] w-[255px] shrink-0">
             <Search size={13} className="text-tv-text-secondary shrink-0" />
             <input
@@ -580,8 +583,8 @@ export function CreateAssets() {
                 onClick={() => setFilterType(tab.key)}
                 className={`px-4 py-1.5 rounded-full text-[13px] transition-all whitespace-nowrap ${
                   filterType === tab.key
-                    ? "bg-[#7c45b0] text-white"
-                    : "border border-[#e0daea] text-[#737373] hover:border-[#b5a4cd]"
+                    ? "bg-tv-brand text-white"
+                    : "border border-tv-border text-tv-text-secondary hover:border-tv-border-strong"
                 }`}
               >
                 {tab.label}
@@ -591,13 +594,13 @@ export function CreateAssets() {
 
           {/* Sort */}
           <div
-            className="shrink-0 ml-auto bg-[#e4daef] rounded-full p-[3.5px]"
-            style={{ border: "1.5px solid #b5a4cd" }}
+            className="shrink-0 ml-auto bg-tv-surface-active rounded-full p-[3.5px]"
+            style={{ border: `1.5px solid ${TV.borderStrong}` }}
           >
             <Menu position="bottom-end">
               <Menu.Target>
                 <Tooltip label="Sort" withArrow position="bottom" openDelay={300}>
-                  <ActionIcon variant="subtle" size={32} radius="xl" aria-label="Sort assets" style={{ color: TV.brand, backgroundColor: "#f5f3fa" }}>
+                  <ActionIcon variant="subtle" size={32} radius="xl" aria-label="Sort assets" style={{ color: TV.brand, backgroundColor: TV.surface }}>
                     <ArrowUpDown size={14} />
                   </ActionIcon>
                 </Tooltip>
@@ -743,7 +746,7 @@ export function CreateAssets() {
                   <p className="text-[11px] text-tv-text-secondary line-clamp-2 leading-snug mb-2.5">{asset.description}</p>
                   <div className="flex flex-wrap gap-1 mb-2.5">
                     {asset.tags.slice(0, 3).map(tag => (
-                      <span key={tag} className="inline-flex items-center whitespace-nowrap text-[9px] font-medium px-1.5 py-0.5 rounded-full bg-tv-surface text-tv-text-secondary border border-[#e8e4f0]">{tag}</span>
+                      <span key={tag} className="inline-flex items-center whitespace-nowrap text-[9px] font-medium px-1.5 py-0.5 rounded-full bg-tv-surface text-tv-text-secondary border border-tv-border-divider">{tag}</span>
                     ))}
                   </div>
                   <div className="flex items-center justify-between pt-2.5 border-t border-tv-border-divider">
@@ -786,10 +789,10 @@ export function CreateAssets() {
       </div>
 
       {/* Migration Notice */}
-      <div className="mt-6 bg-[#fef9ee] rounded-xl border border-[#fde68a] p-4 sm:p-5">
+      <div className="mt-6 bg-tv-warning-bg rounded-xl border border-tv-warning-border p-4 sm:p-5">
         <div className="flex items-start gap-3">
-          <div className="w-9 h-9 rounded-md bg-[#fef3c7] flex items-center justify-center shrink-0">
-            <Sparkles size={16} className="text-[#b45309]" />
+          <div className="w-9 h-9 rounded-md bg-tv-warning-border flex items-center justify-center shrink-0">
+            <Sparkles size={16} className="text-tv-warning" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[13px] font-semibold text-tv-text-primary mb-1">Historic ThankView Assets Migration</p>
@@ -799,9 +802,9 @@ export function CreateAssets() {
               Video overlays have been removed from the UI. Non-carried-over intro themes are view-only for existing campaigns.
             </p>
             <div className="flex flex-wrap gap-2 mt-3">
-              <span className="text-[10px] font-medium text-[#b45309] bg-[#fef3c7] px-2 py-1 rounded-full">6 asset types supported</span>
-              <span className="text-[10px] font-medium text-[#b45309] bg-[#fef3c7] px-2 py-1 rounded-full">9 intro themes carried over</span>
-              <span className="text-[10px] font-medium text-[#b45309] bg-[#fef3c7] px-2 py-1 rounded-full">Overlays deprecated</span>
+              <span className="text-[10px] font-medium text-tv-warning bg-tv-warning-border px-2 py-1 rounded-full">6 asset types supported</span>
+              <span className="text-[10px] font-medium text-tv-warning bg-tv-warning-border px-2 py-1 rounded-full">9 intro themes carried over</span>
+              <span className="text-[10px] font-medium text-tv-warning bg-tv-warning-border px-2 py-1 rounded-full">Overlays deprecated</span>
             </div>
           </div>
         </div>

@@ -47,7 +47,7 @@ export const INPUT_CLS_WHITE = `${INPUT_CLS} bg-white`;
 export const TEXTAREA_CLS = `${INPUT_CLS} resize-none`;
 
 /* ── Standard <select> ─────────────────────────────────────────────────────── */
-export const SELECT_CLS = INPUT_CLS;
+export const SELECT_CLS = `${INPUT_CLS} appearance-none pr-8 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:14px] bg-[right_10px_center] bg-no-repeat cursor-pointer`;
 
 /* ── <label> — micro uppercase label (10px, semibold, uppercase tracking) ── */
 export const LABEL_CLS = "tv-label mb-1 block";

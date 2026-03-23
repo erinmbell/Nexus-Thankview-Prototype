@@ -324,7 +324,7 @@ export function LandingPageDesigns() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           {filtered.map(pg => (
-            <div key={pg.id} role="button" tabIndex={0} onClick={() => setPreviewId(pg.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(pg.id); }}} aria-label={`Preview: ${pg.name}`} className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer">
+            <div role="button" tabIndex={0} key={pg.id} onClick={() => setPreviewId(pg.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(pg.id); }}} aria-label={`Preview: ${pg.name}`} className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer text-left">
               {/* Thumbnail */}
               <div className="h-40 relative overflow-hidden bg-tv-surface">
                 <ImageWithFallback src={pg.thumb} alt={pg.name} className="w-full h-full object-cover" />

@@ -193,13 +193,13 @@ export function EmailTemplates() {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filtered.map(tpl => (
             <div
-              key={tpl.id}
               role="button"
               tabIndex={0}
+              key={tpl.id}
               onClick={() => setPreviewId(tpl.id)}
               onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(tpl.id); }}}
               aria-label={`Preview: ${tpl.name}`}
-              className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer"
+              className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer text-left"
             >
               {/* Color bar */}
               <div className={`h-1.5 w-full ${tpl.channel === "sms" ? "bg-tv-record-bg" : "bg-tv-brand-bg"}`} />

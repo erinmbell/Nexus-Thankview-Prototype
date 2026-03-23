@@ -155,7 +155,7 @@ function ArchiveModal({ count, isUnarchive, onConfirm, onCancel }: { count: numb
           <Archive size={20} style={{ color: TV.warning }} />
         </Box>
         <div style={{ flex: 1 }}>
-          <Title order={3} fz={16} mb={4}>{verb} {noun}?</Title>
+          <Title order={2} fz={16} mb={4}>{verb} {noun}?</Title>
           <Text fz={13} c={TV.textSecondary}>
             {isUnarchive
               ? "This will restore the video to its original folder and make it visible in the default view."
@@ -345,13 +345,13 @@ function VideoCardMenu({ v, onEdit, onFavorite, onDuplicate, onCopyLink, onSendA
 // ── Grid Card ─────────────────────────────────────────────────────────────────
 function VideoGridCard({ v, selected, openMenu, onSelect, onOpen, onMenuToggle, onMenuClose, onEdit, onFavorite, onDuplicate, onCopyLink, onSendAs1to1, onDownload, onArchive, onDelete }: VideoCardProps) {
   return (
-    <div className="group relative rounded-[14px] overflow-hidden border border-tv-border-light bg-white hover:shadow-lg transition-all cursor-pointer" role="button" tabIndex={0} onClick={onOpen} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(); }}} aria-label={`Open video: ${v.title}`}>
+    <div role="button" tabIndex={0} className="group relative rounded-[14px] overflow-hidden border border-tv-border-light bg-white hover:shadow-lg transition-all cursor-pointer text-left w-full" onClick={onOpen} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(); }}} aria-label={`Open video: ${v.title}`}>
       {/* Checkbox on hover */}
-      <div role="button" tabIndex={0} aria-label="Select video" className="absolute top-2 left-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => { e.stopPropagation(); onSelect(); }} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); onSelect(); } }}>
+      <button type="button" aria-label="Select video" className="absolute top-2 left-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => { e.stopPropagation(); onSelect(); }}>
         <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${selected.includes(v.id) ? "bg-tv-brand-bg border-tv-brand-bg" : "bg-white border-tv-border-light"}`}>
           {selected.includes(v.id) && <Check size={10} className="text-white" strokeWidth={3} />}
         </div>
-      </div>
+      </button>
       {/* Archived badge */}
       {v.archived && (
         <div className="absolute top-2 left-9 z-10 bg-black/50 text-white text-[8px] font-semibold px-1.5 py-0.5 rounded">Archived</div>
@@ -451,13 +451,13 @@ const VIDEO_COL_WIDTHS: Record<string, string> = {
 // ── List Row ──────────────────────────────────────────────────────────────────
 function VideoListRow({ v, selected, openMenu, onSelect, onOpen, onMenuToggle, onMenuClose, onEdit, onFavorite, onDuplicate, onCopyLink, onSendAs1to1, onDownload, onArchive, onDelete, activeCols }: VideoCardProps & { activeCols: string[] }) {
   return (
-    <div role="button" tabIndex={0} onClick={onOpen} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(); }}} aria-label={`Open video: ${v.title}`} className={`flex items-center gap-4 px-5 py-3.5 border-b border-tv-border-divider last:border-b-0 hover:bg-tv-surface-muted cursor-pointer group ${v.archived ? "opacity-60" : ""}`}>
+    <div role="button" tabIndex={0} onClick={onOpen} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(); }}} aria-label={`Open video: ${v.title}`} className={`w-full flex items-center gap-4 px-5 py-3.5 border-b border-tv-border-divider last:border-b-0 hover:bg-tv-surface-muted cursor-pointer group text-left ${v.archived ? "opacity-60" : ""}`}>
       {/* Checkbox */}
-      <div role="button" tabIndex={0} aria-label="Select video" onClick={e => { e.stopPropagation(); onSelect(); }} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); onSelect(); } }} className="w-5 shrink-0">
+      <button type="button" aria-label="Select video" onClick={e => { e.stopPropagation(); onSelect(); }} className="w-5 shrink-0">
         <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${selected.includes(v.id) ? "bg-tv-brand-bg border-tv-brand-bg" : "border-tv-border-light group-hover:border-tv-border-strong"}`}>
           {selected.includes(v.id) && <Check size={10} className="text-white" strokeWidth={3} />}
         </div>
-      </div>
+      </button>
       <div className={`w-10 h-10 bg-gradient-to-br ${THUMB_CLASSES[v.thumb]} rounded-sm flex items-center justify-center shrink-0 relative overflow-hidden`}>
         {v.thumbnailImage ? (
           <img src={v.thumbnailImage} alt={v.title || "Video thumbnail"} className="absolute inset-0 w-full h-full object-cover" />

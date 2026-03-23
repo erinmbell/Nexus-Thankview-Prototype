@@ -119,6 +119,17 @@ export function VideoEditorModal({
   onClose,
 }: VideoEditorModalProps) {
   const { show } = useToast();
+  const triggerRef = useRef<HTMLElement | null>(null);
+
+  // Capture the element that triggered the modal for focus return (WCAG 2.4.3)
+  useState(() => {
+    triggerRef.current = document.activeElement as HTMLElement;
+  });
+
+  const handleClose = () => {
+    onClose();
+    triggerRef.current?.focus();
+  };
 
   // ── Video data state ──
   const [data, setData] = useState<VideoData>(() =>
@@ -373,7 +384,7 @@ export function VideoEditorModal({
             </button>
           )}
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="w-7 h-7 rounded-full border border-tv-border-light flex items-center justify-center hover:bg-tv-surface transition-colors shrink-0"
           >
             <X size={12} className="text-tv-text-secondary" />
@@ -681,7 +692,7 @@ export function VideoEditorModal({
                     <div className="mb-3">
                       <label className="text-[9px] text-tv-text-secondary mb-1 block">Language</label>
                       <select value={captionLang} onChange={e => { setCaptionLang(e.target.value); setHasChanges(true); }}
-                        className="w-full border border-tv-border-light rounded-sm px-3 py-1.5 text-[11px] outline-none focus:border-tv-brand-bg bg-white">
+                        className="w-full border border-tv-border-light rounded-[8px] px-3 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white appearance-none pr-7 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_8px_center] bg-no-repeat cursor-pointer">
                         {LANGUAGES.map(l => <option key={l}>{l}</option>)}
                       </select>
                     </div>

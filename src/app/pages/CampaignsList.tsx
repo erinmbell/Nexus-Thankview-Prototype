@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import {
   TextInput, Button, Paper, Badge, Modal, Menu, ActionIcon,
-  Title, Text, Group, Stack, Box, Checkbox, Table, UnstyledButton, Select,
+  Title, Text, Group, Stack, Box, Checkbox, Table, UnstyledButton, Select, FocusTrap,
 } from "@mantine/core";
 import { TV } from "../theme";
 import { PillSearchInput } from "../components/PillSearchInput";
@@ -25,9 +25,9 @@ import { UserCheck, Calendar } from "lucide-react";
 
 // ── Create-campaign dropdown items ─────────────────────────────────────────────
 const CREATE_ITEMS: { mode: string; label: string; desc: string; icon: any; bg: string; iconColor: string }[] = [
-  { mode: "single",           label: "Single-Step",      desc: "One message, one send",                     icon: Send,      bg: "#f3eeff", iconColor: "#7c45b0" },
-  { mode: "multi",            label: "Multi-Step",        desc: "Automated sequence of messages",            icon: GitBranch, bg: "#e8f4fd", iconColor: "#2b7bb9" },
-  { mode: "video-request",    label: "Video Request",     desc: "Collect videos from constituents",          icon: Bell,      bg: "#e6f9ed", iconColor: "#15803d" },
+  { mode: "single",           label: "Single-Step",      desc: "One message, one send",                     icon: Send,      bg: "var(--tv-brand-tint)", iconColor: "var(--tv-brand)" },
+  { mode: "multi",            label: "Multi-Step",        desc: "Automated sequence of messages",            icon: GitBranch, bg: "var(--tv-info-bg)",    iconColor: "var(--tv-info)" },
+  { mode: "video-request",    label: "Video Request",     desc: "Collect videos from constituents",          icon: Bell,      bg: "var(--tv-success-bg)", iconColor: "var(--tv-success)" },
 ];
 
 // ── Campaign thumbnail stock images (Unsplash) ───────────────────────────────
@@ -465,6 +465,7 @@ function TemplatePickerModal({ onSelect, onCancel }: { onSelect: (tpl: CampaignT
 
       {/* Delete confirmation */}
       {confirmDelete && (
+        <FocusTrap active>
         <div className="fixed inset-0 bg-black/30 z-[1000] flex items-center justify-center" onClick={() => setConfirmDelete(null)} role="dialog" aria-modal="true" aria-labelledby="delete-template-title">
           <div className="bg-white rounded-xl border border-tv-border-light p-6 max-w-[380px] w-full mx-4 shadow-xl" onClick={e => e.stopPropagation()}>
             <p id="delete-template-title" className="text-[15px] text-tv-text-primary mb-2" style={{ fontWeight: 900 }}>Delete template?</p>
@@ -485,6 +486,7 @@ function TemplatePickerModal({ onSelect, onCancel }: { onSelect: (tpl: CampaignT
             </div>
           </div>
         </div>
+        </FocusTrap>
       )}
     </Modal>
   );
@@ -651,16 +653,14 @@ function FilterDropdown({
             <span className="text-tv-brand font-semibold">{label}</span>
             <div className="w-px h-[14px] bg-tv-brand/30 shrink-0" />
             <span className="text-tv-brand" style={{ fontWeight: 500 }}>{activeLabel}</span>
-            <span
-              role="button"
-              tabIndex={0}
+            <button
+              type="button"
               onClick={e => { e.stopPropagation(); e.preventDefault(); onChange(defaultValue); }}
-              onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); onChange(defaultValue); } }}
               className="shrink-0 size-[14px] rounded-full inline-flex items-center justify-center text-tv-brand hover:text-tv-brand-hover transition-colors cursor-pointer"
               aria-label={`Clear ${label} filter`}
             >
               <X size={10} />
-            </span>
+            </button>
           </>
         ) : (
           <>
@@ -951,7 +951,7 @@ export function CampaignsList() {
               style={{ borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <FileText size={28} style={{ color: TV.textBrand }} />
             </Box>
-            <Title order={4} c={TV.textPrimary}>No campaigns found</Title>
+            <Title order={2} c={TV.textPrimary}>No campaigns found</Title>
             <Text fz={13} c={TV.textSecondary}>Try adjusting your filters or create a new campaign.</Text>
             <CreateCampaignDropdown navigate={navigate} onOpenTemplates={() => setShowTemplatePicker(true)} />
           </Stack>
@@ -986,7 +986,7 @@ export function CampaignsList() {
                       const col = ALL_COLUMNS.find(c => c.key === colKey);
                       if (!col) return null;
                       return (
-                        <Table.Th key={col.key} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
+                        <Table.Th key={col.key} aria-sort={sortKey === col.key && sortDir ? (sortDir === "asc" ? "ascending" : "descending") : "none"} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
                           <SortableHeader label={col.label} sortKey={col.key} currentSort={sortKey} currentDir={sortDir} onSort={handleSort} />
                         </Table.Th>
                       );
@@ -1136,7 +1136,7 @@ export function CampaignsList() {
                   <div className="flex items-center gap-3 flex-nowrap">
                     <Checkbox checked={bulkSelected.includes(c.id)} onChange={() => toggleBulk(c.id)} color="tvPurple" size="xs" />
                     <CampaignThumbnail campaign={c} size="sm" />
-                    <div style={{ flex: 1, minWidth: 0, cursor: "pointer" }} role="link" tabIndex={0} onClick={() => navigate(`/campaigns/${c.id}`)} onKeyDown={e => { if (e.key === "Enter") navigate(`/campaigns/${c.id}`); }}>
+                    <button type="button" style={{ flex: 1, minWidth: 0, cursor: "pointer" }} onClick={() => navigate(`/campaigns/${c.id}`)} className="text-left">
                       <Text fz={13} fw={600} c={TV.textBrand} truncate className="hover:underline mb-1">{c.name}</Text>
                       <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
                         <Badge size="xs" variant="light" color={c.steps === "single" ? "tvPurple" : c.steps === "video-request" ? "green" : "blue"} radius="xl">
@@ -1156,7 +1156,7 @@ export function CampaignsList() {
                         <Text fz={11} c={TV.textSecondary}>Clicks: <Text span fz={11} fw={600} c={TV.textPrimary}>{c.clickRate}</Text></Text>
                       </div>
                       <Text fz={11} c={TV.textDecorative}>{c.creator} · {c.sendDate !== "—" ? c.sendDate : "Not scheduled"}</Text>
-                    </div>
+                    </button>
                     <Menu position="bottom-end" withinPortal>
                       <Menu.Target>
                         <ActionIcon variant="subtle" color="gray" size="sm" onClick={e => e.stopPropagation()} aria-label="Campaign actions" title="Campaign actions">

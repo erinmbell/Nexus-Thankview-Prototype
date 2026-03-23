@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import { ENVELOPE_DESIGNS, LANDING_PAGES } from "./types";
 import { useDesignLibrary } from "../../contexts/DesignLibraryContext";
+import { EnvelopePreview } from "../../components/EnvelopePreview";
+import { LivePreviewModal } from "../../components/LivePreviewModal";
 
 /** Paper/linen texture overlay for envelope renders */
 const PAPER_TEXTURE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E")`;
@@ -420,6 +422,7 @@ export function LivePreviewPanel({
 
   // ── Preview tab: Email / Landing Page / Envelope ──────────────────────────
   const [previewTab, setPreviewTab] = useState<PreviewTab>("email");
+  const [animModalOpen, setAnimModalOpen] = useState(false);
 
 
   // ── Custom merge fields (user-added beyond the built-in set) ───────────
@@ -601,18 +604,20 @@ export function LivePreviewPanel({
             </span>
           )}
         </div>
-        <div className="flex items-center gap-1 lg:gap-1.5">
-          {([
-            { key: "desktop" as const, Icon: Monitor },
-            { key: "tablet" as const, Icon: Tablet },
-            { key: "mobile" as const, Icon: Smartphone },
-          ]).map(({ key, Icon }) => (
-            <button key={key} onClick={() => setDevice(key)}
-              className={`w-6 h-6 lg:w-7 lg:h-7 rounded-sm flex items-center justify-center transition-colors ${device === key ? "bg-tv-brand-bg text-white" : "text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
-              <Icon size={12} />
-            </button>
-          ))}
-        </div>
+        {!smsMode && (
+          <div className="flex items-center gap-1 lg:gap-1.5">
+            {([
+              { key: "desktop" as const, Icon: Monitor },
+              { key: "tablet" as const, Icon: Tablet },
+              { key: "mobile" as const, Icon: Smartphone },
+            ]).map(({ key, Icon }) => (
+              <button key={key} onClick={() => setDevice(key)}
+                className={`w-6 h-6 lg:w-7 lg:h-7 rounded-sm flex items-center justify-center transition-colors ${device === key ? "bg-tv-brand-bg text-white" : "text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
+                <Icon size={12} />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* ── Preview tab bar: Email / Landing Page / Envelope ── */}
@@ -633,6 +638,14 @@ export function LivePreviewPanel({
               </button>
             );
           })}
+          <div className="flex-1" />
+          <button
+            onClick={() => setAnimModalOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-tv-brand-bg text-white text-[11px] hover:bg-tv-brand-hover transition-colors"
+            style={{ fontWeight: 600 }}
+          >
+            <Play size={11} />Preview Animation
+          </button>
         </div>
       )}
 
@@ -976,7 +989,7 @@ export function LivePreviewPanel({
 
       {/* Preview canvas */}
       <div className="px-4 py-5 lg:px-5 lg:py-6 bg-tv-surface/40 flex justify-center">
-        <div className={`${smsMode ? (device === "tablet" ? "w-full max-w-[500px]" : "w-[280px]") : deviceWidths[device]} transition-all duration-300 mx-auto`}>
+        <div className={`${smsMode ? "w-[280px]" : deviceWidths[device]} transition-all duration-300 mx-auto`}>
 
           {/* ══════════════════════════════════════════════════════════════════
                LANDING PAGE PREVIEW TAB
@@ -1021,50 +1034,19 @@ export function LivePreviewPanel({
                   )}
                   <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
 
-                  {/* Envelope floating on video area */}
+                  {/* Envelope — matches library EnvelopePreview */}
                   <div className="absolute inset-0 flex items-center justify-center p-5">
-                    <div
-                      className={`relative shadow-2xl overflow-hidden rounded-[2px] ${isMobile ? "w-[82%] max-w-[260px]" : isTab ? "w-[60%] max-w-[300px]" : "w-[56%] max-w-[340px]"}`}
-                      style={{ backgroundColor: envColor, aspectRatio: "16/10" }}>
-                      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: PAPER_TEXTURE, backgroundSize: "200px 200px", mixBlendMode: "overlay" }} />
-                      {/* Holiday graphic decorations */}
-                      {(envelope as any).holidayType && (
-                        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                          <HolidayGraphic type={(envelope as any).holidayType} size={isMobile ? 60 : isTab ? 80 : 100} color={envAccent} />
-                        </div>
-                      )}
-                      {/* Perforated stamp — top right */}
-                      <div className={`absolute ${isMobile ? "top-2 right-2" : "top-3 right-3"}`}>
-                        <PerforatedStamp size={isMobile ? 36 : isTab ? 44 : 52} accentColor={envAccent} />
-                      </div>
-                      {/* Postmark circle — top left */}
-                      <div className={`absolute ${isMobile ? "top-[5%] left-[4%]" : "top-[5%] left-[4%]"}`}>
-                        <svg width={isMobile ? 32 : isTab ? 40 : 48} height={isMobile ? 32 : isTab ? 40 : 48} viewBox="0 0 48 48" fill="none">
-                          <circle cx="24" cy="24" r="18" stroke={envAccent} strokeWidth="1.2" opacity={0.3} />
-                          <circle cx="24" cy="24" r="14" stroke={envAccent} strokeWidth="0.6" opacity={0.2} />
-                          <line x1="4" y1="24" x2="44" y2="24" stroke={envAccent} strokeWidth="0.6" opacity={0.2} />
-                          <text x="24" y="21" textAnchor="middle" fill={envAccent} opacity={0.35} style={{ fontSize: "5px", fontWeight: 600, letterSpacing: "0.08em" }}>THANK YOU</text>
-                          <text x="24" y="29" textAnchor="middle" fill={envAccent} opacity={0.25} style={{ fontSize: "3.5px", letterSpacing: "0.05em" }}>THANKVIEW</text>
-                        </svg>
-                      </div>
-                      {/* Constituent name centered */}
-                      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                        <div className="text-center space-y-0">
-                          {personLines.map((line, i) => (
-                            <p key={i} style={{
-                              color: line === nameString ? envNameCol : (isDarkColor(envColor) ? "rgba(255,255,255,0.55)" : "rgba(30,41,59,0.45)"),
-                              fontSize: line === nameString ? (isMobile ? "12px" : isTab ? "15px" : "18px") : (isMobile ? "8px" : "10px"),
-                              fontWeight: line === nameString ? 500 : 400,
-                              fontStyle: line === nameString ? "italic" : "normal",
-                              lineHeight: "1.5",
-                              letterSpacing: line === nameString ? "0.02em" : "0",
-                            }}>
-                              {line}
-                            </p>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
+                    <EnvelopePreview
+                      envelopeColor={envColor}
+                      linerColor={envAccent}
+                      primaryColor={envAccent}
+                      secondaryColor={envColor}
+                      postmarkColor={envAccent}
+                      recipientNameColor={envNameCol}
+                      showName
+                      mode="front"
+                      width={isMobile ? 220 : isTab ? 280 : 320}
+                    />
                   </div>
                 </div>
 
@@ -1080,7 +1062,7 @@ export function LivePreviewPanel({
                   {/* CTA Button */}
                   {ctaText && (
                     <div className="text-center mb-4">
-                      <span className={`inline-block px-6 py-2.5 rounded-sm text-white transition-colors ${isMobile ? "text-[11px]" : "text-[13px]"}`}
+                      <span className={`inline-block px-6 py-2.5 rounded-2xl text-white transition-colors ${isMobile ? "text-[11px]" : "text-[13px]"}`}
                         style={{ backgroundColor: btnBg || lpColor, color: btnText || "#ffffff", fontWeight: 600 }}>
                         {isVideoRequest ? "Record Your Video" : ctaText}
                       </span>
@@ -1116,30 +1098,30 @@ export function LivePreviewPanel({
                   {/* Action buttons */}
                   <div className={`flex items-center justify-center ${isMobile ? "flex-wrap gap-1.5" : "gap-2.5"}`}>
                     {allowVideoReply !== false && (
-                      <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm border text-[11px]`}
+                      <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border text-[11px]`}
                         style={{ borderColor: btnBg || lpColor, color: btnBg || lpColor, fontWeight: 500 }}>
                         <Camera size={11} />Record Reply
                       </span>
                     )}
                     {allowEmailReply !== false && (
-                      <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm border text-[11px]`}
+                      <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border text-[11px]`}
                         style={{ borderColor: btnBg || lpColor, color: btnBg || lpColor, fontWeight: 500 }}>
                         <Reply size={11} />Reply
                       </span>
                     )}
                     {allowSaveButton !== false && (
-                      <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-white text-[11px]`}
+                      <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-white text-[11px]`}
                         style={{ backgroundColor: "#22c55e", fontWeight: 500 }}>
                         <Download size={11} />Save
                       </span>
                     )}
                     {allowShareButton !== false && (
-                      <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm border border-tv-border-light text-tv-text-primary text-[11px]" style={{ fontWeight: 500 }}>
+                      <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border border-tv-border-light text-tv-text-primary text-[11px]" style={{ fontWeight: 500 }}>
                         Share <ExternalLink size={9} />
                       </span>
                     )}
                     {allowDownloadVideo !== false && (
-                      <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm border border-tv-border-light text-tv-text-primary text-[11px]" style={{ fontWeight: 500 }}>
+                      <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border border-tv-border-light text-tv-text-primary text-[11px]" style={{ fontWeight: 500 }}>
                         <Download size={11} />Download
                       </span>
                     )}
@@ -1175,79 +1157,68 @@ export function LivePreviewPanel({
             const hasLink = resolvedSms.includes("thankview.com") || (smsBody || "").includes("{{link}}");
             const senderInitial = (smsPhoneNumber || "TV")[0].toUpperCase();
 
-            const isTabletView = device === "tablet";
-            const shellRound = isTabletView ? "rounded-[28px]" : "rounded-[38px]";
-            const shellPad = isTabletView ? "p-[5px]" : "p-[6px]";
-            const bezelRound = isTabletView ? "rounded-[24px]" : "rounded-[32px]";
-            const bubbleMaxW = isTabletView ? "max-w-[55%]" : "max-w-[80%]";
-            const linkMaxW = isTabletView ? "max-w-[55%]" : "max-w-[80%]";
-            const msgPadX = isTabletView ? "px-6" : "px-3";
-            const navPadX = isTabletView ? "px-4" : "px-2.5";
-            const statusPadX = isTabletView ? "px-8" : "px-6";
-            const minMsgH = isTabletView ? "min-h-[300px]" : "min-h-[220px]";
-            const inputPadX = isTabletView ? "px-4" : "px-2.5";
-            const homeW = isTabletView ? "w-[100px]" : "w-[80px]";
-            const frameWidth = isTabletView ? "w-full" : "w-[270px]";
+            const shellRound = "rounded-[38px]";
+            const shellPad = "p-[6px]";
+            const bezelRound = "rounded-[32px]";
+            const bubbleMaxW = "max-w-[80%]";
+            const linkMaxW = "max-w-[80%]";
+            const msgPadX = "px-3";
+            const navPadX = "px-2.5";
+            const statusPadX = "px-6";
+            const minMsgH = "min-h-[220px]";
+            const inputPadX = "px-2.5";
+            const homeW = "w-[80px]";
+            const frameWidth = "w-[270px]";
 
             const phoneFrame = (
             <div className={`${frameWidth} mx-auto`}>
               <div className={`relative ${shellRound} bg-[#1c1c1e] ${shellPad} shadow-[0_8px_40px_rgba(0,0,0,0.25)]`}>
-                {!isTabletView && (
-                  <>
                     <div className="absolute -left-[2px] top-[72px] w-[2px] h-[14px] rounded-l-[2px] bg-[#2c2c2e]" />
                     <div className="absolute -left-[2px] top-[100px] w-[2px] h-[26px] rounded-l-[2px] bg-[#2c2c2e]" />
                     <div className="absolute -left-[2px] top-[132px] w-[2px] h-[26px] rounded-l-[2px] bg-[#2c2c2e]" />
                     <div className="absolute -right-[2px] top-[108px] w-[2px] h-[32px] rounded-r-[2px] bg-[#2c2c2e]" />
-                  </>
-                )}
-                {isTabletView && (
-                  <>
-                    <div className="absolute -right-[2px] top-[40px] w-[2px] h-[28px] rounded-r-[2px] bg-[#2c2c2e]" />
-                    <div className="absolute top-[8px] left-1/2 -translate-x-1/2 w-[2px] h-[16px] rounded-t-[2px] bg-[#2c2c2e] rotate-90" />
-                  </>
-                )}
                 <div className={`${bezelRound} overflow-hidden bg-white`}>
                   <div className="flex justify-center pt-[6px] pb-[2px] bg-white">
-                    <div className={`${isTabletView ? "w-[8px] h-[8px] rounded-full" : "w-[72px] h-[18px] rounded-full"} bg-[#1c1c1e]`} />
+                    <div className="w-[72px] h-[18px] rounded-full bg-[#1c1c1e]" />
                   </div>
                   <div className={`flex items-center justify-between ${statusPadX} pt-[2px] pb-[6px] bg-white`}>
-                    <span style={{ fontSize: isTabletView ? "11px" : "10px", fontWeight: 600 }} className="text-[#1c1c1e] tabular-nums">9:41</span>
+                    <span style={{ fontSize: "10px", fontWeight: 600 }} className="text-[#1c1c1e] tabular-nums">9:41</span>
                     <div className="flex items-center gap-[3px]">
-                      <Signal size={isTabletView ? 10 : 9} className="text-[#1c1c1e]" />
-                      <Wifi size={isTabletView ? 11 : 10} className="text-[#1c1c1e]" />
-                      <Battery size={isTabletView ? 13 : 12} className="text-[#1c1c1e]" />
+                      <Signal size={9} className="text-[#1c1c1e]" />
+                      <Wifi size={10} className="text-[#1c1c1e]" />
+                      <Battery size={12} className="text-[#1c1c1e]" />
                     </div>
                   </div>
                   <div className={`flex items-center justify-between ${navPadX} pb-2 bg-white border-b border-[#c6c6c8]`}>
                     <button className="flex items-center gap-0.5 text-[#007aff]">
-                      <ChevronLeft size={isTabletView ? 16 : 14} strokeWidth={2.5} />
-                      <span style={{ fontSize: isTabletView ? "11px" : "10px" }}>Back</span>
+                      <ChevronLeft size={14} strokeWidth={2.5} />
+                      <span style={{ fontSize: "10px" }}>Back</span>
                     </button>
                     <div className="flex flex-col items-center gap-0.5">
-                      <div className={`${isTabletView ? "w-[32px] h-[32px]" : "w-[28px] h-[28px]"} rounded-full bg-[#c7c7cc] flex items-center justify-center`}>
-                        <span style={{ fontSize: isTabletView ? "13px" : "12px", fontWeight: 600 }} className="text-white">{senderInitial}</span>
+                      <div className="w-[28px] h-[28px] rounded-full bg-[#c7c7cc] flex items-center justify-center">
+                        <span style={{ fontSize: "12px", fontWeight: 600 }} className="text-white">{senderInitial}</span>
                       </div>
-                      <span style={{ fontSize: isTabletView ? "10px" : "9px", fontWeight: 600 }} className={`text-[#1c1c1e] ${isTabletView ? "max-w-[200px]" : "max-w-[120px]"} truncate`}>
+                      <span style={{ fontSize: "9px", fontWeight: 600 }} className="text-[#1c1c1e] max-w-[120px] truncate">
                         {smsPhoneNumber || "ThankView"}
                       </span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <div className={`${isTabletView ? "w-[26px] h-[26px]" : "w-[22px] h-[22px]"} rounded-full bg-[#f2f2f7] flex items-center justify-center`}>
-                        <Phone size={isTabletView ? 11 : 10} className="text-[#007aff]" />
+                      <div className="w-[22px] h-[22px] rounded-full bg-[#f2f2f7] flex items-center justify-center">
+                        <Phone size={10} className="text-[#007aff]" />
                       </div>
-                      <div className={`${isTabletView ? "w-[26px] h-[26px]" : "w-[22px] h-[22px]"} rounded-full bg-[#f2f2f7] flex items-center justify-center`}>
-                        <Video size={isTabletView ? 11 : 10} className="text-[#007aff]" />
+                      <div className="w-[22px] h-[22px] rounded-full bg-[#f2f2f7] flex items-center justify-center">
+                        <Video size={10} className="text-[#007aff]" />
                       </div>
                     </div>
                   </div>
                   <div className={`bg-white ${minMsgH} flex flex-col`}>
                     <div className="text-center pt-3 pb-1.5">
-                      <span style={{ fontSize: isTabletView ? "9px" : "8px", fontWeight: 500 }} className="text-[#8e8e93] bg-[#f2f2f7] px-2 py-0.5 rounded-full">Today 9:41 AM</span>
+                      <span style={{ fontSize: "8px", fontWeight: 500 }} className="text-[#8e8e93] bg-[#f2f2f7] px-2 py-0.5 rounded-full">Today 9:41 AM</span>
                     </div>
                     <div className={`${msgPadX} pt-1.5 pb-1 flex justify-start`}>
                       <div className={`relative ${bubbleMaxW}`}>
-                        <div className={`bg-[#34c759] rounded-xl rounded-bl-[4px] ${isTabletView ? "px-4 py-2.5" : "px-3 py-2"} shadow-sm`}>
-                          <p style={{ fontSize: isTabletView ? "13px" : "11px", lineHeight: "1.45" }} className="text-white whitespace-pre-wrap">{resolvedSms}</p>
+                        <div className="bg-[#34c759] rounded-xl rounded-bl-[4px] px-3 py-2 shadow-sm">
+                          <p style={{ fontSize: "11px", lineHeight: "1.45" }} className="text-white whitespace-pre-wrap">{resolvedSms}</p>
                         </div>
                         <svg className="absolute -bottom-[1px] -left-[5px]" width="12" height="10" viewBox="0 0 12 10" fill="none">
                           <path d="M12 0C12 0 5.5 0 2 3.5C0 5.5 0 10 0 10C0 10 2 6.5 5.5 5C8 4 12 4 12 4V0Z" fill="#34c759" />
@@ -1258,26 +1229,26 @@ export function LivePreviewPanel({
                       <div className={`${msgPadX} pt-1 pb-1 flex justify-start`}>
                         <div className={linkMaxW}>
                           <div className="bg-[#f2f2f7] rounded-lg overflow-hidden border border-[#e5e5ea] shadow-sm">
-                            <div className={`bg-gradient-to-br from-[#7c45b0]/15 to-[#7c45b0]/5 ${isTabletView ? "h-[80px]" : "h-[60px]"} flex items-center justify-center`}>
-                              <div className={`${isTabletView ? "w-8 h-8" : "w-7 h-7"} rounded-full bg-[#7c45b0] flex items-center justify-center shadow-sm`}>
-                                <Play size={isTabletView ? 10 : 9} className="text-white ml-[1px]" fill="white" />
+                            <div className="bg-gradient-to-br from-[#7c45b0]/15 to-[#7c45b0]/5 h-[60px] flex items-center justify-center">
+                              <div className="w-7 h-7 rounded-full bg-[#7c45b0] flex items-center justify-center shadow-sm">
+                                {hideVideo ? <Mail size={9} className="text-white" /> : <Play size={9} className="text-white ml-[1px]" fill="white" />}
                               </div>
                             </div>
-                            <div className={`${isTabletView ? "px-3 py-2" : "px-2.5 py-1.5"}`}>
-                              <p style={{ fontSize: isTabletView ? "10px" : "9px", fontWeight: 600 }} className="text-[#1c1c1e]">ThankView</p>
-                              <p style={{ fontSize: isTabletView ? "9px" : "8px" }} className="text-[#8e8e93]">A personal video message for you</p>
-                              <p style={{ fontSize: isTabletView ? "8px" : "7px" }} className="text-[#007aff] mt-0.5">thankview.com</p>
+                            <div className="px-2.5 py-1.5">
+                              <p style={{ fontSize: "9px", fontWeight: 600 }} className="text-[#1c1c1e]">ThankView</p>
+                              <p style={{ fontSize: "8px" }} className="text-[#8e8e93]">{hideVideo ? "A personal message for you" : "A personal video message for you"}</p>
+                              <p style={{ fontSize: "7px" }} className="text-[#007aff] mt-0.5">thankview.com</p>
                             </div>
                           </div>
                         </div>
                       </div>
                     )}
                     <div className={`${msgPadX} pt-0.5 pb-1 flex justify-start`}>
-                      <p style={{ fontSize: isTabletView ? "8px" : "7px", fontWeight: 500 }} className="text-[#8e8e93] pl-1">Delivered</p>
+                      <p style={{ fontSize: "7px", fontWeight: 500 }} className="text-[#8e8e93] pl-1">Delivered</p>
                     </div>
                     <div className="flex-1 min-h-[20px]" />
                     <div className="text-center pb-2">
-                      <span style={{ fontSize: isTabletView ? "8px" : "7px" }} className="text-[#8e8e93] italic">Reply STOP to unsubscribe</span>
+                      <span style={{ fontSize: "7px" }} className="text-[#8e8e93] italic">Reply STOP to unsubscribe</span>
                     </div>
                   </div>
                   <div className={`flex items-end gap-1.5 ${inputPadX} py-2 border-t border-[#c6c6c8] bg-[#f9f9f9]`}>
@@ -1287,7 +1258,7 @@ export function LivePreviewPanel({
                       </svg>
                     </div>
                     <div className="flex-1 flex items-center bg-white border border-[#c6c6c8] rounded-full px-3 py-[5px]">
-                      <span style={{ fontSize: isTabletView ? "11px" : "10px" }} className="text-[#c7c7cc]">Text Message</span>
+                      <span style={{ fontSize: "10px" }} className="text-[#c7c7cc]">Text Message</span>
                     </div>
                     <div className="w-[24px] h-[24px] flex items-center justify-center shrink-0 mb-[1px]">
                       <svg width="11" height="14" viewBox="0 0 11 14" fill="none">
@@ -1304,21 +1275,6 @@ export function LivePreviewPanel({
               </div>
             </div>
             );
-
-            if (device === "desktop") {
-              return (
-                <div className="flex flex-col items-center gap-3">
-                  <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-md bg-tv-info/8 border border-tv-info/15">
-                    <Info size={13} className="text-tv-info shrink-0" />
-                    <p className="text-[10px] text-tv-text-secondary leading-snug">
-                      <span className="text-tv-text-primary" style={{ fontWeight: 600 }}>SMS messages are received on mobile devices</span>
-                      {" "}&mdash; showing mobile preview.
-                    </p>
-                  </div>
-                  {phoneFrame}
-                </div>
-              );
-            }
 
             return phoneFrame;
           })() : (
@@ -1397,8 +1353,8 @@ export function LivePreviewPanel({
 
             {/* 2) "View Your ThankView" button — below envelope */}
             <div className="flex justify-center px-4 pb-3 lg:px-5 lg:pb-4">
-              <div className="px-5 py-2 lg:px-6 lg:py-2.5 rounded-sm text-[10px] lg:text-[11px] text-center cursor-pointer shadow-sm transition-transform hover:scale-[1.02]" style={{ backgroundColor: btnBg, color: btnText, fontWeight: 600 }}>
-                {isVideoRequest ? "Record Your Video" : "View Your ThankView"}
+              <div className="px-5 py-2 lg:px-6 lg:py-2.5 rounded-2xl text-[10px] lg:text-[11px] text-center cursor-pointer shadow-sm transition-transform hover:scale-[1.02]" style={{ backgroundColor: btnBg, color: btnText, fontWeight: 600 }}>
+                {isVideoRequest ? "Record Your Video" : hideVideo ? "View Your Message" : "View Your ThankView"}
               </div>
             </div>
 
@@ -1487,6 +1443,38 @@ export function LivePreviewPanel({
           </>); })()}
         </div>
       </div>
+
+      {/* Animated envelope preview modal */}
+      <LivePreviewModal
+        open={animModalOpen}
+        onClose={() => setAnimModalOpen(false)}
+        envelopeColor={envelope.color}
+        nameColor={(envelope as any).nameColor || (isDarkColor(envelope.color) ? "#ffffff" : "#1e293b")}
+        primaryColor={envelope.accent}
+        linerColor={envelope.accent}
+        design="none"
+        swoop1Color={envelope.accent}
+        swoop2Color={envelope.color}
+        stripe1Color={envelope.accent}
+        stripe2Color={envelope.color}
+        postmark="black"
+        postmarkText="THANK YOU"
+        stampPreview={null}
+        logoPreview={null}
+        backFlapLogoPreview={null}
+        hasVideo={!hideVideo}
+        sendWithoutVideo={hideVideo}
+        ctaText={ctaText || "Give to the Annual Fund"}
+        landingPageBg={
+          landingPageImage
+            ? { kind: "image", imageUrl: landingPageImage }
+            : landingPageColor && landingPageAccent
+              ? { kind: "gradient", gradientFrom: landingPageColor, gradientTo: landingPageAccent, gradientDir: "135deg" }
+              : landingPageColor
+                ? { kind: "color", color: landingPageColor }
+                : undefined
+        }
+      />
     </div>
   );
 }

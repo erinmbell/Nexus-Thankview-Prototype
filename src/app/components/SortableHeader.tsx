@@ -42,6 +42,18 @@ export function sortRows<T>(
   });
 }
 
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+/** Returns the aria-sort value for a <th> wrapping this header */
+export function getAriaSort(
+  sortKey: string,
+  currentSort: string | null,
+  currentDir: SortDir,
+): "ascending" | "descending" | "none" {
+  if (currentSort !== sortKey || !currentDir) return "none";
+  return currentDir === "asc" ? "ascending" : "descending";
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export function SortableHeader({

@@ -2782,15 +2782,15 @@ export function Analytics() {
                         </div>
                         <div className="min-w-0 flex-1">
                           <Text fz={13} fw={600} c={TV.textBrand} className="truncate group-hover/clip:underline">{clip.title}</Text>
-                          <span
-                            role="link"
+                          <button
+                            type="button"
                             tabIndex={-1}
                             onClick={(e) => { e.stopPropagation(); navigateToCampaign(clip.campaignName); }}
                             className="truncate text-left transition-colors hover:underline block cursor-pointer"
                             style={{ color: TV.textBrand, fontSize: 11 }}
                           >
                             {clip.campaignName}
-                          </span>
+                          </button>
                           <Text fz={10} c={TV.textSecondary}>{clip.sender} · {clip.createdAt}</Text>
                         </div>
                       </button>
@@ -3253,7 +3253,7 @@ export function Analytics() {
                 const tc = TAG_COLORS[g.tag];
                 return (
                   <div key={g.tag} className={`border-b ${isExpanded ? "bg-tv-surface-muted" : ""}`} style={{ borderColor: TV.borderDivider }}>
-                    <div role="button" tabIndex={0} onClick={() => setExpandedTag(isExpanded ? null : g.tag)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setExpandedTag(isExpanded ? null : g.tag); } }} className="w-full text-left px-4 py-4 hover:bg-tv-surface-muted transition-colors cursor-pointer">
+                    <button type="button" onClick={() => setExpandedTag(isExpanded ? null : g.tag)} className="w-full text-left px-4 py-4 hover:bg-tv-surface-muted transition-colors cursor-pointer">
                       <div className="flex items-center justify-between gap-2 mb-2.5">
                         <div className="flex items-center gap-2 min-w-0">
                           <div className="w-7 h-7 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: tc.bg }}>
@@ -3274,7 +3274,7 @@ export function Analytics() {
                         <div><p className="text-[10px] uppercase tracking-[0.04em]" style={{ color: TV.textSecondary }}>Reply %</p><p className="text-[13px] font-semibold" style={{ color: TV.success }}>{g.avgReplyRate.toFixed(1)}%</p></div>
                         <div><p className="text-[10px] uppercase tracking-[0.04em]" style={{ color: TV.textSecondary }}>Avg Video</p><p className="text-[13px] font-semibold" style={{ color: TV.textPrimary }}>{g.avgVideoPct.toFixed(1)}%</p></div>
                       </div>
-                    </div>
+                    </button>
                     {isExpanded && (
                       <div className="px-4 pb-4 border-t pt-3 space-y-3" style={{ borderColor: TV.borderDivider }}>
                         {/* Comparison metrics */}
@@ -3440,7 +3440,7 @@ export function Analytics() {
         <>
           <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
             <div>
-              <Title order={3} fz={16}>Detailed Message Metrics</Title>
+              <Title order={2} fz={16}>Detailed Message Metrics</Title>
               <Text fz={12} c={TV.textSecondary}>Hover any row to create a list or view contacts in that segment</Text>
             </div>
             <TextInput placeholder="Search categories…" value={funnelSearch} onChange={e => setFunnelSearch(e.currentTarget.value)} leftSection={<Search size={13} />} radius="xl" styles={{ input: { borderColor: TV.borderLight, minWidth: 200 } }} />
@@ -3511,7 +3511,7 @@ export function Analytics() {
         <>
           <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
             <div>
-              <Title order={3} fz={16}>PDF Metrics</Title>
+              <Title order={2} fz={16}>PDF Metrics</Title>
               <Text fz={12} c={TV.textSecondary}>View, download, print, and share metrics for campaigns with PDF attachments</Text>
             </div>
           </div>
@@ -3621,7 +3621,7 @@ export function Analytics() {
         <>
           <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
             <div>
-              <Title order={3} fz={16}>Endowment (ODDER) Reporting</Title>
+              <Title order={2} fz={16}>Endowment (ODDER) Reporting</Title>
               <Text fz={12} c={TV.textSecondary}>Metrics for endowment report PDFs sent through ODDER cadences</Text>
             </div>
           </div>
@@ -4216,7 +4216,7 @@ export function Analytics() {
           {/* Header with export */}
           <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
             <div>
-              <Title order={3} fz={16}>1:1 Video Metrics</Title>
+              <Title order={2} fz={16}>1:1 Video Metrics</Title>
               <Text fz={12} c={TV.textSecondary}>Per-user video recording, view, and engagement data{selectedPeriod !== "all_time" ? ` · ${periodLabel}` : ""}</Text>
             </div>
             <div className="flex items-center gap-2">
@@ -4421,7 +4421,7 @@ export function Analytics() {
         <>
           <div className="flex items-center justify-between flex-wrap gap-2 mb-3">
             <div>
-              <Title order={3} fz={16}>Tags by Performance</Title>
+              <Title order={2} fz={16}>Tags by Performance</Title>
               <Text fz={12} c={TV.textSecondary}>Compare engagement metrics across all campaign tags — find your strongest categories</Text>
             </div>
             <Button variant="default" radius="xl" size="xs" leftSection={<Download size={12} />} onClick={() => { show("Tag performance report exported", "success"); }} styles={{ root: { borderColor: TV.borderLight } }}>

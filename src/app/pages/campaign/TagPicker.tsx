@@ -10,6 +10,7 @@
  */
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { Search, X, Plus, Tag, Clock, Bookmark, Check, CheckCircle2, Minus } from "lucide-react";
+import { FocusTrap } from "@mantine/core";
 import { TV } from "../../theme";
 
 /* ── Preset tags (built-in categories) ─────────────────────────────────────── */
@@ -305,6 +306,7 @@ function TagManagerModal({ selectedTags, onToggle, onAdd, onClose }: TagManagerM
   };
 
   return (
+    <FocusTrap active>
     <div
       ref={backdropRef}
       className="fixed inset-0 z-[999] flex items-center justify-center"
@@ -573,6 +575,7 @@ function TagManagerModal({ selectedTags, onToggle, onAdd, onClose }: TagManagerM
         </div>
       </div>
     </div>
+    </FocusTrap>
   );
 }
 

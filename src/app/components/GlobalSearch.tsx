@@ -555,6 +555,7 @@ export function GlobalSearch() {
             onFocus={() => { if (hasQuery) setOpen(true); }}
             placeholder="Search across ThankView…"
             aria-label="Global search"
+            aria-expanded={open && hasQuery}
             style={{
               flex: 1, border: "none", background: "transparent",
               fontSize: 13, color: TV.textPrimary, padding: "8px 8px",
@@ -562,7 +563,7 @@ export function GlobalSearch() {
             }}
           />
           {query ? (
-            <ActionIcon variant="subtle" size={22} radius="xl" color="gray"
+            <ActionIcon variant="subtle" size={24} radius="xl" color="gray"
               onClick={() => { setQuery(""); setOpen(false); inputRef.current?.focus(); }}
               styles={{ root: { backgroundColor: "transparent" } }}
               aria-label="Clear search"

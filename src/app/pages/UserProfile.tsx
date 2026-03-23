@@ -96,7 +96,7 @@ export function UserProfile() {
           KM
         </Box>
         <div>
-          <Title order={4} fz={15}>{firstName} {lastName}</Title>
+          <Title order={2} fz={15}>{firstName} {lastName}</Title>
           <Text fz={12} c={TV.textSecondary}>kelley.molt@hartwell.edu</Text>
           <Badge color="tvPurple" size="sm" mt={4}>TV Admin</Badge>
         </div>
@@ -104,7 +104,7 @@ export function UserProfile() {
 
       {/* Profile info */}
       <div className="border rounded-[var(--mantine-radius-default)] p-4 sm:p-6 mb-4" style={{ borderColor: TV.borderLight }}>
-        <Title order={3} fz={16} mb="md">Profile Information</Title>
+        <Title order={2} fz={16} mb="md">Profile Information</Title>
         <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md" mb="md">
           <TextInput label="First Name" autoComplete="given-name" value={firstName} onChange={e => setFirstName(e.currentTarget.value)} />
           <TextInput label="Last Name" autoComplete="family-name" value={lastName} onChange={e => setLastName(e.currentTarget.value)} />
@@ -126,7 +126,7 @@ export function UserProfile() {
       {/* Password */}
       <div className="border rounded-[var(--mantine-radius-default)] p-6 mb-4" style={{ borderColor: TV.borderLight }}>
         <div className="flex items-center justify-between mb-3">
-          <Title order={3} fz={16}>Password</Title>
+          <Title order={2} fz={16}>Password</Title>
           <Button variant="subtle" color={showPwForm ? "red" : "tvPurple"} size="compact-sm" onClick={() => setShowPwForm(!showPwForm)}>
             {showPwForm ? "Cancel" : "Update Password"}
           </Button>
@@ -134,11 +134,11 @@ export function UserProfile() {
         {!showPwForm && <Text fz={13} c={TV.textSecondary}>Last updated 3 months ago.</Text>}
         {showPwForm && (
           <Stack gap="md">
-            <PasswordInput label="Current Password" value={currentPw} onChange={e => setCurrentPw(e.currentTarget.value)} />
-            <PasswordInput label="New Password" value={newPw} onChange={e => setNewPw(e.currentTarget.value)} />
-            <PasswordInput label="Confirm Password" value={confirmPw} onChange={e => setConfirmPw(e.currentTarget.value)} />
+            <PasswordInput label="Current Password" autoComplete="current-password" value={currentPw} onChange={e => setCurrentPw(e.currentTarget.value)} />
+            <PasswordInput label="New Password" autoComplete="new-password" value={newPw} onChange={e => setNewPw(e.currentTarget.value)} />
+            <PasswordInput label="Confirm Password" autoComplete="new-password" value={confirmPw} onChange={e => setConfirmPw(e.currentTarget.value)} aria-invalid={newPw && confirmPw && !pwMatch ? true : undefined} aria-describedby={newPw && confirmPw && !pwMatch ? "pw-mismatch-error" : undefined} />
             {newPw && confirmPw && !pwMatch && (
-              <Text fz={12} c="red">Passwords don't match or must be at least 8 characters.</Text>
+              <Text fz={12} c="red" id="pw-mismatch-error">Passwords don't match or must be at least 8 characters.</Text>
             )}
             <div className="flex items-center gap-3">
               <Button variant="outline" color="red" onClick={() => setShowPwForm(false)}>Cancel</Button>
@@ -153,7 +153,7 @@ export function UserProfile() {
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <Shield size={18} style={{ color: TV.brand }} />
-            <Title order={3} fz={16}>Two-Step Verification</Title>
+            <Title order={2} fz={16}>Two-Step Verification</Title>
           </div>
           {!twoFa && twoFaStep === "off" && (
             <Button variant="subtle" color="tvPurple" size="compact-sm" onClick={handleEnable2FA}>Enable</Button>
@@ -185,6 +185,7 @@ export function UserProfile() {
             <TextInput
               label="Mobile Phone Number"
               placeholder="(555) 555-1234"
+              autoComplete="tel"
               leftSection={<Smartphone size={14} />}
               value={phoneNum}
               onChange={e => setPhoneNum(e.currentTarget.value)}

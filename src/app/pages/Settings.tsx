@@ -79,7 +79,7 @@ function SectionHeader({ icon: Icon, title, description }: { icon?: ElementType;
     <Box px="lg" py="sm" bg={TV.surfaceMuted} style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
       <div className="flex items-center gap-2">
         {Icon && <Icon size={15} style={{ color: TV.brand }} />}
-        <Title order={4} fz={15}>{title}</Title>
+        <Title order={2} fz={15}>{title}</Title>
       </div>
       {description && <Text fz={12} c={TV.textSecondary} mt={2}>{description}</Text>}
     </Box>
@@ -260,7 +260,7 @@ function ProfileTab() {
           KM
         </Box>
         <div>
-          <Title order={4} fz={15}>{firstName} {lastName}</Title>
+          <Title order={2} fz={15}>{firstName} {lastName}</Title>
           <Text fz={12} c={TV.textSecondary}>kelley.molt@hartwell.edu</Text>
           <Badge color="tvPurple" size="sm" mt={4}>TV Admin</Badge>
         </div>
@@ -271,8 +271,8 @@ function ProfileTab() {
         <SectionHeader icon={User} title="Profile Information" description="Your name and title as they appear across ThankView." />
         <Box px="lg" py="md">
           <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md" mb="md">
-            <TextInput label="First Name" value={firstName} onChange={e => setFirstName(e.currentTarget.value)} />
-            <TextInput label="Last Name" value={lastName} onChange={e => setLastName(e.currentTarget.value)} />
+            <TextInput label="First Name" autoComplete="given-name" value={firstName} onChange={e => setFirstName(e.currentTarget.value)} />
+            <TextInput label="Last Name" autoComplete="family-name" value={lastName} onChange={e => setLastName(e.currentTarget.value)} />
           </SimpleGrid>
           <Select
             label="Job Title / Function"
@@ -312,7 +312,7 @@ function ProfileTab() {
       <div className="rounded-[var(--mantine-radius-default)] border" style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
         <Box px="lg" py="md">
           <div className="flex items-center justify-between mb-3">
-            <Title order={3} fz={16}>Password</Title>
+            <Title order={2} fz={16}>Password</Title>
             <Button variant={showPwForm ? "outline" : "subtle"} color={showPwForm ? "red" : "tvPurple"} size="compact-sm" onClick={() => setShowPwForm(!showPwForm)}>
               {showPwForm ? "Cancel" : "Update Password"}
             </Button>
@@ -320,9 +320,9 @@ function ProfileTab() {
           {!showPwForm && <Text fz={13} c={TV.textSecondary}>Last updated 3 months ago.</Text>}
           {showPwForm && (
             <Stack gap="md">
-              <PasswordInput label="Current Password" value={currentPw} onChange={e => setCurrentPw(e.currentTarget.value)} />
-              <PasswordInput label="New Password" value={newPw} onChange={e => setNewPw(e.currentTarget.value)} />
-              <PasswordInput label="Confirm Password" value={confirmPw} onChange={e => setConfirmPw(e.currentTarget.value)} />
+              <PasswordInput label="Current Password" autoComplete="current-password" value={currentPw} onChange={e => setCurrentPw(e.currentTarget.value)} />
+              <PasswordInput label="New Password" autoComplete="new-password" value={newPw} onChange={e => setNewPw(e.currentTarget.value)} />
+              <PasswordInput label="Confirm Password" autoComplete="new-password" value={confirmPw} onChange={e => setConfirmPw(e.currentTarget.value)} />
               {newPw && confirmPw && !pwMatch && (
                 <Text fz={12} c="red">Passwords don't match or must be at least 8 characters.</Text>
               )}
@@ -341,7 +341,7 @@ function ProfileTab() {
           <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
             <div className="flex items-center gap-2">
               <Shield size={18} style={{ color: TV.brand }} />
-              <Title order={3} fz={16}>Two-Step Verification</Title>
+              <Title order={2} fz={16}>Two-Step Verification</Title>
             </div>
             {!twoFa && twoFaStep === "off" && (
               <Button variant="subtle" color="tvPurple" size="compact-sm" onClick={handleEnable2FA}>Enable</Button>
@@ -373,6 +373,7 @@ function ProfileTab() {
               <TextInput
                 label="Mobile Phone Number"
                 placeholder="(555) 555-1234"
+                autoComplete="tel"
                 leftSection={<Smartphone size={14} />}
                 value={phoneNum}
                 onChange={e => setPhoneNum(e.currentTarget.value)}
@@ -430,7 +431,7 @@ function GeneralTab() {
     <Stack gap="lg" maw={672}>
       {/* Org Settings */}
       <div className="rounded-[var(--mantine-radius-default)] border p-5" style={{ borderColor: TV.borderLight }}>
-        <Title order={3} fz={16} mb="md">Organization Settings</Title>
+        <Title order={2} fz={16} mb="md">Organization Settings</Title>
         <Stack gap="md">
           <TextInput
             label="Organization Name"
@@ -456,7 +457,7 @@ function GeneralTab() {
 
       {/* Logo */}
       <div className="rounded-[var(--mantine-radius-default)] border p-5" style={{ borderColor: TV.borderLight }}>
-        <Title order={3} fz={16} mb={4}>Organization Logo</Title>
+        <Title order={2} fz={16} mb={4}>Organization Logo</Title>
         <Text fz={12} c={TV.textSecondary} mb="md">This will be the default logo shown on landing pages and envelopes.</Text>
         <div className="flex items-center gap-4">
           <Box
@@ -496,7 +497,7 @@ function GeneralTab() {
         <div className="flex items-start justify-between flex-nowrap">
           <div>
             <div className="flex items-center gap-2">
-              <Title order={3} fz={16}>Microsoft Single Sign-On (SSO)</Title>
+              <Title order={2} fz={16}>Microsoft Single Sign-On (SSO)</Title>
               <Badge variant="light" color="tvPurple" size="xs">Microsoft Only</Badge>
             </div>
             <Text fz={12} c={TV.textSecondary} mt={4}>Allow users to sign in using your organization's Microsoft Azure AD / Entra ID account. SSO requires additional configuration in your Microsoft admin portal.</Text>
@@ -554,7 +555,7 @@ function EmailSmsTab() {
   return (
     <Stack gap="lg" maw={672}>
       <div className="rounded-[var(--mantine-radius-default)] border p-5" style={{ borderColor: TV.borderLight }}>
-        <Title order={3} fz={16} mb="md">Email Sending Domains</Title>
+        <Title order={2} fz={16} mb="md">Email Sending Domains</Title>
         <Stack gap="xs">
           {["hartwell.edu", "giving.hartwell.edu"].map(domain => (
             <div key={domain} className="flex items-center gap-3 px-3" style={{ paddingTop: 10, paddingBottom: 10, backgroundColor: TV.surface, borderRadius: 10, border: `1px solid ${TV.borderLight}` }}>
@@ -579,7 +580,7 @@ function EmailSmsTab() {
       </div>
 
       <div className="rounded-[var(--mantine-radius-default)] border p-5" style={{ borderColor: TV.borderLight }}>
-        <Title order={3} fz={16} mb={4}>SMS Settings</Title>
+        <Title order={2} fz={16} mb={4}>SMS Settings</Title>
         <Text fz={13} c={TV.textSecondary} mb="md">
           This is the area code recipients will see when they receive a text message from your organization via ThankView. A local or recognizable area code can increase open rates and build trust with your audience.
         </Text>
@@ -691,7 +692,7 @@ function DnsSetupTab() {
     <Stack gap="lg" maw={720}>
       {/* Header card */}
       <div className="rounded-[var(--mantine-radius-default)] border p-5" style={{ borderColor: TV.borderLight }}>
-        <Title order={3} fz={16} mb={4}>Email Domain (DNS) Configuration</Title>
+        <Title order={2} fz={16} mb={4}>Email Domain (DNS) Configuration</Title>
         <Text fz={13} c={TV.textSecondary} mb="md">
           Set up a sending domain so ThankView can send emails on behalf of your organization. Once your IT team adds the required DNS records, your domain will be verified automatically.
         </Text>
@@ -981,7 +982,7 @@ function DnsSetupTab() {
               <AlertCircle size={20} style={{ color: TV.danger }} />
             </Box>
             <div style={{ flex: 1 }}>
-              <Title order={3} fz={16} mb={4}>Remove Domain</Title>
+              <Title order={2} fz={16} mb={4}>Remove Domain</Title>
               <Text fz={13} c={TV.textSecondary}>
                 Are you sure you want to remove <Text span fw={600} c={TV.textPrimary}>{domains.find(d => d.id === confirmRemove)?.domain}</Text>? Sends from this domain will fall back to the default domain or @mail-et.com.
               </Text>
@@ -1151,7 +1152,7 @@ function UsersTab() {
             <div>
               <div className="flex items-center gap-2">
                 <Users size={15} style={{ color: TV.brand }} />
-                <Title order={4} fz={15}>Organization Users</Title>
+                <Title order={3} fz={15}>Organization Users</Title>
                 <Badge size="sm" variant="light" color="tvPurple" radius="sm">{users.length}</Badge>
               </div>
               <Text fz={12} c={TV.textSecondary} mt={2}>View all users, their roles, and last activity. Only Admins can manage users and permissions.</Text>
@@ -1328,7 +1329,7 @@ function UsersTab() {
             <div className="flex items-center gap-2 flex-wrap">
               <Shield size={15} style={{ color: TV.brand }} />
               <div>
-                <Title order={4} fz={15}>Role Permissions Matrix</Title>
+                <Title order={3} fz={15}>Role Permissions Matrix</Title>
                 <Text fz={12} c={TV.textSecondary} mt={2}>Full breakdown of what each ThankView role can access.</Text>
               </div>
             </div>
@@ -2328,7 +2329,7 @@ function SubscriptionTab() {
             <div className="flex items-center gap-2">
               <CalendarClock size={15} style={{ color: TV.brand }} />
               <div>
-                <Title order={4} fz={15}>Billing History</Title>
+                <Title order={3} fz={15}>Billing History</Title>
                 <Text fz={12} c={TV.textSecondary} mt={2}>Recent charges and invoices for your organization.</Text>
               </div>
             </div>

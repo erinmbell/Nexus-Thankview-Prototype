@@ -17,6 +17,7 @@ import {
   Signal, Wifi, Battery, Phone, Bookmark, Braces,
   AlignCenter, AlignRight, AlignJustify, Strikethrough, Minus, ChevronDown, PenLine, Tag, Palette, Lock,
 } from "lucide-react";
+import { SegmentedControl, FocusTrap } from "@mantine/core";
 import { useToast } from "../contexts/ToastContext";
 import { useDesignLibrary } from "../contexts/DesignLibraryContext";
 import { useTemplates, type CampaignTemplate } from "../contexts/TemplateContext";
@@ -75,7 +76,7 @@ export interface EditCampaignData {
   ctaText?: string;
   ctaUrl?: string;
   lpBody?: string;
-  constituents?: Array<{ id: number; name: string; email: string; phone: string; source: string }>;
+  constituents?: Array<{ id: number; name: string; email: string; phone: string; source: string; classYear?: number; city?: string; lastGiftDate?: string }>;
   selectedMetrics?: string[];
   tags?: string[];
   hasIntro?: boolean;
@@ -736,7 +737,7 @@ function StepModeSelect({ onSelect }: { onSelect: (mode: StepMode) => void }) {
                   <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-5 mx-auto ${isSelected ? "bg-tv-brand-bg" : "bg-tv-brand-tint"}`}>
                     <Icon size={22} className={isSelected ? "text-white" : "text-tv-brand"} />
                   </div>
-                  <h3 className="text-tv-text-primary text-center mb-2" style={{ fontSize: "18px", fontWeight: 700 }}>{m.title}</h3>
+                  <h2 className="text-tv-text-primary text-center mb-2" style={{ fontSize: "18px", fontWeight: 700 }}>{m.title}</h2>
                   <p className="text-[13px] text-tv-text-secondary leading-relaxed text-center mb-5">{m.desc}</p>
                   <div className="flex items-center justify-center gap-2 flex-wrap mt-auto">
                     {m.tags.map(t => (
@@ -973,9 +974,9 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
   const [sendTestNewEmail, setSendTestNewEmail] = useState("");
   const [sendTestMode, setSendTestMode] = useState<"single" | "group">("single");
   const SEND_TEST_CONSTITUENTS = [
-    { id: 0, name: "James Whitfield", email: "j.whitfield@alumni.edu" },
-    { id: 1, name: "Sarah Chen", email: "s.chen@foundation.org" },
-    { id: 2, name: "Marcus Reid", email: "m.reid@email.com" },
+    { id: 0, name: "James Whitfield", email: "j.whitfield@alumni.edu", classYear: 1998, city: "Boston, MA" },
+    { id: 1, name: "Sarah Chen", email: "s.chen@foundation.org", classYear: 2005, city: "San Francisco, CA" },
+    { id: 2, name: "Marcus Reid", email: "m.reid@email.com", classYear: 2012, city: "Chicago, IL" },
   ];
 
   // The single FlowStep that holds all channel/content state
@@ -1040,18 +1041,12 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
     (!videoElements.outro || hasOutro)
   );
 
-  // Constituent list state
-  const DEFAULT_CONSTITUENTS = [
-    { id: 1, name: "James Whitfield", email: "j.whitfield@alumni.edu", phone: "+1 (555) 123-4567", source: "Major Donors" },
-    { id: 2, name: "Sarah Chen", email: "s.chen@foundation.org", phone: "+1 (555) 234-5678", source: "Major Donors" },
-    { id: 3, name: "Marcus Reid", email: "m.reid@email.com", phone: "+1 (555) 345-6789", source: "CSV Upload" },
-    { id: 4, name: "Emily Torres", email: "e.torres@corp.com", phone: "+1 (555) 456-7890", source: "New Donors 2025" },
-    { id: 5, name: "David Park", email: "d.park@alumni.edu", phone: "+1 (555) 567-8901", source: "All Donors" },
-  ];
-  const [constituents, setConstituents] = useState<{ id: number; name: string; email: string; phone: string; source: string }[]>(editCampaign?.constituents ?? DEFAULT_CONSTITUENTS);
+  // Constituent list state — empty for new campaigns, pre-loaded for edits
+  const [constituents, setConstituents] = useState<{ id: number; name: string; email: string; phone: string; source: string; classYear?: number; city?: string; lastGiftDate?: string }[]>(editCampaign?.constituents ?? []);
   const [constituentSearch, setConstituentSearch] = useState("");
   const [editingConstituent, setEditingConstituent] = useState<number | null>(null);
   const [showAddMethod, setShowAddMethod] = useState<"csv" | "manual" | "list" | null>(null);
+  const [smsPhoneWarningDismissed, setSmsPhoneWarningDismissed] = useState(false);
 
   // ── Custom envelopes — sourced from global DesignLibraryContext ─────────────
   // On mount / return from builder, check if a new envelope was just saved via sessionStorage
@@ -1176,6 +1171,16 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
   const [showBodyMergePicker, setShowBodyMergePicker] = useState(false);
   const [showBodySigPicker, setShowBodySigPicker] = useState(false);
   const bodySigRef = useRef<HTMLDivElement>(null);
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const colorRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!showColorPicker) return;
+    const handler = (e: MouseEvent) => {
+      if (colorRef.current && !colorRef.current.contains(e.target as Node)) setShowColorPicker(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [showColorPicker]);
   const [replyToInput, setReplyToInput] = useState("");
   const [contentSectionOpen, setContentSectionOpen] = useState(true);
   const [designSectionOpen, setDesignSectionOpen] = useState(true);
@@ -1722,44 +1727,6 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
             }}
           />
 
-          {/* Subject */}
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <label className={LABEL_CLS}>Subject Line</label>
-              <CharCount current={(step.subject || "").length} max={CHAR_LIMITS.subject} />
-            </div>
-            <div className="flex items-center gap-1.5">
-              <input value={step.subject || ""} onChange={e => setStep(s => ({ ...s, subject: e.target.value }))}
-                maxLength={CHAR_LIMITS.subject}
-                placeholder="A personal message for you, {{first_name}}"
-                className={INPUT_CLS_FLEX} />
-              {/* Emoji picker */}
-              <div className="relative">
-                <button onClick={() => { setShowEmoji(!showEmoji); setShowMerge(false); }} className={ICON_BTN_CLS} title="Insert emoji">
-                  <Smile size={14} />
-                </button>
-                {showEmoji && (
-                  <EmojiDropdown
-                    onSelect={e => setStep(s => ({ ...s, subject: (s.subject || "") + e }))}
-                    onClose={() => setShowEmoji(false)}
-                  />
-                )}
-              </div>
-              {/* Merge field picker */}
-              <div className="relative">
-                <button onClick={() => { setShowMerge(!showMerge); setShowEmoji(false); }} className={ICON_BTN_CLS} title="Insert merge field">
-                  <span className="font-mono text-[11px]">{"{}"}</span>
-                </button>
-                {showMerge && (
-                  <MergeFieldDropdown
-                    onSelect={f => setStep(s => ({ ...s, subject: (s.subject || "") + " " + f }))}
-                    onClose={() => setShowMerge(false)}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-
           {/* Sender info */}
           <div className="grid grid-cols-2 gap-2">
             <div>
@@ -1822,6 +1789,44 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
             <p className={HELPER_CLS}>Comma-separated. Applies per constituent on send.</p>
           </details>
 
+          {/* Subject */}
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className={LABEL_CLS}>Subject Line</label>
+              <CharCount current={(step.subject || "").length} max={CHAR_LIMITS.subject} />
+            </div>
+            <div className="flex items-center gap-1.5">
+              <input value={step.subject || ""} onChange={e => setStep(s => ({ ...s, subject: e.target.value }))}
+                maxLength={CHAR_LIMITS.subject}
+                placeholder="A personal message for you, {{first_name}}"
+                className={INPUT_CLS_FLEX} />
+              {/* Emoji picker */}
+              <div className="relative">
+                <button onClick={() => { setShowEmoji(!showEmoji); setShowMerge(false); }} className={ICON_BTN_CLS} title="Insert emoji">
+                  <Smile size={14} />
+                </button>
+                {showEmoji && (
+                  <EmojiDropdown
+                    onSelect={e => setStep(s => ({ ...s, subject: (s.subject || "") + e }))}
+                    onClose={() => setShowEmoji(false)}
+                  />
+                )}
+              </div>
+              {/* Merge field picker */}
+              <div className="relative">
+                <button onClick={() => { setShowMerge(!showMerge); setShowEmoji(false); }} className={ICON_BTN_CLS} title="Insert merge field">
+                  <span className="font-mono text-[11px]">{"{}"}</span>
+                </button>
+                {showMerge && (
+                  <MergeFieldDropdown
+                    onSelect={f => setStep(s => ({ ...s, subject: (s.subject || "") + " " + f }))}
+                    onClose={() => setShowMerge(false)}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* Body with toolbar — collapsible */}
           <details open className="group/body">
             <summary className="flex items-center justify-between cursor-pointer list-none select-none mb-1 [&::-webkit-details-marker]:hidden">
@@ -1848,7 +1853,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                     value={step.bodyFontFamily || EMAIL_BODY_FONTS[0].value}
                     onChange={e => setStep(s => ({ ...s, bodyFontFamily: e.target.value }))}
                     title="Font Family"
-                    className="border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
+                    className="border border-tv-border-light rounded-full px-3 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer appearance-none pr-7 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_8px_center] bg-no-repeat"
                     style={{ fontFamily: step.bodyFontFamily || EMAIL_BODY_FONTS[0].value }}
                   >
                     {EMAIL_BODY_FONTS.map(f => (
@@ -1864,7 +1869,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                     value={step.bodyFontSize || 14}
                     onChange={e => setStep(s => ({ ...s, bodyFontSize: Number(e.target.value) }))}
                     title="Font Size"
-                    className="border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
+                    className="border border-tv-border-light rounded-full px-3 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer appearance-none pr-7 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_8px_center] bg-no-repeat"
                   >
                     {EMAIL_BODY_FONT_SIZES.map(s => (
                       <option key={s} value={s}>{s}px</option>
@@ -1872,31 +1877,34 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                   </select>
                 </div>
                 <div className="h-5 w-px bg-tv-border-light" />
-                {/* Text color picker */}
+                {/* Text color picker — click-based dropdown */}
                 <div className="flex items-center gap-1.5">
                   <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap font-semibold">Color</label>
-                  <div className="relative group/tcolor">
+                  <div className="relative" ref={colorRef}>
                     <button
                       type="button"
                       title="Text Color"
-                      className="flex items-center gap-1.5 border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] bg-white hover:border-tv-border-strong transition-colors cursor-pointer"
+                      onClick={() => setShowColorPicker(!showColorPicker)}
+                      className={`flex items-center gap-1.5 border rounded-full px-3 py-1.5 text-[12px] bg-white transition-colors cursor-pointer ${showColorPicker ? "border-tv-brand ring-1 ring-tv-brand/30" : "border-tv-border-light hover:border-tv-border-strong"}`}
                     >
-                      <span className="w-4 h-4 rounded-[4px] border border-tv-border-light shrink-0" style={{ backgroundColor: step.bodyTextColor || "#1e293b" }} />
+                      <span className="w-3.5 h-3.5 rounded-full border border-tv-border-light shrink-0" style={{ backgroundColor: step.bodyTextColor || "#1e293b" }} />
                       <span className="text-tv-text-primary">{EMAIL_TEXT_COLORS.find(c => c.value === (step.bodyTextColor || "#1e293b"))?.label || "Custom"}</span>
-                      <ChevronDown size={11} className="text-tv-text-secondary" />
+                      <ChevronDown size={11} className={`text-tv-text-secondary transition-transform ${showColorPicker ? "rotate-180" : ""}`} />
                     </button>
-                    <div className="absolute top-full left-0 mt-1.5 p-2.5 bg-white border border-tv-border-light rounded-md shadow-xl z-30 hidden group-hover/tcolor:grid grid-cols-5 gap-1.5 w-[155px]">
-                      {EMAIL_TEXT_COLORS.map(c => (
-                        <button
-                          key={c.value}
-                          type="button"
-                          onClick={() => setStep(s => ({ ...s, bodyTextColor: c.value }))}
-                          title={c.label}
-                          className={`w-5.5 h-5.5 rounded-full border-2 transition-transform hover:scale-110 ${(step.bodyTextColor || "#1e293b") === c.value ? "border-tv-brand ring-1 ring-tv-brand/30" : "border-tv-border-light"}`}
-                          style={{ backgroundColor: c.value }}
-                        />
-                      ))}
-                    </div>
+                    {showColorPicker && (
+                      <div className="absolute top-full left-0 mt-1.5 p-2.5 bg-white border border-tv-border-light rounded-lg shadow-xl z-30 grid grid-cols-5 gap-1.5 w-[155px]">
+                        {EMAIL_TEXT_COLORS.map(c => (
+                          <button
+                            key={c.value}
+                            type="button"
+                            onClick={() => { setStep(s => ({ ...s, bodyTextColor: c.value })); setShowColorPicker(false); }}
+                            title={c.label}
+                            className={`w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 ${(step.bodyTextColor || "#1e293b") === c.value ? "border-tv-brand ring-1 ring-tv-brand/30" : "border-tv-border-light"}`}
+                            style={{ backgroundColor: c.value }}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="h-5 w-px bg-tv-border-light" />
@@ -1907,7 +1915,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                     value={step.bodyLineHeight || 1.5}
                     onChange={e => setStep(s => ({ ...s, bodyLineHeight: Number(e.target.value) }))}
                     title="Line Spacing"
-                    className="border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
+                    className="border border-tv-border-light rounded-full px-3 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer appearance-none pr-7 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_8px_center] bg-no-repeat"
                   >
                     {EMAIL_BODY_LINE_HEIGHTS.map(lh => (
                       <option key={lh.value} value={lh.value}>{lh.label}</option>
@@ -2244,20 +2252,6 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
           stickyTop="7rem"
           left={
           <div className="space-y-4">
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <label className={LABEL_CLS}>Message Body</label>
-              <BodyHeaderCount length={sl} limit={CHAR_LIMITS.sms} />
-            </div>
-            <SmsMergeBar
-              onInsert={token => setSmsS(s => ({ ...s, smsBody: (s.smsBody || "") + " " + token }))}
-              body={smsS.smsBody || ""}
-              onChange={v => setSmsS(s => ({ ...s, smsBody: v }))}
-              placeholder={"Hi {{first_name}}! I have a personal message for you\u2026"}
-            />
-            <SmsCharCounter length={sl} />
-          </div>
-
           {/* Sender info (SMS) */}
           <div className="grid grid-cols-2 gap-2">
             <div>
@@ -2271,6 +2265,21 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               <label className={LABEL_CLS}>Phone Number</label>
               <input value={smsS.smsPhoneNumber || ""} onChange={e => setSmsS(s => ({ ...s, smsPhoneNumber: e.target.value }))} className={INPUT_CLS} />
             </div>
+          </div>
+
+          {/* Message Body */}
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className={LABEL_CLS}>Message Body</label>
+              <BodyHeaderCount length={sl} limit={CHAR_LIMITS.sms} />
+            </div>
+            <SmsMergeBar
+              onInsert={token => setSmsS(s => ({ ...s, smsBody: (s.smsBody || "") + " " + token }))}
+              body={smsS.smsBody || ""}
+              onChange={v => setSmsS(s => ({ ...s, smsBody: v }))}
+              placeholder={"Hi {{first_name}}! I have a personal message for you\u2026"}
+            />
+            <SmsCharCounter length={sl} />
           </div>
 
           {/* Link shortening toggle */}
@@ -2607,38 +2616,64 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
   };
   const addCsvConstituents = () => {
     const newConstituents = [
-      { id: Date.now(),     name: "Lisa Hamilton",   email: "l.hamilton@alumni.edu", phone: "+1 (555) 678-9012", source: "CSV Upload" },
-      { id: Date.now() + 1, name: "Brian Kazuki",    email: "b.kazuki@corp.com",     phone: "+1 (555) 789-0123", source: "CSV Upload" },
-      { id: Date.now() + 2, name: "Priya Nair",      email: "p.nair@foundation.org", phone: "+1 (555) 890-1234", source: "CSV Upload" },
+      { id: Date.now(),     name: "Lisa Hamilton",   email: "l.hamilton@alumni.edu", phone: "+1 (555) 678-9012", source: "CSV Upload", classYear: 2015, city: "Boston, MA", lastGiftDate: "Jan 8, 2026" },
+      { id: Date.now() + 1, name: "Brian Kazuki",    email: "b.kazuki@corp.com",     phone: "", source: "CSV Upload", classYear: 2008, city: "Seattle, WA", lastGiftDate: "Mar 2, 2025" },
+      { id: Date.now() + 2, name: "Priya Nair",      email: "p.nair@foundation.org", phone: "+1 (555) 890-1234", source: "CSV Upload", classYear: 2019, city: "Chicago, IL" },
     ];
     setConstituents(r => [...r, ...newConstituents]);
     show(`${newConstituents.length} constituents imported from CSV`, "success");
     setShowAddMethod(null);
   };
   const addFromList = (listName: string, count: number) => {
-    const newConstituents = Array.from({ length: Math.min(count, 3) }, (_, i) => ({
-      id: Date.now() + i,
-      name: `${listName} Constituent ${i + 1}`,
-      email: `constituent${i + 1}@${listName.toLowerCase().replace(/\s/g, "")}.edu`,
-      phone: `+1 (555) ${String(100 + i).padStart(3, "0")}-${String(4000 + i).padStart(4, "0")}`,
-      source: listName,
-    }));
+    const FIRST = ["Alex","Amara","Ben","Carmen","Clara","Daniel","Elena","Emily","Fiona","Grace","Isaac","James","Jennifer","Jordan","Karen","Leo","Lisa","Marcus","Maya","Nathan","Olivia","Paul","Rachel","Ryan","Sarah","Thomas","Vanessa","Xavier","Yara","Zach"];
+    const LAST = ["Adams","Baker","Chen","Davis","Garcia","Hall","Johnson","Kim","Lee","Miller","Nguyen","Park","Patel","Reed","Smith","Taylor","Torres","Wang","Wilson","Young"];
+    const DOMAINS = ["alumni.edu","corp.com","email.com","foundation.org","university.edu"];
+    const LIST_CITIES = ["Boston, MA","New York, NY","Chicago, IL","San Francisco, CA","Austin, TX","Denver, CO","Seattle, WA","Portland, OR","Atlanta, GA","Philadelphia, PA","Miami, FL","Nashville, TN"];
+    const base = Date.now();
+    const newConstituents = Array.from({ length: count }, (_, i) => {
+      const first = FIRST[i % FIRST.length];
+      const last = LAST[Math.floor(i / FIRST.length) % LAST.length];
+      const suffix = Math.floor(i / (FIRST.length * LAST.length));
+      const name = suffix > 0 ? `${first} ${last} ${suffix + 1}` : `${first} ${last}`;
+      const classYear = i % 7 === 0 ? undefined : 1975 + (i % 50);
+      const city = i % 5 === 0 ? undefined : LIST_CITIES[i % LIST_CITIES.length];
+      const dayOffset = ((i * 7919) % 1095) + 1;
+      const lastGiftDate = i % 4 === 0 ? undefined : new Date(Date.now() - dayOffset * 86400000).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+      return {
+        id: base + i,
+        name,
+        email: `${first.toLowerCase()}.${last.toLowerCase()}${suffix > 0 ? suffix + 1 : ""}@${DOMAINS[i % DOMAINS.length]}`,
+        phone: i % 5 === 0 ? "" : `+1 (${String(200 + (i % 800)).padStart(3, "0")}) ${String(100 + (i % 900)).padStart(3, "0")}-${String(1000 + (i % 9000)).padStart(4, "0")}`,
+        source: listName,
+        classYear,
+        city,
+        lastGiftDate,
+      };
+    });
     setConstituents(r => [...r, ...newConstituents]);
-    show(`${count} constituents added from "${listName}"`, "success");
+    show(`${count.toLocaleString()} constituents added from "${listName}"`, "success");
     setShowAddMethod(null);
   };
 
-  const filteredConstituents = constituents.filter(r =>
-    r.name.toLowerCase().includes(constituentSearch.toLowerCase()) ||
-    r.email.toLowerCase().includes(constituentSearch.toLowerCase())
-  );
+  const filteredConstituents = constituents.filter(r => {
+    const q = constituentSearch.toLowerCase();
+    return r.name.toLowerCase().includes(q) ||
+      r.email.toLowerCase().includes(q) ||
+      (r.city?.toLowerCase().includes(q) ?? false) ||
+      (r.classYear?.toString().includes(q) ?? false);
+  });
 
   const renderConstituentsStep = () => {
     // For non-video-request campaigns, use the new 2-panel ConstituentPanel
     if (!isVideoRequest) {
       return (
         <div className="max-w-full mx-auto -mx-2" style={{ height: "calc(100vh - 280px)" }}>
-          <ConstituentPanel hasPersonalizedClips={videoElements.personalizedClip} />
+          <ConstituentPanel
+            hasPersonalizedClips={videoElements.personalizedClip}
+            preloadedConstituentIds={isEditMode && editCampaign?.constituents ? editCampaign.constituents.map(c => c.id) : undefined}
+            preloadedSource={isEditMode && editCampaign ? editCampaign.name : undefined}
+            campaignChannel={step.type as "email" | "sms"}
+          />
         </div>
       );
     }
@@ -2714,127 +2749,275 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
         </div>
       ) : (
         <div className="space-y-3">
-          {/* Add methods */}
-          <div className="p-4 rounded-lg border border-tv-border-light bg-white">
-            <div className="flex items-center justify-between mb-3">
-              <label className="text-[10px] text-tv-text-label uppercase tracking-wider flex items-center gap-1.5 font-semibold">
-                Add {isVideoRequest ? "Recorders" : "Constituents"}
-              </label>
-              <span className="text-[11px] text-tv-text-secondary">{constituents.length} added</span>
-            </div>
-            <div className="grid grid-cols-3 gap-2 mb-3">
-              {([
-                { key: "csv" as const,    icon: Upload,   label: "Upload CSV",    desc: "Import from file" },
-                { key: "manual" as const, icon: UserPlus, label: "Add Manually",  desc: "Enter details" },
-                { key: "list" as const,   icon: Users,    label: "From List",     desc: "Use saved list" },
-              ]).map(m => (
-                <button key={m.key} onClick={() => setShowAddMethod(showAddMethod === m.key ? null : m.key)}
-                  className={`flex flex-col items-center text-center p-3 rounded-md border transition-all ${showAddMethod === m.key ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
-                  <m.icon size={16} className={showAddMethod === m.key ? "text-tv-brand" : "text-tv-text-secondary"} />
-                  <p className={`text-[11px] mt-1.5 ${showAddMethod === m.key ? "text-tv-brand" : "text-tv-text-primary"} font-semibold`}>{m.label}</p>
-                  <p className="text-[9px] text-tv-text-secondary">{m.desc}</p>
-                </button>
-              ))}
-            </div>
-
-            {/* CSV Upload panel */}
-            {showAddMethod === "csv" && (
-              <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light space-y-2">
-                <div className="border-2 border-dashed border-tv-border-light rounded-md p-6 text-center hover:border-tv-brand-bg transition-colors cursor-pointer" role="button" tabIndex={0} onClick={addCsvConstituents} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); addCsvConstituents(); } }}>
-                  <Upload size={20} className="text-tv-text-secondary mx-auto mb-2" />
-                  <p className="text-[12px] text-tv-text-primary font-semibold">Drop a CSV file here or click to browse</p>
-                  <p className="text-[10px] text-tv-text-secondary mt-1">Columns: Name, Email, Phone (optional)</p>
+          {/* Add methods — hidden when editing with pre-loaded constituents */}
+          {isEditMode ? (
+            <div className="p-4 rounded-lg border border-tv-border-light bg-white">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-8 h-8 rounded-full bg-tv-surface flex items-center justify-center">
+                  <Lock size={14} className="text-tv-text-decorative/50" />
                 </div>
-                <p className="text-[9px] text-tv-text-secondary">Errors and duplicates will be flagged after upload. Max 10,000 rows per file.</p>
+                <div>
+                  <p className="text-[12px] text-tv-text-primary font-semibold">Recipient list is locked</p>
+                  <p className="text-[10px] text-tv-text-secondary">
+                    {constituents.length} {isVideoRequest ? "recorder" : "constituent"}{constituents.length !== 1 ? "s" : ""} loaded from <span className="font-semibold">{editCampaign?.name || "this campaign"}</span>
+                  </p>
+                </div>
               </div>
-            )}
-
-            {/* Manual add panel */}
-            {showAddMethod === "manual" && (
-              <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light space-y-2">
-                <p className="text-[11px] text-tv-text-primary font-semibold">Add a constituent manually</p>
-                <button onClick={addManualConstituent}
-                  className="w-full flex items-center justify-center gap-1.5 py-2 text-[12px] text-tv-brand border border-tv-brand-bg/30 rounded-sm hover:bg-tv-brand-tint transition-colors font-semibold">
-                  <Plus size={12} />Add Constituent
-                </button>
+              <p className="text-[10px] text-tv-text-decorative">To change recipients, go back and update the source list.</p>
+            </div>
+          ) : (
+            <div className="p-4 rounded-lg border border-tv-border-light bg-white">
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-[10px] text-tv-text-label uppercase tracking-wider flex items-center gap-1.5 font-semibold">
+                  Add {isVideoRequest ? "Recorders" : "Constituents"}
+                </label>
+                <span className="text-[11px] text-tv-text-secondary">{constituents.length} added</span>
               </div>
-            )}
-
-            {/* From List panel */}
-            {showAddMethod === "list" && (
-              <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light space-y-1.5">
-                {[
-                  { name: "All Donors", count: 2340 },
-                  { name: "Major Donors", count: 128 },
-                  { name: "New Donors 2025", count: 456 },
-                  { name: "Lapsed Donors", count: 312 },
-                  { name: "Board Members", count: 24 },
-                ].map(l => (
-                  <button key={l.name} onClick={() => addFromList(l.name, l.count)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 rounded-sm border border-tv-border-light bg-white hover:border-tv-brand-bg hover:bg-tv-brand-tint transition-all text-left">
-                    <div className="flex items-center gap-2">
-                      <Users size={12} className="text-tv-text-secondary" />
-                      <span className="text-[12px] text-tv-text-primary">{l.name}</span>
-                    </div>
-                    <span className="text-[11px] text-tv-text-secondary font-mono">{l.count.toLocaleString()}</span>
+              <div className="grid grid-cols-3 gap-2 mb-3">
+                {([
+                  { key: "csv" as const,    icon: Upload,   label: "Upload CSV",    desc: "Import from file" },
+                  { key: "manual" as const, icon: UserPlus, label: "Add Manually",  desc: "Enter details" },
+                  { key: "list" as const,   icon: Users,    label: "From List",     desc: "Use saved list" },
+                ]).map(m => (
+                  <button key={m.key} onClick={() => setShowAddMethod(showAddMethod === m.key ? null : m.key)}
+                    className={`flex flex-col items-center text-center p-3 rounded-md border transition-all ${showAddMethod === m.key ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                    <m.icon size={16} className={showAddMethod === m.key ? "text-tv-brand" : "text-tv-text-secondary"} />
+                    <p className={`text-[11px] mt-1.5 ${showAddMethod === m.key ? "text-tv-brand" : "text-tv-text-primary"} font-semibold`}>{m.label}</p>
+                    <p className="text-[9px] text-tv-text-secondary">{m.desc}</p>
                   </button>
                 ))}
               </div>
-            )}
-          </div>
 
-          {/* Constituent table */}
-          {constituents.length > 0 && (
+              {/* CSV Upload panel */}
+              {showAddMethod === "csv" && (
+                <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light space-y-2">
+                  <button type="button" className="w-full border-2 border-dashed border-tv-border-light rounded-md p-6 text-center hover:border-tv-brand-bg transition-colors cursor-pointer" onClick={addCsvConstituents}>
+                    <Upload size={20} className="text-tv-text-secondary mx-auto mb-2" />
+                    <p className="text-[12px] text-tv-text-primary font-semibold">Drop a CSV file here or click to browse</p>
+                    <p className="text-[10px] text-tv-text-secondary mt-1">Columns: Name, Email, Phone (optional)</p>
+                  </button>
+                  <p className="text-[9px] text-tv-text-secondary">Errors and duplicates will be flagged after upload. Max 10,000 rows per file.</p>
+                </div>
+              )}
+
+              {/* Manual add panel */}
+              {showAddMethod === "manual" && (
+                <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light space-y-2">
+                  <p className="text-[11px] text-tv-text-primary font-semibold">Add a constituent manually</p>
+                  <button onClick={addManualConstituent}
+                    className="w-full flex items-center justify-center gap-1.5 py-2 text-[12px] text-tv-brand border border-tv-brand-bg/30 rounded-sm hover:bg-tv-brand-tint transition-colors font-semibold">
+                    <Plus size={12} />Add Constituent
+                  </button>
+                </div>
+              )}
+
+              {/* From List panel */}
+              {showAddMethod === "list" && (
+                <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light space-y-1.5">
+                  {[
+                    { name: "All Donors", count: 2340 },
+                    { name: "Major Donors", count: 128 },
+                    { name: "New Donors 2025", count: 456 },
+                    { name: "Lapsed Donors", count: 312 },
+                    { name: "Board Members", count: 24 },
+                  ].map(l => (
+                    <button key={l.name} onClick={() => addFromList(l.name, l.count)}
+                      className="w-full flex items-center justify-between px-3 py-2.5 rounded-sm border border-tv-border-light bg-white hover:border-tv-brand-bg hover:bg-tv-brand-tint transition-all text-left">
+                      <div className="flex items-center gap-2">
+                        <Users size={12} className="text-tv-text-secondary" />
+                        <span className="text-[12px] text-tv-text-primary">{l.name}</span>
+                      </div>
+                      <span className="text-[11px] text-tv-text-secondary font-mono">{l.count.toLocaleString()}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Empty state — no constituents yet */}
+          {constituents.length === 0 && !isEditMode && (
+            <div className="p-6 rounded-lg border-2 border-dashed border-tv-border-light bg-white text-center">
+              <div className="w-14 h-14 rounded-full bg-tv-surface flex items-center justify-center mx-auto mb-3">
+                <Users size={22} className="text-tv-text-decorative/40" />
+              </div>
+              <p className="text-[13px] text-tv-text-primary font-semibold">No {isVideoRequest ? "recorders" : "constituents"} added yet</p>
+              <p className="text-[11px] text-tv-text-secondary mt-1 max-w-[320px] mx-auto">
+                Use the options above to upload a CSV, add people manually, or select from a saved list.
+              </p>
+            </div>
+          )}
+
+          {/* Constituent list — adapts to small vs large lists */}
+          {constituents.length > 0 && (() => {
+            const LARGE_THRESHOLD = 50;
+            const isLarge = constituents.length > LARGE_THRESHOLD;
+            const sourceCounts = constituents.reduce<Record<string, number>>((acc, c) => { acc[c.source] = (acc[c.source] || 0) + 1; return acc; }, {});
+            const sources = Object.entries(sourceCounts).sort((a, b) => b[1] - a[1]);
+            const removeBySource = (source: string) => setConstituents(r => r.filter(x => x.source !== source));
+            const PAGE_SIZE = 50;
+            const visibleRows = constituentSearch
+              ? filteredConstituents.slice(0, PAGE_SIZE)
+              : (isLarge ? filteredConstituents.slice(0, PAGE_SIZE) : filteredConstituents);
+            const hiddenCount = filteredConstituents.length - visibleRows.length;
+
+            return (
             <div className="p-4 rounded-lg border border-tv-border-light bg-white">
               <div className="flex items-center justify-between mb-3">
-                <label className="text-[10px] text-tv-text-label uppercase tracking-wider font-semibold">{isVideoRequest ? "Recorder" : "Constituent"} List</label>
+                <div className="flex items-center gap-2">
+                  <label className="text-[10px] text-tv-text-label uppercase tracking-wider font-semibold">{isVideoRequest ? "Recorder" : "Constituent"} List</label>
+                  {isLarge && (
+                    <span className="px-2 py-0.5 bg-tv-brand-bg text-white rounded-full" style={{ fontSize: "9px", fontWeight: 700 }}>{constituents.length.toLocaleString()}</span>
+                  )}
+                </div>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1 border border-tv-border-light rounded-full px-2 py-1">
                     <Search size={10} className="text-tv-text-secondary" />
                     <input value={constituentSearch} onChange={e => setConstituentSearch(e.target.value)} placeholder="Search..." aria-label="Search constituents" className="text-[10px] w-[80px] outline-none focus:ring-1 focus:ring-tv-brand/40 rounded" />
                   </div>
-                  <span className="text-[10px] text-tv-text-secondary">{filteredConstituents.length} of {constituents.length}</span>
+                  <span className="text-[10px] text-tv-text-secondary">{filteredConstituents.length.toLocaleString()} of {constituents.length.toLocaleString()}</span>
+                  {!isEditMode && constituents.length > 1 && (
+                    <button onClick={() => { setConstituents([]); show("All constituents removed", "info"); }}
+                      className="flex items-center gap-1 px-2 py-1 border border-tv-danger-border text-tv-danger bg-tv-danger-bg rounded-full hover:bg-tv-danger-border/30 transition-colors"
+                      style={{ fontSize: "9px", fontWeight: 600 }}>
+                      <Trash2 size={9} />Clear All
+                    </button>
+                  )}
                 </div>
               </div>
 
+              {/* Source breakdown — shown for large lists */}
+              {isLarge && (
+                <div className="mb-3 space-y-1">
+                  <p className="text-[9px] text-tv-text-label uppercase tracking-wider font-semibold mb-1.5">Sources</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {sources.map(([source, count]) => (
+                      <div key={source} className="flex items-center gap-1.5 px-2.5 py-1.5 bg-tv-surface rounded-md border border-tv-border-light group/src">
+                        <span className="text-[10px] text-tv-text-primary" style={{ fontWeight: 500 }}>{source}</span>
+                        <span className="text-[10px] text-tv-text-secondary font-mono">{count.toLocaleString()}</span>
+                        {!isEditMode && (
+                          <button onClick={() => { removeBySource(source); show(`Removed ${count.toLocaleString()} from "${source}"`, "info"); }}
+                            className="ml-0.5 w-4 h-4 rounded-full flex items-center justify-center text-tv-text-decorative hover:text-tv-danger hover:bg-tv-danger-bg transition-colors opacity-0 group-hover/src:opacity-100"
+                            title={`Remove all from ${source}`}>
+                            <X size={8} />
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Table header + rows */}
               <div className="overflow-x-auto">
-                <div className="min-w-[480px]">
-              <div className="grid grid-cols-[1fr_1.2fr_0.8fr_0.6fr_44px] gap-1.5 px-2 py-1.5 text-[9px] text-tv-text-label uppercase tracking-wider border-b border-tv-border-divider font-semibold">
-                <span>Name</span><span>Email</span><span>Phone</span><span>Source</span><span />
+                <div className="min-w-[720px]">
+              <div className="grid grid-cols-[1fr_1.2fr_0.5fr_0.5fr_0.6fr_0.5fr_44px] gap-1.5 px-2 py-1.5 text-[9px] text-tv-text-label uppercase tracking-wider border-b border-tv-border-divider font-semibold">
+                <span>Name</span><span>{step.type === "sms" ? "Phone" : "Email"}</span><span>Class Yr</span><span>City</span><span>Last Gift</span><span>Source</span><span />
               </div>
 
-              {/* Rows */}
+              {/* Rows — paginated for large lists to prevent DOM bloat */}
               <div className="max-h-[220px] overflow-y-auto divide-y divide-tv-border-divider">
-                {filteredConstituents.map(r => (
-                  <div key={r.id} className="grid grid-cols-[1fr_1.2fr_0.8fr_0.6fr_44px] gap-1.5 px-2 py-2 items-center group hover:bg-tv-surface transition-colors">
+                {visibleRows.map(r => (
+                  <div key={r.id} className="grid grid-cols-[1fr_1.2fr_0.5fr_0.5fr_0.6fr_0.5fr_44px] gap-1.5 px-2 py-2 items-center group hover:bg-tv-surface transition-colors">
                     {editingConstituent === r.id ? (
                       <>
                         <input value={r.name} onChange={e => setConstituents(rs => rs.map(x => x.id === r.id ? { ...x, name: e.target.value } : x))} className="text-[11px] border border-tv-border-light rounded px-1.5 py-0.5 outline-none" placeholder="Name" aria-label="Constituent name" autoFocus />
-                        <input value={r.email} onChange={e => setConstituents(rs => rs.map(x => x.id === r.id ? { ...x, email: e.target.value } : x))} className="text-[11px] border border-tv-border-light rounded px-1.5 py-0.5 outline-none focus:ring-1 focus:ring-tv-brand/40" placeholder="Email" aria-label="Constituent email" />
-                        <input value={r.phone} onChange={e => setConstituents(rs => rs.map(x => x.id === r.id ? { ...x, phone: e.target.value } : x))} className="text-[11px] border border-tv-border-light rounded px-1.5 py-0.5 outline-none focus:ring-1 focus:ring-tv-brand/40" placeholder="Phone" aria-label="Constituent phone" />
+                        {step.type === "sms" ? (
+                          <input value={r.phone} onChange={e => setConstituents(rs => rs.map(x => x.id === r.id ? { ...x, phone: e.target.value } : x))} className="text-[11px] border border-tv-border-light rounded px-1.5 py-0.5 outline-none focus:ring-1 focus:ring-tv-brand/40" placeholder="Phone" aria-label="Constituent phone" />
+                        ) : (
+                          <input value={r.email} onChange={e => setConstituents(rs => rs.map(x => x.id === r.id ? { ...x, email: e.target.value } : x))} className="text-[11px] border border-tv-border-light rounded px-1.5 py-0.5 outline-none focus:ring-1 focus:ring-tv-brand/40" placeholder="Email" aria-label="Constituent email" />
+                        )}
+                        <span className="text-[10px] text-tv-text-secondary truncate">{r.classYear || "—"}</span>
+                        <span className="text-[10px] text-tv-text-secondary truncate">{r.city || "—"}</span>
+                        <span className="text-[10px] text-tv-text-secondary truncate">{r.lastGiftDate || "—"}</span>
                         <span className="text-[10px] text-tv-text-secondary truncate">{r.source}</span>
                         <button onClick={() => setEditingConstituent(null)} className="text-tv-brand text-[10px] font-semibold">Done</button>
                       </>
                     ) : (
                       <>
                         <span className="text-[11px] text-tv-text-primary truncate">{r.name || "—"}</span>
-                        <span className="text-[11px] text-tv-text-secondary truncate">{r.email || "—"}</span>
-                        <span className="text-[10px] text-tv-text-secondary truncate">{r.phone || "—"}</span>
+                        <span className={`text-[11px] truncate ${step.type === "sms" && !r.phone ? "text-tv-text-decorative italic" : "text-tv-text-secondary"}`}>{step.type === "sms" ? (r.phone || "No phone") : (r.email || "—")}</span>
+                        <span className="text-[10px] text-tv-text-secondary truncate">{r.classYear || "—"}</span>
+                        <span className="text-[10px] text-tv-text-secondary truncate">{r.city || "—"}</span>
+                        <span className="text-[10px] text-tv-text-secondary truncate">{r.lastGiftDate || "—"}</span>
                         <span className="text-[10px] text-tv-text-decorative truncate">{r.source}</span>
-                        <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {!isEditMode && <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                           <TvTooltip label="Edit"><button onClick={() => setEditingConstituent(r.id)} className="w-5 h-5 rounded flex items-center justify-center hover:bg-tv-brand-tint text-tv-text-secondary hover:text-tv-brand transition-colors" aria-label="Edit constituent"><Edit2 size={10} /></button></TvTooltip>
                           <TvTooltip label="Remove"><button onClick={() => removeConstituent(r.id)} className="w-5 h-5 rounded flex items-center justify-center hover:bg-tv-danger-bg text-tv-text-secondary hover:text-tv-danger transition-colors" aria-label="Remove constituent"><Trash2 size={10} /></button></TvTooltip>
-                        </div>
+                        </div>}
                       </>
                     )}
                   </div>
                 ))}
+                {hiddenCount > 0 && (
+                  <div className="px-2 py-2.5 text-center bg-tv-surface/50">
+                    <p className="text-[10px] text-tv-text-secondary">
+                      Showing {visibleRows.length.toLocaleString()} of {filteredConstituents.length.toLocaleString()} — {constituentSearch ? "refine your search to see more" : "use search to find specific people"}
+                    </p>
+                  </div>
+                )}
               </div>
                 </div>
               </div>
             </div>
-          )}
+            );
+          })()}
+
+          {/* SMS missing phone warning */}
+          {step.type === "sms" && !smsPhoneWarningDismissed && (() => {
+            const missingPhone = constituents.filter(c => !c.phone || c.phone.trim() === "");
+            if (missingPhone.length === 0) return null;
+            return (
+              <div className="p-3 bg-tv-warning-bg border border-tv-warning-border rounded-lg space-y-2">
+                <div className="flex items-start gap-2">
+                  <Phone size={13} className="text-tv-warning shrink-0 mt-0.5" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[11px] text-tv-warning font-semibold">
+                      {missingPhone.length} {isVideoRequest ? "recorder" : "constituent"}{missingPhone.length !== 1 ? "s" : ""} missing phone number{missingPhone.length !== 1 ? "s" : ""}
+                    </p>
+                    <p className="text-[10px] text-tv-text-secondary mt-0.5">
+                      SMS campaigns require a phone number for delivery. These people cannot receive this message:
+                    </p>
+                    <div className="mt-1.5 max-h-[72px] overflow-y-auto">
+                      <div className="flex flex-wrap gap-1">
+                        {missingPhone.slice(0, 10).map(c => (
+                          <span key={c.id} className="inline-flex items-center gap-1 px-2 py-0.5 bg-white border border-tv-warning-border rounded-full" style={{ fontSize: "9px" }}>
+                            <span className="text-tv-text-primary font-medium">{c.name}</span>
+                            <span className="text-tv-text-decorative">{c.email}</span>
+                          </span>
+                        ))}
+                        {missingPhone.length > 10 && (
+                          <span className="px-2 py-0.5 text-tv-text-secondary" style={{ fontSize: "9px" }}>
+                            +{missingPhone.length - 10} more
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1.5 pl-5">
+                  <button
+                    onClick={() => setConstituents(r => r.filter(c => c.phone && c.phone.trim() !== ""))}
+                    className="flex items-center gap-1 px-2.5 py-1.5 border border-tv-danger-border text-tv-danger bg-white rounded-full hover:bg-tv-danger-bg transition-colors text-[10px] font-semibold"
+                  >
+                    <Trash2 size={9} />Remove {missingPhone.length}
+                  </button>
+                  <button
+                    onClick={() => setSmsPhoneWarningDismissed(true)}
+                    className="flex items-center gap-1 px-2.5 py-1.5 border border-tv-border-light text-tv-text-secondary bg-white rounded-full hover:bg-tv-surface transition-colors text-[10px] font-semibold"
+                  >
+                    Skip &mdash; send to rest
+                  </button>
+                  <button
+                    onClick={() => setSmsPhoneWarningDismissed(true)}
+                    className="flex items-center gap-1 px-2.5 py-1.5 border border-tv-brand-bg/30 text-tv-brand bg-white rounded-full hover:bg-tv-brand-tint transition-colors text-[10px] font-semibold"
+                  >
+                    <Mail size={9} />Request phone numbers
+                  </button>
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Estimated count */}
           <div className="p-4 rounded-lg border border-tv-border-light bg-white">
@@ -2906,7 +3089,9 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
             <p className="text-[11px] text-tv-text-secondary">
               {isVideoRequest
                 ? "Recorders will receive an email with a link to record and submit their video."
-                : "Constituents with missing email addresses or unsubscribed constituents will be automatically excluded."}
+                : step.type === "sms"
+                  ? "Constituents without phone numbers or who have opted out of SMS will be automatically excluded."
+                  : "Constituents with missing email addresses or unsubscribed constituents will be automatically excluded."}
             </p>
           </div>
         </div>
@@ -3054,9 +3239,15 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                         <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${sendTestPreviewAs === r.id ? "border-tv-brand-bg bg-tv-brand-bg" : "border-tv-border-light"}`}>
                           {sendTestPreviewAs === r.id && <Check size={8} className="text-white" />}
                         </div>
-                        <div>
-                          <p className="text-[12px] text-tv-text-primary">{r.name}</p>
-                          <p className="text-[10px] text-tv-text-secondary">{r.email}</p>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <p className="text-[12px] text-tv-text-primary">{r.name}</p>
+                            {r.classYear && <span className="text-[9px] text-tv-text-decorative">'{String(r.classYear).slice(-2)}</span>}
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <p className="text-[10px] text-tv-text-secondary truncate">{r.email}</p>
+                            {r.city && <span className="text-[9px] text-tv-text-decorative shrink-0">{r.city}</span>}
+                          </div>
                         </div>
                       </button>
                     ))}
@@ -3541,9 +3732,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
 
       {/* Cancel confirmation overlay */}
       {showCancelConfirm && (
+        <FocusTrap active>
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" role="dialog" aria-modal="true" aria-labelledby="discard-campaign-title">
           <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-sm mx-4 p-6">
-            <h3 id="discard-campaign-title" className="text-tv-text-primary mb-2">Discard campaign?</h3>
+            <h2 id="discard-campaign-title" className="text-tv-text-primary mb-2">Discard campaign?</h2>
             <p className="text-[13px] text-tv-text-secondary mb-6">
               All progress on this campaign will be lost. This action cannot be undone.
             </p>
@@ -3563,6 +3755,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
             </div>
           </div>
         </div>
+        </FocusTrap>
       )}
 
       {/* Save changes confirmation — breadcrumb step jump */}
@@ -3583,9 +3776,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
       )}
 
       {showModeConfirm && (
+        <FocusTrap active>
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" role="dialog" aria-modal="true" aria-labelledby="leave-builder-title">
           <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-sm mx-4 p-6">
-            <h3 id="leave-builder-title" className="text-tv-text-primary mb-2">Leave campaign builder?</h3>
+            <h2 id="leave-builder-title" className="text-tv-text-primary mb-2">Leave campaign builder?</h2>
             <p className="text-[13px] text-tv-text-secondary mb-6">
               Your current progress will be lost. Are you sure you want to go back?
             </p>
@@ -3605,10 +3799,12 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
             </div>
           </div>
         </div>
+        </FocusTrap>
       )}
 
       {/* ── Save as Template modal ── */}
       {showSaveTemplate && (
+        <FocusTrap active>
         <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center" onClick={() => setShowSaveTemplate(false)} role="dialog" aria-modal="true" aria-labelledby="save-template-title">
           <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-[460px] mx-4" onClick={e => e.stopPropagation()}>
             <div className="px-6 pt-6 pb-4 border-b border-tv-border-divider">
@@ -3617,7 +3813,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                   <Bookmark size={18} className="text-tv-warning" />
                 </div>
                 <div>
-                  <h3 id="save-template-title" className="text-tv-text-primary" style={{ fontSize: "16px", fontWeight: 700 }}>Save as Template</h3>
+                  <h2 id="save-template-title" className="text-tv-text-primary" style={{ fontSize: "16px", fontWeight: 700 }}>Save as Template</h2>
                   <p className="text-[12px] text-tv-text-secondary">Save this campaign configuration for reuse.</p>
                 </div>
               </div>
@@ -3729,6 +3925,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
             </div>
           </div>
         </div>
+        </FocusTrap>
       )}
     </div>
   );
@@ -3752,13 +3949,13 @@ function loadEditCampaignData(id: string): EditCampaignData | null {
       tags: ["Solicitation"],
       hasIntro: true, hasOutro: true, hasPersonalVideo: true,
       constituents: [
-        { id: 1, name: "James Whitfield", email: "j.whitfield@alumni.edu", phone: "+1 (555) 123-4567", source: "Major Donors" },
-        { id: 2, name: "Sarah Chen", email: "s.chen@foundation.org", phone: "+1 (555) 234-5678", source: "Major Donors" },
-        { id: 3, name: "Marcus Reid", email: "m.reid@email.com", phone: "+1 (555) 345-6789", source: "CSV Upload" },
-        { id: 4, name: "Emily Torres", email: "e.torres@corp.com", phone: "+1 (555) 456-7890", source: "New Donors 2025" },
-        { id: 5, name: "David Park", email: "d.park@alumni.edu", phone: "+1 (555) 567-8901", source: "All Donors" },
-        { id: 6, name: "Alicia Grant", email: "a.grant@corp.com", phone: "+1 (555) 678-9012", source: "CSV Upload" },
-        { id: 7, name: "Tom Hernandez", email: "t.hernandez@alumni.edu", phone: "+1 (555) 789-0123", source: "All Donors" },
+        { id: 1, name: "James Whitfield", email: "j.whitfield@alumni.edu", phone: "+1 (555) 123-4567", source: "Major Donors", classYear: 1998, city: "Boston, MA", lastGiftDate: "Dec 15, 2025" },
+        { id: 2, name: "Sarah Chen", email: "s.chen@foundation.org", phone: "+1 (555) 234-5678", source: "Major Donors", classYear: 2005, city: "San Francisco, CA", lastGiftDate: "Nov 3, 2025" },
+        { id: 3, name: "Marcus Reid", email: "m.reid@email.com", phone: "+1 (555) 345-6789", source: "CSV Upload", classYear: 2012, city: "Chicago, IL", lastGiftDate: "Oct 20, 2025" },
+        { id: 4, name: "Emily Torres", email: "e.torres@corp.com", phone: "+1 (555) 456-7890", source: "New Donors 2025", classYear: 2020, city: "Austin, TX", lastGiftDate: "Sep 1, 2025" },
+        { id: 5, name: "David Park", email: "d.park@alumni.edu", phone: "+1 (555) 567-8901", source: "All Donors", classYear: 1992, city: "Seattle, WA", lastGiftDate: "Aug 14, 2025" },
+        { id: 6, name: "Alicia Grant", email: "a.grant@corp.com", phone: "+1 (555) 678-9012", source: "CSV Upload", city: "Denver, CO" },
+        { id: 7, name: "Tom Hernandez", email: "t.hernandez@alumni.edu", phone: "+1 (555) 789-0123", source: "All Donors", classYear: 2001, city: "Miami, FL", lastGiftDate: "Jul 22, 2025" },
       ],
     },
     "2": {
@@ -3768,8 +3965,8 @@ function loadEditCampaignData(id: string): EditCampaignData | null {
       landingPageEnabled: true, selectedMetrics: ["open-rate", "reply-rate"], tags: ["Thank You"],
       hasIntro: true, hasOutro: false, hasPersonalVideo: true,
       constituents: [
-        { id: 1, name: "James Whitfield", email: "j.whitfield@alumni.edu", phone: "+1 (555) 123-4567", source: "All Donors" },
-        { id: 2, name: "Sarah Chen", email: "s.chen@foundation.org", phone: "+1 (555) 234-5678", source: "All Donors" },
+        { id: 1, name: "James Whitfield", email: "j.whitfield@alumni.edu", phone: "+1 (555) 123-4567", source: "All Donors", classYear: 1998, city: "Boston, MA", lastGiftDate: "Dec 15, 2025" },
+        { id: 2, name: "Sarah Chen", email: "s.chen@foundation.org", phone: "+1 (555) 234-5678", source: "All Donors", classYear: 2005, city: "San Francisco, CA", lastGiftDate: "Nov 3, 2025" },
       ],
     },
   };

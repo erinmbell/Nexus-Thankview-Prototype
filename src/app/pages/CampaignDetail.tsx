@@ -1214,7 +1214,7 @@ function CampaignFlowMap({ steps, rules }: { steps: CampaignFlowStep[]; rules: A
               <GitBranch size={16} className="text-tv-brand" />
             </div>
             <div>
-              <h3 className="text-[15px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Flow</h3>
+              <h2 className="text-[15px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Flow</h2>
               <p className="text-[11px] text-tv-text-secondary">
                 {totalSteps} step{totalSteps !== 1 ? "s" : ""} · {rules.length} automation rule{rules.length !== 1 ? "s" : ""} · Click a step to view recipients
               </p>
@@ -1673,7 +1673,7 @@ function ConstituentLinkModal({ opened, constituents, search, onSearchChange, se
               <Users size={14} className="text-tv-brand" />
             </div>
             <div>
-              <h3 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Constituent-Specific Link</h3>
+              <h2 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Constituent-Specific Link</h2>
               <p className="text-[11px] text-tv-text-secondary">Generate a personalized viewing link</p>
             </div>
           </div>
@@ -1894,7 +1894,7 @@ export function CampaignDetail() {
         <div className="w-16 h-16 bg-tv-brand-tint rounded-full flex items-center justify-center mb-4">
           <FileQuestion size={28} className="text-tv-text-decorative" />
         </div>
-        <Title order={2} fz={22} mb="xs">Campaign not found</Title>
+        <Title order={1} fz={22} mb="xs">Campaign not found</Title>
         <Text fz={13} c={TV.textSecondary} mb="lg" maw={360}>The campaign you're looking for doesn't exist or may have been deleted.</Text>
         <Button color="tvPurple" leftSection={<ChevronRight size={14} className="rotate-180" />} onClick={() => navigate("/campaigns")}>Back to Campaigns</Button>
       </Box>
@@ -1922,17 +1922,15 @@ export function CampaignDetail() {
         <div className="flex-1 min-w-0">
           <Title order={1} fz={22} mb="xs" className="sm:text-[24px]">{name}</Title>
           <div className="flex flex-wrap items-center gap-2">
-            <span
+            <button
+              type="button"
               title="Click to change status"
-              role="button"
-              tabIndex={0}
               className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] cursor-pointer transition-opacity hover:opacity-80"
               style={{ fontWeight: 600, ...(STATUS_BADGE_STYLES[effectiveStatus] ?? { backgroundColor: TV.surfaceMuted, color: TV.textSecondary }) }}
               onClick={() => setShowStatusModal(true)}
-              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setShowStatusModal(true); }}
             >
               {effectiveStatus}
-            </span>
+            </button>
             <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px]" style={{ fontWeight: 600, backgroundColor: TV.surface, color: TV.textSecondary, borderWidth: 1, borderStyle: "solid", borderColor: TV.borderLight }}>
               {campaign.type}
             </span>
@@ -2181,7 +2179,7 @@ export function CampaignDetail() {
           <Paper radius="xl" withBorder style={{ borderColor: TV.borderLight }} className="p-4 sm:p-5">
             <Row gap="xs" mb="md">
               <Mail size={16} className="text-tv-brand" />
-              <Title order={3} fz={16}>Message Setup</Title>
+              <Title order={2} fz={16}>Message Setup</Title>
             </Row>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               {[
@@ -2223,7 +2221,7 @@ export function CampaignDetail() {
             <Paper radius="xl" withBorder style={{ borderColor: TV.borderLight }} className="p-4 sm:p-5">
               <Row gap="xs" mb="md">
                 <Palette size={16} className="text-tv-brand" />
-                <Title order={3} fz={16}>Envelope Setup</Title>
+                <Title order={2} fz={16}>Envelope Setup</Title>
               </Row>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {/* Color preview */}
@@ -2262,7 +2260,7 @@ export function CampaignDetail() {
           <Paper radius="xl" withBorder style={{ borderColor: TV.borderLight }} className="p-4 sm:p-5">
             <Row gap="xs" mb="md">
               <ExternalLink size={16} className="text-tv-brand" />
-              <Title order={3} fz={16}>Landing Page Setup</Title>
+              <Title order={2} fz={16}>Landing Page Setup</Title>
             </Row>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
@@ -2331,7 +2329,7 @@ export function CampaignDetail() {
           <Paper radius="xl" withBorder style={{ borderColor: TV.borderLight }} className="p-4 sm:p-5">
             <Row gap="xs" mb="md">
               <Video size={16} className="text-tv-brand" />
-              <Title order={3} fz={16}>Video Pipeline</Title>
+              <Title order={2} fz={16}>Video Pipeline</Title>
             </Row>
             <Text fz={12} c={TV.textSecondary} mb="md">
               Videos play in this order: Intro {"\u2192"} Personal Video {"\u2192"} Add-On 1 {"\u2192"} Add-On 2 {"\u2192"} Outro
@@ -2365,7 +2363,7 @@ export function CampaignDetail() {
             <Paper radius="xl" withBorder style={{ borderColor: TV.borderLight }} className="p-4 sm:p-5">
               <Row gap="xs" mb="md">
                 <Users size={16} className="text-tv-brand" />
-                <Title order={3} fz={16}>Personal Videos by Constituent</Title>
+                <Title order={2} fz={16}>Personal Videos by Constituent</Title>
                 <Pill color="tvPurple" size="sm" style={{ marginLeft: "auto" }}>
                   {constituentsWithVideo} of {campaign.constituents_list.length} recorded
                 </Pill>
@@ -2428,7 +2426,7 @@ export function CampaignDetail() {
             <Paper radius="xl" withBorder p="lg" style={{ borderColor: TV.borderLight }}>
               <Row gap="xs" mb="sm">
                 <TriangleAlert size={16} className="text-tv-warning" />
-                <Title order={3} fz={16}>Delivery Health</Title>
+                <Title order={2} fz={16}>Delivery Health</Title>
               </Row>
               <div className="grid grid-cols-4 gap-3">
                 <div className="p-3 bg-tv-surface-muted rounded-md text-center">
@@ -2464,7 +2462,7 @@ export function CampaignDetail() {
             <Paper radius="xl" withBorder p="lg" style={{ borderColor: TV.borderLight }}>
               <Row gap="xs" mb="sm">
                 <CalendarDays size={16} className="text-tv-brand" />
-                <Title order={3} fz={16}>Send Dates</Title>
+                <Title order={2} fz={16}>Send Dates</Title>
               </Row>
               <Row gap="sm">
                 {campaign.sendDates.map((d, i) => (
@@ -2483,7 +2481,7 @@ export function CampaignDetail() {
           <Paper radius="xl" withBorder style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
             <div className="px-5 py-3 border-b border-tv-border-divider bg-tv-surface-muted">
               <Row justify="space-between">
-                <Title order={3} fz={16}>Constituent-Level Data</Title>
+                <Title order={2} fz={16}>Constituent-Level Data</Title>
                 <Text fz={11} c={TV.textSecondary}>Click a row to see send history & replies</Text>
               </Row>
             </div>
@@ -2517,7 +2515,7 @@ export function CampaignDetail() {
             <Row justify="space-between">
               <Row gap="xs">
                 <ChartColumn size={16} className="text-tv-brand" />
-                <Title order={3} fz={16}>Full Analytics</Title>
+                <Title order={2} fz={16}>Full Analytics</Title>
               </Row>
               <UnstyledButton onClick={() => navigate(`/analytics?tab=performance&campaign=${encodeURIComponent(campaign.name)}`)} className="flex items-center gap-1 hover:underline" style={{ color: TV.textBrand, fontSize: 13, fontWeight: 500 }}>
                 <ChartColumn size={13} />Open in ThankView Metrics

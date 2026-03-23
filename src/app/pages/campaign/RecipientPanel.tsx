@@ -4,8 +4,8 @@ import {
   X, Check, Filter, ChevronDown, ChevronRight, Columns,
   User, Mail, Video, Play, RefreshCw,
   Upload, UserPlus, Trash2, Plus, AlertTriangle,
-  List, Bookmark, Users, Hash, Minus,
-  Cloud, ExternalLink, ArrowLeft,
+  List, Bookmark, Users, Hash, Minus, Lock,
+  Cloud, ExternalLink, ArrowLeft, Phone,
 } from "lucide-react";
 import { PillSearchInput } from "../../components/PillSearchInput";
 import { CSVImportWizard } from "../../components/CSVImportWizard";
@@ -21,6 +21,9 @@ interface Constituent {
   videoAssigned: string | null;
   emailStatus?: "valid" | "bounced" | "invalid" | "suppressed";
   source?: string;
+  classYear?: number;
+  city?: string;
+  lastGiftDate?: string;
 }
 
 // ── Mock data generation ─────────────────────────────────────────────────────
@@ -44,6 +47,11 @@ const LAST_NAMES = [
 ];
 const DOMAINS = ["alumni.edu","corp.com","email.com","foundation.org","org.edu","university.edu","college.edu","school.edu"];
 const GROUPS = ["Donors","Alumni","Prospects","Board Members","Faculty","Parents"];
+const CITIES = [
+  "Boston, MA","New York, NY","Chicago, IL","San Francisco, CA","Austin, TX","Denver, CO",
+  "Seattle, WA","Portland, OR","Atlanta, GA","Philadelphia, PA","Miami, FL","Nashville, TN",
+  "Charlotte, NC","Minneapolis, MN","Dallas, TX","Phoenix, AZ","Washington, DC","Los Angeles, CA",
+];
 const VIDEO_NAMES = [
   "Spring Thank You","Scholarship Impact Story","Campus Tour Highlight","End of Year Appeal",
   "Student Spotlight","Dean's Welcome","Homecoming Recap","Research Impact Story",
@@ -84,8 +92,14 @@ function generateMockConstituents(count: number): Constituent[] {
       : null;
     const emailRoll = rand();
     const emailStatus: Constituent["emailStatus"] = emailRoll < 0.03 ? "bounced" : emailRoll < 0.05 ? "invalid" : "valid";
+    const classYear = (group === "Parents" || group === "Prospects") ? undefined
+      : (rand() > 0.1 ? Math.floor(1970 + rand() * 55) : undefined);
+    const city = rand() > 0.15 ? CITIES[Math.floor(rand() * CITIES.length)] : undefined;
+    const lastGiftDate = rand() > 0.25
+      ? new Date(Date.now() - Math.floor(rand() * 1095 * 86400000)).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+      : undefined;
 
-    constituents.push({ id: i + 1, name, email, phone, group, status, videoAssigned, emailStatus });
+    constituents.push({ id: i + 1, name, email, phone, group, status, videoAssigned, emailStatus, classYear, city, lastGiftDate });
   }
 
   return constituents.sort((a, b) => a.name.localeCompare(b.name));
@@ -193,11 +207,21 @@ const BB_LISTS = [
 // ═══════════════════════════════════════════════════════════════════════════════
 export interface ConstituentPanelProps {
   hasPersonalizedClips?: boolean;
+  /** Pre-loaded constituent IDs — locks the list when provided */
+  preloadedConstituentIds?: number[];
+  /** Label describing where the pre-loaded list came from (e.g. "Major Donors 2025") */
+  preloadedSource?: string;
+  /** Campaign channel — triggers phone-number validation when "sms" */
+  campaignChannel?: "email" | "sms";
 }
 
-export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPanelProps) {
+export function ConstituentPanel({ hasPersonalizedClips = false, preloadedConstituentIds, preloadedSource, campaignChannel }: ConstituentPanelProps) {
+  const isLocked = preloadedConstituentIds != null && preloadedConstituentIds.length > 0;
+
   // Campaign constituents — the people who will receive the campaign
-  const [campaignConstituentIds, setCampaignConstituentIds] = useState<Set<number>>(new Set());
+  const [campaignConstituentIds, setCampaignConstituentIds] = useState<Set<number>>(
+    () => new Set(preloadedConstituentIds ?? []),
+  );
   // Extra constituents added manually or via CSV (not in ALL_CONSTITUENTS)
   const [extraConstituents, setExtraConstituents] = useState<Constituent[]>([]);
 
@@ -245,12 +269,19 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
   const [bbSelectedItems, setBbSelectedItems] = useState<Set<string>>(new Set());
   const [importProgress, setImportProgress] = useState<{ source: string; pct: number; total: number } | null>(null);
 
-  // Column visibility
-  const [visibleCols, setVisibleCols] = useState<Set<string>>(new Set(["name", "email", "status", "group", "video"]));
+  // Column visibility — SMS campaigns default to phone instead of email
+  const [visibleCols, setVisibleCols] = useState<Set<string>>(() => {
+    const base = ["name", "classYear", "city", "lastGiftDate", "status", "group", "video"];
+    return new Set(campaignChannel === "sms" ? ["phone", ...base] : ["email", ...base]);
+  });
   const [showColConfig, setShowColConfig] = useState(false);
   const COLUMN_DEFS = [
     { key: "name", label: "Name", required: true },
+    { key: "phone", label: "Phone" },
     { key: "email", label: "Email" },
+    { key: "classYear", label: "Class Year" },
+    { key: "city", label: "City" },
+    { key: "lastGiftDate", label: "Last Gift" },
     { key: "status", label: "Status" },
     { key: "group", label: "Group" },
     { key: "video", label: "Video" },
@@ -277,6 +308,15 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
   const bouncedInCampaign = campaignConstituents.filter(r => r.emailStatus === "bounced").length;
   const invalidInCampaign = campaignConstituents.filter(r => r.emailStatus === "invalid").length;
   const problemCount = bouncedInCampaign + invalidInCampaign;
+
+  // ── SMS missing phone detection ──
+  const isSmsChannel = campaignChannel === "sms";
+  const missingPhoneConstituents = useMemo(
+    () => isSmsChannel ? campaignConstituents.filter(r => !r.phone) : [],
+    [campaignConstituents, isSmsChannel],
+  );
+  const [smsPhoneWarningDismissed, setSmsPhoneWarningDismissed] = useState(false);
+  const showSmsPhoneWarning = isSmsChannel && missingPhoneConstituents.length > 0 && !smsPhoneWarningDismissed;
 
   // ── Filtered campaign list ──
   const filteredCampaign = useMemo(() => {
@@ -451,14 +491,18 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
           const first = FIRST_NAMES[Math.floor(rng() * FIRST_NAMES.length)];
           const last = LAST_NAMES[Math.floor(rng() * LAST_NAMES.length)];
           const domain = DOMAINS[Math.floor(rng() * DOMAINS.length)];
+          const grp = GROUPS[Math.floor(rng() * GROUPS.length)];
           newConstituents.push({
             id: baseId + i,
             name: `${first} ${last}`,
             email: `${first.toLowerCase().charAt(0)}.${last.toLowerCase()}@${domain}`,
-            group: GROUPS[Math.floor(rng() * GROUPS.length)],
+            group: grp,
             status: "ready",
             videoAssigned: null,
             source,
+            classYear: (grp === "Parents" || grp === "Prospects") ? undefined : (rng() > 0.15 ? Math.floor(1970 + rng() * 55) : undefined),
+            city: rng() > 0.2 ? CITIES[Math.floor(rng() * CITIES.length)] : undefined,
+            lastGiftDate: rng() > 0.3 ? new Date(Date.now() - Math.floor(rng() * 1095 * 86400000)).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : undefined,
           });
         }
         setExtraConstituents(prev => [...prev, ...newConstituents]);
@@ -628,11 +672,21 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
       <div className="w-[420px] shrink-0 border-r border-tv-border-divider flex flex-col">
         {/* Header */}
         <div className="px-5 pt-5 pb-3 shrink-0">
-          <h3 style={{ fontSize: "15px", fontWeight: 900 }} className="text-tv-text-primary">Constituents</h3>
+          <div className="flex items-center gap-2">
+            <h3 style={{ fontSize: "15px", fontWeight: 900 }} className="text-tv-text-primary">Constituents</h3>
+            {isLocked && (
+              <span className="flex items-center gap-1 px-2 py-0.5 bg-tv-surface rounded-full">
+                <Lock size={9} className="text-tv-text-decorative" />
+                <span style={{ fontSize: "9px", fontWeight: 600 }} className="text-tv-text-secondary">Locked</span>
+              </span>
+            )}
+          </div>
           <p style={{ fontSize: "11px" }} className="text-tv-text-secondary mt-0.5">
-            {total === 0
-              ? "Add constituents from integrations, lists, or by browsing your database."
-              : `${total} constituent${total !== 1 ? "s" : ""} will receive this campaign.`}
+            {isLocked
+              ? `${total} constituent${total !== 1 ? "s" : ""} from ${preloadedSource || "a previous step"}.`
+              : total === 0
+                ? "Add constituents from integrations, lists, or by browsing your database."
+                : `${total} constituent${total !== 1 ? "s" : ""} will receive this campaign.`}
           </p>
 
           {/* Stats bar */}
@@ -675,8 +729,28 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
           )}
         </div>
 
+        {/* ── Locked state — pre-loaded list info ── */}
+        {isLocked && (
+          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+            <div className="w-14 h-14 rounded-full bg-tv-surface flex items-center justify-center mb-3">
+              <Lock size={22} className="text-tv-text-decorative/50" />
+            </div>
+            <p style={{ fontSize: "13px", fontWeight: 700 }} className="text-tv-text-primary mb-1">Recipient list is locked</p>
+            <p style={{ fontSize: "11px" }} className="text-tv-text-secondary max-w-[280px] leading-relaxed">
+              {preloadedSource
+                ? <>Constituents were loaded from <span style={{ fontWeight: 600 }}>{preloadedSource}</span>. To change recipients, go back and update the source.</>
+                : "Constituents were loaded from a previous step. To change recipients, go back and update the source."}
+            </p>
+            <div className="mt-4 flex items-center gap-2 px-3.5 py-2 bg-tv-surface rounded-lg">
+              <Users size={13} className="text-tv-brand" />
+              <span style={{ fontSize: "12px", fontWeight: 700 }} className="text-tv-brand">{total}</span>
+              <span style={{ fontSize: "11px" }} className="text-tv-text-secondary">constituent{total !== 1 ? "s" : ""} selected</span>
+            </div>
+          </div>
+        )}
+
         {/* ── Source Navigation ── */}
-        <div className="px-4 pb-2 shrink-0">
+        {!isLocked && <div className="px-4 pb-2 shrink-0">
           <div className="space-y-1">
             {SOURCE_CATEGORIES.map(cat => (
               <div key={cat.label}>
@@ -700,10 +774,10 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
               </div>
             ))}
           </div>
-        </div>
+        </div>}
 
         {/* ── Source content area ── */}
-        <div className="flex-1 min-h-0 flex flex-col border-t border-tv-border-divider">
+        {!isLocked && <div className="flex-1 min-h-0 flex flex-col border-t border-tv-border-divider">
 
           {/* ────── Salesforce ────── */}
           {addMethod === "salesforce" && (
@@ -1188,6 +1262,8 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                           <p style={{ fontSize: "11px", fontWeight: 500 }} className="text-tv-text-primary truncate">{r.name}</p>
                           <div className="flex items-center gap-1.5">
                             <p style={{ fontSize: "10px" }} className="text-tv-text-secondary truncate">{r.email}</p>
+                            {r.classYear && <span className="text-tv-text-decorative shrink-0" style={{ fontSize: "8px" }}>'{String(r.classYear).slice(-2)}</span>}
+                            {r.city && <span className="text-tv-text-decorative truncate max-w-[60px] shrink-0" style={{ fontSize: "8px" }}>{r.city}</span>}
                             <span className="px-1.5 py-0.5 bg-tv-surface text-tv-text-decorative rounded-full shrink-0" style={{ fontSize: "8px", fontWeight: 500 }}>{r.group}</span>
                           </div>
                         </div>
@@ -1259,11 +1335,11 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
             <div className="px-4 py-4 space-y-2.5">
               <p style={{ fontSize: "10px", fontWeight: 600 }} className="text-tv-text-label uppercase tracking-wider">Add Constituent</p>
               <input value={manualName} onChange={e => setManualName(e.target.value)} placeholder="Full name" aria-label="Constituent full name"
-                className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
               <input value={manualEmail} onChange={e => setManualEmail(e.target.value)} placeholder="Email address" aria-label="Constituent email address"
-                className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
               <select value={manualGroup} onChange={e => setManualGroup(e.target.value)}
-                className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[11px] outline-none focus:ring-1 focus:ring-tv-brand/40">
+                className="w-full border border-tv-border-light rounded-[8px] px-3 py-2 text-[11px] outline-none focus:ring-1 focus:ring-tv-brand/40 appearance-none pr-8 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_10px_center] bg-no-repeat cursor-pointer">
                 {GROUPS.map(g => <option key={g} value={g}>{g}</option>)}
               </select>
               <div className="flex items-center gap-2 pt-1">
@@ -1294,7 +1370,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
               </div>
             </div>
           )}
-        </div>
+        </div>}
       </div>
 
       {/* ── Right Panel — Campaign Constituents / Detail ── */}
@@ -1304,7 +1380,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <h4 style={{ fontSize: "12px", fontWeight: 800 }} className="text-tv-text-primary">Campaign Constituents</h4>
-              <span className="px-2 py-0.5 bg-tv-brand-bg text-white rounded-full" style={{ fontSize: "9px", fontWeight: 700 }}>{total}</span>
+              <span className="px-2 py-0.5 bg-tv-brand-bg text-white rounded-full" style={{ fontSize: "9px", fontWeight: 700 }}>{total.toLocaleString()}</span>
             </div>
             <div className="flex items-center gap-1.5">
               {/* Column config */}
@@ -1337,8 +1413,8 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                   </div>
                 )}
               </div>
-              {/* Bulk actions */}
-              {campaignSelectedIds.size > 0 && (
+              {/* Bulk actions — hidden when list is locked */}
+              {!isLocked && campaignSelectedIds.size > 0 && (
                 <button
                   onClick={removeSelectedFromCampaign}
                   className="flex items-center gap-1 px-3 py-1.5 border border-tv-danger-border text-tv-danger bg-tv-danger-bg rounded-full hover:bg-tv-danger-border/30 transition-colors"
@@ -1347,7 +1423,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                   <Trash2 size={10} />Remove {campaignSelectedIds.size}
                 </button>
               )}
-              {total > 0 && campaignSelectedIds.size === 0 && (
+              {!isLocked && total > 0 && campaignSelectedIds.size === 0 && (
                 <button
                   onClick={() => { setCampaignConstituentIds(new Set()); setFocusId(null); setCampaignSelectedIds(new Set()); }}
                   className="flex items-center gap-1 px-3 py-1.5 border border-tv-danger-border text-tv-danger bg-tv-danger-bg rounded-full hover:bg-tv-danger-border/30 transition-colors"
@@ -1362,20 +1438,98 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
           {/* Search + select-all within campaign */}
           {total > 0 && (
             <div className="flex items-center gap-2">
-              <Checkbox
+              {!isLocked && <Checkbox
                 checked={campaignAllSelected}
                 indeterminate={!campaignAllSelected && campaignSomeSelected}
                 onChange={toggleCampaignSelectAll}
-              />
+              />}
               <PillSearchInput value={campaignSearch} onChange={setCampaignSearch} placeholder="Filter campaign constituents…" size="sm" className="flex-1" />
-              {campaignSomeSelected && (
+              {!isLocked && campaignSomeSelected && (
                 <span style={{ fontSize: "9px", fontWeight: 500 }} className="text-tv-brand shrink-0">
                   {campaignSelectedIds.size} selected
                 </span>
               )}
             </div>
           )}
+
+          {/* Group breakdown — shown for large lists (100+) */}
+          {total >= 100 && (() => {
+            const groupCounts = campaignConstituents.reduce<Record<string, number>>((acc, c) => { acc[c.group] = (acc[c.group] || 0) + 1; return acc; }, {});
+            const groups = Object.entries(groupCounts).sort((a, b) => b[1] - a[1]);
+            return (
+              <div className="flex flex-wrap gap-1 mt-2">
+                {groups.map(([group, count]) => (
+                  <span key={group} className="px-2 py-0.5 bg-tv-surface rounded-full flex items-center gap-1" style={{ fontSize: "9px" }}>
+                    <span className="text-tv-text-primary" style={{ fontWeight: 500 }}>{group}</span>
+                    <span className="text-tv-text-decorative font-mono">{count.toLocaleString()}</span>
+                  </span>
+                ))}
+              </div>
+            );
+          })()}
         </div>
+
+        {/* SMS missing phone warning */}
+        {showSmsPhoneWarning && (
+          <div className="mx-4 mb-2 p-3 bg-tv-warning-bg border border-tv-warning-border rounded-lg space-y-2">
+            <div className="flex items-start gap-2">
+              <Phone size={13} className="text-tv-warning shrink-0 mt-0.5" />
+              <div className="flex-1 min-w-0">
+                <p style={{ fontSize: "11px", fontWeight: 600 }} className="text-tv-warning">
+                  {missingPhoneConstituents.length} constituent{missingPhoneConstituents.length !== 1 ? "s" : ""} missing phone number{missingPhoneConstituents.length !== 1 ? "s" : ""}
+                </p>
+                <p style={{ fontSize: "10px" }} className="text-tv-text-secondary mt-0.5">
+                  SMS campaigns require a phone number for delivery. The following people cannot receive this message:
+                </p>
+                <div className="mt-1.5 max-h-[72px] overflow-y-auto">
+                  <div className="flex flex-wrap gap-1">
+                    {missingPhoneConstituents.slice(0, 12).map(c => (
+                      <span key={c.id} className="inline-flex items-center gap-1 px-2 py-0.5 bg-white border border-tv-warning-border rounded-full" style={{ fontSize: "9px" }}>
+                        <span className="text-tv-text-primary" style={{ fontWeight: 500 }}>{c.name}</span>
+                        <span className="text-tv-text-decorative">{c.email}</span>
+                      </span>
+                    ))}
+                    {missingPhoneConstituents.length > 12 && (
+                      <span className="px-2 py-0.5 text-tv-text-secondary" style={{ fontSize: "9px" }}>
+                        +{missingPhoneConstituents.length - 12} more
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5 pl-5">
+              <button
+                onClick={() => {
+                  const ids = missingPhoneConstituents.map(c => c.id);
+                  setCampaignConstituentIds(prev => {
+                    const next = new Set(prev);
+                    ids.forEach(id => next.delete(id));
+                    return next;
+                  });
+                }}
+                className="flex items-center gap-1 px-2.5 py-1.5 border border-tv-danger-border text-tv-danger bg-white rounded-full hover:bg-tv-danger-bg transition-colors"
+                style={{ fontSize: "10px", fontWeight: 600 }}
+              >
+                <Trash2 size={9} />Remove {missingPhoneConstituents.length}
+              </button>
+              <button
+                onClick={() => setSmsPhoneWarningDismissed(true)}
+                className="flex items-center gap-1 px-2.5 py-1.5 border border-tv-border-light text-tv-text-secondary bg-white rounded-full hover:bg-tv-surface transition-colors"
+                style={{ fontSize: "10px", fontWeight: 600 }}
+              >
+                Skip &mdash; send to rest
+              </button>
+              <button
+                onClick={() => setSmsPhoneWarningDismissed(true)}
+                className="flex items-center gap-1 px-2.5 py-1.5 border border-tv-brand-bg/30 text-tv-brand bg-white rounded-full hover:bg-tv-brand-tint transition-colors"
+                style={{ fontSize: "10px", fontWeight: 600 }}
+              >
+                <Mail size={9} />Request phone numbers
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Campaign constituent list or empty state */}
         {total === 0 ? (
@@ -1410,14 +1564,19 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                     <p style={{ fontSize: "11px" }} className="text-tv-text-secondary flex items-center gap-1">
                       <Mail size={10} />{focusConstituent.email}
                     </p>
+                    {focusConstituent.phone && (
+                      <p style={{ fontSize: "11px" }} className="text-tv-text-secondary flex items-center gap-1">
+                        <Phone size={10} />{focusConstituent.phone}
+                      </p>
+                    )}
                   </div>
-                  <button
+                  {!isLocked && <button
                     onClick={() => { removeFromCampaign([focusConstituent.id]); }}
                     className="ml-auto shrink-0 flex items-center gap-1 px-2.5 py-1.5 border border-tv-danger-border text-tv-danger bg-tv-danger-bg rounded-full hover:bg-tv-danger-border/30 transition-colors"
                     style={{ fontSize: "9px", fontWeight: 600 }}
                   >
                     <Minus size={9} />Remove
-                  </button>
+                  </button>}
                 </div>
 
                 {/* Delivery issue warning */}
@@ -1451,6 +1610,24 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                     <div>
                       <p style={{ fontSize: "9px", fontWeight: 600 }} className="text-tv-text-label uppercase tracking-wider mb-0.5">Source</p>
                       <p style={{ fontSize: "12px" }} className="text-tv-text-primary capitalize">{focusConstituent.source}</p>
+                    </div>
+                  )}
+                  {focusConstituent.classYear && (
+                    <div>
+                      <p style={{ fontSize: "9px", fontWeight: 600 }} className="text-tv-text-label uppercase tracking-wider mb-0.5">Class Year</p>
+                      <p style={{ fontSize: "12px" }} className="text-tv-text-primary">{focusConstituent.classYear}</p>
+                    </div>
+                  )}
+                  {focusConstituent.city && (
+                    <div>
+                      <p style={{ fontSize: "9px", fontWeight: 600 }} className="text-tv-text-label uppercase tracking-wider mb-0.5">City</p>
+                      <p style={{ fontSize: "12px" }} className="text-tv-text-primary">{focusConstituent.city}</p>
+                    </div>
+                  )}
+                  {focusConstituent.lastGiftDate && (
+                    <div>
+                      <p style={{ fontSize: "9px", fontWeight: 600 }} className="text-tv-text-label uppercase tracking-wider mb-0.5">Last Gift</p>
+                      <p style={{ fontSize: "12px" }} className="text-tv-text-primary">{focusConstituent.lastGiftDate}</p>
                     </div>
                   )}
                 </div>
@@ -1532,12 +1709,12 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                       }`}
                       onClick={() => setFocusId(r.id)}
                     >
-                      {/* Multi-select checkbox */}
-                      <Checkbox
+                      {/* Multi-select checkbox — hidden when locked */}
+                      {!isLocked && <Checkbox
                         checked={isSelected}
                         onChange={() => toggleCampaignSelect(r.id)}
                         size={13}
-                      />
+                      />}
 
                       {/* Avatar */}
                       <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
@@ -1568,10 +1745,34 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                             </span>
                           )}
                         </div>
+                        {visibleCols.has("phone") && (
+                          <p style={{ fontSize: "10px" }} className="text-tv-text-secondary truncate">{r.phone || <span className="text-tv-text-decorative italic">No phone</span>}</p>
+                        )}
                         {visibleCols.has("email") && (
                           <p style={{ fontSize: "10px" }} className="text-tv-text-secondary truncate">{r.email}</p>
                         )}
                       </div>
+
+                      {/* Class Year */}
+                      {visibleCols.has("classYear") && (
+                        <span className="px-1.5 py-0.5 bg-tv-surface text-tv-text-secondary rounded-full shrink-0" style={{ fontSize: "8px", fontWeight: 500 }}>
+                          {r.classYear ? `'${String(r.classYear).slice(-2)}` : "—"}
+                        </span>
+                      )}
+
+                      {/* City */}
+                      {visibleCols.has("city") && (
+                        <span className="text-tv-text-secondary truncate max-w-[80px] shrink-0" style={{ fontSize: "9px" }}>
+                          {r.city || "—"}
+                        </span>
+                      )}
+
+                      {/* Last Gift Date */}
+                      {visibleCols.has("lastGiftDate") && (
+                        <span className="text-tv-text-secondary truncate max-w-[80px] shrink-0" style={{ fontSize: "9px" }}>
+                          {r.lastGiftDate || "—"}
+                        </span>
+                      )}
 
                       {/* Group badge */}
                       {visibleCols.has("group") && (
@@ -1595,14 +1796,14 @@ export function ConstituentPanel({ hasPersonalizedClips = false }: ConstituentPa
                         </div>
                       )}
 
-                      {/* Remove button */}
-                      <button
+                      {/* Remove button — hidden when locked */}
+                      {!isLocked && <button
                         onClick={e => { e.stopPropagation(); removeFromCampaign([r.id]); }}
                         className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-tv-text-decorative hover:text-tv-danger hover:bg-tv-danger-bg transition-colors"
                         title="Remove from campaign"
                       >
                         <X size={10} />
-                      </button>
+                      </button>}
                     </div>
                   );
                 })}

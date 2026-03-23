@@ -39,6 +39,7 @@ export function ChipFilter({ label, icon: Icon, options, values, onChange, searc
   searchable?: boolean;
 }) {
   const [searchText, setSearchText] = useState("");
+  const [opened, setOpened] = useState(false);
   const isActive = values.length > 0;
 
   const filteredOptions = options.filter(o =>
@@ -64,11 +65,13 @@ export function ChipFilter({ label, icon: Icon, options, values, onChange, searc
 
   return (
     <Menu shadow="md" width={options.length > 20 ? 320 : 260} closeOnItemClick={false}
+      opened={opened} onChange={setOpened}
       onClose={() => setSearchText("")}
       position="bottom-start">
       <Menu.Target>
         <UnstyledButton
           py={6} px={12}
+          aria-expanded={opened}
           style={{
             border: `1px solid ${isActive ? TV.borderStrong : TV.borderLight}`,
             borderRadius: 20,
@@ -90,14 +93,17 @@ export function ChipFilter({ label, icon: Icon, options, values, onChange, searc
             {getSummary()}
           </Text>
           {isActive ? (
-            <Box
-              component="button"
+            <span
+              role="button"
+              tabIndex={0}
               onClick={(e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); onChange([]); }}
-              style={{ color: TV.textBrand, flexShrink: 0, cursor: "pointer", display: "inline-flex", alignItems: "center", background: "none", border: "none", padding: 0 }}
+              onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); onChange([]); } }}
+              className="min-w-6 min-h-6 flex items-center justify-center"
+              style={{ color: TV.textBrand, flexShrink: 0, cursor: "pointer", display: "inline-flex", background: "none", border: "none", padding: 0 }}
               aria-label={`Clear ${label} filter`}
             >
               <X size={12} aria-hidden="true" />
-            </Box>
+            </span>
           ) : (
             <ChevronDown size={11} style={{ color: TV.textSecondary, flexShrink: 0 }} />
           )}
@@ -311,6 +317,7 @@ function DateRangeFilterChip({ def, values, onChange, onRemove, removable }: {
       <Popover.Target>
         <UnstyledButton
           onClick={() => handleOpen(!opened)}
+          aria-expanded={opened}
           py={6} px={12}
           style={{
             border: `1px solid ${isActive ? TV.borderStrong : TV.borderLight}`,
@@ -339,10 +346,15 @@ function DateRangeFilterChip({ def, values, onChange, onRemove, removable }: {
           {isActive ? (
             <Box
               component="span"
+              className="min-w-6 min-h-6 flex items-center justify-center"
               onClick={(e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); handleClear(); }}
-              style={{ color: TV.textBrand, flexShrink: 0, cursor: "pointer", display: "inline-flex", alignItems: "center" }}
+              style={{ color: TV.textBrand, flexShrink: 0, cursor: "pointer", display: "inline-flex" }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); handleClear(); } }}
+              aria-label={`Clear ${def.label} filter`}
             >
-              <X size={12} />
+              <X size={12} aria-hidden="true" />
             </Box>
           ) : (
             <ChevronDown size={11} style={{ color: TV.textSecondary, flexShrink: 0 }} />
@@ -447,6 +459,7 @@ function FilterChip({ def, values, onChange, onRemove, removable }: {
   removable?: boolean;
 }) {
   const [searchText, setSearchText] = useState("");
+  const [opened, setOpened] = useState(false);
   const isActive = values.length > 0;
   const Icon = def.icon;
 
@@ -477,11 +490,13 @@ function FilterChip({ def, values, onChange, onRemove, removable }: {
 
   return (
     <Menu shadow="md" width={def.options.length > 20 ? 320 : 260} closeOnItemClick={def.type === "select" || def.type === "boolean"}
+      opened={opened} onChange={setOpened}
       onClose={() => setSearchText("")}
       position="bottom-start">
       <Menu.Target>
         <UnstyledButton
           py={6} px={12}
+          aria-expanded={opened}
           style={{
             border: `1px solid ${isActive ? TV.borderStrong : TV.borderLight}`,
             borderRadius: 20,
@@ -503,14 +518,17 @@ function FilterChip({ def, values, onChange, onRemove, removable }: {
             {getSummary()}
           </Text>
           {isActive ? (
-            <Box
-              component="button"
+            <span
+              role="button"
+              tabIndex={0}
               onClick={(e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); onChange([]); }}
-              style={{ color: TV.textBrand, flexShrink: 0, cursor: "pointer", display: "inline-flex", alignItems: "center", background: "none", border: "none", padding: 0 }}
+              onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); onChange([]); } }}
+              className="min-w-6 min-h-6 flex items-center justify-center"
+              style={{ color: TV.textBrand, flexShrink: 0, cursor: "pointer", display: "inline-flex", background: "none", border: "none", padding: 0 }}
               aria-label={`Clear ${def.label} filter`}
             >
               <X size={12} aria-hidden="true" />
-            </Box>
+            </span>
           ) : (
             <ChevronDown size={11} style={{ color: TV.textSecondary, flexShrink: 0 }} />
           )}

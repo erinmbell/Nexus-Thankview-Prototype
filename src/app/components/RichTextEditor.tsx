@@ -128,7 +128,8 @@ function TbBtn({
         type="button"
         onClick={onClick}
         aria-label={title}
-        className={`p-1.5 rounded-sm transition-colors ${
+        aria-pressed={active || false}
+        className={`p-1.5 min-w-6 min-h-6 rounded-sm transition-colors flex items-center justify-center ${
           active
             ? "bg-tv-brand-bg/10 text-tv-brand"
             : "text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-text-primary"
@@ -286,6 +287,18 @@ export function RichTextEditor({
   const [showSigPicker, setShowSigPicker] = useState(false);
   const sigRef = useRef<HTMLDivElement>(null);
 
+  // ── Text color — click-based dropdown ───────────────────────────────────
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const colorRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!showColorPicker) return;
+    const handler = (e: MouseEvent) => {
+      if (colorRef.current && !colorRef.current.contains(e.target as Node)) setShowColorPicker(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [showColorPicker]);
+
   // ── Insert merge field into editor ────────────────────────────────────────
   const handleMergeInsert = useCallback((token: string) => {
     if (onInsertMergeField) {
@@ -309,7 +322,7 @@ export function RichTextEditor({
               value={bodyFontFamily || EMAIL_BODY_FONTS[0].value}
               onChange={e => onBodyFontFamilyChange?.(e.target.value)}
               title="Font Family"
-              className="border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
+              className="border border-tv-border-light rounded-full px-3 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer appearance-none pr-7 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_8px_center] bg-no-repeat"
               style={{ fontFamily: bodyFontFamily || EMAIL_BODY_FONTS[0].value }}
             >
               {EMAIL_BODY_FONTS.map(f => (
@@ -325,7 +338,7 @@ export function RichTextEditor({
               value={bodyFontSize || 14}
               onChange={e => onBodyFontSizeChange?.(Number(e.target.value))}
               title="Font Size"
-              className="border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
+              className="border border-tv-border-light rounded-full px-3 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer appearance-none pr-7 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_8px_center] bg-no-repeat"
             >
               {EMAIL_BODY_FONT_SIZES.map(s => (
                 <option key={s} value={s}>{s}px</option>
@@ -333,22 +346,26 @@ export function RichTextEditor({
             </select>
           </div>
           <div className="h-5 w-px bg-tv-border-light" />
-          {/* Text color picker */}
+          {/* Text color picker — click-based dropdown */}
           <div className="flex items-center gap-1.5">
             <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap" style={{ fontWeight: 600 }}>Color</label>
-            <div className="relative group/tcRte">
-              <button type="button" title="Text Color" className="flex items-center gap-1.5 border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] bg-white hover:border-tv-border-strong transition-colors cursor-pointer">
-                <span className="w-4 h-4 rounded-[4px] border border-tv-border-light shrink-0" style={{ backgroundColor: bodyTextColor || "#1e293b" }} />
+            <div className="relative" ref={colorRef}>
+              <button type="button" title="Text Color"
+                onClick={() => setShowColorPicker(!showColorPicker)}
+                className={`flex items-center gap-1.5 border rounded-full px-3 py-1.5 text-[12px] bg-white transition-colors cursor-pointer ${showColorPicker ? "border-tv-brand ring-1 ring-tv-brand/30" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                <span className="w-3.5 h-3.5 rounded-full border border-tv-border-light shrink-0" style={{ backgroundColor: bodyTextColor || "#1e293b" }} />
                 <span className="text-tv-text-primary">{EMAIL_TEXT_COLORS.find(c => c.value === (bodyTextColor || "#1e293b"))?.label || "Custom"}</span>
-                <ChevronDown size={11} className="text-tv-text-secondary" />
+                <ChevronDown size={11} className={`text-tv-text-secondary transition-transform ${showColorPicker ? "rotate-180" : ""}`} />
               </button>
-              <div className="absolute top-full left-0 mt-1.5 p-2.5 bg-white border border-tv-border-light rounded-md shadow-xl z-30 hidden group-hover/tcRte:grid grid-cols-5 gap-1.5 w-[155px]">
-                {EMAIL_TEXT_COLORS.map(c => (
-                  <button key={c.value} type="button" onClick={() => onBodyTextColorChange?.(c.value)} title={c.label}
-                    className={`w-5.5 h-5.5 rounded-full border-2 transition-transform hover:scale-110 ${(bodyTextColor || "#1e293b") === c.value ? "border-tv-brand ring-1 ring-tv-brand/30" : "border-tv-border-light"}`}
-                    style={{ backgroundColor: c.value }} />
-                ))}
-              </div>
+              {showColorPicker && (
+                <div className="absolute top-full left-0 mt-1.5 p-2.5 bg-white border border-tv-border-light rounded-lg shadow-xl z-30 grid grid-cols-5 gap-1.5 w-[155px]">
+                  {EMAIL_TEXT_COLORS.map(c => (
+                    <button key={c.value} type="button" onClick={() => { onBodyTextColorChange?.(c.value); setShowColorPicker(false); }} title={c.label}
+                      className={`w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 ${(bodyTextColor || "#1e293b") === c.value ? "border-tv-brand ring-1 ring-tv-brand/30" : "border-tv-border-light"}`}
+                      style={{ backgroundColor: c.value }} />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <div className="h-5 w-px bg-tv-border-light" />
@@ -359,7 +376,7 @@ export function RichTextEditor({
               value={bodyLineHeight || 1.5}
               onChange={e => onBodyLineHeightChange?.(Number(e.target.value))}
               title="Line Spacing"
-              className="border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer"
+              className="border border-tv-border-light rounded-full px-3 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white cursor-pointer appearance-none pr-7 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_8px_center] bg-no-repeat"
             >
               {EMAIL_BODY_LINE_HEIGHTS.map(lh => (
                 <option key={lh.value} value={lh.value}>{lh.label}</option>
@@ -375,7 +392,7 @@ export function RichTextEditor({
         </div>
       )}
       {/* ── Toolbar ── */}
-      <div className={`flex items-center gap-0.5 ${barPx} ${barPy} bg-tv-surface border-b border-tv-border-light flex-wrap ${!onBodyFontFamilyChange ? "rounded-t-[9px]" : ""}`}>
+      <div role="toolbar" aria-label="Text formatting" className={`flex items-center gap-0.5 ${barPx} ${barPy} bg-tv-surface border-b border-tv-border-light flex-wrap ${!onBodyFontFamilyChange ? "rounded-t-[9px]" : ""}`}>
         {/* Formatting */}
         <TbBtn icon={Bold} size={iconSize} active={isCommandActive("bold")} onClick={() => exec("bold")} title="Bold" />
         <TbBtn icon={Italic} size={iconSize} active={isCommandActive("italic")} onClick={() => exec("italic")} title="Italic" />
@@ -407,6 +424,7 @@ export function RichTextEditor({
                     value={linkUrl}
                     onChange={e => setLinkUrl(e.target.value)}
                     placeholder="https://example.com"
+                    aria-label="Link URL"
                     className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
                   />
                 </div>
@@ -416,6 +434,7 @@ export function RichTextEditor({
                     value={linkText}
                     onChange={e => setLinkText(e.target.value)}
                     placeholder="Link text\u2026"
+                    aria-label="Link text"
                     className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
                   />
                 </div>
@@ -603,6 +622,9 @@ export function RichTextEditor({
           ref={editorRef}
           contentEditable
           suppressContentEditableWarning
+          role="textbox"
+          aria-multiline="true"
+          aria-label="Email body"
           onInput={handleInput}
           onKeyUp={() => setForceUpdate(n => n + 1)}
           onMouseUp={() => setForceUpdate(n => n + 1)}

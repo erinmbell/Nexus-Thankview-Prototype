@@ -257,6 +257,8 @@ export function ImageUploadModal({
             onDragLeave={() => setDragOver(false)}
             onDrop={handleDrop}
             onClick={() => inputRef.current?.click()}
+            role="button"
+            aria-label="Upload image"
             className="flex flex-col items-center justify-center gap-3 rounded-[14px] border-2 border-dashed py-12 cursor-pointer transition-all"
             style={{
               borderColor: dragOver ? TV.brand : TV.borderLight,
@@ -308,6 +310,9 @@ export function ImageUploadModal({
                     onChange={e => { setUrlInput(e.target.value); setUrlError(null); }}
                     onKeyDown={e => e.key === "Enter" && handleUrlImport()}
                     placeholder="https://example.com/image.png"
+                    aria-label="Image URL"
+                    aria-invalid={urlError ? true : undefined}
+                    aria-describedby={urlError ? "image-url-error" : undefined}
                     className="flex-1 text-[13px] outline-none bg-transparent"
                     style={{ color: TV.textPrimary }}
                   />
@@ -323,7 +328,7 @@ export function ImageUploadModal({
                 </button>
               </div>
             </div>
-            {urlError && <ErrorBanner message={urlError} />}
+            {urlError && <ErrorBanner message={urlError} id="image-url-error" />}
             <Text fz={10} c={TV.textSecondary}>
               Paste a direct link to a publicly accessible image file. The image must be served over HTTPS.
             </Text>
@@ -401,11 +406,13 @@ export function ImageUploadModal({
 
 // ── Shared sub-component ─────────────────────────────────────────────────────
 
-function ErrorBanner({ message }: { message: string }) {
+function ErrorBanner({ message, id }: { message: string; id?: string }) {
   return (
     <div
       className="flex items-start gap-2 rounded-sm px-3 py-2 mt-3"
       style={{ backgroundColor: TV.dangerBg, border: `1px solid ${TV.dangerBorder}` }}
+      role="alert"
+      id={id}
     >
       <AlertCircle size={13} style={{ color: TV.danger }} className="shrink-0 mt-0.5" />
       <Text fz={11} c={TV.danger}>{message}</Text>

@@ -109,10 +109,10 @@ const topCampaigns = [
 
 const recentActivity = [
   { id: 1, donor: "James Whitfield", action: "opened",    video: "Spring Annual Fund Appeal",          time: "2m ago",  avatar: "JW", color: "bg-tv-brand" },
-  { id: 2, donor: "Sarah Chen",      action: "replied to",video: "Welcome Message – Class of 2026",   time: "14m ago", avatar: "SC", color: "bg-[#7c45b0]" },
-  { id: 3, donor: "Marcus Reid",     action: "watched",   video: "Annual Fund Thank You",             time: "31m ago", avatar: "MR", color: "bg-[#63378d]" },
-  { id: 4, donor: "Emily Torres",    action: "opened",    video: "Campaign Kick-off – Spring 2026",  time: "1h ago",  avatar: "ET", color: "bg-[#653a92]" },
-  { id: 5, donor: "David Park",      action: "replied to",video: "Spring Annual Fund Appeal",         time: "2h ago",  avatar: "DP", color: "bg-[#4a2a6a]" },
+  { id: 2, donor: "Sarah Chen",      action: "replied to",video: "Welcome Message – Class of 2026",   time: "14m ago", avatar: "SC", color: "bg-tv-brand" },
+  { id: 3, donor: "Marcus Reid",     action: "watched",   video: "Annual Fund Thank You",             time: "31m ago", avatar: "MR", color: "bg-tv-brand-bg" },
+  { id: 4, donor: "Emily Torres",    action: "opened",    video: "Campaign Kick-off – Spring 2026",  time: "1h ago",  avatar: "ET", color: "bg-[var(--tv-brand-hover)]" },
+  { id: 5, donor: "David Park",      action: "replied to",video: "Spring Annual Fund Appeal",         time: "2h ago",  avatar: "DP", color: "bg-[var(--tv-brand-hover)]" },
 ];
 
 // ─── SUB-COMPONENTS ───────────────────────────────────────────────────────────
@@ -212,7 +212,7 @@ function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
   return (
     <div className="flex flex-col bg-white rounded-xl border border-tv-border-strong">
       <div className="flex items-center justify-between gap-2 flex-wrap px-4 sm:px-6 py-4 sm:py-6" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
-        <Title order={3} fz={{ base: 16, sm: 18 }} className="min-w-0 truncate">Your Ongoing Campaigns</Title>
+        <Title order={2} fz={{ base: 16, sm: 18 }} className="min-w-0 truncate">Your Ongoing Campaigns</Title>
         <Menu position="bottom-end" withinPortal styles={{
           dropdown: { borderColor: TV.borderLight, borderRadius: 10, padding: "6px 6px 2px", minWidth: 280, boxShadow: TV.shadowDropdown },
         }}>
@@ -266,7 +266,7 @@ function PerformanceChart({ collapsed, onToggle }: { collapsed: boolean; onToggl
       <button onClick={onToggle} className="w-full flex items-center gap-2.5 px-6 py-5 hover:bg-black/[0.02] transition-colors text-left">
         <ChevronDown size={14} style={{ color: TV.textSecondary, transform: collapsed ? "rotate(-90deg)" : "rotate(0deg)", transition: "transform 0.15s" }} />
         <div className="flex-1">
-          <Title order={3} fz={18}>Campaign Performance</Title>
+          <Title order={2} fz={18}>Campaign Performance</Title>
           {collapsed && <Text fz={12} c={TV.textSecondary} mt={2}>Open rate, click-through rate & avg. % watched · 6 months</Text>}
         </div>
       </button>
@@ -376,7 +376,7 @@ function RecentActivityWidget({ navigate }: { navigate: (path: string) => void }
     <div className="flex flex-col bg-white rounded-xl border border-tv-border-strong">
       <div className="px-6 py-6" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
         <div className="flex items-center justify-between mb-2">
-          <Title order={3} fz={18}>{activeTab === "videos" ? "Video Library" : "Donor Activity"}</Title>
+          <Title order={2} fz={18}>{activeTab === "videos" ? "Video Library" : "Donor Activity"}</Title>
           <UnstyledButton onClick={() => navigate(activeTab === "videos" ? "/videos" : "/analytics?tab=video_1_1")} className="flex items-center gap-0.5 hover:underline" style={{ color: TV.textBrand, fontSize: 13, fontWeight: 500 }}
             aria-label={activeTab === "videos" ? "View all videos" : "View all donor activity"}>
             View all <ChevronRight size={14} aria-hidden="true" />
@@ -445,7 +445,7 @@ function MostSuccessfulCampaigns({ navigate, collapsed, onToggle }: { navigate: 
         <button onClick={onToggle} className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
           <ChevronDown size={14} style={{ color: TV.textSecondary, transform: collapsed ? "rotate(-90deg)" : "rotate(0deg)", transition: "transform 0.15s" }} />
           <div className="text-left">
-            <Title order={3} fz={{ base: 16, sm: 18 }}>Most Successful Campaigns</Title>
+            <Title order={2} fz={{ base: 16, sm: 18 }}>Most Successful Campaigns</Title>
             <Text fz={{ base: 12, sm: 13 }} c={TV.textSecondary} mt={2}>Historical campaigns that exceeded their goals</Text>
           </div>
         </button>
@@ -453,7 +453,7 @@ function MostSuccessfulCampaigns({ navigate, collapsed, onToggle }: { navigate: 
       </div>
       {!collapsed && <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5 p-4 sm:p-6" style={{ borderTop: `1px solid ${TV.borderDivider}` }}>
         {topCampaigns.map((c) => (
-          <div key={c.id} role="link" tabIndex={0} onClick={() => navigate(`/analytics?tab=performance&campaign=${encodeURIComponent(c.title)}`)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); navigate(`/analytics?tab=performance&campaign=${encodeURIComponent(c.title)}`); }}} className="rounded-xl border border-tv-border-light overflow-hidden flex flex-col hover:shadow-md transition-shadow group cursor-pointer" aria-label={`View campaign: ${c.title}`}>
+          <button type="button" key={c.id} onClick={() => navigate(`/analytics?tab=performance&campaign=${encodeURIComponent(c.title)}`)} className="rounded-xl border border-tv-border-light overflow-hidden flex flex-col hover:shadow-md transition-shadow group cursor-pointer text-left" aria-label={`View campaign: ${c.title}`}>
             <div className="relative h-[148px] flex items-center justify-center overflow-hidden">
               <img src={c.image} alt={c.title} className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-black/10" />
@@ -478,7 +478,7 @@ function MostSuccessfulCampaigns({ navigate, collapsed, onToggle }: { navigate: 
                 </div>
               </div>
             </div>
-          </div>
+          </button>
         ))}
       </div>}
     </div>

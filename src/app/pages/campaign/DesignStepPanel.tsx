@@ -14,6 +14,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { useToast } from "../../contexts/ToastContext";
 import { LivePreviewModal } from "../../components/LivePreviewModal";
+import { EnvelopePreview } from "../../components/EnvelopePreview";
 import { Toggle } from "../../components/ui/Toggle";
 import { TV } from "../../theme";
 import { INPUT_CLS_WHITE } from "./styles";
@@ -161,7 +162,8 @@ export const PAPER_TEXTURE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 /* ── Shared sub-components ────────────────────────────────────────────────── */
 
 /** Standard input matching the app's `rounded-md px-3 py-2.5 text-[13px]` pattern */
-const inputCls = "w-full border border-tv-border-light rounded-md px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white";
+const inputCls = "w-full border border-tv-border-light rounded-[8px] px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white";
+const selectCls = `${inputCls} appearance-none pr-8 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:14px] bg-[right_10px_center] bg-no-repeat cursor-pointer`;
 
 /** Standardised section label */
 function SectionLabel({ children }: { children: React.ReactNode }) {
@@ -672,8 +674,7 @@ function PageTab(props: DesignStepPanelProps) {
             {props.filteredLandingPages.slice(0, 6).map(p => {
               const active = (props.selectedLandingPageId || 1) === p.id;
               return (
-                <div key={p.id} onClick={() => props.onSelectLandingPage(p.id)}
-                  role="button" tabIndex={0}
+                <div role="button" tabIndex={0} key={p.id} onClick={() => props.onSelectLandingPage(p.id)}
                   onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); props.onSelectLandingPage(p.id); } }}
                   className={`group rounded-md border-2 overflow-hidden transition-all text-left relative cursor-pointer ${
                     active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"
@@ -782,31 +783,24 @@ function EnvelopeTab(props: DesignStepPanelProps) {
                     className={`rounded-md border-2 overflow-hidden transition-all text-left relative ${
                       active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"
                     }`}>
-                    {/* Flat envelope face — matches ThankView style */}
-                    <div className="aspect-[4/3] relative" style={{ backgroundColor: env.color }}>
-                      {/* Paper texture overlay */}
-                      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: PAPER_TEXTURE, backgroundSize: "200px 200px", mixBlendMode: "overlay" }} />
-                      {/* Holiday graphic decorations */}
-                      {env.holidayType && (
-                        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                          <HolidayGraphic type={env.holidayType} size={48} color={env.accent} />
-                        </div>
-                      )}
-                      {/* Perforated stamp — top right */}
-                      <div className="absolute top-[6%] right-[6%]">
-                        <PerforatedStamp size={28} accentColor={env.accent} />
-                      </div>
-                      {/* Centered constituent name */}
-                      <div className="absolute inset-0 flex items-center justify-center pt-2">
-                        <span className="text-[7px] italic opacity-80" style={{ color: nColor, fontWeight: 500 }}>Constituent Name</span>
-                      </div>
+                    {/* Envelope thumbnail — matches library grid */}
+                    <div className="relative flex items-center justify-center py-2 bg-[#f9f7fc]">
+                      <EnvelopePreview
+                        envelopeColor={env.color}
+                        linerColor={env.accent}
+                        primaryColor={env.accent}
+                        secondaryColor={env.color}
+                        postmarkColor={env.accent}
+                        mode="thumbnail"
+                        width={120}
+                      />
                       {active && (
-                        <div className="absolute top-1.5 left-1.5 w-5 h-5 rounded-full bg-tv-brand-bg flex items-center justify-center shadow-sm">
+                        <div className="absolute top-1.5 left-1.5 w-5 h-5 rounded-full bg-tv-brand-bg flex items-center justify-center shadow-sm z-10">
                           <Check size={9} className="text-white" strokeWidth={3} />
                         </div>
                       )}
                       {env.branded && (
-                        <span className="absolute bottom-1 right-1 text-[7px] px-1 py-[2px] rounded-[4px] bg-white/90 text-tv-text-label shadow-sm" style={{ fontWeight: 600 }}>Branded</span>
+                        <span className="absolute bottom-1 right-1 text-[7px] px-1 py-[2px] rounded-[4px] bg-white/90 text-tv-text-label shadow-sm z-10" style={{ fontWeight: 600 }}>Branded</span>
                       )}
                     </div>
                     <div className={`px-2 py-1.5 text-center ${active ? "bg-tv-brand-tint" : "bg-white"}`}>
@@ -853,7 +847,7 @@ function EnvelopeTab(props: DesignStepPanelProps) {
           <div>
             <SectionLabel>Name format</SectionLabel>
             <select value={props.envNameFormat} onChange={e => props.onEnvNameFormatChange(e.target.value)}
-              className={inputCls}>
+              className={selectCls}>
               <option>[Title] [First Name] [Last Name]</option>
               <option>[First Name] [Last Name]</option>
               <option>[First Name]</option>
@@ -1521,43 +1515,19 @@ function PreviewFrame({
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
 
-        {/* Envelope — static, floating on the video area */}
+        {/* Envelope — matches library EnvelopePreview */}
         <div className="absolute inset-0 flex items-center justify-center p-5">
-          <div
-            className={`relative shadow-2xl overflow-hidden ${isMobile ? "w-[82%] max-w-[260px]" : isTablet ? "w-[60%] max-w-[300px]" : "w-[56%] max-w-[340px]"}`}
-            style={{ backgroundColor: envColor, aspectRatio: "16/10" }}
-          >
-            {/* Paper texture overlay */}
-            <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: PAPER_TEXTURE, backgroundSize: "200px 200px", mixBlendMode: "overlay" }} />
-            {/* Holiday graphic decorations */}
-            {envelopeData?.holidayType && (
-              <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <HolidayGraphic type={envelopeData.holidayType} size={isMobile ? 60 : isTablet ? 80 : 100} color={envAccent} />
-              </div>
-            )}
-            {/* Perforated stamp — top right */}
-            <div className={`absolute ${isMobile ? "top-2 right-2" : "top-3 right-3"}`}>
-              <PerforatedStamp size={isMobile ? 36 : isTablet ? 44 : 52} accentColor={envAccent} />
-            </div>
-
-            {/* Centered constituent name */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <div className="text-center space-y-0">
-                {personalizationLines.map((line, i) => (
-                  <p key={i} style={{
-                    color: line === "" ? "transparent" : (line === formatName(envNameFormat) ? (envelopeData as any)?.nameColor || envTextColor : envSubtleColor),
-                    fontSize: line === formatName(envNameFormat) ? (isMobile ? "12px" : isTablet ? "15px" : "18px") : (isMobile ? "9px" : "11px"),
-                    fontWeight: line === formatName(envNameFormat) ? 500 : 400,
-                    fontStyle: line === formatName(envNameFormat) ? "italic" : "normal",
-                    lineHeight: line === "" ? "8px" : "1.5",
-                    letterSpacing: line === formatName(envNameFormat) ? "0.02em" : "0",
-                  }}>
-                    {line || "\u00a0"}
-                  </p>
-                ))}
-              </div>
-            </div>
-          </div>
+          <EnvelopePreview
+            envelopeColor={envColor}
+            linerColor={envAccent}
+            primaryColor={envAccent}
+            secondaryColor={envColor}
+            postmarkColor={envAccent}
+            recipientNameColor={(envelopeData as any)?.nameColor || envTextColor}
+            showName
+            mode="front"
+            width={isMobile ? 220 : isTablet ? 280 : 320}
+          />
         </div>
       </div>
 
@@ -1575,7 +1545,7 @@ function PreviewFrame({
 
         {attachmentType === "button" && buttonText && (
           <div className="text-center mb-4">
-            <span className={`inline-block px-6 py-2.5 rounded-sm text-white ${isMobile ? "text-[11px]" : "text-[13px]"}`}
+            <span className={`inline-block px-6 py-2.5 rounded-2xl text-white ${isMobile ? "text-[11px]" : "text-[13px]"}`}
               style={{ backgroundColor: step.btnBg || lpColor, fontWeight: 600 }}>
               {buttonText}
             </span>
@@ -1627,18 +1597,18 @@ function PreviewFrame({
 
         <div className={`flex items-center justify-center ${isMobile ? "flex-wrap gap-1.5" : "gap-2.5"}`}>
           {step.allowVideoReply !== false && step.allowEmailReply !== false && (
-            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm border border-tv-brand-bg text-tv-brand ${isMobile ? "text-[9px]" : "text-[11px]"}`} style={{ fontWeight: 500 }}>
+            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border border-tv-brand-bg text-tv-brand ${isMobile ? "text-[9px]" : "text-[11px]"}`} style={{ fontWeight: 500 }}>
               <Reply size={isMobile ? 10 : 11} />Reply
             </span>
           )}
           {step.allowSaveButton !== false && (
-            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm text-white ${isMobile ? "text-[9px]" : "text-[11px]"}`}
+            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-white ${isMobile ? "text-[9px]" : "text-[11px]"}`}
               style={{ backgroundColor: TV.success, fontWeight: 500 }}>
               <Download size={isMobile ? 10 : 11} />Save
             </span>
           )}
           {step.allowShareButton !== false && (
-            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm border border-tv-border-light text-tv-text-primary ${isMobile ? "text-[9px]" : "text-[11px]"}`} style={{ fontWeight: 500 }}>
+            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border border-tv-border-light text-tv-text-primary ${isMobile ? "text-[9px]" : "text-[11px]"}`} style={{ fontWeight: 500 }}>
               Share <ExternalLink size={isMobile ? 8 : 9} />
             </span>
           )}

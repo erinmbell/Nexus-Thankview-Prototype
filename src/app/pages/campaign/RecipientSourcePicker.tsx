@@ -13,6 +13,7 @@ import {
   Users, List, Bookmark, Hash, Filter,
   Plus, ArrowLeft, Upload,
 } from "lucide-react";
+import { FocusTrap } from "@mantine/core";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { CSVImportWizard } from "../../components/CSVImportWizard";
 import { PillSearchInput } from "../../components/PillSearchInput";
@@ -169,6 +170,8 @@ export function ConstituentPickerInline({
   const [expandedSource, setExpandedSource] = useState<SourceEntry | null>(null);
   const [browseSearch, setBrowseSearch] = useState("");
   const [groupFilter, setGroupFilter] = useState("All");
+  const [classYearFilter, setClassYearFilter] = useState("All");
+  const [fundFilter, setFundFilter] = useState("All");
   const [showFilters, setShowFilters] = useState(false);
   const [sourceSearch, setSourceSearch] = useState("");
 
@@ -181,8 +184,16 @@ export function ConstituentPickerInline({
     if (groupFilter !== "All") {
       list = list.filter(c => c.group === groupFilter);
     }
+    if (classYearFilter !== "All") {
+      list = list.filter(c => c.mergeFields.classYear === classYearFilter);
+    }
+    if (fundFilter !== "All") {
+      list = list.filter(c => c.mergeFields.fund === fundFilter);
+    }
     return list;
-  }, [browseSearch, groupFilter]);
+  }, [browseSearch, groupFilter, classYearFilter, fundFilter]);
+
+  const hasActiveFilters = groupFilter !== "All" || classYearFilter !== "All" || fundFilter !== "All";
 
   const expandedContacts = useMemo(() => {
     if (!expandedSource) return [];
@@ -382,31 +393,73 @@ export function ConstituentPickerInline({
                 <button
                   onClick={() => setShowFilters(!showFilters)}
                   className={`h-[34px] px-3 rounded-full border text-[11px] flex items-center gap-1.5 transition-colors ${
-                    showFilters || groupFilter !== "All"
+                    showFilters || hasActiveFilters
                       ? "border-tv-brand bg-tv-brand-tint text-tv-brand"
                       : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"
                   }`} style={{ fontWeight: 500 }}
                 >
-                  <Filter size={11} />Filter
+                  <Filter size={11} />Filter{hasActiveFilters && ` (${[groupFilter, classYearFilter, fundFilter].filter(f => f !== "All").length})`}
                 </button>
               </div>
 
               {showFilters && (
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-[10px] text-tv-text-secondary">Group:</span>
-                  {["All", ...GROUPS].map(g => (
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-[10px] text-tv-text-secondary w-12 shrink-0">Group:</span>
+                    {["All", ...GROUPS].map(g => (
+                      <button
+                        key={g}
+                        onClick={() => setGroupFilter(g)}
+                        className={`px-2 py-0.5 text-[10px] rounded-full border transition-colors ${
+                          groupFilter === g
+                            ? "bg-tv-brand-bg text-white border-tv-brand-bg"
+                            : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"
+                        }`}
+                      >
+                        {g}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-[10px] text-tv-text-secondary w-12 shrink-0">Year:</span>
+                    {["All", ...YEARS].map(y => (
+                      <button
+                        key={y}
+                        onClick={() => setClassYearFilter(y)}
+                        className={`px-2 py-0.5 text-[10px] rounded-full border transition-colors ${
+                          classYearFilter === y
+                            ? "bg-tv-brand-bg text-white border-tv-brand-bg"
+                            : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"
+                        }`}
+                      >
+                        {y}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-[10px] text-tv-text-secondary w-12 shrink-0">Fund:</span>
+                    {["All", ...FUNDS].map(f => (
+                      <button
+                        key={f}
+                        onClick={() => setFundFilter(f)}
+                        className={`px-2 py-0.5 text-[10px] rounded-full border transition-colors ${
+                          fundFilter === f
+                            ? "bg-tv-brand-bg text-white border-tv-brand-bg"
+                            : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"
+                        }`}
+                      >
+                        {f}
+                      </button>
+                    ))}
+                  </div>
+                  {hasActiveFilters && (
                     <button
-                      key={g}
-                      onClick={() => setGroupFilter(g)}
-                      className={`px-2 py-0.5 text-[10px] rounded-full border transition-colors ${
-                        groupFilter === g
-                          ? "bg-tv-brand-bg text-white border-tv-brand-bg"
-                          : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"
-                      }`}
+                      onClick={() => { setGroupFilter("All"); setClassYearFilter("All"); setFundFilter("All"); }}
+                      className="text-[10px] text-tv-brand hover:underline"
                     >
-                      {g}
+                      Clear all filters
                     </button>
-                  ))}
+                  )}
                 </div>
               )}
 
@@ -557,6 +610,8 @@ export function ConstituentSourcePicker({
   // Browse search & filter
   const [browseSearch, setBrowseSearch] = useState("");
   const [groupFilter, setGroupFilter] = useState("All");
+  const [classYearFilter, setClassYearFilter] = useState("All");
+  const [fundFilter, setFundFilter] = useState("All");
   const [showFilters, setShowFilters] = useState(false);
 
   // Source search
@@ -572,8 +627,16 @@ export function ConstituentSourcePicker({
     if (groupFilter !== "All") {
       list = list.filter(c => c.group === groupFilter);
     }
+    if (classYearFilter !== "All") {
+      list = list.filter(c => c.mergeFields.classYear === classYearFilter);
+    }
+    if (fundFilter !== "All") {
+      list = list.filter(c => c.mergeFields.fund === fundFilter);
+    }
     return list;
-  }, [browseSearch, groupFilter]);
+  }, [browseSearch, groupFilter, classYearFilter, fundFilter]);
+
+  const hasActiveFilters = groupFilter !== "All" || classYearFilter !== "All" || fundFilter !== "All";
 
   const expandedContacts = useMemo(() => {
     if (!expandedSource) return [];
@@ -668,6 +731,7 @@ export function ConstituentSourcePicker({
   ];
 
   return (
+    <FocusTrap active>
     <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/40 p-6" role="dialog" aria-modal="true" aria-label="Select recipient source">
       <div className="bg-white rounded-xl border border-tv-border-light shadow-2xl flex flex-col w-full max-w-[720px] max-h-[85vh] overflow-hidden">
 
@@ -792,31 +856,73 @@ export function ConstituentSourcePicker({
                   <button
                     onClick={() => setShowFilters(!showFilters)}
                     className={`h-[34px] px-3 rounded-full border text-[11px] flex items-center gap-1.5 transition-colors ${
-                      showFilters || groupFilter !== "All"
+                      showFilters || hasActiveFilters
                         ? "border-tv-brand bg-tv-brand-tint text-tv-brand"
                         : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"
                     }`} style={{ fontWeight: 500 }}
                   >
-                    <Filter size={11} />Filter
+                    <Filter size={11} />Filter{hasActiveFilters && ` (${[groupFilter, classYearFilter, fundFilter].filter(f => f !== "All").length})`}
                   </button>
                 </div>
 
                 {showFilters && (
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-[10px] text-tv-text-secondary">Group:</span>
-                    {["All", ...GROUPS].map(g => (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[10px] text-tv-text-secondary w-12 shrink-0">Group:</span>
+                      {["All", ...GROUPS].map(g => (
+                        <button
+                          key={g}
+                          onClick={() => setGroupFilter(g)}
+                          className={`px-2 py-0.5 text-[10px] rounded-full border transition-colors ${
+                            groupFilter === g
+                              ? "bg-tv-brand-bg text-white border-tv-brand-bg"
+                              : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"
+                          }`}
+                        >
+                          {g}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[10px] text-tv-text-secondary w-12 shrink-0">Year:</span>
+                      {["All", ...YEARS].map(y => (
+                        <button
+                          key={y}
+                          onClick={() => setClassYearFilter(y)}
+                          className={`px-2 py-0.5 text-[10px] rounded-full border transition-colors ${
+                            classYearFilter === y
+                              ? "bg-tv-brand-bg text-white border-tv-brand-bg"
+                              : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"
+                          }`}
+                        >
+                          {y}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[10px] text-tv-text-secondary w-12 shrink-0">Fund:</span>
+                      {["All", ...FUNDS].map(f => (
+                        <button
+                          key={f}
+                          onClick={() => setFundFilter(f)}
+                          className={`px-2 py-0.5 text-[10px] rounded-full border transition-colors ${
+                            fundFilter === f
+                              ? "bg-tv-brand-bg text-white border-tv-brand-bg"
+                              : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"
+                          }`}
+                        >
+                          {f}
+                        </button>
+                      ))}
+                    </div>
+                    {hasActiveFilters && (
                       <button
-                        key={g}
-                        onClick={() => setGroupFilter(g)}
-                        className={`px-2 py-0.5 text-[10px] rounded-full border transition-colors ${
-                          groupFilter === g
-                            ? "bg-tv-brand-bg text-white border-tv-brand-bg"
-                            : "border-tv-border-light text-tv-text-primary hover:bg-tv-surface"
-                        }`}
+                        onClick={() => { setGroupFilter("All"); setClassYearFilter("All"); setFundFilter("All"); }}
+                        className="text-[10px] text-tv-brand hover:underline"
                       >
-                        {g}
+                        Clear all filters
                       </button>
-                    ))}
+                    )}
                   </div>
                 )}
 
@@ -945,6 +1051,7 @@ export function ConstituentSourcePicker({
         </div>
       </div>
     </div>
+    </FocusTrap>
   );
 }
 

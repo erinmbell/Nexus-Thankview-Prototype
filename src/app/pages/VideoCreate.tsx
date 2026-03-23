@@ -700,8 +700,8 @@ export function UploadSetupStep({ onNext }: { onNext: () => void }) {
     <div className="max-w-xl mx-auto">
       <h2 className="text-[22px] font-black text-tv-text-primary mb-1">Upload a video</h2>
       <p className="text-[14px] text-tv-text-secondary mb-6">Drag & drop or click to browse your files.</p>
-      <div role="button" tabIndex={0} onClick={startUpload} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); startUpload(); } }}
-        className="border-2 border-dashed border-tv-border-strong rounded-xl bg-[#fafbff] p-16 flex flex-col items-center gap-4 cursor-pointer hover:bg-tv-brand-tint hover:border-tv-brand-bg transition-all group">
+      <button type="button" onClick={startUpload}
+        className="w-full border-2 border-dashed border-tv-border-strong rounded-xl bg-[#fafbff] p-16 flex flex-col items-center gap-4 cursor-pointer hover:bg-tv-brand-tint hover:border-tv-brand-bg transition-all group">
         <div className="w-16 h-16 bg-tv-brand-tint rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
           <Upload size={28} className="text-tv-text-brand" />
         </div>
@@ -710,7 +710,7 @@ export function UploadSetupStep({ onNext }: { onNext: () => void }) {
           <p className="text-[13px] text-tv-text-secondary">MP4, MOV or WebM · Max 2 GB</p>
         </div>
         <div className="bg-tv-brand-bg text-white px-6 py-2 rounded-full text-[13px] font-semibold">Browse files</div>
-      </div>
+      </button>
 
       {/* Format hints */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
@@ -1008,7 +1008,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
 
       <div className="bg-white rounded-xl border border-tv-border-light p-6">
         {/* Preview */}
-        <div role="button" tabIndex={0} className="rounded-[14px] bg-gradient-to-br from-[#7c45b0] to-[#7c45b0] aspect-video mb-5 flex items-center justify-center relative overflow-hidden cursor-pointer group" onClick={togglePlay} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); togglePlay(); } }}>
+        <button type="button" className="w-full rounded-[14px] bg-gradient-to-br from-[#7c45b0] to-[#7c45b0] aspect-video mb-5 flex items-center justify-center relative overflow-hidden cursor-pointer group" onClick={togglePlay}>
           <div className="flex items-center justify-center transition-transform duration-300" style={{ transform: previewTransform }}>
             <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
               <div className="w-14 h-14 bg-tv-brand-bg rounded-full flex items-center justify-center text-white text-[22px] font-black">KM</div>
@@ -1056,7 +1056,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
               <span className="text-white text-[10px] font-medium">{speed}×</span>
             </div>
           )}
-        </div>
+        </button>
 
         {/* Waveform timeline */}
         <div className="mb-5">

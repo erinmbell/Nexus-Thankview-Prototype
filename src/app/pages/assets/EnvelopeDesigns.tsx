@@ -236,7 +236,7 @@ export function EnvelopeDesigns() {
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
           {filtered.map(env => (
-            <div key={env.id} role="button" tabIndex={0} onClick={() => setPreviewId(env.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(env.id); }}} aria-label={`Preview: ${env.name}`} className="bg-white rounded-lg border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer">
+            <div role="button" tabIndex={0} key={env.id} onClick={() => setPreviewId(env.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(env.id); }}} aria-label={`Preview: ${env.name}`} className="bg-white rounded-lg border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer text-left">
               {/* Envelope mini-preview */}
               <div className="relative flex items-center justify-center py-2.5 bg-[#f9f7fc]">
                 <EnvelopePreview

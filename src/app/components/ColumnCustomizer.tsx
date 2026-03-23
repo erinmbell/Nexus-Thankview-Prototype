@@ -118,10 +118,11 @@ export function EditColumnsModal({ columns, active, onClose, onSave }: {
               return (
                 <div key={key} className="flex items-center gap-2 py-1.5 px-2 hover:bg-tv-surface transition-colors"
                   style={{ borderBottom: `1px solid ${TV.borderDivider}` }}
+                  aria-roledescription="sortable"
                 >
                   {!isRequired && (
-                    <Box className="cursor-grab" style={{ color: TV.borderStrong }}>
-                      <GripVertical size={14} />
+                    <Box className="cursor-grab" style={{ color: TV.borderStrong }} aria-label={`Reorder ${col.label}`} role="button" tabIndex={0}>
+                      <GripVertical size={14} aria-hidden="true" />
                     </Box>
                   )}
                   <Text fz={13} c={TV.textPrimary} style={{ flex: 1 }}>
@@ -131,19 +132,19 @@ export function EditColumnsModal({ columns, active, onClose, onSave }: {
                   {!isRequired && (
                     <div className="flex items-center gap-0.5">
                       <Tooltip label="Move up" withArrow>
-                        <ActionIcon variant="subtle" color="gray" size="xs" onClick={() => moveUp(idx)}
+                        <ActionIcon variant="subtle" color="gray" size="sm" onClick={() => moveUp(idx)}
                           disabled={idx <= minMoveIdx} aria-label={`Move ${col.label} up`}>
                           <ArrowUp size={12} />
                         </ActionIcon>
                       </Tooltip>
                       <Tooltip label="Move down" withArrow>
-                        <ActionIcon variant="subtle" color="gray" size="xs" onClick={() => moveDown(idx)}
+                        <ActionIcon variant="subtle" color="gray" size="sm" onClick={() => moveDown(idx)}
                           disabled={idx >= activeCols.length - 1} aria-label={`Move ${col.label} down`}>
                           <ArrowDown size={12} />
                         </ActionIcon>
                       </Tooltip>
                       <Tooltip label="Remove" withArrow>
-                        <ActionIcon variant="subtle" color="red" size="xs" onClick={() => removeCol(key)} aria-label={`Remove ${col.label} column`}>
+                        <ActionIcon variant="subtle" color="red" size="sm" onClick={() => removeCol(key)} aria-label={`Remove ${col.label} column`}>
                           <X size={12} />
                         </ActionIcon>
                       </Tooltip>
@@ -169,6 +170,7 @@ export function ColumnsButton({ onClick }: { onClick: () => void }) {
   return (
     <Tooltip label="Customize Columns" withArrow>
       <ActionIcon variant="default" size="lg" radius="xl" onClick={onClick}
+        aria-label="Customize columns"
         styles={{ root: { borderColor: TV.borderLight } }}>
         <Columns3 size={16} style={{ color: TV.textLabel }} />
       </ActionIcon>

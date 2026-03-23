@@ -248,7 +248,7 @@ export function ImageLibrary() {
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
           {filtered.map(img => (
-            <div key={img.id} role="button" tabIndex={0} onClick={() => setPreviewId(img.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(img.id); }}} aria-label={`Preview: ${img.name}`} className="bg-white rounded-[14px] border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group relative cursor-pointer">
+            <div role="button" tabIndex={0} key={img.id} onClick={() => setPreviewId(img.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(img.id); }}} aria-label={`Preview: ${img.name}`} className="bg-white rounded-[14px] border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group relative cursor-pointer text-left">
               {/* Select checkbox */}
               <button
                 onClick={(e) => { e.stopPropagation(); toggleSelect(img.id); }}

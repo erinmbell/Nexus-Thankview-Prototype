@@ -269,7 +269,7 @@ export function VideoClips() {
             const bgColorInfo = item.kind === "outro" && item.bgColor ? COLOR_PALETTE.find(c => c.hex === item.bgColor) : null;
 
             return (
-              <div key={item.id} role="button" tabIndex={0} onClick={() => setPreviewId(item.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(item.id); }}} aria-label={`Preview: ${item.name}`} className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer">
+              <div role="button" tabIndex={0} key={item.id} onClick={() => setPreviewId(item.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(item.id); }}} aria-label={`Preview: ${item.name}`} className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer text-left">
                 {/* Thumbnail */}
                 <div className={`h-32 bg-gradient-to-br ${item.gradient} relative overflow-hidden`}>
                   {item.backgroundImage ? (

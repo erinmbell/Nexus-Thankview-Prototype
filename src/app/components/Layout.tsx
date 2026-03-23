@@ -247,7 +247,7 @@ function Sidebar({ collapsed, onToggle, onMobileClose }: SidebarProps) {
     >
       {/* Header / Logo */}
       <div className="shrink-0 overflow-hidden flex items-center gap-2 px-3.5" style={{ height: 77, borderBottom: `1px solid ${TV.borderStrong}` }}>
-        <UnstyledButton onClick={() => navigate("/")} title="Dashboard"
+        <UnstyledButton onClick={() => navigate("/")} title="Dashboard" aria-label="Dashboard"
           className="shrink-0 w-[36px] h-[36px] rounded-sm flex items-center justify-center hover:opacity-90 transition-opacity"
         >
           <ThankViewLogoIcon size={30} />
@@ -267,7 +267,7 @@ function Sidebar({ collapsed, onToggle, onMobileClose }: SidebarProps) {
       </div>
 
       {collapsed && (
-        <UnstyledButton onClick={onToggle} title="Expand sidebar" h={36} w="100%"
+        <UnstyledButton onClick={onToggle} title="Expand sidebar" aria-label="Expand sidebar" h={36} w="100%"
           className="shrink-0 flex items-center justify-center transition-colors hover:bg-tv-surface-hover hover:text-tv-brand-hover"
           style={{ color: TV.borderStrong, borderBottom: `1px solid ${TV.borderStrong}` }}
         >

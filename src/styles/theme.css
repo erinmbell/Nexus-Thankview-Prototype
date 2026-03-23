@@ -13,7 +13,7 @@
   /* Borders */
   --tv-border-strong:  #b5a4cd;
   --tv-border:         #d4c4e8;
-  --tv-border-light:   #c4b8d6;
+  --tv-border-light:   #9a8ab5;
   --tv-border-divider: #f0eaf8;
 
   /* Text — all AA-compliant on #ffffff backgrounds (≥ 4.5:1) */
@@ -21,7 +21,7 @@
   --tv-text-secondary: #6b6b6b;
   --tv-text-label:     #5d5e65;
   --tv-text-brand:     #7c45b0;
-  --tv-text-decorative:#8b7aa8;
+  --tv-text-decorative:#7a6b96;
 
   /* Brand palette — AA-safe text & interactive states */
   --tv-brand:          #7c45b0;
@@ -61,6 +61,10 @@
   --tv-record-bg:      #00c0f5;
   --tv-record-tint:    #d9f2f8;
   --tv-record-border:  #8dd9ed;
+
+  /* Tooltip */
+  --tv-tooltip-bg:     #1e293b;
+  --tv-tooltip-text:   #f8fafc;
 
   --font-weight-medium: 500;
   --font-weight-normal: 400;
@@ -194,8 +198,8 @@ textarea:focus-visible {
 .text-red-500       { color: #dc2626 !important; }
 .hover\:text-red-500:hover { color: #dc2626 !important; }
 
-/* ── Muted purple text: #b5a4cd → #8b7aa8 ─────────────────── */
-.text-\[\#b5a4cd\]  { color: #8b7aa8 !important; }
-.text-\[\#d0cdd8\]  { color: #9e9ba6 !important; }
-.text-\[\#d8d0e8\]  { color: #8b7aa8 !important; }
-.text-\[\#e0daea\]  { color: #8b7aa8 !important; }
+/* ── Muted purple text: #b5a4cd → #7a6b96 (AA 4.82:1) ────── */
+.text-\[\#b5a4cd\]  { color: #7a6b96 !important; }
+.text-\[\#d0cdd8\]  { color: #7a6b96 !important; }
+.text-\[\#d8d0e8\]  { color: #7a6b96 !important; }
+.text-\[\#e0daea\]  { color: #7a6b96 !important; }

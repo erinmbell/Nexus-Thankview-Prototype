@@ -20,7 +20,7 @@ import { createTheme, MantineColorsTuple } from "@mantine/core";
  * BORDERS
  *   --tv-border-strong:  #b5a4cd   card outlines, prominent UI
  *   --tv-border:         #d4c4e8   interactive element borders, outlined buttons
- *   --tv-border-light:   #e0daea   subtle borders, inputs, chart grid lines
+ *   --tv-border-light:   #9a8ab5   subtle borders, inputs, chart grid lines (3.1:1 AA non-text)
  *   --tv-border-divider: #f0eaf8   section dividers within cards
  *
  * TEXT (AA-compliant on white)
@@ -28,7 +28,7 @@ import { createTheme, MantineColorsTuple } from "@mantine/core";
  *   --tv-text-secondary: #737373   descriptions, sub-text              ( 4.48:1)
  *   --tv-text-label:     #5d5e65   small labels, metadata              ( 5.55:1)
  *   --tv-text-brand:     #7c45b0   brand-colored text                  ( 6.29:1)
- *   --tv-text-decorative:#b5a4cd   decorative only — exempt from AA    ( 2.98:1)
+ *   --tv-text-decorative:#7a6b96   hint/helper text — AA-compliant     ( 4.82:1)
  *
  * BRAND PALETTE
  *   --tv-brand:          #7c45b0   text & icons                        ( 6.29:1)
@@ -43,6 +43,10 @@ import { createTheme, MantineColorsTuple } from "@mantine/core";
  *   --tv-danger:         #dc2626   red errors, destructive             ( 4.63:1)
  *
  * Each status also has -hover, -bg, and -border variants.
+ *
+ * TOOLTIP
+ *   --tv-tooltip-bg:     #1e293b   dark background for tooltips
+ *   --tv-tooltip-text:   #f8fafc   light text on tooltip bg
  *
  * TAILWIND UTILITIES (registered in theme.css @theme block)
  *   text-tv-brand, bg-tv-brand-tint, border-tv-danger-border, etc.
@@ -83,7 +87,7 @@ const TV = {
   /* ── Borders ──────────────────────────────────────────────────────────────── */
   borderStrong:  "#b5a4cd",
   border:        "#d4c4e8",
-  borderLight:   "#c4b8d6",
+  borderLight:   "#9a8ab5",
   borderDivider: "#f0eaf8",
 
   /* ── Text — all AA-compliant on #ffffff (≥ 4.5:1) ─────────────────────────── */
@@ -91,7 +95,7 @@ const TV = {
   textSecondary: "#6b6b6b",   //  4.97:1
   textLabel:     "#5d5e65",   //  5.55:1
   textBrand:     "#7c45b0",   //  6.29:1
-  textDecorative:"#8b7aa8",   //  3.64:1 — hint text, helper text (improved from #b5a4cd)
+  textDecorative:"#7a6b96",   //  4.82:1 — hint text, helper text (AA-compliant)
 
   /* ── Brand palette ────────────────────────────────────────────────────────── */
   brand:         "#7c45b0",   //  6.29:1 — primary brand text & icons
@@ -132,6 +136,10 @@ const TV = {
   recordBg:      "#00c0f5",   //  Blue 5  — fills where text is white
   recordTint:    "#d9f2f8",   //  Blue 1  — light tint background
   recordBorder:  "#8dd9ed",   //  Blue 3  — border accent
+
+  /* ── Tooltip ─────────────────────────────────────────────────────────────── */
+  tooltipBg:     "#1e293b",   //  dark background
+  tooltipText:   "#f8fafc",   //  light text
 
   /* ── Shadows ─────────────────────────────────────────────────────────────── */
   shadowDropdown:  "0 8px 30px rgba(0,0,0,0.10)",

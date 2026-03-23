@@ -111,7 +111,14 @@ export function SmsCharCounter({ length }: { length: number }) {
         </span>
       </div>
       {/* Progress bar */}
-      <div className="h-1 rounded-full bg-tv-border-light overflow-hidden">
+      <div
+        className="h-1 rounded-full bg-tv-border-light overflow-hidden"
+        role="progressbar"
+        aria-valuenow={Math.min(100, Math.round((length / limit) * 100))}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label="SMS character count"
+      >
         <div
           className={`h-full rounded-full transition-all duration-200 ${progressBarColor(level)}`}
           style={{ width: `${Math.min(100, (length / limit) * 100)}%` }}
@@ -162,7 +169,14 @@ export function EmailBodyCharCounter({ length }: { length: number }) {
         </span>
       </div>
       {/* Progress bar */}
-      <div className="h-1 rounded-full bg-tv-border-light overflow-hidden">
+      <div
+        className="h-1 rounded-full bg-tv-border-light overflow-hidden"
+        role="progressbar"
+        aria-valuenow={Math.min(100, Math.round((length / limit) * 100))}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label="Email body character count"
+      >
         <div
           className={`h-full rounded-full transition-all duration-200 ${progressBarColor(level)}`}
           style={{ width: `${Math.min(100, (length / limit) * 100)}%` }}

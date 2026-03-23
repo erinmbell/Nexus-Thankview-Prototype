@@ -18,7 +18,7 @@ import {
 } from "@mantine/core";
 import { TV } from "../theme";
 import { TablePagination } from "../components/TablePagination";
-import { SortableHeader, nextSort, sortRows } from "../components/SortableHeader";
+import { SortableHeader, nextSort, sortRows, getAriaSort } from "../components/SortableHeader";
 import type { SortDir } from "../components/SortableHeader";
 import { EditColumnsModal, ColumnsButton } from "../components/ColumnCustomizer";
 import type { ColumnDef } from "../components/ColumnCustomizer";
@@ -114,10 +114,10 @@ function AddContactModal({ onClose, onSave }: { onClose: () => void; onSave: (c:
   return (
     <Modal opened onClose={onClose} title="Add Constituent" size="md">
       <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm" mb="sm">
-        <TextInput label="First Name" placeholder="James" value={form.first} onChange={e => set("first")(e.currentTarget.value)} />
-        <TextInput label="Last Name" placeholder="Whitfield" value={form.last} onChange={e => set("last")(e.currentTarget.value)} />
-        <TextInput label="Email Address" placeholder="j.whitfield@…" value={form.email} onChange={e => set("email")(e.currentTarget.value)} />
-        <TextInput label="Phone Number" placeholder="(617) 555-0000" value={form.phone} onChange={e => set("phone")(e.currentTarget.value)} />
+        <TextInput label="First Name" placeholder="James" autoComplete="given-name" value={form.first} onChange={e => set("first")(e.currentTarget.value)} />
+        <TextInput label="Last Name" placeholder="Whitfield" autoComplete="family-name" value={form.last} onChange={e => set("last")(e.currentTarget.value)} />
+        <TextInput label="Email Address" placeholder="j.whitfield@…" autoComplete="email" value={form.email} onChange={e => set("email")(e.currentTarget.value)} />
+        <TextInput label="Phone Number" placeholder="(617) 555-0000" autoComplete="tel" value={form.phone} onChange={e => set("phone")(e.currentTarget.value)} />
       </SimpleGrid>
       <Box mb="sm">
         <TagSelect
@@ -1266,6 +1266,34 @@ export function Contacts() {
             vals.includes("yes") ? c.phoneStatus === "bounced" : c.phoneStatus !== "bounced"
           );
           break;
+        case "state":
+          result = result.filter(c => vals.includes(c.state));
+          break;
+        case "classYear":
+          result = result.filter(c => vals.includes(c.classYear));
+          break;
+        case "givingLevel":
+          result = result.filter(c => vals.includes(c.givingLevel));
+          break;
+        case "donorStatus":
+          result = result.filter(c => vals.includes(c.donorStatus));
+          break;
+        case "askAmount":
+          result = result.filter(c => {
+            if (c.askAmount == null) return false;
+            return vals.some(range => {
+              if (range === "0-100") return c.askAmount! <= 100;
+              if (range === "101-500") return c.askAmount! >= 101 && c.askAmount! <= 500;
+              if (range === "501-1000") return c.askAmount! >= 501 && c.askAmount! <= 1000;
+              if (range === "1001-5000") return c.askAmount! >= 1001 && c.askAmount! <= 5000;
+              if (range === "5001+") return c.askAmount! >= 5001;
+              return false;
+            });
+          });
+          break;
+        case "tags":
+          result = result.filter(c => vals.some(tag => c.tags.includes(tag)));
+          break;
         case "customField":
           result = result.filter(c => vals.every(v => {
             const fieldName = v.replace("has:", "");
@@ -1341,6 +1369,9 @@ export function Contacts() {
             <Title order={1} fz={{ base: 22, sm: 26 }}>All Constituents</Title>
             <Text fz={13} c={TV.textSecondary}>{TOTAL_COUNT.toLocaleString()} Constituents</Text>
           </div>
+        </div>
+        <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+          {filtered.length} {filtered.length === 1 ? "result" : "results"}
         </div>
         <div className="flex items-center gap-2">
           <Menu shadow="md" width={240} position="bottom-end">
@@ -1481,7 +1512,7 @@ export function Contacts() {
                         ? "Video engagement score (0–100) based on ThankView video watch rates"
                         : null;
                       return (
-                        <Table.Th key={colKey} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
+                        <Table.Th key={colKey} aria-sort={getAriaSort(colKey, sortKey, sortDir)} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
                           {tooltip ? (
                             <Tooltip label={tooltip} withArrow multiline w={240} fz={11}>
                               <span>

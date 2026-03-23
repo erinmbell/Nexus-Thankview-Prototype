@@ -652,7 +652,7 @@ export function ContactProfile() {
   if (!contact) {
     return (
       <Box p="xl" className="flex flex-col items-center justify-center" style={{ minHeight: "60vh" }}>
-        <Title order={2} mb="sm">Constituent not found</Title>
+        <Title order={1} mb="sm">Constituent not found</Title>
         <Text c={TV.textSecondary} mb="lg">This constituent doesn't exist or has been removed.</Text>
         <Button color="tvPurple" onClick={() => navigate("/contacts")}>Back to Constituents</Button>
       </Box>
@@ -767,7 +767,7 @@ export function ContactProfile() {
                 <TextInput value={name} onChange={e => setName(e.currentTarget.value)} variant="unstyled"
                   styles={{ input: { fontWeight: 900, fontSize: 26, color: TV.textPrimary, borderBottom: `2px solid ${TV.textBrand}`, borderRadius: 0, padding: 0, lineHeight: 1.3 } }} />
               ) : (
-                <Title order={2} fz={{ base: 24, sm: 28 }} c={TV.textPrimary}>{contact.first} {contact.last}</Title>
+                <Title order={1} fz={{ base: 24, sm: 28 }} c={TV.textPrimary}>{contact.first} {contact.last}</Title>
               )}
               <Text fz={15} c={TV.textLabel} mt={6}>{contact.email}</Text>
               <div className="flex items-center gap-2 mt-2.5">
@@ -957,9 +957,11 @@ export function ContactProfile() {
                   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                     <TextInput label="Email" leftSection={<Mail size={14} style={{ color: TV.textBrand }} />}
                       value={editEmail} onChange={e => setEditEmail(e.currentTarget.value)}
+                      autoComplete="email"
                       radius="md" styles={{ input: { borderColor: TV.borderLight } }} />
                     <TextInput label="Phone" leftSection={<Phone size={14} style={{ color: TV.textBrand }} />}
                       value={editPhone} onChange={e => setEditPhone(e.currentTarget.value)}
+                      autoComplete="tel"
                       radius="md" styles={{ input: { borderColor: TV.borderLight } }} />
                   </SimpleGrid>
 
@@ -997,16 +999,21 @@ export function ContactProfile() {
 
                   <TextInput label="Address Line 1" leftSection={<Home size={14} style={{ color: TV.textBrand }} />}
                     value={editAddr1} onChange={e => setEditAddr1(e.currentTarget.value)}
+                    autoComplete="address-line1"
                     radius="md" styles={{ input: { borderColor: TV.borderLight } }} />
                   <TextInput label="Address Line 2"
                     value={editAddr2} onChange={e => setEditAddr2(e.currentTarget.value)}
+                    autoComplete="address-line2"
                     radius="md" styles={{ input: { borderColor: TV.borderLight } }} />
                   <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="sm">
                     <TextInput label="City" value={editCity} onChange={e => setEditCity(e.currentTarget.value)}
+                      autoComplete="address-level2"
                       radius="md" styles={{ input: { borderColor: TV.borderLight } }} />
                     <TextInput label="State" value={editState} onChange={e => setEditState(e.currentTarget.value)}
+                      autoComplete="address-level1"
                       radius="md" styles={{ input: { borderColor: TV.borderLight } }} />
                     <TextInput label="Zip" value={editZip} onChange={e => setEditZip(e.currentTarget.value)}
+                      autoComplete="postal-code"
                       radius="md" styles={{ input: { borderColor: TV.borderLight } }} />
                   </SimpleGrid>
 
@@ -1964,6 +1971,8 @@ export function ContactProfile() {
                       <Text fz={11} c={TV.textLabel} fw={600}>Sort:</Text>
                       {[{ key: "date", label: "Sent" }, { key: "status", label: "Status" }, { key: "type", label: "Type" }, { key: "score", label: "Score" }].map(col => (
                         <Badge
+                          component="button"
+                          type="button"
                           key={col.key}
                           size="sm"
                           radius="xl"
@@ -1971,9 +1980,6 @@ export function ContactProfile() {
                           color="tvPurple"
                           className="cursor-pointer select-none"
                           onClick={() => handleCampSort(col.key)}
-                          role="button"
-                          tabIndex={0}
-                          onKeyDown={e => e.key === "Enter" && handleCampSort(col.key)}
                         >
                           {col.label}
                           {campSort.key === col.key && <span className="ml-1">{campSort.dir === "asc" ? "↑" : "↓"}</span>}

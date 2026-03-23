@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
 import { useNavigate } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
+import { FocusTrap } from "@mantine/core";
 import {
   ChevronLeft, ChevronRight, ChevronDown, Check, X, Mail, MessageSquare,
   Play, Plus, Type, Globe, Clock,
@@ -116,9 +117,9 @@ function FlowNode({
   if (isWait) {
     return (
       <div
-        onClick={onSelect}
         role="button"
         tabIndex={0}
+        onClick={onSelect}
         onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(); } }}
         className={`flex items-center gap-2.5 px-4 py-2.5 rounded-full border-2 transition-all hover:shadow-md cursor-pointer ${
           selected ? "border-tv-brand-bg bg-tv-brand-tint shadow-md" : "border-tv-warning-border bg-tv-warning-bg hover:border-tv-warning"
@@ -149,9 +150,9 @@ function FlowNode({
 
   return (
     <div
-      onClick={onSelect}
       role="button"
       tabIndex={0}
+      onClick={onSelect}
       onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(); } }}
       className={`w-[320px] text-left rounded-lg border-2 overflow-hidden transition-all hover:shadow-lg cursor-pointer ${
         selected ? "border-tv-brand-bg shadow-lg" : isCondition ? "border-tv-border hover:border-tv-brand-bg" : "border-tv-border-light hover:border-tv-border-strong"
@@ -1046,43 +1047,6 @@ function StepDrawer({
               }}
             />
 
-            {/* Subject */}
-            <div>
-              <div className="flex items-center justify-between mb-1">
-                <label className="tv-label">Subject Line</label>
-                <CharCount current={(step.subject || "").length} max={CHAR_LIMITS.subject} />
-              </div>
-              <div className="flex items-center gap-1.5">
-                <input value={step.subject || ""} onChange={e => onUpdate({ ...step, subject: e.target.value })}
-                  maxLength={CHAR_LIMITS.subject}
-                  placeholder="A personal message for you, {{first_name}}"
-                  className="flex-1 border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
-                {/* Emoji picker */}
-                <div className="relative">
-                  <button onClick={() => { setShowEmoji(!showEmoji); setShowMerge(false); }} className="p-2 border border-tv-border-light rounded-sm text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert emoji">
-                    <Smile size={13} />
-                  </button>
-                  {showEmoji && (
-                    <EmojiDropdown
-                      onSelect={e => onUpdate({ ...step, subject: (step.subject || "") + e })}
-                      onClose={() => setShowEmoji(false)}
-                    />
-                  )}
-                </div>
-                <div className="relative">
-                  <button onClick={() => { setShowMerge(!showMerge); setShowEmoji(false); }} className="p-2 border border-tv-border-light rounded-sm text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert merge field">
-                    <span className="font-mono text-[11px]">{"{}"}</span>
-                  </button>
-                  {showMerge && (
-                    <MergeFieldDropdown
-                      onSelect={f => onUpdate({ ...step, subject: (step.subject || "") + " " + f })}
-                      onClose={() => setShowMerge(false)}
-                    />
-                  )}
-                </div>
-              </div>
-            </div>
-
             {/* Sender info */}
             <div className="grid grid-cols-2 gap-2">
               <div>
@@ -1122,13 +1086,50 @@ function StepDrawer({
               </div>
               <div>
                 <label className="tv-label mb-1 block">Font</label>
-                <select value={step.font || "Serif (Garamond)"} onChange={e => onUpdate({ ...step, font: e.target.value })} className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-1 focus:ring-tv-brand/40">
+                <select value={step.font || "Serif (Garamond)"} onChange={e => onUpdate({ ...step, font: e.target.value })} className={SELECT_CLS}>
                   <option>Serif (Garamond)</option><option>Sans-Serif (Inter)</option><option>Script (Playfair)</option>
                 </select>
               </div>
             </div>
 
             {/* CC / BCC (collapsible) */}
+
+            {/* Subject */}
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label className="tv-label">Subject Line</label>
+                <CharCount current={(step.subject || "").length} max={CHAR_LIMITS.subject} />
+              </div>
+              <div className="flex items-center gap-1.5">
+                <input value={step.subject || ""} onChange={e => onUpdate({ ...step, subject: e.target.value })}
+                  maxLength={CHAR_LIMITS.subject}
+                  placeholder="A personal message for you, {{first_name}}"
+                  className="flex-1 border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                {/* Emoji picker */}
+                <div className="relative">
+                  <button onClick={() => { setShowEmoji(!showEmoji); setShowMerge(false); }} className="p-2 border border-tv-border-light rounded-sm text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert emoji">
+                    <Smile size={13} />
+                  </button>
+                  {showEmoji && (
+                    <EmojiDropdown
+                      onSelect={e => onUpdate({ ...step, subject: (step.subject || "") + e })}
+                      onClose={() => setShowEmoji(false)}
+                    />
+                  )}
+                </div>
+                <div className="relative">
+                  <button onClick={() => { setShowMerge(!showMerge); setShowEmoji(false); }} className="p-2 border border-tv-border-light rounded-sm text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert merge field">
+                    <span className="font-mono text-[11px]">{"{}"}</span>
+                  </button>
+                  {showMerge && (
+                    <MergeFieldDropdown
+                      onSelect={f => onUpdate({ ...step, subject: (step.subject || "") + " " + f })}
+                      onClose={() => setShowMerge(false)}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
             <details className="group">
               <summary className="tv-label text-tv-brand cursor-pointer hover:underline list-none flex items-center gap-1">
                 <ChevronRight size={10} className="transition-transform group-open:rotate-90" />CC / BCC <span className="text-tv-text-decorative normal-case" style={{ fontWeight: 400 }}>(optional)</span>
@@ -1292,6 +1293,27 @@ function StepDrawer({
           <DrawerSection title="SMS Content" icon={MessageSquare} iconColor="text-tv-info" open={openSections.content} onToggle={() => toggleSection("content")}
             badge={step.smsBody ? "\u2713" : undefined}>
 
+            {/* Sender info — matches email's 2-column grid pattern */}
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="tv-label">Sender Name</label>
+                  <CharCount current={(step.senderName || "").length} max={CHAR_LIMITS.senderName} />
+                </div>
+                <input value={step.senderName || ""} onChange={e => onUpdate({ ...step, senderName: e.target.value })}
+                  maxLength={CHAR_LIMITS.senderName}
+                  placeholder="ThankView"
+                  className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+              </div>
+              <div>
+                <label className="tv-label mb-1 block">Phone Number</label>
+                <input value={step.smsPhoneNumber || ""} onChange={e => onUpdate({ ...step, smsPhoneNumber: e.target.value })}
+                  placeholder="+1 (555) 000-0000"
+                  className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+              </div>
+            </div>
+            <p className="text-[9px] text-tv-text-decorative -mt-1">The phone number constituents will see. Must be a verified number.</p>
+
             {/* Message Body — matches email RichTextEditor container pattern */}
             <div>
               <div className="flex items-center justify-between mb-1">
@@ -1344,27 +1366,6 @@ function StepDrawer({
               </>); })()}
               <SmsCharCounter length={smsLen} />
             </div>
-
-            {/* Sender info — matches email's 2-column grid pattern */}
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <label className="tv-label">Sender Name</label>
-                  <CharCount current={(step.senderName || "").length} max={CHAR_LIMITS.senderName} />
-                </div>
-                <input value={step.senderName || ""} onChange={e => onUpdate({ ...step, senderName: e.target.value })}
-                  maxLength={CHAR_LIMITS.senderName}
-                  placeholder="ThankView"
-                  className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
-              </div>
-              <div>
-                <label className="tv-label mb-1 block">Phone Number</label>
-                <input value={step.smsPhoneNumber || ""} onChange={e => onUpdate({ ...step, smsPhoneNumber: e.target.value })}
-                  placeholder="+1 (555) 000-0000"
-                  className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
-              </div>
-            </div>
-            <p className="text-[9px] text-tv-text-decorative -mt-1">The phone number constituents will see. Must be a verified number.</p>
 
             {/* SMS Options — collapsible, mirrors email's CC/BCC pattern */}
             <details className="group">
@@ -1756,7 +1757,7 @@ function StepDrawer({
                 <div>
                   <label className="tv-label mb-1 block">Language</label>
                   <select value={step.language || "en"} onChange={e => onUpdate({ ...step, language: e.target.value })}
-                    className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand">
+                    className={SELECT_CLS}>
                     {LANGUAGE_OPTIONS.map(l => <option key={l.id} value={l.id}>{l.label}</option>)}
                   </select>
                   <p className="text-[9px] text-tv-text-secondary mt-0.5">Applies to unsubscribe link and button text</p>
@@ -1770,15 +1771,14 @@ function StepDrawer({
         {step.type !== "wait" && step.type !== "condition" && (
           <DrawerSection title="Automation & Timing" icon={Clock} open={openSections.settings} onToggle={() => toggleSection("settings")}>
             {/* Automation toggle */}
-            <div role="button" tabIndex={0}
+            <button type="button"
               onClick={() => onUpdate({ ...step, automationEnabled: !step.automationEnabled })}
-              onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onUpdate({ ...step, automationEnabled: !step.automationEnabled }); } }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 bg-tv-surface border border-tv-border-light rounded-md hover:bg-tv-surface-hover transition-colors cursor-pointer">
+              className="w-full flex items-center gap-3 px-3 py-2.5 bg-tv-surface border border-tv-border-light rounded-md hover:bg-tv-surface-hover transition-colors cursor-pointer text-left">
               <Toggle enabled={step.automationEnabled} onToggle={() => {}} className="pointer-events-none" />
               <span className={`text-[12px] ${step.automationEnabled ? "text-tv-brand" : "text-tv-text-secondary"}`} style={{ fontWeight: 500 }}>
                 Automation {step.automationEnabled ? "enabled" : "disabled"}
               </span>
-            </div>
+            </button>
 
             {step.automationEnabled && (
               <>
@@ -1899,31 +1899,22 @@ function StepDrawer({
         )}
       </div>
 
-      {/* Drawer footer */}
-      <div className="px-4 py-3 border-t border-tv-border-divider bg-tv-surface-muted shrink-0">
-        <div className="flex items-center gap-2">
-          {/* Status indicator */}
-          <div className="flex items-center gap-1.5 flex-1 min-w-0">
-            {unmetErrors.length > 0 ? (
-              <span className="inline-flex items-center gap-1 text-[10px] text-tv-danger" style={{ fontWeight: 500 }}>
-                <CircleAlert size={10} />{unmetErrors.length} required field{unmetErrors.length !== 1 ? "s" : ""} missing
-              </span>
-            ) : unmetWarnings.length > 0 ? (
-              <span className="inline-flex items-center gap-1 text-[10px] text-tv-warning" style={{ fontWeight: 500 }}>
-                <TriangleAlert size={10} />{unmetWarnings.length} recommended
-              </span>
-            ) : (requirements.length > 0 ? (
-              <span className="inline-flex items-center gap-1 text-[10px] text-tv-success" style={{ fontWeight: 500 }}>
-                <Check size={10} />Ready
-              </span>
-            ) : null)}
-          </div>
-          <button onClick={onClose} className="tv-btn-secondary px-4 py-2 text-[12px]">
-            Close
-          </button>
-          <button onClick={() => { show("Step saved", "success"); onClose(); }} className="tv-btn-primary px-4 py-2 text-[12px]">
-            Save Changes
-          </button>
+      {/* Drawer footer — status only (close via header X, navigation via global bottom bar) */}
+      <div className="px-4 py-2.5 border-t border-tv-border-divider bg-tv-surface-muted shrink-0">
+        <div className="flex items-center gap-1.5">
+          {unmetErrors.length > 0 ? (
+            <span className="inline-flex items-center gap-1 text-[10px] text-tv-danger" style={{ fontWeight: 500 }}>
+              <CircleAlert size={10} />{unmetErrors.length} required field{unmetErrors.length !== 1 ? "s" : ""} missing
+            </span>
+          ) : unmetWarnings.length > 0 ? (
+            <span className="inline-flex items-center gap-1 text-[10px] text-tv-warning" style={{ fontWeight: 500 }}>
+              <TriangleAlert size={10} />{unmetWarnings.length} recommended
+            </span>
+          ) : (requirements.length > 0 ? (
+            <span className="inline-flex items-center gap-1 text-[10px] text-tv-success" style={{ fontWeight: 500 }}>
+              <Check size={10} />All changes saved
+            </span>
+          ) : null)}
         </div>
       </div>
       </>
@@ -1931,6 +1922,7 @@ function StepDrawer({
 
       {/* Instruction video picker modal */}
       {showInstructionVideoPicker && (
+        <FocusTrap active>
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/40" role="dialog" aria-modal="true" aria-labelledby="instruction-video-title">
           <div className="bg-white rounded-xl border border-tv-border-light shadow-2xl w-full max-w-xl mx-4 overflow-hidden flex flex-col" style={{ maxHeight: "80vh" }}>
             {/* Header */}
@@ -1998,11 +1990,13 @@ function StepDrawer({
             </div>
           </div>
         </div>
+        </FocusTrap>
       )}
     </motion.div>
 
     {/* ── Envelope Library Modal ───────────────────────────────────────── */}
     {showEnvelopeLibrary && (
+      <FocusTrap active>
       <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Envelope library"
         onClick={(e: React.MouseEvent) => { if (e.target === e.currentTarget) setShowEnvelopeLibrary(false); }}
         onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Escape") setShowEnvelopeLibrary(false); }}>
@@ -2078,6 +2072,7 @@ function StepDrawer({
           </div>
         </div>
       </div>
+      </FocusTrap>
     )}
 
     {/* ── Envelope Builder Modal ───────────────────────────────────────── */}
@@ -2090,6 +2085,7 @@ function StepDrawer({
 
     {/* ── Landing Page Library Modal ──────────────────────────────────── */}
     {showLpLibrary && (
+      <FocusTrap active>
       <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Landing page library"
         onClick={(e: React.MouseEvent) => { if (e.target === e.currentTarget) setShowLpLibrary(false); }}
         onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Escape") setShowLpLibrary(false); }}>
@@ -2143,6 +2139,7 @@ function StepDrawer({
           </div>
         </div>
       </div>
+      </FocusTrap>
     )}
 
     {/* ── Landing Page Builder Modal ─────────────────────────────────── */}
@@ -2279,6 +2276,7 @@ function StepCreationModal({
   }
 
   return (
+    <FocusTrap active>
     <div className="fixed inset-0 z-[70] flex items-center justify-center" role="dialog" aria-modal="true" aria-label={isVR ? "Video Request step setup" : isEmail ? "Email step setup" : "SMS step setup"}>
       {/* Backdrop */}
       <motion.div
@@ -2423,6 +2421,45 @@ function StepCreationModal({
                 }}
               />
 
+              {/* Sender info */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="tv-label">Sender Name</label>
+                    <CharCount current={(step.senderName || "").length} max={CHAR_LIMITS.senderName} />
+                  </div>
+                  <input value={step.senderName || ""} onChange={e => setStep(s => ({ ...s, senderName: e.target.value }))} maxLength={CHAR_LIMITS.senderName} className={INPUT_CLS} />
+                </div>
+                <div>
+                  <label className="tv-label mb-1 block">Sender Email</label>
+                  <input value={step.senderEmail || ""} onChange={e => setStep(s => ({ ...s, senderEmail: e.target.value }))} className={INPUT_CLS} />
+                </div>
+                <div className="col-span-2">
+                  <label className="tv-label mb-1 block">Reply-To <span className="text-tv-text-decorative normal-case" style={{ fontWeight: 400 }}>(multiple allowed)</span></label>
+                  <div className={TAG_INPUT_WRAPPER_CLS}>
+                    {(step.replyToList || []).map((email, i) => (
+                      <span key={i} className="inline-flex items-center gap-1 bg-tv-brand-tint border border-tv-border rounded-full px-2.5 py-0.5 text-[11px] text-tv-brand">
+                        {email}
+                        <TvTooltip label="Remove email"><button onClick={() => setStep(s => ({ ...s, replyToList: (s.replyToList || []).filter((_, j) => j !== i) }))} aria-label={`Remove ${email}`} className="hover:text-tv-danger"><X size={9} /></button></TvTooltip>
+                      </span>
+                    ))}
+                    <input value={replyToInput} onChange={e => setReplyToInput(e.target.value)}
+                      onKeyDown={e => {
+                        if ((e.key === "Enter" || e.key === ",") && replyToInput.trim()) {
+                          e.preventDefault();
+                          if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(replyToInput.trim())) {
+                            setStep(s => ({ ...s, replyToList: [...(s.replyToList || []), replyToInput.trim()] }));
+                            setReplyToInput("");
+                          }
+                        }
+                      }}
+                      onBlur={() => { if (replyToInput.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(replyToInput.trim())) { setStep(s => ({ ...s, replyToList: [...(s.replyToList || []), replyToInput.trim()] })); setReplyToInput(""); } }}
+                      placeholder={(step.replyToList || []).length === 0 ? "giving@hartwell.edu" : "Add another…"}
+                      className="flex-1 min-w-[100px] text-[12px] outline-none focus:ring-1 focus:ring-tv-brand/40 bg-transparent" />
+                  </div>
+                </div>
+              </div>
+
               {/* Subject */}
               <div>
                 <div className="flex items-center justify-between mb-1.5">
@@ -2459,45 +2496,6 @@ function StepCreationModal({
                         onClose={() => setShowMerge(false)}
                       />
                     )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Sender info */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="tv-label">Sender Name</label>
-                    <CharCount current={(step.senderName || "").length} max={CHAR_LIMITS.senderName} />
-                  </div>
-                  <input value={step.senderName || ""} onChange={e => setStep(s => ({ ...s, senderName: e.target.value }))} maxLength={CHAR_LIMITS.senderName} className={INPUT_CLS} />
-                </div>
-                <div>
-                  <label className="tv-label mb-1 block">Sender Email</label>
-                  <input value={step.senderEmail || ""} onChange={e => setStep(s => ({ ...s, senderEmail: e.target.value }))} className={INPUT_CLS} />
-                </div>
-                <div className="col-span-2">
-                  <label className="tv-label mb-1 block">Reply-To <span className="text-tv-text-decorative normal-case" style={{ fontWeight: 400 }}>(multiple allowed)</span></label>
-                  <div className={TAG_INPUT_WRAPPER_CLS}>
-                    {(step.replyToList || []).map((email, i) => (
-                      <span key={i} className="inline-flex items-center gap-1 bg-tv-brand-tint border border-tv-border rounded-full px-2.5 py-0.5 text-[11px] text-tv-brand">
-                        {email}
-                        <TvTooltip label="Remove email"><button onClick={() => setStep(s => ({ ...s, replyToList: (s.replyToList || []).filter((_, j) => j !== i) }))} aria-label={`Remove ${email}`} className="hover:text-tv-danger"><X size={9} /></button></TvTooltip>
-                      </span>
-                    ))}
-                    <input value={replyToInput} onChange={e => setReplyToInput(e.target.value)}
-                      onKeyDown={e => {
-                        if ((e.key === "Enter" || e.key === ",") && replyToInput.trim()) {
-                          e.preventDefault();
-                          if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(replyToInput.trim())) {
-                            setStep(s => ({ ...s, replyToList: [...(s.replyToList || []), replyToInput.trim()] }));
-                            setReplyToInput("");
-                          }
-                        }
-                      }}
-                      onBlur={() => { if (replyToInput.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(replyToInput.trim())) { setStep(s => ({ ...s, replyToList: [...(s.replyToList || []), replyToInput.trim()] })); setReplyToInput(""); } }}
-                      placeholder={(step.replyToList || []).length === 0 ? "giving@hartwell.edu" : "Add another…"}
-                      className="flex-1 min-w-[100px] text-[12px] outline-none focus:ring-1 focus:ring-tv-brand/40 bg-transparent" />
                   </div>
                 </div>
               </div>
@@ -2969,10 +2967,9 @@ function StepCreationModal({
               </div>
 
               {/* Automation toggle */}
-              <div role="button" tabIndex={0}
+              <button type="button"
                 onClick={() => setStep(s => ({ ...s, automationEnabled: !s.automationEnabled }))}
-                onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setStep(s => ({ ...s, automationEnabled: !s.automationEnabled })); } }}
-                className="w-full flex items-center gap-4 px-4 py-4 bg-white border-2 border-tv-border-light rounded-lg hover:bg-tv-surface transition-colors cursor-pointer">
+                className="w-full flex items-center gap-4 px-4 py-4 bg-white border-2 border-tv-border-light rounded-lg hover:bg-tv-surface transition-colors cursor-pointer text-left">
                 <Toggle enabled={step.automationEnabled} onToggle={() => {}} className="pointer-events-none" />
                 <div>
                   <p className={`text-[13px] ${step.automationEnabled ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>
@@ -2982,7 +2979,7 @@ function StepCreationModal({
                     {step.automationEnabled ? "This step will send automatically when triggered." : "This step will require manual action to send."}
                   </p>
                 </div>
-              </div>
+              </button>
 
               {step.automationEnabled && (
                 <>
@@ -3126,6 +3123,7 @@ function StepCreationModal({
         </div>
       </motion.div>
     </div>
+    </FocusTrap>
   );
 }
 
@@ -3142,6 +3140,7 @@ function ConditionCreationModal({
   const [selected, setSelected] = useState<string | null>(initialStep.conditionField || null);
 
   return (
+    <FocusTrap active>
     <div className="fixed inset-0 z-[70] flex items-center justify-center" role="dialog" aria-modal="true" aria-label="Condition step setup">
       {/* Backdrop */}
       <motion.div
@@ -3223,6 +3222,7 @@ function ConditionCreationModal({
         </div>
       </motion.div>
     </div>
+    </FocusTrap>
   );
 }
 
@@ -3715,9 +3715,9 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
   const [scheduledTime, setScheduledTime] = useState("09:00");
 
   const MSB_TEST_CONSTITUENTS = [
-    { id: 0, name: "James Whitfield", email: "j.whitfield@alumni.edu" },
-    { id: 1, name: "Sarah Chen", email: "s.chen@foundation.org" },
-    { id: 2, name: "Marcus Reid", email: "m.reid@email.com" },
+    { id: 0, name: "James Whitfield", email: "j.whitfield@alumni.edu", classYear: 1998, city: "Boston, MA" },
+    { id: 1, name: "Sarah Chen", email: "s.chen@foundation.org", classYear: 2005, city: "San Francisco, CA" },
+    { id: 2, name: "Marcus Reid", email: "m.reid@email.com", classYear: 2012, city: "Chicago, IL" },
   ];
   const [contactDateField, setContactDateField] = useState<ConstituentDateFieldId | null>(null);
   const [leapYearHandling, setLeapYearHandling] = useState<"feb28" | "mar1">("feb28");
@@ -4253,7 +4253,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
       {/* ════ CONSTITUENTS PHASE ════ */}
       {phase === "constituents" && (
         <div className="flex-1 overflow-auto" onInput={markMultiDirty} onClick={markMultiDirty}>
-          <ConstituentPanel />
+          <ConstituentPanel campaignChannel={steps.some(s => s.type === "sms") ? "sms" : "email"} />
         </div>
       )}
 
@@ -4307,9 +4307,15 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                             <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${sendTestPreviewAs === r.id ? "border-tv-brand-bg bg-tv-brand-bg" : "border-tv-border-light"}`}>
                               {sendTestPreviewAs === r.id && <Check size={8} className="text-white" />}
                             </div>
-                            <div>
-                              <p className="text-[12px] text-tv-text-primary">{r.name}</p>
-                              <p className="text-[10px] text-tv-text-secondary">{r.email}</p>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1.5">
+                                <p className="text-[12px] text-tv-text-primary">{r.name}</p>
+                                {r.classYear && <span className="text-[9px] text-tv-text-decorative">'{String(r.classYear).slice(-2)}</span>}
+                              </div>
+                              <div className="flex items-center gap-1.5">
+                                <p className="text-[10px] text-tv-text-secondary truncate">{r.email}</p>
+                                {r.city && <span className="text-[9px] text-tv-text-decorative shrink-0">{r.city}</span>}
+                              </div>
                             </div>
                           </button>
                         ))}
@@ -4460,7 +4466,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                 <div className="p-3.5 rounded-lg border border-tv-border-light bg-white flex items-center gap-3">
                   <Globe size={13} className="text-tv-text-secondary shrink-0" />
                   <label className="tv-label shrink-0">Timezone</label>
-                  <select aria-label="Timezone" className="flex-1 border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white">
+                  <select aria-label="Timezone" className="flex-1 border border-tv-border-light rounded-[8px] px-2.5 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white appearance-none pr-7 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_8px_center] bg-no-repeat cursor-pointer">
                     <option>(UTC-05:00) Eastern Time (US &amp; Canada)</option>
                     <option>(UTC-06:00) Central Time (US &amp; Canada)</option>
                     <option>(UTC-07:00) Mountain Time (US &amp; Canada)</option>
@@ -4698,6 +4704,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
 
       {/* ── Save as Template modal ── */}
       {showSaveTemplate && (
+        <FocusTrap active>
         <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center" onClick={() => setShowSaveTemplate(false)} role="dialog" aria-modal="true" aria-labelledby="ms-save-template-title">
           <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-[460px] mx-4" onClick={e => e.stopPropagation()}>
             <div className="px-6 pt-6 pb-4 border-b border-tv-border-divider">
@@ -4809,6 +4816,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
             </div>
           </div>
         </div>
+        </FocusTrap>
       )}
     </div>
   );

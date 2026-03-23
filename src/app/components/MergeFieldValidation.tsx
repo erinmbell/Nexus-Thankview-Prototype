@@ -135,7 +135,7 @@ export function MergeFieldValidation({ compact = false, onRemovedFieldsChange, o
                       </div>
                       {isFallbackOpen && (
                         <div className="flex items-center gap-2">
-                          <input value={fallbackInputs[gap.field] || ""} onChange={e => setFallbackInputs(prev => ({ ...prev, [gap.field]: e.target.value }))} placeholder={`Default text for ${gap.fieldLabel}\u2026`} className="flex-1 border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" onClick={e => e.stopPropagation()} />
+                          <input value={fallbackInputs[gap.field] || ""} onChange={e => setFallbackInputs(prev => ({ ...prev, [gap.field]: e.target.value }))} placeholder={`Default text for ${gap.fieldLabel}\u2026`} aria-label="Fallback text" className="flex-1 border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" onClick={e => e.stopPropagation()} />
                           <button onClick={(e) => { e.stopPropagation(); const text = (fallbackInputs[gap.field] || "").trim(); if (text) resolve(gap.field, { type: "fallback", text }); }} disabled={!(fallbackInputs[gap.field] || "").trim()} className="px-3 py-1.5 text-[11px] text-white bg-tv-brand-bg rounded-full hover:bg-tv-brand-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed" style={{ fontWeight: 600 }}>Apply</button>
                         </div>
                       )}

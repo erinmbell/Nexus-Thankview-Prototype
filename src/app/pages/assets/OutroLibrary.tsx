@@ -211,7 +211,7 @@ export function OutroLibrary() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filtered.map(outro => (
-            <div key={outro.id} role="button" tabIndex={0} onClick={() => setPreviewId(outro.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(outro.id); }}} aria-label={`Preview: ${outro.name}`} className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer">
+            <div role="button" tabIndex={0} key={outro.id} onClick={() => setPreviewId(outro.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPreviewId(outro.id); }}} aria-label={`Preview: ${outro.name}`} className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md hover:border-tv-border-strong transition-all group cursor-pointer text-left">
               {/* Thumbnail */}
               <div className={`h-32 bg-gradient-to-br ${outro.gradient} relative overflow-hidden`}>
                 {outro.attachedImage ? (

@@ -1,8 +1,9 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { Check, ChevronLeft, Eye, Palette, Image as ImageIcon, Stamp, Settings, Landmark, Heart, RotateCcw, RotateCw, Camera, Bookmark, RefreshCw, X } from "lucide-react";
 import { FocusTrap } from "@mantine/core";
 import { useToast } from "../../contexts/ToastContext";
 import { ColorSwatchPicker, BRAND_PALETTE } from "../../components/ColorSwatchPicker";
+import { EnvelopePreview } from "../../components/EnvelopePreview";
 
 export interface SavedEnvelope { id: number; name: string; preview: string; category: string; }
 
@@ -11,14 +12,25 @@ export function EnvelopeBuilderModal({ onSave, onClose }: { onSave: (env: SavedE
   const [envTitle, setEnvTitle] = useState("New Envelope");
   const [envColor, setEnvColor] = useState("#1B3461");
   const [linerColor, setLinerColor] = useState("#C8962A");
+  const triggerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    triggerRef.current = document.activeElement as HTMLElement;
+  }, []);
+
+  const handleClose = () => {
+    onClose();
+    triggerRef.current?.focus();
+  };
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") handleClose(); };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [onClose]);
 
   const handleSave = useCallback(() => {
+    triggerRef.current?.focus();
     onSave({ id: Date.now(), name: envTitle.trim() || "Untitled Envelope", preview: envColor, category: "Branded" });
   }, [envTitle, envColor, onSave]);
 
@@ -28,7 +40,7 @@ export function EnvelopeBuilderModal({ onSave, onClose }: { onSave: (env: SavedE
       <div className="w-full max-w-[1140px] bg-white rounded-xl border border-tv-border-light shadow-2xl flex flex-col" style={{ maxHeight: "94vh" }}>
         <div className="px-6 py-4 border-b border-tv-border-divider shrink-0">
           <div className="flex items-center gap-3">
-            <button onClick={onClose} className="w-7 h-7 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary transition-colors">
+            <button onClick={handleClose} className="w-7 h-7 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary transition-colors">
               <ChevronLeft size={18} />
             </button>
             <div>
@@ -52,18 +64,32 @@ export function EnvelopeBuilderModal({ onSave, onClose }: { onSave: (env: SavedE
 
           <div className="flex-1 bg-tv-surface flex flex-col items-center justify-center p-6 overflow-y-auto">
             <p className="text-[10px] text-tv-text-secondary uppercase tracking-[0.15em] mb-4" style={{ fontWeight: 600 }}>Live preview</p>
-            <div className="w-full max-w-[420px]">
-              <div className="aspect-[3/2] rounded-lg overflow-hidden shadow-xl relative" style={{ backgroundColor: envColor }}>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[18px] italic text-white/90" style={{ fontWeight: 500 }}>Your Constituent's Name</span>
-                </div>
-              </div>
+            <div className="w-full max-w-[420px] flex flex-col items-center gap-6">
+              <EnvelopePreview
+                envelopeColor={envColor}
+                linerColor={linerColor}
+                primaryColor={linerColor}
+                secondaryColor={envColor}
+                postmarkColor={linerColor}
+                showName
+                mode="front"
+                width={360}
+              />
+              <EnvelopePreview
+                envelopeColor={envColor}
+                linerColor={linerColor}
+                primaryColor={linerColor}
+                secondaryColor={envColor}
+                postmarkColor={linerColor}
+                mode="thumbnail"
+                width={200}
+              />
             </div>
           </div>
         </div>
 
         <div className="px-5 py-3.5 border-t border-tv-border-divider bg-white flex items-center justify-end gap-3 shrink-0">
-          <button onClick={() => { show("Envelope saved to your library", "success"); onClose(); }} className="flex items-center gap-1.5 px-4 py-2 text-[12px] text-tv-brand border-2 border-tv-brand rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 600 }}>
+          <button onClick={() => { show("Envelope saved to your library", "success"); handleClose(); }} className="flex items-center gap-1.5 px-4 py-2 text-[12px] text-tv-brand border-2 border-tv-brand rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 600 }}>
             <Bookmark size={13} />Save to Library
           </button>
           <button onClick={handleSave} className="flex items-center gap-1.5 px-5 py-2.5 text-[13px] text-white rounded-full transition-colors bg-tv-brand-bg hover:bg-tv-brand-hover" style={{ fontWeight: 600 }}>
