@@ -50,7 +50,7 @@ export function VideoPickerView({ onBack, onSelect }: { onBack: () => void; onSe
       <div className="px-6 py-3 border-b border-tv-border-divider shrink-0">
         <div className="flex items-center gap-2 bg-tv-surface rounded-full px-3.5 py-2 border border-tv-border-light max-w-sm">
           <Search size={13} className="text-tv-text-secondary" />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search your videos&hellip;" className="bg-transparent text-[12px] outline-none flex-1 placeholder:text-tv-text-decorative" />
+          <input value={search} onChange={e => setSearch(e.target.value)} aria-label="Search videos" placeholder="Search your videos&hellip;" className="bg-transparent text-[12px] outline-none flex-1 placeholder:text-tv-text-decorative" />
         </div>
       </div>
 

@@ -5,6 +5,7 @@ import {
   Heart, Copy,
 } from "lucide-react";
 import { useToast } from "../../contexts/ToastContext";
+import { FocusTrap } from "@mantine/core";
 import { VideoEditorModal } from "./VideoEditorModal";
 
 // ── Types ────────────────────────────────────────────────────────────────────
@@ -336,7 +337,8 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
 
       {/* ── Delete confirmation modal ── */}
       {deleteTarget && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40" role="dialog" aria-modal="true" aria-label="Delete Video" onKeyDown={(e) => { if (e.key === "Escape") setDeleteTarget(null); }}>
+          <FocusTrap active>
           <div className="bg-white rounded-[14px] shadow-2xl w-full max-w-sm mx-4 overflow-hidden">
             <div className="px-6 pt-6 pb-4">
               <div className="w-10 h-10 rounded-full bg-tv-danger-bg flex items-center justify-center mb-3">
@@ -358,6 +360,7 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
               </button>
             </div>
           </div>
+          </FocusTrap>
         </div>
       )}
 

@@ -13,7 +13,7 @@ import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { FilterBar } from "../../components/FilterBar";
 import type { FilterDef, FilterValues } from "../../components/FilterBar";
 import { DATE_CREATED_FILTER, CREATED_BY_FILTER } from "../../components/filterDefs";
-import { Menu, ActionIcon, Tooltip, Text } from "@mantine/core";
+import { Menu, ActionIcon, Tooltip, Text, FocusTrap } from "@mantine/core";
 import { TV } from "../../theme";
 
 // ── Data model matching EnvelopeBuilder.tsx ────────────────────────────────
@@ -269,7 +269,7 @@ export function EnvelopeDesigns() {
                 <div className="flex items-center justify-between gap-1 mb-1.5">
                   <p className="text-[12px] font-semibold text-tv-text-primary truncate flex-1 min-w-0">{env.title}</p>
                   <div className="relative shrink-0" onClick={e => e.stopPropagation()}>
-                    <button onClick={() => setMenuOpen(menuOpen === env.id ? null : env.id)} aria-label="More actions" className="p-0.5 rounded hover:bg-tv-surface transition-colors">
+                    <button onClick={() => setMenuOpen(menuOpen === env.id ? null : env.id)} aria-label="More actions" aria-haspopup="menu" aria-expanded={menuOpen === env.id} className="p-0.5 rounded hover:bg-tv-surface transition-colors">
                       <MoreHorizontal size={13} className="text-tv-text-secondary" />
                     </button>
                     {menuOpen === env.id && (
@@ -312,7 +312,8 @@ export function EnvelopeDesigns() {
       {preview && (
         <>
           <div className="fixed inset-0 bg-black/50 z-[60]" onClick={() => setPreviewId(null)} />
-          <div className="fixed inset-0 flex items-center justify-center z-[61] pointer-events-none p-4">
+          <div className="fixed inset-0 flex items-center justify-center z-[61] pointer-events-none p-4" role="dialog" aria-modal="true" aria-label={`Preview: ${preview.title}`} onKeyDown={(e) => { if (e.key === "Escape") setPreviewId(null); }}>
+            <FocusTrap active>
             <div className="bg-white rounded-xl w-full max-w-lg shadow-2xl pointer-events-auto overflow-hidden max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between px-5 py-4 border-b border-tv-border-divider sticky top-0 bg-white z-10">
                 <h2 className="text-[16px] font-black text-tv-text-primary">{preview.title}</h2>
@@ -321,7 +322,7 @@ export function EnvelopeDesigns() {
                     <Star size={13} className={preview.starred ? "text-tv-star fill-tv-star" : "text-tv-text-secondary"} />
                   </button>
                   <div className="relative">
-                    <button onClick={() => setModalMenuOpen(!modalMenuOpen)} aria-label="More actions" className="w-7 h-7 rounded-full bg-tv-surface flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface-hover transition-colors">
+                    <button onClick={() => setModalMenuOpen(!modalMenuOpen)} aria-label="More actions" aria-haspopup="menu" aria-expanded={modalMenuOpen} className="w-7 h-7 rounded-full bg-tv-surface flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface-hover transition-colors">
                       <MoreHorizontal size={13} />
                     </button>
                     {modalMenuOpen && (
@@ -439,6 +440,7 @@ export function EnvelopeDesigns() {
                 </button>
               </div>
             </div>
+            </FocusTrap>
           </div>
         </>
       )}

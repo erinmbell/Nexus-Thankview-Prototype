@@ -1581,11 +1581,13 @@ function UsersTab() {
 function NotificationsTab() {
   const { show } = useToast();
   const [notifs, setNotifs] = useState({
-    campaignSent:    true,
-    replyReceived:   true,
-    videoProcessed:  false,
-    weeklyDigest:    true,
-    deliveryFailure: true,
+    campaignSent:      true,
+    replyReceived:     true,
+    videoProcessed:    false,
+    weeklyDigest:      true,
+    deliveryFailure:   true,
+    recorderAssigned:  true,
+    ssoAccessRequest:  true,
   });
 
   const [emailNotifs, setEmailNotifs] = useState({
@@ -1599,12 +1601,16 @@ function NotificationsTab() {
     newContactAdded:      false,
   });
 
+  const [videoNotifFreq, setVideoNotifFreq] = useState<"daily" | "weekly">("daily");
+
   const ITEMS = [
     { key: "campaignSent",    label: "Campaign Sent",       desc: "When a campaign is successfully delivered" },
     { key: "replyReceived",   label: "Reply Received",      desc: "When a constituent sends a video reply" },
     { key: "videoProcessed",  label: "Video Processed",     desc: "When an uploaded video finishes processing" },
     { key: "weeklyDigest",    label: "Weekly Digest",       desc: "A summary of campaign performance every Monday" },
     { key: "deliveryFailure", label: "Delivery Failure",    desc: "When a message fails to deliver" },
+    { key: "recorderAssigned", label: "Assigned as Recorder", desc: "When you are assigned as a recorder on a video request campaign" },
+    { key: "ssoAccessRequest", label: "SSO Access Request",   desc: "When a user requests access to your organization via Single Sign-On" },
   ] as const;
 
   const EMAIL_ITEMS = [
@@ -1632,6 +1638,32 @@ function NotificationsTab() {
             borderBottom={i < ITEMS.length - 1}
           />
         ))}
+      </div>
+
+      {/* 1:1 Video Notification Frequency */}
+      <div className="rounded-[var(--mantine-radius-default)] border overflow-hidden" style={{ borderColor: TV.borderLight }}>
+        <SectionHeader title="1:1 Video Notification Frequency" description="How often would you like to be notified about activity on your 1:1 videos?" />
+        <Box px="lg" py="sm">
+          <SegmentedControl
+            value={videoNotifFreq}
+            onChange={v => setVideoNotifFreq(v as "daily" | "weekly")}
+            data={[
+              { label: "Once a Day", value: "daily" },
+              { label: "Once a Week", value: "weekly" },
+            ]}
+            fullWidth
+            radius="md"
+            color="tvPurple"
+            styles={{
+              root: { backgroundColor: TV.surface, border: `1px solid ${TV.borderLight}` },
+            }}
+          />
+          <Text fz={11} c={TV.textSecondary} mt="xs">
+            {videoNotifFreq === "daily"
+              ? "You'll receive a daily digest of 1:1 video views, replies, and CTA clicks."
+              : "You'll receive a weekly summary of 1:1 video activity every Monday morning."}
+          </Text>
+        </Box>
       </div>
 
       <div className="rounded-[var(--mantine-radius-default)] border overflow-hidden" style={{ borderColor: TV.borderLight }}>
@@ -1679,6 +1711,53 @@ function VideoTab() {
   const [outroEnabled, setOutroEnabled] = useState(true);
   const [selectedOutro, setSelectedOutro] = useState("hartwell_branded");
   const [outroUploaded, setOutroUploaded] = useState(false);
+
+  // ── Campaign Defaults state ──
+  const [defaultFont, setDefaultFont] = useState("System Default (Sans-Serif)");
+  const [defaultEnvelopeId, setDefaultEnvelopeId] = useState<number | null>(1);
+  const [defaultLandingPageId, setDefaultLandingPageId] = useState<number | null>(1);
+  const [defaultIntroId, setDefaultIntroId] = useState<string | null>(null);
+  const [hiddenRecordingFields, setHiddenRecordingFields] = useState<Set<string>>(new Set(["phone", "address"]));
+
+  const FONT_OPTIONS = [
+    "System Default (Sans-Serif)",
+    "Arial, Helvetica, sans-serif",
+    "Georgia, Times, serif",
+    "Verdana, Geneva, sans-serif",
+    "Trebuchet MS, sans-serif",
+    "Tahoma, Geneva, sans-serif",
+    "Palatino, serif",
+    "Garamond, serif",
+  ];
+
+  const ENVELOPE_PRESETS = [
+    { id: 1, name: "Classic White",       color: "#ffffff", accent: "#7c45b0" },
+    { id: 2, name: "Hartwell Purple",     color: "#7c45b0", accent: "#d8b4fe" },
+    { id: 3, name: "Ocean Blue",          color: "#0369a1", accent: "#38bdf8" },
+    { id: 4, name: "Warm Ivory",          color: "#fef3c7", accent: "#b45309" },
+  ];
+
+  const LP_PRESETS = [
+    { id: 1, name: "Annual Fund Thank You",   color: "#7c45b0" },
+    { id: 2, name: "Scholarship Impact Story", color: "#0369a1" },
+    { id: 3, name: "New Student Welcome",      color: "#047857" },
+  ];
+
+  const INTRO_PRESETS = [
+    { id: "logo",       name: "Logo" },
+    { id: "full-frame", name: "Full Frame" },
+    { id: "clean",      name: "Clean" },
+  ];
+
+  const RECORDING_FIELD_OPTIONS = [
+    { id: "email",       label: "Email Address" },
+    { id: "phone",       label: "Phone Number" },
+    { id: "address",     label: "Mailing Address" },
+    { id: "class_year",  label: "Class Year" },
+    { id: "gift_amount", label: "Last Gift Amount" },
+    { id: "employer",    label: "Employer" },
+    { id: "notes",       label: "Notes" },
+  ];
 
   const OUTRO_OPTIONS = [
     { value: "hartwell_branded", label: "Hartwell University — Branded Outro", duration: "0:06", uploaded: "Jan 12, 2026" },
@@ -2023,6 +2102,131 @@ function VideoTab() {
         <ToggleRow label="Auto-Convert Uploads to 4:3" description="Automatically reformat uploaded videos to 4:3 aspect ratio for consistency." checked={autoConvert} onChange={() => setAutoConvert(!autoConvert)} borderBottom={false} />
         <Box px="lg" py={10} bg={TV.surfaceMuted} style={{ borderTop: `1px solid ${TV.borderDivider}` }}>
           <Text fz={11} c={TV.textSecondary}>Crop, trim, and rotate tools are always available for all users in the video editor.</Text>
+        </Box>
+      </div>
+
+      {/* ── Campaign Defaults ─────────────────────────────────────────────── */}
+      <div className="rounded-[var(--mantine-radius-default)] border overflow-hidden" style={{ borderColor: TV.borderLight }}>
+        <SectionHeader icon={Sparkles} title="Campaign Defaults" description="Set portal-level defaults for campaigns. Users can override these per-campaign." />
+
+        {/* Default Font */}
+        <Box px="lg" py="sm" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
+          <Select
+            label="Default Email Font"
+            description="Font used in campaign email bodies when no other font is selected."
+            value={defaultFont}
+            onChange={v => v && setDefaultFont(v)}
+            data={FONT_OPTIONS}
+          />
+        </Box>
+
+        {/* Default Envelope */}
+        <Box px="lg" py="sm" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
+          <FieldLabel>Default Envelope Design</FieldLabel>
+          <Text fz={12} c={TV.textSecondary} mb="sm">Pre-selected envelope for new campaigns. Users can change per-campaign.</Text>
+          <SimpleGrid cols={4} spacing="xs">
+            {ENVELOPE_PRESETS.map(env => (
+              <UnstyledButton
+                key={env.id}
+                onClick={() => setDefaultEnvelopeId(env.id === defaultEnvelopeId ? null : env.id)}
+                style={{
+                  borderRadius: 10, border: `2px solid ${env.id === defaultEnvelopeId ? TV.brand : TV.borderLight}`,
+                  backgroundColor: env.id === defaultEnvelopeId ? TV.brandTint : "white",
+                  padding: 8, textAlign: "center", transition: "all 150ms",
+                }}
+              >
+                <Box h={36} mb={6} style={{ borderRadius: 6, backgroundColor: env.color, border: `1px solid ${TV.borderLight}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Box w={16} h={10} style={{ borderRadius: 2, backgroundColor: env.accent, opacity: 0.8 }} />
+                </Box>
+                <Text fz={10} c={env.id === defaultEnvelopeId ? TV.brand : TV.textPrimary} fw={env.id === defaultEnvelopeId ? 600 : 400} truncate>{env.name}</Text>
+                {env.id === defaultEnvelopeId && <Check size={10} style={{ color: TV.brand, marginTop: 2 }} />}
+              </UnstyledButton>
+            ))}
+          </SimpleGrid>
+          <Text fz={10} c={TV.textSecondary} mt="xs">Browse all envelopes in the campaign builder.</Text>
+        </Box>
+
+        {/* Default Landing Page */}
+        <Box px="lg" py="sm" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
+          <FieldLabel>Default Landing Page</FieldLabel>
+          <Text fz={12} c={TV.textSecondary} mb="sm">Pre-selected landing page for new campaigns.</Text>
+          <SimpleGrid cols={3} spacing="xs">
+            {LP_PRESETS.map(lp => (
+              <UnstyledButton
+                key={lp.id}
+                onClick={() => setDefaultLandingPageId(lp.id === defaultLandingPageId ? null : lp.id)}
+                style={{
+                  borderRadius: 10, border: `2px solid ${lp.id === defaultLandingPageId ? TV.brand : TV.borderLight}`,
+                  backgroundColor: lp.id === defaultLandingPageId ? TV.brandTint : "white",
+                  padding: 8, textAlign: "center", transition: "all 150ms",
+                }}
+              >
+                <Box h={28} mb={6} style={{ borderRadius: 6, background: `linear-gradient(135deg, ${lp.color}, ${lp.color}cc)` }} />
+                <Text fz={10} c={lp.id === defaultLandingPageId ? TV.brand : TV.textPrimary} fw={lp.id === defaultLandingPageId ? 600 : 400} truncate>{lp.name}</Text>
+              </UnstyledButton>
+            ))}
+          </SimpleGrid>
+        </Box>
+
+        {/* Default Intro */}
+        <Box px="lg" py="sm" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
+          <FieldLabel>Default Video Intro</FieldLabel>
+          <Text fz={12} c={TV.textSecondary} mb="sm">Pre-selected intro theme for new videos. Set to "None" to skip intros by default.</Text>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Button
+              variant={defaultIntroId === null ? "light" : "default"}
+              color={defaultIntroId === null ? "tvPurple" : "gray"}
+              size="xs" radius="md"
+              onClick={() => setDefaultIntroId(null)}
+              styles={{ root: { borderColor: defaultIntroId === null ? TV.brand : TV.borderLight } }}
+            >
+              None
+            </Button>
+            {INTRO_PRESETS.map(intro => (
+              <Button
+                key={intro.id}
+                variant={defaultIntroId === intro.id ? "light" : "default"}
+                color={defaultIntroId === intro.id ? "tvPurple" : "gray"}
+                size="xs" radius="md"
+                onClick={() => setDefaultIntroId(intro.id)}
+                styles={{ root: { borderColor: defaultIntroId === intro.id ? TV.brand : TV.borderLight } }}
+              >
+                {intro.name}
+              </Button>
+            ))}
+          </div>
+        </Box>
+
+        {/* Hidden Recording Fields */}
+        <Box px="lg" py="sm">
+          <FieldLabel>Hidden Contact Fields During Recording</FieldLabel>
+          <Text fz={12} c={TV.textSecondary} mb="sm">Select which contact fields should be hidden from the recording screen. Unchecked fields will be visible to recorders.</Text>
+          <Stack gap={4}>
+            {RECORDING_FIELD_OPTIONS.map(field => (
+              <div
+                key={field.id}
+                className="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer transition-colors"
+                style={{ backgroundColor: hiddenRecordingFields.has(field.id) ? TV.surfaceMuted : "transparent" }}
+                onClick={() => {
+                  setHiddenRecordingFields(prev => {
+                    const next = new Set(prev);
+                    next.has(field.id) ? next.delete(field.id) : next.add(field.id);
+                    return next;
+                  });
+                }}
+              >
+                <Switch
+                  checked={hiddenRecordingFields.has(field.id)}
+                  onChange={() => {}}
+                  size="xs"
+                  color="tvPurple.6"
+                  styles={{ track: { cursor: "pointer" } }}
+                />
+                <Text fz={12} c={TV.textPrimary}>{field.label}</Text>
+              </div>
+            ))}
+          </Stack>
+          <Text fz={10} c={TV.textSecondary} mt="xs">{hiddenRecordingFields.size} field{hiddenRecordingFields.size !== 1 ? "s" : ""} hidden from recorders.</Text>
         </Box>
       </div>
 
@@ -2482,7 +2686,8 @@ export function Settings() {
 
       {/* ── Desktop: left sidebar nav ── */}
       <div className="hidden sm:flex w-[220px] shrink-0 bg-white border-r border-tv-border-light flex-col pt-6">
-        <Text fz={11} fw={600} tt="uppercase" lts="0.05em" c={TV.textLabel} px="lg" mb="sm">Settings</Text>
+        <h1 className="sr-only">Settings</h1>
+        <Text fz={11} fw={600} tt="uppercase" lts="0.05em" c={TV.textLabel} px="lg" mb="sm" aria-hidden="true">Settings</Text>
         {TABS.map(t => (
           <button
             key={t.key}

@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import {
   Box, Stack, Text, Badge, ActionIcon, UnstyledButton,
-  ScrollArea, Avatar, Tooltip,
+  ScrollArea, Avatar, Tooltip, FocusTrap,
 } from "@mantine/core";
 import { TV } from "../theme";
 
@@ -68,6 +68,7 @@ export function NotificationsPanel({ onClose }: Props) {
     <>
       <Box className="fixed inset-0 z-30" onClick={onClose} aria-hidden="true" />
 
+      <FocusTrap active>
       <Box
         className="absolute right-0 top-full mt-2 z-40 flex flex-col overflow-hidden"
         w={380}
@@ -165,6 +166,7 @@ export function NotificationsPanel({ onClose }: Props) {
           )}
         </ScrollArea>
       </Box>
+      </FocusTrap>
     </>
   );
 }

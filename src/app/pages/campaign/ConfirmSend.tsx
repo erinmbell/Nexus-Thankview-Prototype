@@ -139,7 +139,7 @@ export function ConfirmSend({
                               </div>
                               {editingFallback === w.field && (
                                 <div className="mb-3 flex items-center gap-2">
-                                  <input type="text" autoComplete="off" value={fallbackValues[w.field] || ""} onChange={e => setFallbackValues(prev => ({ ...prev, [w.field]: e.target.value }))} placeholder={`Fallback for {{${w.field}}}`} className="flex-1 border border-tv-border-light rounded-sm px-3 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand-bg/20" autoFocus />
+                                  <input type="text" autoComplete="off" aria-label={`Fallback value for ${w.field}`} value={fallbackValues[w.field] || ""} onChange={e => setFallbackValues(prev => ({ ...prev, [w.field]: e.target.value }))} placeholder={`Fallback for {{${w.field}}}`} className="flex-1 border border-tv-border-light rounded-sm px-3 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand-bg/20" autoFocus />
                                   <button onClick={() => { if (fallbackValues[w.field]?.trim()) resolveField(w.field, "fallback"); }} disabled={!fallbackValues[w.field]?.trim()} className="px-3 py-1.5 text-[10px] rounded-sm bg-tv-brand-bg text-white disabled:opacity-50" style={{ fontWeight: 600 }}>Apply</button>
                                   <button onClick={() => setEditingFallback(null)} className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-tv-surface-hover text-tv-text-secondary"><X size={11} /></button>
                                 </div>

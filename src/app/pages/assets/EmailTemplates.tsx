@@ -11,7 +11,7 @@ import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { FilterBar } from "../../components/FilterBar";
 import type { FilterDef, FilterValues } from "../../components/FilterBar";
 import { DATE_CREATED_FILTER, CREATED_BY_FILTER } from "../../components/filterDefs";
-import { Menu, ActionIcon, Tooltip, Text } from "@mantine/core";
+import { Menu, ActionIcon, Tooltip, Text, FocusTrap } from "@mantine/core";
 import { TV } from "../../theme";
 
 // ── Filter definitions for this page ──────────────────────────────────────────
@@ -221,7 +221,7 @@ export function EmailTemplates() {
                       <Star size={13} className={tpl.starred ? "text-tv-star fill-tv-star" : "text-tv-text-decorative"} />
                     </button>
                     <div className="relative" onClick={e => e.stopPropagation()}>
-                      <button onClick={() => setMenuOpen(menuOpen === tpl.id ? null : tpl.id)} aria-label="More actions" className="p-1 rounded hover:bg-tv-surface transition-colors">
+                      <button onClick={() => setMenuOpen(menuOpen === tpl.id ? null : tpl.id)} aria-label="More actions" aria-haspopup="menu" aria-expanded={menuOpen === tpl.id} className="p-1 rounded hover:bg-tv-surface transition-colors">
                         <MoreHorizontal size={14} className="text-tv-text-secondary" />
                       </button>
                       {menuOpen === tpl.id && (
@@ -261,7 +261,8 @@ export function EmailTemplates() {
       {preview && (
         <>
           <div className="fixed inset-0 bg-black/50 z-[60]" onClick={() => setPreviewId(null)} />
-          <div className="fixed inset-0 flex items-center justify-center z-[61] pointer-events-none p-4">
+          <div className="fixed inset-0 flex items-center justify-center z-[61] pointer-events-none p-4" role="dialog" aria-modal="true" aria-label={`Preview: ${preview.name}`} onKeyDown={(e) => { if (e.key === "Escape") setPreviewId(null); }}>
+            <FocusTrap active>
             <div className="bg-white rounded-xl w-full max-w-lg shadow-2xl pointer-events-auto overflow-hidden">
               <div className="flex items-center justify-between px-5 py-4 border-b border-tv-border-divider">
                 <div className="flex items-center gap-2">
@@ -278,7 +279,7 @@ export function EmailTemplates() {
                     <Star size={13} className={preview.starred ? "text-tv-star fill-tv-star" : "text-tv-text-secondary"} />
                   </button>
                   <div className="relative">
-                    <button onClick={() => setModalMenuOpen(!modalMenuOpen)} aria-label="More actions" className="w-7 h-7 rounded-full bg-tv-surface flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface-hover transition-colors">
+                    <button onClick={() => setModalMenuOpen(!modalMenuOpen)} aria-label="More actions" aria-haspopup="menu" aria-expanded={modalMenuOpen} className="w-7 h-7 rounded-full bg-tv-surface flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface-hover transition-colors">
                       <MoreHorizontal size={13} />
                     </button>
                     {modalMenuOpen && (
@@ -321,6 +322,7 @@ export function EmailTemplates() {
                 </div>
               </div>
             </div>
+            </FocusTrap>
           </div>
         </>
       )}
