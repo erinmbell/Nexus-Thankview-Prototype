@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import {
   Play, Pause, ChevronDown, ChevronLeft, Trash2,
-  Save, Send, ChevronRight, MonitorPlay, Music, Link2,
+  Save, Send, ChevronRight, MonitorPlay,
 } from "lucide-react";
 import { Text } from "@mantine/core";
 import { TV } from "../theme";
@@ -15,54 +15,31 @@ const GOOGLE_FONTS_URL = "https://fonts.googleapis.com/css2?family=Fraunces:wght
 interface OutroTheme {
   id: number;
   name: string;
-  category: "saved" | "video" | "legacy";
+  category: "saved" | "legacy";
   gradient: string;
-  ctaLabel: string;
 }
 
 const OUTRO_THEMES: OutroTheme[] = [
-  { id: 1, name: "Thanks!", category: "saved", gradient: "linear-gradient(143.13deg, #7c45b0 0%, #7c45b0 100%)", ctaLabel: "Thank You" },
-  { id: 2, name: "Donate", category: "saved", gradient: "linear-gradient(143.13deg, #166534 0%, #15803d 100%)", ctaLabel: "Donate Now" },
-  { id: 3, name: "Visit", category: "saved", gradient: "linear-gradient(143.13deg, #007c9e 0%, #00c0f5 100%)", ctaLabel: "Visit Us" },
-  { id: 4, name: "Connect", category: "saved", gradient: "linear-gradient(143.13deg, #b45309 0%, #b45309 100%)", ctaLabel: "Connect" },
-  { id: 5, name: "Give Now", category: "video", gradient: "linear-gradient(143.13deg, #1B3461 0%, #3b82f6 100%)", ctaLabel: "Give Now" },
-  { id: 6, name: "Support", category: "video", gradient: "linear-gradient(143.13deg, #b91c1c 0%, #dc2626 100%)", ctaLabel: "Support Us" },
-  { id: 7, name: "Learn More", category: "video", gradient: "linear-gradient(143.13deg, #0f766e 0%, #2dd4bf 100%)", ctaLabel: "Learn More" },
-  { id: 8, name: "Register", category: "video", gradient: "linear-gradient(143.13deg, #374151 0%, #6b7280 100%)", ctaLabel: "Register" },
-  { id: 9, name: "Explore", category: "video", gradient: "linear-gradient(143.13deg, #4c1d95 0%, #7c3aed 100%)", ctaLabel: "Explore" },
-  { id: 10, name: "Classic CTA", category: "legacy", gradient: "linear-gradient(143.13deg, #7c45b0 0%, #7c45b0 100%)", ctaLabel: "Click Here" },
-  { id: 11, name: "Simple End", category: "legacy", gradient: "linear-gradient(143.13deg, #374151 0%, #6b7280 100%)", ctaLabel: "" },
-  { id: 12, name: "Branded", category: "legacy", gradient: "linear-gradient(143.13deg, #1B3461 0%, #3b82f6 100%)", ctaLabel: "Visit" },
+  { id: 1, name: "Thanks!", category: "saved", gradient: "linear-gradient(143.13deg, #7c45b0 0%, #7c45b0 100%)" },
+  { id: 2, name: "Donate", category: "saved", gradient: "linear-gradient(143.13deg, #166534 0%, #15803d 100%)" },
+  { id: 3, name: "Visit", category: "saved", gradient: "linear-gradient(143.13deg, #007c9e 0%, #00c0f5 100%)" },
+  { id: 4, name: "Connect", category: "saved", gradient: "linear-gradient(143.13deg, #b45309 0%, #b45309 100%)" },
+  { id: 10, name: "Classic", category: "legacy", gradient: "linear-gradient(143.13deg, #7c45b0 0%, #7c45b0 100%)" },
+  { id: 11, name: "Simple End", category: "legacy", gradient: "linear-gradient(143.13deg, #374151 0%, #6b7280 100%)" },
+  { id: 12, name: "Branded", category: "legacy", gradient: "linear-gradient(143.13deg, #1B3461 0%, #3b82f6 100%)" },
 ];
 
 const BG_COLORS = [
   "#7c45b0", "#1e3a8a", "#14532d", "#b91c1c", "#0f766e", "#374151", "#b45309", "#ffffff",
 ];
 
-const MUSIC_OPTIONS = [
-  { value: "uplifting", label: "Uplifting" },
-  { value: "calm", label: "Calm" },
-  { value: "corporate", label: "Corporate" },
-  { value: "festive", label: "Festive" },
-];
-
-const MUSIC_TRACKS = [
-  { value: "bright-horizons", label: "Bright Horizons", mood: "uplifting", duration: "0:30" },
-  { value: "sunrise-walk", label: "Sunrise Walk", mood: "uplifting", duration: "0:25" },
-  { value: "still-waters", label: "Still Waters", mood: "calm", duration: "0:22" },
-  { value: "quiet-evening", label: "Quiet Evening", mood: "calm", duration: "0:28" },
-  { value: "forward-motion", label: "Forward Motion", mood: "corporate", duration: "0:20" },
-  { value: "steady-climb", label: "Steady Climb", mood: "corporate", duration: "0:18" },
-  { value: "bright-bells", label: "Bright Bells", mood: "festive", duration: "0:24" },
-  { value: "celebration", label: "Celebration", mood: "festive", duration: "0:30" },
-];
 
 // Mock edit data for pre-population
-const EDIT_DATA: Record<string, { bgColor: string; ctaLabel: string; ctaUrl: string; music: string; mood: string; themeId: number; saveAsTemplate: boolean }> = {
-  "1": { bgColor: "#7c45b0", ctaLabel: "Thank You", ctaUrl: "https://give.hartwell.edu", music: "bright-horizons", mood: "uplifting", themeId: 1, saveAsTemplate: false },
-  "2": { bgColor: "#166534", ctaLabel: "Donate Now", ctaUrl: "https://give.hartwell.edu", music: "still-waters", mood: "calm", themeId: 2, saveAsTemplate: false },
-  "3": { bgColor: "#007c9e", ctaLabel: "Visit Us", ctaUrl: "https://hartwell.edu", music: "bright-horizons", mood: "uplifting", themeId: 3, saveAsTemplate: false },
-  "4": { bgColor: "#b45309", ctaLabel: "Connect", ctaUrl: "https://hartwell.edu/connect", music: "forward-motion", mood: "corporate", themeId: 4, saveAsTemplate: false },
+const EDIT_DATA: Record<string, { bgColor: string; themeId: number; saveAsTemplate: boolean }> = {
+  "1": { bgColor: "#7c45b0", themeId: 1, saveAsTemplate: false },
+  "2": { bgColor: "#166534", themeId: 2, saveAsTemplate: false },
+  "3": { bgColor: "#007c9e", themeId: 3, saveAsTemplate: false },
+  "4": { bgColor: "#b45309", themeId: 4, saveAsTemplate: false },
 };
 
 // ── Sidebar Theme Section ───────────────────────────────────────────────────
@@ -161,16 +138,11 @@ export function CreateOutro() {
 
   // ── Sidebar state ──
   const [savedExpanded, setSavedExpanded] = useState(true);
-  const [videoExpanded, setVideoExpanded] = useState(false);
   const [legacyExpanded, setLegacyExpanded] = useState(false);
 
   // ── Builder state ──
   const [selectedTheme, setSelectedTheme] = useState<OutroTheme>(OUTRO_THEMES[2]); // Visit (teal)
-  const [ctaUrl, setCtaUrl] = useState("");
-  const [buttonText, setButtonText] = useState("Donate Now");
   const [selectedColor, setSelectedColor] = useState<string>(BG_COLORS[0]);
-  const [selectedMood, setSelectedMood] = useState<string>("uplifting");
-  const [selectedTrack, setSelectedTrack] = useState<string | null>("bright-horizons");
   const [saveAsTemplate, setSaveAsTemplate] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -184,10 +156,6 @@ export function CreateOutro() {
     const data = EDIT_DATA[editId];
     if (!data) return;
     setSelectedColor(data.bgColor);
-    setButtonText(data.ctaLabel);
-    setCtaUrl(data.ctaUrl);
-    setSelectedMood(data.mood);
-    setSelectedTrack(data.music);
     setSaveAsTemplate(data.saveAsTemplate);
     const theme = OUTRO_THEMES.find((t) => t.id === data.themeId);
     if (theme) setSelectedTheme(theme);
@@ -205,16 +173,11 @@ export function CreateOutro() {
   const isLightBg = selectedColor === "#ffffff";
   const textOnBg = isLightBg ? TV.textPrimary : "white";
 
-  const filteredTracks = MUSIC_TRACKS.filter((t) => t.mood === selectedMood);
-  const activeTrackLabel = MUSIC_TRACKS.find((t) => t.value === selectedTrack)?.label ?? null;
-
   const savedThemes = OUTRO_THEMES.filter((t) => t.category === "saved");
-  const videoThemes = OUTRO_THEMES.filter((t) => t.category === "video");
   const legacyThemes = OUTRO_THEMES.filter((t) => t.category === "legacy");
 
   const handleSelectTheme = (theme: OutroTheme) => {
     setSelectedTheme(theme);
-    if (theme.ctaLabel) setButtonText(theme.ctaLabel);
   };
 
   const handleDiscard = () => {
@@ -296,23 +259,6 @@ export function CreateOutro() {
             </div>
           </ThemeSection>
 
-          <ThemeSection
-            title="Video Outros"
-            count={videoThemes.length}
-            expanded={videoExpanded}
-            onToggle={() => setVideoExpanded(!videoExpanded)}
-          >
-            <div className="grid grid-cols-3 gap-2">
-              {videoThemes.map((theme) => (
-                <ThemeTile
-                  key={theme.id}
-                  theme={theme}
-                  selected={selectedTheme.id === theme.id}
-                  onSelect={() => handleSelectTheme(theme)}
-                />
-              ))}
-            </div>
-          </ThemeSection>
 
           <ThemeSection
             title="Legacy Outros"
@@ -344,15 +290,6 @@ export function CreateOutro() {
               className="rounded-lg overflow-hidden relative aspect-video mb-4"
               style={{ background: previewBackground }}
             >
-              {/* CTA Button badge (top-left) */}
-              {buttonText && (
-                <div className="absolute top-3 left-3 px-2.5 py-1.5 rounded-full bg-black/40 backdrop-blur-sm">
-                  <Text fz={10} c="white" fw={500} className="leading-none">
-                    {buttonText}
-                  </Text>
-                </div>
-              )}
-
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
                 {/* Theme name as large centered text */}
                 <Text
@@ -366,7 +303,7 @@ export function CreateOutro() {
                     fontFamily: "'Fraunces', Roboto, sans-serif",
                   }}
                 >
-                  {buttonText || selectedTheme.name}
+                  {selectedTheme.name}
                 </Text>
 
                 {/* Play / Pause toggle */}
@@ -382,18 +319,8 @@ export function CreateOutro() {
                 </button>
               </div>
 
-              {/* Bottom bar: theme badge + music indicator */}
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between pointer-events-none">
-                {activeTrackLabel ? (
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/30 backdrop-blur-sm">
-                    <Music size={10} className="text-white" />
-                    <Text fz={10} c="white" className="leading-none">
-                      {activeTrackLabel}
-                    </Text>
-                  </div>
-                ) : (
-                  <div />
-                )}
+              {/* Bottom bar: theme badge */}
+              <div className="absolute bottom-4 right-4 pointer-events-none">
                 <div className="px-2.5 py-1 rounded-full bg-black/30 backdrop-blur-sm">
                   <Text fz={10} c="white" className="leading-none">
                     {selectedTheme.name} Theme
@@ -404,52 +331,6 @@ export function CreateOutro() {
 
             {/* Configuration Panel */}
             <div className="bg-white rounded-lg p-6 space-y-6" style={{ border: `1px solid ${TV.borderLight}` }}>
-              {/* CTA Link URL */}
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <Link2 size={10} style={{ color: TV.textLabel }} />
-                  <Text fz={10} fw={600} c={TV.textLabel} tt="uppercase" lts="0.5">
-                    CTA Link URL
-                  </Text>
-                </div>
-                <input
-                  type="text"
-                  autoComplete="off"
-                  value={ctaUrl}
-                  onChange={(e) => setCtaUrl(e.target.value)}
-                  className="w-full h-[42px] px-3 rounded-lg text-[16px] focus-visible:outline-2 focus-visible:outline-tv-brand focus-visible:outline-offset-2"
-                  style={{ border: `1px solid ${TV.borderLight}`, color: TV.textPrimary }}
-                  placeholder="https://"
-                />
-              </div>
-
-              {/* Button Text */}
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                    <path
-                      d="M2.08333 8.33333L5 1.66667L7.91667 8.33333M3.75 8.33333H6.25M5 1.66667V8.33333"
-                      stroke={TV.textLabel}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="0.833333"
-                    />
-                  </svg>
-                  <Text fz={10} fw={600} c={TV.textLabel} tt="uppercase" lts="0.5">
-                    Button Text
-                  </Text>
-                </div>
-                <input
-                  type="text"
-                  autoComplete="off"
-                  value={buttonText}
-                  onChange={(e) => setButtonText(e.target.value)}
-                  className="w-full h-[42px] px-3 rounded-lg text-[16px] focus-visible:outline-2 focus-visible:outline-tv-brand focus-visible:outline-offset-2"
-                  style={{ border: `1px solid ${TV.borderLight}`, color: TV.textPrimary }}
-                  placeholder="Donate Now"
-                />
-              </div>
-
               {/* Background Color */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
@@ -506,86 +387,6 @@ export function CreateOutro() {
                           )}
                         </div>
                       </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Music */}
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                    <path
-                      d="M3.33333 7.5V3.33333M5.83333 7.5V1.66667M1.66667 7.5V5"
-                      stroke={TV.textLabel}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="0.833333"
-                    />
-                  </svg>
-                  <Text fz={10} fw={600} c={TV.textLabel} tt="uppercase" lts="0.5">
-                    Music
-                  </Text>
-                </div>
-
-                {/* Mood pills */}
-                <div className="flex gap-2 mb-3">
-                  {MUSIC_OPTIONS.map((mood) => (
-                    <button
-                      key={mood.value}
-                      onClick={() => {
-                        setSelectedMood(mood.value);
-                        const firstTrack = MUSIC_TRACKS.find((t) => t.mood === mood.value);
-                        setSelectedTrack(firstTrack ? firstTrack.value : null);
-                      }}
-                      className="px-4 h-[30px] rounded-full text-[16px] border transition-colors"
-                      style={{
-                        backgroundColor: selectedMood === mood.value ? TV.brandTint : "white",
-                        borderColor: selectedMood === mood.value ? TV.brandBg : TV.borderLight,
-                        color: selectedMood === mood.value ? TV.brand : TV.textSecondary,
-                      }}
-                    >
-                      {mood.label}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Track list */}
-                <div className="space-y-1.5">
-                  {filteredTracks.map((track) => {
-                    const isActive = selectedTrack === track.value;
-                    return (
-                      <div
-                        key={track.value}
-                        onClick={() => setSelectedTrack(isActive ? null : track.value)}
-                        className="h-[37px] rounded-lg border px-2 flex items-center gap-2.5 cursor-pointer transition-colors"
-                        style={{
-                          borderColor: isActive ? TV.brandBg : TV.borderLight,
-                          backgroundColor: isActive ? TV.brandTint : "white",
-                        }}
-                      >
-                        <button
-                          className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
-                          style={{ backgroundColor: isActive ? TV.brandBg : TV.surface }}
-                        >
-                          <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-                            <path
-                              d="M2 2.5L5.5 4.5L2 6.5V2.5Z"
-                              fill={isActive ? "white" : TV.textPrimary}
-                              stroke={isActive ? "white" : TV.textPrimary}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="0.666"
-                            />
-                          </svg>
-                        </button>
-                        <Text fz={10} fw={isActive ? 600 : 500} c={isActive ? TV.brand : TV.textPrimary} className="flex-1">
-                          {track.label}
-                        </Text>
-                        <Text fz={9} c={isActive ? TV.brand : TV.textDecorative}>
-                          {track.duration}
-                        </Text>
-                      </div>
                     );
                   })}
                 </div>

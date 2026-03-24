@@ -241,22 +241,7 @@ export function VideoRecorder({
             {tab === "record" && (
               <>
                 {!recordedDuration ? (
-                  <div className="bg-tv-surface rounded-lg p-3.5 space-y-2.5">
-                    <p className="text-[11px] font-semibold text-tv-text-primary flex items-center gap-1.5">
-                      <Lightbulb size={12} className="text-tv-warning" />Recording Tips
-                    </p>
-                    {[
-                      { icon: Camera, text: "Look directly at the camera" },
-                      { icon: Lightbulb, text: "Ensure good, even lighting" },
-                      { icon: Volume2, text: "Find a quiet environment" },
-                      { icon: Clock, text: "Keep it concise (under 2 min)" },
-                    ].map((tip, i) => (
-                      <div key={i} className="flex items-start gap-2">
-                        <tip.icon size={10} className="text-tv-text-secondary mt-0.5 shrink-0" />
-                        <span className="text-[10px] text-tv-text-secondary">{tip.text}</span>
-                      </div>
-                    ))}
-                  </div>
+                  null
                 ) : (
                   <div className="bg-tv-success-bg border border-tv-success-border rounded-lg p-3.5 space-y-3">
                     <div className="flex items-center gap-2">

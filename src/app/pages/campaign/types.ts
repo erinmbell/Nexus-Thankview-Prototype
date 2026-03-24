@@ -66,7 +66,7 @@ export const FLOW_STEP_FIELD_MANIFEST: string[] = [
   'subject', 'body', 'senderName', 'senderEmail', 'replyTo', 'replyToList',
   'ccAddresses', 'bccAddresses', 'font', 'bodyFontFamily', 'bodyFontSize', 'bodyTextColor', 'bodyLineHeight', 'signatureId', 'envelopeId', 'thumbnailType', 'includeVideoThumbnail',
   'btnBg', 'btnText',
-  'smsBody', 'smsPhoneNumber', 'linkShortening',
+  'smsBody', 'smsPhoneNumber', 'smsReplyToPhone', 'smsAutoResponder',
   'attachedVideo', 'landingPageEnabled', 'landingPageId', 'lpModule',
   'ctaText', 'ctaUrl',
   'allowEmailReply', 'allowVideoReply', 'allowSaveButton', 'allowShareButton', 'allowDownloadVideo',
@@ -95,6 +95,7 @@ export interface FlowStep {
   sendTimePreference: string;
   // Wait specific
   waitDays?: number;
+  waitUntilDate?: string;
   // Condition specific
   conditionField?: string;
   // Email content
@@ -120,7 +121,8 @@ export interface FlowStep {
   // SMS content
   smsBody?: string;
   smsPhoneNumber?: string;
-  linkShortening?: boolean;
+  smsReplyToPhone?: string;
+  smsAutoResponder?: string;
   smsQuietHours?: boolean;
   // Video attachment (for email/sms steps)
   attachedVideo?: { id: number; title: string; duration: string; color: string } | null;
@@ -175,7 +177,8 @@ export interface FlowStep {
   vrLibraryVideoTitle?: string;
   vrBrandedLandingPage?: number;
   vrShareableUrl?: string;
-  // Social Sharing (Facebook Open Graph)
+  // Social Sharing
+  socialSharingEnabled?: boolean;
   ogTitle?: string;
   ogDescription?: string;
   ogImage?: string;
@@ -239,11 +242,14 @@ export interface ConditionOption {
   id: string;
   label: string;
   desc: string;
+  channels?: ("email" | "sms")[]; // undefined = all channels
 }
 
 export const CONDITION_OPTIONS: ConditionOption[] = [
-  { id: "email_opened",      label: "Email Opened?",              desc: "Check if the constituent opened the previous email" },
-  { id: "responded_email",   label: "Responded to Email?",        desc: "Check if the constituent replied to the previous email" },
+  { id: "email_opened",      label: "Email Opened?",              desc: "Check if the constituent opened the previous email", channels: ["email"] },
+  { id: "responded_email",   label: "Responded to Email?",        desc: "Check if the constituent replied to the previous email", channels: ["email"] },
+  { id: "sms_responded",     label: "Responded to SMS?",          desc: "Check if the constituent responded to the previous SMS", channels: ["sms"] },
+  { id: "sms_viewed_link",   label: "Viewed Link in SMS?",        desc: "Check if the constituent tapped the link in the previous SMS", channels: ["sms"] },
   { id: "had_interaction",   label: "Had Interaction",             desc: "Check for a specific interaction type since the previous step" },
   { id: "made_gift",         label: "Made Gift",                   desc: "Check if the constituent made a gift since the previous step" },
   { id: "portfolio_stage",   label: "Moved into Portfolio Stage",  desc: "Check if the constituent moved to a specific portfolio stage" },
@@ -603,25 +609,29 @@ export interface SuccessMetricDef {
   label: string;
   icon: any;
   category: "delivery" | "engagement" | "negative";
+  channels?: ("email" | "sms" | "video-request")[]; // undefined = all channels
 }
 
 export const SUCCESS_METRICS: SuccessMetricDef[] = [
   { id: "sent",                label: "Sent",                   icon: Send,            category: "delivery" },
   { id: "delivered",           label: "Delivered",              icon: BarChart3,       category: "delivery" },
   { id: "bounced",             label: "Bounced",                icon: TriangleAlert,   category: "delivery" },
-  { id: "opened",              label: "Opened",                 icon: Mail,            category: "engagement" },
-  { id: "clicked",             label: "Clicked",                icon: Link2,           category: "engagement" },
+  { id: "opened",              label: "Opened",                 icon: Mail,            category: "engagement", channels: ["email"] },
+  { id: "clicked",             label: "Clicked",                icon: Link2,           category: "engagement", channels: ["email"] },
   { id: "viewed",              label: "Viewed",                 icon: Eye,             category: "engagement" },
   { id: "started",             label: "Started",                icon: Play,            category: "engagement" },
   { id: "finished",            label: "Finished",               icon: Check,           category: "engagement" },
   { id: "shared",              label: "Shared",                 icon: Share2,          category: "engagement" },
-  { id: "cta-clicked",         label: "CTA Clicked",            icon: Target,          category: "engagement" },
+  { id: "cta-clicked",         label: "CTA Clicked",            icon: Target,          category: "engagement", channels: ["email"] },
   { id: "downloaded",          label: "Downloaded",             icon: Download,        category: "engagement" },
   { id: "replied",             label: "Replied",                icon: Reply,           category: "engagement" },
-  { id: "opened-no-click",     label: "Opened but Didn\u2019t Click", icon: CircleAlert,  category: "negative" },
-  { id: "didnt-open",          label: "Didn\u2019t Open",            icon: X,               category: "negative" },
-  { id: "didnt-click",         label: "Didn\u2019t Click",           icon: X,               category: "negative" },
+  { id: "responded",           label: "Responded",              icon: MessageSquare,   category: "engagement", channels: ["sms"] },
+  { id: "failed",              label: "Failed",                 icon: X,               category: "negative" },
+  { id: "replied-submitted",   label: "Replied & Submitted",    icon: Check,           category: "engagement", channels: ["video-request"] },
+  { id: "opened-no-click",     label: "Opened but Didn\u2019t Click", icon: CircleAlert,  category: "negative", channels: ["email"] },
+  { id: "didnt-open",          label: "Didn\u2019t Open",            icon: X,               category: "negative", channels: ["email"] },
+  { id: "didnt-click",         label: "Didn\u2019t Click",           icon: X,               category: "negative", channels: ["email"] },
   { id: "didnt-view",          label: "Didn\u2019t View",            icon: X,               category: "negative" },
   { id: "unsubscribed",        label: "Unsubscribed",           icon: Bell,            category: "negative" },
-  { id: "marked-spam",         label: "Marked as Spam",         icon: TriangleAlert,   category: "negative" },
+  { id: "marked-spam",         label: "Marked as Spam",         icon: TriangleAlert,   category: "negative", channels: ["email"] },
 ];

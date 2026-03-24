@@ -55,7 +55,6 @@ const ALL_COLUMNS: ColumnDef[] = [
   { key: "tags",       label: "Tags",           group: "Organization" },
   { key: "description", label: "Description",   group: "Summary" },
   { key: "archived",   label: "Archived",       group: "Organization" },
-  { key: "folder",     label: "Folder",         group: "Organization" },
 ];
 
 const DEFAULT_ACTIVE_COLUMNS = ["listName", "contacts", "creator", "updatedAt", "shared"];

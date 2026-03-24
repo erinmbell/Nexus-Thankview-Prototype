@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
 import { useNavigate } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
+import { SortableContext, useSortable, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { FocusTrap } from "@mantine/core";
 import {
   ChevronLeft, ChevronRight, ChevronDown, Check, X, Mail, MessageSquare,
@@ -322,6 +325,27 @@ function FlowNode({
   );
 }
 
+/** Sortable wrapper for FlowNode — enables drag-and-drop reordering */
+function SortableStepItem({ id, children }: { id: string; children: ReactNode }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 50 : undefined,
+  };
+  return (
+    <div ref={setNodeRef} style={style} {...attributes}>
+      <div className="flex items-center">
+        <button {...listeners} className="cursor-grab active:cursor-grabbing p-1 text-tv-text-decorative hover:text-tv-text-secondary -ml-6 mr-1 opacity-0 group-hover/sortable:opacity-100 transition-opacity" title="Drag to reorder">
+          <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg>
+        </button>
+        <div className="flex-1">{children}</div>
+      </div>
+    </div>
+  );
+}
+
 function AddStepButton({ onClick }: { onClick: () => void }) {
   return (
     <div className="flex flex-col items-center">
@@ -487,12 +511,14 @@ function StepDrawer({
   onClose,
   showPreview,
   onTogglePreview,
+  precedingStepType,
 }: {
   step: FlowStep;
   onUpdate: (updated: FlowStep) => void;
   onClose: () => void;
   showPreview: boolean;
   onTogglePreview: () => void;
+  precedingStepType?: FlowStepType;
 }) {
   const { show } = useToast();
   const { customEnvelopes: globalEnvelopes, customLandingPages: globalLandingPages } = useDesignLibrary();
@@ -508,9 +534,9 @@ function StepDrawer({
 
   // Accordion state — multiple sections can be open
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
-    requirements: true, info: true, content: true, video: true, landing: true, settings: true, social: true,
-    wait: true, condition: true,
-    vrDelivery: true, vrInstructions: true, vrSchedule: true, vrLanding: true,
+    requirements: false, info: false, content: false, video: false, landing: false, settings: false, social: false,
+    wait: false, condition: false,
+    vrDelivery: false, vrInstructions: false, vrSchedule: false, vrLanding: false,
   });
   const toggleSection = (key: string) => setOpenSections(prev => ({ ...prev, [key]: !prev[key] }));
 
@@ -579,6 +605,12 @@ function StepDrawer({
     requirements.push(
       { key: "vrInstr", label: "Recording instructions", met: !!(step.vrInstructions && step.vrInstructions.trim()), severity: "warning" },
       { key: "vrDue", label: "Due date", met: !!step.vrDueDate, severity: "warning" },
+    );
+  }
+  // Landing page is required when video is attached
+  if (isMessaging && step.attachedVideo) {
+    requirements.push(
+      { key: "lpRequired", label: "Landing page (required with video)", met: !!step.landingPageEnabled, severity: "error" },
     );
   }
   const unmetErrors = requirements.filter(r => !r.met && r.severity === "error");
@@ -740,9 +772,17 @@ function StepDrawer({
                 </button>
               ))}
             </div>
-            <div>
-              <label className="tv-label mb-1 block">Custom (days)</label>
-              <input type="number" min={1} max={365} value={step.waitDays || 3} onChange={e => onUpdate({ ...step, waitDays: Math.max(1, parseInt(e.target.value) || 1) })} className="w-24 border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+            <div className="flex items-end gap-4">
+              <div>
+                <label className="tv-label mb-1 block">Custom (days)</label>
+                <input type="number" min={1} max={365} value={step.waitDays || 3} onChange={e => onUpdate({ ...step, waitDays: Math.max(1, parseInt(e.target.value) || 1) })} className="w-24 border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+              </div>
+              <div className="text-[11px] text-tv-text-decorative" style={{ fontWeight: 500 }}>or</div>
+              <div>
+                <label className="tv-label mb-1 block">Select a Date</label>
+                <input type="date" value={step.waitUntilDate || ""} onChange={e => onUpdate({ ...step, waitUntilDate: e.target.value })}
+                  className="border border-tv-border-light rounded-sm px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+              </div>
             </div>
           </DrawerSection>
         )}
@@ -751,7 +791,11 @@ function StepDrawer({
         {step.type === "condition" && (
           <DrawerSection title="Condition" icon={GitBranch} open={openSections.condition} onToggle={() => toggleSection("condition")} badge={step.conditionField || undefined}>
             <div className="space-y-1.5">
-              {CONDITION_OPTIONS.map(opt => (
+              {CONDITION_OPTIONS.filter(opt => {
+                if (!opt.channels) return true;
+                const prevChannel = precedingStepType === "email" ? "email" : precedingStepType === "sms" ? "sms" : undefined;
+                return !prevChannel || opt.channels.includes(prevChannel);
+              }).map(opt => (
                 <button key={opt.id} onClick={() => onUpdate({ ...step, conditionField: opt.label })}
                   className={`w-full flex items-center justify-between px-3 py-2 rounded-sm border transition-all text-[12px] ${step.conditionField === opt.label ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`}>
                   <div className="text-left">
@@ -1054,7 +1098,12 @@ function StepDrawer({
                   <label className="tv-label">Sender Name</label>
                   <CharCount current={(step.senderName || "").length} max={CHAR_LIMITS.senderName} />
                 </div>
-                <input value={step.senderName || ""} onChange={e => onUpdate({ ...step, senderName: e.target.value })} maxLength={CHAR_LIMITS.senderName} className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                <div className="relative">
+                  <input value={step.senderName || ""} onChange={e => onUpdate({ ...step, senderName: e.target.value })} maxLength={CHAR_LIMITS.senderName} className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 pr-8 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                  <div className="absolute right-1 top-1/2 -translate-y-1/2">
+                    <SmsMergeMore onInsert={token => onUpdate({ ...step, senderName: (step.senderName || "") + token })} />
+                  </div>
+                </div>
               </div>
               <div>
                 <label className="tv-label mb-1 block">Sender Email</label>
@@ -1300,10 +1349,15 @@ function StepDrawer({
                   <label className="tv-label">Sender Name</label>
                   <CharCount current={(step.senderName || "").length} max={CHAR_LIMITS.senderName} />
                 </div>
-                <input value={step.senderName || ""} onChange={e => onUpdate({ ...step, senderName: e.target.value })}
-                  maxLength={CHAR_LIMITS.senderName}
-                  placeholder="ThankView"
-                  className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                <div className="relative">
+                  <input value={step.senderName || ""} onChange={e => onUpdate({ ...step, senderName: e.target.value })}
+                    maxLength={CHAR_LIMITS.senderName}
+                    placeholder="ThankView"
+                    className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 pr-8 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                  <div className="absolute right-1 top-1/2 -translate-y-1/2">
+                    <SmsMergeMore onInsert={token => onUpdate({ ...step, senderName: (step.senderName || "") + token })} />
+                  </div>
+                </div>
               </div>
               <div>
                 <label className="tv-label mb-1 block">Phone Number</label>
@@ -1313,6 +1367,30 @@ function StepDrawer({
               </div>
             </div>
             <p className="text-[9px] text-tv-text-decorative -mt-1">The phone number constituents will see. Must be a verified number.</p>
+
+            {/* Reply-To Phone */}
+            <div>
+              <label className="tv-label mb-1 block">Reply-To Phone Number</label>
+              <input value={step.smsReplyToPhone || ""} onChange={e => onUpdate({ ...step, smsReplyToPhone: e.target.value })}
+                placeholder="+1 (555) 000-0000"
+                className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+              <p className="text-[9px] text-tv-text-decorative mt-0.5">When constituents reply to your SMS, their reply will go to this number.</p>
+            </div>
+
+            {/* SMS Template loader */}
+            <div className="flex items-center gap-2">
+              <label className="tv-label shrink-0">Load Template</label>
+              <select
+                onChange={e => { if (e.target.value) onUpdate({ ...step, smsBody: e.target.value }); e.target.value = ""; }}
+                className="flex-1 border border-tv-border-light rounded-sm px-2 py-1.5 text-[11px] text-tv-text-secondary outline-none focus:ring-2 focus:ring-tv-brand/40 bg-white"
+                defaultValue="">
+                <option value="" disabled>Select a template…</option>
+                <option value="Hi {{first_name}}, thank you for your generous gift of {{gift_amount}}! Watch this personal video message from our team.">Thank You — Gift Acknowledgment</option>
+                <option value="Hi {{first_name}}! We have a special video message just for you. Tap the link to watch!">General Outreach</option>
+                <option value="{{first_name}}, as a member of the Class of {{class_year}}, you're invited to watch this message from your fellow alumni.">Alumni Engagement</option>
+                <option value="Hi {{first_name}}, mark your calendar! Watch this video for event details and how to RSVP.">Event Invitation</option>
+              </select>
+            </div>
 
             {/* Message Body — matches email RichTextEditor container pattern */}
             <div>
@@ -1373,19 +1451,6 @@ function StepDrawer({
                 <ChevronRight size={10} className="transition-transform group-open:rotate-90" />SMS Options <span className="text-tv-text-decorative normal-case" style={{ fontWeight: 400 }}>(delivery settings)</span>
               </summary>
               <div className="space-y-2.5 mt-2">
-                {/* Link shortening toggle */}
-                <button onClick={() => onUpdate({ ...step, linkShortening: !step.linkShortening })}
-                  role="switch" aria-checked={!!step.linkShortening} aria-label="Shorten links"
-                  className="w-full flex items-center justify-between p-2.5 bg-white rounded-md border border-tv-border-light">
-                  <div>
-                    <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Shorten Links</p>
-                    <p className="text-[9px] text-tv-text-secondary">Replace long URLs with trackable short links</p>
-                  </div>
-                  <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${step.linkShortening ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                    <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${step.linkShortening ? "left-[17px]" : "left-0.5"}`} />
-                  </div>
-                </button>
-
                 {/* Quiet hours toggle */}
                 <button onClick={() => onUpdate({ ...step, smsQuietHours: !step.smsQuietHours })}
                   role="switch" aria-checked={!!step.smsQuietHours} aria-label="Quiet hours"
@@ -1401,6 +1466,19 @@ function StepDrawer({
                 <p className="text-[9px] text-tv-text-decorative">Queued messages will be sent at 8 AM in the constituent's timezone.</p>
               </div>
             </details>
+
+            {/* Text Message Auto-Responder */}
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label className="tv-label">Text Message Auto-Responder</label>
+                <CharCount current={(step.smsAutoResponder || "").length} max={250} />
+              </div>
+              <textarea value={step.smsAutoResponder || ""} onChange={e => onUpdate({ ...step, smsAutoResponder: e.target.value.slice(0, 250) })}
+                maxLength={250} rows={2}
+                placeholder="Thank you for your response! We appreciate your support."
+                className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand resize-none" />
+              <p className="text-[9px] text-tv-text-decorative mt-0.5">Automatically sent when a constituent replies to this SMS. 250 character limit.</p>
+            </div>
 
             {/* AI writer — identical pattern to email */}
             <div>
@@ -1419,13 +1497,14 @@ function StepDrawer({
               )}
             </div>
 
-            {/* SMS compliance — matches email info callout pattern */}
-            <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-md flex gap-2">
-              <CircleAlert size={12} className="text-tv-warning shrink-0 mt-0.5" />
-              <div>
-                <p className="text-[11px] text-tv-warning" style={{ fontWeight: 600 }}>SMS Compliance</p>
-                <p className="text-[10px] text-tv-warning">"Reply STOP to unsubscribe" will be automatically appended to every message.</p>
+            {/* SMS compliance — non-editable, legally required */}
+            <div className="p-3 bg-tv-surface rounded-md border border-tv-border-light space-y-1.5">
+              <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>SMS Compliance (auto-appended)</p>
+              <div className="p-2 bg-white rounded border border-tv-border-divider">
+                <p className="text-[10px] text-tv-text-secondary italic">Click the link to watch the video from [ORG NAME]</p>
+                <p className="text-[10px] text-tv-text-secondary italic mt-1">Reply STOP to unsubscribe. Msg & data rates may apply. Msg frequency varies.</p>
               </div>
+              <p className="text-[9px] text-tv-text-decorative">This compliance text is automatically appended to every SMS and cannot be edited.</p>
             </div>
           </DrawerSection>
         )}
@@ -1888,13 +1967,28 @@ function StepDrawer({
 
         {/* Social Sharing — email & sms steps only */}
         {isMessaging && (
-          <DrawerSection title="Social Sharing" icon={Share2} iconColor="text-[#1877F2]" open={openSections.social} onToggle={() => toggleSection("social")}>
-            <SocialSharingCard
-              ogTitle={step.ogTitle ?? "Your ThankView from Hartwell University"}
-              ogDescription={step.ogDescription ?? "Thanks to the generosity of alumni like you, we\u2019ve been able to fund 42 new scholarships this year. Your support truly makes a difference."}
-              ogImage={step.ogImage ?? "https://images.unsplash.com/photo-1523050854058-8df90110c476?w=600&q=80"}
-              onChange={(t, d, img) => onUpdate({ ...step, ogTitle: t, ogDescription: d, ogImage: img })}
-            />
+          <DrawerSection title="Social Sharing" icon={Share2} iconColor="text-[#1877F2]" open={openSections.social} onToggle={() => toggleSection("social")}
+            badge={step.socialSharingEnabled ? "Enabled" : "Off"}>
+            {/* Social sharing toggle */}
+            <button onClick={() => onUpdate({ ...step, socialSharingEnabled: !step.socialSharingEnabled })}
+              role="switch" aria-checked={!!step.socialSharingEnabled} aria-label="Enable social sharing"
+              className="w-full flex items-center justify-between p-2.5 bg-white rounded-md border border-tv-border-light mb-3">
+              <div>
+                <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Enable Social Sharing</p>
+                <p className="text-[9px] text-tv-text-secondary">Allow recipients to share the video/landing page on social media</p>
+              </div>
+              <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${step.socialSharingEnabled ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
+                <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${step.socialSharingEnabled ? "left-[17px]" : "left-0.5"}`} />
+              </div>
+            </button>
+            {step.socialSharingEnabled && (
+              <SocialSharingCard
+                ogTitle={step.ogTitle ?? "Your ThankView from Hartwell University"}
+                ogDescription={step.ogDescription ?? "Thanks to the generosity of alumni like you, we\u2019ve been able to fund 42 new scholarships this year. Your support truly makes a difference."}
+                ogImage={step.ogImage ?? "https://images.unsplash.com/photo-1523050854058-8df90110c476?w=600&q=80"}
+                onChange={(t, d, img) => onUpdate({ ...step, ogTitle: t, ogDescription: d, ogImage: img })}
+              />
+            )}
           </DrawerSection>
         )}
       </div>
@@ -2218,7 +2312,6 @@ function StepCreationModal({
     { id: "settings", label: "Settings",      icon: Clock },
   ] : [
     { id: "content",  label: "SMS Content",   icon: MessageSquare },
-    { id: "video",    label: "Video",         icon: Video },
     { id: "settings", label: "Settings",      icon: Clock },
   ];
 
@@ -2369,6 +2462,7 @@ function StepCreationModal({
           {/* ═════ DESIGN TAB (consolidated Appearance + Landing Page) ═════ */}
           {activeTab === "design" && isEmail && (
             <DesignStepPanel
+              inline
               lpSearch={lpSearch}
               onLpSearchChange={setLpSearch}
               lpSectionOpen={lpSectionOpen}
@@ -2428,7 +2522,12 @@ function StepCreationModal({
                     <label className="tv-label">Sender Name</label>
                     <CharCount current={(step.senderName || "").length} max={CHAR_LIMITS.senderName} />
                   </div>
-                  <input value={step.senderName || ""} onChange={e => setStep(s => ({ ...s, senderName: e.target.value }))} maxLength={CHAR_LIMITS.senderName} className={INPUT_CLS} />
+                  <div className="relative">
+                    <input value={step.senderName || ""} onChange={e => setStep(s => ({ ...s, senderName: e.target.value }))} maxLength={CHAR_LIMITS.senderName} className={`${INPUT_CLS} pr-8`} />
+                    <div className="absolute right-1 top-1/2 -translate-y-1/2">
+                      <SmsMergeMore onInsert={token => setStep(s => ({ ...s, senderName: (s.senderName || "") + token }))} />
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <label className="tv-label mb-1 block">Sender Email</label>
@@ -2604,6 +2703,59 @@ function StepCreationModal({
 
           {activeTab === "content" && isSms && (
             <div className="space-y-5 max-w-[620px] xl:max-w-[720px] 2xl:max-w-[840px]">
+              {/* SMS Registration Gate — shown when org hasn't registered for SMS */}
+              {/* In production, this would check a real registration status flag */}
+              {false /* smsNotRegistered */ && (
+                <div className="flex items-start gap-3 p-4 bg-tv-warning-bg border border-tv-warning-border rounded-lg">
+                  <CircleAlert size={16} className="text-tv-warning shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-[13px] text-tv-warning-hover" style={{ fontWeight: 700 }}>SMS Not Registered</p>
+                    <p className="text-[12px] text-tv-warning mt-1">Your organization has not registered for text messaging. You must complete SMS registration before creating SMS campaigns.</p>
+                    <button className="mt-2 px-4 py-1.5 text-[12px] text-white bg-tv-warning rounded-full hover:bg-tv-warning-hover transition-colors" style={{ fontWeight: 600 }}>
+                      Register for SMS
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Phone mockup preview */}
+              <div className="flex justify-center mb-2">
+                <div className="w-[280px] rounded-[28px] border-[3px] border-tv-text-primary/20 bg-white p-3 shadow-lg">
+                  {/* Phone notch */}
+                  <div className="w-20 h-1.5 bg-tv-text-primary/10 rounded-full mx-auto mb-3" />
+                  {/* Message preview */}
+                  <div className="bg-tv-surface rounded-xl p-3 min-h-[120px] space-y-2">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-6 h-6 rounded-full bg-tv-brand-tint flex items-center justify-center">
+                        <MessageSquare size={10} className="text-tv-brand" />
+                      </div>
+                      <span className="text-[10px] text-tv-text-primary" style={{ fontWeight: 600 }}>{step.senderName || "ThankView"}</span>
+                    </div>
+                    <div className="bg-tv-brand-tint rounded-lg rounded-tl-none px-3 py-2">
+                      <p className="text-[10px] text-tv-text-primary leading-relaxed">
+                        {step.smsBody || "Your SMS message preview will appear here…"}
+                      </p>
+                    </div>
+                    <p className="text-[8px] text-tv-text-decorative text-center">SMS Preview</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* SMS Template loader */}
+              <div className="flex items-center gap-2">
+                <label className="tv-label shrink-0">Load Template</label>
+                <select
+                  onChange={e => { if (e.target.value) setStep(s => ({ ...s, smsBody: e.target.value })); e.target.value = ""; }}
+                  className="flex-1 border border-tv-border-light rounded-lg px-3 py-2 text-[12px] text-tv-text-secondary outline-none focus:ring-2 focus:ring-tv-brand/40 bg-white"
+                  defaultValue="">
+                  <option value="" disabled>Select a template…</option>
+                  <option value="Hi {{first_name}}, thank you for your generous gift of {{gift_amount}}! Watch this personal video message from our team.">Thank You — Gift Acknowledgment</option>
+                  <option value="Hi {{first_name}}! We have a special video message just for you. Tap the link to watch!">General Outreach</option>
+                  <option value="{{first_name}}, as a member of the Class of {{class_year}}, you're invited to watch this message from your fellow alumni.">Alumni Engagement</option>
+                  <option value="Hi {{first_name}}, mark your calendar! Watch this video for event details and how to RSVP.">Event Invitation</option>
+                </select>
+              </div>
+
               {/* SMS Body — aligned with email content tab patterns */}
               <div>
                 <div className="flex items-center justify-between mb-1.5">
@@ -2648,13 +2800,22 @@ function StepCreationModal({
                 <SmsCharCounter length={smsLen} />
               </div>
 
-              {/* Sender info — matches email's 2-column grid pattern */}
+              {/* Sender info */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="tv-label mb-1 block">Sender Name</label>
-                  <input value={step.senderName || ""} onChange={e => setStep(s => ({ ...s, senderName: e.target.value }))}
-                    placeholder="ThankView"
-                    className={INPUT_CLS} />
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="tv-label">Sender Name</label>
+                    <CharCount current={(step.senderName || "").length} max={CHAR_LIMITS.senderName} />
+                  </div>
+                  <div className="relative">
+                    <input value={step.senderName || ""} onChange={e => setStep(s => ({ ...s, senderName: e.target.value }))}
+                      maxLength={CHAR_LIMITS.senderName}
+                      placeholder="ThankView"
+                      className={`${INPUT_CLS} pr-8`} />
+                    <div className="absolute right-1 top-1/2 -translate-y-1/2">
+                      <SmsMergeMore onInsert={token => setStep(s => ({ ...s, senderName: (s.senderName || "") + token }))} />
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <label className="tv-label mb-1 block">Phone Number</label>
@@ -2665,21 +2826,17 @@ function StepCreationModal({
               </div>
               <p className="text-[10px] text-tv-text-decorative -mt-3">The phone number constituents will see. Must be a verified number.</p>
 
+              {/* Reply-To Phone */}
+              <div>
+                <label className="tv-label mb-1 block">Reply-To Phone Number</label>
+                <input value={step.smsReplyToPhone || ""} onChange={e => setStep(s => ({ ...s, smsReplyToPhone: e.target.value }))}
+                  placeholder="+1 (555) 000-0000"
+                  className={INPUT_CLS} />
+                <p className="text-[10px] text-tv-text-decorative mt-1">When constituents reply, their reply goes to this number.</p>
+              </div>
+
               {/* SMS Options — delivery settings */}
               <div className="space-y-3">
-                {/* Link shortening */}
-                <button onClick={() => setStep(s => ({ ...s, linkShortening: !s.linkShortening }))}
-                  role="switch" aria-checked={!!step.linkShortening} aria-label="Shorten links"
-                  className="w-full flex items-center justify-between p-3.5 bg-white rounded-lg border border-tv-border-light">
-                  <div>
-                    <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Shorten Links</p>
-                    <p className="text-[10px] text-tv-text-secondary">Replace long URLs with trackable short links</p>
-                  </div>
-                  <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${step.linkShortening ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                    <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${step.linkShortening ? "left-[17px]" : "left-0.5"}`} />
-                  </div>
-                </button>
-
                 {/* Quiet hours */}
                 <button onClick={() => setStep(s => ({ ...s, smsQuietHours: !s.smsQuietHours }))}
                   role="switch" aria-checked={!!step.smsQuietHours} aria-label="Quiet hours"
@@ -2693,6 +2850,19 @@ function StepCreationModal({
                   </div>
                 </button>
                 <p className="text-[10px] text-tv-text-decorative -mt-1">Queued messages will be sent at 8 AM in the constituent's timezone.</p>
+              </div>
+
+              {/* Text Message Auto-Responder */}
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="tv-label">Text Message Auto-Responder</label>
+                  <CharCount current={(step.smsAutoResponder || "").length} max={250} />
+                </div>
+                <textarea value={step.smsAutoResponder || ""} onChange={e => setStep(s => ({ ...s, smsAutoResponder: e.target.value.slice(0, 250) }))}
+                  maxLength={250} rows={2}
+                  placeholder="Thank you for your response! We appreciate your support."
+                  className="w-full border border-tv-border-light rounded-lg px-3.5 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand resize-none" />
+                <p className="text-[10px] text-tv-text-decorative mt-1">Automatically sent when a constituent replies to this SMS. 250 character limit.</p>
               </div>
 
               {/* AI writer — identical pattern to email */}
@@ -2712,13 +2882,14 @@ function StepCreationModal({
                 )}
               </div>
 
-              {/* SMS compliance — matches email info callout pattern */}
-              <div className="p-3 bg-tv-warning-bg border border-tv-warning-border rounded-lg flex gap-2.5">
-                <CircleAlert size={13} className="text-tv-warning shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-[12px] text-tv-warning" style={{ fontWeight: 600 }}>SMS Compliance</p>
-                  <p className="text-[11px] text-tv-warning">"Reply STOP to unsubscribe" will be automatically appended to every message.</p>
+              {/* SMS compliance — non-editable, legally required */}
+              <div className="p-3.5 bg-tv-surface rounded-lg border border-tv-border-light space-y-2">
+                <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>SMS Compliance (auto-appended)</p>
+                <div className="p-2.5 bg-white rounded-md border border-tv-border-divider">
+                  <p className="text-[11px] text-tv-text-secondary italic">Click the link to watch the video from [ORG NAME]</p>
+                  <p className="text-[11px] text-tv-text-secondary italic mt-1">Reply STOP to unsubscribe. Msg & data rates may apply. Msg frequency varies.</p>
                 </div>
+                <p className="text-[10px] text-tv-text-decorative">This compliance text is automatically appended to every SMS and cannot be edited.</p>
               </div>
             </div>
           )}
@@ -3583,7 +3754,6 @@ function templateStepToFlowStep(tsc: TemplateStepContent): FlowStep {
     // SMS
     smsBody: isSms ? (tsc.smsBody ?? "") : undefined,
     smsPhoneNumber: isSms ? "+1 (555) 012-3456" : undefined,
-    linkShortening: isSms ? true : undefined,
     // Landing page
     attachedVideo: null,
     landingPageEnabled: tsc.landingPageEnabled ?? false,
@@ -3707,6 +3877,20 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
   // Floating live preview state
   const [showPreview, setShowPreview] = useState(false);
   const canvasRef = useRef<HTMLDivElement>(null);
+
+  // DnD sensors and handler for step reordering
+  const dndSensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
+  const handleDragEnd = useCallback((event: DragEndEvent) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      setSteps(prev => {
+        const oldIndex = prev.findIndex(s => s.id === active.id);
+        const newIndex = prev.findIndex(s => s.id === over.id);
+        if (oldIndex === -1 || newIndex === -1) return prev;
+        return arrayMove(prev, oldIndex, newIndex);
+      });
+    }
+  }, []);
 
   // Schedule state
   type ScheduleType = "now" | "later" | "contact-field";
@@ -3847,7 +4031,6 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
     // SMS defaults
     smsBody: type === "sms" ? "" : undefined,
     smsPhoneNumber: type === "sms" ? "+1 (555) 012-3456" : undefined,
-    linkShortening: type === "sms" ? true : undefined,
     // Video attachment (email/sms)
     attachedVideo: (type === "email" || type === "sms") ? null : undefined,
     // Landing page
@@ -4190,8 +4373,10 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                   <p className="text-[14px] text-tv-text-primary mb-2 text-center" style={{ fontWeight: 700 }}>
                     {campaignName}
                   </p>
+                  <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                  <SortableContext items={steps.map(s => s.id)} strategy={verticalListSortingStrategy}>
                   {steps.map((step, i) => (
-                    <div key={step.id} className="flex flex-col items-center">
+                    <div key={step.id} className="flex flex-col items-center group/sortable">
                       <div className="relative">
                         <AddStepButton onClick={() => setAddingAtIndex(i)} />
                         {addingAtIndex === i && (
@@ -4200,7 +4385,9 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                           </div>
                         )}
                       </div>
-                      <FlowNode step={step} selected={selectedId === step.id} onSelect={() => setSelectedId(step.id)} onDelete={() => deleteStep(step.id)} onToggleAutomation={() => updateStep({ ...step, automationEnabled: !step.automationEnabled })} />
+                      <SortableStepItem id={step.id}>
+                        <FlowNode step={step} selected={selectedId === step.id} onSelect={() => setSelectedId(step.id)} onDelete={() => deleteStep(step.id)} onToggleAutomation={() => updateStep({ ...step, automationEnabled: !step.automationEnabled })} />
+                      </SortableStepItem>
                       {step.type === "condition" && (
                         <>
                           <Connector />
@@ -4212,6 +4399,8 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                       )}
                     </div>
                   ))}
+                  </SortableContext>
+                  </DndContext>
                 </>
               )}
 
@@ -4245,7 +4434,8 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
           </div>
 
           {selectedStep && (
-            <StepDrawer key={selectedStep.id} step={selectedStep} onUpdate={updateStep} onClose={() => setSelectedId(null)} showPreview={showPreview} onTogglePreview={() => setShowPreview(p => !p)} />
+            <StepDrawer key={selectedStep.id} step={selectedStep} onUpdate={updateStep} onClose={() => setSelectedId(null)} showPreview={showPreview} onTogglePreview={() => setShowPreview(p => !p)}
+              precedingStepType={(() => { const idx = steps.findIndex(s => s.id === selectedStep.id); return idx > 0 ? steps[idx - 1].type : undefined; })()} />
           )}
         </div>
       )}
@@ -4508,8 +4698,31 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
       {phase === "review" && (
         <div className="flex-1 overflow-auto p-6 sm:p-8">
           <div className="max-w-[640px] xl:max-w-[740px] 2xl:max-w-[860px] mx-auto">
-            <h2 className="text-tv-text-primary mb-2" style={{ fontSize: "24px", fontWeight: 900 }}>Review &amp; Activate</h2>
-            <p className="text-[13px] text-tv-text-secondary mb-6">Review your campaign settings before activating.</p>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-tv-text-primary mb-1" style={{ fontSize: "24px", fontWeight: 900 }}>Review &amp; Activate</h2>
+                <p className="text-[13px] text-tv-text-secondary">Review your campaign settings before activating.</p>
+              </div>
+              <div className="flex items-center gap-3 shrink-0">
+                <button onClick={handleSave}
+                  className="px-5 py-2.5 text-[13px] text-tv-text-secondary border border-tv-border-light rounded-full hover:bg-tv-surface transition-colors" style={{ fontWeight: 500 }}>
+                  Save as Draft
+                </button>
+                <button onClick={() => {
+                    if (steps.length === 0) { show("Add at least one step to your campaign", "error"); return; }
+                    if (!isScheduleValid) { show("Please configure a schedule before activating", "error"); return; }
+                    setSendState("sending");
+                  }}
+                  disabled={sendState === "sending"}
+                  className="px-5 py-2.5 text-[13px] text-white bg-tv-brand-bg rounded-full hover:bg-tv-brand-hover transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" style={{ fontWeight: 600 }}>
+                  {sendState === "sending" ? (
+                    <><Loader2 size={14} className="animate-spin" />Activating…</>
+                  ) : (
+                    <><Play size={13} fill="white" />Activate Campaign</>
+                  )}
+                </button>
+              </div>
+            </div>
 
             <div className="p-5 rounded-lg border border-tv-border-light bg-white space-y-4 mb-5">
               <div className="flex items-center gap-3 mb-1">
@@ -4596,26 +4809,6 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
               </div>
             )}
 
-            {/* Action buttons — Save Draft on left, Activate on right */}
-            <div className="flex items-center gap-3 mt-6 mb-8">
-              <button onClick={handleSave}
-                className="flex-1 py-3 text-[13px] text-tv-text-secondary border border-tv-border-light rounded-full hover:bg-tv-surface transition-colors" style={{ fontWeight: 500 }}>
-                Save as Draft
-              </button>
-              <button onClick={() => {
-                  if (steps.length === 0) { show("Add at least one step to your campaign", "error"); return; }
-                  if (!isScheduleValid) { show("Please configure a schedule before activating", "error"); return; }
-                  setSendState("sending");
-                }}
-                disabled={sendState === "sending"}
-                className="flex-1 py-3 text-[13px] text-white bg-tv-brand-bg rounded-full hover:bg-tv-brand-hover transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" style={{ fontWeight: 600 }}>
-                {sendState === "sending" ? (
-                  <><Loader2 size={14} className="animate-spin" />Activating…</>
-                ) : (
-                  <><Play size={13} fill="white" />Activate Campaign</>
-                )}
-              </button>
-            </div>
           </div>
         </div>
       )}

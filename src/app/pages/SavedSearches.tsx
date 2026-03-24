@@ -320,7 +320,6 @@ const INIT_SEARCHES: SavedSearch[] = [
   },
 ];
 
-const RECENTLY_USED_IDS = [2, 3, 6, 7];
 
 // ── Sort helpers ──────────────────────────────────────────────────────────────
 
@@ -642,12 +641,6 @@ function SearchCellValue({ col, search: s }: { col: string; search: SavedSearch 
 
 // ── Recently Used Sidebar ───────────────────────────────��─────────────────────
 
-function RecentlyUsedSidebar({ searches, onSelect }: { searches: SavedSearch[]; onSelect: (s: SavedSearch) => void }) {
-  if (searches.length === 0) return null;
-  return (
-    null
-  );
-}
 
 // ── Detail View ───────────────────────────────────────────────────────────────
 
@@ -957,11 +950,6 @@ export function SavedSearches() {
     }
   };
 
-  // Recently used
-  const recentlyUsed = useMemo(() =>
-    RECENTLY_USED_IDS.map(id => searches.find(s => s.id === id)).filter(Boolean) as SavedSearch[],
-    [searches]
-  );
 
   // Filtered & sorted
   const filtered = useMemo(() => {
@@ -1378,10 +1366,6 @@ export function SavedSearches() {
           </div>
         </Box>
 
-        {/* Recently Used sidebar (desktop only) */}
-        <Box visibleFrom="lg">
-          <RecentlyUsedSidebar searches={recentlyUsed} onSelect={s => setDetailView(s)} />
-        </Box>
       </div>
 
       {/* ── Modals ── */}

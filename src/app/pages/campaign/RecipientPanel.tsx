@@ -234,6 +234,8 @@ export function ConstituentPanel({ hasPersonalizedClips = false, preloadedConsti
   const [groupFilter, setGroupFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
   const [videoFilter, setVideoFilter] = useState("All");
+  const [classYearFilter, setClassYearFilter] = useState("All");
+  const [cityFilter, setCityFilter] = useState("All");
   const [groupOpen, setGroupOpen] = useState(false);
   const [statusOpen, setStatusOpen] = useState(false);
   const [swapOpenId, setSwapOpenId] = useState<number | null>(null);
@@ -290,7 +292,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false, preloadedConsti
     setVisibleCols(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; });
   };
 
-  const activeFilterCount = [groupFilter !== "All", statusFilter !== "All", videoFilter !== "All"].filter(Boolean).length;
+  const activeFilterCount = [groupFilter !== "All", statusFilter !== "All", videoFilter !== "All", classYearFilter !== "All", cityFilter !== "All"].filter(Boolean).length;
 
   // ── Full database (includes extras) ──
   const allConstituents = useMemo(() => [...ALL_CONSTITUENTS, ...extraConstituents], [extraConstituents]);
@@ -340,8 +342,10 @@ export function ConstituentPanel({ hasPersonalizedClips = false, preloadedConsti
     if (statusFilter === "Pending") list = list.filter(r => r.status === "pending");
     if (videoFilter === "Has Video") list = list.filter(r => r.videoAssigned !== null);
     if (videoFilter === "No Video") list = list.filter(r => r.videoAssigned === null);
+    if (classYearFilter !== "All") list = list.filter(r => r.classYear === classYearFilter);
+    if (cityFilter !== "All") list = list.filter(r => r.city === cityFilter);
     return list;
-  }, [allConstituents, campaignConstituentIds, search, groupFilter, statusFilter, videoFilter]);
+  }, [allConstituents, campaignConstituentIds, search, groupFilter, statusFilter, videoFilter, classYearFilter, cityFilter]);
 
   // ── Filtered lists (TV Lists tab) ──
   const filteredTVLists = useMemo(() => {
@@ -1203,10 +1207,44 @@ export function ConstituentPanel({ hasPersonalizedClips = false, preloadedConsti
                       )}
                     </div>
 
+                    {/* Class Year filter chip */}
+                    <select
+                      value={classYearFilter}
+                      onChange={e => setClassYearFilter(e.target.value)}
+                      className={`px-3 py-1.5 rounded-full border text-[12px] transition-colors cursor-pointer appearance-none bg-no-repeat bg-right pr-7 ${
+                        classYearFilter !== "All"
+                          ? "border-tv-brand bg-tv-brand-tint text-tv-brand"
+                          : "border-tv-border-light bg-white text-tv-text-label hover:bg-tv-surface"
+                      }`}
+                      style={{ fontWeight: 500, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundPosition: "right 8px center" }}
+                    >
+                      <option value="All">Class Year</option>
+                      {["2020", "2021", "2022", "2023", "2024", "2025"].map(y => (
+                        <option key={y} value={y}>{y}</option>
+                      ))}
+                    </select>
+
+                    {/* City filter chip */}
+                    <select
+                      value={cityFilter}
+                      onChange={e => setCityFilter(e.target.value)}
+                      className={`px-3 py-1.5 rounded-full border text-[12px] transition-colors cursor-pointer appearance-none bg-no-repeat bg-right pr-7 ${
+                        cityFilter !== "All"
+                          ? "border-tv-brand bg-tv-brand-tint text-tv-brand"
+                          : "border-tv-border-light bg-white text-tv-text-label hover:bg-tv-surface"
+                      }`}
+                      style={{ fontWeight: 500, backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundPosition: "right 8px center" }}
+                    >
+                      <option value="All">City</option>
+                      {[...new Set(allConstituents.map(c => c.city).filter(Boolean))].sort().map(city => (
+                        <option key={city} value={city}>{city}</option>
+                      ))}
+                    </select>
+
                     {/* Clear button */}
                     {activeFilterCount > 0 && (
                       <button
-                        onClick={() => { setGroupFilter("All"); setStatusFilter("All"); setVideoFilter("All"); }}
+                        onClick={() => { setGroupFilter("All"); setStatusFilter("All"); setVideoFilter("All"); setClassYearFilter("All"); setCityFilter("All"); }}
                         className="text-[12px] text-tv-danger hover:underline shrink-0"
                         style={{ fontWeight: 600 }}
                       >

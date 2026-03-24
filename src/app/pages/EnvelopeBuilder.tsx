@@ -32,7 +32,7 @@ type DesignGroup = "none" | "swoops" | "stripes";
 
 type PostmarkOption = "black" | "white" | "none";
 type StampStyle = "classic" | "forever" | "crest" | "heart";
-type LogoChoice = "none" | "shield-crest" | "wordmark" | "university-seal" | "custom";
+type LogoChoice = "none" | "custom";
 
 // ── Constants ────────────────────────────────────────────────────────────────
 const TABS: { key: BuildTab; label: string; icon: any }[] = [
@@ -58,11 +58,8 @@ const COLOR_SWATCHES = [
 ];
 
 const LOGO_OPTIONS: { id: LogoChoice; label: string; icon: any }[] = [
-  { id: "none",            label: "None",            icon: X },
-  { id: "shield-crest",    label: "Shield Crest",    icon: Shield },
-  { id: "wordmark",        label: "Wordmark",        icon: Building2 },
-  { id: "university-seal", label: "University Seal",  icon: Award },
-  { id: "custom",          label: "Custom",          icon: Upload },
+  { id: "none",   label: "No Logo",          icon: X },
+  { id: "custom", label: "Upload Your Logo", icon: Upload },
 ];
 
 const STAMP_OPTIONS: { id: StampStyle; label: string; icon: any }[] = [
@@ -520,10 +517,9 @@ export function EnvelopeBuilder() {
                         })}
                       </div>
 
-                      {/* Preset options */}
-                      <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>Presets</p>
+                      {/* Logo options */}
                       <div className="space-y-1.5">
-                        {LOGO_OPTIONS.filter(o => o.id !== "custom").map(opt => {
+                        {LOGO_OPTIONS.map(opt => {
                           const Icon = opt.icon;
                           const selected = frontLogo === opt.id;
                           return (
@@ -642,10 +638,9 @@ export function EnvelopeBuilder() {
                         })}
                       </div>
 
-                      {/* Preset options */}
-                      <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>Presets</p>
+                      {/* Logo options */}
                       <div className="space-y-1.5">
-                        {LOGO_OPTIONS.filter(o => o.id !== "custom").map(opt => {
+                        {LOGO_OPTIONS.map(opt => {
                           const Icon = opt.icon;
                           const selected = backLogo === opt.id;
                           return (
@@ -850,8 +845,8 @@ export function EnvelopeBuilder() {
                 <div className="flex items-center justify-center gap-2 mt-4 flex-wrap">
                   <SummaryPill label="Design" value={designLabel(design)} />
                   <SummaryPill label="Stamp" value={stampStyle.charAt(0).toUpperCase() + stampStyle.slice(1)} />
-                  <SummaryPill label="Front Logo" value={frontLogo === "none" ? "None" : frontLogo === "custom" && frontLogoFileName ? frontLogoFileName : LOGO_OPTIONS.find(l => l.id === frontLogo)?.label || "None"} />
-                  <SummaryPill label="Back Logo" value={backLogo === "none" ? "None" : backLogo === "custom" && backLogoFileName ? backLogoFileName : LOGO_OPTIONS.find(l => l.id === backLogo)?.label || "None"} />
+                  <SummaryPill label="Front Logo" value={frontLogo === "none" ? "No Logo" : frontLogoFileName || "Custom"} />
+                  <SummaryPill label="Back Logo" value={backLogo === "none" ? "No Logo" : backLogoFileName || "Custom"} />
                 </div>
               </div>
             </div>
@@ -1331,7 +1326,7 @@ function EnvelopePreview({
                   </div>
                 );
               }
-              const LogoIcon = frontLogoChoice === "wordmark" ? Building2 : frontLogoChoice === "university-seal" ? Award : Shield;
+              const LogoIcon = Upload;
               return (
                 <div className={`${compact ? "w-6 h-6" : "w-10 h-10"} rounded-[4px] bg-white/20 flex items-center justify-center`}>
                   <LogoIcon size={compact ? 10 : 16} className="opacity-70" style={{ color: nameColor }} />
@@ -1410,7 +1405,7 @@ function EnvelopePreview({
                   </div>
                 );
               }
-              const LogoIcon = backLogoChoice === "wordmark" ? Building2 : backLogoChoice === "university-seal" ? Award : Shield;
+              const LogoIcon = Upload;
               return (
                 <div className={`${compact ? "w-8 h-8" : "w-14 h-14"} rounded-full flex items-center justify-center`}
                   style={{ backgroundColor: `rgba(255,255,255,0.15)`, border: "1.5px solid rgba(255,255,255,0.2)", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>
