@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   Text, Title, Button, UnstyledButton, ActionIcon,
-  Badge, SegmentedControl, Menu,
+  Badge, SegmentedControl, Menu, FocusTrap,
 } from "@mantine/core";
 import { useNavigate } from "react-router";
 import {
@@ -494,6 +494,7 @@ function MetricsSettingsPanel({ selectedIds, onToggle, onReset, onClose }: { sel
   return (
     <>
       <div className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-40" onClick={onClose} aria-hidden="true" />
+      <FocusTrap active>
       <div
         className="fixed right-0 top-0 h-full w-full sm:w-[420px] bg-white shadow-2xl z-50 flex flex-col"
         role="dialog"
@@ -571,6 +572,7 @@ function MetricsSettingsPanel({ selectedIds, onToggle, onReset, onClose }: { sel
           <Button color="tvPurple" radius="xl" onClick={onClose}>Done</Button>
         </div>
       </div>
+      </FocusTrap>
     </>
   );
 }

@@ -24,15 +24,15 @@ interface IntroTheme {
 }
 
 const INTRO_IMAGE_THEMES: IntroTheme[] = [
-  { id: 1, name: "Welcome", category: "image", gradient: "linear-gradient(143.13deg, #7c45b0 0%, #7c45b0 100%)", thumbnail: "" },
-  { id: 2, name: "Thank You", category: "image", gradient: "linear-gradient(143.13deg, #166534 0%, #15803d 100%)", thumbnail: "" },
-  { id: 3, name: "Hello", category: "image", gradient: "linear-gradient(143.13deg, #374151 0%, #6b7280 100%)", thumbnail: "" },
-  { id: 4, name: "Dear You", category: "image", gradient: "linear-gradient(143.13deg, #b91c1c 0%, #dc2626 100%)", thumbnail: "" },
-  { id: 5, name: "Hi there", category: "image", gradient: "linear-gradient(143.13deg, #007c9e 0%, #00c0f5 100%)", thumbnail: "" },
-  { id: 6, name: "Greetings", category: "image", gradient: "linear-gradient(143.13deg, #b45309 0%, #b45309 100%)", thumbnail: "" },
-  { id: 7, name: "Welcome", category: "message", gradient: "linear-gradient(143.13deg, #4c1d95 0%, #7c3aed 100%)", thumbnail: "" },
-  { id: 8, name: "Hello", category: "message", gradient: "linear-gradient(143.13deg, #1e3a8a 0%, #3b82f6 100%)", thumbnail: "" },
-  { id: 9, name: "Thanks", category: "message", gradient: "linear-gradient(143.13deg, #0f766e 0%, #2dd4bf 100%)", thumbnail: "" },
+  { id: 1, name: "Logo",       category: "image",   gradient: "linear-gradient(143.13deg, #7c45b0 0%, #7c45b0 100%)", thumbnail: "" },
+  { id: 2, name: "Full Frame", category: "image",   gradient: "linear-gradient(143.13deg, #166534 0%, #15803d 100%)", thumbnail: "" },
+  { id: 3, name: "Tryptic",    category: "image",   gradient: "linear-gradient(143.13deg, #374151 0%, #6b7280 100%)", thumbnail: "" },
+  { id: 4, name: "Light Leak", category: "image",   gradient: "linear-gradient(143.13deg, #b91c1c 0%, #dc2626 100%)", thumbnail: "" },
+  { id: 5, name: "Cubed",      category: "image",   gradient: "linear-gradient(143.13deg, #007c9e 0%, #00c0f5 100%)", thumbnail: "" },
+  { id: 6, name: "Clean",      category: "image",   gradient: "linear-gradient(143.13deg, #b45309 0%, #b45309 100%)", thumbnail: "" },
+  { id: 7, name: "Linen",      category: "message", gradient: "linear-gradient(143.13deg, #4c1d95 0%, #7c3aed 100%)", thumbnail: "" },
+  { id: 8, name: "Emboss",     category: "message", gradient: "linear-gradient(143.13deg, #1e3a8a 0%, #3b82f6 100%)", thumbnail: "" },
+  { id: 9, name: "Balloons",   category: "message", gradient: "linear-gradient(143.13deg, #0f766e 0%, #2dd4bf 100%)", thumbnail: "" },
 ];
 
 const INTRO_YOUR_SAVED = INTRO_IMAGE_THEMES.slice(0, 6);
@@ -406,7 +406,7 @@ export function IntroBuilder({
                 </div>
                 <div className="space-y-1.5">
                   {/* No Music option */}
-                  <div onClick={() => setSelectedTrack(null)}
+                  <div role="button" tabIndex={0} onClick={() => setSelectedTrack(null)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedTrack(null); }}}
                     className="h-[37px] rounded-sm border px-2 flex items-center gap-2.5 relative cursor-pointer transition-colors"
                     style={{ borderColor: selectedTrack === null ? TV.brandBg : TV.borderLight, backgroundColor: selectedTrack === null ? TV.brandTint : "white" }}>
                     <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: selectedTrack === null ? TV.brandBg : TV.surface }}>
@@ -417,7 +417,7 @@ export function IntroBuilder({
                   {filteredTracks.map((track) => {
                     const isActive = selectedTrack === track.value;
                     return (
-                      <div key={track.value} onClick={() => setSelectedTrack(isActive ? null : track.value)}
+                      <div key={track.value} role="button" tabIndex={0} onClick={() => setSelectedTrack(isActive ? null : track.value)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedTrack(isActive ? null : track.value); }}}
                         className="h-[37px] rounded-sm border px-2 flex items-center gap-2.5 relative cursor-pointer transition-colors"
                         style={{ borderColor: isActive ? TV.brandBg : TV.borderLight, backgroundColor: isActive ? TV.brandTint : "white" }}>
                         <button className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: isActive ? TV.brandBg : TV.surface }}>
@@ -907,7 +907,7 @@ export function OutroBuilder({
                 {/* Track list */}
                 <div className="space-y-1.5">
                   {/* No Music option */}
-                  <div onClick={() => setSelectedTrack(null)}
+                  <div role="button" tabIndex={0} onClick={() => setSelectedTrack(null)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedTrack(null); }}}
                     className="h-[37px] rounded-sm border px-2 flex items-center gap-2.5 relative cursor-pointer transition-colors"
                     style={{ borderColor: selectedTrack === null ? TV.brandBg : TV.borderLight, backgroundColor: selectedTrack === null ? TV.brandTint : "white" }}>
                     <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: selectedTrack === null ? TV.brandBg : TV.surface }}>
@@ -920,7 +920,10 @@ export function OutroBuilder({
                     return (
                       <div
                         key={track.value}
+                        role="button"
+                        tabIndex={0}
                         onClick={() => setSelectedTrack(isActive ? null : track.value)}
+                        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedTrack(isActive ? null : track.value); }}}
                         className="h-[37px] rounded-sm border px-2 flex items-center gap-2.5 cursor-pointer transition-colors"
                         style={{
                           borderColor: isActive ? TV.brandBg : TV.borderLight,

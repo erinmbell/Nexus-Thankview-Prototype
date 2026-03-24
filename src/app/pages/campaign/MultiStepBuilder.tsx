@@ -292,10 +292,10 @@ function FlowNode({
           <div className="flex items-center gap-1.5 mt-2 flex-wrap">
             {step.attachedVideo && (
               <span className="inline-flex items-center gap-1 text-[9px] text-tv-brand bg-tv-brand-tint px-1.5 py-0.5 rounded-full border border-tv-border" style={{ fontWeight: 500 }}>
-                <Video size={8} />Video
+                <Video size={8} />{step.type === "sms" ? "Video Link" : "Video"}
               </span>
             )}
-            {step.landingPageEnabled && (
+            {step.type === "email" && step.landingPageEnabled && (
               <span className="inline-flex items-center gap-1 text-[9px] text-tv-brand bg-tv-brand-tint px-1.5 py-0.5 rounded-full border border-tv-border" style={{ fontWeight: 500 }}>
                 <Globe size={8} />Landing Page
               </span>
@@ -1443,6 +1443,15 @@ function StepDrawer({
               </div>
               </>); })()}
               <SmsCharCounter length={smsLen} />
+              {/* Video link notice — SMS videos are sent as a plain link, no LP/envelope */}
+              {step.attachedVideo && (
+                <div className="flex items-start gap-2 p-2.5 bg-tv-info-bg border border-tv-info-border rounded-md mt-1.5">
+                  <Video size={11} className="text-tv-info shrink-0 mt-0.5" />
+                  <p className="text-[10px] text-tv-info leading-relaxed">
+                    A direct video link will be automatically appended to this message. Recipients tap the link to watch — no landing page or envelope is used for SMS.
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* SMS Options — collapsible, mirrors email's CC/BCC pattern */}
@@ -1509,8 +1518,8 @@ function StepDrawer({
           </DrawerSection>
         )}
 
-        {/* Landing Page (for email/sms) */}
-        {isMessaging && (
+        {/* Landing Page (email only — SMS videos are delivered as a plain link) */}
+        {isEmail && (
           <DrawerSection title="Landing Page" icon={Globe} open={openSections.landing} onToggle={() => toggleSection("landing")}
             badge={step.landingPageEnabled ? "Enabled" : "Off"}>
             {/* Enable toggle */}
@@ -4081,19 +4090,19 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
     smsPhoneNumber: type === "sms" ? "+1 (555) 012-3456" : undefined,
     // Video attachment (email/sms)
     attachedVideo: (type === "email" || type === "sms") ? null : undefined,
-    // Landing page
-    landingPageEnabled: (type === "email" || type === "sms") ? false : undefined,
-    landingPageId: (type === "email" || type === "sms") ? 1 : undefined,
-    lpModule: (type === "email" || type === "sms") ? "cta" : undefined,
-    ctaText: (type === "email" || type === "sms") ? "Give to the Annual Fund" : undefined,
-    ctaUrl: (type === "email" || type === "sms") ? "https://hartwell.edu/give" : undefined,
+    // Landing page (email only — SMS videos are delivered as a plain link, no LP/envelope)
+    landingPageEnabled: type === "email" ? false : undefined,
+    landingPageId: type === "email" ? 1 : undefined,
+    lpModule: type === "email" ? "cta" : undefined,
+    ctaText: type === "email" ? "Give to the Annual Fund" : undefined,
+    ctaUrl: type === "email" ? "https://hartwell.edu/give" : undefined,
     allowEmailReply: (type === "email" || type === "sms") ? true : undefined,
     allowVideoReply: (type === "email" || type === "sms") ? false : undefined,
     allowSaveButton: (type === "email" || type === "sms") ? true : undefined,
     allowShareButton: (type === "email" || type === "sms") ? true : undefined,
     allowDownloadVideo: (type === "email" || type === "sms") ? true : undefined,
     closedCaptionsEnabled: (type === "email" || type === "sms") ? true : undefined,
-    lpWhiteGradient: (type === "email" || type === "sms") ? true : undefined,
+    lpWhiteGradient: type === "email" ? true : undefined,
     trueBranch: type === "condition" ? [] : undefined,
     falseBranch: type === "condition" ? [] : undefined,
     // Video Request defaults

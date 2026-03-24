@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { useToast } from "../../contexts/ToastContext";
 import { fmtSec } from "../../utils";
+import { FocusTrap } from "@mantine/core";
 
 // ── VideoData shape ──────────────────────────────────────────────────────────
 export interface VideoData {
@@ -367,7 +368,8 @@ export function VideoEditorModal({
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-label="Video Editor" onKeyDown={(e) => { if (e.key === "Escape") handleClose(); }}>
+      <FocusTrap active>
       <div className={`bg-white rounded-xl shadow-2xl flex flex-col w-full overflow-hidden transition-all duration-300 ${isFullscreen ? "max-w-none max-h-none m-0 rounded-none" : "max-w-[1000px] max-h-[92vh]"}`}>
 
         {/* ══ Header ══ */}
@@ -1057,6 +1059,7 @@ export function VideoEditorModal({
           </div>
         </div>
       </div>
+      </FocusTrap>
     </div>
   );
 }

@@ -28,6 +28,7 @@ import { PersonalizedRecorderPage } from "./pages/campaign/PersonalizedRecorderP
 import { CampaignsList }         from "./pages/CampaignsList";
 import { CreateCampaign }        from "./pages/CreateCampaign";
 import { CampaignDetail }        from "./pages/CampaignDetail";
+import { VideoRequestCampaign }  from "./pages/VideoRequestCampaign";
 import { RequirementsAudit }      from "./pages/RequirementsAudit";
 import { SavedSearches }      from "./pages/SavedSearches";
 import { AddContacts }        from "./pages/AddContacts";
@@ -48,6 +49,7 @@ export const router = createBrowserRouter([
       { path: "campaigns",            Component: CampaignsList },
       { path: "campaigns/create",     Component: CreateCampaign },
       { path: "campaigns/:id/edit",   Component: CreateCampaign },
+      { path: "campaigns/video-request", Component: VideoRequestCampaign },
       { path: "campaigns/:id",        Component: CampaignDetail },
 
       { path: "contacts",             Component: Contacts },

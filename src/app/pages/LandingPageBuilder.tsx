@@ -605,6 +605,7 @@ export function LandingPageBuilder() {
                                   if (e.key === "Escape") { setShowUploadNaming(false); setPendingBgFile(null); }
                                 }}
                                 placeholder="e.g. Spring Campus 2026"
+                                aria-label="Background image name"
                                 className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30" />
                               <div className="flex items-center gap-2">
                                 <button type="button" onClick={() => { setShowUploadNaming(false); setPendingBgFile(null); }} className="px-2.5 py-1 text-[11px] font-medium text-tv-danger border border-tv-danger-border rounded-full hover:bg-tv-danger-bg transition-colors">Cancel</button>
@@ -636,13 +637,13 @@ export function LandingPageBuilder() {
                                     <div className="flex items-center gap-1 flex-1" onClick={e => e.stopPropagation()}>
                                       <input autoFocus value={renameValue} onChange={e => setRenameValue(e.target.value)}
                                         onKeyDown={e => e.key === "Enter" && confirmRename()} className="flex-1 min-w-0 text-[10px] border border-tv-border-light rounded px-1 py-0.5 outline-none" />
-                                      <button onClick={confirmRename} className="p-0.5 text-tv-brand"><Check size={10} /></button>
+                                      <button onClick={confirmRename} aria-label="Confirm rename" className="p-1 min-w-[24px] min-h-[24px] flex items-center justify-center text-tv-brand"><Check size={10} /></button>
                                     </div>
                                   ) : (<>
                                     <p className={`text-[10px] truncate flex-1 ${selectedBgId === bg.id ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 500 }}>{bg.name}</p>
                                     <div className="flex items-center gap-0 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
-                                      <button onClick={() => startRename(bg.id)} className="p-0.5 text-tv-text-decorative hover:text-tv-info" title="Rename"><Pencil size={9} /></button>
-                                      <button onClick={() => deleteBg(bg.id)} className="p-0.5 text-tv-text-decorative hover:text-tv-danger" title="Delete"><Trash2 size={9} /></button>
+                                      <button onClick={() => startRename(bg.id)} aria-label="Rename background" className="p-1 min-w-[24px] min-h-[24px] flex items-center justify-center text-tv-text-decorative hover:text-tv-info" title="Rename"><Pencil size={9} /></button>
+                                      <button onClick={() => deleteBg(bg.id)} aria-label="Delete background" className="p-1 min-w-[24px] min-h-[24px] flex items-center justify-center text-tv-text-decorative hover:text-tv-danger" title="Delete"><Trash2 size={9} /></button>
                                     </div></>)}
                                 </div>
                                 {selectedBgId === bg.id && (<div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-tv-brand flex items-center justify-center"><Check size={10} className="text-white" strokeWidth={3} /></div>)}
@@ -662,8 +663,8 @@ export function LandingPageBuilder() {
                                 <input id="lp-bg-color-picker" type="color" value={safeHex(newColorHex)} onChange={e => setNewColorHex(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer" />
                               </label>
                               <div className="flex-1 space-y-1.5">
-                                <input value={newColorHex} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setNewColorHex(v); }} className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] font-mono outline-none focus:ring-2 focus:ring-tv-brand-bg/30" placeholder="#1a1a2e" />
-                                <input value={newColorName} onChange={e => setNewColorName(e.target.value)} placeholder="Name (e.g. Deep Navy)" className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30" />
+                                <input value={newColorHex} onChange={e => { let v = e.target.value; if (!v.startsWith("#")) v = "#" + v; if (v.length <= 7) setNewColorHex(v); }} aria-label="Hex color code" className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] font-mono outline-none focus:ring-2 focus:ring-tv-brand-bg/30" placeholder="#1a1a2e" />
+                                <input value={newColorName} onChange={e => setNewColorName(e.target.value)} aria-label="Color name" placeholder="Name (e.g. Deep Navy)" className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30" />
                               </div>
                             </div>
                             <button type="button" onClick={() => {
@@ -724,7 +725,7 @@ export function LandingPageBuilder() {
                                 ))}
                               </div>
                             </div>
-                            <input value={newGradName} onChange={e => setNewGradName(e.target.value)} placeholder="Name (e.g. Sunset Glow)" className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30" />
+                            <input value={newGradName} onChange={e => setNewGradName(e.target.value)} aria-label="Gradient name" placeholder="Name (e.g. Sunset Glow)" className="w-full border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30" />
                             <button type="button" onClick={() => {
                               const gName = newGradName.trim() || `${safeHex(newGradFrom)} \u2192 ${safeHex(newGradTo)}`;
                               const newBg: Background = { id: Date.now(), kind: "gradient", name: gName, gradientFrom: safeHex(newGradFrom), gradientTo: safeHex(newGradTo), gradientDir: newGradDir };

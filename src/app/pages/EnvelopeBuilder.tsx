@@ -312,6 +312,7 @@ export function EnvelopeBuilder() {
                     <div>
                       <SectionLabel>Envelope Title</SectionLabel>
                       <input value={title} onChange={e => setTitle(e.target.value)}
+                        aria-label="Envelope title"
                         className="w-full border-0 border-b border-tv-border-light text-[14px] text-tv-text-primary py-1.5 outline-none focus:border-tv-brand transition-colors bg-transparent"
                         style={{ fontWeight: 500 }}
                         placeholder="Untitled Envelope" />

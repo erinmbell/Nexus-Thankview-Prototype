@@ -13,7 +13,7 @@ import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { FilterBar } from "../../components/FilterBar";
 import type { FilterDef, FilterValues } from "../../components/FilterBar";
 import { DATE_CREATED_FILTER, CREATED_BY_FILTER } from "../../components/filterDefs";
-import { Menu, ActionIcon, Tooltip, Text } from "@mantine/core";
+import { Menu, ActionIcon, Tooltip, Text, FocusTrap } from "@mantine/core";
 import { TV } from "../../theme";
 
 interface AssetImage {
@@ -293,7 +293,7 @@ export function ImageLibrary() {
                     <p className="text-[9px] text-tv-text-secondary">{img.dimensions} · {img.size}</p>
                   </div>
                   <div className="relative" onClick={e => e.stopPropagation()}>
-                    <button onClick={() => setMenuOpen(menuOpen === img.id ? null : img.id)} aria-label="More actions" className="p-0.5 rounded hover:bg-tv-surface transition-colors">
+                    <button onClick={() => setMenuOpen(menuOpen === img.id ? null : img.id)} aria-label="More actions" aria-haspopup="menu" aria-expanded={menuOpen === img.id} className="p-0.5 rounded hover:bg-tv-surface transition-colors">
                       <MoreHorizontal size={12} className="text-tv-text-secondary" />
                     </button>
                     {menuOpen === img.id && (
@@ -321,7 +321,8 @@ export function ImageLibrary() {
       {preview && (
         <>
           <div className="fixed inset-0 bg-black/70 z-[60]" onClick={() => setPreviewId(null)} />
-          <div className="fixed inset-0 flex items-center justify-center z-[61] pointer-events-none p-4">
+          <div className="fixed inset-0 flex items-center justify-center z-[61] pointer-events-none p-4" role="dialog" aria-modal="true" aria-label={`Preview: ${preview.name}`} onKeyDown={(e) => { if (e.key === "Escape") setPreviewId(null); }}>
+            <FocusTrap active>
             <div className="bg-white rounded-xl w-full max-w-2xl shadow-2xl pointer-events-auto overflow-hidden">
               <div className="flex items-center justify-between px-5 py-4 border-b border-tv-border-divider">
                 <div>
@@ -333,7 +334,7 @@ export function ImageLibrary() {
                     <Star size={13} className={preview.starred ? "text-tv-star fill-tv-star" : "text-tv-text-secondary"} />
                   </button>
                   <div className="relative">
-                    <button onClick={() => setModalMenuOpen(!modalMenuOpen)} aria-label="More actions" className="w-7 h-7 rounded-full bg-tv-surface flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface-hover transition-colors">
+                    <button onClick={() => setModalMenuOpen(!modalMenuOpen)} aria-label="More actions" aria-haspopup="menu" aria-expanded={modalMenuOpen} className="w-7 h-7 rounded-full bg-tv-surface flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface-hover transition-colors">
                       <MoreHorizontal size={13} />
                     </button>
                     {modalMenuOpen && (
@@ -365,6 +366,7 @@ export function ImageLibrary() {
                 <button onClick={() => { setPreviewId(null); navigate("/campaigns/create"); }} className="flex items-center gap-1.5 px-4 py-2 bg-tv-brand-bg text-white rounded-full text-[12px] font-semibold hover:bg-tv-brand transition-colors"><Send size={12} />Use in Campaign</button>
               </div>
             </div>
+            </FocusTrap>
           </div>
         </>
       )}

@@ -15,7 +15,7 @@ import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { FilterBar } from "../../components/FilterBar";
 import type { FilterDef, FilterValues } from "../../components/FilterBar";
 import { DATE_CREATED_FILTER, CREATED_BY_FILTER } from "../../components/filterDefs";
-import { Menu, ActionIcon, Tooltip, Text } from "@mantine/core";
+import { Menu, ActionIcon, Tooltip, Text, FocusTrap } from "@mantine/core";
 import { TV } from "../../theme";
 
 // ── Data model ─────────────────────────────────────────────────────────────
@@ -356,7 +356,7 @@ export function LandingPageDesigns() {
                     </div>
                   </div>
                   <div className="relative" onClick={e => e.stopPropagation()}>
-                    <button onClick={() => setMenuOpen(menuOpen === pg.id ? null : pg.id)} aria-label="More actions" className="p-1 rounded hover:bg-tv-surface transition-colors">
+                    <button onClick={() => setMenuOpen(menuOpen === pg.id ? null : pg.id)} aria-label="More actions" aria-haspopup="menu" aria-expanded={menuOpen === pg.id} className="p-1 rounded hover:bg-tv-surface transition-colors">
                       <MoreHorizontal size={14} className="text-tv-text-secondary" />
                     </button>
                     {menuOpen === pg.id && (
@@ -421,7 +421,8 @@ export function LandingPageDesigns() {
       {preview && (
         <>
           <div className="fixed inset-0 bg-black/50 z-[60]" onClick={() => { setPreviewId(null); setModalMenuOpen(false); }} />
-          <div className="fixed inset-0 flex items-center justify-center z-[61] pointer-events-none p-4">
+          <div className="fixed inset-0 flex items-center justify-center z-[61] pointer-events-none p-4" role="dialog" aria-modal="true" aria-label={`Preview: ${preview.name}`} onKeyDown={(e) => { if (e.key === "Escape") { setPreviewId(null); setModalMenuOpen(false); } }}>
+            <FocusTrap active>
             <div className="bg-white rounded-xl w-full max-w-lg shadow-2xl pointer-events-auto overflow-hidden max-h-[90vh] overflow-y-auto">
               {/* Header */}
               <div className="flex items-center justify-between px-5 py-4 border-b border-tv-border-divider sticky top-0 bg-white z-10">
@@ -431,7 +432,7 @@ export function LandingPageDesigns() {
                     <Star size={13} className={preview.starred ? "text-tv-star fill-tv-star" : "text-tv-text-secondary"} />
                   </button>
                   <div className="relative">
-                    <button onClick={() => setModalMenuOpen(!modalMenuOpen)} className="w-7 h-7 rounded-full bg-tv-surface flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface-hover transition-colors">
+                    <button onClick={() => setModalMenuOpen(!modalMenuOpen)} aria-label="More actions" aria-haspopup="menu" aria-expanded={modalMenuOpen} className="w-7 h-7 rounded-full bg-tv-surface flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface-hover transition-colors">
                       <MoreHorizontal size={13} />
                     </button>
                     {modalMenuOpen && (
@@ -602,6 +603,7 @@ export function LandingPageDesigns() {
                 </button>
               </div>
             </div>
+            </FocusTrap>
           </div>
         </>
       )}

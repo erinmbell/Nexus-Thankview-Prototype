@@ -672,7 +672,7 @@ export function CreateAssets() {
                 <span className="text-[11px] text-tv-text-secondary shrink-0 w-[60px] text-right">{asset.usedIn} uses</span>
                 {/* Actions */}
                 <div className="relative shrink-0" onClick={e => e.stopPropagation()}>
-                  <button onClick={() => setMenuOpen(menuOpen === asset.id ? null : asset.id)} aria-label="More actions" className="p-1 rounded hover:bg-tv-surface transition-colors">
+                  <button onClick={() => setMenuOpen(menuOpen === asset.id ? null : asset.id)} aria-label="More actions" aria-haspopup="menu" aria-expanded={menuOpen === asset.id} className="p-1 rounded hover:bg-tv-surface transition-colors">
                     <MoreHorizontal size={14} className="text-tv-text-secondary" />
                   </button>
                   {menuOpen === asset.id && (
@@ -719,7 +719,7 @@ export function CreateAssets() {
                     <div className="flex items-center gap-1.5">
                       <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${statusColor(asset.status)}`}>{asset.status}</span>
                       <div className="relative" onClick={e => e.stopPropagation()}>
-                        <button onClick={() => setMenuOpen(menuOpen === asset.id ? null : asset.id)} aria-label="More actions" className="p-0.5 rounded hover:bg-tv-surface transition-colors">
+                        <button onClick={() => setMenuOpen(menuOpen === asset.id ? null : asset.id)} aria-label="More actions" aria-haspopup="menu" aria-expanded={menuOpen === asset.id} className="p-1.5 min-w-[24px] min-h-[24px] flex items-center justify-center rounded hover:bg-tv-surface transition-colors">
                           <MoreHorizontal size={12} className="text-tv-text-secondary" />
                         </button>
                         {menuOpen === asset.id && (
