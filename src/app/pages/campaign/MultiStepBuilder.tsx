@@ -577,6 +577,7 @@ function StepDrawer({
 
   // SMS helpers
   const smsLen = (step.smsBody || "").length;
+  const [smsRegisteredDrawer, setSmsRegisteredDrawer] = useState(true);
 
   // All envelopes merged (custom + built-in)
   const allEnvelopes = [...globalEnvelopes, ...ENVELOPE_DESIGNS];
@@ -598,7 +599,6 @@ function StepDrawer({
   if (isSms) {
     requirements.push(
       { key: "smsBody", label: "SMS message body", met: !!(step.smsBody && step.smsBody.trim()), severity: "error" },
-      { key: "smsPhone", label: "Phone number", met: !!(step.smsPhoneNumber && step.smsPhoneNumber.trim()), severity: "warning" },
     );
   }
   if (isVR) {
@@ -1083,14 +1083,6 @@ function StepDrawer({
         {isEmail && (
           <DrawerSection title="Email Content" icon={Mail} open={openSections.content} onToggle={() => toggleSection("content")}
             badge={step.subject ? "\u2713" : undefined}>
-            {/* Template & Signature actions */}
-            <EmailTemplateActions
-              compact
-              onApplyTemplate={(tpl) => {
-                onUpdate({ ...step, subject: tpl.subject, body: tpl.body });
-              }}
-            />
-
             {/* Sender info */}
             <div className="grid grid-cols-2 gap-2">
               <div>
@@ -1179,6 +1171,20 @@ function StepDrawer({
                 </div>
               </div>
             </div>
+
+            {/* Preheader */}
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label className="tv-label">Preheader Text</label>
+                <CharCount current={(step.preheader || "").length} max={CHAR_LIMITS.preheader} />
+              </div>
+              <input value={step.preheader || ""} onChange={e => onUpdate({ ...step, preheader: e.target.value })}
+                maxLength={CHAR_LIMITS.preheader}
+                placeholder="Preview text shown in the inbox before opening"
+                className="w-full border border-tv-border-light rounded-sm px-3 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+              <p className="text-[9px] text-tv-text-decorative mt-0.5">Appears after the subject line in most email clients. Keep it under 100 characters.</p>
+            </div>
+
             <details className="group">
               <summary className="tv-label text-tv-brand cursor-pointer hover:underline list-none flex items-center gap-1">
                 <ChevronRight size={10} className="transition-transform group-open:rotate-90" />CC / BCC <span className="text-tv-text-decorative normal-case" style={{ fontWeight: 400 }}>(optional)</span>
@@ -1342,6 +1348,20 @@ function StepDrawer({
           <DrawerSection title="SMS Content" icon={MessageSquare} iconColor="text-tv-info" open={openSections.content} onToggle={() => toggleSection("content")}
             badge={step.smsBody ? "\u2713" : undefined}>
 
+            {/* SMS Registration Gate */}
+            {!smsRegisteredDrawer && (
+              <div className="flex items-start gap-2 p-3 bg-tv-warning-bg border border-tv-warning-border rounded-md mb-2">
+                <CircleAlert size={13} className="text-tv-warning shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-[11px] text-tv-warning-hover" style={{ fontWeight: 700 }}>SMS Not Registered</p>
+                  <p className="text-[10px] text-tv-warning mt-0.5">Your organization must complete SMS registration before sending text campaigns.</p>
+                  <button onClick={() => setSmsRegisteredDrawer(true)} className="mt-1.5 px-3 py-1 text-[10px] text-white bg-tv-warning rounded-full hover:bg-tv-warning-hover transition-colors" style={{ fontWeight: 600 }}>
+                    Register for SMS
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* Sender info — matches email's 2-column grid pattern */}
             <div className="grid grid-cols-2 gap-2">
               <div>
@@ -1359,14 +1379,7 @@ function StepDrawer({
                   </div>
                 </div>
               </div>
-              <div>
-                <label className="tv-label mb-1 block">Phone Number</label>
-                <input value={step.smsPhoneNumber || ""} onChange={e => onUpdate({ ...step, smsPhoneNumber: e.target.value })}
-                  placeholder="+1 (555) 000-0000"
-                  className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
-              </div>
             </div>
-            <p className="text-[9px] text-tv-text-decorative -mt-1">The phone number constituents will see. Must be a verified number.</p>
 
             {/* Reply-To Phone */}
             <div>
@@ -1376,6 +1389,8 @@ function StepDrawer({
                 className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
               <p className="text-[9px] text-tv-text-decorative mt-0.5">When constituents reply to your SMS, their reply will go to this number.</p>
             </div>
+
+            {/* Reply-To Email removed — per resolved design decision, reply channel matches send channel (SMS → phone only) */}
 
             {/* SMS Template loader */}
             <div className="flex items-center gap-2">
@@ -1390,6 +1405,45 @@ function StepDrawer({
                 <option value="{{first_name}}, as a member of the Class of {{class_year}}, you're invited to watch this message from your fellow alumni.">Alumni Engagement</option>
                 <option value="Hi {{first_name}}, mark your calendar! Watch this video for event details and how to RSVP.">Event Invitation</option>
               </select>
+            </div>
+
+            {/* SMS Thumbnail style — same options as email */}
+            <div>
+              <label className="tv-label mb-1.5 block">SMS Thumbnail</label>
+              <p className="text-[11px] text-tv-text-secondary mb-2">Choose what constituents see when they receive the text.</p>
+              <div className="space-y-1.5">
+                {([
+                  { key: "static" as const, icon: Eye, label: "Static Thumbnail", desc: "A still image from your video" },
+                  { key: "animated" as const, icon: Film, label: "Animated Thumbnail", desc: "Eye-catching GIF that autoplays" },
+                  { key: "envelope" as const, icon: Mail, label: "Envelope", desc: "Branded envelope with flip animation" },
+                ]).map(opt => {
+                  const active = (step.thumbnailType || "static") === opt.key;
+                  const Icon = opt.icon;
+                  return (
+                    <button key={opt.key} onClick={() => onUpdate({ ...step, thumbnailType: opt.key })}
+                      className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md border text-left transition-all ${
+                        active
+                          ? "border-tv-brand-bg bg-tv-brand-tint/30 shadow-sm"
+                          : "border-tv-border-light hover:border-tv-brand-bg/40 hover:bg-tv-surface/60"
+                      }`}>
+                      <div className={`w-7 h-7 rounded-sm flex items-center justify-center shrink-0 transition-colors ${
+                        active ? "bg-tv-brand-bg" : "bg-tv-surface"
+                      }`}>
+                        <Icon size={13} className={active ? "text-white" : "text-tv-text-secondary"} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <span className={`text-[12px] block ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{opt.label}</span>
+                        <span className="text-[10px] text-tv-text-secondary">{opt.desc}</span>
+                      </div>
+                      <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                        active ? "border-tv-brand-bg" : "border-tv-border-strong"
+                      }`}>
+                        {active && <div className="w-2 h-2 rounded-full bg-tv-brand-bg" />}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Message Body — matches email RichTextEditor container pattern */}
@@ -1535,6 +1589,18 @@ function StepDrawer({
               </div>
             </button>
 
+            {/* Thumbnail link URL — shown when landing page is OFF */}
+            {!step.landingPageEnabled && (
+              <div>
+                <label className="tv-label mb-1 block">Thumbnail Link URL</label>
+                <input value={step.thumbnailLinkUrl || ""} onChange={e => onUpdate({ ...step, thumbnailLinkUrl: e.target.value })}
+                  type="url"
+                  placeholder="https://example.com/donate"
+                  className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+                <p className="text-[9px] text-tv-text-decorative mt-0.5">When there's no landing page, clicking the email thumbnail will open this URL instead.</p>
+              </div>
+            )}
+
             {step.landingPageEnabled && (
               <>
                 {/* Page selector — grid picker */}
@@ -1566,7 +1632,7 @@ function StepDrawer({
                   <div className="flex gap-2 mt-2">
                     <button onClick={() => setShowLpLibrary(true)}
                       className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-[11px] text-tv-brand border border-tv-border rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 500 }}>
-                      <Search size={11} />Browse All
+                      <Search size={11} />Browse All ({allLandingPages.length})
                     </button>
                     <button onClick={() => setShowLpBuilder(true)}
                       className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-[11px] text-tv-brand border border-tv-border rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 500 }}>
@@ -2296,6 +2362,7 @@ function StepCreationModal({
   const [showMerge, setShowMerge] = useState(false);
   const [showEmoji, setShowEmoji] = useState(false);
   const [replyToInput, setReplyToInput] = useState("");
+  const [smsRegistered, setSmsRegistered] = useState(true);
 
   // AI state
   const [showAi, setShowAi] = useState(false);
@@ -2517,13 +2584,6 @@ function StepCreationModal({
             <div className="flex gap-6 items-start">
             {/* Left: form controls */}
             <div className="flex-1 min-w-0 space-y-5">
-              {/* Template & Signature actions */}
-              <EmailTemplateActions
-                onApplyTemplate={(tpl) => {
-                  setStep(s => ({ ...s, subject: tpl.subject, body: tpl.body }));
-                }}
-              />
-
               {/* Sender info */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
@@ -2606,6 +2666,19 @@ function StepCreationModal({
                     )}
                   </div>
                 </div>
+              </div>
+
+              {/* Preheader */}
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="tv-label">Preheader Text</label>
+                  <CharCount current={(step.preheader || "").length} max={CHAR_LIMITS.preheader} />
+                </div>
+                <input value={step.preheader || ""} onChange={e => setStep(s => ({ ...s, preheader: e.target.value }))}
+                  maxLength={CHAR_LIMITS.preheader}
+                  placeholder="Preview text shown in the inbox before opening"
+                  className={INPUT_CLS} />
+                <p className="text-[10px] text-tv-text-decorative mt-1">Appears after the subject line in most email clients. Keep it under 100 characters.</p>
               </div>
 
               {/* Message body */}
@@ -2713,14 +2786,13 @@ function StepCreationModal({
           {activeTab === "content" && isSms && (
             <div className="space-y-5 max-w-[620px] xl:max-w-[720px] 2xl:max-w-[840px]">
               {/* SMS Registration Gate — shown when org hasn't registered for SMS */}
-              {/* In production, this would check a real registration status flag */}
-              {false /* smsNotRegistered */ && (
+              {!smsRegistered && (
                 <div className="flex items-start gap-3 p-4 bg-tv-warning-bg border border-tv-warning-border rounded-lg">
                   <CircleAlert size={16} className="text-tv-warning shrink-0 mt-0.5" />
                   <div>
                     <p className="text-[13px] text-tv-warning-hover" style={{ fontWeight: 700 }}>SMS Not Registered</p>
                     <p className="text-[12px] text-tv-warning mt-1">Your organization has not registered for text messaging. You must complete SMS registration before creating SMS campaigns.</p>
-                    <button className="mt-2 px-4 py-1.5 text-[12px] text-white bg-tv-warning rounded-full hover:bg-tv-warning-hover transition-colors" style={{ fontWeight: 600 }}>
+                    <button onClick={() => setSmsRegistered(true)} className="mt-2 px-4 py-1.5 text-[12px] text-white bg-tv-warning rounded-full hover:bg-tv-warning-hover transition-colors" style={{ fontWeight: 600 }}>
                       Register for SMS
                     </button>
                   </div>
@@ -2763,6 +2835,45 @@ function StepCreationModal({
                   <option value="{{first_name}}, as a member of the Class of {{class_year}}, you're invited to watch this message from your fellow alumni.">Alumni Engagement</option>
                   <option value="Hi {{first_name}}, mark your calendar! Watch this video for event details and how to RSVP.">Event Invitation</option>
                 </select>
+              </div>
+
+              {/* SMS Thumbnail style — same options as email */}
+              <div>
+                <label className="tv-label mb-1.5 block">SMS Thumbnail</label>
+                <p className="text-[11px] text-tv-text-secondary mb-2">Choose what constituents see when they receive the text.</p>
+                <div className="space-y-1.5">
+                  {([
+                    { key: "static" as const, icon: Eye, label: "Static Thumbnail", desc: "A still image from your video" },
+                    { key: "animated" as const, icon: Film, label: "Animated Thumbnail", desc: "Eye-catching GIF that autoplays" },
+                    { key: "envelope" as const, icon: Mail, label: "Envelope", desc: "Branded envelope with flip animation" },
+                  ]).map(opt => {
+                    const active = (step.thumbnailType || "static") === opt.key;
+                    const Icon = opt.icon;
+                    return (
+                      <button key={opt.key} onClick={() => setStep(s => ({ ...s, thumbnailType: opt.key }))}
+                        className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md border text-left transition-all ${
+                          active
+                            ? "border-tv-brand-bg bg-tv-brand-tint/30 shadow-sm"
+                            : "border-tv-border-light hover:border-tv-brand-bg/40 hover:bg-tv-surface/60"
+                        }`}>
+                        <div className={`w-7 h-7 rounded-sm flex items-center justify-center shrink-0 transition-colors ${
+                          active ? "bg-tv-brand-bg" : "bg-tv-surface"
+                        }`}>
+                          <Icon size={13} className={active ? "text-white" : "text-tv-text-secondary"} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <span className={`text-[12px] block ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{opt.label}</span>
+                          <span className="text-[10px] text-tv-text-secondary">{opt.desc}</span>
+                        </div>
+                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                          active ? "border-tv-brand-bg" : "border-tv-border-strong"
+                        }`}>
+                          {active && <div className="w-2 h-2 rounded-full bg-tv-brand-bg" />}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* SMS Body — aligned with email content tab patterns */}
@@ -2826,14 +2937,7 @@ function StepCreationModal({
                     </div>
                   </div>
                 </div>
-                <div>
-                  <label className="tv-label mb-1 block">Phone Number</label>
-                  <input value={step.smsPhoneNumber || ""} onChange={e => setStep(s => ({ ...s, smsPhoneNumber: e.target.value }))}
-                    placeholder="+1 (555) 000-0000"
-                    className={INPUT_CLS} />
-                </div>
               </div>
-              <p className="text-[10px] text-tv-text-decorative -mt-3">The phone number constituents will see. Must be a verified number.</p>
 
               {/* Reply-To Phone */}
               <div>

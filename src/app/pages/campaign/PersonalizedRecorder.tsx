@@ -291,7 +291,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
   const [showAddMidSession, setShowAddMidSession] = useState(false);
 
   /* ── Rapid-record settings ── */
-  const [autoAdvance, setAutoAdvance] = useState(false);
+  const [autoAdvance, setAutoAdvance] = useState(true);
 
   /* ── Flow state ── */
   const [phase, setPhase] = useState<Phase>("queue");

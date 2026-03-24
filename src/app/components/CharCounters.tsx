@@ -2,7 +2,7 @@ import React from "react";
 import { TriangleAlert } from "lucide-react";
 
 // ── Character count limits (shared across all campaign builders) ──────────────
-export const CHAR_LIMITS = { subject: 150, senderName: 50, sms: 160, body: 5000 } as const;
+export const CHAR_LIMITS = { subject: 150, preheader: 100, senderName: 50, sms: 160, body: 5000 } as const;
 
 /** Strip HTML tags and decode entities to get plain-text char count */
 export function htmlTextLength(html: string): number {

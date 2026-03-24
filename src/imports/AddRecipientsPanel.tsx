@@ -89,6 +89,7 @@ export function AddRecipientsPanel({
   const [contacts, setContacts] = useState<RecipientEntry[]>(initialContacts);
   const [search, setSearch] = useState("");
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+  const [visibleCount, setVisibleCount] = useState(50);
 
   const shouldShowDone = showDone ?? !!onDone;
 
@@ -258,8 +259,16 @@ export function AddRecipientsPanel({
                   saved searches, or browse individually.
                 </p>
               </div>
-            ) : (
-              filtered.map(c => {
+            ) : (<>
+              {/* Count summary */}
+              {filtered.length > 50 && (
+                <div className="px-4 py-2 bg-tv-surface/50 border-b border-tv-border-divider">
+                  <p className="text-[10px] text-tv-text-secondary">
+                    Showing <span className="font-semibold text-tv-text-primary">{Math.min(visibleCount, filtered.length)}</span> of {filtered.length} recipients
+                  </p>
+                </div>
+              )}
+              {filtered.slice(0, visibleCount).map(c => {
                 const isSelected = selectedIds.has(c.id);
                 return (
                   <div
@@ -310,8 +319,14 @@ export function AddRecipientsPanel({
                     </button>
                   </div>
                 );
-              })
-            )}
+              })}
+              {visibleCount < filtered.length && (
+                <button onClick={() => setVisibleCount(v => v + 50)}
+                  className="w-full py-2.5 text-[11px] text-tv-brand hover:bg-tv-brand-tint/30 transition-colors" style={{ fontWeight: 600 }}>
+                  Load more ({filtered.length - visibleCount} remaining)
+                </button>
+              )}
+            </>)}
           </div>
 
           {/* Bottom actions */}

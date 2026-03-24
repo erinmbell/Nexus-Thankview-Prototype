@@ -14,6 +14,8 @@ import {
   FileText, PenLine, ChevronDown, X, Check, ExternalLink, Braces, Minus,
 } from "lucide-react";
 import type { MergeFieldDef } from "../pages/campaign/types";
+import { EmailTemplatePicker } from "./EmailTemplateAndSignature";
+import type { EmailTemplate } from "./EmailTemplateAndSignature";
 import {
   EMAIL_BODY_FONTS, EMAIL_BODY_FONT_SIZES, EMAIL_BODY_LINE_HEIGHTS, EMAIL_TEXT_COLORS,
 } from "../pages/campaign/types";
@@ -510,24 +512,20 @@ export function RichTextEditor({
             <ChevronDown size={9} />
           </button>
           {showTemplates && (
-            <PortalDropdown
-              anchorRef={templateRef}
-              onClose={() => setShowTemplates(false)}
-              width={200}
-              align="right"
-            >
-              <p className="px-3 py-1 text-[10px] text-tv-text-secondary uppercase tracking-wider" style={{ fontWeight: 600 }}>Insert Template</p>
-              {TEMPLATES.map(t => (
-                <button
-                  key={t.id}
-                  onClick={() => applyTemplate(t.html)}
-                  className="w-full text-left px-3 py-2 text-[12px] text-tv-text-primary hover:bg-tv-surface transition-colors"
-                  style={{ fontWeight: 500 }}
-                >
-                  {t.name}
-                </button>
-              ))}
-            </PortalDropdown>
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setShowTemplates(false)} />
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+                <div className="pointer-events-auto">
+                  <EmailTemplatePicker
+                    compact
+                    onSelect={(tpl: EmailTemplate) => {
+                      applyTemplate(tpl.body.replace(/\n/g, "<br>"));
+                    }}
+                    onClose={() => setShowTemplates(false)}
+                  />
+                </div>
+              </div>
+            </>
           )}
         </div>
 

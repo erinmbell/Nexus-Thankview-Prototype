@@ -70,6 +70,11 @@ export function VideoRequestCampaign() {
   const [submissionsOpen, setSubmissionsOpen] = useState(true);
   const shareableUrl = "https://thankview.com/vr/hartwell-spring-2026";
 
+  // Recorders state
+  const [recorderSearch, setRecorderSearch] = useState("");
+  const [recorderFilter, setRecorderFilter] = useState<"all" | "recorded" | "pending" | "not_sent">("all");
+  const [recorderPage, setRecorderPage] = useState(1);
+
   // Submissions state
   const [subSearch, setSubSearch] = useState("");
   const [subFilter, setSubFilter] = useState<"all" | "submitted" | "approved" | "rejected">("all");
@@ -159,6 +164,21 @@ export function VideoRequestCampaign() {
       {/* Content */}
       <div className="flex-1 overflow-y-auto bg-tv-surface p-6">
         <div className="max-w-[720px] mx-auto space-y-5">
+
+          {/* Success Metric Banner — video request uses "Submitted" not email metrics */}
+          <div className="flex items-center gap-3 p-3.5 bg-tv-brand-tint/40 border border-tv-brand-bg/20 rounded-xl">
+            <div className="w-8 h-8 rounded-full bg-tv-brand-bg flex items-center justify-center shrink-0">
+              <Check size={14} className="text-white" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[12px] text-tv-brand" style={{ fontWeight: 700 }}>Success Metric: Replied &amp; Submitted a Request</p>
+              <p className="text-[10px] text-tv-text-secondary">This campaign tracks video submissions, not standard email metrics like open rate.</p>
+            </div>
+            <div className="text-right shrink-0">
+              <p className="text-[16px] text-tv-brand" style={{ fontWeight: 800 }}>{MOCK_SUBMISSIONS.length}</p>
+              <p className="text-[9px] text-tv-text-secondary">submitted</p>
+            </div>
+          </div>
 
           {/* ═══ SETUP TAB ═══ */}
           {tab === "setup" && (
@@ -288,40 +308,108 @@ export function VideoRequestCampaign() {
           )}
 
           {/* ═══ RECORDERS TAB ═══ */}
-          {tab === "recorders" && (
+          {tab === "recorders" && (() => {
+            const recSearch = recorderSearch.toLowerCase();
+            const filteredRecorders = MOCK_RECORDERS.filter(r => {
+              if (recorderFilter !== "all" && r.status !== recorderFilter) return false;
+              if (recSearch && !r.name.toLowerCase().includes(recSearch) && !r.email.toLowerCase().includes(recSearch)) return false;
+              return true;
+            });
+            const recorded = MOCK_RECORDERS.filter(r => r.status === "recorded").length;
+            const pending = MOCK_RECORDERS.filter(r => r.status === "pending").length;
+            const notSent = MOCK_RECORDERS.filter(r => r.status === "not_sent").length;
+            const PAGE_SIZE = 20;
+            const visibleRecorders = filteredRecorders.slice(0, recorderPage * PAGE_SIZE);
+            const hasMore = visibleRecorders.length < filteredRecorders.length;
+
+            return (
             <>
+              {/* Search + Filters */}
+              <div className="flex items-center gap-3 flex-wrap">
+                <div className="flex-1 min-w-[200px] relative">
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-tv-text-secondary" />
+                  <input value={recorderSearch} onChange={e => { setRecorderSearch(e.target.value); setRecorderPage(1); }} aria-label="Search recorders" placeholder="Search recorders..."
+                    className="w-full pl-9 pr-3 py-2 border border-tv-border-light rounded-full text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand bg-white" />
+                </div>
+                <div className="flex items-center gap-1.5">
+                  {(["all", "recorded", "pending", "not_sent"] as const).map(f => (
+                    <button key={f} onClick={() => { setRecorderFilter(f); setRecorderPage(1); }}
+                      className={`px-3 py-1.5 rounded-full text-[11px] border transition-all ${
+                        recorderFilter === f ? "border-tv-brand bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong bg-white"
+                      }`} style={{ fontWeight: recorderFilter === f ? 600 : 400 }}>
+                      {f === "all" ? "All" : f === "not_sent" ? "Not Sent" : f.charAt(0).toUpperCase() + f.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Summary bar */}
+              <div className="flex items-center gap-4 bg-white rounded-xl border border-tv-border-light px-5 py-3">
+                <div className="text-center flex-1">
+                  <p className="text-[18px] text-tv-text-primary" style={{ fontWeight: 700 }}>{MOCK_RECORDERS.length}</p>
+                  <p className="text-[10px] text-tv-text-secondary">Total</p>
+                </div>
+                <div className="w-px h-8 bg-tv-border-divider" />
+                <div className="text-center flex-1">
+                  <p className="text-[18px]" style={{ fontWeight: 700, color: TV.success }}>{recorded}</p>
+                  <p className="text-[10px] text-tv-text-secondary">Recorded</p>
+                </div>
+                <div className="w-px h-8 bg-tv-border-divider" />
+                <div className="text-center flex-1">
+                  <p className="text-[18px]" style={{ fontWeight: 700, color: TV.warning }}>{pending}</p>
+                  <p className="text-[10px] text-tv-text-secondary">Pending</p>
+                </div>
+                <div className="w-px h-8 bg-tv-border-divider" />
+                <div className="text-center flex-1">
+                  <p className="text-[18px]" style={{ fontWeight: 700, color: TV.textSecondary }}>{notSent}</p>
+                  <p className="text-[10px] text-tv-text-secondary">Not Sent</p>
+                </div>
+              </div>
+
+              {/* Recorder list */}
               <div className="bg-white rounded-xl border border-tv-border-light overflow-hidden">
-                <div className="px-5 py-4 border-b border-tv-border-divider flex items-center justify-between">
-                  <div>
-                    <h3 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Assigned Recorders</h3>
-                    <p className="text-[11px] text-tv-text-secondary mt-0.5">{MOCK_RECORDERS.length} recorders · {MOCK_RECORDERS.filter(r => r.status === "recorded").length} recorded</p>
-                  </div>
-                  <button className="flex items-center gap-1.5 px-3 py-2 text-[11px] text-tv-brand border border-tv-brand rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 600 }}>
+                <div className="px-5 py-3.5 border-b border-tv-border-divider flex items-center justify-between">
+                  <p className="text-[12px] text-tv-text-secondary">
+                    Showing <span style={{ fontWeight: 600 }} className="text-tv-text-primary">{visibleRecorders.length}</span> of {filteredRecorders.length} recorders
+                  </p>
+                  <button className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] text-tv-brand border border-tv-brand rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 600 }}>
                     <Plus size={12} />Add Recorders
                   </button>
                 </div>
-                {MOCK_RECORDERS.map((r, i) => {
+                {visibleRecorders.map((r, i) => {
                   const statusClr = r.status === "recorded" ? TV.success : r.status === "pending" ? TV.warning : TV.textSecondary;
                   const statusLbl = r.status === "recorded" ? "Recorded" : r.status === "pending" ? "Pending" : "Not Sent";
                   return (
-                    <div key={r.id} className="flex items-center gap-3 px-5 py-3 hover:bg-tv-surface-hover transition-colors" style={{ borderBottom: i < MOCK_RECORDERS.length - 1 ? `1px solid ${TV.borderDivider}` : undefined }}>
-                      <div className="w-8 h-8 rounded-full bg-tv-brand-tint flex items-center justify-center text-[11px] text-tv-brand shrink-0" style={{ fontWeight: 700 }}>
+                    <div key={r.id} className="flex items-center gap-3 px-5 py-2.5 hover:bg-tv-surface-hover transition-colors" style={{ borderBottom: i < visibleRecorders.length - 1 ? `1px solid ${TV.borderDivider}` : undefined }}>
+                      <div className="w-7 h-7 rounded-full bg-tv-brand-tint flex items-center justify-center text-[10px] text-tv-brand shrink-0" style={{ fontWeight: 700 }}>
                         {r.name.split(" ").map(n => n[0]).join("")}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[13px] text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{r.name}</p>
-                        <p className="text-[11px] text-tv-text-secondary truncate">{r.email}</p>
+                        <p className="text-[12px] text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{r.name}</p>
+                        <p className="text-[10px] text-tv-text-secondary truncate">{r.email}</p>
                       </div>
-                      <div className="flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px]" style={{ backgroundColor: statusClr + "18", color: statusClr, fontWeight: 600 }}>
+                      <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px]" style={{ backgroundColor: statusClr + "18", color: statusClr, fontWeight: 600 }}>
                         <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: statusClr }} />
                         {statusLbl}
                       </div>
                     </div>
                   );
                 })}
+                {hasMore && (
+                  <button onClick={() => setRecorderPage(p => p + 1)}
+                    className="w-full py-3 text-[12px] text-tv-brand hover:bg-tv-brand-tint/30 transition-colors border-t border-tv-border-divider" style={{ fontWeight: 600 }}>
+                    Load more ({filteredRecorders.length - visibleRecorders.length} remaining)
+                  </button>
+                )}
+                {filteredRecorders.length === 0 && (
+                  <div className="px-5 py-8 text-center">
+                    <p className="text-[13px] text-tv-text-secondary">No recorders match your search.</p>
+                  </div>
+                )}
               </div>
             </>
-          )}
+            );
+          })()}
 
           {/* ═══ SUBMISSIONS TAB ═══ */}
           {tab === "submissions" && (

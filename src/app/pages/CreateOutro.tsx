@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import {
   Play, Pause, ChevronDown, ChevronLeft, Trash2,
-  Save, Send, ChevronRight, MonitorPlay,
+  Save, Send, ChevronRight, MonitorPlay, Upload, Image as ImageIcon, X,
 } from "lucide-react";
 import { Text } from "@mantine/core";
 import { TV } from "../theme";
@@ -31,6 +31,8 @@ const OUTRO_THEMES: OutroTheme[] = [
 
 const BG_COLORS = [
   "#7c45b0", "#1e3a8a", "#14532d", "#b91c1c", "#0f766e", "#374151", "#b45309", "#ffffff",
+  "#dc2626", "#ea580c", "#ca8a04", "#16a34a", "#0891b2", "#2563eb", "#9333ea", "#db2777",
+  "#1B3461", "#831843", "#064e3b", "#78350f",
 ];
 
 
@@ -145,6 +147,8 @@ export function CreateOutro() {
   const [selectedColor, setSelectedColor] = useState<string>(BG_COLORS[0]);
   const [saveAsTemplate, setSaveAsTemplate] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [outroImage, setOutroImage] = useState<{ url: string; name: string } | null>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   // ── Edit mode ──
   const editId = searchParams.get("edit");
@@ -291,6 +295,13 @@ export function CreateOutro() {
               style={{ background: previewBackground }}
             >
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                {/* Uploaded image overlay */}
+                {outroImage && (
+                  <img src={outroImage.url} alt={outroImage.name}
+                    className="absolute inset-0 w-full h-full object-contain p-8 pointer-events-none"
+                    style={{ opacity: 0.9 }} />
+                )}
+
                 {/* Theme name as large centered text */}
                 <Text
                   fz={36}
@@ -299,7 +310,7 @@ export function CreateOutro() {
                   className="text-center px-8"
                   style={{
                     textShadow: isLightBg ? "none" : "0 2px 8px rgba(0,0,0,0.3)",
-                    opacity: 0.6,
+                    opacity: outroImage ? 0.3 : 0.6,
                     fontFamily: "'Fraunces', Roboto, sans-serif",
                   }}
                 >
@@ -350,7 +361,7 @@ export function CreateOutro() {
                     Background Color
                   </Text>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 flex-wrap">
                   {BG_COLORS.map((color) => {
                     const isSelected = selectedColor === color;
                     const isWhite = color === "#ffffff";
@@ -389,7 +400,60 @@ export function CreateOutro() {
                       </button>
                     );
                   })}
+                  {/* Custom color picker */}
+                  <label className="relative cursor-pointer" title="Custom color">
+                    <div className="w-[28px] h-[28px] rounded-full border-2 border-dashed flex items-center justify-center"
+                      style={{ borderColor: TV.borderStrong, background: !BG_COLORS.includes(selectedColor) ? selectedColor : `conic-gradient(from 0deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00)` }}>
+                      {!BG_COLORS.includes(selectedColor) ? (
+                        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8L9 3.5" stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.916667" /></svg>
+                      ) : (
+                        <span className="text-[8px] font-bold text-white drop-shadow-sm">+</span>
+                      )}
+                    </div>
+                    <input type="color" value={selectedColor} onChange={e => setSelectedColor(e.target.value)}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                  </label>
                 </div>
+              </div>
+
+              {/* Image Upload */}
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <ImageIcon size={10} style={{ color: TV.textLabel }} />
+                  <Text fz={10} fw={600} c={TV.textLabel} tt="uppercase" lts="0.5">
+                    Outro Image
+                  </Text>
+                </div>
+                {outroImage ? (
+                  <div className="flex items-center gap-3 p-3 rounded-lg border" style={{ borderColor: TV.borderLight }}>
+                    <img src={outroImage.url} alt={outroImage.name} className="w-16 h-10 object-cover rounded" />
+                    <div className="flex-1 min-w-0">
+                      <Text fz={12} fw={600} c={TV.textPrimary} className="truncate">{outroImage.name}</Text>
+                      <Text fz={10} c={TV.textSecondary}>Click to replace</Text>
+                    </div>
+                    <button onClick={() => setOutroImage(null)} className="p-1 rounded hover:bg-tv-surface-muted transition-colors" title="Remove image">
+                      <X size={14} style={{ color: TV.textSecondary }} />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => imageInputRef.current?.click()}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 border-dashed transition-colors hover:border-tv-brand hover:bg-tv-brand-tint/30"
+                    style={{ borderColor: TV.borderLight }}
+                  >
+                    <Upload size={14} style={{ color: TV.textSecondary }} />
+                    <Text fz={12} fw={500} c={TV.textSecondary}>Upload logo or image</Text>
+                  </button>
+                )}
+                <input ref={imageInputRef} type="file" accept="image/*" className="hidden"
+                  onChange={e => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setOutroImage({ url: URL.createObjectURL(file), name: file.name });
+                    }
+                    e.target.value = "";
+                  }} />
+                <Text fz={9} c={TV.textDecorative} className="mt-1">PNG, JPG, or SVG. Displayed over the outro background.</Text>
               </div>
 
               {/* Save as reusable template */}

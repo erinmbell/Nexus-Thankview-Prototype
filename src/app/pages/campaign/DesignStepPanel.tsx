@@ -622,6 +622,7 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
 // ═══════════════════════════════════════════════════════════════════════════════
 function PageTab(props: DesignStepPanelProps) {
   const [copiedLink, setCopiedLink] = useState<string | null>(null);
+  const [lpShowAll, setLpShowAll] = useState(false);
   const { show: showToast } = useToast();
   const handleCopyLink = useCallback(() => {
     const url = "https://thankview.com/lp/spring-giving-2026";
@@ -633,8 +634,13 @@ function PageTab(props: DesignStepPanelProps) {
 
   return (
     <div className="space-y-4">
-      {/* Info card — matches app pattern: brand-tint bg + border-light */}
-      
+      {/* Thumbnail link — when no landing page is enabled */}
+      {!props.step.landingPageEnabled && (
+        <div className="p-3 rounded-md border border-tv-info-border bg-tv-info-bg/30 space-y-2">
+          <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>No landing page enabled</p>
+          <p className="text-[10px] text-tv-text-secondary">The email thumbnail will link to your CTA URL instead. Configure the CTA button below to set the destination.</p>
+        </div>
+      )}
 
       {/* Stat line */}
       <p className="text-[12px] text-tv-text-secondary">
@@ -669,9 +675,9 @@ function PageTab(props: DesignStepPanelProps) {
           <span>All Landing Pages <span className="text-tv-text-secondary" style={{ fontWeight: 400 }}>({props.filteredLandingPages.length})</span></span>
           <ChevronDown size={15} className={`text-tv-text-secondary transition-transform ${props.lpSectionOpen ? "rotate-0" : "-rotate-90"}`} />
         </button>
-        {props.lpSectionOpen && (
+        {props.lpSectionOpen && (<>
           <div className="grid grid-cols-3 gap-2.5 pt-2 pb-1">
-            {props.filteredLandingPages.slice(0, 6).map(p => {
+            {props.filteredLandingPages.slice(0, lpShowAll ? 999 : 6).map(p => {
               const active = (props.selectedLandingPageId || 1) === p.id;
               return (
                 <div role="button" tabIndex={0} key={p.id} onClick={() => props.onSelectLandingPage(p.id)}
@@ -710,7 +716,13 @@ function PageTab(props: DesignStepPanelProps) {
               );
             })}
           </div>
-        )}
+          {!lpShowAll && props.filteredLandingPages.length > 6 && (
+            <button onClick={() => setLpShowAll(true)}
+              className="w-full py-2 text-[11px] text-tv-brand hover:bg-tv-brand-tint/30 rounded-full transition-colors mt-1" style={{ fontWeight: 600 }}>
+              Show all {props.filteredLandingPages.length} landing pages
+            </button>
+          )}
+        </>)}
       </div>
     </div>
   );

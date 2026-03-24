@@ -413,6 +413,7 @@ export function LivePreviewPanel({
   envTextAfter,
   selectedSignature,
 }: LivePreviewPanelProps) {
+  const hideVideo = !attachedVideo;
   const { customEnvelopes: globalEnvelopes, customLandingPages: globalLandingPages } = useDesignLibrary();
   const allEnvelopeDesigns = [...globalEnvelopes, ...ENVELOPE_DESIGNS];
   const allLandingPageDesigns = [...globalLandingPages, ...LANDING_PAGES];
