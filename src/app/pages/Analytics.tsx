@@ -3,6 +3,7 @@ import {
   Avatar, Drawer, Modal, TextInput, Checkbox,
   SegmentedControl, Tooltip, Stack, Badge, UnstyledButton,
 } from "@mantine/core";
+import { TablePagination } from "../components/TablePagination";
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { useSearchParams, useNavigate } from "react-router";
 import {
@@ -1278,6 +1279,8 @@ export function Analytics() {
   const [tagsTabSearch, setTagsTabSearch] = useState("");
   const [tagsTabSort, setTagsTabSort] = useState<{ col: string; dir: "asc" | "desc" }>({ col: "totalSent", dir: "desc" });
   const [tagsTabShowAll, setTagsTabShowAll] = useState(false);
+  const [tagsPage, setTagsPage] = useState(1);
+  const [tagsRowsPerPage, setTagsRowsPerPage] = useState(10);
   const [tagsTabMetric, setTagsTabMetric] = useState<"avgOpenRate" | "avgClickRate" | "avgReplyRate" | "avgVideoPct" | "totalSent">("avgOpenRate");
 
   // Navigate to the campaign detail page (or fall back to Performance tab filter)
@@ -4382,7 +4385,7 @@ export function Analytics() {
         const searchedTags = tagsTabSearch
           ? tagsTabSorted.filter(g => g.tag.toLowerCase().includes(tagsTabSearch.toLowerCase()))
           : tagsTabSorted;
-        const displayTags = tagsTabShowAll ? searchedTags : searchedTags.slice(0, TAGS_DEFAULT_VISIBLE);
+        const displayTags = searchedTags.slice((tagsPage - 1) * tagsRowsPerPage, tagsPage * tagsRowsPerPage);
         const remainingCount = searchedTags.length - TAGS_DEFAULT_VISIBLE;
         const totalCampaigns = searchedTags.reduce((s, g) => s + g.campaigns.length, 0);
         const totalSent = searchedTags.reduce((s, g) => s + g.totalSent, 0);
@@ -4664,20 +4667,14 @@ export function Analytics() {
               </div>
             )}
 
-            {/* Footer — show more / collapse */}
-            {((!tagsTabShowAll && remainingCount > 0) || tagsTabShowAll) && (
-              <div className="flex items-center justify-center gap-2 px-4 py-3 border-t rounded-b-[16px]" style={{ borderColor: TV.borderDivider, backgroundColor: TV.surface }}>
-                {!tagsTabShowAll && remainingCount > 0 ? (
-                  <Button size="xs" variant="light" color="tvPurple" radius="xl" leftSection={<ChevronDown size={12} />} onClick={() => setTagsTabShowAll(true)}>
-                    Show {remainingCount} more tag{remainingCount !== 1 ? "s" : ""}
-                  </Button>
-                ) : tagsTabShowAll ? (
-                  <Button size="xs" variant="subtle" color="gray" radius="xl" onClick={() => setTagsTabShowAll(false)}>
-                    Show top {TAGS_DEFAULT_VISIBLE} only
-                  </Button>
-                ) : null}
-              </div>
-            )}
+            {/* Pagination */}
+            <TablePagination
+              page={tagsPage}
+              rowsPerPage={tagsRowsPerPage}
+              totalRows={searchedTags.length}
+              onPageChange={setTagsPage}
+              onRowsPerPageChange={r => { setTagsRowsPerPage(r); setTagsPage(1); }}
+            />
           </DashCard>
 
           {/* Reuse the existing tag drawer */}

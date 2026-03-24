@@ -139,6 +139,7 @@ export function VideoEditorModal({
   const [tab, setTab] = useState<EditorTab>("details");
   const [hasChanges, setHasChanges] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [scrubber, setScrubber] = useState(0);
   const [tagInput, setTagInput] = useState("");
   const [folderOpen, setFolderOpen] = useState(false);
@@ -367,7 +368,7 @@ export function VideoEditorModal({
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-xl shadow-2xl flex flex-col w-full max-w-[1000px] max-h-[92vh] overflow-hidden">
+      <div className={`bg-white rounded-xl shadow-2xl flex flex-col w-full overflow-hidden transition-all duration-300 ${isFullscreen ? "max-w-none max-h-none m-0 rounded-none" : "max-w-[1000px] max-h-[92vh]"}`}>
 
         {/* ══ Header ══ */}
         <div className="px-6 py-3.5 border-b border-tv-border-divider shrink-0 flex items-center justify-between gap-3">
@@ -383,6 +384,13 @@ export function VideoEditorModal({
               <Trash2 size={11} />Delete Video
             </button>
           )}
+          <button
+            onClick={() => setIsFullscreen(f => !f)}
+            className="w-7 h-7 rounded-full border border-tv-border-light flex items-center justify-center hover:bg-tv-surface transition-colors shrink-0"
+            title={isFullscreen ? "Exit fullscreen" : "Expand to fullscreen"}
+          >
+            {isFullscreen ? <X size={12} className="text-tv-text-secondary" /> : <Download size={12} className="text-tv-text-secondary rotate-180" />}
+          </button>
           <button
             onClick={handleClose}
             className="w-7 h-7 rounded-full border border-tv-border-light flex items-center justify-center hover:bg-tv-surface transition-colors shrink-0"

@@ -3078,6 +3078,24 @@ function StepCreationModal({
                     </button>
                   </div>
                   <p className="text-[10px] text-tv-text-secondary mt-2">Share via social media, QR codes, or anywhere you like.</p>
+
+                  {/* Language & Font options for shareable link */}
+                  <div className="grid grid-cols-2 gap-3 mt-3 pt-3 border-t border-tv-border-divider">
+                    <div>
+                      <label className="tv-label mb-1 block">Language</label>
+                      <select value={step.language || "en"} onChange={e => setStep(s => ({ ...s, language: e.target.value }))}
+                        className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 bg-white">
+                        {LANGUAGE_OPTIONS.map(l => <option key={l.value} value={l.value}>{l.label}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="tv-label mb-1 block">Font</label>
+                      <select value={step.bodyFontFamily || "Roboto"} onChange={e => setStep(s => ({ ...s, bodyFontFamily: e.target.value }))}
+                        className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 bg-white">
+                        {ENV_FONTS.map(f => <option key={f} value={f}>{f}</option>)}
+                      </select>
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -3114,10 +3132,40 @@ function StepCreationModal({
                 </button>
               </div>
 
-              {/* Replies info */}
-              <div className="p-3.5 bg-tv-info-bg border border-tv-info-border rounded-lg flex items-start gap-2.5">
-                <Info size={13} className="text-tv-info shrink-0 mt-0.5" />
-                <p className="text-[11px] text-tv-info">Submitted videos will appear on the campaign&rsquo;s Replies page and in the &ldquo;Requests&rdquo; folder of your Video Library.</p>
+              {/* Replies / Video Submissions section */}
+              <div className="bg-white rounded-lg border border-tv-border-light p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Video Submissions</p>
+                    <p className="text-[10px] text-tv-text-secondary">Manage videos submitted by recorders</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-1 bg-tv-success-bg text-tv-success text-[11px] rounded-full" style={{ fontWeight: 600 }}>3 received</span>
+                    <span className="px-2.5 py-1 bg-tv-warning-bg text-tv-warning text-[11px] rounded-full" style={{ fontWeight: 600 }}>5 pending</span>
+                  </div>
+                </div>
+                {/* Mock submission list */}
+                <div className="space-y-1.5">
+                  {[
+                    { name: "Sarah Chen", status: "submitted", date: "Mar 18, 2026", duration: "1:42" },
+                    { name: "James Wright", status: "submitted", date: "Mar 17, 2026", duration: "2:05" },
+                    { name: "Maria Rodriguez", status: "submitted", date: "Mar 16, 2026", duration: "0:58" },
+                  ].map((sub, i) => (
+                    <div key={i} className="flex items-center gap-3 px-3 py-2 rounded-md border border-tv-border-light hover:bg-tv-surface-muted transition-colors">
+                      <div className="w-6 h-6 rounded-full bg-tv-success-bg flex items-center justify-center shrink-0">
+                        <Check size={10} className="text-tv-success" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[12px] text-tv-text-primary truncate" style={{ fontWeight: 600 }}>{sub.name}</p>
+                        <p className="text-[10px] text-tv-text-secondary">{sub.date} · {sub.duration}</p>
+                      </div>
+                      <button className="px-2.5 py-1 text-[10px] text-tv-brand border border-tv-border-light rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 600 }}>
+                        <Play size={8} className="inline mr-1" />Review
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[10px] text-tv-text-decorative">Submitted videos also appear in the "Requests" folder of your Video Library.</p>
               </div>
             </div>
           )}

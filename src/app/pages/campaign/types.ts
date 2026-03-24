@@ -610,15 +610,17 @@ export interface SuccessMetricDef {
   icon: any;
   category: "delivery" | "engagement" | "negative";
   channels?: ("email" | "sms" | "video-request")[]; // undefined = all channels
+  description?: string; // Tooltip text explaining the metric
+  benchmark?: string;   // "Good" benchmark for advancement
 }
 
 export const SUCCESS_METRICS: SuccessMetricDef[] = [
-  { id: "sent",                label: "Sent",                   icon: Send,            category: "delivery" },
-  { id: "delivered",           label: "Delivered",              icon: BarChart3,       category: "delivery" },
-  { id: "bounced",             label: "Bounced",                icon: TriangleAlert,   category: "delivery" },
-  { id: "opened",              label: "Opened",                 icon: Mail,            category: "engagement", channels: ["email"] },
-  { id: "clicked",             label: "Clicked",                icon: Link2,           category: "engagement", channels: ["email"] },
-  { id: "viewed",              label: "Viewed",                 icon: Eye,             category: "engagement" },
+  { id: "sent",                label: "Sent",                   icon: Send,            category: "delivery", description: "Total messages dispatched to recipients", benchmark: "N/A — delivery metric" },
+  { id: "delivered",           label: "Delivered",              icon: BarChart3,       category: "delivery", description: "Messages successfully received by recipient mail server", benchmark: ">95% delivery rate" },
+  { id: "bounced",             label: "Bounced",                icon: TriangleAlert,   category: "delivery", description: "Messages that failed to reach the recipient", benchmark: "<5% bounce rate" },
+  { id: "opened",              label: "Opened",                 icon: Mail,            category: "engagement", channels: ["email"], description: "Recipients who opened the email (tracking pixel loaded)", benchmark: "40-60% for advancement" },
+  { id: "clicked",             label: "Clicked",                icon: Link2,           category: "engagement", channels: ["email"], description: "Recipients who clicked any link in the email", benchmark: "15-30% click rate" },
+  { id: "viewed",              label: "Viewed",                 icon: Eye,             category: "engagement", description: "Recipients who watched the video on the landing page", benchmark: "30-50% view rate" },
   { id: "started",             label: "Started",                icon: Play,            category: "engagement" },
   { id: "finished",            label: "Finished",               icon: Check,           category: "engagement" },
   { id: "shared",              label: "Shared",                 icon: Share2,          category: "engagement" },

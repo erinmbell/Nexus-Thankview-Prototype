@@ -751,7 +751,10 @@ const CONSTITUENT_COLUMNS: ColumnDef[] = [
   { key: "email",   label: "Email / Phone", group: "Contact" },
   { key: "video",   label: "Video",        group: "Engagement" },
   { key: "status",  label: "Status",       group: "Engagement" },
+  { key: "opened",  label: "Opened",       group: "Engagement" },
+  { key: "lastSent", label: "Last Sent",   group: "Engagement" },
   { key: "replies", label: "Replies",      group: "Engagement" },
+  { key: "actions", label: "Actions",      group: "Summary" },
 ];
 
 const DEFAULT_CONSTITUENT_COLS = CONSTITUENT_COLUMNS.map(c => c.key);
@@ -1829,6 +1832,8 @@ export function CampaignDetail() {
   const [campaignStatus, setCampaignStatus] = useState<string | null>(null);
   const [showEditColumns, setShowEditColumns] = useState(false);
   const [activeConstCols, setActiveConstCols] = useState<string[]>(DEFAULT_CONSTITUENT_COLS);
+  const [deliveryStatusFilter, setDeliveryStatusFilter] = useState<string>("All");
+  const [recipientActionId, setRecipientActionId] = useState<number | null>(null);
 
   // Copy Link popover + Constituent Link modal
   const [copyLinkPopoverOpen, setCopyLinkPopoverOpen] = useState(false);
@@ -2103,8 +2108,29 @@ export function CampaignDetail() {
        * ════════════════════════════════════════════════════════════════════════ */}
       {activeTab === "constituents" && (
         <div>
-          <div className="flex items-center justify-end mb-3">
-            <ColumnsButton onClick={() => setShowEditColumns(true)} />
+          {/* Status filter pills */}
+          <div className="flex items-center gap-2 mb-3">
+            {(() => {
+              const statuses = ["All", "Delivered", "Sending", "Scheduled", "Failed Send", "Recorded"];
+              const counts: Record<string, number> = {};
+              campaign.constituents_list.forEach((r: any) => {
+                counts[r.delivery] = (counts[r.delivery] || 0) + 1;
+              });
+              return statuses.map(s => {
+                const count = s === "All" ? campaign.constituents_list.length : (counts[s] || 0);
+                const active = deliveryStatusFilter === s;
+                return (
+                  <button key={s} onClick={() => setDeliveryStatusFilter(s)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[11px] transition-colors ${active ? "border-tv-brand bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`}
+                    style={{ fontWeight: active ? 600 : 500 }}>
+                    {s} <span className="text-[10px] opacity-70">{count}</span>
+                  </button>
+                );
+              });
+            })()}
+            <div className="ml-auto">
+              <ColumnsButton onClick={() => setShowEditColumns(true)} />
+            </div>
           </div>
           <Paper radius="xl" withBorder style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
             {campaign.constituents_list.length === 0 ? (
@@ -2122,23 +2148,49 @@ export function CampaignDetail() {
                 {/* Desktop table header */}
                 <div className="overflow-x-auto">
                   <div className="min-w-[600px]">
-                <div className="hidden sm:grid gap-4 px-5 py-3 bg-tv-surface-muted border-b border-tv-border-divider text-[10px] text-tv-text-secondary uppercase tracking-wider [&>span]:whitespace-nowrap" style={{ fontWeight: 600, gridTemplateColumns: activeConstCols.map(k => ({ name: "2.5fr", email: "2fr", video: "1fr", status: "1.5fr", replies: "1.2fr" }[k] || "1fr")).join(" ") }}>
+                <div className="hidden sm:grid gap-4 px-5 py-3 bg-tv-surface-muted border-b border-tv-border-divider text-[10px] text-tv-text-secondary uppercase tracking-wider [&>span]:whitespace-nowrap" style={{ fontWeight: 600, gridTemplateColumns: activeConstCols.map(k => ({ name: "2fr", email: "2fr", video: "0.8fr", status: "1.2fr", opened: "0.8fr", lastSent: "1.4fr", replies: "1fr", actions: "0.8fr" }[k] || "1fr")).join(" ") }}>
                   {activeConstCols.map(k => {
                     const col = CONSTITUENT_COLUMNS.find(c => c.key === k);
                     return col ? <span key={k}>{col.label}</span> : null;
                   })}
                 </div>
-                {campaign.constituents_list.map((r) => (
+                {campaign.constituents_list.filter((r: any) => deliveryStatusFilter === "All" || r.delivery === deliveryStatusFilter).map((r) => (
                   <div key={r.id} className="border-b border-tv-border-divider last:border-b-0 hover:bg-tv-surface-muted transition-colors">
                     {/* Desktop */}
-                    <div className="hidden sm:grid gap-4 px-5 py-4 items-center" style={{ gridTemplateColumns: activeConstCols.map(k => ({ name: "2.5fr", email: "2fr", video: "1fr", status: "1.5fr", replies: "1.2fr" }[k] || "1fr")).join(" ") }}>
+                    <div className="hidden sm:grid gap-4 px-5 py-4 items-center" style={{ gridTemplateColumns: activeConstCols.map(k => ({ name: "2fr", email: "2fr", video: "0.8fr", status: "1.2fr", opened: "0.8fr", lastSent: "1.4fr", replies: "1fr", actions: "0.8fr" }[k] || "1fr")).join(" ") }}>
                       {activeConstCols.map(k => {
                         switch (k) {
                           case "name": return <span key={k} className="text-[13px] text-tv-text-primary" style={{ fontWeight: 600 }}>{r.name}</span>;
                           case "email": return <span key={k} className="text-[12px] text-tv-text-secondary truncate">{r.email}</span>;
                           case "video": return <div key={k}>{r.hasVideo ? <CircleCheckBig size={15} className="text-tv-success" /> : <CircleAlert size={15} className="text-tv-text-decorative" />}</div>;
                           case "status": return <span key={k} className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] ${DELIVERY_STATUS_BG[r.delivery] ?? "bg-tv-surface text-tv-text-secondary"}`} style={{ fontWeight: 600 }}>{r.delivery}</span>;
+                          case "opened": return <div key={k}>{r.sendHistory?.some((h: any) => h.opened) ? <Check size={14} className="text-tv-success" /> : <X size={14} className="text-tv-text-decorative" />}</div>;
+                          case "lastSent": return <span key={k} className="text-[11px] text-tv-text-secondary">{r.sendHistory?.[r.sendHistory.length - 1]?.date || "—"}</span>;
                           case "replies": return <span key={k} className="text-[12px] text-tv-text-secondary">{r.replies}</span>;
+                          case "actions": return (
+                            <div key={k} className="relative">
+                              <button onClick={e => { e.stopPropagation(); setRecipientActionId(recipientActionId === r.id ? null : r.id); }}
+                                className="w-7 h-7 rounded-full border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface transition-colors">
+                                <ChevronDown size={11} />
+                              </button>
+                              {recipientActionId === r.id && (
+                                <div className="absolute right-0 top-full mt-1 w-[180px] bg-white border border-tv-border-light rounded-lg shadow-lg z-20 py-1">
+                                  {[
+                                    { label: "Preview Video", icon: Play },
+                                    { label: "Send Test", icon: Send },
+                                    { label: "Resend", icon: RefreshCw },
+                                    { label: "Copy Direct Link", icon: Link2 },
+                                    { label: "Copy Generic Link", icon: Copy },
+                                  ].map(a => (
+                                    <button key={a.label} onClick={() => { show(`${a.label} for ${r.name}`, "info"); setRecipientActionId(null); }}
+                                      className="w-full flex items-center gap-2 px-3 py-2 text-[12px] text-tv-text-primary hover:bg-tv-surface transition-colors text-left">
+                                      <a.icon size={12} className="text-tv-text-secondary" />{a.label}
+                                    </button>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          );
                           default: return null;
                         }
                       })}

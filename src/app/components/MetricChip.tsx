@@ -5,7 +5,8 @@
  * in the Schedule step. Renders as a pill button that toggles
  * on/off within the 1-5 selection constraint.
  */
-import { Check } from "lucide-react";
+import { Check, Info } from "lucide-react";
+import { Tooltip } from "@mantine/core";
 import type { SuccessMetricDef } from "../pages/campaign/types";
 
 interface MetricChipProps {
@@ -24,7 +25,11 @@ export function MetricChip({ metric, active, disabled, negative, onToggle }: Met
     ? "hover:border-tv-danger hover:text-tv-danger"
     : "hover:border-tv-brand-bg hover:text-tv-brand";
 
-  return (
+  const tooltipContent = metric.description
+    ? `${metric.description}${metric.benchmark ? ` · Benchmark: ${metric.benchmark}` : ""}`
+    : undefined;
+
+  const chip = (
     <button
       onClick={() => !disabled && onToggle(metric.id)}
       className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] border transition-all ${
@@ -37,6 +42,13 @@ export function MetricChip({ metric, active, disabled, negative, onToggle }: Met
     >
       {active ? <Check size={13} /> : <metric.icon size={13} />}
       {metric.label}
+      {metric.description && !active && <Info size={10} className="opacity-40" />}
     </button>
   );
+
+  return tooltipContent ? (
+    <Tooltip label={tooltipContent} multiline w={260} withArrow position="top" openDelay={400}>
+      {chip}
+    </Tooltip>
+  ) : chip;
 }
