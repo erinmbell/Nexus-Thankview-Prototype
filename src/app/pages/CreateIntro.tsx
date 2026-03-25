@@ -602,7 +602,7 @@ export function CreateIntro() {
                         }}
                       >
                         <button
-                          className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
+                          className="w-6 h-6 rounded-full flex items-center justify-center shrink-0"
                           style={{ backgroundColor: isActive ? TV.brandBg : TV.surface }}
                         >
                           <svg width="8" height="8" viewBox="0 0 8 8" fill="none">

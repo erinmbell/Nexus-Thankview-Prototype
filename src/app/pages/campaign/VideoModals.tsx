@@ -116,7 +116,7 @@ export function AssignedVideoChip({ video, onRemove }: { video: PickerVideo; onR
         <p className="text-[12px] font-semibold text-tv-text-primary truncate">{video.title}</p>
         <p className="text-[10px] text-tv-text-secondary">{video.duration}</p>
       </div>
-      <button onClick={onRemove} aria-label="Remove" className="w-5 h-5 rounded-full bg-white border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:text-tv-danger hover:border-tv-danger-border transition-colors shrink-0"><X size={10} /></button>
+      <button onClick={onRemove} aria-label="Remove" className="w-6 h-6 rounded-full bg-white border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:text-tv-danger hover:border-tv-danger-border transition-colors shrink-0"><X size={10} /></button>
     </div>
   );
 }

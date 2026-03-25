@@ -172,7 +172,7 @@ export function WorldMap({
   const clearTooltip = useCallback(() => setTooltip(null), []);
 
   return (
-    <div className="world-map-root relative w-full h-full">
+    <div className="world-map-root relative w-full h-full" role="img" aria-label="World map showing engagement distribution by country">
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{ scale: 130, center: [0, 30] }}

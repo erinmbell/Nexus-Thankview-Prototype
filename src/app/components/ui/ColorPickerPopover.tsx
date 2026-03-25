@@ -218,7 +218,9 @@ export function ColorPickerPopover({ value, onChange, presets, children, side = 
         {children ?? (
           <button type="button" className="w-[28px] h-[28px] rounded-full border flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
             style={{ borderColor: "#e0daea", background: "conic-gradient(from 0deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00)" }}
-            title="Custom color">
+            title="Custom color"
+            aria-expanded={open}
+            aria-label="Custom color picker">
             <Pipette size={11} className="text-white drop-shadow-sm" />
           </button>
         )}

@@ -143,7 +143,7 @@ export function UsMap({
   const clearTooltip = useCallback(() => setTooltip(null), []);
 
   return (
-    <div className="us-map-root relative w-full h-full">
+    <div className="us-map-root relative w-full h-full" role="img" aria-label="United States map showing engagement distribution by state">
       <ComposableMap
         projection="geoAlbersUsa"
         projectionConfig={{ scale: 1000 }}

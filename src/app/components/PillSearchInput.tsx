@@ -61,7 +61,7 @@ export function PillSearchInput({
       {clearable && value && (
         <button
           onClick={() => onChange("")}
-          className={`absolute ${s.clearRight} top-1/2 -translate-y-1/2 text-tv-text-secondary hover:text-tv-text-primary transition-colors`}
+          className={`absolute ${s.clearRight} top-1/2 -translate-y-1/2 min-w-6 min-h-6 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary transition-colors`}
           aria-label="Clear search"
         >
           <X size={s.icon} />

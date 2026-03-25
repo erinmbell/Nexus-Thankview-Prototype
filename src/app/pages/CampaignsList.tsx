@@ -395,7 +395,7 @@ function TemplatePickerModal({ onSelect, onCancel }: { onSelect: (tpl: CampaignT
         <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
           {filtered.map(tpl => (
             <button key={tpl.id} onClick={() => onSelect(tpl)}
-              className="w-full text-left p-4 rounded-lg border border-tv-border-light bg-white hover:border-tv-brand hover:shadow-sm transition-all group relative">
+              className="w-full text-left p-4 rounded-xl border border-tv-border-light bg-white hover:border-tv-brand hover:shadow-sm transition-all group relative">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: tpl.builtIn ? "var(--tv-brand-tint)" : "var(--tv-star-bg)" }}>
                   <Bookmark size={17} className={tpl.builtIn ? "text-tv-brand" : "text-tv-warning"} />
@@ -943,7 +943,7 @@ export function CampaignsList() {
       )}
 
       {/* ── Table / Cards ── */}
-      <div className="bg-white rounded-lg border border-tv-border-light overflow-hidden" role="region" aria-label={`${sortedFiltered.length} campaigns shown`}>
+      <div className="bg-white rounded-xl border border-tv-border-light overflow-hidden" role="region" aria-label={`${sortedFiltered.length} campaigns shown`}>
         <p className="sr-only" aria-live="polite">{sortedFiltered.length} campaigns shown</p>
         {sortedFiltered.length === 0 ? (
           <Stack align="center" gap="sm" py={60}>
@@ -958,7 +958,7 @@ export function CampaignsList() {
         ) : (
           <>
             {/* ── Desktop Mantine Table ── */}
-            <Box visibleFrom="md" className="overflow-x-auto">
+            <Box visibleFrom="md" className="overflow-x-auto" role="region" aria-label="Campaigns table" tabIndex={0}>
               <Table
                 verticalSpacing={0}
                 horizontalSpacing={0}

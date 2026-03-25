@@ -420,7 +420,7 @@ export function IntroBuilder({
                       <div key={track.value} role="button" tabIndex={0} onClick={() => setSelectedTrack(isActive ? null : track.value)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedTrack(isActive ? null : track.value); }}}
                         className="h-[37px] rounded-sm border px-2 flex items-center gap-2.5 relative cursor-pointer transition-colors"
                         style={{ borderColor: isActive ? TV.brandBg : TV.borderLight, backgroundColor: isActive ? TV.brandTint : "white" }}>
-                        <button className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: isActive ? TV.brandBg : TV.surface }}>
+                        <button className="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: isActive ? TV.brandBg : TV.surface }}>
                           <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
                             <path d="M2 2.5L5.5 4.5L2 6.5V2.5Z" fill={isActive ? "white" : TV.textPrimary} stroke={isActive ? "white" : TV.textPrimary} strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.666" />
                           </svg>

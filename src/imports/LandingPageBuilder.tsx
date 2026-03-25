@@ -884,7 +884,7 @@ function LandingPagePreview({
           {logo !== "none" || logoFile ? (
             <div className="flex items-center gap-2">
               {logoFile ? (
-                <img src={logoFile} alt="" className="h-5 object-contain" style={{ filter: isDarkColor(navBarColor) ? "brightness(10)" : "none" }} />
+                <img src={logoFile} alt="Organization logo" className="h-5 object-contain" style={{ filter: isDarkColor(navBarColor) ? "brightness(10)" : "none" }} />
               ) : (
                 <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: isDarkColor(navBarColor) ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)" }}>
                   {logo === "shield" && <Landmark size={11} style={{ color: navTextColor }} />}

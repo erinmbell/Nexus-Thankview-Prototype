@@ -186,7 +186,7 @@ export function VideoRequestCampaign() {
             <>
               {/* Campaign Name */}
               <div className="bg-white rounded-lg border border-tv-border-light p-5 space-y-4">
-                <h3 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Details</h3>
+                <h2 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Details</h2>
                 <div>
                   <label className="tv-label mb-1.5 block">Campaign Name</label>
                   <input value={name} onChange={e => setName(e.target.value)}
@@ -196,7 +196,7 @@ export function VideoRequestCampaign() {
 
               {/* Delivery Type */}
               <div className="bg-white rounded-lg border border-tv-border-light p-5 space-y-4">
-                <h3 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Delivery Method</h3>
+                <h2 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Delivery Method</h2>
                 <p className="text-[12px] text-tv-text-secondary -mt-2">How should recorders receive the recording request?</p>
                 <div className="grid grid-cols-3 gap-3">
                   {([
@@ -240,7 +240,7 @@ export function VideoRequestCampaign() {
 
               {/* Instructions */}
               <div className="bg-white rounded-lg border border-tv-border-light p-5 space-y-4">
-                <h3 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Recording Instructions</h3>
+                <h2 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Recording Instructions</h2>
                 <textarea value={instructions} onChange={e => setInstructions(e.target.value)} rows={4}
                   className="w-full border border-tv-border-light rounded-lg px-3 py-2.5 text-[13px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand resize-none"
                   placeholder="Tell recorders what to say and how long the video should be..." />
@@ -248,7 +248,7 @@ export function VideoRequestCampaign() {
 
               {/* Due Date & Reminders */}
               <div className="bg-white rounded-lg border border-tv-border-light p-5 space-y-4">
-                <h3 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Due Date & Reminders</h3>
+                <h2 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Due Date & Reminders</h2>
                 <div className="flex items-center gap-4">
                   <div className="flex-1">
                     <label className="tv-label mb-1.5 block">Due Date</label>
@@ -288,7 +288,7 @@ export function VideoRequestCampaign() {
               <div className="bg-white rounded-lg border border-tv-border-light p-5">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Accept Submissions</h3>
+                    <h2 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Accept Submissions</h2>
                     <p className="text-[12px] text-tv-text-secondary mt-1">When turned off, recorders can no longer submit videos through this request.</p>
                   </div>
                   <div className="flex items-center gap-2">

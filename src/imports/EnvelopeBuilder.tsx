@@ -1006,7 +1006,8 @@ function SwatchRow({ value, onChange, label }: { value: string; onChange: (v: st
               }`}
               style={{ backgroundColor: s.hex }}
               title={s.name}
-              aria-label={`Select ${s.name}`} />
+              aria-label={`Select ${s.name}`}
+              aria-pressed={selected} />
           );
         })}
         {/* Custom color (rainbow gradient) */}

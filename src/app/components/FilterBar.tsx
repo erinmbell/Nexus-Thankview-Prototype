@@ -74,7 +74,7 @@ export function ChipFilter({ label, icon: Icon, options, values, onChange, searc
           aria-expanded={opened}
           style={{
             border: `1px solid ${isActive ? TV.borderStrong : TV.borderLight}`,
-            borderRadius: 20,
+            borderRadius: "var(--mantine-radius-xl)",
             backgroundColor: isActive ? TV.brandTint : "white",
             display: "flex",
             alignItems: "center",
@@ -321,7 +321,7 @@ function DateRangeFilterChip({ def, values, onChange, onRemove, removable }: {
           py={6} px={12}
           style={{
             border: `1px solid ${isActive ? TV.borderStrong : TV.borderLight}`,
-            borderRadius: 20,
+            borderRadius: "var(--mantine-radius-xl)",
             backgroundColor: isActive ? TV.brandTint : "white",
             display: "flex",
             alignItems: "center",
@@ -362,7 +362,7 @@ function DateRangeFilterChip({ def, values, onChange, onRemove, removable }: {
         </UnstyledButton>
       </Popover.Target>
 
-      <Popover.Dropdown p={0} style={{ borderRadius: 12, overflow: "hidden" }}>
+      <Popover.Dropdown p={0} style={{ borderRadius: "var(--mantine-radius-lg)", overflow: "hidden" }}>
         <div className="flex" style={{ minWidth: 420 }}>
           {/* Presets sidebar */}
           <div className="flex flex-col py-2" style={{ borderRight: `1px solid ${TV.borderLight}`, width: 140 }}>
@@ -408,13 +408,13 @@ function DateRangeFilterChip({ def, values, onChange, onRemove, removable }: {
           {/* Calendar */}
           <div className="p-3 flex flex-col">
             <div className="flex items-center justify-between mb-2">
-              <UnstyledButton onClick={() => setViewMonth(m => m.subtract(1, "month"))} p={4} style={{ borderRadius: 6 }} className="hover:bg-tv-surface">
+              <UnstyledButton onClick={() => setViewMonth(m => m.subtract(1, "month"))} p={4} style={{ borderRadius: "var(--mantine-radius-xs)" }} className="hover:bg-tv-surface">
                 <ChevronLeft size={14} style={{ color: TV.textSecondary }} />
               </UnstyledButton>
               <Text fz={13} fw={600} c={TV.textPrimary}>{viewMonth.format("MMMM YYYY")}</Text>
               <UnstyledButton
                 onClick={() => setViewMonth(m => m.add(1, "month"))}
-                p={4} style={{ borderRadius: 6 }}
+                p={4} style={{ borderRadius: "var(--mantine-radius-xs)" }}
                 className="hover:bg-tv-surface"
                 disabled={viewMonth.add(1, "month").startOf("month").isAfter(dayjs())}
               >
@@ -499,7 +499,7 @@ function FilterChip({ def, values, onChange, onRemove, removable }: {
           aria-expanded={opened}
           style={{
             border: `1px solid ${isActive ? TV.borderStrong : TV.borderLight}`,
-            borderRadius: 20,
+            borderRadius: "var(--mantine-radius-xl)",
             backgroundColor: isActive ? TV.brandTint : "white",
             display: "flex",
             alignItems: "center",
@@ -549,7 +549,7 @@ function FilterChip({ def, values, onChange, onRemove, removable }: {
                 <>
                   <Box w={1} h={12} bg={TV.borderLight} />
                   <Tooltip label="Remove filter from bar" withArrow>
-                    <UnstyledButton onClick={() => { onChange([]); onRemove?.(); }}>
+                    <UnstyledButton onClick={() => { onChange([]); onRemove?.(); }} className="min-w-6 min-h-6 flex items-center justify-center">
                       <X size={12} style={{ color: TV.textSecondary }} />
                     </UnstyledButton>
                   </Tooltip>
@@ -631,7 +631,7 @@ function AddFilterMenu({ available, onAdd }: {
             py={6} px={10}
             style={{
               border: `1px dashed ${TV.borderLight}`,
-              borderRadius: 20,
+              borderRadius: "var(--mantine-radius-xl)",
               display: "flex",
               alignItems: "center",
               gap: 4,

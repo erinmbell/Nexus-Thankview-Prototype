@@ -157,11 +157,11 @@ export function EmailTemplatePicker({ onSelect, onClose, compact }: EmailTemplat
         {/* Preview content */}
         <div className="p-4 space-y-3 max-h-[400px] overflow-y-auto">
           <div>
-            <p className="text-[9px] text-tv-text-decorative uppercase tracking-wider mb-1" style={{ fontWeight: 600 }}>Subject</p>
+            <p className="text-[11px] text-tv-text-decorative uppercase tracking-wider mb-1" style={{ fontWeight: 600 }}>Subject</p>
             <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 500 }}>{preview.subject}</p>
           </div>
           <div>
-            <p className="text-[9px] text-tv-text-decorative uppercase tracking-wider mb-1" style={{ fontWeight: 600 }}>Body</p>
+            <p className="text-[11px] text-tv-text-decorative uppercase tracking-wider mb-1" style={{ fontWeight: 600 }}>Body</p>
             <div className="p-3 bg-tv-surface-muted rounded-md border border-tv-border-divider">
               <p className="text-[12px] text-tv-text-primary whitespace-pre-wrap leading-relaxed">{preview.body}</p>
             </div>
@@ -249,13 +249,13 @@ export function EmailTemplatePicker({ onSelect, onClose, compact }: EmailTemplat
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5 mb-0.5">
                         <p className="text-[12px] text-tv-text-primary truncate" style={{ fontWeight: 600 }}>{tpl.name}</p>
-                        <span className={`text-[9px] px-1.5 py-0.5 rounded-full ${catColor.bg} ${catColor.text} shrink-0`} style={{ fontWeight: 600 }}>
+                        <span className={`text-[11px] px-1.5 py-0.5 rounded-full ${catColor.bg} ${catColor.text} shrink-0`} style={{ fontWeight: 600 }}>
                           {CATEGORY_LABELS[tpl.category]}
                         </span>
                       </div>
                       <p className="text-[10px] text-tv-text-secondary truncate">{tpl.subject}</p>
                       {tpl.lastUsed && (
-                        <p className="text-[9px] text-tv-text-decorative mt-0.5 flex items-center gap-1">
+                        <p className="text-[11px] text-tv-text-decorative mt-0.5 flex items-center gap-1">
                           <Clock size={8} /> Last used {tpl.lastUsed}
                         </p>
                       )}
@@ -316,7 +316,7 @@ export function SignaturePicker({ onInsert, onClose, compact }: SignaturePickerP
               <div className="flex items-center gap-2">
                 <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>{sig.name}</p>
                 {sig.isDefault && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-tv-brand-tint text-tv-brand" style={{ fontWeight: 600 }}>DEFAULT</span>
+                  <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-tv-brand-tint text-tv-brand" style={{ fontWeight: 600 }}>DEFAULT</span>
                 )}
               </div>
               {selectedId === sig.id && <Check size={13} className="text-tv-brand shrink-0" />}

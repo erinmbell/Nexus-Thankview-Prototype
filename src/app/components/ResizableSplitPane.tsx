@@ -30,6 +30,16 @@ export function ResizableSplitPane({
     setRightPercent(defaultRightPercent);
   }, [defaultRightPercent]);
 
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      setRightPercent(prev => Math.min(maxRightPercent, prev + 2));
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      setRightPercent(prev => Math.max(minRightPercent, prev - 2));
+    }
+  }, [minRightPercent, maxRightPercent]);
+
   useEffect(() => {
     if (!isDragging) return;
     const handleMouseMove = (e: MouseEvent) => {
@@ -64,9 +74,15 @@ export function ResizableSplitPane({
         <button
           onMouseDown={handleMouseDown}
           onDoubleClick={handleDoubleClick}
+          onKeyDown={handleKeyDown}
           className="relative w-full flex items-center justify-center cursor-col-resize focus:outline-none focus-visible:ring-2 focus-visible:ring-tv-brand/40"
-          aria-label="Resize panes"
-          title="Drag to resize \u00b7 Double-click to reset"
+          role="separator"
+          aria-orientation="vertical"
+          aria-valuenow={Math.round(rightPercent)}
+          aria-valuemin={minRightPercent}
+          aria-valuemax={maxRightPercent}
+          aria-label="Resize panes (drag, double-click to reset, or use arrow keys)"
+          title="Resize panes (drag, double-click to reset, or use arrow keys)"
         >
           <div className={`absolute inset-y-0 left-1/2 -translate-x-1/2 w-[3px] rounded-full transition-colors duration-150 ${isDragging ? "bg-tv-brand-bg" : "bg-tv-border-light group-hover:bg-tv-brand-bg/50"}`} />
           <div

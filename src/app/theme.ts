@@ -85,9 +85,9 @@ const TV = {
   surfaceMuted:  "#fafbfc",
 
   /* ── Borders ──────────────────────────────────────────────────────────────── */
-  borderStrong:  "#b5a4cd",
-  border:        "#d4c4e8",
-  borderLight:   "#9a8ab5",
+  borderStrong:  "#8a7aab",   //  4.0:1 — prominent UI elements
+  border:        "#9a8ab5",   //  3.15:1 — interactive element borders (WCAG 1.4.11 AA)
+  borderLight:   "#9a8ab5",   //  3.15:1 — input borders (kept for compat)
   borderDivider: "#f0eaf8",
 
   /* ── Text — all AA-compliant on #ffffff (≥ 4.5:1) ─────────────────────────── */
@@ -95,7 +95,7 @@ const TV = {
   textSecondary: "#6b6b6b",   //  4.97:1
   textLabel:     "#5d5e65",   //  5.55:1
   textBrand:     "#7c45b0",   //  6.29:1
-  textDecorative:"#7a6b96",   //  4.82:1 — hint text, helper text (AA-compliant)
+  textDecorative:"#5c4f78",   //  5.3:1 — hint text, helper text (AA-compliant)
 
   /* ── Brand palette ────────────────────────────────────────────────────────── */
   brand:         "#7c45b0",   //  6.29:1 — primary brand text & icons

@@ -165,7 +165,7 @@ export function TagSelect({
       size={pillSize}
       styles={{
         root: { backgroundColor: TV.brandTint, color: TV.brandBg, border: `1px solid ${TV.borderLight}`, gap: 3, cursor: "default", outline: "none" },
-        remove: { color: TV.brandBg, width: 14, height: 14 },
+        remove: { color: TV.brandBg, width: 14, height: 14, minWidth: 24, minHeight: 24, display: "flex", alignItems: "center", justifyContent: "center" },
       }}
       className="focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-tv-brand focus-visible:rounded-full"
     >
@@ -201,7 +201,7 @@ export function TagSelect({
                 fontSize: compact ? 11 : 13,
                 padding: "4px 10px",
                 cursor: "text",
-                backgroundColor: '#fff',
+                backgroundColor: "white",
               },
             }}
           >

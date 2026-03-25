@@ -527,7 +527,7 @@ function CardContent({
           {/* Video controls bar */}
           <div
             className="flex items-center gap-1.5 px-2"
-            style={{ height: controlsH, backgroundColor: "#1a2340" }}
+            style={{ height: controlsH, backgroundColor: "#1a2340" }} // Dark envelope background — intentional animation color
           >
             <RotateCcw size={iconSz} className="text-white/70 shrink-0" />
             <Volume2 size={iconSz} className="text-white/70 shrink-0" />

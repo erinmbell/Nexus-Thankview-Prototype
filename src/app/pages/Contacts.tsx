@@ -383,7 +383,7 @@ function ImportModal({ onClose, onImport }: { onClose: () => void; onImport: (mo
         <Stack gap="md">
           {/* Flagged rows warning */}
           {stats.flagged > 0 && (
-            <Box bg="#fef9ee" p="md" style={{ borderRadius: 12, border: `1px solid ${TV.warningBorder}` }}>
+            <Box bg={TV.warningBg} p="md" style={{ borderRadius: 12, border: `1px solid ${TV.warningBorder}` }}>
               <div className="flex items-center gap-1.5 mb-2">
                 <AlertTriangle size={14} style={{ color: TV.warningHover }} />
                 <Text fz={12} fw={600} c={TV.warningHover}>{stats.flagged} rows flagged</Text>
@@ -1489,13 +1489,13 @@ export function Contacts() {
         ) : (
           <>
             {/* ── Desktop table ── */}
-            <Box visibleFrom="md" className="overflow-x-auto max-h-[70vh] overflow-y-auto">
-              <Table verticalSpacing={0} horizontalSpacing={0} highlightOnHover
+            <Box visibleFrom="md" className="overflow-x-auto max-h-[70vh] overflow-y-auto" role="region" aria-label="Contacts table" tabIndex={0}>
+              <Table aria-label="Contacts" verticalSpacing={0} horizontalSpacing={0} highlightOnHover
                 styles={{ table: { borderCollapse: "collapse", minWidth: Math.max(1000, activeColumns.length * 170 + 100) }, td: { whiteSpace: "nowrap" } }}
               >
                 <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
                   <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
-                    <Table.Th w={44} style={{ padding: "10px 0 10px 16px", verticalAlign: "middle" }}>
+                    <Table.Th scope="col" w={44} style={{ padding: "10px 0 10px 16px", verticalAlign: "middle" }}>
                       <Checkbox
                         checked={allOnPageSelected}
                         indeterminate={selected.length > 0 && !allOnPageSelected}
@@ -1512,7 +1512,7 @@ export function Contacts() {
                         ? "Video engagement score (0–100) based on ThankView video watch rates"
                         : null;
                       return (
-                        <Table.Th key={colKey} aria-sort={getAriaSort(colKey, sortKey, sortDir)} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
+                        <Table.Th scope="col" key={colKey} aria-sort={getAriaSort(colKey, sortKey, sortDir)} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
                           {tooltip ? (
                             <Tooltip label={tooltip} withArrow multiline w={240} fz={11}>
                               <span>

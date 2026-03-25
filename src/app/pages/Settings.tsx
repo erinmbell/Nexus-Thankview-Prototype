@@ -12,7 +12,6 @@ import {
 import {
   TextInput,
   Select,
-  Switch,
   Button,
   Badge,
   Modal,
@@ -34,6 +33,8 @@ import {
 } from "@mantine/core";
 import { TV } from "../theme";
 import { TablePagination } from "../components/TablePagination";
+import { FormSection } from "../components/ui/FormSection";
+import { Toggle } from "../components/ui/Toggle";
 import { SortableHeader, nextSort, sortRows } from "../components/SortableHeader";
 import type { SortState } from "../components/SortableHeader";
 import { EditColumnsModal, ColumnsButton } from "../components/ColumnCustomizer";
@@ -120,12 +121,9 @@ function ToggleRow({
           )}
           {description && <Text fz={12} c={TV.textSecondary}>{description}</Text>}
         </div>
-        <Switch
-          checked={checked}
-          onChange={onChange}
-          size="md"
-          color="tvPurple.6"
-          styles={{ track: { cursor: "pointer" } }}
+        <Toggle
+          enabled={!!checked}
+          onToggle={() => onChange?.({} as any)}
         />
       </div>
     </Box>
@@ -156,6 +154,7 @@ function InviteModal({ opened, onClose, onInvite }: { opened: boolean; onClose: 
         <TextInput
           label="Email Address"
           placeholder="colleague@hartwell.edu"
+          autoComplete="email"
           value={email}
           onChange={e => setEmail(e.currentTarget.value)}
         />
@@ -267,6 +266,7 @@ function ProfileTab() {
       </div>
 
       {/* Profile info */}
+      <FormSection legend="Profile Information">
       <div className="rounded-[var(--mantine-radius-default)] border" style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
         <SectionHeader icon={User} title="Profile Information" description="Your name and title as they appear across ThankView." />
         <Box px="lg" py="md">
@@ -307,8 +307,10 @@ function ProfileTab() {
           <Button leftSection={<Check size={13} />} color="tvPurple" onClick={handleSaveProfile}>Save Profile</Button>
         </Box>
       </div>
+      </FormSection>
 
       {/* Password */}
+      <FormSection legend="Change Password">
       <div className="rounded-[var(--mantine-radius-default)] border" style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
         <Box px="lg" py="md">
           <div className="flex items-center justify-between mb-3">
@@ -334,8 +336,10 @@ function ProfileTab() {
           )}
         </Box>
       </div>
+      </FormSection>
 
       {/* 2FA — SMS-based */}
+      <FormSection legend="Two-Step Verification">
       <div className="rounded-[var(--mantine-radius-default)] border" style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
         <Box px="lg" py="md">
           <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
@@ -415,6 +419,7 @@ function ProfileTab() {
           )}
         </Box>
       </div>
+      </FormSection>
     </Stack>
   );
 }
@@ -502,12 +507,10 @@ function GeneralTab() {
             </div>
             <Text fz={12} c={TV.textSecondary} mt={4}>Allow users to sign in using your organization's Microsoft Azure AD / Entra ID account. SSO requires additional configuration in your Microsoft admin portal.</Text>
           </div>
-          <Switch
-            checked={sso}
-            onChange={() => setSso(!sso)}
+          <Toggle
+            enabled={sso}
+            onToggle={() => setSso(!sso)}
             size="lg"
-            color="tvPurple.6"
-            styles={{ track: { cursor: "pointer" } }}
           />
         </div>
         <Box mt="md" p="sm" bg={sso ? TV.brandTint : TV.surfaceMuted} style={{ borderRadius: 10, border: `1px solid ${sso ? TV.borderStrong : TV.borderLight}` }}>
@@ -1152,7 +1155,7 @@ function UsersTab() {
             <div>
               <div className="flex items-center gap-2">
                 <Users size={15} style={{ color: TV.brand }} />
-                <Title order={3} fz={15}>Organization Users</Title>
+                <Title order={2} fz={15}>Organization Users</Title>
                 <Badge size="sm" variant="light" color="tvPurple" radius="sm">{users.length}</Badge>
               </div>
               <Text fz={12} c={TV.textSecondary} mt={2}>View all users, their roles, and last activity. Only Admins can manage users and permissions.</Text>
@@ -1167,8 +1170,8 @@ function UsersTab() {
         </Box>
 
         {/* Desktop table */}
-        <Box visibleFrom="sm" className="overflow-x-auto max-h-[70vh] overflow-y-auto">
-          <Table verticalSpacing={0} horizontalSpacing={0} highlightOnHover
+        <Box visibleFrom="sm" className="overflow-x-auto max-h-[70vh] overflow-y-auto" role="region" aria-label="Users table" tabIndex={0}>
+          <Table aria-label="Users" verticalSpacing={0} horizontalSpacing={0} highlightOnHover
             styles={{ table: { borderCollapse: "collapse", minWidth: 700 }, td: { whiteSpace: "nowrap" } }}
           >
             <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
@@ -1177,12 +1180,12 @@ function UsersTab() {
                   const col = USERS_ALL_COLUMNS.find(c => c.key === colKey);
                   if (!col) return null;
                   return (
-                    <Table.Th key={colKey} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
+                    <Table.Th scope="col" key={colKey} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
                       <SortableHeader label={col.label} sortKey={colKey} currentSort={usersSort.key} currentDir={usersSort.dir} onSort={handleUsersSort} />
                     </Table.Th>
                   );
                 })}
-                <Table.Th w={44} style={{ padding: "10px 16px", verticalAlign: "middle" }} />
+                <Table.Th scope="col" w={44} style={{ padding: "10px 16px", verticalAlign: "middle" }} />
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
@@ -1329,7 +1332,7 @@ function UsersTab() {
             <div className="flex items-center gap-2 flex-wrap">
               <Shield size={15} style={{ color: TV.brand }} />
               <div>
-                <Title order={3} fz={15}>Role Permissions Matrix</Title>
+                <Title order={2} fz={15}>Role Permissions Matrix</Title>
                 <Text fz={12} c={TV.textSecondary} mt={2}>Full breakdown of what each ThankView role can access.</Text>
               </div>
             </div>
@@ -1347,16 +1350,16 @@ function UsersTab() {
 
         <Collapse in={matrixOpen}>
           <Box style={{ overflowX: "auto", maxHeight: "60vh", overflowY: "auto" }}>
-            <Table verticalSpacing={0} horizontalSpacing={0} highlightOnHover
+            <Table aria-label="Role permissions matrix" verticalSpacing={0} horizontalSpacing={0} highlightOnHover
               styles={{ table: { borderCollapse: "collapse", minWidth: 700 }, td: { whiteSpace: "nowrap" } }}
             >
               <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
                 <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
-                  <Table.Th style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap", textAlign: "left", minWidth: 200 }}>
+                  <Table.Th scope="col" style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap", textAlign: "left", minWidth: 200 }}>
                     <SortableHeader label="Permission" sortKey="permission" currentSort={matrixSort.key} currentDir={matrixSort.dir} onSort={handleMatrixSort} />
                   </Table.Th>
                   {ROLES.map(r => (
-                    <Table.Th key={r} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap", textAlign: "center", minWidth: 110 }}>
+                    <Table.Th scope="col" key={r} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap", textAlign: "center", minWidth: 110 }}>
                       <Badge color={roleBadgeColor(r)} size="xs" variant="light">{r}</Badge>
                     </Table.Th>
                   ))}
@@ -1801,7 +1804,7 @@ function VideoTab() {
               <Text fz={13} fw={600} c={TV.textPrimary}>Virtual Background</Text>
               <Text fz={12} c={TV.textSecondary}>Allow users to select an image as a virtual background during desktop recording.</Text>
             </div>
-            <Switch checked={virtualBg} onChange={() => setVirtualBg(!virtualBg)} size="md" color="tvPurple.6" styles={{ track: { cursor: "pointer" } }} />
+            <Toggle enabled={virtualBg} onToggle={() => setVirtualBg(!virtualBg)} />
           </div>
           {virtualBg && (
             <div>
@@ -1855,13 +1858,7 @@ function VideoTab() {
               <Text fz={13} fw={600} c={TV.textPrimary}>Enable Default Outro</Text>
               <Text fz={12} c={TV.textSecondary}>When enabled, this outro will be appended to all new videos by default. Users can remove the outro from individual videos if needed.</Text>
             </div>
-            <Switch
-              checked={outroEnabled}
-              onChange={() => setOutroEnabled(!outroEnabled)}
-              size="md"
-              color="tvPurple.6"
-              styles={{ track: { cursor: "pointer" } }}
-            />
+            <Toggle enabled={outroEnabled} onToggle={() => setOutroEnabled(!outroEnabled)} />
           </div>
         </Box>
 
@@ -1972,7 +1969,7 @@ function VideoTab() {
               <Text fz={12} c={TV.textSecondary} mt={4}>When enabled, all new videos recorded or uploaded in your portal will be automatically captioned using AI. This applies organization-wide — individual users do not need to take any action.</Text>
               <Text fz={10} c={TV.textSecondary} fs="italic" mt={4}>~20% of recent library videos use AI captions.</Text>
             </div>
-            <Switch checked={aiCaptions} onChange={() => setAiCaptions(!aiCaptions)} size="md" color="tvPurple.6" styles={{ track: { cursor: "pointer" } }} />
+            <Toggle enabled={aiCaptions} onToggle={() => setAiCaptions(!aiCaptions)} />
           </div>
         </Box>
 
@@ -1987,7 +1984,7 @@ function VideoTab() {
               </div>
               <Text fz={12} c={TV.textSecondary} mt={4}>Enable this to allow users in your portal to submit videos for professional, human-written captions. Each caption request uses credits from your organization's caption balance. This is ideal for high-visibility videos like donor thank-yous, campaign launches, or official addresses where accuracy matters most.</Text>
             </div>
-            <Switch checked={revCaptions} onChange={() => setRevCaptions(!revCaptions)} size="md" color="tvPurple.6" styles={{ track: { cursor: "pointer" } }} />
+            <Toggle enabled={revCaptions} onToggle={() => setRevCaptions(!revCaptions)} />
           </div>
 
           {revCaptions && (
@@ -2023,7 +2020,7 @@ function VideoTab() {
                       )}
                     </div>
                   </div>
-                  <Switch checked={autoRenewCredits} onChange={() => setAutoRenewCredits(!autoRenewCredits)} size="md" color="tvPurple" styles={{ track: { cursor: "pointer" } }} />
+                  <Toggle enabled={autoRenewCredits} onToggle={() => setAutoRenewCredits(!autoRenewCredits)} />
                 </div>
               </Box>
 
@@ -2215,13 +2212,7 @@ function VideoTab() {
                   });
                 }}
               >
-                <Switch
-                  checked={hiddenRecordingFields.has(field.id)}
-                  onChange={() => {}}
-                  size="xs"
-                  color="tvPurple.6"
-                  styles={{ track: { cursor: "pointer" } }}
-                />
+                <Toggle enabled={hiddenRecordingFields.has(field.id)} onToggle={() => {}} size="xs" />
                 <Text fz={12} c={TV.textPrimary}>{field.label}</Text>
               </div>
             ))}
@@ -2533,7 +2524,7 @@ function SubscriptionTab() {
             <div className="flex items-center gap-2">
               <CalendarClock size={15} style={{ color: TV.brand }} />
               <div>
-                <Title order={3} fz={15}>Billing History</Title>
+                <Title order={2} fz={15}>Billing History</Title>
                 <Text fz={12} c={TV.textSecondary} mt={2}>Recent charges and invoices for your organization.</Text>
               </div>
             </div>
@@ -2541,7 +2532,7 @@ function SubscriptionTab() {
           </div>
         </Box>
         <Box style={{ overflowX: "auto", maxHeight: "70vh", overflowY: "auto" }}>
-          <Table verticalSpacing={0} horizontalSpacing={0} highlightOnHover
+          <Table aria-label="Billing history" verticalSpacing={0} horizontalSpacing={0} highlightOnHover
             styles={{ table: { borderCollapse: "collapse", minWidth: 600 }, td: { whiteSpace: "nowrap" } }}>
             <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
               <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
@@ -2549,7 +2540,7 @@ function SubscriptionTab() {
                   const col = BILLING_ALL_COLUMNS.find(c => c.key === colKey);
                   if (!col) return null;
                   return (
-                    <Table.Th key={colKey} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
+                    <Table.Th scope="col" key={colKey} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
                       <SortableHeader label={col.label} sortKey={colKey} currentSort={billingSort.key} currentDir={billingSort.dir} onSort={handleBillingSort} />
                     </Table.Th>
                   );
@@ -2686,7 +2677,6 @@ export function Settings() {
 
       {/* ── Desktop: left sidebar nav ── */}
       <div className="hidden sm:flex w-[220px] shrink-0 bg-white border-r border-tv-border-light flex-col pt-6">
-        <h1 className="sr-only">Settings</h1>
         <Text fz={11} fw={600} tt="uppercase" lts="0.05em" c={TV.textLabel} px="lg" mb="sm" aria-hidden="true">Settings</Text>
         {TABS.map(t => (
           <button

@@ -92,6 +92,7 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
               </div>
               <button
                 onClick={handleClose}
+                aria-label="Close"
                 className="w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center transition-colors"
               >
                 <X size={14} className="text-[#1a1a1a]" />

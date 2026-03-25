@@ -11,6 +11,7 @@ import {
 } from "@mantine/core";
 
 import { Breadcrumbs } from "../components/Breadcrumbs";
+import { FormSection } from "../components/ui/FormSection";
 
 const JOB_TITLES = [
   "Director of Annual Giving",
@@ -103,6 +104,7 @@ export function UserProfile() {
       </div>
 
       {/* Profile info */}
+      <FormSection legend="Profile Information">
       <div className="border rounded-[var(--mantine-radius-default)] p-4 sm:p-6 mb-4" style={{ borderColor: TV.borderLight }}>
         <Title order={2} fz={16} mb="md">Profile Information</Title>
         <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md" mb="md">
@@ -122,8 +124,10 @@ export function UserProfile() {
           Save Profile
         </Button>
       </div>
+      </FormSection>
 
       {/* Password */}
+      <FormSection legend="Change Password">
       <div className="border rounded-[var(--mantine-radius-default)] p-6 mb-4" style={{ borderColor: TV.borderLight }}>
         <div className="flex items-center justify-between mb-3">
           <Title order={2} fz={16}>Password</Title>
@@ -148,7 +152,10 @@ export function UserProfile() {
         )}
       </div>
 
+      </FormSection>
+
       {/* 2FA — SMS-based */}
+      <FormSection legend="Two-Step Verification">
       <div className="border rounded-[var(--mantine-radius-default)] p-6" style={{ borderColor: TV.borderLight }}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
@@ -226,6 +233,7 @@ export function UserProfile() {
           </Stack>
         )}
       </div>
+      </FormSection>
     </Box>
   );
 }

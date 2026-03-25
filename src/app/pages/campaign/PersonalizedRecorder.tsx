@@ -1635,7 +1635,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
               </div>
 
               {/* ── Right: Live preview ── */}
-              <div className="flex-1 flex flex-col overflow-hidden" style={{ backgroundColor: "#f5f3fa" }}>
+              <div className="flex-1 flex flex-col overflow-hidden" style={{ backgroundColor: TV.surface }}>
                 {/* Preview toolbar */}
                 <div className="flex items-center justify-between px-5 py-3 border-b bg-white shrink-0" style={{ borderColor: TV.borderLight }}>
                   <div className="flex items-center gap-3">

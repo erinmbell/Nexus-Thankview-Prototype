@@ -2146,7 +2146,7 @@ export function CampaignDetail() {
             ) : (
               <>
                 {/* Desktop table header */}
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto" role="region" aria-label="Campaign constituents table" tabIndex={0}>
                   <div className="min-w-[600px]">
                 <div className="hidden sm:grid gap-4 px-5 py-3 bg-tv-surface-muted border-b border-tv-border-divider text-[10px] text-tv-text-secondary uppercase tracking-wider [&>span]:whitespace-nowrap" style={{ fontWeight: 600, gridTemplateColumns: activeConstCols.map(k => ({ name: "2fr", email: "2fr", video: "0.8fr", status: "1.2fr", opened: "0.8fr", lastSent: "1.4fr", replies: "1fr", actions: "0.8fr" }[k] || "1fr")).join(" ") }}>
                   {activeConstCols.map(k => {
@@ -2465,7 +2465,7 @@ export function CampaignDetail() {
               { label: "Open Rate",       value: campaign.openRate,   icon: Eye, color: "text-tv-success", bg: "bg-tv-success-bg" },
               { label: "Click Rate",      value: campaign.clickRate,  icon: BarChart3, color: "text-tv-info", bg: "bg-tv-info-bg" },
             ].map(s => (
-              <Paper key={s.label} radius={18} withBorder p="md" style={{ borderColor: TV.borderLight }} className="flex flex-col items-center text-center gap-2">
+              <Paper key={s.label} radius="xl" withBorder p="md" style={{ borderColor: TV.borderLight }} className="flex flex-col items-center text-center gap-2">
                 <div className={`w-10 h-10 ${s.bg} rounded-md flex items-center justify-center shrink-0`}><s.icon size={16} className={s.color} /></div>
                 <Text fz={9} fw={600} c={TV.textLabel} tt="uppercase" lts="0.05em">{s.label}</Text>
                 <Text fz={20} fw={900} c={TV.textPrimary} ff="Fraunces, Roboto, sans-serif">{s.value}</Text>
@@ -2545,7 +2545,7 @@ export function CampaignDetail() {
             ) : (
               <>
                 {/* Desktop header */}
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto" role="region" aria-label="Per-constituent data table" tabIndex={0}>
                   <div className="min-w-[700px]">
                     <div className="hidden sm:grid grid-cols-[2fr_1.5fr_1fr_1.5fr_1.2fr_1fr_0.5fr] gap-3 px-5 py-2.5 bg-tv-surface-muted border-b border-tv-border-divider text-[10px] text-tv-text-secondary uppercase tracking-wider [&>span]:whitespace-nowrap" style={{ fontWeight: 600 }}>
                       <span>Name</span><span>Email / Phone</span><span>Video</span><span>Delivery</span><span>Replies</span><span>Sends</span><span></span>
@@ -2618,15 +2618,15 @@ export function CampaignDetail() {
 
           {/* Submissions table */}
           <Paper radius="xl" withBorder style={{ borderColor: TV.borderLight, overflow: "hidden" }}>
-            <table className="w-full text-left">
+            <table className="w-full text-left" aria-label="Video request submissions">
               <thead>
                 <tr className="border-b border-tv-border-divider bg-tv-surface/40">
-                  <th className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Recorder</th>
-                  <th className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Video</th>
-                  <th className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Submitted</th>
-                  <th className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Duration</th>
-                  <th className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Status</th>
-                  <th className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Actions</th>
+                  <th scope="col" className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Recorder</th>
+                  <th scope="col" className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Video</th>
+                  <th scope="col" className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Submitted</th>
+                  <th scope="col" className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Duration</th>
+                  <th scope="col" className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Status</th>
+                  <th scope="col" className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -2755,17 +2755,17 @@ export function CampaignDetail() {
                 </Button>
               )}
             </div>
-            <table className="w-full text-left">
+            <table className="w-full text-left" aria-label="Resend history">
               <thead>
                 <tr className="border-b border-tv-border-divider bg-tv-surface/20">
-                  <th className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Send #</th>
-                  <th className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Date</th>
-                  <th className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Subject</th>
-                  <th className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Constituents</th>
-                  <th className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Delivered</th>
-                  <th className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Opened</th>
-                  <th className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Clicked</th>
-                  <th className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Status</th>
+                  <th scope="col" className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Send #</th>
+                  <th scope="col" className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Date</th>
+                  <th scope="col" className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Subject</th>
+                  <th scope="col" className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Constituents</th>
+                  <th scope="col" className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Delivered</th>
+                  <th scope="col" className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Opened</th>
+                  <th scope="col" className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Clicked</th>
+                  <th scope="col" className="px-4 py-2.5 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -2816,14 +2816,14 @@ export function CampaignDetail() {
                 </Row>
               </Row>
             </div>
-            <table className="w-full text-left">
+            <table className="w-full text-left" aria-label="Resend constituents">
               <thead>
                 <tr className="border-b border-tv-border-divider bg-tv-surface/20">
-                  <th className="px-4 py-2 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Name</th>
-                  <th className="px-4 py-2 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Email</th>
-                  <th className="px-4 py-2 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Last Sent</th>
-                  <th className="px-4 py-2 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Times Sent</th>
-                  <th className="px-4 py-2 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Status</th>
+                  <th scope="col" className="px-4 py-2 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Name</th>
+                  <th scope="col" className="px-4 py-2 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Email</th>
+                  <th scope="col" className="px-4 py-2 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Last Sent</th>
+                  <th scope="col" className="px-4 py-2 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Times Sent</th>
+                  <th scope="col" className="px-4 py-2 text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Status</th>
                 </tr>
               </thead>
               <tbody>

@@ -507,7 +507,7 @@ export function GlobalSearch() {
     visibleSections.indexOf(key) > 0 ? `1px solid ${TV.borderLight}` : undefined;
 
   return (
-    <Box ref={containerRef} className="flex-1 relative" style={{ maxWidth: 560 }}>
+    <Box ref={containerRef} className="flex-1 relative" style={{ maxWidth: 560 }} role="search">
       <div className="flex items-center" style={{
         border: `1.5px solid ${open && hasQuery ? TV.textBrand : TV.borderLight}`,
         borderRadius: 24,
@@ -554,7 +554,7 @@ export function GlobalSearch() {
             onChange={e => { setQuery(e.target.value); setOpen(true); }}
             onFocus={() => { if (hasQuery) setOpen(true); }}
             placeholder="Search across ThankView…"
-            aria-label="Global search"
+            aria-label="Search across ThankView"
             aria-expanded={open && hasQuery}
             style={{
               flex: 1, border: "none", background: "transparent",
@@ -579,6 +579,7 @@ export function GlobalSearch() {
       {/* ── Dropdown ─────────────────────────────────────────────────────────── */}
       {open && hasQuery && (
         <Box
+          aria-live="polite"
           style={{
             position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0,
             zIndex: 1000, backgroundColor: "white",

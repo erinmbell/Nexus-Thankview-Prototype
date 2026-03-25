@@ -25,6 +25,7 @@ import type { FilterValues, FilterDef } from "../components/FilterBar";
 import { SortableHeader, nextSort, sortRows } from "../components/SortableHeader";
 import type { SortState } from "../components/SortableHeader";
 import { TablePagination } from "../components/TablePagination";
+import { FormSection } from "../components/ui/FormSection";
 import { EditColumnsModal, ColumnsButton } from "../components/ColumnCustomizer";
 import type { ColumnDef } from "../components/ColumnCustomizer";
 import { Breadcrumbs } from "../components/Breadcrumbs";
@@ -418,7 +419,7 @@ function GivingHistoryPanel({ givingEvents, contactName }: { givingEvents: Givin
           <Text fz={12} fw={700} c={TV.textLabel} tt="uppercase" lts="0.05em">Giving Trend</Text>
         </div>
         <Text fz={12} c={TV.textSecondary} mb="lg">Quarterly giving totals with ThankView attribution</Text>
-        <div style={{ minWidth: 0 }}>
+        <div style={{ minWidth: 0 }} role="img" aria-label="Area chart showing quarterly giving totals with ThankView attribution over time">
           <ResponsiveContainer width="100%" height={240} minWidth={0}>
             <AreaChart data={trendData} margin={{ top: 5, right: 10, left: 10, bottom: 0 }} id="giving-trend-area">
               <defs key="area-defs">
@@ -459,7 +460,7 @@ function GivingHistoryPanel({ givingEvents, contactName }: { givingEvents: Givin
             <Text fz={12} fw={700} c={TV.textLabel} tt="uppercase" lts="0.05em">By Designation</Text>
           </div>
           <div className="flex items-center gap-4">
-            <div style={{ width: 130, height: 130, flexShrink: 0 }}>
+            <div style={{ width: 130, height: 130, flexShrink: 0 }} role="img" aria-label="Pie chart showing giving breakdown by designation">
               <PieChart width={130} height={130} id="designation-pie">
                 <Pie key="pie-desig" data={pieData} dataKey="total" nameKey="name" cx="50%" cy="50%" outerRadius={60} innerRadius={35} paddingAngle={2} strokeWidth={0} />
                 <RTooltip
@@ -487,7 +488,7 @@ function GivingHistoryPanel({ givingEvents, contactName }: { givingEvents: Givin
             <BarChart3 size={14} style={{ color: TV.brand }} />
             <Text fz={12} fw={700} c={TV.textLabel} tt="uppercase" lts="0.05em">By Gift Type</Text>
           </div>
-          <div style={{ minWidth: 0 }}>
+          <div style={{ minWidth: 0 }} role="img" aria-label="Horizontal bar chart showing giving totals by gift type">
             <ResponsiveContainer width="100%" height={140} minWidth={0}>
               <BarChart data={typeBarData} layout="vertical" margin={{ top: 0, right: 10, left: 0, bottom: 0 }} id="gift-type-bar">
                 <CartesianGrid key="bar-grid" strokeDasharray="3 3" stroke={TV.borderLight} horizontal={false} />
@@ -954,6 +955,7 @@ export function ContactProfile() {
               {editing ? (
                 <Stack gap="sm">
                   {/* ── Contact Details ── */}
+                  <FormSection legend="Contact Details">
                   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                     <TextInput label="Email" leftSection={<Mail size={14} style={{ color: TV.textBrand }} />}
                       value={editEmail} onChange={e => setEditEmail(e.currentTarget.value)}
@@ -964,7 +966,9 @@ export function ContactProfile() {
                       autoComplete="tel"
                       radius="md" styles={{ input: { borderColor: TV.borderLight } }} />
                   </SimpleGrid>
+                  </FormSection>
 
+                  <FormSection legend="Professional Details">
                   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                     <TextInput label="Company" leftSection={<Building2 size={14} style={{ color: TV.textBrand }} />}
                       value={editCompany} onChange={e => setEditCompany(e.currentTarget.value)}
@@ -973,6 +977,7 @@ export function ContactProfile() {
                       value={editTitle} onChange={e => setEditTitle(e.currentTarget.value)}
                       radius="md" styles={{ input: { borderColor: TV.borderLight } }} />
                   </SimpleGrid>
+                  </FormSection>
 
                   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                     <TextInput label="Remote (Donor) ID" leftSection={<Hash size={14} style={{ color: TV.textBrand }} />}
@@ -994,9 +999,11 @@ export function ContactProfile() {
                     radius="md" styles={{ input: { borderColor: TV.borderLight } }} />
 
                   {/* ── Address ── */}
+                  <FormSection legend="Address">
                   <Divider label="Address" labelPosition="left" mt="xs"
                     styles={{ label: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: TV.textLabel } }} />
 
+                  <Stack gap="sm">
                   <TextInput label="Address Line 1" leftSection={<Home size={14} style={{ color: TV.textBrand }} />}
                     value={editAddr1} onChange={e => setEditAddr1(e.currentTarget.value)}
                     autoComplete="address-line1"
@@ -1016,6 +1023,8 @@ export function ContactProfile() {
                       autoComplete="postal-code"
                       radius="md" styles={{ input: { borderColor: TV.borderLight } }} />
                   </SimpleGrid>
+                  </Stack>
+                  </FormSection>
 
                   {/* ── Tags ── */}
                   <Divider label="Tags" labelPosition="left" mt="xs"

@@ -809,9 +809,10 @@ function EngagementTooltip({ active, payload, label, chartMode, chartColor, filt
           </span>
           <button
             onClick={(e) => { e.stopPropagation(); setIsPinned(false); }}
-            style={{ background: "none", border: "none", padding: 2, cursor: "pointer", color: TV.textSecondary, display: "flex", alignItems: "center", borderRadius: 4 }}
+            style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: TV.textSecondary, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 4, minWidth: 24, minHeight: 24 }}
             onMouseEnter={e => (e.currentTarget.style.color = TV.textPrimary)}
             onMouseLeave={e => (e.currentTarget.style.color = TV.textSecondary)}
+            aria-label="Unpin metric"
           >
             <X size={12} />
           </button>
@@ -1683,7 +1684,7 @@ export function Analytics() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
         <div>
-          <Title order={1} fz={{ base: 22, sm: 24 }}>ThankView Metrics</Title>
+          <Title order={1} fz={{ base: 22, sm: 26 }}>ThankView Metrics</Title>
           <Text fz={13} c={TV.textSecondary}>Comprehensive analytics across campaigns, videos, and engagement</Text>
         </div>
         <Button variant="default" radius="xl" leftSection={<Download size={13} />} onClick={() => setExportOpen(true)} styles={{ root: { borderColor: TV.borderLight } }}>Export</Button>
@@ -1735,7 +1736,7 @@ export function Analytics() {
       {mainTab === "overview" && (
         <>
           {/* ── Performance Overview ──────────────────────────────────────── */}
-          <div className="bg-white rounded-lg border mb-4 overflow-visible" style={{ borderColor: TV.borderLight }}>
+          <div className="bg-white rounded-xl border mb-4 overflow-visible" style={{ borderColor: TV.borderLight }}>
             {/* Header row */}
             <div className="flex items-center justify-between px-5 py-3 border-b" style={{ borderColor: TV.borderLight }}>
               <span className="text-[13px] uppercase tracking-[0.6px] font-semibold" style={{ color: TV.textLabel }}>Performance Overview</span>
@@ -1750,7 +1751,8 @@ export function Analytics() {
                         <Text fz={12} fw={600} c="#fff" style={{ lineHeight: 1.3 }}>More metrics available</Text>
                         <button
                           onClick={() => { setShowGearHint(false); try { sessionStorage.setItem("tv_metrics_hint_dismissed", "1"); } catch (_e) { /* noop */ } }}
-                          className="shrink-0 mt-0.5 opacity-70 hover:opacity-100 transition-opacity"
+                          className="shrink-0 min-w-6 min-h-6 flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity"
+                          aria-label="Dismiss hint"
                         >
                           <X size={12} color="#fff" />
                         </button>
@@ -2067,7 +2069,7 @@ export function Analytics() {
                 </div>
 
                 {/* Desktop contact table */}
-                <div className="hidden md:block overflow-x-auto">
+                <div className="hidden md:block overflow-x-auto" role="region" aria-label="Contact analytics table" tabIndex={0}>
                   <div className="grid grid-cols-[1.8fr_2fr_0.9fr_1fr_0.7fr_0.7fr_0.8fr_0.9fr_1fr] gap-3 px-5 py-2.5 bg-tv-surface-muted border-b select-none min-w-[900px]" style={{ borderColor: TV.borderDivider }}>
                     {[
                       { col: "name", label: "Name" },
@@ -2286,7 +2288,7 @@ export function Analytics() {
                       onChange={e => setGoalSearch(e.currentTarget.value)}
                       size="xs" radius="xl"
                       leftSection={<Search size={12} />}
-                      rightSection={goalSearch ? <X size={11} style={{ cursor: "pointer" }} onClick={() => setGoalSearch("")} /> : null}
+                      rightSection={goalSearch ? <button aria-label="Clear search" onClick={() => setGoalSearch("")} className="min-w-6 min-h-6 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary"><X size={11} /></button> : null}
                       styles={{ input: { fontSize: 12, borderColor: TV.borderLight } }}
                       className="w-[150px]"
                     />
@@ -2348,7 +2350,7 @@ export function Analytics() {
                 </div>
 
                 {/* Campaign goals table */}
-                <div className="overflow-x-auto flex-1">
+                <div className="overflow-x-auto flex-1" role="region" aria-label="Campaign goals table" tabIndex={0}>
                   <div className="min-w-[580px]">
                     {/* Table header */}
                     <div className="grid grid-cols-[2fr_1fr_0.7fr_0.7fr_0.7fr_0.6fr] gap-2 px-3 py-2 border-b" style={{ borderColor: TV.borderDivider, backgroundColor: TV.surface }}>
@@ -2469,6 +2471,7 @@ export function Analytics() {
               ]}
               styles={{ root: { backgroundColor: TV.surface, border: "none" } }}
             />
+            <div role="img" aria-label="Area chart showing engagement trend over time for the selected metric">
             <ChartBox flex>
               {(w, h) => (
               <AreaChart id="engagement-trend" width={w} height={h} data={filteredTrend}>
@@ -2486,6 +2489,7 @@ export function Analytics() {
               </AreaChart>
               )}
             </ChartBox>
+            </div>
             <div className="flex items-center justify-end mt-2">
               <button
                 onClick={() => { setMainTab("tags"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
@@ -2599,7 +2603,7 @@ export function Analytics() {
                       onChange={e => setClipSearch(e.currentTarget.value)}
                       size="xs" radius="xl"
                       leftSection={<Search size={12} />}
-                      rightSection={clipSearch ? <X size={11} style={{ cursor: "pointer" }} onClick={() => setClipSearch("")} /> : null}
+                      rightSection={clipSearch ? <button aria-label="Clear search" onClick={() => setClipSearch("")} className="min-w-6 min-h-6 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary"><X size={11} /></button> : null}
                       styles={{ input: { fontSize: 12, borderColor: TV.borderLight, minWidth: 160 } }}
                     />
                     <ColumnsButton onClick={() => setShowEditClipColumns(true)} />
@@ -2615,11 +2619,11 @@ export function Analytics() {
                 )}
 
                 {/* Desktop table */}
-                {filteredClips.length > 0 && <div className="hidden lg:block overflow-x-auto">
-                  <table className="w-full" style={{ borderCollapse: "collapse", minWidth: 1050 }}>
+                {filteredClips.length > 0 && <div className="hidden lg:block overflow-x-auto" role="region" aria-label="Video clips table" tabIndex={0}>
+                  <table className="w-full" aria-label="Video clips" style={{ borderCollapse: "collapse", minWidth: 1050 }}>
                     <thead>
                       <tr style={{ backgroundColor: TV.surface }}>
-                        <th className="px-2 py-2.5 w-[36px]">
+                        <th scope="col" className="px-2 py-2.5 w-[36px]">
                           <Tooltip label={compareClips.length > 0 ? "Clear compare selection" : "Select clips to compare"}>
                             <ActionIcon variant="subtle" color={compareClips.length > 0 ? "tvPurple" : "gray"} size="xs" radius="xl" onClick={() => setCompareClips([])} aria-label="Compare clips">
                               <GitCompareArrows size={12} />
@@ -2631,7 +2635,7 @@ export function Analytics() {
                           if (!col) return null;
                           const isRightAligned = ["openRate", "clickRate", "views", "avgCompletion"].includes(colKey);
                           return (
-                            <th key={colKey} className={`${isRightAligned ? "text-right" : "text-left"} px-3 py-2.5`} style={colKey === "title" ? { width: "28%" } : colKey === "avgCompletion" ? { paddingRight: 16 } : undefined}>
+                            <th scope="col" key={colKey} className={`${isRightAligned ? "text-right" : "text-left"} px-3 py-2.5`} style={colKey === "title" ? { width: "28%" } : colKey === "avgCompletion" ? { paddingRight: 16 } : undefined}>
                               <button onClick={() => toggleClipSort(colKey)} className={`flex items-center gap-1 ${isRightAligned ? "ml-auto" : ""}`}>
                                 <Text fz={11} fw={600} tt="uppercase" lts="0.04em" c={clipSort.col === colKey ? TV.textBrand : TV.textSecondary}>{col.label}</Text>
                                 <ClipSortIcon col={colKey} />
@@ -2785,15 +2789,16 @@ export function Analytics() {
                         </div>
                         <div className="min-w-0 flex-1">
                           <Text fz={13} fw={600} c={TV.textBrand} className="truncate group-hover/clip:underline">{clip.title}</Text>
-                          <button
-                            type="button"
+                          <span
+                            role="link"
                             tabIndex={-1}
                             onClick={(e) => { e.stopPropagation(); navigateToCampaign(clip.campaignName); }}
+                            onKeyDown={(e) => { if (e.key === "Enter") { e.stopPropagation(); navigateToCampaign(clip.campaignName); } }}
                             className="truncate text-left transition-colors hover:underline block cursor-pointer"
                             style={{ color: TV.textBrand, fontSize: 11 }}
                           >
                             {clip.campaignName}
-                          </button>
+                          </span>
                           <Text fz={10} c={TV.textSecondary}>{clip.sender} · {clip.createdAt}</Text>
                         </div>
                       </button>
@@ -3048,7 +3053,7 @@ export function Analytics() {
                   onChange={e => setTagSearch(e.currentTarget.value)}
                   size="xs" radius="xl"
                   leftSection={<Search size={12} />}
-                  rightSection={tagSearch ? <X size={11} style={{ cursor: "pointer" }} onClick={() => setTagSearch("")} /> : null}
+                  rightSection={tagSearch ? <button aria-label="Clear search" onClick={() => setTagSearch("")} className="min-w-6 min-h-6 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary"><X size={11} /></button> : null}
                   styles={{ input: { fontSize: 12, borderColor: TV.borderLight, minWidth: 160 } }}
                 />
                 <Tooltip label="Export tag report">
@@ -3384,7 +3389,7 @@ export function Analytics() {
                     onChange={e => setTagDrawerSearch(e.currentTarget.value)}
                     size="xs" radius="xl" mb="sm"
                     leftSection={<Search size={12} />}
-                    rightSection={tagDrawerSearch ? <X size={11} style={{ cursor: "pointer" }} onClick={() => setTagDrawerSearch("")} /> : null}
+                    rightSection={tagDrawerSearch ? <button aria-label="Clear search" onClick={() => setTagDrawerSearch("")} className="min-w-6 min-h-6 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary"><X size={11} /></button> : null}
                     styles={{ input: { fontSize: 12, borderColor: TV.borderLight } }}
                   />
                   {tagDrawerSearch && (
@@ -3521,7 +3526,7 @@ export function Analytics() {
           <div className="flex items-center gap-2 flex-wrap mb-4">
             <ChipFilter label="Campaign" icon={Send} options={PDF_CAMPAIGNS.map(c => ({ value: c.name, label: c.name }))} values={pdfCampaignFilter} onChange={setPdfCampaignFilter} searchable />
             {pdfCampaignFilter.length > 0 && (
-              <UnstyledButton onClick={() => setPdfCampaignFilter([])} className="flex items-center gap-1 px-2 py-1 rounded-full hover:bg-tv-surface-muted transition-colors">
+              <UnstyledButton onClick={() => setPdfCampaignFilter([])} className="flex items-center gap-1 px-2 py-1 min-h-6 rounded-full hover:bg-tv-surface-muted transition-colors">
                 <X size={11} style={{ color: TV.textSecondary }} /><Text fz={10} c={TV.textSecondary}>Clear</Text>
               </UnstyledButton>
             )}
@@ -3559,7 +3564,7 @@ export function Analytics() {
                 <Kpi label="Avg Completion" value={`${pdfAvgCompletion}%`} />
               </div>
             </div>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto" role="region" aria-label="PDF metrics table" tabIndex={0}>
               <div className="min-w-[1200px]">
                 <div className="grid grid-cols-[2.5fr_repeat(12,1fr)] gap-2 px-5 py-2.5 bg-tv-surface-muted border-b text-[11px] font-semibold uppercase tracking-[0.04em] [&>span]:whitespace-nowrap" style={{ borderColor: TV.borderDivider, color: TV.textSecondary }}>
                   <span>Campaign</span><span>Sent</span><span>Delivered</span><span>Unsub Rate</span><span>Spam Rate</span><span>Bounce Rate</span><span>Unique Views</span><span>Total Views</span><span>Downloads</span><span>Prints</span><span>Shares</span><span>Request Print</span><span>Avg Completion</span>
@@ -3631,7 +3636,7 @@ export function Analytics() {
           <div className="flex items-center gap-2 flex-wrap mb-4">
             <ChipFilter label="Campaign" icon={Send} options={ODDER_CAMPAIGNS.map(c => ({ value: c.name, label: c.name }))} values={odderCampaignFilter} onChange={setOdderCampaignFilter} searchable />
             {odderCampaignFilter.length > 0 && (
-              <UnstyledButton onClick={() => setOdderCampaignFilter([])} className="flex items-center gap-1 px-2 py-1 rounded-full hover:bg-tv-surface-muted transition-colors">
+              <UnstyledButton onClick={() => setOdderCampaignFilter([])} className="flex items-center gap-1 px-2 py-1 min-h-6 rounded-full hover:bg-tv-surface-muted transition-colors">
                 <X size={11} style={{ color: TV.textSecondary }} /><Text fz={10} c={TV.textSecondary}>Clear</Text>
               </UnstyledButton>
             )}
@@ -3682,7 +3687,7 @@ export function Analytics() {
             </div>
 
             {/* Table: message-level rows expandable to per-PDF sub-rows */}
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto" role="region" aria-label="Endowment reports table" tabIndex={0}>
               <div className="min-w-[1340px]">
                 {/* Header — two tiers: delivery columns then PDF columns */}
                 <div className="grid grid-cols-[2.5fr_repeat(5,minmax(0,1fr))_1px_repeat(7,minmax(0,1fr))] gap-2 px-5 py-2.5 bg-tv-surface-muted border-b text-[11px] font-semibold uppercase tracking-[0.04em] [&>span]:whitespace-nowrap items-center" style={{ borderColor: TV.borderDivider, color: TV.textSecondary }}>
@@ -4051,7 +4056,7 @@ export function Analytics() {
                 />
               </div>
               {/* Table */}
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto" role="region" aria-label="Endowment recipients table" tabIndex={0}>
                 <div className="min-w-[960px]">
                   {/* Header */}
                   <div className="grid grid-cols-[2fr_1.2fr_80px_80px_60px_60px_60px_60px_80px_100px] gap-2 px-5 py-2.5 bg-tv-surface-muted border-b text-[11px] font-semibold uppercase tracking-[0.04em]" style={{ borderColor: TV.borderDivider, color: TV.textSecondary }}>
@@ -4244,7 +4249,7 @@ export function Analytics() {
             />
             <ChipFilter label="Campaign" icon={Send} options={allVideoCampaigns.map(c => ({ value: c, label: c }))} values={videoCampaignFilter} onChange={setVideoCampaignFilter} searchable />
             {hasAnyFilter && (
-              <UnstyledButton onClick={() => { setVideoCampaignFilter([]); setVideoTimePeriod(["all_time"]); }} className="flex items-center gap-1 px-2 py-1 rounded-full hover:bg-tv-surface-muted transition-colors">
+              <UnstyledButton onClick={() => { setVideoCampaignFilter([]); setVideoTimePeriod(["all_time"]); }} className="flex items-center gap-1 px-2 py-1 min-h-6 rounded-full hover:bg-tv-surface-muted transition-colors">
                 <X size={11} style={{ color: TV.textSecondary }} /><Text fz={10} c={TV.textSecondary}>Clear all</Text>
               </UnstyledButton>
             )}
@@ -4291,7 +4296,7 @@ export function Analytics() {
                 </Tooltip>
               </div>
             </div>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto" role="region" aria-label="Per-user breakdown table" tabIndex={0}>
               <div className="min-w-[700px]">
                 {/* Sortable column headers */}
                 <div className="grid gap-3 px-5 py-2.5 bg-tv-surface-muted border-b" style={{ gridTemplateColumns: videoGridTemplate, borderColor: TV.borderDivider }}>
@@ -4529,7 +4534,7 @@ export function Analytics() {
                   onChange={e => setTagsTabSearch(e.currentTarget.value)}
                   size="xs" radius="xl"
                   leftSection={<Search size={12} />}
-                  rightSection={tagsTabSearch ? <X size={11} style={{ cursor: "pointer" }} onClick={() => setTagsTabSearch("")} /> : null}
+                  rightSection={tagsTabSearch ? <button aria-label="Clear search" onClick={() => setTagsTabSearch("")} className="min-w-6 min-h-6 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary"><X size={11} /></button> : null}
                   styles={{ input: { fontSize: 12, borderColor: TV.borderLight, minWidth: 160 } }}
                 />
                 <Tooltip label="Export tag data">
@@ -4727,7 +4732,7 @@ export function Analytics() {
                     onChange={e => setTagDrawerSearch(e.currentTarget.value)}
                     size="xs" radius="xl" mb="sm"
                     leftSection={<Search size={12} />}
-                    rightSection={tagDrawerSearch ? <X size={11} style={{ cursor: "pointer" }} onClick={() => setTagDrawerSearch("")} /> : null}
+                    rightSection={tagDrawerSearch ? <button aria-label="Clear search" onClick={() => setTagDrawerSearch("")} className="min-w-6 min-h-6 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary"><X size={11} /></button> : null}
                     styles={{ input: { fontSize: 12, borderColor: TV.borderLight } }}
                   />
                   {tagDrawerSearch && (
@@ -4794,7 +4799,7 @@ export function Analytics() {
       )}
 
       {/* Create List Naming Modal */}
-      <Modal opened={!!createListPending} onClose={() => { setCreateListPending(null); setCreateListName(""); }} title="Name Your List" centered size="sm" radius={16}
+      <Modal opened={!!createListPending} onClose={() => { setCreateListPending(null); setCreateListName(""); }} title="Name Your List" centered size="sm" radius="xl"
         styles={{ title: { fontWeight: 700, fontSize: 16 }, header: { borderBottom: `1px solid ${TV.borderDivider}`, paddingBottom: 12 }, body: { paddingTop: 16 } }}>
         <Text fz={13} c={TV.textSecondary} mb={12}>
           Create a list from <strong style={{ color: TV.textPrimary }}>{createListPending}</strong> contacts. You can rename it below.

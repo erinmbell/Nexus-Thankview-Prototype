@@ -278,11 +278,11 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
         ) : (
           /* ── List View ── */
           <div className="bg-white rounded-lg border border-tv-border-light shadow-sm overflow-hidden">
-            <table className="w-full text-left">
+            <table className="w-full text-left" aria-label="Video library">
               <thead>
                 <tr className="border-b border-tv-border-light bg-tv-surface-muted">
                   {["Name", "Folder", "Duration", "Created", "Actions"].map(h => (
-                    <th key={h} className="px-4 py-2.5 text-[11px] text-tv-text-tertiary uppercase tracking-wide" style={{ fontWeight: 600 }}>{h}</th>
+                    <th scope="col" key={h} className="px-4 py-2.5 text-[11px] text-tv-text-tertiary uppercase tracking-wide" style={{ fontWeight: 600 }}>{h}</th>
                   ))}
                 </tr>
               </thead>

@@ -17,6 +17,8 @@ export function DeleteModal({ title, description, onConfirm, onCancel }: DeleteM
       withCloseButton={false}
       size={420}
       padding="lg"
+      title={title}
+      styles={{ title: { display: "none" } }}
     >
       <div className="flex items-start gap-4 mb-6" style={{ flexWrap: "nowrap" }}>
         <Box

@@ -676,7 +676,7 @@ export function RichTextEditor({
           suppressContentEditableWarning
           role="textbox"
           aria-multiline="true"
-          aria-label="Email body"
+          aria-label="Email body text editor"
           onInput={handleInput}
           onKeyUp={() => setForceUpdate(n => n + 1)}
           onMouseUp={() => setForceUpdate(n => n + 1)}

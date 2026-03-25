@@ -740,7 +740,7 @@ function SearchDetail({ search, onBack, onEdit, onDuplicate, onToggleActive, onT
           </Tooltip>
           <Menu shadow="md" width={180} position="bottom-end">
             <Menu.Target>
-              <ActionIcon variant="default" size="md" radius={8}
+              <ActionIcon variant="default" size="md" radius="sm"
                 styles={{ root: { borderColor: TV.borderLight } }} aria-label="Search actions">
                 <MoreHorizontal size={15} style={{ color: TV.textLabel }} />
               </ActionIcon>

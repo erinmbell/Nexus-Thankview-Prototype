@@ -137,6 +137,8 @@ export function NotificationsPanel({ onClose }: Props) {
                 px="md"
                 py="sm"
                 bg={n.read ? "white" : "#faf7ff"}
+                role="listitem"
+                tabIndex={0}
                 style={{ borderBottom: `1px solid ${TV.borderDivider}`, transition: "background .15s" }}
               >
                 <Avatar size={32} radius="xl" color={n.avatarColor ?? TV.textBrand} className="shrink-0 mt-0.5" styles={{ root: { backgroundColor: n.avatarColor ?? TV.textBrand } }}>

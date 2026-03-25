@@ -136,6 +136,7 @@ export function ColorSwatchPicker({
               }}
               title={s.name}
               aria-label={`Select ${s.name}`}
+              aria-pressed={selected}
             />
           );
         })}
@@ -159,6 +160,7 @@ export function ColorSwatchPicker({
               }}
               title="Custom color"
               aria-label="Custom color"
+              aria-expanded={showPopup}
             />
             {showPopup && (
               <>
@@ -171,6 +173,7 @@ export function ColorSwatchPicker({
                     type="color"
                     value={safeHex(value)}
                     onChange={(e) => onChange(e.target.value, "Custom")}
+                    aria-label="Custom color picker"
                     className="w-28 h-28 cursor-pointer border-0"
                   />
                 </div>

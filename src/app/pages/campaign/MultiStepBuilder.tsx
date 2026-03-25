@@ -134,12 +134,12 @@ function FlowNode({
           Wait {step.waitDays || 3} day{(step.waitDays || 3) !== 1 ? "s" : ""}
         </span>
         <TvTooltip label="Edit wait step">
-          <button onClick={e => { e.stopPropagation(); onSelect(); }} className="w-5 h-5 rounded-full hover:bg-white/60 flex items-center justify-center text-tv-text-secondary hover:text-tv-brand transition-colors ml-1">
+          <button onClick={e => { e.stopPropagation(); onSelect(); }} className="w-6 h-6 rounded-full hover:bg-white/60 flex items-center justify-center text-tv-text-secondary hover:text-tv-brand transition-colors ml-1">
             <Pencil size={10} />
           </button>
         </TvTooltip>
         <TvTooltip label="Delete wait step">
-          <button onClick={e => { e.stopPropagation(); onDelete(); }} className="w-5 h-5 rounded-full hover:bg-white/60 flex items-center justify-center text-tv-text-secondary hover:text-tv-danger transition-colors">
+          <button onClick={e => { e.stopPropagation(); onDelete(); }} className="w-6 h-6 rounded-full hover:bg-white/60 flex items-center justify-center text-tv-text-secondary hover:text-tv-danger transition-colors">
             <X size={11} />
           </button>
         </TvTooltip>
@@ -313,7 +313,7 @@ function FlowNode({
             tabIndex={0}
             onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); onToggleAutomation?.(); } }}
           >
-            <Toggle enabled={step.automationEnabled} onToggle={() => {}} size="compact" className="pointer-events-none" />
+            <Toggle enabled={step.automationEnabled} onToggle={() => {}} size="compact" className="pointer-events-none opacity-50" />
             <span className={`text-[11px] ${step.automationEnabled ? "text-tv-brand" : "text-tv-text-secondary"}`} style={{ fontWeight: 500 }}>
               {step.automationEnabled && step.contactDateFieldId
                 ? `By ${CONSTITUENT_DATE_FIELDS.find(f => f.id === step.contactDateFieldId)?.label ?? "date field"}`
@@ -871,7 +871,7 @@ function StepDrawer({
                         <p className="text-[9px] text-tv-text-secondary">{step.vrInstructionVideoDuration}</p>
                       </div>
                       <button onClick={() => onUpdate({ ...step, vrInstructionVideoId: undefined, vrInstructionVideoTitle: undefined, vrInstructionVideoDuration: undefined, vrInstructionVideoColor: undefined })}
-                        className="w-5 h-5 rounded-full flex items-center justify-center text-tv-danger hover:bg-tv-danger-bg transition-colors shrink-0" title="Remove">
+                        className="w-6 h-6 rounded-full flex items-center justify-center text-tv-danger hover:bg-tv-danger-bg transition-colors shrink-0" title="Remove" aria-label="Remove instruction video">
                         <X size={10} />
                       </button>
                     </div>
@@ -916,7 +916,7 @@ function StepDrawer({
                   <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Automated Reminders</p>
                   <p className="text-[9px] text-tv-text-secondary">Send before the due date</p>
                 </div>
-                <Toggle enabled={step.vrReminderEnabled ?? true} onToggle={() => {}} size="compact" />
+                <Toggle enabled={step.vrReminderEnabled ?? true} onToggle={() => onUpdate({ ...step, vrReminderEnabled: !(step.vrReminderEnabled ?? true) })} size="compact" />
               </button>
               {(step.vrReminderEnabled ?? true) && (
                 <div className="space-y-1.5">
@@ -967,7 +967,7 @@ function StepDrawer({
                   <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Accept Submissions</p>
                   <p className="text-[9px] text-tv-text-secondary">{(step.vrSubmissionsEnabled ?? true) ? "Submissions are open" : "Link is disabled"}</p>
                 </div>
-                <Toggle enabled={step.vrSubmissionsEnabled ?? true} onToggle={() => {}} size="compact" />
+                <Toggle enabled={step.vrSubmissionsEnabled ?? true} onToggle={() => onUpdate({ ...step, vrSubmissionsEnabled: !(step.vrSubmissionsEnabled ?? true) })} size="compact" />
               </button>
               {/* Include Library Video toggle */}
               <button onClick={() => onUpdate({ ...step, vrIncludeLibraryVideo: !step.vrIncludeLibraryVideo })}
@@ -977,7 +977,7 @@ function StepDrawer({
                   <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Instruction Video</p>
                   <p className="text-[9px] text-tv-text-secondary">Attach a video from your library</p>
                 </div>
-                <Toggle enabled={!!step.vrIncludeLibraryVideo} onToggle={() => {}} size="compact" />
+                <Toggle enabled={!!step.vrIncludeLibraryVideo} onToggle={() => onUpdate({ ...step, vrIncludeLibraryVideo: !step.vrIncludeLibraryVideo })} size="compact" />
               </button>
               {step.vrIncludeLibraryVideo && !step.vrLibraryVideoTitle && (
                 <button onClick={() => setShowVideoPicker(true)}
@@ -991,7 +991,7 @@ function StepDrawer({
                   <Play size={9} className="text-tv-brand shrink-0" />
                   <span className="text-[11px] text-tv-text-primary flex-1 truncate" style={{ fontWeight: 500 }}>{step.vrLibraryVideoTitle}</span>
                   <button onClick={() => onUpdate({ ...step, vrLibraryVideoId: undefined, vrLibraryVideoTitle: undefined })}
-                    aria-label="Remove library video" className="w-5 h-5 rounded-full bg-white border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:text-tv-danger shrink-0" title="Remove library video"><X size={8} /></button>
+                    aria-label="Remove library video" className="w-6 h-6 rounded-full bg-white border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:text-tv-danger shrink-0" title="Remove library video"><X size={8} /></button>
                 </div>
               )}
               <div className="p-2 bg-tv-surface rounded-sm border border-tv-border-divider flex items-start gap-1.5">
@@ -1017,7 +1017,7 @@ function StepDrawer({
                     <p className="text-[9px] text-tv-text-secondary">{step.attachedVideo.duration}</p>
                   </div>
                   <TvTooltip label="Remove video"><button onClick={() => onUpdate({ ...step, attachedVideo: null })}
-                    aria-label="Remove attached video" className="w-5 h-5 rounded-full bg-white border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:text-tv-danger shrink-0"><X size={9} /></button></TvTooltip>
+                    aria-label="Remove attached video" className="w-6 h-6 rounded-full bg-white border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:text-tv-danger shrink-0"><X size={9} /></button></TvTooltip>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <button onClick={() => { setVideoCreateInitialTab("record"); setShowVideoCreate(true); }}
@@ -1102,7 +1102,7 @@ function StepDrawer({
                   {(step.replyToList || []).map((email, i) => (
                     <span key={i} className="inline-flex items-center gap-1 bg-tv-brand-tint border border-tv-border rounded-full px-2 py-0.5 text-[10px] text-tv-brand">
                       {email}
-                      <TvTooltip label="Remove email"><button onClick={() => onUpdate({ ...step, replyToList: (step.replyToList || []).filter((_, j) => j !== i) })} aria-label={`Remove ${email}`} className="hover:text-tv-danger"><X size={8} /></button></TvTooltip>
+                      <TvTooltip label="Remove email"><button onClick={() => onUpdate({ ...step, replyToList: (step.replyToList || []).filter((_, j) => j !== i) })} aria-label={`Remove ${email}`} className="min-w-6 min-h-6 flex items-center justify-center hover:text-tv-danger"><X size={8} /></button></TvTooltip>
                     </span>
                   ))}
                   <input value={replyToInput} onChange={e => setReplyToInput(e.target.value)}
@@ -1517,7 +1517,7 @@ function StepDrawer({
                     <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Quiet Hours</p>
                     <p className="text-[9px] text-tv-text-secondary">Don't send between 9 PM – 8 AM constituent local time</p>
                   </div>
-                  <Toggle enabled={!!step.smsQuietHours} onToggle={() => {}} />
+                  <Toggle enabled={!!step.smsQuietHours} onToggle={() => onUpdate({ ...step, smsQuietHours: !step.smsQuietHours })} />
                 </button>
                 <p className="text-[9px] text-tv-text-decorative">Queued messages will be sent at 8 AM in the constituent's timezone.</p>
               </div>
@@ -1577,7 +1577,7 @@ function StepDrawer({
                 <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Enable Landing Page</p>
                 <p className="text-[9px] text-tv-text-secondary flex items-center gap-1">Constituents see this after clicking through</p>
               </div>
-              <Toggle enabled={!!step.landingPageEnabled} onToggle={() => {}} />
+              <Toggle enabled={!!step.landingPageEnabled} onToggle={() => onUpdate({ ...step, landingPageEnabled: !step.landingPageEnabled })} />
             </button>
 
             {/* Thumbnail link URL — shown when landing page is OFF */}
@@ -1805,7 +1805,7 @@ function StepDrawer({
                       <p className="text-[8px] text-tv-text-secondary text-left">Newsletter opt-in</p>
                     </div>
                   </div>
-                  <Toggle enabled={!!step.subscribeCta} onToggle={() => {}} size="compact" />
+                  <Toggle enabled={!!step.subscribeCta} onToggle={() => onUpdate({ ...step, subscribeCta: !step.subscribeCta })} size="compact" />
                 </button>
 
                 {/* Reply options */}
@@ -1850,7 +1850,7 @@ function StepDrawer({
                           <opt.icon size={8} />{opt.chip}
                         </span>
                         <span className="flex-1 text-[11px] text-tv-text-primary text-left">{opt.label}</span>
-                        <Toggle enabled={enabled} onToggle={() => {}} size="compact" />
+                        <Toggle enabled={enabled} onToggle={() => onUpdate({ ...step, [opt.key]: !step[opt.key] })} size="compact" />
                       </button>
                     );
                   })}
@@ -1864,7 +1864,7 @@ function StepDrawer({
                     <p className="text-[11px] text-tv-text-primary text-left">White Gradient Overlay</p>
                     <p className="text-[9px] text-tv-text-secondary text-left">Fade background for readability</p>
                   </div>
-                  <Toggle enabled={!!step.lpWhiteGradient} onToggle={() => {}} size="compact" />
+                  <Toggle enabled={!!step.lpWhiteGradient} onToggle={() => onUpdate({ ...step, lpWhiteGradient: !step.lpWhiteGradient })} size="compact" />
                 </button>
 
                 {/* Language selector */}
@@ -1888,7 +1888,7 @@ function StepDrawer({
             <button type="button"
               onClick={() => onUpdate({ ...step, automationEnabled: !step.automationEnabled })}
               className="w-full flex items-center gap-3 px-3 py-2.5 bg-tv-surface border border-tv-border-light rounded-md hover:bg-tv-surface-hover transition-colors cursor-pointer text-left">
-              <Toggle enabled={step.automationEnabled} onToggle={() => {}} className="pointer-events-none" />
+              <Toggle enabled={step.automationEnabled} onToggle={() => {}} className="pointer-events-none opacity-50" />
               <span className={`text-[12px] ${step.automationEnabled ? "text-tv-brand" : "text-tv-text-secondary"}`} style={{ fontWeight: 500 }}>
                 Automation {step.automationEnabled ? "enabled" : "disabled"}
               </span>
@@ -2012,7 +2012,7 @@ function StepDrawer({
                 <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Enable Social Sharing</p>
                 <p className="text-[9px] text-tv-text-secondary">Allow recipients to share the video/landing page on social media</p>
               </div>
-              <Toggle enabled={!!step.socialSharingEnabled} onToggle={() => {}} />
+              <Toggle enabled={!!step.socialSharingEnabled} onToggle={() => onUpdate({ ...step, socialSharingEnabled: !step.socialSharingEnabled })} />
             </button>
             {step.socialSharingEnabled && (
               <SocialSharingCard

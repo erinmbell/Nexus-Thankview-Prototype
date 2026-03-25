@@ -6,16 +6,23 @@ import { type ButtonHTMLAttributes } from "react";
 interface ToggleProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onChange"> {
   enabled: boolean;
   onToggle: () => void;
-  size?: "default" | "compact";
+  size?: "xs" | "sm" | "default" | "compact" | "lg";
 }
 
 const SIZES = {
-  default: {
-    track: "w-9 h-5",
-    knob: "w-4 h-4",
-    onLeft: "left-[17px]",
+  xs: {
+    track: "w-7 h-4",
+    knob: "w-3 h-3",
+    onLeft: "left-[13px]",
     offLeft: "left-0.5",
     knobTop: "top-0.5",
+  },
+  sm: {
+    track: "w-8 h-[18px]",
+    knob: "w-3.5 h-3.5",
+    onLeft: "left-[15px]",
+    offLeft: "left-[2px]",
+    knobTop: "top-[2px]",
   },
   compact: {
     track: "w-8 h-[18px]",
@@ -23,6 +30,20 @@ const SIZES = {
     onLeft: "left-[15px]",
     offLeft: "left-[2px]",
     knobTop: "top-[2px]",
+  },
+  default: {
+    track: "w-9 h-5",
+    knob: "w-4 h-4",
+    onLeft: "left-[17px]",
+    offLeft: "left-0.5",
+    knobTop: "top-0.5",
+  },
+  lg: {
+    track: "w-11 h-6",
+    knob: "w-5 h-5",
+    onLeft: "left-[21px]",
+    offLeft: "left-0.5",
+    knobTop: "top-0.5",
   },
 } as const;
 

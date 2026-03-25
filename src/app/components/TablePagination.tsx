@@ -80,9 +80,9 @@ export function TablePagination({
             },
           }}
         />
-        <Text fz={12} c={TV.textSecondary}>
+        <Text fz={12} c={TV.textSecondary} role="status" aria-live="polite" aria-atomic="true">
           {start.toLocaleString()}&ndash;{end.toLocaleString()} of{" "}
-          {totalRows.toLocaleString()}
+          {totalRows.toLocaleString()} records
         </Text>
       </div>
 

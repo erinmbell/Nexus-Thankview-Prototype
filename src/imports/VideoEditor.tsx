@@ -1306,7 +1306,7 @@ export function VideoEditor({
                   {/* Thumbnail area */}
                   <div className="relative aspect-video bg-[#1a1a2e] flex items-center justify-center">
                     {data.thumbnailUrl ? (
-                      <img src={data.thumbnailUrl} alt="" className="w-full h-full object-cover" />
+                      <img src={data.thumbnailUrl} alt={`Thumbnail for ${data.name || "video"}`} className="w-full h-full object-cover" />
                     ) : (
                       <div className="flex flex-col items-center gap-1.5">
                         <div className="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
@@ -1384,7 +1384,7 @@ export function VideoEditor({
 
               {/* Thumbnail overlay */}
               {data.thumbnailUrl && tab === "thumbnail" && (
-                <img src={data.thumbnailUrl} alt="" className="absolute inset-0 w-full h-full object-cover opacity-60" />
+                <img src={data.thumbnailUrl} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-60" />
               )}
 
               {/* Crop overlay */}
@@ -1610,7 +1610,7 @@ export function VideoEditor({
                   {/* Video embed area */}
                   <div className="relative aspect-video bg-[#1a1a2e] rounded-lg overflow-hidden flex items-center justify-center">
                     {data.thumbnailUrl ? (
-                      <img src={data.thumbnailUrl} alt="" className="w-full h-full object-cover" />
+                      <img src={data.thumbnailUrl} alt={`Video preview for ${data.name || "video"}`} className="w-full h-full object-cover" />
                     ) : null}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">

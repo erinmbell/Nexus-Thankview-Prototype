@@ -89,7 +89,7 @@ function AddVideoModal({ initialSource, onClose, onSave, folders }: {
   };
 
   const handleEditorSave = (data: VideoEditorData) => {
-    onSave(data.name || "Annual Fund Thank You – Kelley Molt", data.folder || "Thank You Videos");
+    onSave(data.name || "Untitled Video", data.folder || "Thank You Videos");
     show("Video saved to your library", "success");
   };
 
@@ -99,7 +99,7 @@ function AddVideoModal({ initialSource, onClose, onSave, folders }: {
       <Modal opened onClose={onClose} fullScreen withCloseButton={false} padding={0}
         styles={{ body: { height: "100%", display: "flex", flexDirection: "column" } }}>
         <VideoEditor
-          initialName="Annual Fund Thank You – Kelley Molt"
+          initialName="Untitled Video"
           initialDuration="1:08"
           videoType={source === "record" ? "Recorded Video" : source === "upload" ? "Uploaded Video" : source === "combine" ? "Combined Video" : "Library Video"}
           onSave={handleEditorSave}

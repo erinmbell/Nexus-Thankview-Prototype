@@ -210,7 +210,7 @@ function CampaignCard({ campaign, onViewAnalytics }: { campaign: typeof campaign
 
 function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
   return (
-    <div className="flex flex-col bg-white rounded-xl border border-tv-border-strong">
+    <div className="flex flex-col bg-white rounded-xl border border-tv-border-light">
       <div className="flex items-center justify-between gap-2 flex-wrap px-4 sm:px-6 py-4 sm:py-6" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
         <Title order={2} fz={{ base: 16, sm: 18 }} className="min-w-0 truncate">Your Ongoing Campaigns</Title>
         <Menu position="bottom-end" withinPortal styles={{
@@ -262,16 +262,17 @@ function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
 
 function PerformanceChart({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   return (
-    <div className="bg-white rounded-xl border border-tv-border-strong">
+    <div className="bg-white rounded-xl border border-tv-border-light">
       <button onClick={onToggle} className="w-full flex items-center gap-2.5 px-6 py-5 hover:bg-black/[0.02] transition-colors text-left">
         <ChevronDown size={14} style={{ color: TV.textSecondary, transform: collapsed ? "rotate(-90deg)" : "rotate(0deg)", transition: "transform 0.15s" }} />
         <div className="flex-1">
-          <Title order={2} fz={18}>Campaign Performance</Title>
+          <Title order={2} fz={16}>Campaign Performance</Title>
           {collapsed && <Text fz={12} c={TV.textSecondary} mt={2}>Open rate, click-through rate & avg. % watched · 6 months</Text>}
         </div>
       </button>
       {!collapsed && <div className="px-6 pb-6">
       <Text fz={13} c={TV.textSecondary} mb="lg">Open rate, click-through rate & avg. % watched over the last 6 months</Text>
+      <div role="img" aria-label="Bar chart showing campaign open rate, click-through rate, and average percent watched over the last 6 months">
       <ResponsiveContainer width="100%" height={200}>
         <BarChart data={performanceData} barSize={10} barGap={3}>
           <CartesianGrid key="grid" vertical={false} strokeDasharray="3 3" stroke={TV.borderLight} />
@@ -284,6 +285,7 @@ function PerformanceChart({ collapsed, onToggle }: { collapsed: boolean; onToggl
           <Bar key="bar-avgWatched" dataKey="avgWatched" fill="#d8c8f5" radius={[4,4,0,0]} name="avgWatched" isAnimationActive={false} />
         </BarChart>
       </ResponsiveContainer>
+      </div>
       </div>}
     </div>
   );
@@ -339,7 +341,7 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
 
   return (
     <div className="bg-white relative rounded-xl">
-      <div aria-hidden="true" className="absolute border border-tv-border-strong inset-0 pointer-events-none rounded-xl" />
+      <div aria-hidden="true" className="absolute border border-tv-border-light inset-0 pointer-events-none rounded-xl" />
       {/* Header */}
       <div className="relative border-b border-tv-border-divider px-[24px] pt-[20px] pb-[13px]">
         <h2 className="font-['Roboto',sans-serif] font-bold text-tv-text-primary text-[18px] tracking-[-0.44px] leading-[27px]">Quick Actions</h2>
@@ -352,7 +354,7 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
             onClick={() => navigate(action.to)}
             className="bg-tv-brand-tint relative rounded-[14px] text-left transition-all hover:shadow-md hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
-            <div aria-hidden="true" className="absolute border border-tv-border-strong inset-0 pointer-events-none rounded-[14px]" />
+            <div aria-hidden="true" className="absolute border border-tv-border-light inset-0 pointer-events-none rounded-[14px]" />
             <div className="flex flex-col gap-[8px] items-start pl-[17px] pr-[8px] py-[17px] h-full">
               {/* Icon container */}
               <div className="bg-white rounded-md w-10 h-10 flex items-center justify-center shrink-0">
@@ -373,10 +375,10 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
 function RecentActivityWidget({ navigate }: { navigate: (path: string) => void }) {
   const [activeTab, setActiveTab] = useState<"videos" | "activity">("activity");
   return (
-    <div className="flex flex-col bg-white rounded-xl border border-tv-border-strong">
+    <div className="flex flex-col bg-white rounded-xl border border-tv-border-light">
       <div className="px-6 py-6" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
         <div className="flex items-center justify-between mb-2">
-          <Title order={2} fz={18}>{activeTab === "videos" ? "Video Library" : "Donor Activity"}</Title>
+          <Title order={2} fz={16}>{activeTab === "videos" ? "Video Library" : "Donor Activity"}</Title>
           <UnstyledButton onClick={() => navigate(activeTab === "videos" ? "/videos" : "/analytics?tab=video_1_1")} className="flex items-center gap-0.5 hover:underline" style={{ color: TV.textBrand, fontSize: 13, fontWeight: 500 }}
             aria-label={activeTab === "videos" ? "View all videos" : "View all donor activity"}>
             View all <ChevronRight size={14} aria-hidden="true" />
@@ -440,7 +442,7 @@ function RecentActivityWidget({ navigate }: { navigate: (path: string) => void }
 
 function MostSuccessfulCampaigns({ navigate, collapsed, onToggle }: { navigate: (path: string) => void; collapsed: boolean; onToggle: () => void }) {
   return (
-    <div className="bg-white rounded-xl border border-tv-border-strong">
+    <div className="bg-white rounded-xl border border-tv-border-light">
       <div className="flex items-center justify-between flex-wrap gap-2 px-4 sm:px-6 py-4 sm:py-5">
         <button onClick={onToggle} className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
           <ChevronDown size={14} style={{ color: TV.textSecondary, transform: collapsed ? "rotate(-90deg)" : "rotate(0deg)", transition: "transform 0.15s" }} />
@@ -590,7 +592,7 @@ function KeyStatsBar({ selectedIds, onOpenSettings }: { selectedIds: string[]; o
   };
 
   return (
-    <div className="bg-white rounded-xl border border-tv-border-strong">
+    <div className="bg-white rounded-xl border border-tv-border-light">
       {/* ── Mobile: 2×2 grid ── */}
       <div className="grid grid-cols-2 sm:hidden">
         {metrics.map((stat, i) => (

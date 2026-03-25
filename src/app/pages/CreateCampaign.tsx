@@ -1485,7 +1485,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
           <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-sm flex items-center justify-center" style={{ backgroundColor: "#fef3c7" }}>
-                <Calendar size={15} style={{ color: "#b45309" }} />
+                <Calendar size={15} style={{ color: TV.warning }} />
               </div>
               <div>
                 <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Date Field & Timing</p>
@@ -1525,7 +1525,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                 <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Recur Annually</p>
                 <p className="text-[10px] text-tv-text-secondary">Automatically re-send this campaign every year on the same date</p>
               </div>
-              <Toggle enabled={bdayRecurAnnually} onToggle={() => {}} />
+              <Toggle enabled={bdayRecurAnnually} onToggle={() => setBdayRecurAnnually(v => !v)} />
             </button>
 
             {/* Leap year note */}
@@ -1655,7 +1655,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={() => setShowMetricsInfo(v => !v)} aria-label="What are success metrics?" className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors ${showMetricsInfo ? "bg-tv-brand-bg text-white" : "bg-tv-surface text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
+            <button onClick={() => setShowMetricsInfo(v => !v)} aria-label="What are success metrics?" className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${showMetricsInfo ? "bg-tv-brand-bg text-white" : "bg-tv-surface text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
               <Info size={10} />
             </button>
             <span className={`text-[10px] px-2 py-0.5 rounded-full ${selectedMetrics.length >= 1 ? "bg-tv-success-bg text-tv-success border border-tv-success-border" : "bg-tv-surface text-tv-text-secondary border border-tv-border-light"}`} style={{ fontWeight: 700 }}>
@@ -1703,7 +1703,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
           <div>
             <div className="flex items-center gap-1.5 mb-1.5">
               <p className="text-[10px] text-tv-text-label uppercase tracking-wider font-semibold">Drop-off & Issues</p>
-              <button onClick={() => setShowDropoffInfo(v => !v)} className={`w-4 h-4 rounded-full flex items-center justify-center transition-colors ${showDropoffInfo ? "bg-tv-danger text-white" : "bg-tv-surface text-tv-text-decorative hover:bg-tv-surface-hover"}`}>
+              <button onClick={() => setShowDropoffInfo(v => !v)} className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${showDropoffInfo ? "bg-tv-danger text-white" : "bg-tv-surface text-tv-text-decorative hover:bg-tv-surface-hover"}`}>
                 <Info size={8} />
               </button>
             </div>
@@ -1829,7 +1829,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                 {(step.replyToList || []).map((email, i) => (
                   <span key={i} className="inline-flex items-center gap-1 bg-tv-brand-tint border border-tv-border rounded-full px-2 py-0.5 text-[11px] text-tv-brand">
                     {email}
-                    <button onClick={() => setStep(s => ({ ...s, replyToList: (s.replyToList || []).filter((_, j) => j !== i) }))} className="hover:text-tv-danger" aria-label={`Remove ${email}`}><X size={9} /></button>
+                    <button onClick={() => setStep(s => ({ ...s, replyToList: (s.replyToList || []).filter((_, j) => j !== i) }))} className="min-w-6 min-h-6 flex items-center justify-center hover:text-tv-danger" aria-label={`Remove ${email}`}><X size={9} /></button>
                   </span>
                 ))}
                 <input value={replyToInput} onChange={e => setReplyToInput(e.target.value)}
@@ -2441,7 +2441,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               <p className="text-[11px] text-tv-text-primary font-semibold">Quiet Hours</p>
               <p className="text-[9px] text-tv-text-secondary">Don&rsquo;t send between 9 PM &ndash; 8 AM constituent local time</p>
             </div>
-            <Toggle enabled={!!smsS.smsQuietHours} onToggle={() => {}} />
+            <Toggle enabled={!!smsS.smsQuietHours} onToggle={() => setSmsS(s => ({ ...s, smsQuietHours: !s.smsQuietHours }))} />
           </button>
 
           {/* Text Message Auto-Responder */}
@@ -2684,7 +2684,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               <p className="text-[12px] text-tv-text-primary font-semibold">Include Instruction Video</p>
               <p className="text-[10px] text-tv-text-secondary">Attach a video from your library to accompany the recording instructions</p>
             </div>
-            <Toggle enabled={vrIncludeLibraryVideo} onToggle={() => {}} />
+            <Toggle enabled={vrIncludeLibraryVideo} onToggle={() => setVrIncludeLibraryVideo(v => !v)} />
           </button>
 
           {vrIncludeLibraryVideo && (
@@ -2740,7 +2740,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                 <div className="flex-1" />
                 {vrReminderDays.length > 1 && (
                   <button onClick={() => setVrReminderDays(prev => prev.filter((_, i) => i !== idx))}
-                    className="p-1 rounded-full hover:bg-tv-danger-bg text-tv-text-secondary hover:text-tv-danger transition-colors">
+                    className="min-w-6 min-h-6 flex items-center justify-center rounded-full hover:bg-tv-danger-bg text-tv-text-secondary hover:text-tv-danger transition-colors" aria-label={`Remove reminder ${idx + 1}`}>
                     <X size={10} />
                   </button>
                 )}
@@ -2873,7 +2873,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               <p className="text-[12px] text-tv-text-primary font-semibold">Accept Submissions</p>
               <p className="text-[10px] text-tv-text-secondary">{vrSubmissionsEnabled ? "Submissions are open" : "Link is disabled — no new submissions"}</p>
             </div>
-            <Toggle enabled={vrSubmissionsEnabled} onToggle={() => {}} />
+            <Toggle enabled={vrSubmissionsEnabled} onToggle={() => setVrSubmissionsEnabled(v => !v)} />
           </button>
 
           {/* Submissions routing */}
@@ -3054,8 +3054,8 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                         <span className="text-[10px] text-tv-text-secondary font-mono">{count.toLocaleString()}</span>
                         {!isEditMode && (
                           <button onClick={() => { removeBySource(source); show(`Removed ${count.toLocaleString()} from "${source}"`, "info"); }}
-                            className="ml-0.5 w-4 h-4 rounded-full flex items-center justify-center text-tv-text-decorative hover:text-tv-danger hover:bg-tv-danger-bg transition-colors opacity-0 group-hover/src:opacity-100"
-                            title={`Remove all from ${source}`}>
+                            className="ml-0.5 w-6 h-6 rounded-full flex items-center justify-center text-tv-text-decorative hover:text-tv-danger hover:bg-tv-danger-bg transition-colors opacity-0 group-hover/src:opacity-100"
+                            title={`Remove all from ${source}`} aria-label={`Remove all from ${source}`}>
                             <X size={8} />
                           </button>
                         )}
@@ -3099,8 +3099,8 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                         <span className="text-[10px] text-tv-text-secondary truncate">{r.lastGiftDate || "—"}</span>
                         <span className="text-[10px] text-tv-text-decorative truncate">{r.source}</span>
                         {!isEditMode && <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <TvTooltip label="Edit"><button onClick={() => setEditingConstituent(r.id)} className="w-5 h-5 rounded flex items-center justify-center hover:bg-tv-brand-tint text-tv-text-secondary hover:text-tv-brand transition-colors" aria-label="Edit constituent"><Edit2 size={10} /></button></TvTooltip>
-                          <TvTooltip label="Remove"><button onClick={() => removeConstituent(r.id)} className="w-5 h-5 rounded flex items-center justify-center hover:bg-tv-danger-bg text-tv-text-secondary hover:text-tv-danger transition-colors" aria-label="Remove constituent"><Trash2 size={10} /></button></TvTooltip>
+                          <TvTooltip label="Edit"><button onClick={() => setEditingConstituent(r.id)} className="w-6 h-6 rounded flex items-center justify-center hover:bg-tv-brand-tint text-tv-text-secondary hover:text-tv-brand transition-colors" aria-label="Edit constituent"><Edit2 size={10} /></button></TvTooltip>
+                          <TvTooltip label="Remove"><button onClick={() => removeConstituent(r.id)} className="w-6 h-6 rounded flex items-center justify-center hover:bg-tv-danger-bg text-tv-text-secondary hover:text-tv-danger transition-colors" aria-label="Remove constituent"><Trash2 size={10} /></button></TvTooltip>
                         </div>}
                       </>
                     )}
@@ -3202,7 +3202,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                     <p className="text-[11px] text-tv-text-primary font-semibold">Automated Reminders</p>
                     <p className="text-[9px] text-tv-text-secondary">Send reminders before the due date</p>
                   </div>
-                  <Toggle enabled={vrReminderEnabled} onToggle={() => {}} />
+                  <Toggle enabled={vrReminderEnabled} onToggle={() => setVrReminderEnabled(v => !v)} />
                 </button>
 
                 {/* Multiple reminder schedule */}
@@ -3232,7 +3232,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                   <p className="text-[12px] text-tv-text-primary font-semibold">Accept Submissions</p>
                   <p className="text-[10px] text-tv-text-secondary">{vrSubmissionsEnabled ? "Submissions are open" : "Submissions are closed"}</p>
                 </div>
-                <Toggle enabled={vrSubmissionsEnabled} onToggle={() => {}} />
+                <Toggle enabled={vrSubmissionsEnabled} onToggle={() => setVrSubmissionsEnabled(v => !v)} />
               </button>
             </>
           )}
@@ -3359,7 +3359,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                     {sendTestGroup.map((email, i) => (
                       <span key={i} className="inline-flex items-center gap-1 bg-tv-brand-tint border border-tv-border rounded-full px-2 py-0.5 text-[10px] text-tv-brand">
                         {email}
-                        <button onClick={() => setSendTestGroup(g => g.filter((_, j) => j !== i))} className="hover:text-tv-danger" aria-label={`Remove ${email}`}><X size={8} /></button>
+                        <button onClick={() => setSendTestGroup(g => g.filter((_, j) => j !== i))} className="min-w-6 min-h-6 flex items-center justify-center hover:text-tv-danger" aria-label={`Remove ${email}`}><X size={8} /></button>
                       </span>
                     ))}
                     <input value={sendTestNewEmail} onChange={e => setSendTestNewEmail(e.target.value)}

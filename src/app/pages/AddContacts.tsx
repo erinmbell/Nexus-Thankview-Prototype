@@ -1669,16 +1669,16 @@ function RenxtFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () 
               <ColumnsButton onClick={() => setShowAcEditColumns(true)} />
             </div>
 
-            <div className="overflow-x-auto max-h-[70vh] overflow-y-auto">
-            <Table verticalSpacing={0} horizontalSpacing={0} highlightOnHover styles={{ table: { borderCollapse: "collapse", minWidth: Math.max(500, acActiveCols.length * 140 + 60) }, td: { whiteSpace: "nowrap" } }}>
+            <div className="overflow-x-auto max-h-[70vh] overflow-y-auto" role="region" aria-label="Add contacts table" tabIndex={0}>
+            <Table aria-label="Add contacts results" verticalSpacing={0} horizontalSpacing={0} highlightOnHover styles={{ table: { borderCollapse: "collapse", minWidth: Math.max(500, acActiveCols.length * 140 + 60) }, td: { whiteSpace: "nowrap" } }}>
               <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
                 <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
-                  <Table.Th w={44} style={{ padding: "10px 0 10px 16px", verticalAlign: "middle" }} />
+                  <Table.Th scope="col" w={44} style={{ padding: "10px 0 10px 16px", verticalAlign: "middle" }} />
                   {acActiveCols.map(colKey => {
                     const colDef = AC_COLUMNS.find(c => c.key === colKey);
                     if (!colDef) return null;
                     return (
-                      <Table.Th key={colKey} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
+                      <Table.Th scope="col" key={colKey} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
                         <SortableHeader label={colDef.label} sortKey={colKey} currentSort={acSort.key} currentDir={acSort.dir} onSort={handleAcSort} />
                       </Table.Th>
                     );
@@ -1847,11 +1847,11 @@ function RenxtFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () 
           {/* Preview data */}
           <Text fz={12} fw={700} c={TV.textLabel} tt="uppercase" lts="0.05em">Data Preview (first 3 records)</Text>
           <div className="rounded-lg" style={{ border: `1px solid ${TV.borderLight}`, overflow: "auto", maxHeight: "60vh" }}>
-            <Table verticalSpacing={0} horizontalSpacing={0} styles={{ table: { borderCollapse: "collapse", minWidth: 500 }, td: { whiteSpace: "nowrap" } }}>
+            <Table aria-label="Data preview" verticalSpacing={0} horizontalSpacing={0} styles={{ table: { borderCollapse: "collapse", minWidth: 500 }, td: { whiteSpace: "nowrap" } }}>
               <Table.Thead className="sticky top-0 z-20" style={{ backgroundColor: TV.surfaceMuted }}>
                 <Table.Tr style={{ borderBottom: `1px solid ${TV.borderLight}` }}>
                   {mapping.filter(m => m.tv).map(m => (
-                    <Table.Th key={m.tv} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
+                    <Table.Th scope="col" key={m.tv} style={{ padding: "10px 16px", verticalAlign: "middle", whiteSpace: "nowrap" }}>
                       <SortableHeader label={TV_FIELDS.find(f => f.value === m.tv)?.label ?? m.tv} sortKey={m.tv} currentSort={previewSort.key} currentDir={previewSort.dir} onSort={handlePreviewSort} />
                     </Table.Th>
                   ))}
@@ -1956,7 +1956,7 @@ function RenxtFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () 
 function IntegrationPlaceholder({ name, onBack }: { name: string; onBack: () => void }) {
   return (
     <Stack align="center" gap="lg" py={60}>
-      <Box w={72} h={72} bg="#f3eeff" style={{ borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <Box w={72} h={72} bg={TV.brandTint} style={{ borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <CloudDownload size={32} style={{ color: TV.textBrand }} />
       </Box>
       <Title order={3} c={TV.textPrimary} ta="center">

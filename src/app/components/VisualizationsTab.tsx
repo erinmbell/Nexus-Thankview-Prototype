@@ -194,6 +194,7 @@ const SENDER_DATA = [
   { sender: "David Nguyen", sends: 2740, opened: 2108, clicks: 621, views: 1812, watched: 1345, finished: 1098, ctaClicks: 534 },
 ];
 
+// Funnel gradient — intentional hardcoded shades
 const FUNNEL_DATA = [
   { label: "Sent",        value: 26945, icon: Mail,              color: TV.brand },
   { label: "Opened",      value: 19480, icon: MousePointerClick, color: "#6d3fa0" },

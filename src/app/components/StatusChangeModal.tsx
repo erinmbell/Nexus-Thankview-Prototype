@@ -289,7 +289,7 @@ export function StatusChangeModal({
                     variant="light"
                     color="yellow"
                     leftSection={<Pause size={14} />}
-                    radius={8}
+                    radius="sm"
                     fullWidth
                     onClick={() => setSpecialAction("pause")}
                     styles={{
@@ -310,7 +310,7 @@ export function StatusChangeModal({
                     variant="light"
                     color="red"
                     leftSection={<XCircle size={14} />}
-                    radius={8}
+                    radius="sm"
                     fullWidth
                     onClick={() => setSpecialAction("cancel")}
                     styles={{
@@ -414,14 +414,14 @@ export function StatusChangeModal({
           <Group justify="flex-end" gap={8} mt={4}>
             <Button
               variant="default"
-              radius={8}
+              radius="sm"
               onClick={handleBack}
               styles={{ root: { fontWeight: 600, fontSize: 13, borderColor: TV.borderLight } }}
             >
               Cancel
             </Button>
             <Button
-              radius={8}
+              radius="sm"
               onClick={handleConfirm}
               styles={{
                 root: {

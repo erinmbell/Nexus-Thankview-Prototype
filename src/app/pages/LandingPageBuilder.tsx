@@ -554,7 +554,7 @@ export function LandingPageBuilder() {
                           <p className="text-tv-text-primary" style={{ fontWeight: 500 }}>Fade to white overlay</p>
                           <p className="text-[9px] text-tv-text-secondary">Softens bottom edge for text readability</p>
                         </div>
-                        <Toggle enabled={fadeGradient} onToggle={() => {}} />
+                        <Toggle enabled={fadeGradient} onToggle={() => setFadeGradient(!fadeGradient)} />
                       </button>
 
                       {/* ─── IMAGE TAB ─────────────────────────────────── */}

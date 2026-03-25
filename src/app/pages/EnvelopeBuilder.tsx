@@ -981,18 +981,19 @@ function SwatchRow({ value, onChange, label }: { value: string; onChange: (v: st
           const selected = s.hex.toLowerCase() === value.toLowerCase();
           return (
             <button key={s.hex} onClick={() => onChange(s.hex)}
-              className={`w-[22px] h-[22px] rounded-full border-2 transition-all ${
+              className={`w-6 h-6 rounded-full border-2 transition-all ${
                 selected ? "border-tv-brand-bg scale-110" : "border-transparent hover:scale-105"
               }`}
               style={{ backgroundColor: s.hex }}
               title={s.name}
-              aria-label={`Select ${s.name}`} />
+              aria-label={`Select ${s.name}`}
+              aria-pressed={selected} />
           );
         })}
         {/* Custom color (rainbow gradient) */}
         <div className="relative">
           <button onClick={() => setShowCustom(!showCustom)}
-            className={`w-[22px] h-[22px] rounded-full border-2 transition-all ${
+            className={`w-6 h-6 rounded-full border-2 transition-all ${
               !matchedSwatch ? "border-tv-brand-bg scale-110" : "border-transparent hover:scale-105"
             }`}
             style={{

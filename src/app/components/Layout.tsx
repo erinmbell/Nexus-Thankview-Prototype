@@ -127,7 +127,7 @@ function OrgSwitcher({ onClose }: { onClose: () => void }) {
             bg={org.active ? TV.brandTint : undefined}
           >
             <div className="flex items-center gap-3">
-              <Avatar size={36} radius={10} color="tvPurple" styles={{ root: { backgroundColor: TV.textBrand } }}>
+              <Avatar size={36} radius="md" color="tvPurple" styles={{ root: { backgroundColor: TV.textBrand } }}>
                 <Text fz={12} fw={900} c="white">{org.name[0]}</Text>
               </Avatar>
               <Box className="flex-1 min-w-0">
@@ -431,7 +431,7 @@ function TopBar() {
           <Menu opened={profileOpen} onChange={setProfileOpen} shadow="md" width={200} position="bottom-end">
             <Menu.Target>
               <UnstyledButton onClick={() => { setProfileOpen(v => !v); setNotifOpen(false); }} aria-label="User menu, Kelley Molt" aria-haspopup="menu" aria-expanded={profileOpen}>
-                <Avatar size={32} radius="xl" color="tvPurple" styles={{ root: { cursor: "pointer" }, placeholder: { color: "#4a2a6a" } }}>
+                <Avatar size={32} radius="xl" color="tvPurple" styles={{ root: { cursor: "pointer" }, placeholder: { color: TV.textBrand } }}>
                   KM
                 </Avatar>
               </UnstyledButton>

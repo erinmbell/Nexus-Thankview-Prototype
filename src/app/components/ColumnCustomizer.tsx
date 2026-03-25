@@ -74,7 +74,7 @@ export function EditColumnsModal({ columns, active, onClose, onSave }: {
             leftSection={<Search size={13} style={{ color: TV.textSecondary }} />}
             placeholder="Search&hellip;" size="xs" mb="sm" radius="md"
             value={colSearch} onChange={e => setColSearch(e.currentTarget.value)}
-            styles={{ input: { borderColor: TV.borderLight, backgroundColor: '#fff', color: TV.textPrimary } }}
+            styles={{ input: { borderColor: TV.borderLight, backgroundColor: "white", color: TV.textPrimary } }}
           />
           <Box style={{ maxHeight: 280, overflowY: "auto" }}>
             {Object.entries(grouped).map(([group, cols]) => (
@@ -109,7 +109,7 @@ export function EditColumnsModal({ columns, active, onClose, onSave }: {
               <Text fz={12} fw={600} c={TV.danger}>Remove All</Text>
             </UnstyledButton>
           </div>
-          <Text fz={11} c={TV.textSecondary} mb="sm">Drag and drop to prioritize the order.</Text>
+          <Text fz={11} c={TV.textSecondary} mb="sm">Drag and drop or use arrow keys to reorder.</Text>
           <Stack gap={0} style={{ maxHeight: 300, overflowY: "auto" }}>
             {activeCols.map((key, idx) => {
               const col = columns.find(c => c.key === key);
@@ -121,7 +121,7 @@ export function EditColumnsModal({ columns, active, onClose, onSave }: {
                   aria-roledescription="sortable"
                 >
                   {!isRequired && (
-                    <Box className="cursor-grab focus:ring-2 focus:ring-tv-brand/40 focus:outline-none" style={{ color: TV.borderStrong }} aria-label="Reorder column, use arrow keys" role="button" tabIndex={0}
+                    <Box className="cursor-grab focus:ring-2 focus:ring-tv-brand/40 focus:outline-none" style={{ color: TV.borderStrong }} aria-label="Reorder column, use arrow keys" aria-roledescription="sortable column" role="button" tabIndex={0}
                       onKeyDown={(e: React.KeyboardEvent) => {
                         if (e.key === "ArrowUp") { e.preventDefault(); moveUp(idx); }
                         if (e.key === "ArrowDown") { e.preventDefault(); moveDown(idx); }
