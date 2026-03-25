@@ -1308,7 +1308,7 @@ export function ConstituentPanel({ hasPersonalizedClips = false, preloadedConsti
                         {/* Individual add button */}
                         <button
                           onClick={e => { e.stopPropagation(); addToCampaign([r.id]); setBrowseSelectedIds(prev => { const n = new Set(prev); n.delete(r.id); return n; }); }}
-                          className="shrink-0 flex items-center gap-1 px-2 py-1 rounded-full bg-tv-brand-bg text-white hover:bg-tv-brand-hover transition-colors opacity-0 group-hover:opacity-100"
+                          className="shrink-0 flex items-center gap-1 px-2 py-1 rounded-full bg-tv-brand-bg text-white hover:bg-tv-brand-hover transition-colors opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"
                           style={{ fontSize: "9px", fontWeight: 600 }}
                           title="Add to campaign"
                         >

@@ -547,7 +547,7 @@ export function VideoOverview({
                   onClick={handlePause}
                   className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/30 transition-colors"
                 >
-                  <div className="w-12 h-12 rounded-full bg-white/0 group-hover:bg-white/20 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100">
+                  <div className="w-12 h-12 rounded-full bg-white/0 group-hover:bg-white/20 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 group-focus-within:opacity-100">
                     <Pause size={20} className="text-white" />
                   </div>
                 </button>

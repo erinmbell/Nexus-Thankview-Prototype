@@ -201,7 +201,7 @@ export function LandingPageLivePreviewModal({
 
                 {/* CTA button */}
                 <div className="px-8 py-5 flex justify-center">
-                  <span className="inline-block px-10 py-3 rounded-full text-[15px] cursor-default" style={{ backgroundColor: ctaBtnColor, color: ctaTextColor, fontWeight: 600 }}>
+                  <span role="img" aria-label="CTA button preview: Give to the Annual Fund" className="inline-block px-10 py-3 rounded-full text-[15px] cursor-default" style={{ backgroundColor: ctaBtnColor, color: ctaTextColor, fontWeight: 600 }}>
                     Give to the Annual Fund
                   </span>
                 </div>
@@ -222,8 +222,8 @@ export function LandingPageLivePreviewModal({
 
                 {/* Action buttons */}
                 <div className="px-10 py-5 flex flex-row items-center justify-center gap-3">
-                  <span className="inline-flex items-center justify-center gap-1.5 px-6 py-2.5 rounded-full border text-[13px] cursor-default" style={{ color: replyBtnColor, borderColor: replyBtnColor + "80", fontWeight: 500 }}>Reply</span>
-                  <span className="inline-flex items-center justify-center gap-1.5 px-6 py-2.5 rounded-full text-[13px] text-white cursor-default" style={{ backgroundColor: saveBtnColor, fontWeight: 500 }}>Save</span>
+                  <span role="img" aria-label="Reply button preview" className="inline-flex items-center justify-center gap-1.5 px-6 py-2.5 rounded-full border text-[13px] cursor-default" style={{ color: replyBtnColor, borderColor: replyBtnColor + "80", fontWeight: 500 }}>Reply</span>
+                  <span role="img" aria-label="Save button preview" className="inline-flex items-center justify-center gap-1.5 px-6 py-2.5 rounded-full text-[13px] text-white cursor-default" style={{ backgroundColor: saveBtnColor, fontWeight: 500 }}>Save</span>
                   <button
                     onClick={(e) => { e.stopPropagation(); setShareModalOpen(true); }}
                     className="inline-flex items-center justify-center gap-1.5 px-6 py-2.5 rounded-full text-[13px] text-white cursor-pointer hover:opacity-90 transition-opacity"

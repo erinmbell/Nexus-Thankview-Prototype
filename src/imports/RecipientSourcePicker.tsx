@@ -250,7 +250,7 @@ export function RecipientPickerInline({ existingIds, onAdd }: RecipientPickerInl
                     </p>
                   </div>
                   {addable > 0 && (
-                    <div className="w-6 h-6 rounded-full bg-tv-brand-tint flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-tv-brand-tint flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity shrink-0">
                       <Plus size={12} className="text-tv-brand" />
                     </div>
                   )}
@@ -301,7 +301,7 @@ export function RecipientPickerInline({ existingIds, onAdd }: RecipientPickerInl
                     </p>
                   </div>
                   {addable > 0 && (
-                    <div className="w-6 h-6 rounded-full bg-amber-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-amber-50 flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity shrink-0">
                       <Plus size={12} className="text-amber-600" />
                     </div>
                   )}
@@ -567,7 +567,7 @@ export function RecipientPickerInline({ existingIds, onAdd }: RecipientPickerInl
                         Added
                       </span>
                     ) : (
-                      <div className="w-6 h-6 rounded-full bg-tv-brand-tint flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                      <div className="w-6 h-6 rounded-full bg-tv-brand-tint flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity shrink-0">
                         <Plus size={12} className="text-tv-brand" />
                       </div>
                     )}

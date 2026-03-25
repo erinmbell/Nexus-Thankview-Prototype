@@ -429,6 +429,7 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
             <button
               key={opt.key}
               onClick={() => setEmailContentType(opt.key)}
+              aria-label={opt.label}
               className={`w-full flex items-center gap-3 p-3 rounded-[10px] border text-left transition-all ${
                 active
                   ? "border-tv-brand-bg bg-tv-brand-tint/30 shadow-sm"
@@ -470,6 +471,7 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
             <button
               key={animOpt.key}
               onClick={() => setAnimatedStyle(animOpt.key)}
+              aria-label={animOpt.label}
               className={`flex-1 flex flex-col items-center gap-2 p-3 rounded-[10px] border transition-all ${
                 active
                   ? "border-tv-brand-bg bg-tv-brand-tint/30"
@@ -1046,7 +1048,7 @@ function LandingPageSection(props: DesignStepPanelProps) {
                         className="absolute inset-0 w-full h-full object-cover" />
                     )}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors" />
-                    <div className="absolute top-1.5 right-1.5 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute top-1.5 right-1.5 flex items-center gap-1 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
                       <button onClick={e => { e.stopPropagation(); }}
                         className="w-[22px] h-[22px] rounded-[5px] bg-white/90 hover:bg-white flex items-center justify-center shadow-sm transition-colors">
                         <Pencil size={9} className="text-tv-text-primary" />

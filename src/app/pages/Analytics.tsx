@@ -4500,7 +4500,7 @@ export function Analytics() {
                     <span className="text-[12px] font-semibold w-14 text-right shrink-0" style={{ color: TV.textPrimary }}>
                       {tagsTabMetric === "totalSent" ? d.value.toLocaleString() : `${d.value}%`}
                     </span>
-                    <ChevronRight size={12} className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: TV.textSecondary }} />
+                    <ChevronRight size={12} className="shrink-0 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" style={{ color: TV.textSecondary }} />
                   </button>
                 );
               })}
@@ -4900,7 +4900,7 @@ function FunnelRow({ cat, max, onCreateList, onViewContacts, expanded, onToggle 
         </div>
         <span className="text-[13px] font-bold font-display w-14 text-right shrink-0" style={{ color: TV.textPrimary }}>{cat.count.toLocaleString()}</span>
         <span className="text-[10px] w-12 text-right shrink-0" style={{ color: TV.textSecondary }}>{pct}%</span>
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity shrink-0">
           <Tooltip label={`Create list from "${cat.label}"`} position="top">
             <ActionIcon variant="subtle" color="tvPurple" size="xs" radius="xl" onClick={(e) => { e.stopPropagation(); onCreateList(cat.label); }} aria-label={`Create list from ${cat.label}`}>
               <ListPlus size={13} />

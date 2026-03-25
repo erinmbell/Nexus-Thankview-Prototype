@@ -1368,7 +1368,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                           <div className="relative w-full h-20 rounded-md border overflow-hidden flex items-center justify-center group mb-2" style={{ borderColor: TV.borderLight, backgroundColor: `${TV.surfaceMuted}30` }}>
                             <img src={lpConfig.logoFile} alt="Logo" className="max-h-full max-w-full object-contain" />
                             <button type="button" onClick={() => updateLp({ logoFile: null })}
-                              className="absolute top-1 right-1 w-5 h-5 rounded-full bg-tv-danger/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              className="absolute top-1 right-1 w-5 h-5 rounded-full bg-tv-danger/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
                               <X size={10} strokeWidth={3} />
                             </button>
                           </div>
@@ -1499,7 +1499,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                                     </div>
                                   ) : (<>
                                     <p className="text-[10px] truncate flex-1" style={{ fontWeight: 500, color: lpConfig.selectedBgId === bg.id ? TV.textBrand : TV.textPrimary }}>{bg.name}</p>
-                                    <div className="flex items-center gap-0 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
+                                    <div className="flex items-center gap-0 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
                                       <button onClick={() => lpStartRename(bg.id)} className="p-0.5" style={{ color: TV.textSecondary }} title="Rename"><Pencil size={9} /></button>
                                       <button onClick={() => lpDeleteBg(bg.id)} className="p-0.5 hover:text-tv-danger" style={{ color: TV.textSecondary }} title="Delete"><Trash2 size={9} /></button>
                                     </div></>)}
@@ -1545,7 +1545,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                                 <div className="aspect-[4/3]" style={{ backgroundColor: bg.color }} />
                                 <div className="px-2 py-1.5 bg-white flex items-center justify-between">
                                   <div className="flex items-center gap-1.5 flex-1 min-w-0"><div className="w-3 h-3 rounded-full shrink-0 border" style={{ backgroundColor: bg.color, borderColor: TV.borderLight }} /><p className="text-[10px] truncate" style={{ fontWeight: 500, color: lpConfig.selectedBgId === bg.id ? TV.textBrand : TV.textPrimary }}>{bg.name}</p></div>
-                                  <button className="p-0.5 opacity-0 group-hover:opacity-100 transition-opacity hover:text-tv-danger" style={{ color: TV.textSecondary }} onClick={e => { e.stopPropagation(); lpDeleteBg(bg.id); }} title="Delete"><Trash2 size={9} /></button>
+                                  <button className="p-0.5 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity hover:text-tv-danger" style={{ color: TV.textSecondary }} onClick={e => { e.stopPropagation(); lpDeleteBg(bg.id); }} title="Delete"><Trash2 size={9} /></button>
                                 </div>
                                 {lpConfig.selectedBgId === bg.id && (<div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: TV.brand }}><Check size={10} className="text-white" strokeWidth={3} /></div>)}
                               </div>
@@ -1608,7 +1608,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                                 <div className="aspect-[4/3]" style={{ background: lpBgCss(bg) }} />
                                 <div className="px-2 py-1.5 bg-white flex items-center justify-between">
                                   <div className="flex items-center gap-1.5 flex-1 min-w-0"><div className="w-3 h-3 rounded-full shrink-0 border" style={{ background: lpBgCss(bg), borderColor: TV.borderLight }} /><p className="text-[10px] truncate" style={{ fontWeight: 500, color: lpConfig.selectedBgId === bg.id ? TV.textBrand : TV.textPrimary }}>{bg.name}</p></div>
-                                  <button className="p-0.5 opacity-0 group-hover:opacity-100 transition-opacity hover:text-tv-danger" style={{ color: TV.textSecondary }} onClick={e => { e.stopPropagation(); lpDeleteBg(bg.id); }} title="Delete"><Trash2 size={9} /></button>
+                                  <button className="p-0.5 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity hover:text-tv-danger" style={{ color: TV.textSecondary }} onClick={e => { e.stopPropagation(); lpDeleteBg(bg.id); }} title="Delete"><Trash2 size={9} /></button>
                                 </div>
                                 {lpConfig.selectedBgId === bg.id && (<div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: TV.brand }}><Check size={10} className="text-white" strokeWidth={3} /></div>)}
                               </div>

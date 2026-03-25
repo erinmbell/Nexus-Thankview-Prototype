@@ -311,7 +311,7 @@ export function LandingPageBuilder() {
                           <div className="relative w-full h-20 rounded-md border border-tv-border-light overflow-hidden bg-tv-surface/30 flex items-center justify-center group mb-2">
                             <img src={logoFile} alt="Logo" className="max-h-full max-w-full object-contain" />
                             <button type="button" onClick={() => setLogoFile(null)}
-                              className="absolute top-1 right-1 w-5 h-5 rounded-full bg-tv-danger/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              className="absolute top-1 right-1 w-5 h-5 rounded-full bg-tv-danger/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
                               <X size={10} strokeWidth={3} />
                             </button>
                           </div>
@@ -447,7 +447,7 @@ export function LandingPageBuilder() {
                                     </div>
                                   ) : (<>
                                     <p className={`text-[10px] truncate flex-1 ${selectedBgId === bg.id ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 500 }}>{bg.name}</p>
-                                    <div className="flex items-center gap-0 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
+                                    <div className="flex items-center gap-0 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
                                       <button onClick={() => startRename(bg.id)} className="p-0.5 text-tv-text-decorative hover:text-tv-info" title="Rename"><Pencil size={9} /></button>
                                       <button onClick={() => deleteBg(bg.id)} className="p-0.5 text-tv-text-decorative hover:text-tv-danger" title="Delete"><Trash2 size={9} /></button>
                                     </div></>)}
@@ -492,7 +492,7 @@ export function LandingPageBuilder() {
                                 <div className="aspect-[4/3]" style={{ backgroundColor: bg.color }} />
                                 <div className="px-2 py-1.5 bg-white flex items-center justify-between">
                                   <div className="flex items-center gap-1.5 flex-1 min-w-0"><div className="w-3 h-3 rounded-full shrink-0 border border-tv-border-light" style={{ backgroundColor: bg.color }} /><p className={`text-[10px] truncate ${selectedBgId === bg.id ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 500 }}>{bg.name}</p></div>
-                                  <button className="p-0.5 text-tv-text-decorative hover:text-tv-danger opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => { e.stopPropagation(); deleteBg(bg.id); }} title="Delete"><Trash2 size={9} /></button>
+                                  <button className="p-0.5 text-tv-text-decorative hover:text-tv-danger opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" onClick={e => { e.stopPropagation(); deleteBg(bg.id); }} title="Delete"><Trash2 size={9} /></button>
                                 </div>
                                 {selectedBgId === bg.id && (<div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-tv-brand flex items-center justify-center"><Check size={10} className="text-white" strokeWidth={3} /></div>)}
                               </div>
@@ -551,7 +551,7 @@ export function LandingPageBuilder() {
                                 <div className="aspect-[4/3]" style={{ background: bgCss(bg) }} />
                                 <div className="px-2 py-1.5 bg-white flex items-center justify-between">
                                   <div className="flex items-center gap-1.5 flex-1 min-w-0"><div className="w-3 h-3 rounded-full shrink-0 border border-tv-border-light" style={{ background: bgCss(bg) }} /><p className={`text-[10px] truncate ${selectedBgId === bg.id ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 500 }}>{bg.name}</p></div>
-                                  <button className="p-0.5 text-tv-text-decorative hover:text-tv-danger opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => { e.stopPropagation(); deleteBg(bg.id); }} title="Delete"><Trash2 size={9} /></button>
+                                  <button className="p-0.5 text-tv-text-decorative hover:text-tv-danger opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" onClick={e => { e.stopPropagation(); deleteBg(bg.id); }} title="Delete"><Trash2 size={9} /></button>
                                 </div>
                                 {selectedBgId === bg.id && (<div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-tv-brand flex items-center justify-center"><Check size={10} className="text-white" strokeWidth={3} /></div>)}
                               </div>

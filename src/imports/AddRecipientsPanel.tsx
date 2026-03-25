@@ -308,7 +308,7 @@ export function AddRecipientsPanel({
                         e.stopPropagation();
                         removeContact(c.id);
                       }}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 shrink-0"
+                      className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity p-0.5 shrink-0"
                       title="Remove recipient"
                       aria-label={`Remove ${c.name}`}
                     >

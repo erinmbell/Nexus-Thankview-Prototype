@@ -445,7 +445,7 @@ function TemplatePickerModal({ onSelect, onCancel }: { onSelect: (tpl: CampaignT
                     </div>
                   )}
                 </div>
-                <div className="flex items-center gap-2 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="flex items-center gap-2 shrink-0 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
                   {!tpl.builtIn && (
                     <TvTooltip label="Delete template">
                       <button onClick={e => { e.stopPropagation(); setConfirmDelete(tpl); }}

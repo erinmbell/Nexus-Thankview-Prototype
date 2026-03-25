@@ -191,6 +191,9 @@ export function StatusChangeModal({
               >
                 <div className="flex flex-col items-center" style={{ width: 32 }}>
                   <div
+                    role={isValid ? "button" : undefined}
+                    tabIndex={isValid ? 0 : undefined}
+                    aria-label={isValid ? `Change status to ${step.label}` : undefined}
                     style={{
                       width: 32,
                       height: 32,
@@ -205,6 +208,7 @@ export function StatusChangeModal({
                       transition: "all 150ms ease",
                     }}
                     onClick={isValid ? () => setConfirmTarget(step.status) : undefined}
+                    onKeyDown={isValid ? (e: React.KeyboardEvent) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setConfirmTarget(step.status); } } : undefined}
                     onMouseEnter={isValid ? (e) => {
                       (e.currentTarget as HTMLDivElement).style.backgroundColor = TV.brandTint;
                       (e.currentTarget as HTMLDivElement).style.transform = "scale(1.1)";
@@ -230,11 +234,14 @@ export function StatusChangeModal({
 
                 <div
                   className="flex-1 pt-[5px]"
+                  role={isValid ? "button" : undefined}
+                  tabIndex={isValid ? 0 : undefined}
                   style={{
                     cursor: isValid ? "pointer" : "default",
                     minHeight: isLast ? 32 : 60,
                   }}
                   onClick={isValid ? () => setConfirmTarget(step.status) : undefined}
+                  onKeyDown={isValid ? (e: React.KeyboardEvent) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setConfirmTarget(step.status); } } : undefined}
                 >
                   <Text fz={14} c={textColor} style={{ fontWeight: isCurrent ? 700 : isValid ? 600 : 400 }}>
                     {step.label}

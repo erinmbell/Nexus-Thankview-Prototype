@@ -347,7 +347,7 @@ function VideoGridCard({ v, selected, openMenu, onSelect, onOpen, onMenuToggle, 
   return (
     <div role="button" tabIndex={0} className="group relative rounded-[14px] overflow-hidden border border-tv-border-light bg-white hover:shadow-lg transition-all cursor-pointer text-left w-full" onClick={onOpen} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(); }}} aria-label={`Open video: ${v.title}`}>
       {/* Checkbox on hover */}
-      <button type="button" aria-label="Select video" className="absolute top-2 left-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => { e.stopPropagation(); onSelect(); }}>
+      <button type="button" aria-label="Select video" className="absolute top-2 left-2 z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" onClick={e => { e.stopPropagation(); onSelect(); }}>
         <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${selected.includes(v.id) ? "bg-tv-brand-bg border-tv-brand-bg" : "bg-white border-tv-border-light"}`}>
           {selected.includes(v.id) && <Check size={10} className="text-white" strokeWidth={3} />}
         </div>
@@ -361,7 +361,7 @@ function VideoGridCard({ v, selected, openMenu, onSelect, onOpen, onMenuToggle, 
         className={`absolute top-2 right-2 z-20 w-7 h-7 rounded-full flex items-center justify-center transition-all ${
           v.favorited
             ? "bg-black/40 text-[#EAB308] opacity-100"
-            : "bg-black/40 text-white/70 hover:text-[#EAB308] opacity-0 group-hover:opacity-100"
+            : "bg-black/40 text-white/70 hover:text-[#EAB308] opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"
         }`}
         onClick={e => { e.stopPropagation(); onFavorite(); }}
         aria-label={v.favorited ? "Unfavorite" : "Favorite"}
@@ -775,7 +775,7 @@ export function VideoLibrary() {
                   )}
                   {/* Folder context menu trigger */}
                   {f !== "All Videos" && editingFolder !== f && (
-                    <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
+                    <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
                       <Menu opened={folderMenu === f} onChange={(o) => o ? setFolderMenu(f) : setFolderMenu(null)} position="bottom-end" withinPortal>
                         <Menu.Target>
                           <ActionIcon variant="subtle" size="xs" radius="xl" onClick={() => setFolderMenu(folderMenu === f ? null : f)} aria-label={`${f} folder actions`}>

@@ -347,13 +347,14 @@ export function ImageUploadModal({
             >
               <img
                 src={preview}
-                alt="Preview"
+                alt="Uploaded image preview"
                 className="w-full max-h-[240px] object-contain"
                 style={{ minHeight: 120 }}
               />
               <button
                 onClick={clearPreview}
-                className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center text-white hover:bg-black/70 transition-colors"
+                aria-label="Remove image"
+                className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center text-white hover:bg-black/70 transition-colors focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
               >
                 <X size={13} />
               </button>
