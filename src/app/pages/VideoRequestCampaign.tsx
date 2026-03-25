@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useToast } from "../contexts/ToastContext";
 import { TV } from "../theme";
+import { Toggle } from "../components/ui/Toggle";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 type Tab = "setup" | "recorders" | "submissions";
@@ -163,7 +164,7 @@ export function VideoRequestCampaign() {
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto bg-tv-surface p-6">
-        <div className="max-w-[720px] mx-auto space-y-5">
+        <div className="max-w-[720px] xl:max-w-[860px] 2xl:max-w-[1000px] mx-auto space-y-5">
 
           {/* Success Metric Banner — video request uses "Submitted" not email metrics */}
           <div className="flex items-center gap-3 p-3.5 bg-tv-brand-tint/40 border border-tv-brand-bg/20 rounded-xl">
@@ -184,7 +185,7 @@ export function VideoRequestCampaign() {
           {tab === "setup" && (
             <>
               {/* Campaign Name */}
-              <div className="bg-white rounded-xl border border-tv-border-light p-5 space-y-4">
+              <div className="bg-white rounded-lg border border-tv-border-light p-5 space-y-4">
                 <h3 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Details</h3>
                 <div>
                   <label className="tv-label mb-1.5 block">Campaign Name</label>
@@ -194,7 +195,7 @@ export function VideoRequestCampaign() {
               </div>
 
               {/* Delivery Type */}
-              <div className="bg-white rounded-xl border border-tv-border-light p-5 space-y-4">
+              <div className="bg-white rounded-lg border border-tv-border-light p-5 space-y-4">
                 <h3 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Delivery Method</h3>
                 <p className="text-[12px] text-tv-text-secondary -mt-2">How should recorders receive the recording request?</p>
                 <div className="grid grid-cols-3 gap-3">
@@ -238,7 +239,7 @@ export function VideoRequestCampaign() {
               </div>
 
               {/* Instructions */}
-              <div className="bg-white rounded-xl border border-tv-border-light p-5 space-y-4">
+              <div className="bg-white rounded-lg border border-tv-border-light p-5 space-y-4">
                 <h3 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Recording Instructions</h3>
                 <textarea value={instructions} onChange={e => setInstructions(e.target.value)} rows={4}
                   className="w-full border border-tv-border-light rounded-lg px-3 py-2.5 text-[13px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand resize-none"
@@ -246,7 +247,7 @@ export function VideoRequestCampaign() {
               </div>
 
               {/* Due Date & Reminders */}
-              <div className="bg-white rounded-xl border border-tv-border-light p-5 space-y-4">
+              <div className="bg-white rounded-lg border border-tv-border-light p-5 space-y-4">
                 <h3 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Due Date & Reminders</h3>
                 <div className="flex items-center gap-4">
                   <div className="flex-1">
@@ -284,24 +285,18 @@ export function VideoRequestCampaign() {
               </div>
 
               {/* Submissions Control */}
-              <div className="bg-white rounded-xl border border-tv-border-light p-5">
+              <div className="bg-white rounded-lg border border-tv-border-light p-5">
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>Accept Submissions</h3>
                     <p className="text-[12px] text-tv-text-secondary mt-1">When turned off, recorders can no longer submit videos through this request.</p>
                   </div>
-                  <button
-                    onClick={() => setSubmissionsOpen(!submissionsOpen)}
-                    role="switch" aria-checked={submissionsOpen}
-                    className="flex items-center gap-2"
-                  >
-                    <div className={`w-10 h-[22px] rounded-full relative transition-colors ${submissionsOpen ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                      <div className={`w-4 h-4 bg-white rounded-full absolute top-[3px] shadow-sm transition-all ${submissionsOpen ? "left-[21px]" : "left-[3px]"}`} />
-                    </div>
+                  <div className="flex items-center gap-2">
+                    <Toggle enabled={submissionsOpen} onToggle={() => setSubmissionsOpen(!submissionsOpen)} />
                     <span className={`text-[11px] ${submissionsOpen ? "text-tv-brand" : "text-tv-text-secondary"}`} style={{ fontWeight: 600 }}>
                       {submissionsOpen ? "Open" : "Closed"}
                     </span>
-                  </button>
+                  </div>
                 </div>
               </div>
             </>
@@ -344,7 +339,7 @@ export function VideoRequestCampaign() {
               </div>
 
               {/* Summary bar */}
-              <div className="flex items-center gap-4 bg-white rounded-xl border border-tv-border-light px-5 py-3">
+              <div className="flex items-center gap-4 bg-white rounded-lg border border-tv-border-light px-5 py-3">
                 <div className="text-center flex-1">
                   <p className="text-[18px] text-tv-text-primary" style={{ fontWeight: 700 }}>{MOCK_RECORDERS.length}</p>
                   <p className="text-[10px] text-tv-text-secondary">Total</p>
@@ -367,7 +362,7 @@ export function VideoRequestCampaign() {
               </div>
 
               {/* Recorder list */}
-              <div className="bg-white rounded-xl border border-tv-border-light overflow-hidden">
+              <div className="bg-white rounded-lg border border-tv-border-light overflow-hidden">
                 <div className="px-5 py-3.5 border-b border-tv-border-divider flex items-center justify-between">
                   <p className="text-[12px] text-tv-text-secondary">
                     Showing <span style={{ fontWeight: 600 }} className="text-tv-text-primary">{visibleRecorders.length}</span> of {filteredRecorders.length} recorders
@@ -434,7 +429,7 @@ export function VideoRequestCampaign() {
               </div>
 
               {/* Summary bar */}
-              <div className="flex items-center gap-4 bg-white rounded-xl border border-tv-border-light px-5 py-3">
+              <div className="flex items-center gap-4 bg-white rounded-lg border border-tv-border-light px-5 py-3">
                 <div className="text-center flex-1">
                   <p className="text-[18px] text-tv-text-primary" style={{ fontWeight: 700 }}>{MOCK_SUBMISSIONS.length}</p>
                   <p className="text-[10px] text-tv-text-secondary">Total</p>
@@ -459,7 +454,7 @@ export function VideoRequestCampaign() {
               {/* Submissions grid */}
               <div className="grid grid-cols-2 gap-4">
                 {filteredSubmissions.map(s => (
-                  <div key={s.id} className="bg-white rounded-xl border border-tv-border-light overflow-hidden hover:shadow-md transition-shadow">
+                  <div key={s.id} className="bg-white rounded-lg border border-tv-border-light overflow-hidden hover:shadow-md transition-shadow">
                     {/* Video thumbnail */}
                     <div className="aspect-video relative" style={{ background: `linear-gradient(135deg, ${s.thumbnailColor}, ${s.thumbnailColor}cc)` }}>
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -496,7 +491,7 @@ export function VideoRequestCampaign() {
               </div>
 
               {filteredSubmissions.length === 0 && (
-                <div className="bg-white rounded-xl border border-tv-border-light p-10 text-center">
+                <div className="bg-white rounded-lg border border-tv-border-light p-10 text-center">
                   <Video size={32} style={{ color: TV.textDecorative }} className="mx-auto mb-3" />
                   <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 600 }}>No submissions yet</p>
                   <p className="text-[12px] text-tv-text-secondary mt-1">Submissions will appear here as recorders submit their videos.</p>

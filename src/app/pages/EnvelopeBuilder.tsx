@@ -816,7 +816,7 @@ export function EnvelopeBuilder() {
 
             {/* ── Right: Preview ───────────────────────────────────────────── */}
             <div className="flex-1 min-w-0 flex flex-col items-center justify-center p-8 bg-tv-surface/20 overflow-y-auto">
-              <div className="w-full max-w-[500px]">
+              <div className="w-full max-w-[500px] xl:max-w-[600px] 2xl:max-w-[720px]">
                 {/* Envelope */}
                 {renderEnvelopePreview(previewView, false)}
 
@@ -872,7 +872,7 @@ export function EnvelopeBuilder() {
 
             {/* Right: 3-view summary */}
             <div className="flex-1 min-w-0 flex flex-col items-center justify-center p-8 bg-tv-surface/30 overflow-y-auto">
-              <div className="w-full max-w-[480px]">
+              <div className="w-full max-w-[480px] xl:max-w-[580px] 2xl:max-w-[700px]">
                 <h3 className="text-tv-text-primary mb-1 font-bold" style={{ fontSize: "17px" }}>{title || "Untitled Envelope"}</h3>
                 <div className="h-px bg-tv-border-divider mb-5" />
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

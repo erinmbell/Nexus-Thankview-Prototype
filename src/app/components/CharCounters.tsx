@@ -62,7 +62,7 @@ export function CharCount({ current, max }: { current: number; max: number }) {
     pct >= 0.9 ? "text-tv-warning" :
     "text-tv-text-decorative";
   return (
-    <span className={`text-[10px] tabular-nums transition-colors ${color}`} style={{ fontWeight: 500 }}>
+    <span className={`text-[10px] tabular-nums transition-colors ${color}`} style={{ fontWeight: 500 }} aria-live="polite" aria-atomic="true">
       {current}/{max}
     </span>
   );
@@ -74,7 +74,7 @@ export function BodyHeaderCount({ length, limit }: { length: number; limit: numb
   const cc = counterColor(level);
   const display = limit >= 1000 ? `${length.toLocaleString()}/${limit.toLocaleString()}` : `${length}/${limit}`;
   return (
-    <span className={`text-[12px] tabular-nums transition-colors ${cc}`} style={{ fontWeight: 700 }}>
+    <span className={`text-[12px] tabular-nums transition-colors ${cc}`} style={{ fontWeight: 700 }} aria-live="polite" aria-atomic="true">
       {display}
     </span>
   );
@@ -97,7 +97,7 @@ export function SmsCharCounter({ length }: { length: number }) {
       {/* Main counter bar */}
       <div className={`flex items-center justify-between px-3 py-1.5 rounded-sm border transition-colors ${counterBarBg(level)}`}>
         <div className="flex items-center gap-2">
-          <span className={`text-[12px] tabular-nums transition-colors ${cc}`} style={{ fontWeight: 700 }}>
+          <span className={`text-[12px] tabular-nums transition-colors ${cc}`} style={{ fontWeight: 700 }} aria-live="polite" aria-atomic="true">
             {length}/{limit}
           </span>
           {overLimit && (
@@ -155,7 +155,7 @@ export function EmailBodyCharCounter({ length }: { length: number }) {
       {/* Main counter bar */}
       <div className={`flex items-center justify-between px-3 py-1.5 rounded-sm border transition-colors ${counterBarBg(level)}`}>
         <div className="flex items-center gap-2">
-          <span className={`text-[12px] tabular-nums transition-colors ${cc}`} style={{ fontWeight: 700 }}>
+          <span className={`text-[12px] tabular-nums transition-colors ${cc}`} style={{ fontWeight: 700 }} aria-live="polite" aria-atomic="true">
             {length.toLocaleString()}/{limit.toLocaleString()}
           </span>
           {overLimit && (

@@ -55,6 +55,7 @@ function SmsMergeMore({ onInsert }: { onInsert: (token: string) => void }) {
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
+        aria-label="Insert additional merge fields"
         className={`text-[9px] px-1.5 py-0.5 rounded transition-colors ${open ? "bg-tv-brand-tint text-tv-brand" : "text-tv-brand hover:bg-tv-brand-tint"}`}
         style={{ fontWeight: 600 }}
       >
@@ -120,13 +121,13 @@ function FlowNode({
   if (isWait) {
     return (
       <div
-        role="button"
         tabIndex={0}
         onClick={onSelect}
         onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(); } }}
-        className={`flex items-center gap-2.5 px-4 py-2.5 rounded-full border-2 transition-all hover:shadow-md cursor-pointer ${
+        className={`flex items-center gap-2.5 px-4 py-2.5 rounded-full border-2 transition-all hover:shadow-md cursor-pointer focus-visible:ring-2 focus-visible:ring-tv-brand focus-visible:ring-offset-2 outline-none ${
           selected ? "border-tv-brand-bg bg-tv-brand-tint shadow-md" : "border-tv-warning-border bg-tv-warning-bg hover:border-tv-warning"
         }`}
+        aria-label={`Wait ${step.waitDays || 3} day${(step.waitDays || 3) !== 1 ? "s" : ""}`}
       >
         <Timer size={14} className="text-tv-warning" />
         <span className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>
@@ -153,13 +154,13 @@ function FlowNode({
 
   return (
     <div
-      role="button"
       tabIndex={0}
       onClick={onSelect}
       onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(); } }}
-      className={`w-[320px] text-left rounded-lg border-2 overflow-hidden transition-all hover:shadow-lg cursor-pointer ${
+      className={`w-[320px] text-left rounded-lg border-2 overflow-hidden transition-all hover:shadow-lg cursor-pointer focus-visible:ring-2 focus-visible:ring-tv-brand focus-visible:ring-offset-2 outline-none ${
         selected ? "border-tv-brand-bg shadow-lg" : isCondition ? "border-tv-border hover:border-tv-brand-bg" : "border-tv-border-light hover:border-tv-border-strong"
       }`}
+      aria-label={`${step.label || typeDef?.label} step. Press Enter to edit.`}
     >
       {/* Color bar */}
       <div className={`h-[3px] ${isCondition ? "bg-tv-brand" : step.type === "sms" ? "bg-tv-info" : step.type === "video-request" ? "bg-tv-warning" : "bg-tv-brand-bg"}`} />
@@ -915,9 +916,7 @@ function StepDrawer({
                   <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Automated Reminders</p>
                   <p className="text-[9px] text-tv-text-secondary">Send before the due date</p>
                 </div>
-                <div className={`w-8 h-[18px] rounded-full relative shrink-0 transition-colors ${(step.vrReminderEnabled ?? true) ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                  <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[2px] transition-all shadow-sm ${(step.vrReminderEnabled ?? true) ? "left-[15px]" : "left-[2px]"}`} />
-                </div>
+                <Toggle enabled={step.vrReminderEnabled ?? true} onToggle={() => {}} size="compact" />
               </button>
               {(step.vrReminderEnabled ?? true) && (
                 <div className="space-y-1.5">
@@ -968,9 +967,7 @@ function StepDrawer({
                   <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Accept Submissions</p>
                   <p className="text-[9px] text-tv-text-secondary">{(step.vrSubmissionsEnabled ?? true) ? "Submissions are open" : "Link is disabled"}</p>
                 </div>
-                <div className={`w-8 h-[18px] rounded-full relative shrink-0 transition-colors ${(step.vrSubmissionsEnabled ?? true) ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                  <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[2px] transition-all shadow-sm ${(step.vrSubmissionsEnabled ?? true) ? "left-[15px]" : "left-[2px]"}`} />
-                </div>
+                <Toggle enabled={step.vrSubmissionsEnabled ?? true} onToggle={() => {}} size="compact" />
               </button>
               {/* Include Library Video toggle */}
               <button onClick={() => onUpdate({ ...step, vrIncludeLibraryVideo: !step.vrIncludeLibraryVideo })}
@@ -980,9 +977,7 @@ function StepDrawer({
                   <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Instruction Video</p>
                   <p className="text-[9px] text-tv-text-secondary">Attach a video from your library</p>
                 </div>
-                <div className={`w-8 h-[18px] rounded-full relative shrink-0 transition-colors ${step.vrIncludeLibraryVideo ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                  <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[2px] transition-all shadow-sm ${step.vrIncludeLibraryVideo ? "left-[15px]" : "left-[2px]"}`} />
-                </div>
+                <Toggle enabled={!!step.vrIncludeLibraryVideo} onToggle={() => {}} size="compact" />
               </button>
               {step.vrIncludeLibraryVideo && !step.vrLibraryVideoTitle && (
                 <button onClick={() => setShowVideoPicker(true)}
@@ -1522,9 +1517,7 @@ function StepDrawer({
                     <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Quiet Hours</p>
                     <p className="text-[9px] text-tv-text-secondary">Don't send between 9 PM – 8 AM constituent local time</p>
                   </div>
-                  <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${step.smsQuietHours ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                    <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${step.smsQuietHours ? "left-[17px]" : "left-0.5"}`} />
-                  </div>
+                  <Toggle enabled={!!step.smsQuietHours} onToggle={() => {}} />
                 </button>
                 <p className="text-[9px] text-tv-text-decorative">Queued messages will be sent at 8 AM in the constituent's timezone.</p>
               </div>
@@ -1584,9 +1577,7 @@ function StepDrawer({
                 <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Enable Landing Page</p>
                 <p className="text-[9px] text-tv-text-secondary flex items-center gap-1">Constituents see this after clicking through</p>
               </div>
-              <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${step.landingPageEnabled ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${step.landingPageEnabled ? "left-[17px]" : "left-0.5"}`} />
-              </div>
+              <Toggle enabled={!!step.landingPageEnabled} onToggle={() => {}} />
             </button>
 
             {/* Thumbnail link URL — shown when landing page is OFF */}
@@ -1713,30 +1704,14 @@ function StepDrawer({
                             <Download size={12} className={(step.pdfAllowDownload ?? true) ? "text-tv-brand" : "text-tv-text-secondary"} />
                             <span className="text-[12px] text-tv-text-primary" style={{ fontWeight: 500 }}>Allow Download</span>
                           </div>
-                          <button
-                            role="switch"
-                            aria-checked={step.pdfAllowDownload ?? true}
-                            aria-label="Allow download"
-                            onClick={() => onUpdate({ ...step, pdfAllowDownload: !(step.pdfAllowDownload ?? true) })}
-                            className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${(step.pdfAllowDownload ?? true) ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}
-                          >
-                            <div className={`w-4 h-4 bg-white rounded-full absolute top-[2px] shadow-sm transition-all ${(step.pdfAllowDownload ?? true) ? "left-[17px]" : "left-[2px]"}`} />
-                          </button>
+                          <Toggle enabled={step.pdfAllowDownload ?? true} onToggle={() => onUpdate({ ...step, pdfAllowDownload: !(step.pdfAllowDownload ?? true) })} />
                         </div>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <Users size={12} className={(step.pdfShareWithConstituents ?? true) ? "text-tv-brand" : "text-tv-text-secondary"} />
                             <span className="text-[12px] text-tv-text-primary" style={{ fontWeight: 500 }}>Share with Constituents</span>
                           </div>
-                          <button
-                            role="switch"
-                            aria-checked={step.pdfShareWithConstituents ?? true}
-                            aria-label="Share with constituents"
-                            onClick={() => onUpdate({ ...step, pdfShareWithConstituents: !(step.pdfShareWithConstituents ?? true) })}
-                            className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${(step.pdfShareWithConstituents ?? true) ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}
-                          >
-                            <div className={`w-4 h-4 bg-white rounded-full absolute top-[2px] shadow-sm transition-all ${(step.pdfShareWithConstituents ?? true) ? "left-[17px]" : "left-[2px]"}`} />
-                          </button>
+                          <Toggle enabled={step.pdfShareWithConstituents ?? true} onToggle={() => onUpdate({ ...step, pdfShareWithConstituents: !(step.pdfShareWithConstituents ?? true) })} />
                         </div>
                       </div>
                     )}
@@ -1807,16 +1782,7 @@ function StepDrawer({
                         </div>
                         <div className="pt-5">
                           <div className="flex items-center gap-2">
-                            <button
-                              type="button"
-                              role="switch"
-                              aria-checked={step.formFullWidth ?? false}
-                              aria-label="Full width form"
-                              onClick={() => onUpdate({ ...step, formFullWidth: !(step.formFullWidth ?? false) })}
-                              className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${(step.formFullWidth ?? false) ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}
-                            >
-                              <div className={`w-4 h-4 bg-white rounded-full absolute top-[2px] shadow-sm transition-all ${(step.formFullWidth ?? false) ? "left-[17px]" : "left-[2px]"}`} />
-                            </button>
+                            <Toggle enabled={step.formFullWidth ?? false} onToggle={() => onUpdate({ ...step, formFullWidth: !(step.formFullWidth ?? false) })} />
                             <div className="flex items-center gap-1">
                               <Maximize2 size={11} className={(step.formFullWidth ?? false) ? "text-tv-brand" : "text-tv-text-secondary"} />
                               <span className="text-[12px] text-tv-text-primary whitespace-nowrap" style={{ fontWeight: 500 }}>Full Width</span>
@@ -1839,9 +1805,7 @@ function StepDrawer({
                       <p className="text-[8px] text-tv-text-secondary text-left">Newsletter opt-in</p>
                     </div>
                   </div>
-                  <div className={`w-8 h-[18px] rounded-full relative shrink-0 transition-colors ${step.subscribeCta ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                    <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[2px] transition-all shadow-sm ${step.subscribeCta ? "left-[15px]" : "left-[2px]"}`} />
-                  </div>
+                  <Toggle enabled={!!step.subscribeCta} onToggle={() => {}} size="compact" />
                 </button>
 
                 {/* Reply options */}
@@ -1886,9 +1850,7 @@ function StepDrawer({
                           <opt.icon size={8} />{opt.chip}
                         </span>
                         <span className="flex-1 text-[11px] text-tv-text-primary text-left">{opt.label}</span>
-                        <div className={`w-8 h-[18px] rounded-full relative shrink-0 transition-colors ${enabled ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                          <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[2px] transition-all shadow-sm ${enabled ? "left-[15px]" : "left-[2px]"}`} />
-                        </div>
+                        <Toggle enabled={enabled} onToggle={() => {}} size="compact" />
                       </button>
                     );
                   })}
@@ -1902,9 +1864,7 @@ function StepDrawer({
                     <p className="text-[11px] text-tv-text-primary text-left">White Gradient Overlay</p>
                     <p className="text-[9px] text-tv-text-secondary text-left">Fade background for readability</p>
                   </div>
-                  <div className={`w-8 h-[18px] rounded-full relative shrink-0 transition-colors ${step.lpWhiteGradient ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                    <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[2px] transition-all shadow-sm ${step.lpWhiteGradient ? "left-[15px]" : "left-[2px]"}`} />
-                  </div>
+                  <Toggle enabled={!!step.lpWhiteGradient} onToggle={() => {}} size="compact" />
                 </button>
 
                 {/* Language selector */}
@@ -2052,9 +2012,7 @@ function StepDrawer({
                 <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Enable Social Sharing</p>
                 <p className="text-[9px] text-tv-text-secondary">Allow recipients to share the video/landing page on social media</p>
               </div>
-              <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${step.socialSharingEnabled ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${step.socialSharingEnabled ? "left-[17px]" : "left-0.5"}`} />
-              </div>
+              <Toggle enabled={!!step.socialSharingEnabled} onToggle={() => {}} />
             </button>
             {step.socialSharingEnabled && (
               <SocialSharingCard
@@ -2319,1143 +2277,6 @@ function StepDrawer({
       />
     )}
     </>
-  );
-}
-
-// ── Step Creation Modal removed — all step types now use the unified StepDrawer ──
-// (Only ConditionCreationModal remains for condition-type steps)
-type CreationTab = "design" | "content" | "video" | "settings" | "vr-setup" | "vr-recorders" | "vr-schedule" | "vr-landing";
-
-// StepCreationModal — superseded by the unified expandable StepDrawer.
-// Retained as dead code; no longer called from the builder.
-function StepCreationModal({
-  step: initialStep,
-  onSave,
-  onCancel,
-}: {
-  step: FlowStep;
-  onSave: (step: FlowStep) => void;
-  onCancel: () => void;
-}) {
-  const { show } = useToast();
-  const { customEnvelopes: globalEnvelopes, customLandingPages: globalLandingPages } = useDesignLibrary();
-  const [step, setStep] = useState<FlowStep>(initialStep);
-  const isEmail = step.type === "email";
-  const isSms = step.type === "sms";
-  const isVR = step.type === "video-request";
-  const [activeTab, setActiveTab] = useState<CreationTab>(isVR ? "vr-setup" : isEmail ? "design" : "content");
-
-  // Design step state (consolidated Appearance + Landing Page)
-  const [lpSearch, setLpSearch] = useState("");
-  const [envelopeSearch, setEnvelopeSearch] = useState("");
-  const [lpSectionOpen, setLpSectionOpen] = useState(true);
-  const [envSectionOpen, setEnvSectionOpen] = useState<Record<string, boolean>>({ branded: true, holiday: false, legacy: false });
-  const [previewViewport, setPreviewViewport] = useState<"desktop" | "tablet" | "mobile">("desktop");
-  const [envTextBefore, setEnvTextBefore] = useState("");
-  const [envTextAfter, setEnvTextAfter] = useState("");
-  const [envNameFormat, setEnvNameFormat] = useState("[Title] [First Name] [Last Name]");
-  const [envLineBreakBefore, setEnvLineBreakBefore] = useState(false);
-  const [envLineBreakAfter, setEnvLineBreakAfter] = useState(false);
-  const [attachmentType, setAttachmentType] = useState<"button" | "pdf" | "form">("button");
-  const [trackingPixel, setTrackingPixel] = useState("");
-
-  const [showMerge, setShowMerge] = useState(false);
-  const [showEmoji, setShowEmoji] = useState(false);
-  const [replyToInput, setReplyToInput] = useState("");
-  const [smsRegistered, setSmsRegistered] = useState(true);
-
-  // AI state
-  const [showAi, setShowAi] = useState(false);
-
-  // Video modals
-  const [showVideoPicker, setShowVideoPicker] = useState(false);
-  const [showVideoCreate, setShowVideoCreate] = useState(false);
-  const [videoCreateInitialTab, setVideoCreateInitialTab] = useState<"record" | "upload" | "library">("record");
-
-  // SMS helpers
-  const smsLen = (step.smsBody || "").length;
-
-  const TABS: { id: CreationTab; label: string; icon: any }[] = isVR ? [
-    { id: "vr-setup",      label: "Instructions",  icon: FileText },
-    { id: "vr-recorders",  label: "Recorders",     icon: Users },
-    { id: "vr-schedule",   label: "Due Date",      icon: Calendar },
-    { id: "vr-landing",    label: "Landing & Link", icon: Globe },
-    { id: "settings",      label: "Settings",      icon: Clock },
-  ] : isEmail ? [
-    { id: "design" as CreationTab, label: "Design", icon: Palette },
-    { id: "content",  label: "Email Content", icon: Mail },
-    { id: "video",    label: "Video",         icon: Video },
-    { id: "settings", label: "Settings",      icon: Clock },
-  ] : [
-    { id: "content",  label: "SMS Content",   icon: MessageSquare },
-    { id: "settings", label: "Settings",      icon: Clock },
-  ];
-
-  // Derived envelope lists (includes global custom designs)
-  const allEnvelopeDesigns = [...globalEnvelopes, ...ENVELOPE_DESIGNS];
-  const brandedEnvelopes = allEnvelopeDesigns.filter(e => e.category === "standard");
-  const holidayEnvelopes = allEnvelopeDesigns.filter(e => e.category === "holiday");
-  const legacyEnvelopes = allEnvelopeDesigns.filter(e => e.category === "legacy");
-  const filteredEnvelopes = (cat: string) => {
-    const src = cat === "branded" ? brandedEnvelopes : cat === "holiday" ? holidayEnvelopes : legacyEnvelopes;
-    return src.filter(e => !envelopeSearch || e.name.toLowerCase().includes(envelopeSearch.toLowerCase()));
-  };
-  const allLandingPageDesigns = [...globalLandingPages, ...LANDING_PAGES];
-  const filteredLandingPages = allLandingPageDesigns.filter(p => !lpSearch || p.name.toLowerCase().includes(lpSearch.toLowerCase()));
-
-  const typeDef = FLOW_STEP_TYPES.find(t => t.id === step.type);
-
-  // Full-screen video picker / creator overlays
-  if (showVideoPicker) {
-    return (
-      <div className="fixed inset-0 z-[80] bg-white flex flex-col [&>*]:flex-1">
-        <VideoPickerView
-          onBack={() => setShowVideoPicker(false)}
-          onSelect={(v) => {
-            if (isVR) {
-              setStep(s => ({ ...s, vrLibraryVideoId: v.id, vrLibraryVideoTitle: v.title }));
-            } else {
-              setStep(s => ({ ...s, attachedVideo: { id: v.id, title: v.title, duration: v.duration, color: v.color } }));
-            }
-            setShowVideoPicker(false);
-            show(`"${v.title}" ${isVR ? "selected as instruction video" : "attached"}`, "success");
-          }}
-        />
-      </div>
-    );
-  }
-
-  if (showVideoCreate) {
-    return (
-      <div className="fixed inset-0 z-[80] bg-white flex flex-col [&>*]:flex-1">
-        <VideoCreateView
-          onBack={() => setShowVideoCreate(false)}
-          onSave={(v) => {
-            if (isVR) {
-              setStep(s => ({ ...s, vrLibraryVideoId: v.id, vrLibraryVideoTitle: v.title }));
-            } else {
-              setStep(s => ({ ...s, attachedVideo: { id: v.id, title: v.title, duration: v.duration, color: v.color } }));
-            }
-            setShowVideoCreate(false);
-            show(`"${v.title}" ${isVR ? "selected as instruction video" : "recorded & attached"}`, "success");
-          }}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <FocusTrap active>
-    <div className="fixed inset-0 z-[70] flex items-center justify-center" role="dialog" aria-modal="true" aria-label={isVR ? "Video Request step setup" : isEmail ? "Email step setup" : "SMS step setup"}>
-      {/* Backdrop */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-black/40"
-        onClick={onCancel}
-      />
-
-      {/* Modal */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.96, y: 16 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.96, y: 16 }}
-        transition={{ duration: 0.25, ease: "easeOut" }}
-        className={`relative w-[95vw] ${activeTab === "design" ? "max-w-[1060px] 2xl:max-w-[1320px]" : "max-w-[900px] xl:max-w-[1020px] 2xl:max-w-[1200px]"} max-h-[90vh] bg-white rounded-xl border border-tv-border-light shadow-2xl flex flex-col overflow-hidden transition-[max-width] duration-300`}
-      >
-        {/* ── Header ── */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-tv-border-divider shrink-0">
-          <div className="flex items-center gap-3">
-            <div className={`w-9 h-9 rounded-md ${typeDef?.bg || "bg-tv-brand-tint"} flex items-center justify-center shrink-0`}>
-              {typeDef?.icon && <typeDef.icon size={17} className={typeDef?.color || "text-tv-brand"} />}
-            </div>
-            <div>
-              <h2 className="text-tv-text-primary" style={{ fontSize: "18px", fontWeight: 800 }}>
-                Create {isVR ? "Video Request" : isEmail ? "Email" : "SMS"} Step
-              </h2>
-              <p className="text-[12px] text-tv-text-secondary">{isVR ? "Configure the recording request, then save to add it to your campaign flow." : "Fill out the details for this step, then save to add it to your campaign flow."}</p>
-            </div>
-          </div>
-          <button onClick={onCancel} className="w-8 h-8 rounded-full bg-tv-surface flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface-hover transition-colors">
-            <X size={15} />
-          </button>
-        </div>
-
-        {/* ── Step name ── */}
-        <div className="px-6 pt-4 shrink-0">
-          <label className="tv-label mb-1 block">Step Name</label>
-          <input
-            value={step.label}
-            onChange={e => setStep(s => ({ ...s, label: e.target.value }))}
-            className={`${INPUT_CLS_LG} text-[14px]`}
-          />
-        </div>
-
-        {/* ── Tab bar ── */}
-        <div className="px-6 pt-4 shrink-0">
-          <div className="flex gap-1 bg-tv-surface rounded-md p-1">
-            {TABS.map(tab => {
-              const active = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-sm text-[12px] transition-all ${
-                    active
-                      ? "bg-white text-tv-brand shadow-sm"
-                      : "text-tv-text-secondary hover:text-tv-text-primary"
-                  }`} style={{ fontWeight: 600 }}
-                >
-                  <tab.icon size={13} />
-                  {tab.label}
-                  {tab.id === "video" && step.attachedVideo && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-tv-brand" />
-                  )}
-                  {tab.id === "design" && (step.envelopeId || step.landingPageEnabled) && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-tv-brand" />
-                  )}
-                  {tab.id === "settings" && step.automationEnabled && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-tv-brand" />
-                  )}
-                  {tab.id === "vr-setup" && step.vrInstructions && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-tv-brand" />
-                  )}
-                  {tab.id === "vr-schedule" && step.vrDueDate && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-tv-warning" />
-                  )}
-                  {tab.id === "vr-landing" && (step.vrSubmissionsEnabled ?? true) && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-tv-success" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* ── Tab content ── */}
-        <div className={`flex-1 ${activeTab === "design" ? "overflow-y-auto" : "overflow-y-auto"} ${activeTab === "design" ? "" : "px-6 py-5"}`}>
-          {/* ═════ DESIGN TAB (consolidated Appearance + Landing Page) ═════ */}
-          {activeTab === "design" && isEmail && (
-            <DesignStepPanel
-              inline
-              lpSearch={lpSearch}
-              onLpSearchChange={setLpSearch}
-              lpSectionOpen={lpSectionOpen}
-              onLpSectionToggle={() => setLpSectionOpen(o => !o)}
-              filteredLandingPages={filteredLandingPages}
-              selectedLandingPageId={step.landingPageId}
-              onSelectLandingPage={id => setStep(s => ({ ...s, landingPageId: id, landingPageEnabled: true }))}
-              envelopeSearch={envelopeSearch}
-              onEnvelopeSearchChange={setEnvelopeSearch}
-              envSectionOpen={envSectionOpen}
-              onEnvSectionToggle={key => setEnvSectionOpen(prev => ({ ...prev, [key]: !prev[key] }))}
-              filteredEnvelopes={filteredEnvelopes}
-              selectedEnvelopeId={step.envelopeId}
-              onSelectEnvelope={id => setStep(s => ({ ...s, envelopeId: id }))}
-              envTextBefore={envTextBefore}
-              onEnvTextBeforeChange={setEnvTextBefore}
-              envLineBreakBefore={envLineBreakBefore}
-              onEnvLineBreakBeforeChange={setEnvLineBreakBefore}
-              envNameFormat={envNameFormat}
-              onEnvNameFormatChange={setEnvNameFormat}
-              envLineBreakAfter={envLineBreakAfter}
-              onEnvLineBreakAfterChange={setEnvLineBreakAfter}
-              envTextAfter={envTextAfter}
-              onEnvTextAfterChange={setEnvTextAfter}
-              attachmentType={attachmentType}
-              onAttachmentTypeChange={setAttachmentType}
-              step={step}
-              onToggle={key => { const enabled = step[key] !== false; setStep(s => ({ ...s, [key]: !enabled })); }}
-              onCtaTextChange={v => setStep(s => ({ ...s, ctaText: v }))}
-              onBtnBgChange={v => setStep(s => ({ ...s, btnBg: v }))}
-              onBtnTextChange={v => setStep(s => ({ ...s, btnText: v }))}
-              trackingPixel={trackingPixel}
-              onTrackingPixelChange={setTrackingPixel}
-              previewViewport={previewViewport}
-              onPreviewViewportChange={setPreviewViewport}
-              selectedEnvelopeData={allEnvelopeDesigns.find(e => e.id === (step.envelopeId || 1))}
-              selectedLandingPageData={allLandingPageDesigns.find(p => p.id === (step.landingPageId || 1))}
-            />
-          )}
-
-          {/* ═════ CONTENT TAB ═════ */}
-          {activeTab === "content" && isEmail && (
-            <div className="flex gap-6 items-start">
-            {/* Left: form controls */}
-            <div className="flex-1 min-w-0 space-y-5">
-              {/* Sender info */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="tv-label">Sender Name</label>
-                    <CharCount current={(step.senderName || "").length} max={CHAR_LIMITS.senderName} />
-                  </div>
-                  <div className="relative">
-                    <input value={step.senderName || ""} onChange={e => setStep(s => ({ ...s, senderName: e.target.value }))} maxLength={CHAR_LIMITS.senderName} className={`${INPUT_CLS} pr-8`} />
-                    <div className="absolute right-1 top-1/2 -translate-y-1/2">
-                      <SmsMergeMore onInsert={token => setStep(s => ({ ...s, senderName: (s.senderName || "") + token }))} />
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <label className="tv-label mb-1 block">Sender Email</label>
-                  <input value={step.senderEmail || ""} onChange={e => setStep(s => ({ ...s, senderEmail: e.target.value }))} className={INPUT_CLS} />
-                </div>
-                <div className="col-span-2">
-                  <label className="tv-label mb-1 block">Reply-To <span className="text-tv-text-decorative normal-case" style={{ fontWeight: 400 }}>(multiple allowed)</span></label>
-                  <div className={TAG_INPUT_WRAPPER_CLS}>
-                    {(step.replyToList || []).map((email, i) => (
-                      <span key={i} className="inline-flex items-center gap-1 bg-tv-brand-tint border border-tv-border rounded-full px-2.5 py-0.5 text-[11px] text-tv-brand">
-                        {email}
-                        <TvTooltip label="Remove email"><button onClick={() => setStep(s => ({ ...s, replyToList: (s.replyToList || []).filter((_, j) => j !== i) }))} aria-label={`Remove ${email}`} className="hover:text-tv-danger"><X size={9} /></button></TvTooltip>
-                      </span>
-                    ))}
-                    <input value={replyToInput} onChange={e => setReplyToInput(e.target.value)}
-                      onKeyDown={e => {
-                        if ((e.key === "Enter" || e.key === ",") && replyToInput.trim()) {
-                          e.preventDefault();
-                          if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(replyToInput.trim())) {
-                            setStep(s => ({ ...s, replyToList: [...(s.replyToList || []), replyToInput.trim()] }));
-                            setReplyToInput("");
-                          }
-                        }
-                      }}
-                      onBlur={() => { if (replyToInput.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(replyToInput.trim())) { setStep(s => ({ ...s, replyToList: [...(s.replyToList || []), replyToInput.trim()] })); setReplyToInput(""); } }}
-                      placeholder={(step.replyToList || []).length === 0 ? "giving@hartwell.edu" : "Add another…"}
-                      className="flex-1 min-w-[100px] text-[12px] outline-none focus:ring-1 focus:ring-tv-brand/40 bg-transparent" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Subject */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <label className="tv-label">Subject Line</label>
-                  <CharCount current={(step.subject || "").length} max={CHAR_LIMITS.subject} />
-                </div>
-                <div className="flex items-center gap-2">
-                  <input
-                    value={step.subject || ""}
-                    onChange={e => setStep(s => ({ ...s, subject: e.target.value }))}
-                    maxLength={CHAR_LIMITS.subject}
-                    placeholder="A personal message for you, {{first_name}}"
-                    className={INPUT_CLS_LG_FLEX}
-                  />
-                  {/* Emoji picker */}
-                  <div className="relative">
-                    <button onClick={() => { setShowEmoji(!showEmoji); setShowMerge(false); }} className={ICON_BTN_CLS} title="Insert emoji">
-                      <Smile size={14} />
-                    </button>
-                    {showEmoji && (
-                      <EmojiDropdown
-                        onSelect={e => setStep(s => ({ ...s, subject: (s.subject || "") + e }))}
-                        onClose={() => setShowEmoji(false)}
-                      />
-                    )}
-                  </div>
-                  <div className="relative">
-                    <button onClick={() => { setShowMerge(!showMerge); setShowEmoji(false); }} className={ICON_BTN_CLS} title="Insert merge field">
-                      <span className="font-mono text-[12px]">{"{}"}</span>
-                    </button>
-                    {showMerge && (
-                      <MergeFieldDropdown
-                        onSelect={f => { setStep(s => ({ ...s, subject: (s.subject || "") + " " + f })); setShowMerge(false); }}
-                        onClose={() => setShowMerge(false)}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Preheader */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <label className="tv-label">Preheader Text</label>
-                  <CharCount current={(step.preheader || "").length} max={CHAR_LIMITS.preheader} />
-                </div>
-                <input value={step.preheader || ""} onChange={e => setStep(s => ({ ...s, preheader: e.target.value }))}
-                  maxLength={CHAR_LIMITS.preheader}
-                  placeholder="Preview text shown in the inbox before opening"
-                  className={INPUT_CLS} />
-                <p className="text-[10px] text-tv-text-decorative mt-1">Appears after the subject line in most email clients. Keep it under 100 characters.</p>
-              </div>
-
-              {/* Message body */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <label className="tv-label">Message Body</label>
-                  <BodyHeaderCount length={htmlTextLength(step.body || "")} limit={CHAR_LIMITS.body} />
-                </div>
-                {(() => { const _ew = getEditorWarnCls(htmlTextLength(step.body || ""), CHAR_LIMITS.body); return (
-                <RichTextEditor
-                  value={step.body || ""}
-                  onChange={html => setStep(s => ({ ...s, body: html }))}
-                  placeholder="Dear {{first_name}}, I wanted to reach out personally…"
-                  extraMergeFields={isVR ? [{ token: "{{recorder_name}}", label: "Recorder Name", example: "John Smith" }] : undefined}
-                  wrapperClassName={_ew.wrapperCls}
-                  bodyClassName={_ew.bodyCls}
-                  bodyFontFamily={step.bodyFontFamily}
-                  bodyFontSize={step.bodyFontSize}
-                  bodyTextColor={step.bodyTextColor}
-                  bodyLineHeight={step.bodyLineHeight}
-                  onBodyFontFamilyChange={v => setStep(s => ({ ...s, bodyFontFamily: v }))}
-                  onBodyFontSizeChange={v => setStep(s => ({ ...s, bodyFontSize: v }))}
-                  onBodyTextColorChange={v => setStep(s => ({ ...s, bodyTextColor: v }))}
-                  onBodyLineHeightChange={v => setStep(s => ({ ...s, bodyLineHeight: v }))}
-                  onInsertSignature={(sigHtml) => setStep(s => ({ ...s, body: (s.body || "") + sigHtml }))}
-                />); })()}
-                <EmailBodyCharCounter length={htmlTextLength(step.body || "")} />
-              </div>
-
-              {/* AI writer */}
-              <div>
-                <button onClick={() => setShowAi(!showAi)}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-[14px] border transition-all ${showAi ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong hover:text-tv-brand"}`} style={{ fontWeight: 500 }}>
-                  <Sparkles size={13} />Write with AI
-                </button>
-                {showAi && (
-                  <AIWritingPopover
-                    channel="email"
-                    size="lg"
-                    onInsertBelow={(text) => { setStep(s => ({ ...s, body: (s.body || "") + "\n\n" + text })); setShowAi(false); }}
-                    onReplaceBody={(text) => { setStep(s => ({ ...s, body: text })); setShowAi(false); }}
-                    onClose={() => setShowAi(false)}
-                  />
-                )}
-              </div>
-
-              {/* Skip to design shortcut */}
-              <button onClick={() => setActiveTab("design")}
-                className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-md border border-dashed border-tv-border-light text-tv-text-secondary hover:border-tv-brand hover:text-tv-brand transition-colors">
-                <Palette size={12} />
-                <span className="text-[12px]">Skip to Design &amp; Landing Page</span>
-              </button>
-            </div>{/* end left column */}
-
-            {/* Right: Live Preview */}
-            <div className="w-[380px] lg:w-[42%] xl:w-[44%] 2xl:w-[46%] max-w-[560px] shrink-0 sticky top-0">
-              <LivePreviewPanel
-                subject={step.subject}
-                body={step.body}
-                senderName={step.senderName}
-                senderEmail={step.senderEmail}
-                font={step.font}
-                thumbnailType={step.thumbnailType}
-                includeVideoThumbnail={step.includeVideoThumbnail}
-                envelopeId={step.envelopeId}
-                btnBg={step.btnBg}
-                btnText={step.btnText}
-                ctaText={step.ctaText}
-                ctaUrl={step.ctaUrl}
-                attachedVideo={step.attachedVideo}
-                isVideoRequest={isVR}
-                language={step.language}
-                allowEmailReply={step.allowEmailReply}
-                allowVideoReply={step.allowVideoReply}
-                allowSaveButton={step.allowSaveButton}
-                allowShareButton={step.allowShareButton}
-                allowDownloadVideo={step.allowDownloadVideo}
-                closedCaptionsEnabled={step.closedCaptionsEnabled}
-                pdfFileName={step.lpModule === "pdf" ? step.pdfFileName : undefined}
-                pdfPages={step.pdfPages}
-                pdfSize={step.pdfSize}
-                formUrl={step.lpModule === "form" ? step.formUrl : undefined}
-                formHeight={step.formHeight}
-                formFullWidth={step.formFullWidth}
-                smsMode={step.type === "sms"}
-                smsBody={step.smsBody}
-                smsPhoneNumber={step.smsPhoneNumber}
-                fieldsWithMissingData={["gift_amount", "fund_name", "campaign_name"]}
-                bodyFontFamily={step.bodyFontFamily}
-                bodyFontSize={step.bodyFontSize}
-                bodyTextColor={step.bodyTextColor}
-                bodyLineHeight={step.bodyLineHeight}
-                landingPageColor={allLandingPageDesigns.find(p => p.id === (step.landingPageId || 1))?.color}
-                landingPageAccent={allLandingPageDesigns.find(p => p.id === (step.landingPageId || 1))?.accent}
-                landingPageImage={allLandingPageDesigns.find(p => p.id === (step.landingPageId || 1))?.image}
-                envTextBefore={envTextBefore}
-                envNameFormat={envNameFormat}
-                envTextAfter={envTextAfter}
-                selectedSignature={null}
-              />
-            </div>
-            </div>
-          )}
-
-          {activeTab === "content" && isSms && (
-            <div className="space-y-5 max-w-[620px] xl:max-w-[720px] 2xl:max-w-[840px]">
-              {/* SMS Registration Gate — shown when org hasn't registered for SMS */}
-              {!smsRegistered && (
-                <div className="flex items-start gap-3 p-4 bg-tv-warning-bg border border-tv-warning-border rounded-lg">
-                  <CircleAlert size={16} className="text-tv-warning shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-[13px] text-tv-warning-hover" style={{ fontWeight: 700 }}>SMS Not Registered</p>
-                    <p className="text-[12px] text-tv-warning mt-1">Your organization has not registered for text messaging. You must complete SMS registration before creating SMS campaigns.</p>
-                    <button onClick={() => setSmsRegistered(true)} className="mt-2 px-4 py-1.5 text-[12px] text-white bg-tv-warning rounded-full hover:bg-tv-warning-hover transition-colors" style={{ fontWeight: 600 }}>
-                      Register for SMS
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Phone mockup preview */}
-              <div className="flex justify-center mb-2">
-                <div className="w-[280px] rounded-[28px] border-[3px] border-tv-text-primary/20 bg-white p-3 shadow-lg">
-                  {/* Phone notch */}
-                  <div className="w-20 h-1.5 bg-tv-text-primary/10 rounded-full mx-auto mb-3" />
-                  {/* Message preview */}
-                  <div className="bg-tv-surface rounded-xl p-3 min-h-[120px] space-y-2">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-6 h-6 rounded-full bg-tv-brand-tint flex items-center justify-center">
-                        <MessageSquare size={10} className="text-tv-brand" />
-                      </div>
-                      <span className="text-[10px] text-tv-text-primary" style={{ fontWeight: 600 }}>{step.senderName || "ThankView"}</span>
-                    </div>
-                    <div className="bg-tv-brand-tint rounded-lg rounded-tl-none px-3 py-2">
-                      <p className="text-[10px] text-tv-text-primary leading-relaxed">
-                        {step.smsBody || "Your SMS message preview will appear here…"}
-                      </p>
-                    </div>
-                    <p className="text-[8px] text-tv-text-decorative text-center">SMS Preview</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* SMS Template loader */}
-              <div className="flex items-center gap-2">
-                <label className="tv-label shrink-0">Load Template</label>
-                <select
-                  onChange={e => { if (e.target.value) setStep(s => ({ ...s, smsBody: e.target.value })); e.target.value = ""; }}
-                  className="flex-1 border border-tv-border-light rounded-lg px-3 py-2 text-[12px] text-tv-text-secondary outline-none focus:ring-2 focus:ring-tv-brand/40 bg-white"
-                  defaultValue="">
-                  <option value="" disabled>Select a template…</option>
-                  <option value="Hi {{first_name}}, thank you for your generous gift of {{gift_amount}}! Watch this personal video message from our team.">Thank You — Gift Acknowledgment</option>
-                  <option value="Hi {{first_name}}! We have a special video message just for you. Tap the link to watch!">General Outreach</option>
-                  <option value="{{first_name}}, as a member of the Class of {{class_year}}, you're invited to watch this message from your fellow alumni.">Alumni Engagement</option>
-                  <option value="Hi {{first_name}}, mark your calendar! Watch this video for event details and how to RSVP.">Event Invitation</option>
-                </select>
-              </div>
-
-              {/* SMS Thumbnail style — same options as email */}
-              <div>
-                <label className="tv-label mb-1.5 block">SMS Thumbnail</label>
-                <p className="text-[11px] text-tv-text-secondary mb-2">Choose what constituents see when they receive the text.</p>
-                <div className="space-y-1.5">
-                  {([
-                    { key: "static" as const, icon: Eye, label: "Static Thumbnail", desc: "A still image from your video" },
-                    { key: "animated" as const, icon: Film, label: "Animated Thumbnail", desc: "Eye-catching GIF that autoplays" },
-                    { key: "envelope" as const, icon: Mail, label: "Envelope", desc: "Branded envelope with flip animation" },
-                  ]).map(opt => {
-                    const active = (step.thumbnailType || "static") === opt.key;
-                    const Icon = opt.icon;
-                    return (
-                      <button key={opt.key} onClick={() => setStep(s => ({ ...s, thumbnailType: opt.key }))}
-                        className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-md border text-left transition-all ${
-                          active
-                            ? "border-tv-brand-bg bg-tv-brand-tint/30 shadow-sm"
-                            : "border-tv-border-light hover:border-tv-brand-bg/40 hover:bg-tv-surface/60"
-                        }`}>
-                        <div className={`w-7 h-7 rounded-sm flex items-center justify-center shrink-0 transition-colors ${
-                          active ? "bg-tv-brand-bg" : "bg-tv-surface"
-                        }`}>
-                          <Icon size={13} className={active ? "text-white" : "text-tv-text-secondary"} />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <span className={`text-[12px] block ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{opt.label}</span>
-                          <span className="text-[10px] text-tv-text-secondary">{opt.desc}</span>
-                        </div>
-                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                          active ? "border-tv-brand-bg" : "border-tv-border-strong"
-                        }`}>
-                          {active && <div className="w-2 h-2 rounded-full bg-tv-brand-bg" />}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* SMS Body — aligned with email content tab patterns */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <label className="tv-label">Message Body</label>
-                  <BodyHeaderCount length={smsLen} limit={CHAR_LIMITS.sms} />
-                </div>
-                {(() => { const _sw2 = getEditorWarnCls(smsLen, CHAR_LIMITS.sms); return (<>
-                <div className={`${RTE_WRAPPER_BASE_CLS} transition-colors ${_sw2.wrapperCls || "border-tv-border-light"}`}>
-                  {/* Toolbar — merge quick-insert + emoji/merge popover buttons */}
-                  <div className="flex items-center gap-1.5 px-3 py-2 bg-tv-surface border-b border-tv-border-light rounded-t-[9px]">
-                    <span className="text-[10px] text-tv-text-secondary select-none shrink-0">Insert:</span>
-                    <div className="flex items-center gap-1 flex-wrap flex-1 min-w-0">
-                      {[...MERGE_FIELDS.slice(0, 3), "{{link}}"].map(f => (
-                        <button key={f} onClick={() => setStep(s => ({ ...s, smsBody: (s.smsBody || "") + " " + f }))}
-                          className={MERGE_PILL_CLS}>{f}</button>
-                      ))}
-                      <SmsMergeMore onInsert={token => setStep(s => ({ ...s, smsBody: (s.smsBody || "") + " " + token }))} />
-                    </div>
-                    {/* Emoji picker — same pattern as email subject */}
-                    <div className="relative shrink-0">
-                      <button onClick={() => { setShowEmoji(!showEmoji); setShowMerge(false); }}
-                        className="p-2 border border-tv-border-light rounded-sm text-tv-text-secondary hover:text-tv-brand hover:border-tv-border-strong transition-colors" title="Insert emoji">
-                        <Smile size={13} />
-                      </button>
-                      {showEmoji && (
-                        <EmojiDropdown
-                          onSelect={e => setStep(s => ({ ...s, smsBody: (s.smsBody || "") + e }))}
-                          onClose={() => setShowEmoji(false)}
-                        />
-                      )}
-                    </div>
-                  </div>
-                  <textarea
-                    value={step.smsBody || ""}
-                    onChange={e => setStep(s => ({ ...s, smsBody: e.target.value }))}
-                    rows={5}
-                    placeholder="Hi {{first_name}}! I have a personal message for you\u2026"
-                    className={`w-full px-3.5 py-3 text-[13px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 resize-none transition-colors ${_sw2.bodyCls}`}
-                  />
-                </div>
-                </>); })()}
-                <SmsCharCounter length={smsLen} />
-              </div>
-
-              {/* Sender info */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="tv-label">Sender Name</label>
-                    <CharCount current={(step.senderName || "").length} max={CHAR_LIMITS.senderName} />
-                  </div>
-                  <div className="relative">
-                    <input value={step.senderName || ""} onChange={e => setStep(s => ({ ...s, senderName: e.target.value }))}
-                      maxLength={CHAR_LIMITS.senderName}
-                      placeholder="ThankView"
-                      className={`${INPUT_CLS} pr-8`} />
-                    <div className="absolute right-1 top-1/2 -translate-y-1/2">
-                      <SmsMergeMore onInsert={token => setStep(s => ({ ...s, senderName: (s.senderName || "") + token }))} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Reply-To Phone */}
-              <div>
-                <label className="tv-label mb-1 block">Reply-To Phone Number</label>
-                <input value={step.smsReplyToPhone || ""} onChange={e => setStep(s => ({ ...s, smsReplyToPhone: e.target.value }))}
-                  placeholder="+1 (555) 000-0000"
-                  className={INPUT_CLS} />
-                <p className="text-[10px] text-tv-text-decorative mt-1">When constituents reply, their reply goes to this number.</p>
-              </div>
-
-              {/* SMS Options — delivery settings */}
-              <div className="space-y-3">
-                {/* Quiet hours */}
-                <button onClick={() => setStep(s => ({ ...s, smsQuietHours: !s.smsQuietHours }))}
-                  role="switch" aria-checked={!!step.smsQuietHours} aria-label="Quiet hours"
-                  className="w-full flex items-center justify-between p-3.5 bg-white rounded-lg border border-tv-border-light">
-                  <div>
-                    <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Quiet Hours</p>
-                    <p className="text-[10px] text-tv-text-secondary">Don't send between 9 PM – 8 AM constituent local time</p>
-                  </div>
-                  <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${step.smsQuietHours ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                    <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${step.smsQuietHours ? "left-[17px]" : "left-0.5"}`} />
-                  </div>
-                </button>
-                <p className="text-[10px] text-tv-text-decorative -mt-1">Queued messages will be sent at 8 AM in the constituent's timezone.</p>
-              </div>
-
-              {/* Text Message Auto-Responder */}
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <label className="tv-label">Text Message Auto-Responder</label>
-                  <CharCount current={(step.smsAutoResponder || "").length} max={250} />
-                </div>
-                <textarea value={step.smsAutoResponder || ""} onChange={e => setStep(s => ({ ...s, smsAutoResponder: e.target.value.slice(0, 250) }))}
-                  maxLength={250} rows={2}
-                  placeholder="Thank you for your response! We appreciate your support."
-                  className="w-full border border-tv-border-light rounded-lg px-3.5 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand resize-none" />
-                <p className="text-[10px] text-tv-text-decorative mt-1">Automatically sent when a constituent replies to this SMS. 250 character limit.</p>
-              </div>
-
-              {/* AI writer — identical pattern to email */}
-              <div>
-                <button onClick={() => setShowAi(!showAi)}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-[14px] border transition-all ${showAi ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong hover:text-tv-brand"}`} style={{ fontWeight: 500 }}>
-                  <Sparkles size={13} />Write with AI
-                </button>
-                {showAi && (
-                  <AIWritingPopover
-                    channel="sms"
-                    size="lg"
-                    onInsertBelow={(text) => { setStep(s => ({ ...s, smsBody: (s.smsBody || "") + " " + text })); setShowAi(false); }}
-                    onReplaceBody={(text) => { setStep(s => ({ ...s, smsBody: text })); setShowAi(false); }}
-                    onClose={() => setShowAi(false)}
-                  />
-                )}
-              </div>
-
-              {/* SMS compliance — non-editable, legally required */}
-              <div className="p-3.5 bg-tv-surface rounded-lg border border-tv-border-light space-y-2">
-                <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>SMS Compliance (auto-appended)</p>
-                <div className="p-2.5 bg-white rounded-md border border-tv-border-divider">
-                  <p className="text-[11px] text-tv-text-secondary italic">Click the link to watch the video from [ORG NAME]</p>
-                  <p className="text-[11px] text-tv-text-secondary italic mt-1">Reply STOP to unsubscribe. Msg & data rates may apply. Msg frequency varies.</p>
-                </div>
-                <p className="text-[10px] text-tv-text-decorative">This compliance text is automatically appended to every SMS and cannot be edited.</p>
-              </div>
-            </div>
-          )}
-
-          {/* ═════ VIDEO TAB (replaced — see TV Video Builder prototype) ═════ */}
-          {activeTab === "video" && (
-            <div className="max-w-[620px] xl:max-w-[720px] 2xl:max-w-[840px] flex flex-col items-center justify-center py-10 text-center">
-              <div className="w-16 h-16 rounded-lg bg-tv-surface-muted border border-tv-border-light flex items-center justify-center mb-5">
-                <Video size={28} className="text-tv-text-decorative" />
-              </div>
-              <p className="text-[36px] text-tv-text-decorative mb-1.5" style={{ fontWeight: 900 }}>404</p>
-              <p className="text-[14px] text-tv-text-primary mb-1.5" style={{ fontWeight: 700 }}>See TV Video Builder for this content</p>
-              <p className="text-[12px] text-tv-text-secondary max-w-[320px]">
-                Video building has moved to a dedicated prototype. You can skip this tab and continue configuring your step.
-              </p>
-            </div>
-          )}
-
-          {/* ═════ VR SETUP TAB ═════ */}
-          {activeTab === "vr-setup" && (
-            <div className="max-w-[620px] xl:max-w-[720px] 2xl:max-w-[840px] space-y-5">
-              {/* Delivery method */}
-              <div>
-                <label className="tv-label mb-2 block">Delivery Method</label>
-                <div className="grid grid-cols-3 gap-3">
-                  {([
-                    { id: "email" as const, label: "Email", desc: "Send request via email", icon: Mail },
-                    { id: "sms" as const,   label: "SMS",   desc: "Send via text message", icon: MessageSquare },
-                    { id: "link" as const,  label: "Shareable Link", desc: "Share a link anywhere", icon: Link2 },
-                  ] as const).map(dt => (
-                    <button key={dt.id} onClick={() => setStep(s => ({ ...s, vrDeliveryType: dt.id }))}
-                      className={`p-4 rounded-lg border-2 text-left transition-all ${(step.vrDeliveryType || "email") === dt.id ? "border-tv-brand-bg bg-tv-brand-tint shadow-md" : "border-tv-border-light hover:border-tv-border-strong"}`}>
-                      <dt.icon size={16} className={(step.vrDeliveryType || "email") === dt.id ? "text-tv-brand" : "text-tv-text-secondary"} />
-                      <p className={`text-[12px] mt-2 ${(step.vrDeliveryType || "email") === dt.id ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{dt.label}</p>
-                      <p className="text-[10px] text-tv-text-secondary mt-0.5">{dt.desc}</p>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Recording instructions */}
-              <div>
-                <label className="tv-label mb-1.5 block">Recording Instructions</label>
-                <p className="text-[10px] text-tv-text-secondary mb-2">These instructions will be shown to recorders on the landing page.</p>
-                <SimpleRTE
-                  value={step.vrInstructions || VR_DEFAULT_INSTRUCTIONS}
-                  onChange={v => setStep(s => ({ ...s, vrInstructions: v }))}
-                  rows={5}
-                  ariaLabel="Recording instructions"
-                />
-                <button onClick={() => setStep(s => ({ ...s, vrInstructions: VR_DEFAULT_INSTRUCTIONS }))}
-                  className="mt-1.5 text-[10px] text-tv-info hover:underline">Reset to default</button>
-              </div>
-
-              {/* Recording tips */}
-              <div className="p-3.5 bg-tv-surface rounded-lg border border-tv-border-divider">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <Lightbulb size={12} className="text-tv-info" />
-                  <span className="tv-label">Recording Tips (shown to recorders)</span>
-                </div>
-                <div className="space-y-1.5">
-                  {VR_RECORDING_TIPS.map((tip, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <Check size={9} className="text-tv-success shrink-0" />
-                      <span className="text-[11px] text-tv-text-secondary">{tip}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Include instruction video */}
-              <div className="bg-white rounded-lg border border-tv-border-light p-4 space-y-3">
-                <button onClick={() => setStep(s => ({ ...s, vrIncludeLibraryVideo: !s.vrIncludeLibraryVideo }))}
-                  role="switch" aria-checked={!!step.vrIncludeLibraryVideo} aria-label="Include instruction video"
-                  className="w-full flex items-center justify-between">
-                  <div>
-                    <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Include Instruction Video</p>
-                    <p className="text-[10px] text-tv-text-secondary">Attach a video from your library</p>
-                  </div>
-                  <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${step.vrIncludeLibraryVideo ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                    <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${step.vrIncludeLibraryVideo ? "left-[17px]" : "left-0.5"}`} />
-                  </div>
-                </button>
-                {step.vrIncludeLibraryVideo && (
-                  <div className="pt-2 border-t border-tv-border-divider">
-                    {step.vrLibraryVideoTitle ? (
-                      <div className="flex items-center gap-3 p-3 bg-tv-brand-tint border border-tv-border-strong rounded-md">
-                        <div className="w-10 h-7 rounded-[5px] bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shrink-0">
-                          <Play size={9} className="text-white ml-0.5" fill="white" />
-                        </div>
-                        <span className="text-[12px] text-tv-text-primary flex-1 truncate" style={{ fontWeight: 600 }}>{step.vrLibraryVideoTitle}</span>
-                        <TvTooltip label="Remove video"><button onClick={() => setStep(s => ({ ...s, vrLibraryVideoId: undefined, vrLibraryVideoTitle: undefined }))}
-                          aria-label="Remove library video" className="w-6 h-6 rounded-full bg-white border border-tv-border-light flex items-center justify-center text-tv-text-secondary hover:text-tv-danger shrink-0"><X size={10} /></button></TvTooltip>
-                      </div>
-                    ) : (
-                      <button onClick={() => setShowVideoPicker(true)}
-                        className="w-full flex items-center gap-3 p-3 rounded-md border-2 border-dashed border-tv-border-light hover:border-tv-brand-bg hover:bg-tv-brand-tint/30 transition-all text-left">
-                        <Film size={16} className="text-tv-text-secondary shrink-0" />
-                        <div className="flex-1">
-                          <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Select from Library</p>
-                          <p className="text-[10px] text-tv-text-secondary">Choose a video to accompany your instructions</p>
-                        </div>
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* ═════ VR RECORDERS TAB ═════ */}
-          {activeTab === "vr-recorders" && (
-            <div className="max-w-[620px]">
-              <VRRecorderPanel />
-            </div>
-          )}
-
-          {/* ═════ VR SCHEDULE TAB ═════ */}
-          {activeTab === "vr-schedule" && (
-            <div className="max-w-[620px] xl:max-w-[720px] 2xl:max-w-[840px] space-y-5">
-              {/* Due date */}
-              <div>
-                <label className="tv-label mb-1.5 block">Due Date</label>
-                <input type="date" value={step.vrDueDate || ""} onChange={e => setStep(s => ({ ...s, vrDueDate: e.target.value }))}
-                  className={INPUT_CLS_LG} />
-                <p className="text-[10px] text-tv-text-secondary mt-1.5">Recorders will see this deadline on their landing page.</p>
-              </div>
-
-              {/* Automated reminders */}
-              <div className="bg-white rounded-lg border border-tv-border-light p-4 space-y-3">
-                <button onClick={() => setStep(s => ({ ...s, vrReminderEnabled: !(s.vrReminderEnabled ?? true) }))}
-                  className="w-full flex items-center justify-between">
-                  <div>
-                    <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Automated Reminders</p>
-                    <p className="text-[10px] text-tv-text-secondary">Send reminders before the due date to non-submitters</p>
-                  </div>
-                  <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${(step.vrReminderEnabled ?? true) ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                    <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${(step.vrReminderEnabled ?? true) ? "left-[17px]" : "left-0.5"}`} />
-                  </div>
-                </button>
-                {(step.vrReminderEnabled ?? true) && (
-                  <div className="pt-2 border-t border-tv-border-divider space-y-2">
-                    <label className="tv-label block">Remind before due date</label>
-                    <div className="flex flex-wrap gap-2">
-                      {[14, 7, 5, 3, 2, 1].map(d => {
-                        const days = step.vrReminderDays || [7, 3, 1];
-                        const active = days.includes(d);
-                        return (
-                          <button key={d} onClick={() => setStep(s => ({ ...s, vrReminderDays: active ? days.filter(x => x !== d) : [...days, d].sort((a, b) => b - a) }))}
-                            className={`px-4 py-2 rounded-full text-[14px] border transition-all ${active ? "border-tv-brand-bg bg-tv-brand-tint text-tv-brand" : "border-tv-border-light text-tv-text-secondary hover:border-tv-border-strong"}`} style={{ fontWeight: 500 }}>
-                            {d} day{d !== 1 ? "s" : ""}
-                          </button>
-                        );
-                      })}
-                    </div>
-                    <p className="text-[10px] text-tv-text-secondary">{(step.vrReminderDays || [7, 3, 1]).length} reminder{(step.vrReminderDays || [7, 3, 1]).length !== 1 ? "s" : ""} scheduled</p>
-                  </div>
-                )}
-              </div>
-
-              {step.vrDueDate && (
-                <div className="flex items-center gap-2 p-3.5 bg-tv-success-bg border border-tv-success-border rounded-lg">
-                  <Check size={13} className="text-tv-success shrink-0" />
-                  <p className="text-[11px] text-tv-success">
-                    Due {new Date(step.vrDueDate + "T00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
-                    {(step.vrReminderEnabled ?? true) && ` with ${(step.vrReminderDays || [7, 3, 1]).length} reminder${(step.vrReminderDays || [7, 3, 1]).length !== 1 ? "s" : ""}`}
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* ═════ VR LANDING TAB ═════ */}
-          {activeTab === "vr-landing" && (
-            <div className="max-w-[620px] xl:max-w-[720px] 2xl:max-w-[840px] space-y-5">
-              {/* Shareable link */}
-              {(step.vrDeliveryType || "email") === "link" && (
-                <div className="bg-white rounded-lg border border-tv-border-light p-4">
-                  <label className="tv-label mb-2 block">Shareable Video Request Link</label>
-                  <div className="flex items-center gap-2 bg-tv-surface rounded-sm px-3 py-2.5 border border-tv-border-light">
-                    <Link2 size={14} className="text-tv-brand shrink-0" />
-                    <span className="text-[13px] text-tv-text-primary font-mono flex-1 truncate">{step.vrShareableUrl || "https://thankview.com/r/..."}</span>
-                    <button onClick={() => show("Link copied!", "success")}
-                      className="px-2.5 py-1 bg-tv-brand-bg text-white text-[11px] rounded-full hover:bg-tv-brand-hover transition-colors flex items-center gap-1 shrink-0" style={{ fontWeight: 600 }}>
-                      <Copy size={10} />Copy
-                    </button>
-                  </div>
-                  <p className="text-[10px] text-tv-text-secondary mt-2">Share via social media, QR codes, or anywhere you like.</p>
-
-                  {/* Language & Font options for shareable link */}
-                  <div className="grid grid-cols-2 gap-3 mt-3 pt-3 border-t border-tv-border-divider">
-                    <div>
-                      <label className="tv-label mb-1 block">Language</label>
-                      <select value={step.language || "en"} onChange={e => setStep(s => ({ ...s, language: e.target.value }))}
-                        className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 bg-white">
-                        {LANGUAGE_OPTIONS.map(l => <option key={l.value} value={l.value}>{l.label}</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="tv-label mb-1 block">Font</label>
-                      <select value={step.bodyFontFamily || "Roboto"} onChange={e => setStep(s => ({ ...s, bodyFontFamily: e.target.value }))}
-                        className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 bg-white">
-                        {ENV_FONTS.map(f => <option key={f} value={f}>{f}</option>)}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Branded landing page */}
-              <div className="bg-white rounded-lg border border-tv-border-light p-4">
-                <label className="tv-label mb-2 block">Branded Landing Page</label>
-                <div className="space-y-1.5">
-                  {allLandingPageDesigns.map(p => (
-                    <button key={p.id} onClick={() => setStep(s => ({ ...s, vrBrandedLandingPage: p.id }))}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md border text-left transition-all ${(step.vrBrandedLandingPage || 1) === p.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
-                      <div className="w-7 h-5 rounded-[4px] flex items-center justify-center shrink-0"
-                        style={{ background: `linear-gradient(135deg, ${p.color}, ${p.accent})` }}>
-                        <Camera size={7} className="text-white" />
-                      </div>
-                      <span className="text-[12px] text-tv-text-primary flex-1" style={{ fontWeight: 500 }}>{p.name}</span>
-                      {(step.vrBrandedLandingPage || 1) === p.id && <Check size={12} className="text-tv-brand" />}
-                    </button>
-                  ))}
-                </div>
-                <p className="text-[10px] text-tv-text-secondary mt-2">This is the page recorders see when they open the recording link.</p>
-              </div>
-
-              {/* Submissions toggle */}
-              <div className="bg-white rounded-lg border border-tv-border-light p-4">
-                <button onClick={() => setStep(s => ({ ...s, vrSubmissionsEnabled: !(s.vrSubmissionsEnabled ?? true) }))}
-                  className="w-full flex items-center justify-between">
-                  <div>
-                    <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Accept Submissions</p>
-                    <p className="text-[10px] text-tv-text-secondary">{(step.vrSubmissionsEnabled ?? true) ? "Submissions are open" : "Link is disabled — no new submissions"}</p>
-                  </div>
-                  <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${(step.vrSubmissionsEnabled ?? true) ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                    <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${(step.vrSubmissionsEnabled ?? true) ? "left-[17px]" : "left-0.5"}`} />
-                  </div>
-                </button>
-              </div>
-
-              {/* Replies / Video Submissions section */}
-              <div className="bg-white rounded-lg border border-tv-border-light p-4 space-y-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Video Submissions</p>
-                    <p className="text-[10px] text-tv-text-secondary">Manage videos submitted by recorders</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-1 bg-tv-success-bg text-tv-success text-[11px] rounded-full" style={{ fontWeight: 600 }}>3 received</span>
-                    <span className="px-2.5 py-1 bg-tv-warning-bg text-tv-warning text-[11px] rounded-full" style={{ fontWeight: 600 }}>5 pending</span>
-                  </div>
-                </div>
-                {/* Mock submission list */}
-                <div className="space-y-1.5">
-                  {[
-                    { name: "Sarah Chen", status: "submitted", date: "Mar 18, 2026", duration: "1:42" },
-                    { name: "James Wright", status: "submitted", date: "Mar 17, 2026", duration: "2:05" },
-                    { name: "Maria Rodriguez", status: "submitted", date: "Mar 16, 2026", duration: "0:58" },
-                  ].map((sub, i) => (
-                    <div key={i} className="flex items-center gap-3 px-3 py-2 rounded-md border border-tv-border-light hover:bg-tv-surface-muted transition-colors">
-                      <div className="w-6 h-6 rounded-full bg-tv-success-bg flex items-center justify-center shrink-0">
-                        <Check size={10} className="text-tv-success" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[12px] text-tv-text-primary truncate" style={{ fontWeight: 600 }}>{sub.name}</p>
-                        <p className="text-[10px] text-tv-text-secondary">{sub.date} · {sub.duration}</p>
-                      </div>
-                      <button className="px-2.5 py-1 text-[10px] text-tv-brand border border-tv-border-light rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 600 }}>
-                        <Play size={8} className="inline mr-1" />Review
-                      </button>
-                    </div>
-                  ))}
-                </div>
-                <p className="text-[10px] text-tv-text-decorative">Submitted videos also appear in the "Requests" folder of your Video Library.</p>
-              </div>
-            </div>
-          )}
-
-          {/* ═════ SETTINGS TAB ═════ */}
-          {activeTab === "settings" && (
-            <div className="max-w-[620px] xl:max-w-[720px] 2xl:max-w-[840px] space-y-5">
-              {/* Description */}
-              <div>
-                <label className="tv-label mb-1.5 block">Description (Optional)</label>
-                <textarea
-                  value={step.description}
-                  onChange={e => setStep(s => ({ ...s, description: e.target.value }))}
-                  placeholder="Brief description of this step\u2026"
-                  rows={2}
-                  className={`${INPUT_CLS_LG} resize-none`}
-                />
-              </div>
-
-              {/* Automation toggle */}
-              <button type="button"
-                onClick={() => setStep(s => ({ ...s, automationEnabled: !s.automationEnabled }))}
-                className="w-full flex items-center gap-4 px-4 py-4 bg-white border-2 border-tv-border-light rounded-lg hover:bg-tv-surface transition-colors cursor-pointer text-left">
-                <Toggle enabled={step.automationEnabled} onToggle={() => {}} className="pointer-events-none" />
-                <div>
-                  <p className={`text-[13px] ${step.automationEnabled ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>
-                    Automation {step.automationEnabled ? "Enabled" : "Disabled"}
-                  </p>
-                  <p className="text-[11px] text-tv-text-secondary">
-                    {step.automationEnabled ? "This step will send automatically when triggered." : "This step will require manual action to send."}
-                  </p>
-                </div>
-              </button>
-
-              {step.automationEnabled && (
-                <>
-                  {/* Trigger type selector */}
-                  <div>
-                    <label className="tv-label mb-1.5 block">Trigger Type</label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => setStep(s => ({ ...s, contactDateFieldId: undefined }))}
-                        className={`flex items-center gap-2.5 px-3.5 py-3 rounded-md border-2 text-left transition-all ${
-                          !step.contactDateFieldId
-                            ? "border-tv-brand-bg bg-tv-brand-tint"
-                            : "border-tv-border-light hover:border-tv-border-strong"
-                        }`}
-                      >
-                        <Clock size={16} className={!step.contactDateFieldId ? "text-tv-brand" : "text-tv-text-secondary"} />
-                        <div>
-                          <p className={`text-[12px] ${!step.contactDateFieldId ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>Time-based</p>
-                          <p className="text-[10px] text-tv-text-secondary mt-0.5">Send at a preferred time</p>
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => setStep(s => ({ ...s, contactDateFieldId: s.contactDateFieldId || "birthday" }))}
-                        className={`flex items-center gap-2.5 px-3.5 py-3 rounded-md border-2 text-left transition-all ${
-                          step.contactDateFieldId
-                            ? "border-tv-brand-bg bg-tv-brand-tint"
-                            : "border-tv-border-light hover:border-tv-border-strong"
-                        }`}
-                      >
-                        <Cake size={16} className={step.contactDateFieldId ? "text-tv-brand" : "text-tv-text-secondary"} />
-                        <div>
-                          <p className={`text-[12px] ${step.contactDateFieldId ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>Date field</p>
-                          <p className="text-[10px] text-tv-text-secondary mt-0.5">Trigger by birthday, etc.</p>
-                        </div>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Time-based: send time preference grid */}
-                  {!step.contactDateFieldId && (
-                    <div>
-                      <label className="tv-label mb-1.5 block">Send Time Preference</label>
-                      <div className="grid grid-cols-2 gap-2">
-                        {([
-                          { value: "none", label: "No Preference", desc: "Send immediately when triggered" },
-                          { value: "morning", label: "Morning", desc: "8\u201311 AM constituent local time" },
-                          { value: "afternoon", label: "Afternoon", desc: "12\u20134 PM constituent local time" },
-                          { value: "evening", label: "Evening", desc: "5\u20138 PM constituent local time" },
-                        ] as const).map(opt => (
-                          <button key={opt.value} onClick={() => setStep(s => ({ ...s, sendTimePreference: opt.value }))}
-                            className={`text-left px-3.5 py-3 rounded-md border-2 transition-all ${step.sendTimePreference === opt.value ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
-                            <p className={`text-[12px] ${step.sendTimePreference === opt.value ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{opt.label}</p>
-                            <p className="text-[10px] text-tv-text-secondary mt-0.5">{opt.desc}</p>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Date-field: field picker + automation config panel */}
-                  {step.contactDateFieldId && (
-                    <div className="space-y-3">
-                      <div>
-                        <label className="tv-label mb-1.5 block">Constituent Date Field</label>
-                        <div className="grid grid-cols-2 gap-2">
-                          {CONSTITUENT_DATE_FIELDS.map(f => {
-                            const CFIcon = ({ Cake, CalendarDays, GraduationCap, Briefcase } as Record<string, any>)[f.icon] || CalendarDays;
-                            const sel = step.contactDateFieldId === f.id;
-                            return (
-                              <button key={f.id} onClick={() => setStep(s => ({ ...s, contactDateFieldId: f.id }))}
-                                className={`flex items-center gap-2 px-3 py-2 rounded-sm border text-left transition-all ${
-                                  sel ? "border-tv-brand-bg bg-white text-tv-brand" : "border-tv-border-light bg-white hover:border-tv-border-strong text-tv-text-secondary"
-                                }`}>
-                                <CFIcon size={13} className={sel ? "text-tv-brand" : "text-tv-text-decorative"} />
-                                <p className="text-[11px] truncate" style={{ fontWeight: sel ? 600 : 400 }}>{f.label}</p>
-                                {sel && <Check size={10} className="text-tv-brand shrink-0 ml-auto" />}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                      <AutomationConfigPanel
-                        contactDateField={step.contactDateFieldId}
-                        fieldLabel={CONSTITUENT_DATE_FIELDS.find(c => c.id === step.contactDateFieldId)?.label ?? "Date"}
-                        fieldDesc={CONSTITUENT_DATE_FIELDS.find(c => c.id === step.contactDateFieldId)?.desc ?? ""}
-                        daysBefore={step.contactFieldDaysBefore ?? 0}
-                        setDaysBefore={v => setStep(s => ({ ...s, contactFieldDaysBefore: v }))}
-                        contactFieldSendTime={step.contactFieldSendTime ?? "09:00"}
-                        setContactFieldSendTime={v => setStep(s => ({ ...s, contactFieldSendTime: v }))}
-                        recurAnnually={step.contactFieldRecurAnnually ?? true}
-                        setRecurAnnually={v => setStep(s => ({ ...s, contactFieldRecurAnnually: v }))}
-                        leapYearHandling={step.contactFieldLeapYear ?? "feb28"}
-                        setLeapYearHandling={v => setStep(s => ({ ...s, contactFieldLeapYear: v }))}
-                      />
-                    </div>
-                  )}
-                </>
-              )}
-
-              {/* Action Required notice */}
-              {!step.automationEnabled && (
-                <div className="p-3.5 bg-tv-warning-bg border border-tv-warning-border rounded-lg">
-                  <div className="flex items-start gap-2.5">
-                    <div className="w-5 h-5 rounded-full bg-tv-warning-bg flex items-center justify-center shrink-0 mt-0.5">
-                      <TriangleAlert size={11} className="text-tv-warning" />
-                    </div>
-                    <div>
-                      <p className="text-[12px] text-tv-warning-hover" style={{ fontWeight: 600 }}>Action Required</p>
-                      <p className="text-[11px] text-tv-warning mt-0.5 leading-relaxed">
-                        Constituents will be paused at this step until a manual task is completed.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* ── Footer ── */}
-        <div className="px-6 py-4 border-t border-tv-border-divider bg-tv-surface-muted shrink-0">
-          <div className="flex items-center justify-between">
-            <p className="text-[11px] text-tv-text-decorative">
-              {isVR
-                ? `${step.vrDeliveryType === "link" ? "Link" : step.vrDeliveryType === "sms" ? "SMS" : "Email"} · Due ${step.vrDueDate || "not set"} · Submissions ${(step.vrSubmissionsEnabled ?? true) ? "open" : "closed"}`
-                : `${step.attachedVideo ? "Video attached" : "No video"} · Landing page ${step.landingPageEnabled ? "on" : "off"} · ${step.automationEnabled && step.contactDateFieldId ? `By ${CONSTITUENT_DATE_FIELDS.find(f => f.id === step.contactDateFieldId)?.label ?? "date"}` : `Automation ${step.automationEnabled ? "on" : "off"}`}`}
-            </p>
-            <div className="flex items-center gap-2.5">
-              <button onClick={onCancel} className="px-5 py-2.5 text-[13px] text-tv-text-secondary border border-tv-border-light rounded-full hover:bg-tv-surface transition-colors" style={{ fontWeight: 500 }}>
-                Cancel
-              </button>
-              <button
-                onClick={() => onSave(step)}
-                className="px-5 py-2.5 text-[13px] text-white bg-tv-brand-bg rounded-full hover:bg-tv-brand-hover transition-colors flex items-center gap-2" style={{ fontWeight: 600 }}
-              >
-                <Check size={13} />
-                Create Step
-              </button>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-    </FocusTrap>
   );
 }
 
@@ -4486,7 +3307,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
           <div ref={canvasRef} className="flex-1 overflow-auto bg-tv-surface-muted p-8 relative">
             {/* Template banner */}
             {initialTemplate && !templateBannerDismissed && (
-              <div className="mb-4 max-w-[600px] xl:max-w-[700px] 2xl:max-w-[820px] mx-auto flex items-center gap-3 p-3.5 rounded-lg border border-tv-info-border bg-tv-info-bg">
+              <div className="mb-4 max-w-[700px] xl:max-w-[840px] 2xl:max-w-[1000px] mx-auto flex items-center gap-3 p-3.5 rounded-lg border border-tv-info-border bg-tv-info-bg">
                 <div className="w-9 h-9 rounded-sm flex items-center justify-center shrink-0 bg-white">
                   <Bookmark size={15} className="text-tv-info" />
                 </div>

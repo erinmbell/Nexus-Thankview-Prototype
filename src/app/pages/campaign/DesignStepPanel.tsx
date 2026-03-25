@@ -2,14 +2,14 @@
  * DesignStepPanel — Shared design-step UI for both single-step wizard and
  * multi-step builder email creation modal.
  *
- * Layout: Icon tab rail (left) + scrollable tab content (center) + pinned preview (right).
- * Tab order mirrors the original ThankView flow:
- *   1. Landing Page — page picker, info, search, grid
- *   2. Envelope    — envelope picker (info, search, sections) → envelope appearance
- *   3. Content     — attachments, link/button, description, action toggles
- *   4. Tracking    — tracking pixel URL
+ * Flow:
+ *   1. Email Display Type selector (Envelope / Video Thumbnail / Animated Thumbnail)
+ *   2. Contextual settings based on selection
+ *   3. Attachments (CTA / PDF / Form)
+ *   4. Tracking pixel
  *
- * The live preview on the right stays pinned regardless of left-panel scroll.
+ * When inline=true (used by both builders), renders as a single scrollable
+ * column with collapsible sections. Otherwise renders with tab rail + preview.
  */
 import { useState, useCallback, useEffect } from "react";
 import { useToast } from "../../contexts/ToastContext";
@@ -33,13 +33,10 @@ import {
 import { TvTooltip } from "../../components/TvTooltip";
 
 // ── Types ────────────────────────────────────────────────────────────────────
-type DesignTab = "page" | "envelope" | "content" | "tracking";
 type Viewport = "desktop" | "tablet" | "mobile";
 type EmailContentType = "animated-thumbnail" | "envelope" | "static-image";
 type AnimatedStyle = "gif" | "illustration";
 
-// EnvelopeDesign imported from ./types
-// LandingPageDef imported from ./types (aliased as LandingPage below for prop compat)
 type LandingPage = LandingPageDef;
 
 export interface DesignStepPanelProps {
@@ -56,7 +53,7 @@ export interface DesignStepPanelProps {
   onSelectLandingPage: (id: number) => void;
   onNavigateToBuilder?: (path: string) => void;
 
-  /* ── Envelope picker ────────────���─────────────────────────── */
+  /* ── Envelope picker ──────────────────────────────────────── */
   envelopeSearch: string;
   onEnvelopeSearchChange: (v: string) => void;
   envSectionOpen: Record<string, boolean>;
@@ -91,6 +88,7 @@ export interface DesignStepPanelProps {
     btnText?: string;
     ctaUrl?: string;
     ctaText?: string;
+    landingPageEnabled?: boolean;
   };
   onToggle: (key: "allowVideoReply" | "allowEmailReply" | "allowSaveButton" | "allowShareButton" | "allowDownloadVideo" | "closedCaptionsEnabled") => void;
 
@@ -121,6 +119,9 @@ export interface DesignStepPanelProps {
 
   /** Callback fired whenever local design data changes — lets parent sync the live preview */
   onDesignDataChange?: (data: DesignSnapshot) => void;
+
+  /** Callback fired when email display type changes (envelope/static-image/animated-thumbnail) */
+  onEmailContentTypeChange?: (type: "envelope" | "static-image" | "animated-thumbnail") => void;
 }
 
 export interface DesignSnapshot {
@@ -132,26 +133,11 @@ export interface DesignSnapshot {
   formFullWidth?: boolean;
 }
 
-// ── Tab & viewport definitions ──────────────────────────────────────────────
-const TABS: { id: DesignTab; label: string; icon: any }[] = [
-  { id: "page",     label: "Page",     icon: LayoutGrid },
-  { id: "envelope", label: "Envelope", icon: Mail },
-  { id: "content",  label: "Content",  icon: ToggleRight },
-  { id: "tracking", label: "Tracking", icon: Code2 },
-];
-
 const VIEWPORTS: { key: Viewport; icon: any; label: string }[] = [
   { key: "desktop", icon: Monitor,    label: "Desktop" },
   { key: "tablet",  icon: Tablet,     label: "Tablet" },
   { key: "mobile",  icon: Smartphone, label: "Mobile" },
 ];
-
-const TAB_META: Record<DesignTab, { title: string; subtitle: string }> = {
-  page:     { title: "Landing Page Appearance", subtitle: "Set page design that will appear in the background of your ThankView." },
-  envelope: { title: "Choose an Envelope",      subtitle: "Choose or create a branded envelope to greet constituents when they first open up their ThankView." },
-  content:  { title: "Email & Page Content",     subtitle: "Choose what appears in the email and drive constituents to take action." },
-  tracking: { title: "Tracking Pixel",          subtitle: "An optional way to gather data for your own online marketing, analytics, or email marketing." },
-};
 
 const DESCRIPTION_MAX = 5000;
 const BUTTON_TEXT_MAX = 50;
@@ -161,34 +147,35 @@ export const PAPER_TEXTURE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 
 /* ── Shared sub-components ────────────────────────────────────────────────── */
 
-/** Standard input matching the app's `rounded-md px-3 py-2.5 text-[13px]` pattern */
 const inputCls = "w-full border border-tv-border-light rounded-[8px] px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand bg-white";
 const selectCls = `${inputCls} appearance-none pr-8 bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2394a3b8%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:14px] bg-[right_10px_center] bg-no-repeat cursor-pointer`;
 
-/** Standardised section label */
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5 block" style={{ fontWeight: 600 }}>{children}</label>;
 }
 
-/* Toggle imported from ../../components/ui/Toggle */
+// ── Email Display Type options ─────────────────────────────────────────────
+const EMAIL_DISPLAY_OPTIONS: { key: EmailContentType; icon: typeof Film; label: string; desc: string }[] = [
+  { key: "envelope",           icon: Mail,      label: "Envelope",            desc: "Branded envelope with flip-open animation" },
+  { key: "static-image",       icon: ImageIcon, label: "Video Thumbnail",     desc: "Still image from your video" },
+  { key: "animated-thumbnail", icon: Film,      label: "GIF Thumbnail",       desc: "Auto-playing GIF from your video or uploaded" },
+];
 
-/** Perforated stamp — matches ThankView's zigzag-edged postage stamp with play button */
+
+/* ── Perforated Stamp ──────────────────────────────────────────────────── */
 export function PerforatedStamp({ size = 48, accentColor = "#c09696" }: { size?: number; accentColor?: string }) {
   const notchR = size * 0.04;
   const notchCount = Math.round(size / (notchR * 3.2));
 
-  // Build scalloped path
   const buildEdge = (x1: number, y1: number, x2: number, y2: number, count: number) => {
     const segs: string[] = [];
     for (let i = 0; i < count; i++) {
-      const t1 = i / count;
       const t2 = (i + 0.5) / count;
       const t3 = (i + 1) / count;
       const mx = x1 + (x2 - x1) * t2;
       const my = y1 + (y2 - y1) * t2;
       const ex = x1 + (x2 - x1) * t3;
       const ey = y1 + (y2 - y1) * t3;
-      // perpendicular direction
       const dx = x2 - x1, dy = y2 - y1;
       const len = Math.sqrt(dx * dx + dy * dy);
       const nx = -dy / len * notchR * 1.2, ny = dx / len * notchR * 1.2;
@@ -201,10 +188,10 @@ export function PerforatedStamp({ size = 48, accentColor = "#c09696" }: { size?:
   const s = size;
   const path = [
     `M ${m} ${m}`,
-    buildEdge(m, m, s - m, m, notchCount),       // top
-    buildEdge(s - m, m, s - m, s - m, notchCount), // right
-    buildEdge(s - m, s - m, m, s - m, notchCount), // bottom
-    buildEdge(m, s - m, m, m, notchCount),         // left
+    buildEdge(m, m, s - m, m, notchCount),
+    buildEdge(s - m, m, s - m, s - m, notchCount),
+    buildEdge(s - m, s - m, m, s - m, notchCount),
+    buildEdge(m, s - m, m, m, notchCount),
     "Z",
   ].join(" ");
 
@@ -215,9 +202,7 @@ export function PerforatedStamp({ size = 48, accentColor = "#c09696" }: { size?:
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none">
       <path d={path} fill={`${accentColor}40`} stroke={accentColor} strokeWidth={0.8} />
-      {/* Play circle */}
       <circle cx={cx} cy={cy} r={playSize * 0.58} fill="none" stroke={accentColor} strokeWidth={1.2} />
-      {/* Play triangle */}
       <polygon
         points={`${cx - playSize * 0.18},${cy - playSize * 0.28} ${cx - playSize * 0.18},${cy + playSize * 0.28} ${cx + playSize * 0.28},${cy}`}
         fill={accentColor}
@@ -226,7 +211,7 @@ export function PerforatedStamp({ size = 48, accentColor = "#c09696" }: { size?:
   );
 }
 
-/** Cute holiday-themed SVG decorations for envelope thumbnails & preview */
+/* ── Holiday Graphics ──────────────────────────────────────────────────── */
 export function HolidayGraphic({ type, size = 48, color }: { type: string; size?: number; color: string }) {
   const s = size;
   switch (type) {
@@ -249,7 +234,6 @@ export function HolidayGraphic({ type, size = 48, color }: { type: string; size?
           <circle cx="42" cy="36" r="0.8" fill={color} opacity={0.2} />
         </svg>
       );
-
     case "christmas":
       return (
         <svg width={s} height={s} viewBox="0 0 48 48" fill="none">
@@ -266,7 +250,6 @@ export function HolidayGraphic({ type, size = 48, color }: { type: string; size?
           </g>
         </svg>
       );
-
     case "greetings":
       return (
         <svg width={s} height={s} viewBox="0 0 48 48" fill="none">
@@ -281,7 +264,6 @@ export function HolidayGraphic({ type, size = 48, color }: { type: string; size?
           <circle cx="6" cy="20" r="1" fill={color} opacity={0.25} />
         </svg>
       );
-
     case "thanksgiving":
       return (
         <svg width={s} height={s} viewBox="0 0 48 48" fill="none">
@@ -295,7 +277,6 @@ export function HolidayGraphic({ type, size = 48, color }: { type: string; size?
           <ellipse cx="40" cy="10" rx="2" ry="1.2" fill={color} opacity={0.15} transform="rotate(20 40 10)" />
         </svg>
       );
-
     case "spring":
       return (
         <svg width={s} height={s} viewBox="0 0 48 48" fill="none">
@@ -318,7 +299,6 @@ export function HolidayGraphic({ type, size = 48, color }: { type: string; size?
           <circle cx="42" cy="38" r="0.8" fill={color} opacity={0.15} />
         </svg>
       );
-
     case "eid-fitr":
       return (
         <svg width={s} height={s} viewBox="0 0 48 48" fill="none">
@@ -339,7 +319,6 @@ export function HolidayGraphic({ type, size = 48, color }: { type: string; size?
           <circle cx="30" cy="8" r="0.8" fill={color} opacity={0.25} />
         </svg>
       );
-
     case "eid-adha":
       return (
         <svg width={s} height={s} viewBox="0 0 48 48" fill="none">
@@ -365,17 +344,16 @@ export function HolidayGraphic({ type, size = 48, color }: { type: string; size?
           </g>
         </svg>
       );
-
     default:
       return null;
   }
 }
 
+
 // ═══════════════════════════════════════════════════════════════════════════════
 //  Main component
 // ═══════════════════════════════════════════════════════════════════════════════
 export function DesignStepPanel(props: DesignStepPanelProps) {
-  const [activeTab, setActiveTab] = useState<DesignTab>("page");
   const [livePreviewOpen, setLivePreviewOpen] = useState(false);
 
   // Derive LivePreviewModal props from selected envelope data
@@ -390,7 +368,11 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
   const [descBold, setDescBold] = useState(false);
   const [descItalic, setDescItalic] = useState(false);
   const [descUnderline, setDescUnderline] = useState(false);
-  const [emailContentType, setEmailContentType] = useState<EmailContentType>("static-image");
+  const [emailContentType, setEmailContentTypeRaw] = useState<EmailContentType>("envelope");
+  const setEmailContentType = (type: EmailContentType) => {
+    setEmailContentTypeRaw(type);
+    props.onEmailContentTypeChange?.(type);
+  };
   const [animatedStyle, setAnimatedStyle] = useState<AnimatedStyle>("gif");
   const [staticImageFile, setStaticImageFile] = useState<string | null>(null);
   const [pdfFile, setPdfFile] = useState<{ name: string; pages: number; size: string } | null>(null);
@@ -400,7 +382,20 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
   const [formHeight, setFormHeight] = useState(600);
   const [formFullWidth, setFormFullWidth] = useState(false);
 
-  // Fire design data callback whenever PDF/form state changes — gated by attachment type
+  // Mini wizard step for inline mode: 1 = choose display type, 2 = configure
+  const [designStep, setDesignStep] = useState<1 | 2>(1);
+
+  // Collapsible section state for inline mode step 2
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
+    envelope: true,
+    "landing-page": true,
+    attachments: false,
+    tracking: false,
+  });
+
+  const toggleSection = (key: string) => setOpenSections(prev => ({ ...prev, [key]: !prev[key] }));
+
+  // Fire design data callback whenever PDF/form state changes
   useEffect(() => {
     props.onDesignDataChange?.({
       pdfFileName: props.attachmentType === "pdf" ? pdfFile?.name : undefined,
@@ -419,143 +414,323 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
   const description = props.description ?? localDescription;
   const setDescription = props.onDescriptionChange ?? setLocalDescription;
 
-  const meta = TAB_META[activeTab];
-
-  const contentTabProps = {
-    ...props,
-    linkTo, setLinkTo,
-    buttonText, setButtonText,
-    description, setDescription,
-    descBold, setDescBold,
-    descItalic, setDescItalic,
-    descUnderline, setDescUnderline,
-    emailContentType, setEmailContentType,
-    animatedStyle, setAnimatedStyle,
-    staticImageFile, setStaticImageFile,
-    pdfFile, setPdfFile,
-    pdfAllowDownload, setPdfAllowDownload,
-    pdfShareWithConstituents, setPdfShareWithConstituents,
-    formEmbedUrl, setFormEmbedUrl,
-    formHeight, setFormHeight,
-    formFullWidth, setFormFullWidth,
-  };
-
-  // ── Inline mode: collapsible sections (no tab rail, no preview column) ──
-  if (props.inline) {
-    const INLINE_SECTIONS: { id: DesignTab; label: string; icon: any; desc: string }[] = [
-      { id: "envelope", label: "Envelope Design",     icon: Mail,        desc: "Choose a branded envelope to greet constituents" },
-      { id: "page",     label: "Landing Page",        icon: LayoutGrid,  desc: "Set the background page design for your ThankView" },
-      { id: "content",  label: "CTA & Page Content",  icon: ToggleRight,  desc: "Buttons, attachments, and action toggles" },
-      { id: "tracking", label: "Tracking",            icon: Code2,       desc: "Optional tracking pixel for analytics" },
-    ];
-
-    return (
-      <div className="space-y-2 mt-2">
-        {INLINE_SECTIONS.map(sec => (
-          <details key={sec.id} className="group/design border border-tv-border-light rounded-lg overflow-hidden bg-white">
-            <summary className="flex items-center gap-3 px-4 py-3 cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden hover:bg-tv-surface/50 transition-colors">
-              <div className="w-8 h-8 rounded-sm bg-tv-brand-tint flex items-center justify-center shrink-0">
-                <sec.icon size={15} className="text-tv-brand" />
+  // ── Shared content sections ────────────────────────────────────────────
+  const renderDisplayTypeSelector = () => (
+    <div>
+      <SectionLabel>Email Display Type</SectionLabel>
+      <p className="text-[12px] text-tv-text-secondary mb-3 mt-1">
+        Choose how your video appears in the email.
+      </p>
+      <div className="space-y-2">
+        {EMAIL_DISPLAY_OPTIONS.map(opt => {
+          const active = emailContentType === opt.key;
+          const Icon = opt.icon;
+          return (
+            <button
+              key={opt.key}
+              onClick={() => setEmailContentType(opt.key)}
+              className={`w-full flex items-center gap-3 p-3 rounded-[10px] border text-left transition-all ${
+                active
+                  ? "border-tv-brand-bg bg-tv-brand-tint/30 shadow-sm"
+                  : "border-tv-border-light hover:border-tv-brand-bg/40 hover:bg-tv-surface/60"
+              }`}
+            >
+              <div className={`w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 transition-colors ${
+                active ? "bg-tv-brand-bg" : "bg-tv-surface"
+              }`}>
+                <Icon size={16} className={active ? "text-white" : "text-tv-text-secondary"} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 600 }}>{sec.label}</p>
-                <p className="text-[10px] text-tv-text-secondary">{sec.desc}</p>
+                <span className={`text-[13px] block ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{opt.label}</span>
+                <span className="text-[11px] text-tv-text-secondary">{opt.desc}</span>
               </div>
-              <ChevronDown size={14} className="text-tv-text-secondary transition-transform group-open/design:rotate-180 shrink-0" />
-            </summary>
-            <div className="px-4 pb-4 border-t border-tv-border-light pt-3">
-              {sec.id === "page" && <PageTab {...props} />}
-              {sec.id === "envelope" && <EnvelopeTab {...props} />}
-              {sec.id === "content" && <ContentTab {...contentTabProps} />}
-              {sec.id === "tracking" && <TrackingTab {...props} />}
-            </div>
-          </details>
-        ))}
+              <div className={`w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                active ? "border-tv-brand-bg" : "border-tv-border-strong"
+              }`}>
+                {active && <div className="w-2.5 h-2.5 rounded-full bg-tv-brand-bg" />}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+
+  const renderAnimatedSubOptions = () => (
+    <div className="mt-3 pl-4 border-l-2 border-tv-brand-bg/20 ml-1 space-y-3">
+      <SectionLabel>Animation Style</SectionLabel>
+      <div className="flex gap-2">
+        {([
+          { key: "gif" as const, icon: Sparkles, label: "GIF", desc: "Auto-playing animated preview" },
+          { key: "illustration" as const, icon: Film, label: "Illustration", desc: "Stylized animated graphic" },
+        ]).map(animOpt => {
+          const active = animatedStyle === animOpt.key;
+          const Icon = animOpt.icon;
+          return (
+            <button
+              key={animOpt.key}
+              onClick={() => setAnimatedStyle(animOpt.key)}
+              className={`flex-1 flex flex-col items-center gap-2 p-3 rounded-[10px] border transition-all ${
+                active
+                  ? "border-tv-brand-bg bg-tv-brand-tint/30"
+                  : "border-tv-border-light hover:border-tv-brand-bg/40"
+              }`}
+            >
+              <div className={`w-10 h-10 rounded-[8px] flex items-center justify-center transition-colors ${
+                active ? "bg-tv-brand-bg" : "bg-tv-surface"
+              }`}>
+                <Icon size={18} className={active ? "text-white" : "text-tv-text-secondary"} />
+              </div>
+              <span className={`text-[12px] ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{animOpt.label}</span>
+              <span className="text-[10px] text-tv-text-secondary text-center leading-snug">{animOpt.desc}</span>
+            </button>
+          );
+        })}
+      </div>
+      <div className="p-3 bg-tv-surface/60 rounded-[8px] flex items-start gap-2">
+        <Info size={12} className="text-tv-text-decorative shrink-0 mt-0.5" />
+        <p className="text-[11px] text-tv-text-secondary leading-relaxed">
+          {animatedStyle === "gif"
+            ? "A short looping GIF of the video will autoplay in most email clients, drawing attention to your ThankView."
+            : "An illustrated animation adds personality with a stylized, brand-themed motion graphic that invites constituents to click."}
+        </p>
+      </div>
+    </div>
+  );
+
+  const renderEnvelopeSettings = () => (
+    <EnvelopeSection {...props} />
+  );
+
+  const renderLandingPage = () => (
+    <LandingPageSection {...props} />
+  );
+
+  const renderAttachments = () => (
+    <AttachmentsSection
+      {...props}
+      linkTo={linkTo} setLinkTo={setLinkTo}
+      buttonText={buttonText} setButtonText={setButtonText}
+      description={description} setDescription={setDescription}
+      descBold={descBold} setDescBold={setDescBold}
+      descItalic={descItalic} setDescItalic={setDescItalic}
+      descUnderline={descUnderline} setDescUnderline={setDescUnderline}
+      pdfFile={pdfFile} setPdfFile={setPdfFile}
+      pdfAllowDownload={pdfAllowDownload} setPdfAllowDownload={setPdfAllowDownload}
+      pdfShareWithConstituents={pdfShareWithConstituents} setPdfShareWithConstituents={setPdfShareWithConstituents}
+      formEmbedUrl={formEmbedUrl} setFormEmbedUrl={setFormEmbedUrl}
+      formHeight={formHeight} setFormHeight={setFormHeight}
+      formFullWidth={formFullWidth} setFormFullWidth={setFormFullWidth}
+    />
+  );
+
+  const renderTracking = () => (
+    <TrackingSection {...props} />
+  );
+
+  // ── Inline mode: mini two-step wizard ────────────────────────────────
+  if (props.inline) {
+    const displayLabel = EMAIL_DISPLAY_OPTIONS.find(o => o.key === emailContentType)?.label || "Envelope";
+    const DisplayIcon = EMAIL_DISPLAY_OPTIONS.find(o => o.key === emailContentType)?.icon || Mail;
+
+    return (
+      <div className="px-4 py-4">
+        {/* ── Mini step indicator ── */}
+        <div className="flex items-center gap-2 mb-4">
+          <button
+            onClick={() => setDesignStep(1)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] transition-colors ${
+              designStep === 1
+                ? "bg-tv-brand-bg text-white"
+                : "bg-tv-surface text-tv-text-secondary hover:text-tv-text-primary"
+            }`}
+            style={{ fontWeight: 600 }}
+          >
+            <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[9px]" style={{ fontWeight: 700 }}>1</span>
+            Display Type
+          </button>
+          <ChevronDown size={12} className="text-tv-text-decorative -rotate-90" />
+          <button
+            onClick={() => setDesignStep(2)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] transition-colors ${
+              designStep === 2
+                ? "bg-tv-brand-bg text-white"
+                : "bg-tv-surface text-tv-text-secondary hover:text-tv-text-primary"
+            }`}
+            style={{ fontWeight: 600 }}
+          >
+            <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[9px]" style={{ fontWeight: 700 }}>2</span>
+            Configure
+          </button>
+        </div>
+
+        {/* ── Step 1: Choose display type ── */}
+        {designStep === 1 && (
+          <div className="space-y-3">
+            {renderDisplayTypeSelector()}
+
+            {/* Next button */}
+            <button
+              onClick={() => setDesignStep(2)}
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-full bg-tv-brand-bg text-white text-[13px] hover:bg-tv-brand-hover transition-colors"
+              style={{ fontWeight: 600 }}
+            >
+              Configure {displayLabel}
+              <ChevronDown size={14} className="-rotate-90" />
+            </button>
+          </div>
+        )}
+
+        {/* ── Step 2: Configure selected type ── */}
+        {designStep === 2 && (
+          <div className="space-y-3">
+            {/* Current selection summary — click to go back */}
+            <button
+              onClick={() => setDesignStep(1)}
+              className="w-full flex items-center gap-3 p-3 rounded-[10px] border border-tv-brand-bg bg-tv-brand-tint/20 text-left transition-all hover:bg-tv-brand-tint/40"
+            >
+              <div className="w-8 h-8 rounded-[8px] bg-tv-brand-bg flex items-center justify-center shrink-0">
+                <DisplayIcon size={14} className="text-white" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <span className="text-[12px] text-tv-brand block" style={{ fontWeight: 600 }}>{displayLabel}</span>
+                <span className="text-[10px] text-tv-text-secondary">Click to change display type</span>
+              </div>
+              <ChevronDown size={12} className="text-tv-brand rotate-90" />
+            </button>
+
+            {/* Contextual sections */}
+
+            {/* Envelope settings — only when envelope is selected */}
+            {emailContentType === "envelope" && (
+              <CollapsibleSection
+                icon={Mail}
+                label="Envelope Design"
+                desc="Choose and customize your branded envelope"
+                open={openSections.envelope}
+                onToggle={() => toggleSection("envelope")}
+              >
+                {renderEnvelopeSettings()}
+              </CollapsibleSection>
+            )}
+
+            {/* Landing Page — always shown */}
+            <CollapsibleSection
+              icon={LayoutGrid}
+              label="Landing Page"
+              desc="Set the background page design for your ThankView"
+              open={openSections["landing-page"]}
+              onToggle={() => toggleSection("landing-page")}
+            >
+              {renderLandingPage()}
+            </CollapsibleSection>
+
+            {/* Attachments — always shown */}
+            <CollapsibleSection
+              icon={ToggleRight}
+              label="CTA & Page Content"
+              desc="Buttons, attachments, and action toggles"
+              open={openSections.attachments}
+              onToggle={() => toggleSection("attachments")}
+            >
+              {renderAttachments()}
+            </CollapsibleSection>
+
+            {/* Tracking — always shown */}
+            <CollapsibleSection
+              icon={Code2}
+              label="Tracking"
+              desc="Optional tracking pixel for analytics"
+              open={openSections.tracking}
+              onToggle={() => toggleSection("tracking")}
+            >
+              {renderTracking()}
+            </CollapsibleSection>
+          </div>
+        )}
       </div>
     );
   }
 
+  // ── Full mode: left panel + preview ────────────────────────────────────
   return (
     <div className="flex h-full min-h-0">
-      {/* ═══ LEFT: Tab rail + scrollable tab content ════════════════════════ */}
-      <div className="flex shrink-0 h-full border-r border-tv-border-light">
+      {/* Left: scrollable content */}
+      <div className="w-[400px] xl:w-[440px] 2xl:w-[480px] overflow-y-auto bg-white border-r border-tv-border-light">
+        <div className="px-5 py-5 space-y-5">
+          <div className="mb-2">
+            <h3 className="text-tv-text-primary mb-1" style={{ fontSize: "17px", fontWeight: 800 }}>
+              Design & Appearance
+            </h3>
+            <p className="text-[12px] text-tv-text-secondary leading-relaxed">
+              Choose how your video appears in the email, then customize the landing page and envelope.
+            </p>
+          </div>
 
-        {/* ── Vertical icon-tab rail ── */}
-        <div className="w-[60px] bg-tv-surface/40 border-r border-tv-border-divider flex flex-col py-3 gap-1 shrink-0">
-          {TABS.map(tab => {
-            const active = activeTab === tab.id;
-            return (
-              <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                className={`mx-1.5 flex flex-col items-center gap-1 py-2.5 rounded-md transition-all ${
-                  active
-                    ? "bg-tv-brand-bg text-white shadow-sm"
-                    : "text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-text-primary"
-                }`}
-                title={TAB_META[tab.id].title}>
-                <tab.icon size={17} />
-                <span className="text-[8px] leading-none" style={{ fontWeight: active ? 700 : 500 }}>{tab.label}</span>
-              </button>
-            );
-          })}
-        </div>
+          {/* Email Display Type */}
+          {renderDisplayTypeSelector()}
 
-        {/* ── Tab content panel (scrolls independently) ── */}
-        <div className="w-[360px] xl:w-[400px] 2xl:w-[440px] overflow-y-auto bg-white">
-          <div className="px-5 py-5">
-            {/* Tab header — consistent with app section headings */}
-            <div className="mb-5">
-              <h3 className="text-tv-text-primary mb-1" style={{ fontSize: "17px", fontWeight: 800 }}>
-                {meta.title}
-              </h3>
-              <p className="text-[12px] text-tv-text-secondary leading-relaxed">
-                {meta.subtitle}
-              </p>
-            </div>
+          {/* Divider */}
+          <div className="border-t border-tv-border-divider" />
 
-            {activeTab === "page" && <PageTab {...props} />}
-            {activeTab === "envelope" && <EnvelopeTab {...props} />}
-            {activeTab === "content" && (
-              <ContentTab {...props}
-                linkTo={linkTo} setLinkTo={setLinkTo}
-                buttonText={buttonText} setButtonText={setButtonText}
-                description={description} setDescription={setDescription}
-                descBold={descBold} setDescBold={setDescBold}
-                descItalic={descItalic} setDescItalic={setDescItalic}
-                descUnderline={descUnderline} setDescUnderline={setDescUnderline}
-                emailContentType={emailContentType} setEmailContentType={setEmailContentType}
-                animatedStyle={animatedStyle} setAnimatedStyle={setAnimatedStyle}
-                staticImageFile={staticImageFile} setStaticImageFile={setStaticImageFile}
-                pdfFile={pdfFile} setPdfFile={setPdfFile}
-                pdfAllowDownload={pdfAllowDownload} setPdfAllowDownload={setPdfAllowDownload}
-                pdfShareWithConstituents={pdfShareWithConstituents} setPdfShareWithConstituents={setPdfShareWithConstituents}
-                formEmbedUrl={formEmbedUrl} setFormEmbedUrl={setFormEmbedUrl}
-                formHeight={formHeight} setFormHeight={setFormHeight}
-                formFullWidth={formFullWidth} setFormFullWidth={setFormFullWidth}
-              />
-            )}
-            {activeTab === "tracking" && <TrackingTab {...props} />}
+          {/* Envelope — only when selected */}
+          {emailContentType === "envelope" && (
+            <>
+              <div>
+                <h4 className="text-tv-text-primary mb-1" style={{ fontSize: "15px", fontWeight: 700 }}>Envelope Design</h4>
+                <p className="text-[12px] text-tv-text-secondary mb-3">Choose and customize your branded envelope.</p>
+                {renderEnvelopeSettings()}
+              </div>
+              <div className="border-t border-tv-border-divider" />
+            </>
+          )}
+
+          {/* Landing Page */}
+          <div>
+            <h4 className="text-tv-text-primary mb-1" style={{ fontSize: "15px", fontWeight: 700 }}>Landing Page</h4>
+            <p className="text-[12px] text-tv-text-secondary mb-3">Set the background page design for your ThankView.</p>
+            {renderLandingPage()}
+          </div>
+
+          <div className="border-t border-tv-border-divider" />
+
+          {/* Attachments */}
+          <div>
+            <h4 className="text-tv-text-primary mb-1" style={{ fontSize: "15px", fontWeight: 700 }}>CTA & Page Content</h4>
+            <p className="text-[12px] text-tv-text-secondary mb-3">Buttons, attachments, and action toggles.</p>
+            {renderAttachments()}
+          </div>
+
+          <div className="border-t border-tv-border-divider" />
+
+          {/* Tracking */}
+          <div>
+            <h4 className="text-tv-text-primary mb-1" style={{ fontSize: "15px", fontWeight: 700 }}>Tracking</h4>
+            <p className="text-[12px] text-tv-text-secondary mb-3">Optional tracking pixel for analytics.</p>
+            {renderTracking()}
           </div>
         </div>
       </div>
 
-      {/* ═══ RIGHT: Pinned live preview ═════════════════════════════════════ */}
+      {/* Right: Pinned live preview */}
       <div className="flex-1 min-w-0 bg-tv-surface/30 flex flex-col min-h-0 h-full">
-        {/* Viewport switcher toolbar */}
         <div className="flex items-center justify-between px-5 py-3 border-b border-tv-border-divider bg-white/60 shrink-0">
           <p className="text-[11px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Live Preview</p>
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setLivePreviewOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-tv-brand-bg text-white text-[11px] hover:bg-tv-brand-hover transition-colors"
-              style={{ fontWeight: 600 }}
-            >
-              <Play size={11} />
-              <span>Preview Animation</span>
-            </button>
-            <div className="flex items-center gap-0.5 bg-tv-surface rounded-md p-1">
+            {emailContentType === "envelope" && (
+              <button
+                onClick={() => setLivePreviewOpen(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-tv-brand-bg text-white text-[11px] hover:bg-tv-brand-hover transition-colors"
+                style={{ fontWeight: 600 }}
+              >
+                <Play size={11} />
+                <span>Preview Animation</span>
+              </button>
+            )}
+            <div className="flex items-center gap-0.5 bg-tv-surface rounded-[8px] p-1">
               {VIEWPORTS.map(vp => (
                 <button key={vp.key} onClick={() => props.onPreviewViewportChange(vp.key)}
-                  className={`px-2.5 py-1.5 rounded-sm transition-all flex items-center gap-1.5 ${
+                  className={`px-2.5 py-1.5 rounded-[8px] transition-all flex items-center gap-1.5 ${
                     props.previewViewport === vp.key
                       ? "bg-white text-tv-brand shadow-sm"
                       : "text-tv-text-secondary hover:text-tv-text-primary"
@@ -569,11 +744,11 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
           </div>
         </div>
 
-        {/* Preview frame — pinned, scrolls internally if preview is taller than viewport */}
         <div className="flex-1 min-h-0 overflow-y-auto flex items-start justify-center px-6 py-6">
           <PreviewFrame
             viewport={props.previewViewport}
             step={props.step}
+            emailContentType={emailContentType}
             envelopeData={props.selectedEnvelopeData}
             landingPageData={props.selectedLandingPageData}
             envTextBefore={props.envTextBefore}
@@ -618,121 +793,40 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
 
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  TAB 1: Landing Page
+//  Collapsible section wrapper (inline mode)
 // ═══════════════════════════════════════════════════════════════════════════════
-function PageTab(props: DesignStepPanelProps) {
-  const [copiedLink, setCopiedLink] = useState<string | null>(null);
-  const [lpShowAll, setLpShowAll] = useState(false);
-  const { show: showToast } = useToast();
-  const handleCopyLink = useCallback(() => {
-    const url = "https://thankview.com/lp/spring-giving-2026";
-    navigator.clipboard.writeText(url).catch(() => {});
-    setCopiedLink("page");
-    showToast("Link copied!", "success");
-    setTimeout(() => setCopiedLink(null), 1800);
-  }, [showToast]);
-
+function CollapsibleSection({ icon: Icon, label, desc, open, onToggle, children }: {
+  icon: any; label: string; desc: string; open: boolean; onToggle: () => void; children: React.ReactNode;
+}) {
   return (
-    <div className="space-y-4">
-      {/* Thumbnail link — when no landing page is enabled */}
-      {!props.step.landingPageEnabled && (
-        <div className="p-3 rounded-md border border-tv-info-border bg-tv-info-bg/30 space-y-2">
-          <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>No landing page enabled</p>
-          <p className="text-[10px] text-tv-text-secondary">The email thumbnail will link to your CTA URL instead. Configure the CTA button below to set the destination.</p>
+    <div className="border border-tv-border-light rounded-[10px] overflow-hidden bg-white">
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center gap-3 px-4 py-3 cursor-pointer select-none hover:bg-tv-surface/50 transition-colors"
+      >
+        <div className="w-8 h-8 rounded-[8px] bg-tv-brand-tint flex items-center justify-center shrink-0">
+          <Icon size={15} className="text-tv-brand" />
+        </div>
+        <div className="flex-1 min-w-0 text-left">
+          <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 600 }}>{label}</p>
+          <p className="text-[10px] text-tv-text-secondary">{desc}</p>
+        </div>
+        <ChevronDown size={14} className={`text-tv-text-secondary transition-transform shrink-0 ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="px-4 pb-4 border-t border-tv-border-light pt-3">
+          {children}
         </div>
       )}
-
-      {/* Stat line */}
-      <p className="text-[12px] text-tv-text-secondary">
-        You have created <span className="text-tv-brand" style={{ fontWeight: 600 }}>{props.filteredLandingPages.length}</span> landing pages.
-      </p>
-
-      {/* Action buttons — pill style */}
-      <div className="flex gap-2">
-        <button onClick={() => handleCopyLink()}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full border text-[12px] transition-colors ${
-            copiedLink === "page"
-              ? "border-tv-success bg-tv-success-bg text-tv-success"
-              : "border-tv-brand-bg/30 text-tv-brand hover:bg-tv-brand-tint"
-          }`} style={{ fontWeight: 500 }}>
-          {copiedLink === "page" ? <Check size={12} /> : <Link2 size={12} />}
-          <span>{copiedLink === "page" ? "Copied!" : "Copy Link"}</span>
-        </button>
-        <button onClick={() => props.onNavigateToBuilder?.("/assets/landing-page-builder")}
-          className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full bg-tv-brand-bg text-[12px] text-white hover:bg-tv-brand-hover transition-colors" style={{ fontWeight: 500 }}>
-          <ImageIcon size={12} />
-          <span>Create New</span>
-        </button>
-      </div>
-
-      {/* Search */}
-      <PillSearchInput value={props.lpSearch} onChange={props.onLpSearchChange} placeholder="Search for a landing page" size="sm" />
-
-      {/* Collapsible: All Landing Pages */}
-      <div>
-        <button onClick={props.onLpSectionToggle}
-          className="w-full flex items-center justify-between py-2.5 text-[13px] text-tv-text-primary" style={{ fontWeight: 600 }}>
-          <span>All Landing Pages <span className="text-tv-text-secondary" style={{ fontWeight: 400 }}>({props.filteredLandingPages.length})</span></span>
-          <ChevronDown size={15} className={`text-tv-text-secondary transition-transform ${props.lpSectionOpen ? "rotate-0" : "-rotate-90"}`} />
-        </button>
-        {props.lpSectionOpen && (<>
-          <div className="grid grid-cols-3 gap-2.5 pt-2 pb-1">
-            {props.filteredLandingPages.slice(0, lpShowAll ? 999 : 6).map(p => {
-              const active = (props.selectedLandingPageId || 1) === p.id;
-              return (
-                <div role="button" tabIndex={0} key={p.id} onClick={() => props.onSelectLandingPage(p.id)}
-                  onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); props.onSelectLandingPage(p.id); } }}
-                  className={`group rounded-md border-2 overflow-hidden transition-all text-left relative cursor-pointer ${
-                    active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"
-                  }`}>
-                  <div className="aspect-[4/3] relative overflow-hidden"
-                    style={{ background: `linear-gradient(135deg, ${(p as any).color || "#7c45b0"}, ${(p as any).accent || "#a78bfa"})` }}>
-                    {(p as any).image && (
-                      <img src={(p as any).image} alt={p.name}
-                        className="absolute inset-0 w-full h-full object-cover" />
-                    )}
-                    {/* Hover overlay with action icons */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors" />
-                    <div className="absolute top-1.5 right-1.5 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={e => { e.stopPropagation(); }}
-                        className="w-[22px] h-[22px] rounded-[5px] bg-white/90 hover:bg-white flex items-center justify-center shadow-sm transition-colors">
-                        <Pencil size={9} className="text-tv-text-primary" />
-                      </button>
-                      <button onClick={e => { e.stopPropagation(); }}
-                        className="w-[22px] h-[22px] rounded-[5px] bg-white/90 hover:bg-white flex items-center justify-center shadow-sm transition-colors">
-                        <Trash2 size={9} className="text-tv-text-primary" />
-                      </button>
-                    </div>
-                    {active && (
-                      <div className="absolute top-1.5 left-1.5 w-5 h-5 rounded-full bg-tv-brand-bg flex items-center justify-center shadow-sm">
-                        <Check size={9} className="text-white" strokeWidth={3} />
-                      </div>
-                    )}
-                  </div>
-                  <div className={`px-2 py-1.5 ${active ? "bg-tv-brand-tint" : "bg-white"}`}>
-                    <p className={`text-[10px] truncate ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: active ? 600 : 500 }}>{p.name}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          {!lpShowAll && props.filteredLandingPages.length > 6 && (
-            <button onClick={() => setLpShowAll(true)}
-              className="w-full py-2 text-[11px] text-tv-brand hover:bg-tv-brand-tint/30 rounded-full transition-colors mt-1" style={{ fontWeight: 600 }}>
-              Show all {props.filteredLandingPages.length} landing pages
-            </button>
-          )}
-        </>)}
-      </div>
     </div>
   );
 }
 
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  TAB 2: Envelope — picker first, then appearance (matches screenshot order)
+//  Envelope Section
 // ═══════════════════════════════════════════════════════════════════════════════
-function EnvelopeTab(props: DesignStepPanelProps) {
+function EnvelopeSection(props: DesignStepPanelProps) {
   const [copiedLink, setCopiedLink] = useState<string | null>(null);
   const { show: showToast } = useToast();
   const handleCopyLink = useCallback(() => {
@@ -745,12 +839,7 @@ function EnvelopeTab(props: DesignStepPanelProps) {
 
   return (
     <div className="space-y-4">
-      {/* ── Part A: Choose an Envelope ─────────────────────────────────────── */}
-
-      {/* Info card */}
-      
-
-      {/* Action buttons — pill style */}
+      {/* Action buttons */}
       <div className="flex gap-2">
         <button onClick={() => handleCopyLink()}
           className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full border text-[12px] transition-colors ${
@@ -789,13 +878,11 @@ function EnvelopeTab(props: DesignStepPanelProps) {
             <div className="grid grid-cols-3 gap-2.5 pt-2 pb-1">
               {envs.slice(0, 9).map(env => {
                 const active = (props.selectedEnvelopeId || 1) === env.id;
-                const nColor = env.nameColor || (isDarkColor(env.color) ? "#ffffff" : "#1e293b");
                 return (
                   <button key={env.id} onClick={() => props.onSelectEnvelope(env.id)}
-                    className={`rounded-md border-2 overflow-hidden transition-all text-left relative ${
+                    className={`rounded-[8px] border-2 overflow-hidden transition-all text-left relative ${
                       active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"
                     }`}>
-                    {/* Envelope thumbnail — matches library grid */}
                     <div className="relative flex items-center justify-center py-2 bg-[#f9f7fc]">
                       <EnvelopePreview
                         envelopeColor={env.color}
@@ -812,7 +899,7 @@ function EnvelopeTab(props: DesignStepPanelProps) {
                         </div>
                       )}
                       {env.branded && (
-                        <span className="absolute bottom-1 right-1 text-[7px] px-1 py-[2px] rounded-[4px] bg-white/90 text-tv-text-label shadow-sm z-10" style={{ fontWeight: 600 }}>Branded</span>
+                        <span className="absolute bottom-1 right-1 text-[7px] px-1 py-[2px] rounded-[8px] bg-white/90 text-tv-text-label shadow-sm z-10" style={{ fontWeight: 600 }}>Branded</span>
                       )}
                     </div>
                     <div className={`px-2 py-1.5 text-center ${active ? "bg-tv-brand-tint" : "bg-white"}`}>
@@ -827,7 +914,7 @@ function EnvelopeTab(props: DesignStepPanelProps) {
         );
       })}
 
-      {/* ── Part B: Envelope Appearance */}
+      {/* Envelope Appearance */}
       <div className="pt-4 mt-2 border-t border-tv-border-divider">
         <h4 className="text-tv-text-primary mb-1" style={{ fontSize: "15px", fontWeight: 700 }}>Envelope Appearance</h4>
         <p className="text-[12px] text-tv-text-secondary mb-4 leading-relaxed">
@@ -835,27 +922,24 @@ function EnvelopeTab(props: DesignStepPanelProps) {
         </p>
 
         <div className="space-y-4">
-          {/* Text before name */}
           <div>
             <SectionLabel>Text before constituent's name <span className="text-tv-text-decorative normal-case tracking-normal" style={{ fontWeight: 400 }}>({props.envTextBefore.length}/40)</span></SectionLabel>
             <div className="relative">
               <input value={props.envTextBefore} onChange={e => { if (e.target.value.length <= 40) props.onEnvTextBeforeChange(e.target.value); }}
                 className={`${inputCls} !pr-16`} />
               <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                <button className="p-1 rounded-sm hover:bg-tv-surface transition-colors"><Type size={13} className="text-tv-text-secondary" /></button>
-                <button className="p-1 rounded-sm hover:bg-tv-surface transition-colors"><Smile size={13} className="text-tv-text-secondary" /></button>
+                <button className="p-1 rounded-[8px] hover:bg-tv-surface transition-colors"><Type size={13} className="text-tv-text-secondary" /></button>
+                <button className="p-1 rounded-[8px] hover:bg-tv-surface transition-colors"><Smile size={13} className="text-tv-text-secondary" /></button>
               </div>
             </div>
           </div>
 
-          {/* Line break before */}
           <label className="flex items-center gap-2.5 cursor-pointer py-0.5">
             <input type="checkbox" checked={props.envLineBreakBefore} onChange={e => props.onEnvLineBreakBeforeChange(e.target.checked)}
               className="w-4 h-4 rounded border-tv-border-light accent-tv-brand-bg cursor-pointer" />
             <span className="text-[13px] text-tv-text-primary">Add Line Break</span>
           </label>
 
-          {/* Name format */}
           <div>
             <SectionLabel>Name format</SectionLabel>
             <select value={props.envNameFormat} onChange={e => props.onEnvNameFormatChange(e.target.value)}
@@ -868,22 +952,20 @@ function EnvelopeTab(props: DesignStepPanelProps) {
             </select>
           </div>
 
-          {/* Line break after */}
           <label className="flex items-center gap-2.5 cursor-pointer py-0.5">
             <input type="checkbox" checked={props.envLineBreakAfter} onChange={e => props.onEnvLineBreakAfterChange(e.target.checked)}
               className="w-4 h-4 rounded border-tv-border-light accent-tv-brand-bg cursor-pointer" />
             <span className="text-[13px] text-tv-text-primary">Add Line Break</span>
           </label>
 
-          {/* Text after name */}
           <div>
             <SectionLabel>Text after constituent's name <span className="text-tv-text-decorative normal-case tracking-normal" style={{ fontWeight: 400 }}>({props.envTextAfter.length}/40)</span></SectionLabel>
             <div className="relative">
               <input value={props.envTextAfter} onChange={e => { if (e.target.value.length <= 40) props.onEnvTextAfterChange(e.target.value); }}
                 className={`${inputCls} !pr-16`} />
               <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                <button className="p-1 rounded-sm hover:bg-tv-surface transition-colors"><Type size={13} className="text-tv-text-secondary" /></button>
-                <button className="p-1 rounded-sm hover:bg-tv-surface transition-colors"><Smile size={13} className="text-tv-text-secondary" /></button>
+                <button className="p-1 rounded-[8px] hover:bg-tv-surface transition-colors"><Type size={13} className="text-tv-text-secondary" /></button>
+                <button className="p-1 rounded-[8px] hover:bg-tv-surface transition-colors"><Smile size={13} className="text-tv-text-secondary" /></button>
               </div>
             </div>
           </div>
@@ -893,16 +975,118 @@ function EnvelopeTab(props: DesignStepPanelProps) {
   );
 }
 
-// ── Form platform detection helpers ──────────────────────────────────────────
 
-// Runtime feature markers for audit auto-detection
-export const __AUDIT_MARKERS__ = [
-  'pdf-upload-zone', 'pdf-card-metadata', 'pdf-allow-download-toggle',
-  'pdf-share-toggle', 'pdf-preview-block',
-  'form-embed-url', 'form-platform-detection', 'form-height-config',
-  'form-fullwidth-toggle', 'form-preview-placeholder',
-] as const;
+// ═══════════════════════════════════════════════════════════════════════════════
+//  Landing Page Section
+// ═══════════════════════════════════════════════════════════════════════════════
+function LandingPageSection(props: DesignStepPanelProps) {
+  const [copiedLink, setCopiedLink] = useState<string | null>(null);
+  const [lpShowAll, setLpShowAll] = useState(false);
+  const { show: showToast } = useToast();
+  const handleCopyLink = useCallback(() => {
+    const url = "https://thankview.com/lp/spring-giving-2026";
+    navigator.clipboard.writeText(url).catch(() => {});
+    setCopiedLink("page");
+    showToast("Link copied!", "success");
+    setTimeout(() => setCopiedLink(null), 1800);
+  }, [showToast]);
 
+  return (
+    <div className="space-y-4">
+      {!props.step.landingPageEnabled && (
+        <div className="p-3 rounded-[8px] border border-tv-info-border bg-tv-info-bg/30 space-y-2">
+          <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>No landing page enabled</p>
+          <p className="text-[10px] text-tv-text-secondary">The email thumbnail will link to your CTA URL instead.</p>
+        </div>
+      )}
+
+      <p className="text-[12px] text-tv-text-secondary">
+        You have created <span className="text-tv-brand" style={{ fontWeight: 600 }}>{props.filteredLandingPages.length}</span> landing pages.
+      </p>
+
+      <div className="flex gap-2">
+        <button onClick={() => handleCopyLink()}
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full border text-[12px] transition-colors ${
+            copiedLink === "page"
+              ? "border-tv-success bg-tv-success-bg text-tv-success"
+              : "border-tv-brand-bg/30 text-tv-brand hover:bg-tv-brand-tint"
+          }`} style={{ fontWeight: 500 }}>
+          {copiedLink === "page" ? <Check size={12} /> : <Link2 size={12} />}
+          <span>{copiedLink === "page" ? "Copied!" : "Copy Link"}</span>
+        </button>
+        <button onClick={() => props.onNavigateToBuilder?.("/assets/landing-page-builder")}
+          className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full bg-tv-brand-bg text-[12px] text-white hover:bg-tv-brand-hover transition-colors" style={{ fontWeight: 500 }}>
+          <ImageIcon size={12} />
+          <span>Create New</span>
+        </button>
+      </div>
+
+      <PillSearchInput value={props.lpSearch} onChange={props.onLpSearchChange} placeholder="Search for a landing page" size="sm" />
+
+      <div>
+        <button onClick={props.onLpSectionToggle}
+          className="w-full flex items-center justify-between py-2.5 text-[13px] text-tv-text-primary" style={{ fontWeight: 600 }}>
+          <span>All Landing Pages <span className="text-tv-text-secondary" style={{ fontWeight: 400 }}>({props.filteredLandingPages.length})</span></span>
+          <ChevronDown size={15} className={`text-tv-text-secondary transition-transform ${props.lpSectionOpen ? "rotate-0" : "-rotate-90"}`} />
+        </button>
+        {props.lpSectionOpen && (<>
+          <div className="grid grid-cols-3 gap-2.5 pt-2 pb-1">
+            {props.filteredLandingPages.slice(0, lpShowAll ? 999 : 6).map(p => {
+              const active = (props.selectedLandingPageId || 1) === p.id;
+              return (
+                <div role="button" tabIndex={0} key={p.id} onClick={() => props.onSelectLandingPage(p.id)}
+                  onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); props.onSelectLandingPage(p.id); } }}
+                  className={`group rounded-[8px] border-2 overflow-hidden transition-all text-left relative cursor-pointer ${
+                    active ? "border-tv-brand-bg ring-1 ring-tv-brand-bg/50" : "border-tv-border-light hover:border-tv-border-strong"
+                  }`}>
+                  <div className="aspect-[4/3] relative overflow-hidden"
+                    style={{ background: `linear-gradient(135deg, ${(p as any).color || "#7c45b0"}, ${(p as any).accent || "#a78bfa"})` }}>
+                    {(p as any).image && (
+                      <img src={(p as any).image} alt={p.name}
+                        className="absolute inset-0 w-full h-full object-cover" />
+                    )}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors" />
+                    <div className="absolute top-1.5 right-1.5 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button onClick={e => { e.stopPropagation(); }}
+                        className="w-[22px] h-[22px] rounded-[5px] bg-white/90 hover:bg-white flex items-center justify-center shadow-sm transition-colors">
+                        <Pencil size={9} className="text-tv-text-primary" />
+                      </button>
+                      <button onClick={e => { e.stopPropagation(); }}
+                        className="w-[22px] h-[22px] rounded-[5px] bg-white/90 hover:bg-white flex items-center justify-center shadow-sm transition-colors">
+                        <Trash2 size={9} className="text-tv-text-primary" />
+                      </button>
+                    </div>
+                    {active && (
+                      <div className="absolute top-1.5 left-1.5 w-5 h-5 rounded-full bg-tv-brand-bg flex items-center justify-center shadow-sm">
+                        <Check size={9} className="text-white" strokeWidth={3} />
+                      </div>
+                    )}
+                  </div>
+                  <div className={`px-2 py-1.5 ${active ? "bg-tv-brand-tint" : "bg-white"}`}>
+                    <p className={`text-[10px] truncate ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: active ? 600 : 500 }}>{p.name}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {!lpShowAll && props.filteredLandingPages.length > 6 && (
+            <button onClick={() => setLpShowAll(true)}
+              className="w-full py-2 text-[11px] text-tv-brand hover:bg-tv-brand-tint/30 rounded-full transition-colors mt-1" style={{ fontWeight: 600 }}>
+              Show all {props.filteredLandingPages.length} landing pages
+            </button>
+          )}
+        </>)}
+      </div>
+    </div>
+  );
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  Attachments Section
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// Form platform detection
 type DetectedPlatform = { name: string; color: string; bg: string } | null;
 
 function detectFormPlatform(url: string): DetectedPlatform {
@@ -914,12 +1098,18 @@ function detectFormPlatform(url: string): DetectedPlatform {
   if (lower.includes("jotform.com")) return { name: "Jotform", color: "#f97316", bg: "#fff7ed" };
   if (lower.includes("google.com/forms") || lower.includes("docs.google.com/forms")) return { name: "Google Forms", color: "#7c3aed", bg: "#faf5ff" };
   if (lower.includes("wufoo.com")) return { name: "Wufoo", color: "#dc2626", bg: "#fef2f2" };
-  // If it looks like a URL but no match
   if (lower.startsWith("http://") || lower.startsWith("https://")) return { name: "__unknown__", color: "#dc2626", bg: "#fef2f2" };
   return null;
 }
 
-function FormEmbedSection({ url, onUrlChange, height, onHeightChange, fullWidth, onFullWidthChange }: {
+export const __AUDIT_MARKERS__ = [
+  'pdf-upload-zone', 'pdf-card-metadata', 'pdf-allow-download-toggle',
+  'pdf-share-toggle', 'pdf-preview-block',
+  'form-embed-url', 'form-platform-detection', 'form-height-config',
+  'form-fullwidth-toggle', 'form-preview-placeholder',
+] as const;
+
+function FormEmbedSubSection({ url, onUrlChange, height, onHeightChange, fullWidth, onFullWidthChange }: {
   url: string; onUrlChange: (v: string) => void;
   height: number; onHeightChange: (v: number) => void;
   fullWidth: boolean; onFullWidthChange: (v: boolean) => void;
@@ -928,7 +1118,6 @@ function FormEmbedSection({ url, onUrlChange, height, onHeightChange, fullWidth,
 
   return (
     <div className="pl-5 border-l-2 border-tv-brand-bg/20 ml-2 space-y-3">
-      {/* URL input */}
       <div>
         <SectionLabel>Form Embed URL</SectionLabel>
         <input
@@ -939,7 +1128,6 @@ function FormEmbedSection({ url, onUrlChange, height, onHeightChange, fullWidth,
         />
       </div>
 
-      {/* Auto-detection badge */}
       {platform && (
         platform.name === "__unknown__" ? (
           <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-tv-danger-bg border border-tv-danger-border w-fit">
@@ -957,7 +1145,6 @@ function FormEmbedSection({ url, onUrlChange, height, onHeightChange, fullWidth,
         )
       )}
 
-      {/* Configuration row */}
       <div className="flex items-center gap-3">
         <div className="flex-1 min-w-0">
           <SectionLabel>Height (px)</SectionLabel>
@@ -996,27 +1183,13 @@ function FormEmbedSection({ url, onUrlChange, height, onHeightChange, fullWidth,
   );
 }
 
-export function isDarkColor(hex: string) {
-  const c = hex.replace("#", "");
-  const r = parseInt(c.substring(0, 2), 16);
-  const g = parseInt(c.substring(2, 4), 16);
-  const b = parseInt(c.substring(4, 6), 16);
-  return (r * 299 + g * 587 + b * 114) / 1000 < 128;
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-//  TAB 3: Page Content — attachments → link/button → description → toggles
-// ═══════════════════════════════════════════════════════════════════════════════
-function ContentTab(props: DesignStepPanelProps & {
+function AttachmentsSection(props: DesignStepPanelProps & {
   linkTo: string; setLinkTo: (v: string) => void;
   buttonText: string; setButtonText: (v: string) => void;
   description: string; setDescription: (v: string) => void;
   descBold: boolean; setDescBold: (v: boolean) => void;
   descItalic: boolean; setDescItalic: (v: boolean) => void;
   descUnderline: boolean; setDescUnderline: (v: boolean) => void;
-  emailContentType: EmailContentType; setEmailContentType: (v: EmailContentType) => void;
-  animatedStyle: AnimatedStyle; setAnimatedStyle: (v: AnimatedStyle) => void;
-  staticImageFile: string | null; setStaticImageFile: (v: string | null) => void;
   pdfFile: { name: string; pages: number; size: string } | null;
   setPdfFile: (v: { name: string; pages: number; size: string } | null) => void;
   pdfAllowDownload: boolean; setPdfAllowDownload: (v: boolean) => void;
@@ -1029,174 +1202,15 @@ function ContentTab(props: DesignStepPanelProps & {
     linkTo, setLinkTo, buttonText, setButtonText,
     description, setDescription,
     descBold, setDescBold, descItalic, setDescItalic, descUnderline, setDescUnderline,
-    emailContentType, setEmailContentType, animatedStyle, setAnimatedStyle,
-    staticImageFile, setStaticImageFile,
     pdfFile, setPdfFile, pdfAllowDownload, setPdfAllowDownload,
     pdfShareWithConstituents, setPdfShareWithConstituents,
     formEmbedUrl, setFormEmbedUrl, formHeight, setFormHeight,
     formFullWidth, setFormFullWidth,
   } = props;
 
-  const EMAIL_CONTENT_OPTIONS: { key: EmailContentType; icon: typeof Film; label: string; desc: string }[] = [
-    { key: "static-image",       icon: ImageIcon, label: "Static Thumbnail",    desc: "A still image from your video displayed in the email" },
-    { key: "animated-thumbnail", icon: Film,      label: "Animated Thumbnail",  desc: "Eye-catching GIF or illustrated animation that autoplays" },
-    { key: "envelope",           icon: Mail,      label: "Envelope",            desc: "Optional branded envelope with flip-open animation" },
-  ];
-
-  const handleStaticUpload = () => {
-    // Simulate file picker — in production this opens a real file dialog
-    setStaticImageFile("campaign-hero-image.jpg");
-  };
-
   return (
     <div className="space-y-5">
-      {/* ── Email Content Type ─────────────────────────────────────────────── */}
-      <div>
-        <SectionLabel>Email Content</SectionLabel>
-        <p className="text-[12px] text-tv-text-secondary mb-3 mt-1">
-          Choose what constituents see in the email body.
-        </p>
-        <div className="space-y-2">
-          {EMAIL_CONTENT_OPTIONS.map(opt => {
-            const active = emailContentType === opt.key;
-            const Icon = opt.icon;
-            return (
-              <button
-                key={opt.key}
-                onClick={() => setEmailContentType(opt.key)}
-                className={`w-full flex items-center gap-3 p-3 rounded-md border text-left transition-all ${
-                  active
-                    ? "border-tv-brand-bg bg-tv-brand-tint/30 shadow-sm"
-                    : "border-tv-border-light hover:border-tv-brand-bg/40 hover:bg-tv-surface/60"
-                }`}
-              >
-                <div className={`w-9 h-9 rounded-sm flex items-center justify-center shrink-0 transition-colors ${
-                  active ? "bg-tv-brand-bg" : "bg-tv-surface"
-                }`}>
-                  <Icon size={16} className={active ? "text-white" : "text-tv-text-secondary"} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <span className={`text-[13px] block ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{opt.label}</span>
-                  <span className="text-[11px] text-tv-text-secondary">{opt.desc}</span>
-                </div>
-                <div className={`w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                  active ? "border-tv-brand-bg" : "border-tv-border-strong"
-                }`}>
-                  {active && <div className="w-2.5 h-2.5 rounded-full bg-tv-brand-bg" />}
-                </div>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* ── Animated Thumbnail sub-options ── */}
-        {emailContentType === "animated-thumbnail" && (
-          <div className="mt-3 pl-4 border-l-2 border-tv-brand-bg/20 ml-1 space-y-3">
-            <SectionLabel>Animation Style</SectionLabel>
-            <div className="flex gap-2">
-              {([
-                { key: "gif" as const, icon: Sparkles, label: "GIF", desc: "Auto-playing animated preview" },
-                { key: "illustration" as const, icon: Film, label: "Illustration", desc: "Stylized animated graphic" },
-              ]).map(animOpt => {
-                const active = animatedStyle === animOpt.key;
-                const Icon = animOpt.icon;
-                return (
-                  <button
-                    key={animOpt.key}
-                    onClick={() => setAnimatedStyle(animOpt.key)}
-                    className={`flex-1 flex flex-col items-center gap-2 p-3 rounded-md border transition-all ${
-                      active
-                        ? "border-tv-brand-bg bg-tv-brand-tint/30"
-                        : "border-tv-border-light hover:border-tv-brand-bg/40"
-                    }`}
-                  >
-                    <div className={`w-10 h-10 rounded-sm flex items-center justify-center transition-colors ${
-                      active ? "bg-tv-brand-bg" : "bg-tv-surface"
-                    }`}>
-                      <Icon size={18} className={active ? "text-white" : "text-tv-text-secondary"} />
-                    </div>
-                    <span className={`text-[12px] ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{animOpt.label}</span>
-                    <span className="text-[10px] text-tv-text-secondary text-center leading-snug">{animOpt.desc}</span>
-                  </button>
-                );
-              })}
-            </div>
-            <div className="p-3 bg-tv-surface/60 rounded-sm flex items-start gap-2">
-              <Info size={12} className="text-tv-text-decorative shrink-0 mt-0.5" />
-              <p className="text-[11px] text-tv-text-secondary leading-relaxed">
-                {animatedStyle === "gif"
-                  ? "A short looping GIF of the video will autoplay in most email clients, drawing attention to your ThankView."
-                  : "An illustrated animation adds personality with a stylized, brand-themed motion graphic that invites constituents to click."}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* ── Envelope sub-info ── */}
-        {emailContentType === "envelope" && (
-          <div className="mt-3 pl-4 border-l-2 border-tv-brand-bg/20 ml-1 space-y-2">
-            <div className="p-3 bg-tv-surface/60 rounded-sm flex items-start gap-2">
-              <Mail size={12} className="text-tv-brand shrink-0 mt-0.5" />
-              <div>
-                <p className="text-[11px] text-tv-text-primary leading-relaxed" style={{ fontWeight: 600 }}>
-                  Your branded envelope will appear in the email.
-                </p>
-                <p className="text-[11px] text-tv-text-secondary leading-relaxed mt-1">
-                  Constituents see a personalized envelope with their name, stamp, and postmark. Clicking it triggers
-                  the flip-and-open animation on the landing page. Configure the envelope design in the <strong>Envelope</strong> tab.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── Static Image upload ── */}
-        {emailContentType === "static-image" && (
-          <div className="mt-3 pl-4 border-l-2 border-tv-brand-bg/20 ml-1 space-y-2">
-            <SectionLabel>Upload Image</SectionLabel>
-            {staticImageFile ? (
-              <div className="relative border border-tv-border-light rounded-md overflow-hidden">
-                <div className="h-[120px] bg-gradient-to-br from-tv-surface to-tv-surface-active flex items-center justify-center">
-                  <div className="flex flex-col items-center gap-1.5">
-                    <ImageIcon size={24} className="text-tv-text-secondary" />
-                    <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>{staticImageFile}</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between px-3 py-2 bg-white border-t border-tv-border-light">
-                  <span className="text-[10px] text-tv-text-decorative">JPG • 1200×628 recommended</span>
-                  <div className="flex items-center gap-1.5">
-                    <button
-                      onClick={handleStaticUpload}
-                      className="flex items-center gap-1 px-2 py-1 text-[10px] text-tv-text-label border border-tv-border-light rounded-full hover:bg-tv-surface transition-colors"
-                      style={{ fontWeight: 500 }}
-                    >
-                      <Replace size={9} />Replace
-                    </button>
-                    <button
-                      onClick={() => setStaticImageFile(null)}
-                      className="flex items-center gap-1 px-2 py-1 text-[10px] text-tv-danger border border-tv-danger-border rounded-full hover:bg-tv-danger-bg transition-colors"
-                      style={{ fontWeight: 500 }}
-                    >
-                      <Trash2 size={9} />Remove
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <button
-                onClick={handleStaticUpload}
-                className="w-full border-2 border-dashed border-tv-border-light rounded-lg p-5 text-center hover:border-tv-brand/40 transition-colors cursor-pointer"
-              >
-                <Upload size={20} className="mx-auto text-tv-text-secondary mb-1.5" />
-                <p className="text-[12px] text-tv-text-secondary">Click to upload or drag & drop</p>
-                <p className="text-[10px] text-tv-text-decorative mt-1">PNG, JPG, or GIF — 1200×628 recommended</p>
-              </button>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* ── Attachments ───────────────────────────────────────────────────── */}
+      {/* Attachments */}
       <div>
         <SectionLabel>Attachments</SectionLabel>
         <div className="space-y-2.5 mt-2">
@@ -1221,7 +1235,7 @@ function ContentTab(props: DesignStepPanelProps & {
         </div>
       </div>
 
-      {/* ── Button sub-fields ─────────────────────────────────────────────── */}
+      {/* Button sub-fields */}
       {props.attachmentType === "button" && (
         <div className="space-y-4 pl-5 border-l-2 border-tv-brand-bg/20 ml-2">
           <div>
@@ -1248,15 +1262,13 @@ function ContentTab(props: DesignStepPanelProps & {
       {props.attachmentType === "pdf" && (
         <div className="pl-5 border-l-2 border-tv-brand-bg/20 ml-2 space-y-3">
           <SectionLabel>Upload PDF</SectionLabel>
-
           {!pdfFile ? (
-            /* ── Upload zone ─────────────────────────────────────────── */
             <button
               type="button"
               onClick={() => setPdfFile({ name: "Impact_Report_2025.pdf", pages: 12, size: "2.4 MB" })}
-              className="w-full border-2 border-dashed border-tv-border-light rounded-lg p-6 flex flex-col items-center gap-2 hover:border-tv-brand/40 hover:bg-tv-brand-tint/30 transition-all cursor-pointer group"
+              className="w-full border-2 border-dashed border-tv-border-light rounded-[10px] p-6 flex flex-col items-center gap-2 hover:border-tv-brand/40 hover:bg-tv-brand-tint/30 transition-all cursor-pointer group"
             >
-              <div className="w-10 h-10 rounded-md bg-tv-surface flex items-center justify-center group-hover:bg-tv-brand-tint transition-colors">
+              <div className="w-10 h-10 rounded-[8px] bg-tv-surface flex items-center justify-center group-hover:bg-tv-brand-tint transition-colors">
                 <FileText size={20} className="text-tv-text-secondary group-hover:text-tv-brand transition-colors" />
               </div>
               <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 500 }}>Upload PDF</p>
@@ -1266,9 +1278,8 @@ function ContentTab(props: DesignStepPanelProps & {
               </span>
             </button>
           ) : (
-            /* ── Uploaded PDF card ───────────────────────────────────── */
-            <div className="flex items-center gap-3 p-3 bg-white border border-tv-border-light rounded-lg">
-              <div className="w-10 h-10 rounded-sm bg-tv-danger-bg flex items-center justify-center shrink-0">
+            <div className="flex items-center gap-3 p-3 bg-white border border-tv-border-light rounded-[10px]">
+              <div className="w-10 h-10 rounded-[8px] bg-tv-danger-bg flex items-center justify-center shrink-0">
                 <FileText size={18} className="text-tv-danger" />
               </div>
               <div className="flex-1 min-w-0">
@@ -1286,7 +1297,6 @@ function ContentTab(props: DesignStepPanelProps & {
             </div>
           )}
 
-          {/* ── Toggles ──────────────────────────────────────────────── */}
           {pdfFile && (
             <div className="space-y-2">
               <div className="flex items-center justify-between">
@@ -1294,32 +1304,14 @@ function ContentTab(props: DesignStepPanelProps & {
                   <Download size={12} className={pdfAllowDownload ? "text-tv-brand" : "text-tv-text-secondary"} />
                   <span className="text-[12px] text-tv-text-primary" style={{ fontWeight: 500 }}>Allow Download</span>
                 </div>
-                <button
-                  type="button"
-                  role="switch"
-                  aria-checked={pdfAllowDownload}
-                  aria-label="Allow download"
-                  onClick={() => setPdfAllowDownload(!pdfAllowDownload)}
-                  className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${pdfAllowDownload ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}
-                >
-                  <div className={`w-4 h-4 bg-white rounded-full absolute top-[2px] shadow-sm transition-all ${pdfAllowDownload ? "left-[17px]" : "left-[2px]"}`} />
-                </button>
+                <Toggle enabled={pdfAllowDownload} onToggle={() => setPdfAllowDownload(!pdfAllowDownload)} />
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Users size={12} className={pdfShareWithConstituents ? "text-tv-brand" : "text-tv-text-secondary"} />
                   <span className="text-[12px] text-tv-text-primary" style={{ fontWeight: 500 }}>Share with Constituents</span>
                 </div>
-                <button
-                  type="button"
-                  role="switch"
-                  aria-checked={pdfShareWithConstituents}
-                  aria-label="Share with constituents"
-                  onClick={() => setPdfShareWithConstituents(!pdfShareWithConstituents)}
-                  className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${pdfShareWithConstituents ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}
-                >
-                  <div className={`w-4 h-4 bg-white rounded-full absolute top-[2px] shadow-sm transition-all ${pdfShareWithConstituents ? "left-[17px]" : "left-[2px]"}`} />
-                </button>
+                <Toggle enabled={pdfShareWithConstituents} onToggle={() => setPdfShareWithConstituents(!pdfShareWithConstituents)} />
               </div>
             </div>
           )}
@@ -1328,19 +1320,17 @@ function ContentTab(props: DesignStepPanelProps & {
 
       {/* Form embed */}
       {props.attachmentType === "form" && (
-        <FormEmbedSection
+        <FormEmbedSubSection
           url={formEmbedUrl} onUrlChange={setFormEmbedUrl}
           height={formHeight} onHeightChange={setFormHeight}
           fullWidth={formFullWidth} onFullWidthChange={setFormFullWidth}
         />
       )}
 
-      {/* ── Description (rich text) ───────────────────────────────────────── */}
+      {/* Description */}
       <div>
         <SectionLabel>Description</SectionLabel>
-        {/* Formatting toolbar */}
         <div className="flex items-center gap-0.5 border border-tv-border-light border-b-0 rounded-t-[10px] px-2 py-1.5 bg-tv-surface/40">
-          {/* Bold / Italic / Underline */}
           <ToolbarBtn active={descBold} onClick={() => setDescBold(!descBold)}><Bold size={13} /></ToolbarBtn>
           <ToolbarBtn active={descItalic} onClick={() => setDescItalic(!descItalic)}><Italic size={13} /></ToolbarBtn>
           <ToolbarBtn active={descUnderline} onClick={() => setDescUnderline(!descUnderline)}><Underline size={13} /></ToolbarBtn>
@@ -1369,7 +1359,7 @@ function ContentTab(props: DesignStepPanelProps & {
         <p className="text-[10px] text-tv-text-decorative text-right mt-1">{description.length}/{DESCRIPTION_MAX}</p>
       </div>
 
-      {/* ── Action Buttons ─────────────────────────────────────────────────── */}
+      {/* Action Buttons */}
       <div className="border-t border-tv-border-divider pt-5">
         <SectionLabel>Action Buttons</SectionLabel>
         <p className="text-[12px] text-tv-text-secondary mb-3 mt-1">Allow your constituents to:</p>
@@ -1398,9 +1388,9 @@ function ContentTab(props: DesignStepPanelProps & {
 
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  TAB 4: Tracking Pixel
+//  Tracking Section
 // ═══════════════════════════════════════════════════════════════════════════════
-function TrackingTab(props: DesignStepPanelProps) {
+function TrackingSection(props: DesignStepPanelProps) {
   return (
     <div className="space-y-4">
       <div>
@@ -1409,7 +1399,7 @@ function TrackingTab(props: DesignStepPanelProps) {
           placeholder="Add a tracking pixel to your landing page"
           className={inputCls} />
       </div>
-      <div className="rounded-md p-3.5 bg-tv-info-bg border border-tv-info-border">
+      <div className="rounded-[8px] p-3.5 bg-tv-info-bg border border-tv-info-border">
         <div className="flex gap-2">
           <Info size={13} className="text-tv-info shrink-0 mt-0.5" />
           <div>
@@ -1429,7 +1419,7 @@ function TrackingTab(props: DesignStepPanelProps) {
 function ToolbarBtn({ children, active, onClick }: { children: React.ReactNode; active?: boolean; onClick?: () => void }) {
   return (
     <button onClick={onClick}
-      className={`p-1.5 rounded-sm transition-colors ${
+      className={`p-1.5 rounded-[8px] transition-colors ${
         active ? "bg-tv-brand-bg/10 text-tv-brand" : "text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-text-primary"
       }`}>
       {children}
@@ -1442,17 +1432,27 @@ function ToolbarDivider() {
 }
 
 
+export function isDarkColor(hex: string) {
+  const c = hex.replace("#", "");
+  const r = parseInt(c.substring(0, 2), 16);
+  const g = parseInt(c.substring(2, 4), 16);
+  const b = parseInt(c.substring(4, 6), 16);
+  return (r * 299 + g * 587 + b * 114) / 1000 < 128;
+}
+
+
 // ═══════════════════════════════════════════════════════════════════════════════
-//  Preview Frame — Landing page with envelope overlay on the video area
-// ══════════════════════════════════════��════════════════════════════════════════
+//  Preview Frame
+// ═══════════════════════════════════════════════════════════════════════════════
 function PreviewFrame({
-  viewport, step, envelopeData, landingPageData,
+  viewport, step, emailContentType, envelopeData, landingPageData,
   envTextBefore, envLineBreakBefore, envNameFormat, envLineBreakAfter, envTextAfter,
   attachmentType, linkTo, buttonText, description, pdfFile,
   formEmbedUrl, formHeight = 600, formFullWidth,
 }: {
   viewport: Viewport;
   step: DesignStepPanelProps["step"];
+  emailContentType: EmailContentType;
   envelopeData?: { color: string; accent: string; name: string; nameColor?: string; holidayType?: string };
   landingPageData?: { color: string; accent: string; name: string; image?: string };
   envTextBefore: string;
@@ -1487,47 +1487,13 @@ function PreviewFrame({
   const lpColor = landingPageData?.color || "#7c45b0";
   const lpAccent = landingPageData?.accent || "#a78bfa";
 
-  const personalizationLines: string[] = [];
-  if (envTextBefore) personalizationLines.push(envTextBefore);
-  if (envLineBreakBefore && envTextBefore) personalizationLines.push("");
-  personalizationLines.push(formatName(envNameFormat));
-  if (envLineBreakAfter && envTextAfter) personalizationLines.push("");
-  if (envTextAfter) personalizationLines.push(envTextAfter);
-
-  const isDark = (hex: string) => {
-    const c = hex.replace("#", "");
-    const r = parseInt(c.substring(0, 2), 16);
-    const g = parseInt(c.substring(2, 4), 16);
-    const b = parseInt(c.substring(4, 6), 16);
-    return (r * 299 + g * 587 + b * 114) / 1000 < 128;
-  };
-  const envTextColor = isDark(envColor) ? "#ffffff" : "#1e293b";
-  const envSubtleColor = isDark(envColor) ? "rgba(255,255,255,0.55)" : "rgba(30,41,59,0.45)";
-
   const isMobile = viewport === "mobile";
   const isTablet = viewport === "tablet";
 
-  return (
-    <div className={`bg-white rounded-lg border border-tv-border-light shadow-lg overflow-hidden transition-all ${widthClass}`}>
-      {/* Organization header bar */}
-      <div className="px-4 py-3 border-b border-tv-border-divider flex items-center gap-2.5 bg-white">
-        <div className="w-7 h-7 rounded-sm flex items-center justify-center" style={{ backgroundColor: lpColor }}>
-          <span className="text-white text-[10px]" style={{ fontWeight: 800 }}>E</span>
-        </div>
-        <span className={`text-tv-text-primary ${isMobile ? "text-[12px]" : "text-[13px]"}`} style={{ fontWeight: 700 }}>evertrue</span>
-      </div>
-
-      {/* Video / Background area with envelope overlay */}
-      <div className={`relative ${isMobile ? "aspect-[4/3]" : "aspect-[16/10]"}`}
-        style={{ background: `linear-gradient(135deg, ${lpColor}, ${lpAccent})` }}>
-        {/* Landing page photo background */}
-        {landingPageData?.image && (
-          <img src={landingPageData.image} alt="Landing page background"
-            className="absolute inset-0 w-full h-full object-cover" />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
-
-        {/* Envelope — matches library EnvelopePreview */}
+  // Show different content based on email display type
+  const renderVideoArea = () => {
+    if (emailContentType === "envelope") {
+      return (
         <div className="absolute inset-0 flex items-center justify-center p-5">
           <EnvelopePreview
             envelopeColor={envColor}
@@ -1535,12 +1501,64 @@ function PreviewFrame({
             primaryColor={envAccent}
             secondaryColor={envColor}
             postmarkColor={envAccent}
-            recipientNameColor={(envelopeData as any)?.nameColor || envTextColor}
+            recipientNameColor={(envelopeData as any)?.nameColor || (isDarkColor(envColor) ? "#ffffff" : "#1e293b")}
             showName
             mode="front"
             width={isMobile ? 220 : isTablet ? 280 : 320}
           />
         </div>
+      );
+    }
+
+    if (emailContentType === "animated-thumbnail") {
+      return (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-2">
+            <div className={`rounded-[10px] bg-white/20 backdrop-blur-sm flex items-center justify-center ${isMobile ? "w-16 h-16" : "w-20 h-20"}`}>
+              <Film size={isMobile ? 28 : 36} className="text-white" />
+            </div>
+            <span className="text-white text-[11px] bg-black/30 px-2 py-0.5 rounded-full" style={{ fontWeight: 500 }}>
+              GIF Preview
+            </span>
+          </div>
+        </div>
+      );
+    }
+
+    // static-image (Video Thumbnail)
+    return (
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <div className={`rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center ${isMobile ? "w-14 h-14" : "w-16 h-16"}`}>
+            <Play size={isMobile ? 24 : 28} className="text-white ml-1" />
+          </div>
+          <span className="text-white text-[11px] bg-black/30 px-2 py-0.5 rounded-full" style={{ fontWeight: 500 }}>
+            Video Thumbnail
+          </span>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className={`bg-white rounded-[10px] border border-tv-border-light shadow-lg overflow-hidden transition-all ${widthClass}`}>
+      {/* Organization header bar */}
+      <div className="px-4 py-3 border-b border-tv-border-divider flex items-center gap-2.5 bg-white">
+        <div className="w-7 h-7 rounded-[8px] flex items-center justify-center" style={{ backgroundColor: lpColor }}>
+          <span className="text-white text-[10px]" style={{ fontWeight: 800 }}>E</span>
+        </div>
+        <span className={`text-tv-text-primary ${isMobile ? "text-[12px]" : "text-[13px]"}`} style={{ fontWeight: 700 }}>evertrue</span>
+      </div>
+
+      {/* Video / Background area */}
+      <div className={`relative ${isMobile ? "aspect-[4/3]" : "aspect-[16/10]"}`}
+        style={{ background: `linear-gradient(135deg, ${lpColor}, ${lpAccent})` }}>
+        {landingPageData?.image && (
+          <img src={landingPageData.image} alt="Landing page background"
+            className="absolute inset-0 w-full h-full object-cover" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
+        {renderVideoArea()}
       </div>
 
       {/* Content below video */}
@@ -1557,7 +1575,7 @@ function PreviewFrame({
 
         {attachmentType === "button" && buttonText && (
           <div className="text-center mb-4">
-            <span className={`inline-block px-6 py-2.5 rounded-2xl text-white ${isMobile ? "text-[11px]" : "text-[13px]"}`}
+            <span className={`inline-block px-6 py-2.5 rounded-full text-white ${isMobile ? "text-[11px]" : "text-[13px]"}`}
               style={{ backgroundColor: step.btnBg || lpColor, fontWeight: 600 }}>
               {buttonText}
             </span>
@@ -1568,11 +1586,10 @@ function PreviewFrame({
         {attachmentType === "form" && formEmbedUrl && (() => {
           const plat = detectFormPlatform(formEmbedUrl);
           const platLabel = plat && plat.name !== "__unknown__" ? plat.name : "Embedded";
-          // Scale preview height proportionally (preview is ~50% of real)
           const previewH = Math.max(60, Math.min(Math.round(formHeight * 0.35), 280));
           return (
             <div
-              className={`mb-4 border-2 border-dashed border-tv-border-light rounded-md flex flex-col items-center justify-center gap-1.5 ${formFullWidth ? "" : isMobile ? "mx-3" : "mx-6"}`}
+              className={`mb-4 border-2 border-dashed border-tv-border-light rounded-[8px] flex flex-col items-center justify-center gap-1.5 ${formFullWidth ? "" : isMobile ? "mx-3" : "mx-6"}`}
               style={{ height: previewH }}
             >
               <FormInput size={isMobile ? 14 : 18} className="text-tv-text-decorative" />
@@ -1588,9 +1605,9 @@ function PreviewFrame({
 
         {/* PDF viewer block */}
         {attachmentType === "pdf" && pdfFile && (
-          <div className={`mb-4 rounded-md border border-tv-border-light bg-tv-surface overflow-hidden ${isMobile ? "mx-1" : "mx-2"}`}>
+          <div className={`mb-4 rounded-[8px] border border-tv-border-light bg-tv-surface overflow-hidden ${isMobile ? "mx-1" : "mx-2"}`}>
             <div className={`flex flex-col items-center justify-center ${isMobile ? "py-6 gap-2" : "py-8 gap-2.5"}`}>
-              <div className={`rounded-md bg-tv-surface-active flex items-center justify-center ${isMobile ? "w-10 h-10" : "w-12 h-12"}`}>
+              <div className={`rounded-[8px] bg-tv-surface-active flex items-center justify-center ${isMobile ? "w-10 h-10" : "w-12 h-12"}`}>
                 <FileText size={isMobile ? 18 : 22} className="text-tv-text-secondary" />
               </div>
               <p className={`text-tv-text-primary text-center truncate max-w-[85%] ${isMobile ? "text-[10px]" : "text-[12px]"}`} style={{ fontWeight: 600 }}>
@@ -1609,18 +1626,18 @@ function PreviewFrame({
 
         <div className={`flex items-center justify-center ${isMobile ? "flex-wrap gap-1.5" : "gap-2.5"}`}>
           {step.allowVideoReply !== false && step.allowEmailReply !== false && (
-            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border border-tv-brand-bg text-tv-brand ${isMobile ? "text-[9px]" : "text-[11px]"}`} style={{ fontWeight: 500 }}>
+            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-tv-brand-bg text-tv-brand ${isMobile ? "text-[9px]" : "text-[11px]"}`} style={{ fontWeight: 500 }}>
               <Reply size={isMobile ? 10 : 11} />Reply
             </span>
           )}
           {step.allowSaveButton !== false && (
-            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-white ${isMobile ? "text-[9px]" : "text-[11px]"}`}
+            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-white ${isMobile ? "text-[9px]" : "text-[11px]"}`}
               style={{ backgroundColor: TV.success, fontWeight: 500 }}>
               <Download size={isMobile ? 10 : 11} />Save
             </span>
           )}
           {step.allowShareButton !== false && (
-            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border border-tv-border-light text-tv-text-primary ${isMobile ? "text-[9px]" : "text-[11px]"}`} style={{ fontWeight: 500 }}>
+            <span className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-tv-border-light text-tv-text-primary ${isMobile ? "text-[9px]" : "text-[11px]"}`} style={{ fontWeight: 500 }}>
               Share <ExternalLink size={isMobile ? 8 : 9} />
             </span>
           )}

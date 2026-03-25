@@ -98,7 +98,7 @@ export function ChipFilter({ label, icon: Icon, options, values, onChange, searc
               tabIndex={0}
               onClick={(e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); onChange([]); }}
               onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); onChange([]); } }}
-              className="min-w-6 min-h-6 flex items-center justify-center"
+              className="min-w-6 min-h-6 flex items-center justify-center focus:ring-2 focus:ring-tv-brand/40 focus:outline-none rounded-full"
               style={{ color: TV.textBrand, flexShrink: 0, cursor: "pointer", display: "inline-flex", background: "none", border: "none", padding: 0 }}
               aria-label={`Clear ${label} filter`}
             >
@@ -346,7 +346,7 @@ function DateRangeFilterChip({ def, values, onChange, onRemove, removable }: {
           {isActive ? (
             <Box
               component="span"
-              className="min-w-6 min-h-6 flex items-center justify-center"
+              className="min-w-6 min-h-6 flex items-center justify-center focus:ring-2 focus:ring-tv-brand/40 focus:outline-none rounded-full"
               onClick={(e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); handleClear(); }}
               style={{ color: TV.textBrand, flexShrink: 0, cursor: "pointer", display: "inline-flex" }}
               role="button"
@@ -523,7 +523,7 @@ function FilterChip({ def, values, onChange, onRemove, removable }: {
               tabIndex={0}
               onClick={(e: React.MouseEvent) => { e.stopPropagation(); e.preventDefault(); onChange([]); }}
               onKeyDown={(e: React.KeyboardEvent) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); onChange([]); } }}
-              className="min-w-6 min-h-6 flex items-center justify-center"
+              className="min-w-6 min-h-6 flex items-center justify-center focus:ring-2 focus:ring-tv-brand/40 focus:outline-none rounded-full"
               style={{ color: TV.textBrand, flexShrink: 0, cursor: "pointer", display: "inline-flex", background: "none", border: "none", padding: 0 }}
               aria-label={`Clear ${def.label} filter`}
             >

@@ -326,7 +326,7 @@ export function MergeFieldPicker({
                     onClick={() => toggleCategory(cat.id)}
                     className={`w-full flex items-center gap-2 px-3 ${compact ? "py-1.5" : "py-2"} rounded-sm hover:bg-tv-surface transition-colors text-left`}
                   >
-                    <div className={`w-5 h-5 rounded-[5px] flex items-center justify-center shrink-0 ${
+                    <div className={`w-5 h-5 rounded-[8px] flex items-center justify-center shrink-0 ${
                       isOpen ? "bg-tv-brand-tint text-tv-brand" : "bg-tv-surface text-tv-text-decorative"
                     }`}>
                       <CategoryIcon name={cat.icon} size={11} />

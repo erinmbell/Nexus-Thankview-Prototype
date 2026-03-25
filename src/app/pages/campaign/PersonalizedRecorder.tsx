@@ -1017,142 +1017,139 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                       </div>
                     </div>
 
-                    {/* Right column: Camera preview + controls */}
-                    <div className="flex-1 flex flex-col p-5 overflow-hidden" onClick={() => openDrop && setOpenDrop(null)}>
-                      {/* Camera viewfinder */}
-                      <div className="flex-1 rounded-xl bg-gradient-to-br from-[#6b3fa0] to-[#7c45b0] flex items-center justify-center relative overflow-hidden min-h-[200px]">
+                    {/* Right column: Camera preview + floating controls (matches VideoCreate) */}
+                    <div className="flex-1 relative overflow-hidden" onClick={() => openDrop && setOpenDrop(null)}>
+                      {/* Dark camera viewfinder — full area */}
+                      <div className="absolute inset-0 rounded-r-xl bg-[#0e0e1a] flex items-center justify-center overflow-hidden" style={{ borderRadius: "0 12px 12px 0" }}>
                         {camOn ? (
                           <div className="flex flex-col items-center gap-2">
-                            <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(255,255,255,0.15)" }}>
-                              <Camera size={28} style={{ color: "rgba(255,255,255,0.7)" }} />
+                            <div className="w-20 h-20 rounded-full flex items-center justify-center bg-white/10">
+                              <Camera size={32} className="text-white/60" />
                             </div>
-                            <p className="text-[14px] text-white/80" style={{ fontWeight: 500 }}>Camera Preview</p>
-                            <p className="text-[11px] text-white/50">{CAMERAS.find(c => c.id === camera)?.label}</p>
+                            <p className="text-[14px] text-white/70" style={{ fontWeight: 500 }}>Camera Preview</p>
+                            <p className="text-[11px] text-white/40">{CAMERAS.find(c => c.id === camera)?.label}</p>
                           </div>
                         ) : (
-                          <div className="flex flex-col items-center gap-2 text-white/40">
-                            <VideoOff size={32} />
+                          <div className="flex flex-col items-center gap-2 text-white/30">
+                            <VideoOff size={36} />
                             <span className="text-[12px]">Camera off</span>
                           </div>
                         )}
 
-                        {/* Countdown overlay */}
-                        {recPhase === "countdown" && (
-                          <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-20">
-                            <span className="text-white text-[64px]" style={{ fontWeight: 900 }}>{countdown}</span>
-                          </div>
-                        )}
-
-                        {/* Recording indicator */}
-                        {recPhase === "recording" && (
-                          <div className="absolute top-4 left-4 flex items-center gap-2 bg-black/60 backdrop-blur-sm rounded-full px-4 py-1.5 z-20">
-                            <span className="w-2.5 h-2.5 bg-tv-danger rounded-full animate-pulse" />
-                            <span className="text-white text-[13px] font-mono" style={{ fontWeight: 600 }}>{fmt(elapsed)}</span>
-                          </div>
-                        )}
-
-                        {/* Recording for label — prominent contact name */}
-                        {currentContact && (
-                          <div className="absolute top-4 left-4 flex items-center gap-2.5 bg-black/60 backdrop-blur-sm rounded-full px-4 py-2 z-20">
-                            <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-[10px] shrink-0" style={{ backgroundColor: currentContact.color, fontWeight: 800 }}>
+                        {/* Top-left: contact name badge + recording indicator */}
+                        {currentContact && recPhase !== "recording" && (
+                          <div className="absolute top-3 left-3 flex items-center gap-2.5 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1.5 z-10">
+                            <div className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[9px] shrink-0" style={{ backgroundColor: currentContact.color, fontWeight: 800 }}>
                               {currentContact.name.split(" ").map(n => n[0]).join("")}
                             </div>
-                            <div>
-                              <p className="text-white text-[13px]" style={{ fontWeight: 700 }}>{currentContact.name}</p>
-                              {currentContact.tags.length > 0 && (
-                                <p className="text-white/50 text-[9px]">{currentContact.tags.join(", ")}</p>
-                              )}
-                            </div>
+                            <span className="text-white text-[12px]" style={{ fontWeight: 600 }}>{currentContact.name}</span>
                           </div>
                         )}
 
-                        {/* Script overlay during recording — uses resolved merge fields */}
+                        {/* Recording indicator (replaces contact badge during recording) */}
+                        {recPhase === "recording" && (
+                          <div className="absolute top-3 left-3 flex items-center gap-2 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1.5 z-10">
+                            <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                            <span className="text-white text-[13px] font-mono" style={{ fontWeight: 600 }}>{fmt(elapsed)}</span>
+                            {currentContact && (
+                              <>
+                                <div className="w-px h-3 bg-white/20 mx-0.5" />
+                                <span className="text-white/70 text-[11px]" style={{ fontWeight: 500 }}>{currentContact.name}</span>
+                              </>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Top-right: quality pill */}
+                        <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm rounded-full px-2.5 py-1 z-10">
+                          <span className="text-white/80 text-[10px]" style={{ fontWeight: 500 }}>{quality}{recPhase === "recording" ? " · REC" : ""}</span>
+                        </div>
+
+                        {/* Countdown overlay */}
+                        {recPhase === "countdown" && (
+                          <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center gap-4 z-20">
+                            <div className="w-32 h-32 rounded-full bg-white/10 border-4 border-white/30 flex items-center justify-center backdrop-blur-sm animate-pulse">
+                              <span className="text-white" style={{ fontSize: 64, fontWeight: 900 }}>{countdown}</span>
+                            </div>
+                            <p className="text-white/80 text-[15px]" style={{ fontWeight: 600 }}>Get ready…</p>
+                          </div>
+                        )}
+
+                        {/* Script overlay during recording */}
                         {showScript && script && recPhase === "recording" && (
-                          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-5 pt-10 z-20">
-                            <p className="text-white text-[14px] leading-relaxed text-center" style={{ textShadow: "0 1px 3px rgba(0,0,0,0.5)" }}>
+                          <div className="absolute inset-x-0 bottom-16 bg-gradient-to-t from-black/80 via-black/50 to-transparent px-6 py-5 pt-10 z-10">
+                            <div className="flex items-center gap-1.5 mb-2">
+                              <FileText size={11} className="text-white/70" />
+                              <span className="text-white/70 text-[10px] uppercase tracking-wider" style={{ fontWeight: 600 }}>Teleprompter</span>
+                            </div>
+                            <p className="text-white/90 text-[14px] leading-relaxed max-w-lg" style={{ textShadow: "0 1px 3px rgba(0,0,0,0.5)" }}>
                               {resolvedScript}
                             </p>
                           </div>
                         )}
-
-                        {/* Purple tint strip at top */}
-                        <div className="absolute top-0 inset-x-0 h-1" style={{ backgroundColor: TV.brand }} />
                       </div>
 
-                      {/* Toolbar row */}
-                      <div className="flex items-center justify-center gap-1 py-2 mt-2" onClick={e => e.stopPropagation()}>
-                        <ToolbarBtn id="camera" icon={<Camera size={12} />} label="Camera">
-                          {CAMERAS.map(c => <DropItem key={c.id} sel={camera === c.id} onClick={() => setCamera(c.id)}>{c.label}</DropItem>)}
-                        </ToolbarBtn>
-                        <span className="text-[10px] text-black/15 mx-0.5">|</span>
-                        <ToolbarBtn id="mic" icon={<Mic size={12} />} label="Mic">
-                          {MICS.map(m => <DropItem key={m.id} sel={mic === m.id} onClick={() => setMic(m.id)}>{m.label}</DropItem>)}
-                        </ToolbarBtn>
-                        <span className="text-[10px] text-black/15 mx-0.5">|</span>
-                        <ToolbarBtn id="quality" icon={<Settings size={12} />} label={quality}>
-                          {QUALITY_OPTIONS.map(q => <DropItem key={q} sel={quality === q} onClick={() => setQuality(q)}>{q}</DropItem>)}
-                        </ToolbarBtn>
-                        <span className="text-[10px] text-black/15 mx-0.5">|</span>
-                        <button
-                          onClick={() => setCamOn(!camOn)}
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-[12px] transition-all hover:bg-black/5"
-                          style={{ fontWeight: 500, color: TV.textSecondary }}
-                        >
-                          <MonitorPlay size={12} />BG
-                        </button>
-                      </div>
-
-                      {/* Action buttons */}
-                      <div className="flex items-center justify-center gap-3 mt-1 mb-1">
-                        {recPhase === "idle" && (
-                          <button
-                            onClick={startRecording}
-                            className="flex items-center justify-center gap-2.5 px-10 py-3 rounded-full text-[14px] text-white transition-all hover:opacity-90 shadow-lg"
-                            style={{ fontWeight: 700, backgroundColor: TV.record }}
-                          >
-                            <Circle size={15} fill="white" />Start Recording
+                      {/* Floating bottom control bar (Loom-style — matches VideoCreate) */}
+                      <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center z-20">
+                        <div className="bg-white/95 backdrop-blur-md rounded-xl border border-[#e8e4f0] shadow-lg px-3 py-2 flex items-center gap-1.5">
+                          {/* Mic toggle */}
+                          <button onClick={() => setMicOn(!micOn)} aria-label={micOn ? "Mute microphone" : "Unmute microphone"}
+                            className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${micOn ? "bg-tv-surface text-tv-text-primary hover:bg-tv-surface-hover" : "bg-tv-danger-bg text-tv-danger"}`}>
+                            <Mic size={16} />
                           </button>
-                        )}
-                        {recPhase === "countdown" && (
-                          <button
-                            onClick={() => { setRecPhase("idle"); setCountdown(3); }}
-                            className="flex items-center gap-2 px-6 py-3 rounded-full text-[13px] text-tv-danger border border-tv-danger-border transition-colors hover:bg-tv-danger-bg"
-                            style={{ fontWeight: 500 }}
-                          >
-                            <X size={14} />Cancel
-                          </button>
-                        )}
-                        {recPhase === "recording" && (
-                          <>
-                            <button
-                              onClick={discardRecording}
-                              className="flex items-center gap-2 px-5 py-3 rounded-full text-[12px] border transition-colors hover:bg-black/5"
-                              style={{ fontWeight: 500, borderColor: TV.borderLight, color: TV.textSecondary }}
-                            >
-                              <Trash2 size={13} />Discard
-                            </button>
-                            <button
-                              onClick={stopRecording}
-                              className="flex items-center gap-2 px-8 py-3 rounded-full text-[13px] text-white transition-all hover:opacity-90"
-                              style={{ fontWeight: 600, backgroundColor: "#dc2626" }}
-                            >
-                              <Square size={12} fill="white" />Stop Recording
-                            </button>
-                          </>
-                        )}
-                      </div>
 
-                      {/* Device info line */}
-                      <div className="flex items-center justify-center gap-4 mt-1">
-                        <span className="flex items-center gap-1 text-[10px]" style={{ color: TV.textSecondary }}>
-                          <Camera size={10} />{CAMERAS.find(c => c.id === camera)?.label}
-                        </span>
-                        <span className="flex items-center gap-1 text-[10px]" style={{ color: TV.textSecondary }}>
-                          <Mic size={10} />{MICS.find(m => m.id === mic)?.label}
-                        </span>
-                        <span className="flex items-center gap-1 text-[10px]" style={{ color: TV.textSecondary }}>
-                          <Settings size={10} />{quality}
-                        </span>
+                          {/* Camera toggle */}
+                          <button onClick={() => setCamOn(!camOn)} aria-label={camOn ? "Turn camera off" : "Turn camera on"}
+                            className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${camOn ? "bg-tv-surface text-tv-text-primary hover:bg-tv-surface-hover" : "bg-tv-danger-bg text-tv-danger"}`}>
+                            {camOn ? <Camera size={16} /> : <VideoOff size={16} />}
+                          </button>
+
+                          <div className="h-7 w-px bg-[#e8e4f0] mx-0.5" />
+
+                          {/* Quality quick-select */}
+                          <div className="flex items-center bg-tv-surface rounded-full p-0.5 gap-0.5">
+                            {QUALITY_OPTIONS.map(q => (
+                              <button key={q} onClick={() => setQuality(q)}
+                                className={`px-2.5 py-1.5 rounded-full text-[10px] transition-all ${quality === q ? "bg-white text-tv-text-primary shadow-sm" : "text-tv-text-secondary hover:text-tv-text-primary"}`}
+                                style={{ fontWeight: quality === q ? 600 : 500 }}>
+                                {q}
+                              </button>
+                            ))}
+                          </div>
+
+                          <div className="h-7 w-px bg-[#e8e4f0] mx-0.5" />
+
+                          {/* Record / Stop / Cancel */}
+                          {recPhase === "idle" && (
+                            <button onClick={startRecording}
+                              className="flex items-center gap-2 pl-4 pr-5 py-2.5 rounded-full text-white shadow-md transition-colors hover:opacity-90"
+                              style={{ fontWeight: 600, fontSize: 13, backgroundColor: TV.record }}>
+                              <span className="w-3.5 h-3.5 bg-white rounded-full shrink-0" />
+                              Record
+                            </button>
+                          )}
+                          {recPhase === "countdown" && (
+                            <button onClick={() => { setRecPhase("idle"); setCountdown(3); }}
+                              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-tv-danger text-[12px] border border-tv-danger-border hover:bg-tv-danger-bg transition-colors"
+                              style={{ fontWeight: 500 }}>
+                              <X size={13} />Cancel
+                            </button>
+                          )}
+                          {recPhase === "recording" && (
+                            <>
+                              <button onClick={discardRecording}
+                                className="flex items-center gap-1.5 text-tv-text-secondary hover:text-tv-danger px-3 py-2 rounded-full text-[12px] transition-colors hover:bg-tv-danger-bg"
+                                style={{ fontWeight: 500 }}>
+                                <Trash2 size={13} />
+                              </button>
+                              <button onClick={stopRecording}
+                                className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-[13px] transition-colors hover:bg-black"
+                                style={{ fontWeight: 600, backgroundColor: TV.textPrimary }}>
+                                <Square size={12} fill="white" />Stop
+                              </button>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>

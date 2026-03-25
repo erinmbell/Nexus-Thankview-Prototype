@@ -168,8 +168,8 @@ export function ConfirmSend({
           )}
 
           <div className="px-6 pb-6 flex items-center justify-between">
-            <button onClick={onBack} disabled={state === "sending"} className="flex items-center gap-1.5 px-4 py-2 text-[12px] border border-tv-border-light rounded-full text-tv-text-secondary hover:text-tv-text-primary disabled:opacity-50" style={{ fontWeight: 500 }}><ChevronLeft size={12} />Back</button>
-            <button onClick={handleSend} disabled={state === "sending"} className="flex items-center gap-1.5 px-5 py-2.5 text-[12px] rounded-full bg-tv-brand-bg text-white hover:bg-tv-brand-hover disabled:opacity-70" style={{ fontWeight: 600 }}>
+            <button onClick={onBack} disabled={state === "sending"} className="flex items-center gap-1.5 px-5 py-2.5 text-[13px] border border-tv-border-light rounded-full text-tv-text-secondary hover:text-tv-text-primary disabled:opacity-50" style={{ fontWeight: 500 }}><ChevronLeft size={12} />Back</button>
+            <button onClick={handleSend} disabled={state === "sending"} className="flex items-center gap-1.5 px-5 py-2.5 text-[13px] rounded-full bg-tv-brand-bg text-white hover:bg-tv-brand-hover disabled:opacity-70" style={{ fontWeight: 600 }}>
               {state === "sending" ? <><Loader2 size={13} className="animate-spin" />{isEditMode ? "Saving…" : "Sending…"}</> : <><Send size={13} />{isEditMode ? "Update Campaign" : "Send Campaign"}</>}
             </button>
           </div>

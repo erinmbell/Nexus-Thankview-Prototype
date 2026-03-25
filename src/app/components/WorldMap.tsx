@@ -112,7 +112,7 @@ interface WorldMapProps {
 export function WorldMap({
   countryValues = {},
   cityDots = [],
-  color = "#7c45b0",
+  color = TV.brand,
   valueLabel = "recipients",
   onRegionClick,
 }: WorldMapProps) {
@@ -203,12 +203,12 @@ export function WorldMap({
                     style={{
                       default: { outline: "none", transition: "fill 150ms" },
                       hover: {
-                        outline: "2px solid #7c45b0",
+                        outline: `2px solid ${TV.brand}`,
                         outlineOffset: "-1px",
                         fill: hasData ? color : "#ddd6f3",
                         cursor: hasData && onRegionClick ? "pointer" : "default",
                       },
-                      pressed: { outline: "2px solid #7c45b0", outlineOffset: "-1px" },
+                      pressed: { outline: `2px solid ${TV.brand}`, outlineOffset: "-1px" },
                     }}
                     onMouseMove={(e) =>
                       handleMouseMove(
