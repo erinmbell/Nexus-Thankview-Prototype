@@ -22,6 +22,7 @@ import {
 import { useToast } from "../contexts/ToastContext";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { LandingPageLivePreviewModal } from "../components/LandingPageLivePreviewModal";
+import { Toggle } from "../components/ui/Toggle";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 type WizardStep = "build" | "finish";
@@ -83,7 +84,7 @@ const LOGO_OPTIONS = [
 export type LogoId = (typeof LOGO_OPTIONS)[number]["id"];
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
-const inputCls = "w-full border border-tv-border-light rounded-md px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30 bg-white";
+const inputCls = "w-full border border-tv-border-light rounded-[8px] px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand-bg/30 bg-white";
 
 export function safeHex(hex: string): string {
   const clean = hex.replace(/[^0-9a-fA-F]/g, "").slice(0, 6);
@@ -553,9 +554,7 @@ export function LandingPageBuilder() {
                           <p className="text-tv-text-primary" style={{ fontWeight: 500 }}>Fade to white overlay</p>
                           <p className="text-[9px] text-tv-text-secondary">Softens bottom edge for text readability</p>
                         </div>
-                        <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${fadeGradient ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                          <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${fadeGradient ? "left-[17px]" : "left-[2px]"}`} />
-                        </div>
+                        <Toggle enabled={fadeGradient} onToggle={() => {}} />
                       </button>
 
                       {/* ─── IMAGE TAB ─────────────────────────────────── */}
@@ -836,7 +835,7 @@ export function LandingPageBuilder() {
 
             {/* Right: 3-device summary */}
             <div className="flex-1 min-w-0 flex flex-col items-center justify-center p-8 bg-tv-surface/30 overflow-y-auto">
-              <div className="w-full max-w-[680px]">
+              <div className="w-full max-w-[680px] xl:max-w-[800px] 2xl:max-w-[960px]">
                 <h3 className="text-tv-text-primary mb-1 font-bold" style={{ fontSize: "17px" }}>{name || "Untitled Landing Page"}</h3>
                 <div className="h-px bg-tv-border-divider mb-5" />
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-start">

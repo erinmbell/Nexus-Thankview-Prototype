@@ -174,6 +174,10 @@ export function ConstituentPickerInline({
   const [fundFilter, setFundFilter] = useState("All");
   const [showFilters, setShowFilters] = useState(false);
   const [sourceSearch, setSourceSearch] = useState("");
+  const [advancedFilters, setAdvancedFilters] = useState<{ field: string; operator: string; value: string }[]>([]);
+  const addAdvancedFilter = () => setAdvancedFilters(prev => [...prev, { field: "", operator: "equals", value: "" }]);
+  const removeAdvancedFilter = (idx: number) => setAdvancedFilters(prev => prev.filter((_, i) => i !== idx));
+  const updateAdvancedFilter = (idx: number, key: string, val: string) => setAdvancedFilters(prev => prev.map((f, i) => i === idx ? { ...f, [key]: val } : f));
 
   const browseFiltered = useMemo(() => {
     let list = ALL_CONSTITUENTS;
@@ -190,10 +194,26 @@ export function ConstituentPickerInline({
     if (fundFilter !== "All") {
       list = list.filter(c => c.mergeFields.fund === fundFilter);
     }
+    // Apply advanced merge field filters
+    for (const af of advancedFilters) {
+      if (!af.field || !af.value) continue;
+      list = list.filter(c => {
+        const fieldVal = String((c.mergeFields as any)[af.field] || "");
+        const numVal = parseFloat(fieldVal.replace(/[$,]/g, ""));
+        const targetNum = parseFloat(af.value.replace(/[$,]/g, ""));
+        switch (af.operator) {
+          case "equals": return fieldVal.toLowerCase() === af.value.toLowerCase();
+          case "contains": return fieldVal.toLowerCase().includes(af.value.toLowerCase());
+          case "gt": return !isNaN(numVal) && !isNaN(targetNum) && numVal > targetNum;
+          case "lt": return !isNaN(numVal) && !isNaN(targetNum) && numVal < targetNum;
+          default: return true;
+        }
+      });
+    }
     return list;
-  }, [browseSearch, groupFilter, classYearFilter, fundFilter]);
+  }, [browseSearch, groupFilter, classYearFilter, fundFilter, advancedFilters]);
 
-  const hasActiveFilters = groupFilter !== "All" || classYearFilter !== "All" || fundFilter !== "All";
+  const hasActiveFilters = groupFilter !== "All" || classYearFilter !== "All" || fundFilter !== "All" || advancedFilters.length > 0;
 
   const expandedContacts = useMemo(() => {
     if (!expandedSource) return [];
@@ -452,9 +472,45 @@ export function ConstituentPickerInline({
                       </button>
                     ))}
                   </div>
-                  {hasActiveFilters && (
+                  {/* Advanced merge field filters */}
+                  <div className="pt-2 border-t border-tv-border-divider">
+                    <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>Advanced Filters</p>
+                    {advancedFilters.map((af, idx) => (
+                      <div key={idx} className="flex items-center gap-1.5 mb-1.5">
+                        <select value={af.field} onChange={e => updateAdvancedFilter(idx, "field", e.target.value)}
+                          className="flex-1 border border-tv-border-light rounded-full px-2 py-1 text-[10px] outline-none focus:ring-1 focus:ring-tv-brand/40 bg-white">
+                          <option value="">Field...</option>
+                          <option value="lastGiftAmount">Gift Amount</option>
+                          <option value="lifetimeGiving">Lifetime Giving</option>
+                          <option value="classYear">Class Year</option>
+                          <option value="lastGiftDate">Last Gift Date</option>
+                          <option value="fund">Fund</option>
+                        </select>
+                        <select value={af.operator} onChange={e => updateAdvancedFilter(idx, "operator", e.target.value)}
+                          className="w-[80px] border border-tv-border-light rounded-full px-2 py-1 text-[10px] outline-none focus:ring-1 focus:ring-tv-brand/40 bg-white">
+                          <option value="equals">equals</option>
+                          <option value="contains">contains</option>
+                          <option value="gt">greater than</option>
+                          <option value="lt">less than</option>
+                        </select>
+                        <input value={af.value} onChange={e => updateAdvancedFilter(idx, "value", e.target.value)}
+                          placeholder="Value..."
+                          className="flex-1 border border-tv-border-light rounded-full px-2 py-1 text-[10px] outline-none focus:ring-1 focus:ring-tv-brand/40 bg-white" />
+                        <button onClick={() => removeAdvancedFilter(idx)}
+                          className="p-0.5 text-tv-text-decorative hover:text-tv-danger shrink-0">
+                          <X size={10} />
+                        </button>
+                      </div>
+                    ))}
+                    <button onClick={addAdvancedFilter}
+                      className="text-[10px] text-tv-brand hover:underline flex items-center gap-1" style={{ fontWeight: 500 }}>
+                      + Add Filter
+                    </button>
+                  </div>
+
+                  {(hasActiveFilters || advancedFilters.length > 0) && (
                     <button
-                      onClick={() => { setGroupFilter("All"); setClassYearFilter("All"); setFundFilter("All"); }}
+                      onClick={() => { setGroupFilter("All"); setClassYearFilter("All"); setFundFilter("All"); setAdvancedFilters([]); }}
                       className="text-[10px] text-tv-brand hover:underline"
                     >
                       Clear all filters
@@ -613,6 +669,10 @@ export function ConstituentSourcePicker({
   const [classYearFilter, setClassYearFilter] = useState("All");
   const [fundFilter, setFundFilter] = useState("All");
   const [showFilters, setShowFilters] = useState(false);
+  const [advancedFilters, setAdvancedFilters] = useState<{ field: string; operator: string; value: string }[]>([]);
+  const addAdvancedFilter = () => setAdvancedFilters(prev => [...prev, { field: "", operator: "equals", value: "" }]);
+  const removeAdvancedFilter = (idx: number) => setAdvancedFilters(prev => prev.filter((_, i) => i !== idx));
+  const updateAdvancedFilter = (idx: number, key: string, val: string) => setAdvancedFilters(prev => prev.map((f, i) => i === idx ? { ...f, [key]: val } : f));
 
   // Source search
   const [sourceSearch, setSourceSearch] = useState("");
@@ -633,10 +693,26 @@ export function ConstituentSourcePicker({
     if (fundFilter !== "All") {
       list = list.filter(c => c.mergeFields.fund === fundFilter);
     }
+    // Apply advanced merge field filters
+    for (const af of advancedFilters) {
+      if (!af.field || !af.value) continue;
+      list = list.filter(c => {
+        const fieldVal = String((c.mergeFields as any)[af.field] || "");
+        const numVal = parseFloat(fieldVal.replace(/[$,]/g, ""));
+        const targetNum = parseFloat(af.value.replace(/[$,]/g, ""));
+        switch (af.operator) {
+          case "equals": return fieldVal.toLowerCase() === af.value.toLowerCase();
+          case "contains": return fieldVal.toLowerCase().includes(af.value.toLowerCase());
+          case "gt": return !isNaN(numVal) && !isNaN(targetNum) && numVal > targetNum;
+          case "lt": return !isNaN(numVal) && !isNaN(targetNum) && numVal < targetNum;
+          default: return true;
+        }
+      });
+    }
     return list;
-  }, [browseSearch, groupFilter, classYearFilter, fundFilter]);
+  }, [browseSearch, groupFilter, classYearFilter, fundFilter, advancedFilters]);
 
-  const hasActiveFilters = groupFilter !== "All" || classYearFilter !== "All" || fundFilter !== "All";
+  const hasActiveFilters = groupFilter !== "All" || classYearFilter !== "All" || fundFilter !== "All" || advancedFilters.length > 0;
 
   const expandedContacts = useMemo(() => {
     if (!expandedSource) return [];

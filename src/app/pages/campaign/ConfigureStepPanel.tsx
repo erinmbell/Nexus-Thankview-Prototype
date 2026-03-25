@@ -122,7 +122,7 @@ export function ConfigureStepPanel({
     : MOCK_TEAM.filter(t => !selectedPeople.includes(t.id));
 
   return (
-    <div className="max-w-[700px] xl:max-w-[800px] 2xl:max-w-[900px] mx-auto space-y-5">
+    <div className="max-w-[800px] xl:max-w-[960px] 2xl:max-w-[1100px] mx-auto space-y-5">
       <div>
         <h2 className="text-tv-text-primary mb-1" style={{ fontSize: "24px", fontWeight: 900 }}>Configure Campaign</h2>
         <p className="text-[13px] text-tv-text-secondary">Define how you'll measure success and configure additional settings.</p>

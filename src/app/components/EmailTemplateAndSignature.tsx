@@ -140,7 +140,7 @@ export function EmailTemplatePicker({ onSelect, onClose, compact }: EmailTemplat
 
   if (preview) {
     return (
-      <div className={`bg-white border border-tv-border-light rounded-md shadow-xl overflow-hidden ${compact ? "w-[520px]" : "w-[640px]"}`}>
+      <div className={`bg-white border border-tv-border-light rounded-lg shadow-xl overflow-hidden ${compact ? "w-[520px]" : "w-[640px]"}`}>
         {/* Preview header */}
         <div className="px-4 py-3 border-b border-tv-border-divider bg-tv-surface-muted flex items-center justify-between">
           <div className="flex items-center gap-2 min-w-0">
@@ -184,7 +184,7 @@ export function EmailTemplatePicker({ onSelect, onClose, compact }: EmailTemplat
   }
 
   return (
-    <div className={`bg-white border border-tv-border-light rounded-md shadow-xl overflow-hidden ${compact ? "w-[520px]" : "w-[640px]"}`}>
+    <div className={`bg-white border border-tv-border-light rounded-lg shadow-xl overflow-hidden ${compact ? "w-[520px]" : "w-[640px]"}`}>
       {/* Header */}
       <div className="px-4 py-3 border-b border-tv-border-divider bg-tv-surface-muted flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -288,7 +288,7 @@ export function SignaturePicker({ onInsert, onClose, compact }: SignaturePickerP
   const selected = USER_SIGNATURES.find(s => s.id === selectedId);
 
   return (
-    <div className={`bg-white border border-tv-border-light rounded-md shadow-xl overflow-hidden ${compact ? "max-w-[380px]" : "max-w-[460px]"}`}>
+    <div className={`bg-white border border-tv-border-light rounded-lg shadow-xl overflow-hidden ${compact ? "max-w-[380px]" : "max-w-[460px]"}`}>
       {/* Header */}
       <div className="px-4 py-3 border-b border-tv-border-divider bg-tv-surface-muted flex items-center justify-between">
         <div className="flex items-center gap-2">

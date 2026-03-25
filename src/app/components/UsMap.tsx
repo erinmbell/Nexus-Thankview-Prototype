@@ -100,7 +100,7 @@ interface TooltipInfo {
 export function UsMap({
   stateValues = {},
   cityDots = [],
-  color = "#7c45b0",
+  color = TV.brand,
 }: UsMapProps) {
   const [tooltip, setTooltip] = useState<TooltipInfo | null>(null);
 
@@ -167,8 +167,8 @@ export function UsMap({
                   strokeWidth={0.75}
                   style={{
                     default: { outline: "none", transition: "fill 150ms" },
-                    hover: { outline: "2px solid #7c45b0", outlineOffset: "-1px", fill: color, cursor: "default" },
-                    pressed: { outline: "2px solid #7c45b0", outlineOffset: "-1px" },
+                    hover: { outline: `2px solid ${TV.brand}`, outlineOffset: "-1px", fill: color, cursor: "default" },
+                    pressed: { outline: `2px solid ${TV.brand}`, outlineOffset: "-1px" },
                   }}
                   onMouseMove={(e) =>
                     handleMouseMove(

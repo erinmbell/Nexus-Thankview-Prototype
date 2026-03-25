@@ -4,7 +4,7 @@ import {
   Play, FlaskConical, Camera, Reply, Download, Share2, Captions,
   Phone, Video, Signal, Wifi, Battery, Info, FileText, ExternalLink, FormInput,
   User, Pencil, Search, X, Plus, UserPlus, Trash2, Check,
-  Mail, LayoutGrid,
+  Mail, LayoutGrid, Film,
 } from "lucide-react";
 import { ENVELOPE_DESIGNS, LANDING_PAGES } from "./types";
 import { useDesignLibrary } from "../../contexts/DesignLibraryContext";
@@ -413,6 +413,7 @@ export function LivePreviewPanel({
   envTextAfter,
   selectedSignature,
 }: LivePreviewPanelProps) {
+  const hideVideo = !attachedVideo;
   const { customEnvelopes: globalEnvelopes, customLandingPages: globalLandingPages } = useDesignLibrary();
   const allEnvelopeDesigns = [...globalEnvelopes, ...ENVELOPE_DESIGNS];
   const allLandingPageDesigns = [...globalLandingPages, ...LANDING_PAGES];
@@ -1034,20 +1035,46 @@ export function LivePreviewPanel({
                   )}
                   <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
 
-                  {/* Envelope — matches library EnvelopePreview */}
-                  <div className="absolute inset-0 flex items-center justify-center p-5">
-                    <EnvelopePreview
-                      envelopeColor={envColor}
-                      linerColor={envAccent}
-                      primaryColor={envAccent}
-                      secondaryColor={envColor}
-                      postmarkColor={envAccent}
-                      recipientNameColor={envNameCol}
-                      showName
-                      mode="front"
-                      width={isMobile ? 220 : isTab ? 280 : 320}
-                    />
-                  </div>
+                  {/* Display type: envelope, video thumbnail, or GIF — based on thumbnailType */}
+                  {thumbnailType === "envelope" && (
+                    <div className="absolute inset-0 flex items-center justify-center p-5">
+                      <EnvelopePreview
+                        envelopeColor={envColor}
+                        linerColor={envAccent}
+                        primaryColor={envAccent}
+                        secondaryColor={envColor}
+                        postmarkColor={envAccent}
+                        recipientNameColor={envNameCol}
+                        showName
+                        mode="front"
+                        width={isMobile ? 220 : isTab ? 280 : 320}
+                      />
+                    </div>
+                  )}
+                  {thumbnailType === "static" && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="flex flex-col items-center gap-2">
+                        <div className={`rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center ${isMobile ? "w-14 h-14" : "w-16 h-16"}`}>
+                          <Play size={isMobile ? 24 : 28} className="text-white ml-1" fill="white" fillOpacity={0.9} />
+                        </div>
+                        <span className="text-white text-[11px] bg-black/30 px-2 py-0.5 rounded-full" style={{ fontWeight: 500 }}>
+                          Video Thumbnail
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  {thumbnailType === "animated" && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="flex flex-col items-center gap-2">
+                        <div className={`rounded-[10px] bg-white/20 backdrop-blur-sm flex items-center justify-center ${isMobile ? "w-16 h-16" : "w-20 h-20"}`}>
+                          <Film size={isMobile ? 28 : 36} className="text-white" />
+                        </div>
+                        <span className="text-white text-[11px] bg-black/30 px-2 py-0.5 rounded-full" style={{ fontWeight: 500 }}>
+                          GIF Preview
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Content below video */}
@@ -1304,7 +1331,8 @@ export function LivePreviewPanel({
               <p className="text-[10px] lg:text-[11px] text-tv-text-secondary leading-relaxed">Subject: <span className="text-tv-text-primary" style={{ fontWeight: 500 }}>{resolvedSubject}</span></p>
             </div>
 
-            {/* 1) Full envelope front — pixel-perfect with stamp, texture, postmark, name */}
+            {/* 1) Thumbnail area — envelope, video thumbnail, or GIF based on thumbnailType */}
+            {thumbnailType === "envelope" && (
             <div className="flex justify-center px-4 pt-5 pb-2 lg:px-5 lg:pt-6 lg:pb-2.5">
               <div
                 className={`relative overflow-hidden shadow-lg ${isMob ? "w-[90%]" : "w-[80%]"}`}
@@ -1350,6 +1378,35 @@ export function LivePreviewPanel({
                 <div className="absolute bottom-0 left-0 right-0 h-[8%] pointer-events-none" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.06), transparent)" }} />
               </div>
             </div>
+            )}
+            {thumbnailType === "static" && (
+            <div className="flex justify-center px-4 pt-5 pb-2 lg:px-5 lg:pt-6 lg:pb-2.5">
+              <div className={`relative overflow-hidden rounded-lg shadow-lg ${isMob ? "w-[90%]" : "w-[80%]"}`} style={{ aspectRatio: "16/10", background: `linear-gradient(135deg, ${lpColor || "#7c45b0"}, ${lpAccent || "#5a2d8c"})` }}>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex flex-col items-center gap-2">
+                    <div className={`rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center ${isMob ? "w-12 h-12" : "w-14 h-14"}`}>
+                      <Play size={isMob ? 20 : 24} className="text-white ml-1" fill="white" fillOpacity={0.9} />
+                    </div>
+                    <span className="text-white text-[10px] bg-black/30 px-2 py-0.5 rounded-full" style={{ fontWeight: 500 }}>Video Thumbnail</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            )}
+            {thumbnailType === "animated" && (
+            <div className="flex justify-center px-4 pt-5 pb-2 lg:px-5 lg:pt-6 lg:pb-2.5">
+              <div className={`relative overflow-hidden rounded-lg shadow-lg ${isMob ? "w-[90%]" : "w-[80%]"}`} style={{ aspectRatio: "16/10", background: `linear-gradient(135deg, ${lpColor || "#7c45b0"}, ${lpAccent || "#5a2d8c"})` }}>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex flex-col items-center gap-2">
+                    <div className={`rounded-[10px] bg-white/20 backdrop-blur-sm flex items-center justify-center ${isMob ? "w-14 h-14" : "w-16 h-16"}`}>
+                      <Film size={isMob ? 24 : 30} className="text-white" />
+                    </div>
+                    <span className="text-white text-[10px] bg-black/30 px-2 py-0.5 rounded-full" style={{ fontWeight: 500 }}>GIF Preview</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            )}
 
             {/* 2) "View Your ThankView" button — below envelope */}
             <div className="flex justify-center px-4 pb-3 lg:px-5 lg:pb-4">

@@ -35,7 +35,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           return (
             <div
               key={t.id}
-              className="flex items-center gap-3 px-4 py-3 rounded-[12px] shadow-xl border min-w-[280px] max-w-[360px] animate-in slide-in-from-right-4 transition-all"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg shadow-xl border min-w-[280px] max-w-[360px] animate-in slide-in-from-right-4 transition-all"
               style={{ backgroundColor: s.bg, borderColor: s.border, color: s.text }}
               role="alert"
             >

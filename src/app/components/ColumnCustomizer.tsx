@@ -121,7 +121,12 @@ export function EditColumnsModal({ columns, active, onClose, onSave }: {
                   aria-roledescription="sortable"
                 >
                   {!isRequired && (
-                    <Box className="cursor-grab" style={{ color: TV.borderStrong }} aria-label={`Reorder ${col.label}`} role="button" tabIndex={0}>
+                    <Box className="cursor-grab focus:ring-2 focus:ring-tv-brand/40 focus:outline-none" style={{ color: TV.borderStrong }} aria-label="Reorder column, use arrow keys" role="button" tabIndex={0}
+                      onKeyDown={(e: React.KeyboardEvent) => {
+                        if (e.key === "ArrowUp") { e.preventDefault(); moveUp(idx); }
+                        if (e.key === "ArrowDown") { e.preventDefault(); moveDown(idx); }
+                      }}
+                    >
                       <GripVertical size={14} aria-hidden="true" />
                     </Box>
                   )}

@@ -100,6 +100,7 @@ export interface FlowStep {
   conditionField?: string;
   // Email content
   subject?: string;
+  preheader?: string;
   body?: string;
   senderName?: string;
   senderEmail?: string;
@@ -122,12 +123,15 @@ export interface FlowStep {
   smsBody?: string;
   smsPhoneNumber?: string;
   smsReplyToPhone?: string;
+  smsReplyToEmail?: string;
   smsAutoResponder?: string;
   smsQuietHours?: boolean;
+  linkShortening?: boolean;
   // Video attachment (for email/sms steps)
   attachedVideo?: { id: number; title: string; duration: string; color: string } | null;
   // Landing page
   landingPageEnabled?: boolean;
+  thumbnailLinkUrl?: string;  // External URL for thumbnail click when no landing page
   landingPageId?: number;
   lpModule?: "none" | "cta" | "pdf" | "form";
   ctaText?: string;

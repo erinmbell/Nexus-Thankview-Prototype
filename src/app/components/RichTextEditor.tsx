@@ -6,6 +6,7 @@
  */
 import { useState, useCallback, useRef, useEffect, useLayoutEffect } from "react";
 import { MergeFieldPicker } from "./MergeFieldPicker";
+import { TV } from "../theme";
 import { createPortal } from "react-dom";
 import {
   Bold, Italic, Underline as UnderlineIcon, Strikethrough,
@@ -14,6 +15,8 @@ import {
   FileText, PenLine, ChevronDown, X, Check, ExternalLink, Braces, Minus,
 } from "lucide-react";
 import type { MergeFieldDef } from "../pages/campaign/types";
+import { EmailTemplatePicker } from "./EmailTemplateAndSignature";
+import type { EmailTemplate } from "./EmailTemplateAndSignature";
 import {
   EMAIL_BODY_FONTS, EMAIL_BODY_FONT_SIZES, EMAIL_BODY_LINE_HEIGHTS, EMAIL_TEXT_COLORS,
 } from "../pages/campaign/types";
@@ -181,6 +184,9 @@ export function RichTextEditor({
   const [linkNewTab, setLinkNewTab] = useState(true);
   const [showTemplates, setShowTemplates] = useState(false);
   const [showMergePicker, setShowMergePicker] = useState(false);
+  const [showImageUrl, setShowImageUrl] = useState(false);
+  const [imageUrlInput, setImageUrlInput] = useState("");
+  const [imageAltInput, setImageAltInput] = useState("");
   const [, setForceUpdate] = useState(0);
   const linkPopRef = useRef<HTMLDivElement>(null);
   const templateRef = useRef<HTMLDivElement>(null);
@@ -264,11 +270,22 @@ export function RichTextEditor({
 
   // ── Image handler ─────────────────────────────────────────────────────────
   const insertImage = useCallback(() => {
-    const url = window.prompt("Image URL:");
-    if (url) {
-      exec("insertImage", url);
+    setShowImageUrl(true);
+    setImageUrlInput("");
+    setImageAltInput("");
+  }, []);
+
+  const confirmImageInsert = useCallback(() => {
+    if (imageUrlInput) {
+      editorRef.current?.focus();
+      const alt = imageAltInput || "Image";
+      document.execCommand("insertHTML", false, `<img src="${imageUrlInput}" alt="${alt}" />`);
+      handleInput();
     }
-  }, [exec]);
+    setShowImageUrl(false);
+    setImageUrlInput("");
+    setImageAltInput("");
+  }, [imageUrlInput, imageAltInput, handleInput]);
 
   // ── Template select ───────────────────────────────────────────────────────
   const applyTemplate = useCallback(
@@ -353,15 +370,15 @@ export function RichTextEditor({
               <button type="button" title="Text Color"
                 onClick={() => setShowColorPicker(!showColorPicker)}
                 className={`flex items-center gap-1.5 border rounded-full px-3 py-1.5 text-[12px] bg-white transition-colors cursor-pointer ${showColorPicker ? "border-tv-brand ring-1 ring-tv-brand/30" : "border-tv-border-light hover:border-tv-border-strong"}`}>
-                <span className="w-3.5 h-3.5 rounded-full border border-tv-border-light shrink-0" style={{ backgroundColor: bodyTextColor || "#1e293b" }} />
-                <span className="text-tv-text-primary">{EMAIL_TEXT_COLORS.find(c => c.value === (bodyTextColor || "#1e293b"))?.label || "Custom"}</span>
+                <span className="w-3.5 h-3.5 rounded-full border border-tv-border-light shrink-0" style={{ backgroundColor: bodyTextColor || TV.textPrimary }} />
+                <span className="text-tv-text-primary">{EMAIL_TEXT_COLORS.find(c => c.value === (bodyTextColor || TV.textPrimary))?.label || "Custom"}</span>
                 <ChevronDown size={11} className={`text-tv-text-secondary transition-transform ${showColorPicker ? "rotate-180" : ""}`} />
               </button>
               {showColorPicker && (
                 <div className="absolute top-full left-0 mt-1.5 p-2.5 bg-white border border-tv-border-light rounded-lg shadow-xl z-30 grid grid-cols-5 gap-1.5 w-[155px]">
                   {EMAIL_TEXT_COLORS.map(c => (
                     <button key={c.value} type="button" onClick={() => { onBodyTextColorChange?.(c.value); setShowColorPicker(false); }} title={c.label}
-                      className={`w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 ${(bodyTextColor || "#1e293b") === c.value ? "border-tv-brand ring-1 ring-tv-brand/30" : "border-tv-border-light"}`}
+                      className={`w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 ${(bodyTextColor || TV.textPrimary) === c.value ? "border-tv-brand ring-1 ring-tv-brand/30" : "border-tv-border-light"}`}
                       style={{ backgroundColor: c.value }} />
                   ))}
                 </div>
@@ -510,24 +527,20 @@ export function RichTextEditor({
             <ChevronDown size={9} />
           </button>
           {showTemplates && (
-            <PortalDropdown
-              anchorRef={templateRef}
-              onClose={() => setShowTemplates(false)}
-              width={200}
-              align="right"
-            >
-              <p className="px-3 py-1 text-[10px] text-tv-text-secondary uppercase tracking-wider" style={{ fontWeight: 600 }}>Insert Template</p>
-              {TEMPLATES.map(t => (
-                <button
-                  key={t.id}
-                  onClick={() => applyTemplate(t.html)}
-                  className="w-full text-left px-3 py-2 text-[12px] text-tv-text-primary hover:bg-tv-surface transition-colors"
-                  style={{ fontWeight: 500 }}
-                >
-                  {t.name}
-                </button>
-              ))}
-            </PortalDropdown>
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setShowTemplates(false)} />
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+                <div className="pointer-events-auto">
+                  <EmailTemplatePicker
+                    compact
+                    onSelect={(tpl: EmailTemplate) => {
+                      applyTemplate(tpl.body.replace(/\n/g, "<br>"));
+                    }}
+                    onClose={() => setShowTemplates(false)}
+                  />
+                </div>
+              </div>
+            </>
           )}
         </div>
 
@@ -615,6 +628,45 @@ export function RichTextEditor({
           )}
         </div>
       </div>
+
+      {/* ── Inline image URL input ── */}
+      {showImageUrl && (
+        <div className="flex items-center gap-2 px-3 py-2 bg-tv-surface border-b border-tv-border-light">
+          <input
+            value={imageUrlInput}
+            onChange={e => setImageUrlInput(e.target.value)}
+            placeholder="https://example.com/image.png"
+            aria-label="Image URL"
+            className="flex-1 border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
+            onKeyDown={e => { if (e.key === "Enter") confirmImageInsert(); if (e.key === "Escape") { setShowImageUrl(false); setImageUrlInput(""); setImageAltInput(""); } }}
+            autoFocus
+          />
+          <input
+            value={imageAltInput}
+            onChange={e => setImageAltInput(e.target.value)}
+            placeholder="Describe this image"
+            aria-label="Image alt text"
+            className="w-[180px] border border-tv-border-light rounded-sm px-2.5 py-1.5 text-[12px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand"
+            onKeyDown={e => { if (e.key === "Enter") confirmImageInsert(); if (e.key === "Escape") { setShowImageUrl(false); setImageUrlInput(""); setImageAltInput(""); } }}
+          />
+          <button
+            type="button"
+            onClick={confirmImageInsert}
+            disabled={!imageUrlInput}
+            className="px-3 py-1.5 text-[11px] text-white bg-tv-brand-bg rounded-sm hover:bg-tv-brand-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{ fontWeight: 600 }}
+          >
+            Insert
+          </button>
+          <button
+            type="button"
+            onClick={() => { setShowImageUrl(false); setImageUrlInput(""); setImageAltInput(""); }}
+            className="px-2 py-1.5 text-[11px] text-tv-text-secondary hover:text-tv-text-primary transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
+      )}
 
       {/* ── Editor area ── */}
       <div className={`rounded-b-[9px] overflow-hidden ${bodyClassName || ""}`}>

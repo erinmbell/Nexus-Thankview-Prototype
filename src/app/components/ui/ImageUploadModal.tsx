@@ -257,9 +257,11 @@ export function ImageUploadModal({
             onDragLeave={() => setDragOver(false)}
             onDrop={handleDrop}
             onClick={() => inputRef.current?.click()}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); inputRef.current?.click(); } }}
             role="button"
-            aria-label="Upload image"
-            className="flex flex-col items-center justify-center gap-3 rounded-[14px] border-2 border-dashed py-12 cursor-pointer transition-all"
+            tabIndex={0}
+            aria-label="Upload image by clicking or pressing Enter"
+            className="flex flex-col items-center justify-center gap-3 rounded-[14px] border-2 border-dashed py-12 cursor-pointer transition-all focus:ring-2 focus:ring-tv-brand/40 focus:outline-none"
             style={{
               borderColor: dragOver ? TV.brand : TV.borderLight,
               backgroundColor: dragOver ? TV.brandTint : TV.surface,

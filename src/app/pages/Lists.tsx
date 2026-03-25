@@ -341,7 +341,7 @@ function ManageContactsModal({ list, onClose, onSave }: {
   return (
     <Modal opened onClose={onClose} title={`Manage Constituents — ${list.name}`} size="lg">
       <TextInput leftSection={<Search size={14} style={{ color: TV.textSecondary }} />}
-        placeholder="Search constituents…" value={search} onChange={e => setSearch(e.currentTarget.value)}
+        placeholder="Search constituents…" aria-label="Search constituents" value={search} onChange={e => setSearch(e.currentTarget.value)}
         radius="xl" mb="md" styles={{ input: { borderColor: TV.borderLight, backgroundColor: '#fff', color: TV.textPrimary } }} />
 
       <div className="flex items-center justify-between mb-2">

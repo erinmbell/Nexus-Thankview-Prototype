@@ -27,6 +27,7 @@ import { VideoPickerView, VideoCreateView, type PickerVideo } from "./campaign/V
 import { VideoBuilder } from "./campaign/VideoBuilder";
 import { ConstituentPanel } from "./campaign/ConstituentPanel";
 import { ConfirmSend } from "./campaign/ConfirmSend";
+import { Toggle } from "../components/ui/Toggle";
 import {
   type FlowStep,
   type ConstituentDateFieldId,
@@ -243,6 +244,7 @@ function StepSetupModal({
   const [showAi, setShowAi] = useState(false);
   const [aiPrompt, setAiPrompt] = useState("");
   const [aiGenerating, setAiGenerating] = useState(false);
+  const [smsRegistered, setSmsRegistered] = useState(true);
 
   // Merge dropdown
   const [showMerge, setShowMerge] = useState(false);
@@ -278,16 +280,16 @@ function StepSetupModal({
 
   // ── Phase: basics ─────────────────────────────────────────────────────────
   const renderBasics = () => (
-    <div className="max-w-[600px] xl:max-w-[700px] 2xl:max-w-[820px] mx-auto space-y-5">
+    <div className="max-w-[700px] xl:max-w-[840px] 2xl:max-w-[1000px] mx-auto space-y-5">
       <div>
-        <label className={LABEL_CLS}>Step Name</label>
-        <input value={step.label} onChange={e => setStep(s => ({ ...s, label: e.target.value }))}
+        <label htmlFor="step-name" className={LABEL_CLS}>Step Name</label>
+        <input id="step-name" value={step.label} onChange={e => setStep(s => ({ ...s, label: e.target.value }))}
           placeholder={isEmail ? "e.g. Welcome Email" : "e.g. Thank-you SMS"}
           className={INPUT_CLS} />
       </div>
       <div>
-        <label className={LABEL_CLS}>Description (optional)</label>
-        <textarea value={step.description} onChange={e => setStep(s => ({ ...s, description: e.target.value }))}
+        <label htmlFor="step-description" className={LABEL_CLS}>Description (optional)</label>
+        <textarea id="step-description" value={step.description} onChange={e => setStep(s => ({ ...s, description: e.target.value }))}
           placeholder="Brief description of what this step does\u2026" rows={2}
           className={TEXTAREA_CLS} />
       </div>
@@ -295,26 +297,26 @@ function StepSetupModal({
         <div className="grid grid-cols-2 gap-3">
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className={LABEL_CLS}>Sender Name</label>
+              <label htmlFor="sender-name" className={LABEL_CLS}>Sender Name</label>
               <CharCount current={(step.senderName || "").length} max={CHAR_LIMITS.senderName} />
             </div>
-            <input value={step.senderName || ""} onChange={e => setStep(s => ({ ...s, senderName: e.target.value }))}
+            <input id="sender-name" value={step.senderName || ""} onChange={e => setStep(s => ({ ...s, senderName: e.target.value }))}
               maxLength={CHAR_LIMITS.senderName}
               className={INPUT_CLS} />
           </div>
           <div>
-            <label className={LABEL_CLS}>Sender Email</label>
-            <input value={step.senderEmail || ""} onChange={e => setStep(s => ({ ...s, senderEmail: e.target.value }))}
+            <label htmlFor="sender-email" className={LABEL_CLS}>Sender Email</label>
+            <input id="sender-email" value={step.senderEmail || ""} onChange={e => setStep(s => ({ ...s, senderEmail: e.target.value }))}
               className={INPUT_CLS} />
           </div>
           <div>
-            <label className={LABEL_CLS}>Reply-To</label>
-            <input value={step.replyTo || ""} onChange={e => setStep(s => ({ ...s, replyTo: e.target.value }))}
+            <label htmlFor="reply-to" className={LABEL_CLS}>Reply-To</label>
+            <input id="reply-to" value={step.replyTo || ""} onChange={e => setStep(s => ({ ...s, replyTo: e.target.value }))}
               className={INPUT_CLS} />
           </div>
           <div>
-            <label className={LABEL_CLS}>Font</label>
-            <select value={step.font || "Serif (Garamond)"} onChange={e => setStep(s => ({ ...s, font: e.target.value }))}
+            <label htmlFor="font-select" className={LABEL_CLS}>Font</label>
+            <select id="font-select" value={step.font || "Serif (Garamond)"} onChange={e => setStep(s => ({ ...s, font: e.target.value }))}
               className={SELECT_CLS}>
               {ENV_FONTS.map(f => <option key={f}>{f}</option>)}
             </select>
@@ -343,21 +345,14 @@ function StepSetupModal({
         </div>
       )}
       {!isEmail && (
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <label className={LABEL_CLS}>Sender Name</label>
-              <CharCount current={(step.senderName || "").length} max={CHAR_LIMITS.senderName} />
-            </div>
-            <input value={step.senderName || ""} onChange={e => setStep(s => ({ ...s, senderName: e.target.value }))}
-              maxLength={CHAR_LIMITS.senderName}
-              className={INPUT_CLS} />
+        <div>
+          <div className="flex items-center justify-between mb-1">
+            <label className={LABEL_CLS}>Sender Name</label>
+            <CharCount current={(step.senderName || "").length} max={CHAR_LIMITS.senderName} />
           </div>
-          <div>
-            <label className={LABEL_CLS}>Phone Number</label>
-            <input value={step.smsPhoneNumber || ""} onChange={e => setStep(s => ({ ...s, smsPhoneNumber: e.target.value }))}
-              className={INPUT_CLS} />
-          </div>
+          <input value={step.senderName || ""} onChange={e => setStep(s => ({ ...s, senderName: e.target.value }))}
+            maxLength={CHAR_LIMITS.senderName}
+            className={INPUT_CLS} />
         </div>
       )}
     </div>
@@ -365,16 +360,9 @@ function StepSetupModal({
 
   // ── Phase: content ────────────────────────────────────────────────────────
   const renderContent = () => (
-    <div className="max-w-[660px] xl:max-w-[760px] 2xl:max-w-[880px] mx-auto space-y-4">
+    <div className="max-w-[760px] xl:max-w-[900px] 2xl:max-w-[1060px] mx-auto space-y-4">
       {isEmail ? (
         <>
-          {/* Template & Signature actions */}
-          <EmailTemplateActions
-            compact
-            onApplyTemplate={(tpl) => {
-              setStep(s => ({ ...s, subject: tpl.subject, body: tpl.body }));
-            }}
-          />
 
           {/* Subject */}
           <div>
@@ -388,7 +376,7 @@ function StepSetupModal({
                 placeholder="A personal message for you, {{first_name}}"
                 className={INPUT_CLS_FLEX} />
               <div className="relative">
-                <button onClick={() => setShowMerge(!showMerge)} className={ICON_BTN_CLS} title="Insert merge field">
+                <button onClick={() => setShowMerge(!showMerge)} className={ICON_BTN_CLS} title="Insert merge field" aria-label="Insert merge field">
                   <span className="font-mono text-[11px]">{"{}"}</span>
                 </button>
                 {showMerge && (
@@ -453,7 +441,7 @@ function StepSetupModal({
               <div className="flex items-center gap-1.5">
                 <label className="text-[10px] text-tv-text-secondary uppercase tracking-wider whitespace-nowrap font-semibold">Color</label>
                 <div className="relative group/tc2">
-                  <button type="button" title="Text Color" className="flex items-center gap-1.5 border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] bg-white hover:border-tv-border-strong transition-colors cursor-pointer">
+                  <button type="button" title="Text Color" aria-label="Choose text color" className="flex items-center gap-1.5 border border-tv-border-light rounded-sm px-3 py-1.5 text-[13px] bg-white hover:border-tv-border-strong transition-colors cursor-pointer">
                     <span className="w-4 h-4 rounded-[4px] border border-tv-border-light shrink-0" style={{ backgroundColor: step.bodyTextColor || "#1e293b" }} />
                     <span className="text-tv-text-primary">{EMAIL_TEXT_COLORS.find(c => c.value === (step.bodyTextColor || "#1e293b"))?.label || "Custom"}</span>
                     <ChevronDown size={11} className="text-tv-text-secondary" />
@@ -558,7 +546,7 @@ function StepSetupModal({
 
   // ── Phase: review ─────────────────────────────────────────────────────────
   const renderReview = () => (
-    <div className="max-w-[600px] xl:max-w-[700px] 2xl:max-w-[820px] mx-auto space-y-3">
+    <div className="max-w-[700px] xl:max-w-[840px] 2xl:max-w-[1000px] mx-auto space-y-3">
       <p className="text-[13px] text-tv-text-secondary mb-3">Confirm the details for this step, then add it to your flow.</p>
       {[
         { label: "Step Type",  value: isEmail ? "Email" : "SMS" },
@@ -1184,6 +1172,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
   const [replyToInput, setReplyToInput] = useState("");
   const [contentSectionOpen, setContentSectionOpen] = useState(true);
   const [designSectionOpen, setDesignSectionOpen] = useState(true);
+  const [contentDesignView, setContentDesignView] = useState<"content" | "design">("content");
   const [campaignLanguage, setCampaignLanguage] = useState("en");
   const bodyRef = useRef<HTMLTextAreaElement>(null);
   const bodyMergeRef = useRef<HTMLDivElement>(null);
@@ -1377,7 +1366,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
     const typeMeta = campaignGoal ? TYPE_META[campaignGoal] : null;
 
     return (
-    <div className="max-w-[700px] xl:max-w-[800px] 2xl:max-w-[900px] mx-auto space-y-5">
+    <div className="max-w-[800px] xl:max-w-[960px] 2xl:max-w-[1100px] mx-auto space-y-5">
 
       {/* ── Edit mode banner ── */}
       {isEditMode && (
@@ -1485,6 +1474,99 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                   </button>
                 );
               })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Birthday & Anniversary scheduling is handled in the Schedule step via "Date Field" option */}
+      {false && (
+        <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
+          <div className="flex items-center justify-between px-5 py-3.5 bg-tv-surface/50 border-b border-tv-border-divider">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-sm flex items-center justify-center" style={{ backgroundColor: "#fef3c7" }}>
+                <Calendar size={15} style={{ color: "#b45309" }} />
+              </div>
+              <div>
+                <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Date Field & Timing</p>
+                <p className="text-[11px] text-tv-text-secondary">Configure when to send based on contact date fields</p>
+              </div>
+            </div>
+          </div>
+          <div className="p-5 space-y-4">
+            {/* Date field selection */}
+            <div>
+              <label className={LABEL_CLS}>Contact Date Field</label>
+              <select value={bdayDateField} onChange={e => { setBdayDateField(e.target.value); markDirty(); }} className={SELECT_CLS}>
+                <option value="birthday">Birthday</option>
+                <option value="anniversary">Anniversary</option>
+                <option value="graduation_date">Graduation Date</option>
+                <option value="custom">Custom Date Field...</option>
+              </select>
+              <p className="text-[10px] text-tv-text-decorative mt-1">The campaign will send relative to each constituent's date in this field.</p>
+            </div>
+
+            {/* Send timing */}
+            <div>
+              <label className={LABEL_CLS}>Send Timing</label>
+              <div className="flex items-center gap-2">
+                <input type="number" min={-30} max={30} value={bdayDaysOffset} onChange={e => { setBdayDaysOffset(parseInt(e.target.value) || 0); markDirty(); }}
+                  className="w-20 border border-tv-border-light rounded-[8px] px-3 py-2 text-[13px] text-center outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand" />
+                <span className="text-[12px] text-tv-text-secondary">days {bdayDaysOffset >= 0 ? "after" : "before"} the date</span>
+              </div>
+              <p className="text-[10px] text-tv-text-decorative mt-1">Use negative numbers to send before the date (e.g., -3 = three days before).</p>
+            </div>
+
+            {/* Recur annually */}
+            <button onClick={() => { setBdayRecurAnnually(v => !v); markDirty(); }}
+              role="switch" aria-checked={bdayRecurAnnually} aria-label="Recur annually"
+              className="w-full flex items-center justify-between p-3 bg-white rounded-md border border-tv-border-light">
+              <div>
+                <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>Recur Annually</p>
+                <p className="text-[10px] text-tv-text-secondary">Automatically re-send this campaign every year on the same date</p>
+              </div>
+              <Toggle enabled={bdayRecurAnnually} onToggle={() => {}} />
+            </button>
+
+            {/* Leap year note */}
+            <div className="flex items-start gap-2 p-3 rounded-md border border-tv-info-border bg-tv-info-bg/30">
+              <Info size={13} className="text-tv-info shrink-0 mt-0.5" />
+              <div>
+                <p className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>Leap Year Handling</p>
+                <p className="text-[10px] text-tv-text-secondary">For constituents with a Feb 29 date, messages will be sent on {bdayLeapYearFallback === "feb28" ? "February 28" : "March 1"} in non-leap years.</p>
+                <div className="flex items-center gap-3 mt-2">
+                  <label className="flex items-center gap-1.5 cursor-pointer">
+                    <input type="radio" checked={bdayLeapYearFallback === "feb28"} onChange={() => setBdayLeapYearFallback("feb28")} className="w-3.5 h-3.5 accent-[#7c45b0]" />
+                    <span className="text-[11px] text-tv-text-primary">Feb 28</span>
+                  </label>
+                  <label className="flex items-center gap-1.5 cursor-pointer">
+                    <input type="radio" checked={bdayLeapYearFallback === "mar1"} onChange={() => setBdayLeapYearFallback("mar1")} className="w-3.5 h-3.5 accent-[#7c45b0]" />
+                    <span className="text-[11px] text-tv-text-primary">Mar 1</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* Send time preference */}
+            <div>
+              <label className={LABEL_CLS}>Send Time Preference</label>
+              <div className="grid grid-cols-3 gap-2">
+                {([
+                  { value: "morning", label: "Morning", time: "8:00 AM" },
+                  { value: "afternoon", label: "Afternoon", time: "12:00 PM" },
+                  { value: "evening", label: "Evening", time: "5:00 PM" },
+                ] as const).map(opt => {
+                  const sel = bdaySendTime === opt.value;
+                  return (
+                    <button key={opt.value} onClick={() => { setBdaySendTime(opt.value); markDirty(); }}
+                      className={`p-3 rounded-md border-2 text-center transition-all ${sel ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+                      <p className={`text-[12px] ${sel ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{opt.label}</p>
+                      <p className="text-[10px] text-tv-text-secondary">{opt.time}</p>
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="text-[10px] text-tv-text-decorative mt-1">Messages send in the constituent's local timezone when available.</p>
             </div>
           </div>
         </section>
@@ -1699,33 +1781,34 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
 
       {isEmail ? (
         <ResizableSplitPane
-          defaultRightPercent={42}
-          minRightPercent={25}
-          maxRightPercent={60}
+          defaultRightPercent={48}
+          minRightPercent={30}
+          maxRightPercent={65}
           stickyRight
           stickyTop="1rem"
           left={
           <div className="space-y-4">
 
-          {/* ── Collapsible: Content ── */}
-          <button onClick={() => setContentSectionOpen(v => !v)}
-            className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-tv-border-light bg-tv-surface/50 hover:bg-tv-surface transition-colors">
-            <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 bg-tv-brand-tint rounded-[7px] flex items-center justify-center">
-                <Mail size={13} className="text-tv-brand" />
-              </div>
-              <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Email Content</p>
+          {/* ── Content / Design Toggle ── */}
+          {showDesignSections && (
+            <div className="inline-flex items-center gap-[2px] rounded-full bg-white p-[3px]" style={{ border: `1px solid ${TV.borderLight}` }}>
+              <button onClick={() => setContentDesignView("content")}
+                className={`inline-flex items-center gap-[6px] px-[16px] py-[7px] rounded-full text-[13px] transition-colors ${
+                  contentDesignView === "content" ? "text-white" : "text-tv-text-primary hover:bg-tv-surface"
+                }`} style={{ fontWeight: contentDesignView === "content" ? 600 : 500, backgroundColor: contentDesignView === "content" ? TV.brandBg : "transparent" }}>
+                <Mail size={13} />Content
+              </button>
+              <button onClick={() => setContentDesignView("design")}
+                className={`inline-flex items-center gap-[6px] px-[16px] py-[7px] rounded-full text-[13px] transition-colors ${
+                  contentDesignView === "design" ? "text-white" : "text-tv-text-primary hover:bg-tv-surface"
+                }`} style={{ fontWeight: contentDesignView === "design" ? 600 : 500, backgroundColor: contentDesignView === "design" ? TV.brandBg : "transparent" }}>
+                <Palette size={13} />Design
+              </button>
             </div>
-            <ChevronDown size={14} className={`text-tv-text-secondary transition-transform ${contentSectionOpen ? "rotate-180" : ""}`} />
-          </button>
+          )}
 
-          {contentSectionOpen && <>
-          {/* Template & Signature actions */}
-          <EmailTemplateActions
-            onApplyTemplate={(tpl) => {
-              setStep(s => ({ ...s, subject: tpl.subject, body: tpl.body }));
-            }}
-          />
+          {/* ── Content Section ── */}
+          {contentDesignView === "content" && <>
 
           {/* Sender info */}
           <div className="grid grid-cols-2 gap-2">
@@ -1825,6 +1908,19 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                 )}
               </div>
             </div>
+          </div>
+
+          {/* Preheader */}
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className={LABEL_CLS}>Preheader Text</label>
+              <CharCount current={(step.preheader || "").length} max={CHAR_LIMITS.preheader} />
+            </div>
+            <input value={step.preheader || ""} onChange={e => setStep(s => ({ ...s, preheader: e.target.value }))}
+              maxLength={CHAR_LIMITS.preheader}
+              placeholder="Preview text shown in the inbox before opening"
+              className={INPUT_CLS} />
+            <p className="text-[9px] text-tv-text-decorative mt-0.5">Appears after the subject line in most email clients. Keep it under 100 characters.</p>
           </div>
 
           {/* Body with toolbar — collapsible */}
@@ -2105,20 +2201,8 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
           )}
           </>}
 
-          {/* ── Collapsible: Design ── */}
-          {showDesignSections && (
-            <>
-              <button onClick={() => setDesignSectionOpen(v => !v)}
-                className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-tv-border-light bg-tv-surface/50 hover:bg-tv-surface transition-colors">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 bg-tv-brand-tint rounded-[7px] flex items-center justify-center">
-                    <Palette size={13} className="text-tv-brand" />
-                  </div>
-                  <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Design & Appearance</p>
-                </div>
-                <ChevronDown size={14} className={`text-tv-text-secondary transition-transform ${designSectionOpen ? "rotate-180" : ""}`} />
-              </button>
-              {designSectionOpen && <>
+          {/* ── Design Section (shown via toggle) ── */}
+          {showDesignSections && contentDesignView === "design" && (
               <DesignStepPanel
                 inline
                 lpSearch={lpSearch}
@@ -2160,9 +2244,15 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                 selectedEnvelopeData={allEnvelopes.find(e => e.id === (step.envelopeId || 1)) as any}
                 selectedLandingPageData={allLandingPages.find(p => p.id === (step.landingPageId || 1)) as any}
                 onDesignDataChange={setDesignSnapshot}
+                onEmailContentTypeChange={type => {
+                  const map: Record<string, "envelope" | "static" | "animated"> = {
+                    "envelope": "envelope",
+                    "static-image": "static",
+                    "animated-thumbnail": "animated",
+                  };
+                  setStep(s => ({ ...s, thumbnailType: map[type] || "static" }));
+                }}
               />
-              </>}
-            </>
           )}
 
           </div>
@@ -2240,30 +2330,91 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
           smsS.smsBody || "Hi {{first_name}}! Thank you for your generous {{gift_amount}} gift to the {{fund_name}}. We\u2019d love to share a personal message with you: {{link}}",
         );
         const hasLink = previewBody.includes("thankview.com") || (smsS.smsBody || "").includes("{{link}}");
-        const senderInitial = (smsS.smsPhoneNumber || smsS.senderName || "TV").charAt(0).toUpperCase();
-        const senderLabel = smsS.smsPhoneNumber || smsS.senderName || "ThankView";
+        const senderInitial = (smsS.senderName || "TV").charAt(0).toUpperCase();
+        const senderLabel = smsS.senderName || "ThankView";
 
         return (
         <ResizableSplitPane
-          defaultRightPercent={32}
-          minRightPercent={22}
-          maxRightPercent={50}
+          defaultRightPercent={40}
+          minRightPercent={28}
+          maxRightPercent={55}
           stickyRight
           stickyTop="7rem"
           left={
           <div className="space-y-4">
-          {/* Sender info (SMS) */}
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <div className="flex items-center justify-between mb-1">
-                <label className={LABEL_CLS}>Sender Name</label>
-                <CharCount current={(smsS.senderName || "").length} max={CHAR_LIMITS.senderName} />
+          {/* SMS Registration Gate */}
+          {!smsRegistered && (
+            <div className="flex items-start gap-2.5 p-3 bg-tv-warning-bg border border-tv-warning-border rounded-md">
+              <CircleAlert size={14} className="text-tv-warning shrink-0 mt-0.5" />
+              <div>
+                <p className="text-[12px] text-tv-warning-hover" style={{ fontWeight: 700 }}>SMS Not Registered</p>
+                <p className="text-[11px] text-tv-warning mt-0.5">Your organization must complete SMS registration before sending text campaigns.</p>
+                <button onClick={() => setSmsRegistered(true)} className="mt-1.5 px-3 py-1 text-[11px] text-white bg-tv-warning rounded-full hover:bg-tv-warning-hover transition-colors" style={{ fontWeight: 600 }}>
+                  Register for SMS
+                </button>
               </div>
-              <input value={smsS.senderName || ""} onChange={e => setSmsS(s => ({ ...s, senderName: e.target.value }))} maxLength={CHAR_LIMITS.senderName} className={INPUT_CLS} />
             </div>
-            <div>
-              <label className={LABEL_CLS}>Phone Number</label>
-              <input value={smsS.smsPhoneNumber || ""} onChange={e => setSmsS(s => ({ ...s, smsPhoneNumber: e.target.value }))} className={INPUT_CLS} />
+          )}
+
+          {/* Sender info (SMS) */}
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className={LABEL_CLS}>Sender Name</label>
+              <CharCount current={(smsS.senderName || "").length} max={CHAR_LIMITS.senderName} />
+            </div>
+            <input value={smsS.senderName || ""} onChange={e => setSmsS(s => ({ ...s, senderName: e.target.value }))} maxLength={CHAR_LIMITS.senderName} className={INPUT_CLS} />
+          </div>
+
+          {/* Reply-To Phone */}
+          <div>
+            <label className={LABEL_CLS}>Reply-To Phone Number</label>
+            <input value={smsS.smsReplyToPhone || ""} onChange={e => setSmsS(s => ({ ...s, smsReplyToPhone: e.target.value }))}
+              placeholder="+1 (555) 000-0000" className={INPUT_CLS} />
+            <p className="text-[9px] text-tv-text-decorative mt-0.5">When constituents reply to your SMS, their reply will go to this number.</p>
+          </div>
+
+
+          {/* SMS Template loader */}
+          <div className="flex items-center gap-2">
+            <label className={LABEL_CLS + " shrink-0"}>Load Template</label>
+            <select
+              onChange={e => { if (e.target.value) setSmsS(s => ({ ...s, smsBody: e.target.value })); e.target.value = ""; }}
+              className="flex-1 border border-tv-border-light rounded-sm px-2 py-1.5 text-[11px] text-tv-text-secondary outline-none focus:ring-2 focus:ring-tv-brand/40 bg-white"
+              defaultValue="">
+              <option value="" disabled>Select a template…</option>
+              <option value="Hi {{first_name}}, thank you for your generous gift of {{gift_amount}}! Watch this personal video message from our team.">Thank You — Gift Acknowledgment</option>
+              <option value="Hi {{first_name}}! We have a special video message just for you. Tap the link to watch!">General Outreach</option>
+              <option value="{{first_name}}, as a member of the Class of {{class_year}}, you're invited to watch this message from your fellow alumni.">Alumni Engagement</option>
+              <option value="Hi {{first_name}}, mark your calendar! Watch this video for event details and how to RSVP.">Event Invitation</option>
+            </select>
+          </div>
+
+          {/* SMS Thumbnail style */}
+          <div>
+            <label className={LABEL_CLS + " mb-1.5 block"}>SMS Thumbnail</label>
+            <p className="text-[10px] text-tv-text-secondary mb-2">Choose what constituents see when they receive the text.</p>
+            <div className="space-y-1.5">
+              {([
+                { key: "static" as const, label: "Static Thumbnail", desc: "A still image from your video" },
+                { key: "animated" as const, label: "Animated Thumbnail", desc: "Eye-catching GIF that autoplays" },
+                { key: "envelope" as const, label: "Envelope", desc: "Branded envelope with flip animation" },
+              ]).map(opt => {
+                const active = (smsS.thumbnailType || "static") === opt.key;
+                return (
+                  <button key={opt.key} onClick={() => setSmsS(s => ({ ...s, thumbnailType: opt.key }))}
+                    className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-md border text-left transition-all ${
+                      active ? "border-tv-brand-bg bg-tv-brand-tint/30 shadow-sm" : "border-tv-border-light hover:border-tv-brand-bg/40"
+                    }`}>
+                    <div className="flex-1 min-w-0">
+                      <span className={`text-[11px] block ${active ? "text-tv-brand" : "text-tv-text-primary"}`} style={{ fontWeight: 600 }}>{opt.label}</span>
+                      <span className="text-[9px] text-tv-text-secondary">{opt.desc}</span>
+                    </div>
+                    <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center shrink-0 ${active ? "border-tv-brand-bg" : "border-tv-border-strong"}`}>
+                      {active && <div className="w-1.5 h-1.5 rounded-full bg-tv-brand-bg" />}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -2282,25 +2433,35 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
             <SmsCharCounter length={sl} />
           </div>
 
-          {/* Link shortening toggle */}
-          <button onClick={() => setSmsS(s => ({ ...s, linkShortening: !s.linkShortening }))}
-            role="switch" aria-checked={smsS.linkShortening} aria-label="Shorten links"
+          {/* Quiet Hours toggle */}
+          <button onClick={() => setSmsS(s => ({ ...s, smsQuietHours: !s.smsQuietHours }))}
+            role="switch" aria-checked={!!smsS.smsQuietHours} aria-label="Quiet hours"
             className="w-full flex items-center justify-between p-2.5 bg-white rounded-md border border-tv-border-light">
             <div>
-              <p className="text-[11px] text-tv-text-primary font-semibold">Shorten Links</p>
-              <p className="text-[9px] text-tv-text-secondary">Replace long URLs with trackable short links</p>
+              <p className="text-[11px] text-tv-text-primary font-semibold">Quiet Hours</p>
+              <p className="text-[9px] text-tv-text-secondary">Don&rsquo;t send between 9 PM &ndash; 8 AM constituent local time</p>
             </div>
-            <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${smsS.linkShortening ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-              <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${smsS.linkShortening ? "left-[17px]" : "left-0.5"}`} />
-            </div>
+            <Toggle enabled={!!smsS.smsQuietHours} onToggle={() => {}} />
           </button>
+
+          {/* Text Message Auto-Responder */}
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className={LABEL_CLS}>Text Message Auto-Responder</label>
+              <CharCount current={(smsS.smsAutoResponder || "").length} max={250} />
+            </div>
+            <textarea value={smsS.smsAutoResponder || ""} onChange={e => setSmsS(s => ({ ...s, smsAutoResponder: e.target.value }))}
+              maxLength={250} rows={2} placeholder="Thanks for your reply! We'll get back to you shortly."
+              className="w-full border border-tv-border-light rounded-sm px-2.5 py-2 text-[12px] outline-none resize-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
+            <p className="text-[9px] text-tv-text-decorative mt-0.5">Automatically sent when a constituent replies to your text.</p>
+          </div>
 
           {/* SMS compliance */}
           <div className="p-2.5 bg-tv-warning-bg border border-tv-warning-border rounded-md flex gap-2">
             <CircleAlert size={12} className="text-tv-warning shrink-0 mt-0.5" />
             <div>
               <p className="text-[11px] text-tv-warning font-semibold">SMS Compliance</p>
-              <p className="text-[10px] text-tv-warning">&ldquo;Reply STOP to unsubscribe&rdquo; will be automatically appended.</p>
+              <p className="text-[10px] text-tv-warning">&ldquo;Reply STOP to unsubscribe. Msg &amp; data rates may apply. Msg frequency varies.&rdquo; will be automatically appended.</p>
             </div>
           </div>
 
@@ -2453,7 +2614,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
   // For "send-without-video" → this step is skipped in the stepper.
 
   const renderVideoRequestSetup = () => (
-    <div className="max-w-[600px] xl:max-w-[700px] 2xl:max-w-[820px] mx-auto">
+    <div className="max-w-[700px] xl:max-w-[840px] 2xl:max-w-[1000px] mx-auto">
       <h2 className="text-tv-text-primary mb-2" style={{ fontSize: "24px", fontWeight: 900 }}>Recording Setup</h2>
       <p className="text-[13px] text-tv-text-secondary mb-5">Configure the recording experience for your video requestees.</p>
 
@@ -2523,9 +2684,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               <p className="text-[12px] text-tv-text-primary font-semibold">Include Instruction Video</p>
               <p className="text-[10px] text-tv-text-secondary">Attach a video from your library to accompany the recording instructions</p>
             </div>
-            <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${vrIncludeLibraryVideo ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-              <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${vrIncludeLibraryVideo ? "left-[17px]" : "left-0.5"}`} />
-            </div>
+            <Toggle enabled={vrIncludeLibraryVideo} onToggle={() => {}} />
           </button>
 
           {vrIncludeLibraryVideo && (
@@ -2679,7 +2838,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
     }
     // Video request campaigns keep the original list layout
     return (
-    <div className="max-w-[620px] xl:max-w-[720px] 2xl:max-w-[840px] mx-auto">
+    <div className="max-w-[720px] xl:max-w-[860px] 2xl:max-w-[1020px] mx-auto">
       <div className="flex items-center gap-2 mb-2">
         <h2 className="text-tv-text-primary" style={{ fontSize: "24px", fontWeight: 900 }}>
           {isVideoRequest ? "Recorders" : "Constituents"}
@@ -2714,9 +2873,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               <p className="text-[12px] text-tv-text-primary font-semibold">Accept Submissions</p>
               <p className="text-[10px] text-tv-text-secondary">{vrSubmissionsEnabled ? "Submissions are open" : "Link is disabled — no new submissions"}</p>
             </div>
-            <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${vrSubmissionsEnabled ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-              <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${vrSubmissionsEnabled ? "left-[17px]" : "left-0.5"}`} />
-            </div>
+            <Toggle enabled={vrSubmissionsEnabled} onToggle={() => {}} />
           </button>
 
           {/* Submissions routing */}
@@ -3045,9 +3202,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                     <p className="text-[11px] text-tv-text-primary font-semibold">Automated Reminders</p>
                     <p className="text-[9px] text-tv-text-secondary">Send reminders before the due date</p>
                   </div>
-                  <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${vrReminderEnabled ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                    <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${vrReminderEnabled ? "left-[17px]" : "left-0.5"}`} />
-                  </div>
+                  <Toggle enabled={vrReminderEnabled} onToggle={() => {}} />
                 </button>
 
                 {/* Multiple reminder schedule */}
@@ -3077,9 +3232,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                   <p className="text-[12px] text-tv-text-primary font-semibold">Accept Submissions</p>
                   <p className="text-[10px] text-tv-text-secondary">{vrSubmissionsEnabled ? "Submissions are open" : "Submissions are closed"}</p>
                 </div>
-                <div className={`w-9 h-5 rounded-full relative shrink-0 transition-colors ${vrSubmissionsEnabled ? "bg-tv-brand-bg" : "bg-tv-surface-active"}`}>
-                  <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${vrSubmissionsEnabled ? "left-[17px]" : "left-0.5"}`} />
-                </div>
+                <Toggle enabled={vrSubmissionsEnabled} onToggle={() => {}} />
               </button>
             </>
           )}

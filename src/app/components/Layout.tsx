@@ -306,20 +306,7 @@ function Sidebar({ collapsed, onToggle, onMobileClose }: SidebarProps) {
                   <SubNavItem key="sub-templates" label="Email & SMS Templates" path="/assets/templates"      isLast={false} />
                   <SubNavItem key="sub-envelopes" label="Envelope Designs"      path="/assets/envelopes"      isLast={false} />
                   <SubNavItem key="sub-landing" label="Landing Page Designs"  path="/assets/landing-pages"  isLast={false} />
-                  <SubNavItem
-                    key="sub-intros-outros"
-                    label="Intros & Outros"
-                    path="/assets/video-clips"
-                    isLast={false}
-                    trailing={<ExpandChevron open={introsOutrosOpen} />}
-                    onClick={() => { setIntrosOutrosOpen(v => !v); navigate("/assets/video-clips"); }}
-                  />
-                  {introsOutrosOpen && (
-                    <>
-                      <SubSubNavItem key="subsub-intros" label="Intros"      path="/assets/intros"      isLast={false} parentIsLast={false} />
-                      <SubSubNavItem key="subsub-outros" label="Outros"      path="/assets/outros"      isLast={true}  parentIsLast={false} />
-                    </>
-                  )}
+                  <SubNavItem key="sub-intros-outros" label="Intros & Outros" path="/assets/intros-outros" isLast={false} />
                   <SubNavItem key="sub-images" label="Images" path="/assets/images" isLast={true} />
                 </>
               )}
@@ -382,9 +369,8 @@ const PAGE_TITLES: Record<string, string> = {
   "/assets/templates":     "Email & SMS Templates",
   "/assets/envelopes":     "Envelope Designs",
   "/assets/landing-pages": "Landing Page Designs",
-  "/assets/video-clips":   "Intros & Outros",
-  "/assets/intros":        "Intro Templates",
-  "/assets/outros":        "Outro Templates",
+  "/assets/video-clips":   "Video Clips",
+  "/assets/intros-outros": "Intros & Outros",
   "/assets/images":        "Image Library",
   "/intro/create":         "New Intro",
   "/outro/create":         "New Outro",

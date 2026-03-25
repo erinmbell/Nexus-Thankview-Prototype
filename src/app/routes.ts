@@ -17,8 +17,7 @@ import { EnvelopeDesigns }    from "./pages/assets/EnvelopeDesigns";
 import { LandingPageDesigns } from "./pages/assets/LandingPageDesigns";
 import { VideoClips }         from "./pages/assets/VideoClips";
 import { ImageLibrary }       from "./pages/assets/ImageLibrary";
-import { IntroLibrary }       from "./pages/assets/IntroLibrary";
-import { OutroLibrary }       from "./pages/assets/OutroLibrary";
+import { IntrosAndOutros }     from "./pages/assets/IntrosAndOutros";
 import { CreateAssets }       from "./pages/CreateAssets";
 import { CreateIntro }        from "./pages/CreateIntro";
 import { CreateOutro }        from "./pages/CreateOutro";
@@ -69,8 +68,9 @@ export const router = createBrowserRouter([
       { path: "assets/landing-pages", Component: LandingPageDesigns },
       { path: "assets/video-clips",   Component: VideoClips },
       { path: "assets/images",        Component: ImageLibrary },
-      { path: "assets/intros",        Component: IntroLibrary },
-      { path: "assets/outros",        Component: OutroLibrary },
+      { path: "assets/intros-outros",  Component: IntrosAndOutros },
+      { path: "assets/intros",        loader: () => redirect("/assets/intros-outros") },
+      { path: "assets/outros",        loader: () => redirect("/assets/intros-outros") },
       { path: "intro/create",         Component: CreateIntro },
       { path: "outro/create",         Component: CreateOutro },
       { path: "template/create",      Component: EmailTemplateBuilder },
