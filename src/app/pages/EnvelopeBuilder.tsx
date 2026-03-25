@@ -1012,10 +1012,36 @@ function SwatchRow({ value, onChange, label }: { value: string; onChange: (v: st
           )}
         </div>
       </div>
-      {/* Hex display */}
+      {/* Hex input row */}
       <div className="flex items-center gap-2 mt-2">
-        <div className="w-5 h-5 rounded border border-tv-border-light shrink-0" style={{ backgroundColor: safeHex(value) }} />
-        <span className="text-[11px] font-mono text-tv-text-secondary">{value.toUpperCase()}</span>
+        <label
+          className="w-5 h-5 rounded border border-tv-border-light shrink-0 relative overflow-hidden cursor-pointer"
+          style={{ backgroundColor: safeHex(value) }}
+        >
+          <input
+            type="color"
+            value={safeHex(value)}
+            onChange={(e) => onChange(e.target.value)}
+            className="absolute inset-0 opacity-0 cursor-pointer"
+          />
+        </label>
+        <input
+          value={value.toUpperCase()}
+          onChange={(e) => {
+            let v = e.target.value.replace(/[^#0-9a-fA-F]/g, "");
+            if (!v.startsWith("#")) v = "#" + v;
+            if (v.length > 7) v = v.slice(0, 7);
+            if (/^#[0-9a-fA-F]{6}$/.test(v)) onChange(v);
+            else e.target.value = v;
+          }}
+          onBlur={(e) => {
+            const v = e.target.value;
+            if (!/^#[0-9a-fA-F]{6}$/.test(v)) e.target.value = value.toUpperCase();
+          }}
+          className="w-[80px] text-[11px] font-mono text-tv-text-secondary border border-tv-border-light rounded-sm px-1.5 py-0.5 outline-none focus:ring-1 focus:ring-tv-brand/40 focus:border-tv-brand uppercase"
+          placeholder="#000000"
+          aria-label={`${label || "Color"} hex code`}
+        />
         <span className="text-[10px] text-tv-text-decorative">· {matchedSwatch?.name || "Custom"}</span>
       </div>
     </div>

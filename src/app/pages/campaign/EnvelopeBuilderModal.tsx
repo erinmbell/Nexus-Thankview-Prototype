@@ -9,10 +9,12 @@ export interface SavedEnvelope { id: number; name: string; preview: string; cate
 
 export function EnvelopeBuilderModal({ onSave, onClose }: { onSave: (env: SavedEnvelope) => void; onClose: () => void; }) {
   const { show } = useToast();
-  const [envTitle, setEnvTitle] = useState("New Envelope");
+  const [envTitle, setEnvTitle] = useState("");
   const [envColor, setEnvColor] = useState("#1B3461");
   const [linerColor, setLinerColor] = useState("#C8962A");
+  const [nameError, setNameError] = useState(false);
   const triggerRef = useRef<HTMLElement | null>(null);
+  const nameInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     triggerRef.current = document.activeElement as HTMLElement;
@@ -29,10 +31,21 @@ export function EnvelopeBuilderModal({ onSave, onClose }: { onSave: (env: SavedE
     return () => document.removeEventListener("keydown", handler);
   }, [onClose]);
 
+  const validateName = useCallback(() => {
+    if (!envTitle.trim()) {
+      setNameError(true);
+      show("Please name your envelope before saving", "warning");
+      nameInputRef.current?.focus();
+      return false;
+    }
+    return true;
+  }, [envTitle, show]);
+
   const handleSave = useCallback(() => {
+    if (!validateName()) return;
     triggerRef.current?.focus();
-    onSave({ id: Date.now(), name: envTitle.trim() || "Untitled Envelope", preview: envColor, category: "Branded" });
-  }, [envTitle, envColor, onSave]);
+    onSave({ id: Date.now(), name: envTitle.trim(), preview: envColor, category: "Branded" });
+  }, [envTitle, envColor, onSave, validateName]);
 
   return (
     <FocusTrap active>
@@ -54,8 +67,9 @@ export function EnvelopeBuilderModal({ onSave, onClose }: { onSave: (env: SavedE
           <div className="w-[320px] shrink-0 border-r border-tv-border-divider flex flex-col overflow-hidden">
             <div className="flex-1 overflow-y-auto p-5 space-y-6">
               <div>
-                <p className="tv-label mb-2">Envelope Title</p>
-                <input value={envTitle} onChange={e => setEnvTitle(e.target.value)} className="w-full border border-tv-border-light rounded-md px-3 py-2.5 text-[13px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/20 focus:border-tv-brand transition-colors" />
+                <p className="tv-label mb-2">Envelope Title <span className="text-red-500">*</span></p>
+                <input ref={nameInputRef} value={envTitle} onChange={e => { setEnvTitle(e.target.value); setNameError(false); }} placeholder="Enter envelope name" aria-required="true" aria-invalid={nameError} className={`w-full border rounded-md px-3 py-2.5 text-[13px] text-tv-text-primary outline-none focus:ring-2 transition-colors ${nameError ? "border-red-400 focus:ring-red-200 focus:border-red-400" : "border-tv-border-light focus:ring-tv-brand/20 focus:border-tv-brand"}`} />
+                {nameError && <p className="text-red-500 text-[11px] mt-1">A name is required to save</p>}
               </div>
               <ColorSwatchPicker label="Envelope Color" value={envColor} onChange={(hex) => setEnvColor(hex)} swatches={BRAND_PALETTE} swatchSize={32} />
               <ColorSwatchPicker label="Liner Color" value={linerColor} onChange={(hex) => setLinerColor(hex)} swatches={BRAND_PALETTE} swatchSize={32} />
@@ -89,7 +103,7 @@ export function EnvelopeBuilderModal({ onSave, onClose }: { onSave: (env: SavedE
         </div>
 
         <div className="px-5 py-3.5 border-t border-tv-border-divider bg-white flex items-center justify-end gap-3 shrink-0">
-          <button onClick={() => { show("Envelope saved to your library", "success"); handleClose(); }} className="flex items-center gap-1.5 px-4 py-2 text-[12px] text-tv-brand border-2 border-tv-brand rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 600 }}>
+          <button onClick={() => { if (!validateName()) return; show("Envelope saved to your library", "success"); handleClose(); }} className="flex items-center gap-1.5 px-4 py-2 text-[12px] text-tv-brand border-2 border-tv-brand rounded-full hover:bg-tv-brand-tint transition-colors" style={{ fontWeight: 600 }}>
             <Bookmark size={13} />Save to Library
           </button>
           <button onClick={handleSave} className="flex items-center gap-1.5 px-5 py-2.5 text-[13px] text-white rounded-full transition-colors bg-tv-brand-bg hover:bg-tv-brand-hover" style={{ fontWeight: 600 }}>
