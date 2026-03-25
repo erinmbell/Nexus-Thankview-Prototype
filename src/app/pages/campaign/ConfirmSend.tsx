@@ -105,7 +105,7 @@ export function ConfirmSend({
           </div>
 
           {mergeFieldWarnings.length > 0 && (
-            <div className="mx-6 mb-4">
+            <div className="mx-6 mb-4" aria-live="polite" aria-atomic="true">
               <div className={`border rounded-lg overflow-hidden transition-colors ${allResolved ? "border-tv-success/40 bg-tv-success-bg/50" : "border-tv-warning-border bg-tv-warning-bg/30"}`}>
                 <div className={`px-4 py-3 flex items-center gap-2.5 ${allResolved ? "bg-tv-success-bg/60" : "bg-tv-warning-bg/60"}`}>
                   {allResolved ? <CheckCircle2 size={15} className="text-tv-success shrink-0" /> : <CircleAlert size={15} className="text-tv-warning shrink-0" />}
@@ -141,7 +141,7 @@ export function ConfirmSend({
                                 <div className="mb-3 flex items-center gap-2">
                                   <input type="text" autoComplete="off" aria-label={`Fallback value for ${w.field}`} value={fallbackValues[w.field] || ""} onChange={e => setFallbackValues(prev => ({ ...prev, [w.field]: e.target.value }))} placeholder={`Fallback for {{${w.field}}}`} className="flex-1 border border-tv-border-light rounded-sm px-3 py-1.5 text-[11px] outline-none focus:ring-2 focus:ring-tv-brand-bg/20" autoFocus />
                                   <button onClick={() => { if (fallbackValues[w.field]?.trim()) resolveField(w.field, "fallback"); }} disabled={!fallbackValues[w.field]?.trim()} className="px-3 py-1.5 text-[10px] rounded-sm bg-tv-brand-bg text-white disabled:opacity-50" style={{ fontWeight: 600 }}>Apply</button>
-                                  <button onClick={() => setEditingFallback(null)} className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-tv-surface-hover text-tv-text-secondary"><X size={11} /></button>
+                                  <button onClick={() => setEditingFallback(null)} aria-label="Cancel fallback edit" className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-tv-surface-hover text-tv-text-secondary"><X size={11} /></button>
                                 </div>
                               )}
                               <div className="flex flex-wrap gap-2">

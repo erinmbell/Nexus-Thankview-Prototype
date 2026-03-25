@@ -338,7 +338,7 @@ function SortableStepItem({ id, children }: { id: string; children: ReactNode })
   return (
     <div ref={setNodeRef} style={style} {...attributes}>
       <div className="flex items-center">
-        <button {...listeners} className="cursor-grab active:cursor-grabbing p-1 text-tv-text-decorative hover:text-tv-text-secondary -ml-6 mr-1 opacity-0 group-hover/sortable:opacity-100 transition-opacity" title="Drag to reorder">
+        <button {...listeners} className="cursor-grab active:cursor-grabbing p-1 text-tv-text-decorative hover:text-tv-text-secondary -ml-6 mr-1 opacity-0 group-hover/sortable:opacity-100 transition-opacity" title="Drag to reorder" aria-label="Drag to reorder">
           <svg width="10" height="14" viewBox="0 0 10 14" fill="currentColor"><circle cx="3" cy="2" r="1.2"/><circle cx="7" cy="2" r="1.2"/><circle cx="3" cy="7" r="1.2"/><circle cx="7" cy="7" r="1.2"/><circle cx="3" cy="12" r="1.2"/><circle cx="7" cy="12" r="1.2"/></svg>
         </button>
         <div className="flex-1">{children}</div>
@@ -418,7 +418,7 @@ function DrawerSection({
 }) {
   return (
     <div className="border border-tv-border-light rounded-md overflow-visible">
-      <button onClick={onToggle} className={`w-full flex items-center gap-2.5 px-3.5 py-3 bg-tv-surface-muted hover:bg-tv-surface transition-colors text-left rounded-t-[9px] ${!open ? "rounded-b-[9px]" : ""}`}>
+      <button onClick={onToggle} aria-expanded={open} className={`w-full flex items-center gap-2.5 px-3.5 py-3 bg-tv-surface-muted hover:bg-tv-surface transition-colors text-left rounded-t-[9px] ${!open ? "rounded-b-[9px]" : ""}`}>
         <SectionIcon size={13} className={iconColor} />
         <span className="flex-1 text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>{title}</span>
         {badge && <span className="text-[9px] text-tv-brand bg-tv-brand-tint px-1.5 py-0.5 rounded-full" style={{ fontWeight: 600 }}>{badge}</span>}
@@ -3823,7 +3823,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                 {nextStepLabel}<ChevronRight size={13} />
               </button>
               {!canAdvancePhase && advanceBlockReason && (
-                <div className="absolute bottom-full mb-2 right-0 w-56 p-2.5 bg-[#1e293b] text-white text-[11px] rounded-sm shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20 leading-relaxed">
+                <div className="absolute bottom-full mb-2 right-0 w-56 p-2.5 bg-[#1e293b] text-white text-[11px] rounded-sm shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity pointer-events-none z-20 leading-relaxed">
                   {advanceBlockReason}
                   <div className="absolute -bottom-1 right-6 w-2 h-2 bg-[#1e293b] rotate-45" />
                 </div>

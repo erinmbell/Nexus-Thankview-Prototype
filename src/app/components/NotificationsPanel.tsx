@@ -130,7 +130,8 @@ export function NotificationsPanel({ onClose }: Props) {
               <Text fz={13} c={TV.textSecondary} fw={500}>You're all caught up!</Text>
             </Stack>
           ) : (
-            displayed.map(n => (
+            <div role="list">
+            {displayed.map(n => (
               <Box
                 key={n.id}
                 className="flex gap-3 cursor-default group"
@@ -156,7 +157,7 @@ export function NotificationsPanel({ onClose }: Props) {
                     <ActionIcon
                       variant="subtle" size={24} radius="xl" color="tvPurple"
                       onClick={() => markOne(n.id)}
-                      className="shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
+                      className="shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100 transition-opacity"
                     >
                       <Check size={13} />
                     </ActionIcon>
@@ -164,7 +165,8 @@ export function NotificationsPanel({ onClose }: Props) {
                 )}
                 {!n.read && <Box w={8} h={8} className="rounded-full shrink-0 mt-2" style={{ backgroundColor: TV.textBrand }} />}
               </Box>
-            ))
+            ))}
+            </div>
           )}
         </ScrollArea>
       </Box>

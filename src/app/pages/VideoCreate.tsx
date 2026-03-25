@@ -154,7 +154,7 @@ export function SourceStep({ onSelect }: { onSelect: (s: Source) => void }) {
               <p className="text-[15px] font-bold text-tv-text-primary mb-1">{opt.label}</p>
               <p className="text-[12px] text-tv-text-secondary leading-relaxed">{opt.desc}</p>
             </div>
-            <div className="mt-auto flex items-center gap-1 text-[12px] font-semibold text-tv-text-brand opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="mt-auto flex items-center gap-1 text-[12px] font-semibold text-tv-text-brand opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
               Select <ChevronRight size={13} />
             </div>
           </button>
@@ -1016,7 +1016,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
           </div>
 
           {!playing && (
-            <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
               <div className="w-14 h-14 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center">
                 <Play size={22} className="text-white ml-0.5" fill="white" />
               </div>

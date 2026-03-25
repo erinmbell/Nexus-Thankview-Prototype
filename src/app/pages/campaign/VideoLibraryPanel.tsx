@@ -240,7 +240,7 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
                     <Heart size={13} className="absolute top-2 right-2 text-white" fill="currentColor" />
                   )}
                   {/* Hover actions overlay */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity flex items-center justify-center gap-2">
                     {pickMode ? (
                       <button onClick={() => onSelectVideo?.(v)}
                         className="flex items-center gap-1.5 px-3 py-1.5 bg-tv-brand-bg text-white text-[11px] rounded-sm hover:bg-tv-brand-bg/90 transition-colors" style={{ fontWeight: 600 }}>
@@ -300,7 +300,7 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
                     <td className="px-4 py-3 text-[12px] text-tv-text-secondary tabular-nums">{v.duration}</td>
                     <td className="px-4 py-3 text-[12px] text-tv-text-secondary">{v.createdAt}</td>
                     <td className="px-4 py-3">
-                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
                         {pickMode ? (
                           <button onClick={() => onSelectVideo?.(v)}
                             className="flex items-center gap-1 px-2.5 py-1 bg-tv-brand-bg text-white text-[11px] rounded-md hover:bg-tv-brand-bg/90 transition-colors" style={{ fontWeight: 600 }}>

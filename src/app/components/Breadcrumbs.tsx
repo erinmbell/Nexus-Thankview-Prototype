@@ -69,7 +69,7 @@ export function Breadcrumbs({ items, maxLastWidth }: BreadcrumbsProps) {
                 <ChevronRight
                   size={14}
                   aria-hidden="true"
-                  style={{ color: TV.textSecondary, flexShrink: 0, opacity: 0.55 }}
+                  style={{ color: TV.textSecondary, flexShrink: 0 }}
                 />
               )}
               {isLast ? (

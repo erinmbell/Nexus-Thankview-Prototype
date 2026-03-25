@@ -106,6 +106,8 @@ function SmsMergeBar({ onInsert, body, onChange, placeholder }: {
         <div className="relative">
           <button
             onClick={() => setShowPicker(!showPicker)}
+            aria-label="Show additional merge fields"
+            aria-expanded={showPicker}
             className={`text-[9px] px-1.5 py-0.5 rounded transition-colors ${showPicker ? "bg-tv-brand-tint text-tv-brand" : "text-tv-brand hover:bg-tv-brand-tint"} font-semibold`}
           >
             + More
@@ -3098,7 +3100,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                         <span className="text-[10px] text-tv-text-secondary truncate">{r.city || "—"}</span>
                         <span className="text-[10px] text-tv-text-secondary truncate">{r.lastGiftDate || "—"}</span>
                         <span className="text-[10px] text-tv-text-decorative truncate">{r.source}</span>
-                        {!isEditMode && <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {!isEditMode && <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
                           <TvTooltip label="Edit"><button onClick={() => setEditingConstituent(r.id)} className="w-6 h-6 rounded flex items-center justify-center hover:bg-tv-brand-tint text-tv-text-secondary hover:text-tv-brand transition-colors" aria-label="Edit constituent"><Edit2 size={10} /></button></TvTooltip>
                           <TvTooltip label="Remove"><button onClick={() => removeConstituent(r.id)} className="w-6 h-6 rounded flex items-center justify-center hover:bg-tv-danger-bg text-tv-text-secondary hover:text-tv-danger transition-colors" aria-label="Remove constituent"><Trash2 size={10} /></button></TvTooltip>
                         </div>}
@@ -3802,7 +3804,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                     Next<ChevronRight size={13} />
                   </button>
                   {configBlocked && (
-                    <div className="absolute bottom-full mb-2 right-0 w-52 p-2.5 bg-[#1e293b] text-white text-[11px] rounded-sm shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+                    <div className="absolute bottom-full mb-2 right-0 w-52 p-2.5 bg-[#1e293b] text-white text-[11px] rounded-sm shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity pointer-events-none z-20">
                       {!campaignName.trim() ? "Enter a campaign name." : !campaignGoal ? "Select a campaign type." : (campaignGoal === "request-video" ? !vrDeliveryType : !campaignCh) ? "Select a delivery channel." : selectedMetrics.length < 1 ? "Select at least 1 success metric." : "Complete configuration."}
                       <div className="absolute -bottom-1 right-6 w-2 h-2 bg-[#1e293b] rotate-45" />
                     </div>
@@ -3852,7 +3854,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                       Next: Review &amp; Send<ChevronRight size={13} />
                     </button>
                     {!canAdvance && (
-                      <div className="absolute bottom-full mb-2 right-0 w-52 p-2.5 bg-[#1e293b] text-white text-[11px] rounded-sm shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+                      <div className="absolute bottom-full mb-2 right-0 w-52 p-2.5 bg-[#1e293b] text-white text-[11px] rounded-sm shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity pointer-events-none z-20">
                         {!scheduleType ? "Please select a scheduling option." : scheduleDateInPast ? "Scheduled date is in the past." : "Complete the send configuration."}
                         <div className="absolute -bottom-1 right-6 w-2 h-2 bg-[#1e293b] rotate-45" />
                       </div>

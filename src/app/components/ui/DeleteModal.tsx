@@ -18,6 +18,7 @@ export function DeleteModal({ title, description, onConfirm, onCancel }: DeleteM
       size={420}
       padding="lg"
       title={title}
+      aria-label={title}
       styles={{ title: { display: "none" } }}
     >
       <div className="flex items-start gap-4 mb-6" style={{ flexWrap: "nowrap" }}>

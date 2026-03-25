@@ -168,7 +168,7 @@ export function ConfigureStepPanel({
 
         <div className="p-5 space-y-3">
           <div className="flex items-center gap-2">
-            <button onClick={() => setShowMetricsInfo(v => !v)} className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors ${showMetricsInfo ? "bg-tv-brand-bg text-white" : "bg-tv-surface text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
+            <button onClick={() => setShowMetricsInfo(v => !v)} aria-label="Toggle metrics explanation" aria-expanded={showMetricsInfo} className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors ${showMetricsInfo ? "bg-tv-brand-bg text-white" : "bg-tv-surface text-tv-text-secondary hover:bg-tv-surface-hover"}`}>
               <Info size={10} />
             </button>
             <p className="text-[11px] text-tv-text-secondary">Choose 1-5 metrics to track on your campaign dashboard.</p>
@@ -216,13 +216,13 @@ export function ConfigureStepPanel({
           <div>
             <div className="flex items-center gap-1.5 mb-1.5">
               <p className="text-[10px] text-tv-text-label uppercase tracking-wider" style={{ fontWeight: 600 }}>Drop-off & Issues</p>
-              <button onClick={() => setShowDropoffInfo(v => !v)} className={`w-4 h-4 rounded-full flex items-center justify-center transition-colors ${showDropoffInfo ? "bg-tv-danger text-white" : "bg-tv-surface text-tv-text-decorative hover:bg-tv-surface-hover"}`}>
+              <button onClick={() => setShowDropoffInfo(v => !v)} aria-label="Toggle drop-off explanation" aria-expanded={showDropoffInfo} className={`w-4 h-4 rounded-full flex items-center justify-center transition-colors ${showDropoffInfo ? "bg-tv-danger text-white" : "bg-tv-surface text-tv-text-decorative hover:bg-tv-surface-hover"}`}>
                 <Info size={8} />
               </button>
             </div>
             {showDropoffInfo && (
               <div className="p-2.5 bg-tv-danger-bg border border-tv-danger/15 rounded-sm mb-1.5">
-                <p className="text-[10px] text-tv-danger/80 leading-relaxed">
+                <p className="text-[10px] text-tv-danger leading-relaxed">
                   These are watchdog metrics — track them to spot deliverability problems early.
                 </p>
               </div>
@@ -380,7 +380,7 @@ export function ConfigureStepPanel({
 
                   <div>
                     <p className="text-[11px] text-tv-text-secondary mb-1.5">Constituent should be removed from the campaign if they:</p>
-                    <select value={rule.condition} onChange={e => updateRule(rule.id, { condition: e.target.value })} className={SELECT_CLS}>
+                    <select value={rule.condition} onChange={e => updateRule(rule.id, { condition: e.target.value })} aria-label="Removal condition" className={SELECT_CLS}>
                       <option value="">Select a condition...</option>
                       {CONDITION_OPTIONS_REMOVAL.map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
@@ -403,7 +403,7 @@ export function ConfigureStepPanel({
                   {rule.sendFinalEmail && (
                     <div>
                       <p className="text-[11px] text-tv-brand mb-1.5" style={{ fontWeight: 600 }}>Email template:</p>
-                      <select value={rule.emailTemplate} onChange={e => updateRule(rule.id, { emailTemplate: e.target.value })} className={SELECT_CLS}>
+                      <select value={rule.emailTemplate} onChange={e => updateRule(rule.id, { emailTemplate: e.target.value })} aria-label="Email template" className={SELECT_CLS}>
                         <option value="">Select a template...</option>
                         {["Default goodbye template", "Thank you for engaging", "We're sorry to see you go", "Custom template..."].map(t => <option key={t} value={t}>{t}</option>)}
                       </select>

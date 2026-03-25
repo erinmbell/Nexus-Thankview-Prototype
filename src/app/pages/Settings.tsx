@@ -435,14 +435,16 @@ function GeneralTab() {
   return (
     <Stack gap="lg" maw={672}>
       {/* Org Settings */}
-      <div className="rounded-[var(--mantine-radius-default)] border p-5" style={{ borderColor: TV.borderLight }}>
-        <Title order={2} fz={16} mb="md">Organization Settings</Title>
+      <fieldset className="rounded-[var(--mantine-radius-default)] border p-5 m-0" style={{ borderColor: TV.borderLight }}>
+        <legend className="sr-only">Organization Settings</legend>
+        <Title order={2} fz={16} mb="md" aria-hidden="true">Organization Settings</Title>
         <Stack gap="md">
           <TextInput
             label="Organization Name"
             value={orgName}
             onChange={e => setOrgName(e.currentTarget.value)}
             description="This is what appears in the org switcher."
+            autoComplete="organization"
           />
           <div>
             <FieldLabel>Organization Slug</FieldLabel>
@@ -456,9 +458,10 @@ function GeneralTab() {
             description="This is the URL recipients are taken to when they click your logo on a landing page."
             value={orgUrl}
             onChange={e => setOrgUrl(e.currentTarget.value)}
+            autoComplete="url"
           />
         </Stack>
-      </div>
+      </fieldset>
 
       {/* Logo */}
       <div className="rounded-[var(--mantine-radius-default)] border p-5" style={{ borderColor: TV.borderLight }}>
@@ -2601,6 +2604,7 @@ function SubscriptionTab() {
             value={cardName}
             onChange={e => setCardName(e.currentTarget.value)}
             radius="md"
+            autoComplete="cc-name"
           />
           <TextInput
             label="Card Number"

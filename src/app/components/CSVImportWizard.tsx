@@ -331,6 +331,9 @@ export function CSVImportWizard({ existingEmails = new Set(), onImport }: CSVImp
             className="hidden"
           />
           <div
+            role="button"
+            tabIndex={0}
+            aria-label="Upload CSV file"
             className={`w-full border-2 border-dashed rounded-lg p-10 flex flex-col items-center gap-4 transition-colors cursor-pointer ${
               dragOver
                 ? "border-tv-brand-bg bg-tv-brand-tint/30"
@@ -340,6 +343,7 @@ export function CSVImportWizard({ existingEmails = new Set(), onImport }: CSVImp
             onDragLeave={() => setDragOver(false)}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
+            onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInputRef.current?.click(); } }}
           >
             <div className="w-12 h-12 rounded-lg bg-tv-brand-tint flex items-center justify-center">
               <Upload size={20} className="text-tv-brand" />
@@ -420,6 +424,7 @@ export function CSVImportWizard({ existingEmails = new Set(), onImport }: CSVImp
                     <select
                       value={mapped}
                       onChange={e => updateMapping(i, e.target.value as TVFieldId)}
+                      aria-label={`Map "${headers[i]}" to ThankView field`}
                       className={`w-full appearance-none pl-3 pr-7 py-2 rounded-sm border text-[12px] outline-none transition-colors cursor-pointer ${
                         mapped === "skip"
                           ? "border-tv-border-light text-tv-text-secondary bg-tv-surface"
@@ -485,18 +490,18 @@ export function CSVImportWizard({ existingEmails = new Set(), onImport }: CSVImp
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr>
-                  <th className="px-2 py-2 text-[10px] text-tv-text-label uppercase tracking-wider border-b border-tv-border-divider" style={{ fontWeight: 600 }}>Row</th>
+                  <th scope="col" className="px-2 py-2 text-[10px] text-tv-text-label uppercase tracking-wider border-b border-tv-border-divider" style={{ fontWeight: 600 }}>Row</th>
                   {headers.map((h, i) => {
                     const mapped = mapping[i];
                     if (mapped === "skip") return null;
                     const field = TV_FIELDS.find(f => f.id === mapped);
                     return (
-                      <th key={i} className="px-2 py-2 text-[10px] border-b border-tv-border-divider" style={{ fontWeight: 600 }}>
+                      <th key={i} scope="col" className="px-2 py-2 text-[10px] border-b border-tv-border-divider" style={{ fontWeight: 600 }}>
                         <span className="text-tv-text-label uppercase tracking-wider">{field?.label ?? h}</span>
                       </th>
                     );
                   })}
-                  <th className="px-2 py-2 text-[10px] text-tv-text-label uppercase tracking-wider border-b border-tv-border-divider w-[80px]" style={{ fontWeight: 600 }}>Status</th>
+                  <th scope="col" className="px-2 py-2 text-[10px] text-tv-text-label uppercase tracking-wider border-b border-tv-border-divider w-[80px]" style={{ fontWeight: 600 }}>Status</th>
                 </tr>
               </thead>
               <tbody>

@@ -88,7 +88,7 @@ export function ChipFilter({ label, icon: Icon, options, values, onChange, searc
           <Text fz={12} fw={isActive ? 600 : 500} c={isActive ? TV.textBrand : TV.textPrimary}>
             {label}
           </Text>
-          <Box w={1} h={14} bg={isActive ? TV.borderStrong : TV.borderLight} style={{ flexShrink: 0, opacity: isActive ? 0.4 : 0.6 }} />
+          <Box w={1} h={14} bg={TV.borderLight} style={{ flexShrink: 0 }} />
           <Text fz={11} fw={isActive ? 600 : 500} c={isActive ? TV.textBrand : TV.textSecondary} style={{ maxWidth: 160 }} truncate>
             {getSummary()}
           </Text>
@@ -337,7 +337,7 @@ function DateRangeFilterChip({ def, values, onChange, onRemove, removable }: {
           </Text>
           {isActive && (
             <>
-              <Box w={1} h={14} bg={TV.borderStrong} style={{ flexShrink: 0, opacity: 0.4 }} />
+              <Box w={1} h={14} bg={TV.borderLight} style={{ flexShrink: 0 }} />
               <Text fz={11} fw={600} c={TV.textBrand} style={{ maxWidth: 200 }} truncate>
                 {getSummary()}
               </Text>
@@ -513,7 +513,7 @@ function FilterChip({ def, values, onChange, onRemove, removable }: {
           <Text fz={12} fw={isActive ? 600 : 500} c={isActive ? TV.textBrand : TV.textPrimary}>
             {def.label}
           </Text>
-          <Box w={1} h={14} bg={isActive ? TV.borderStrong : TV.borderLight} style={{ flexShrink: 0, opacity: isActive ? 0.4 : 0.6 }} />
+          <Box w={1} h={14} bg={TV.borderLight} style={{ flexShrink: 0 }} />
           <Text fz={11} fw={isActive ? 600 : 500} c={isActive ? TV.textBrand : TV.textSecondary} style={{ maxWidth: 160 }} truncate>
             {getSummary()}
           </Text>

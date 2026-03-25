@@ -253,7 +253,7 @@ export function ImageLibrary() {
               <button
                 onClick={(e) => { e.stopPropagation(); toggleSelect(img.id); }}
                 className={`absolute top-2 left-2 z-10 w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
-                  selected.includes(img.id) ? "bg-tv-brand-bg border-tv-brand-bg" : "border-white/70 bg-black/20 opacity-0 group-hover:opacity-100"
+                  selected.includes(img.id) ? "bg-tv-brand-bg border-tv-brand-bg" : "border-white/70 bg-black/20 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"
                 }`}
               >
                 {selected.includes(img.id) && <Check size={10} className="text-white" strokeWidth={3} />}
@@ -264,11 +264,11 @@ export function ImageLibrary() {
                 <ImageWithFallback src={img.url} alt={img.name} className="w-full h-full object-cover" />
                 {/* Hover overlay */}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                  <Eye size={18} className="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <Eye size={18} className="text-white opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" />
                 </div>
                 {/* Star */}
                 <button onClick={e => { e.stopPropagation(); toggleStar(img.id); }} aria-label={img.starred ? "Unstar" : "Star"} className="absolute top-2 right-2 z-10 p-1 bg-black/30 rounded-full hover:bg-black/50 transition-all">
-                  <Star size={13} className={img.starred ? "text-tv-star fill-tv-star" : "text-white/70 opacity-0 group-hover:opacity-100"} />
+                  <Star size={13} className={img.starred ? "text-tv-star fill-tv-star" : "text-white/70 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"} />
                 </button>
                 {/* Category */}
                 <span className={`absolute bottom-2 left-2 text-[8px] font-bold px-1.5 py-0.5 rounded-full ${categoryColor(img.category)}`}>{img.category}</span>
