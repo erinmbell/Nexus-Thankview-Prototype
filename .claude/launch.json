@@ -3,9 +3,10 @@
   "configurations": [
     {
       "name": "ThankView Dev Server",
-      "runtimeExecutable": "/Users/erinbell/.nvm/versions/node/v24.14.0/bin/node",
-      "runtimeArgs": ["node_modules/.bin/vite"],
-      "port": 5173
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vite"],
+      "port": 5174,
+      "autoPort": true
     }
   ]
 }
