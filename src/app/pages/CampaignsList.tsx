@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate, useSearchParams } from "react-router";
 import { useToast } from "../contexts/ToastContext";
@@ -75,12 +75,13 @@ function CampaignThumbnail({ campaign, size = "md" }: { campaign: Campaign; size
   );
 }
 
-function CreateCampaignDropdown({ navigate, compact, onOpenTemplates }: { navigate: (path: string) => void; compact?: boolean; onOpenTemplates: () => void }) {
+export function CreateCampaignDropdown({ navigate, compact, onOpenTemplates, children }: { navigate: (path: string) => void; compact?: boolean; onOpenTemplates?: () => void; children?: ReactNode }) {
   return (
     <Menu position="bottom-end" withinPortal styles={{
       dropdown: { borderColor: TV.borderLight, borderRadius: 10, padding: "6px 6px 2px", minWidth: 300, boxShadow: TV.shadowDropdown },
     }}>
       <Menu.Target>
+        {children || (
         <Button
           leftSection={<Plus size={15} />}
           rightSection={<ChevronDown size={13} />}
@@ -90,6 +91,7 @@ function CreateCampaignDropdown({ navigate, compact, onOpenTemplates }: { naviga
         >
           {compact ? "New" : <><span className="hidden sm:inline">Create Campaign</span><span className="sm:hidden">New</span></>}
         </Button>
+        )}
       </Menu.Target>
       <Menu.Dropdown>
         <div className="px-3 pt-2 pb-1.5">
@@ -118,6 +120,8 @@ function CreateCampaignDropdown({ navigate, compact, onOpenTemplates }: { naviga
             </div>
           </Menu.Item>
         ))}
+        {onOpenTemplates && (
+        <>
         <div className="mx-2 my-1 border-t border-tv-border-divider" />
         <div className="px-3 pt-1.5 pb-1">
           <span className="text-[11px] text-tv-text-secondary tracking-widest uppercase font-semibold">From Template</span>
@@ -143,6 +147,8 @@ function CreateCampaignDropdown({ navigate, compact, onOpenTemplates }: { naviga
             <ChevronRight size={14} className="text-tv-text-decorative shrink-0" />
           </div>
         </Menu.Item>
+        </>
+        )}
       </Menu.Dropdown>
     </Menu>
   );

@@ -1307,6 +1307,9 @@ export function LivePreviewPanel({
           })() : (
           /* ── Email preview ── */
           (() => {
+            const fallbackLpEmail = allLandingPageDesigns[0] || LANDING_PAGES[0];
+            const lpColor = landingPageColor || fallbackLpEmail.color;
+            const lpAccent = landingPageAccent || fallbackLpEmail.accent;
             const envColor = envelope.color;
             const envAccent = envelope.accent;
             const envNameCol = (envelope as any).nameColor || (isDarkColor(envColor) ? "#ffffff" : "#1e293b");

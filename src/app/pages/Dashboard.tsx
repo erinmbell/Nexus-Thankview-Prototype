@@ -19,6 +19,7 @@ const imgImageThankYouForYourFeedbackCadences20 = "https://images.unsplash.com/p
 const imgImageTest = "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=220&h=165&fit=crop&auto=format";
 import svgPaths from "../../imports/svg-gd1t0gj97i";
 import { TV } from "../theme";
+import { CreateCampaignDropdown } from "./CampaignsList";
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
 
@@ -213,38 +214,7 @@ function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
     <div className="flex flex-col bg-white rounded-xl border border-tv-border-light">
       <div className="flex items-center justify-between gap-2 flex-wrap px-4 sm:px-6 py-4 sm:py-6" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
         <Title order={2} fz={{ base: 16, sm: 18 }} className="min-w-0 truncate">Your Ongoing Campaigns</Title>
-        <Menu position="bottom-end" withinPortal styles={{
-          dropdown: { borderColor: TV.borderLight, borderRadius: 10, padding: "6px 6px 2px", minWidth: 280, boxShadow: TV.shadowDropdown },
-        }}>
-          <Menu.Target>
-            <Button color="tvPurple" size="sm" leftSection={<Plus size={13} />} rightSection={<ChevronDown size={11} />} className="shrink-0">
-              <Text fz={13} className="hidden sm:inline">Create New</Text><Text fz={13} className="sm:hidden">New</Text>
-            </Button>
-          </Menu.Target>
-          <Menu.Dropdown>
-            <div className="px-3 pt-2 pb-1.5">
-              <span className="text-[11px] text-tv-text-secondary tracking-widest uppercase font-semibold">Create Campaign</span>
-            </div>
-            {[
-              { mode: "single", label: "Single-Step", desc: "One message, one send", icon: Send, bg: "#f3eeff", iconColor: "#7c45b0" },
-              { mode: "multi", label: "Multi-Step", desc: "Automated sequence of messages", icon: GitBranch, bg: "#e8f4fd", iconColor: "#2b7bb9" },
-              { mode: "video-request", label: "Video Request", desc: "Collect videos from constituents", icon: Bell, bg: "#e6f9ed", iconColor: "#15803d" },
-            ].map((item) => (
-              <Menu.Item key={item.mode} onClick={() => navigate(`/campaigns/create?mode=${item.mode}`)}
-                styles={{ item: { borderRadius: 10, padding: "10px 12px", marginBottom: 2 }, itemLabel: { display: "flex", alignItems: "center", gap: 12 } }}>
-                <div className="flex items-center gap-3 w-full">
-                  <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0" style={{ backgroundColor: item.bg }}>
-                    <item.icon size={16} style={{ color: item.iconColor }} />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-[13px] text-tv-text-primary font-semibold">{item.label}</p>
-                    <p className="text-[11px] text-tv-text-secondary">{item.desc}</p>
-                  </div>
-                </div>
-              </Menu.Item>
-            ))}
-          </Menu.Dropdown>
-        </Menu>
+        <CreateCampaignDropdown navigate={navigate} />
       </div>
       <div className="px-4 sm:px-6">
         {campaigns.map((c) => (
@@ -296,7 +266,8 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
     {
       label: "New Campaign",
       desc: "Create a new outreach campaign",
-      to: "/campaigns/create",
+      to: "",
+      campaignDropdown: true,
       icon: (
         <svg className="block size-[16px]" fill="none" viewBox="0 0 16 16" aria-hidden="true">
           <path d="M3.33333 8H12.6667" stroke="#00C0F5" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
@@ -348,25 +319,28 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
       </div>
       {/* 2×2 grid */}
       <div className="grid grid-cols-2 grid-rows-2 gap-[12px] p-[16px]">
-        {actions.map((action) => (
-          <button
-            key={action.label}
-            onClick={() => navigate(action.to)}
-            className="bg-tv-brand-tint relative rounded-[14px] text-left transition-all hover:shadow-md hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-          >
-            <div aria-hidden="true" className="absolute border border-tv-border-light inset-0 pointer-events-none rounded-[14px]" />
-            <div className="flex flex-col gap-[8px] items-start pl-[17px] pr-[8px] py-[17px] h-full">
-              {/* Icon container */}
-              <div className="bg-white rounded-md w-10 h-10 flex items-center justify-center shrink-0">
-                {action.icon}
+        {actions.map((action) => {
+          const card = (
+            <button
+              key={action.label}
+              onClick={action.to ? () => navigate(action.to) : undefined}
+              className="bg-tv-brand-tint relative rounded-[14px] text-left transition-all hover:shadow-md hover:scale-[1.02] active:scale-[0.98] cursor-pointer w-full"
+            >
+              <div aria-hidden="true" className="absolute border border-tv-border-light inset-0 pointer-events-none rounded-[14px]" />
+              <div className="flex flex-col gap-[8px] items-start pl-[17px] pr-[8px] py-[17px] h-full">
+                <div className="bg-white rounded-md w-10 h-10 flex items-center justify-center shrink-0">
+                  {action.icon}
+                </div>
+                <p className="font-['Inter',Roboto,sans-serif] font-semibold text-tv-text-primary text-[13px] tracking-[-0.08px] leading-[19.5px]">{action.label}</p>
+                <p className="font-['Inter',Roboto,sans-serif] font-medium text-tv-text-secondary text-[11px] tracking-[0.06px] leading-[13.75px]">{action.desc}</p>
               </div>
-              {/* Label */}
-              <p className="font-['Inter',Roboto,sans-serif] font-semibold text-tv-text-primary text-[13px] tracking-[-0.08px] leading-[19.5px]">{action.label}</p>
-              {/* Description */}
-              <p className="font-['Inter',Roboto,sans-serif] font-medium text-tv-text-secondary text-[11px] tracking-[0.06px] leading-[13.75px]">{action.desc}</p>
-            </div>
-          </button>
-        ))}
+            </button>
+          );
+          if (action.campaignDropdown) {
+            return <CreateCampaignDropdown key={action.label} navigate={navigate}>{card}</CreateCampaignDropdown>;
+          }
+          return card;
+        })}
       </div>
     </div>
   );
