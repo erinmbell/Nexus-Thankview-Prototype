@@ -289,6 +289,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
 
   /* ── Mid-session add state ── */
   const [showAddMidSession, setShowAddMidSession] = useState(false);
+  const [midSessionTagFilter, setMidSessionTagFilter] = useState("");
 
   /* ── Rapid-record settings ── */
   const [autoAdvance, setAutoAdvance] = useState(true);
@@ -626,31 +627,52 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
           const rec = recordings.find(r => r.contactId === c.id);
           const isSent = rec?.sendStatus === "sent";
           return (
-            <button
-              key={c.id}
-              onClick={() => { setCurrentContactId(c.id); if (phase !== "landing") setPhase("queue"); }}
-              className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-black/[0.02]"
-              style={{ backgroundColor: isCurrent ? `${TV.brand}06` : "transparent" }}
-            >
-              {/* Status indicator */}
-              <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: c.color }}>
-                <span className="text-white text-[8px]" style={{ fontWeight: 700 }}>{c.name.charAt(0)}</span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-[11px] truncate" style={{ fontWeight: isCurrent ? 700 : 500, color: TV.textPrimary }}>{c.name}</p>
-                <p className="text-[9px] truncate" style={{ color: TV.textSecondary }}>
-                  {isSent ? "Sent ✓" : isDone ? "Ready to send" : isCurrent ? "Recording…" : "Pending"}
-                </p>
-              </div>
-              {/* Status icon */}
-              {isSent ? (
-                <Check size={12} style={{ color: TV.success }} />
-              ) : isDone ? (
-                <CheckCircle2 size={12} style={{ color: TV.brand }} />
-              ) : isCurrent ? (
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: TV.brand }} />
-              ) : null}
-            </button>
+            <div key={c.id} className="group relative">
+              <button
+                onClick={() => { setCurrentContactId(c.id); if (phase !== "landing") setPhase("queue"); }}
+                className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all hover:bg-black/[0.02]"
+                style={{ backgroundColor: isCurrent ? `${TV.brand}06` : "transparent" }}
+              >
+                {/* Status indicator */}
+                <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: c.color }}>
+                  <span className="text-white text-[8px]" style={{ fontWeight: 700 }}>{c.name.charAt(0)}</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[11px] truncate" style={{ fontWeight: isCurrent ? 700 : 500, color: TV.textPrimary }}>{c.name}</p>
+                  <p className="text-[9px] truncate" style={{ color: TV.textSecondary }}>
+                    {isSent ? "Sent ✓" : isDone ? "Ready to send" : isCurrent ? "Recording…" : "Pending"}
+                  </p>
+                </div>
+                {/* Status icon */}
+                {isSent ? (
+                  <Check size={12} style={{ color: TV.success }} />
+                ) : isDone ? (
+                  <CheckCircle2 size={12} style={{ color: TV.brand }} />
+                ) : isCurrent ? (
+                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: TV.brand }} />
+                ) : null}
+              </button>
+              {/* Replace/Remove actions on hover for completed, unsent contacts */}
+              {isDone && !isSent && (
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1">
+                  <button
+                    onClick={e => { e.stopPropagation(); setCurrentContactId(c.id); setPhase("queue"); }}
+                    title="Replace video"
+                    className="px-1.5 py-0.5 rounded-sm text-[8px] transition-colors hover:bg-tv-brand-tint"
+                    style={{ fontWeight: 600, color: TV.textBrand }}
+                  >
+                    Replace
+                  </button>
+                  <button
+                    onClick={e => { e.stopPropagation(); setRecordings(prev => prev.filter(r => r.contactId !== c.id)); show(`Removed video for ${c.name}`); }}
+                    title="Remove video"
+                    className="p-0.5 rounded-sm transition-colors hover:bg-tv-danger-bg"
+                  >
+                    <Trash2 size={9} style={{ color: TV.danger }} />
+                  </button>
+                </div>
+              )}
+            </div>
           );
         })}
       </div>
@@ -667,8 +689,17 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
       </div>
 
       {/* Mid-session add popup */}
-      {showAddMidSession && (
-        <div className="absolute bottom-14 left-2 right-2 bg-white border rounded-lg shadow-xl z-50 max-h-[280px] flex flex-col overflow-hidden" style={{ borderColor: TV.borderLight }}>
+      {showAddMidSession && (() => {
+        const allTags = Array.from(new Set(ALL_CONTACTS.flatMap(c => c.tags))).sort();
+        const availableContacts = ALL_CONTACTS.filter(c => !selected.includes(c.id));
+        const filtered = availableContacts.filter(c => {
+          const q = search.toLowerCase().trim();
+          const matchesSearch = !q || c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q) || c.tags.some(t => t.toLowerCase().includes(q)) || c.givingLevel.toLowerCase().includes(q);
+          const matchesTag = !midSessionTagFilter || c.tags.includes(midSessionTagFilter);
+          return matchesSearch && matchesTag;
+        });
+        return (
+        <div className="absolute bottom-14 left-2 right-2 bg-white border rounded-lg shadow-xl z-50 max-h-[360px] flex flex-col overflow-hidden" style={{ borderColor: TV.borderLight }}>
           <div className="px-3 py-2 border-b" style={{ borderColor: TV.borderLight }}>
             <div className="flex items-center justify-between mb-1.5">
               <p className="text-[11px]" style={{ fontWeight: 700, color: TV.textPrimary }}>Add to Queue</p>
@@ -676,17 +707,30 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
             </div>
             <div className="relative">
               <Search size={10} className="absolute left-2 top-1/2 -translate-y-1/2 text-tv-text-secondary" />
-              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search…" aria-label="Search recipients" className="w-full border border-tv-border-light bg-white rounded-sm pl-6 pr-2 py-1 text-[10px] text-tv-text-primary outline-none placeholder:text-tv-text-decorative focus:border-tv-border-strong" />
+              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by name, email, tag, or giving level…" aria-label="Search recipients" className="w-full border border-tv-border-light bg-white rounded-sm pl-6 pr-2 py-1 text-[10px] text-tv-text-primary outline-none placeholder:text-tv-text-decorative focus:border-tv-border-strong" />
+            </div>
+            {/* Tag filter pills */}
+            <div className="flex flex-wrap gap-1 mt-1.5">
+              {allTags.slice(0, 8).map(tag => (
+                <button key={tag} onClick={() => setMidSessionTagFilter(prev => prev === tag ? "" : tag)}
+                  className={`px-2 py-0.5 rounded-full text-[8px] border transition-colors ${midSessionTagFilter === tag ? "bg-tv-brand-bg text-white border-tv-brand-bg" : "text-tv-text-secondary border-tv-border-light hover:border-tv-border-strong"}`}
+                  style={{ fontWeight: 500 }}>
+                  {tag}
+                </button>
+              ))}
             </div>
           </div>
           <div className="flex-1 overflow-y-auto">
-            {ALL_CONTACTS.filter(c => !selected.includes(c.id)).filter(c => {
-              const q = search.toLowerCase().trim();
-              return !q || c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q);
-            }).slice(0, 20).map(c => (
+            {filtered.length === 0 && (
+              <p className="text-[10px] text-center py-4" style={{ color: TV.textSecondary }}>No matching recipients</p>
+            )}
+            {filtered.slice(0, 20).map(c => (
               <button key={c.id} onClick={() => { setSelected(prev => [...prev, c.id]); show(`Added ${c.name} to queue`, "success"); }} className="w-full flex items-center gap-2 px-3 py-1.5 text-left hover:bg-black/[0.02] transition-colors">
                 <div className="w-4 h-4 rounded-full flex items-center justify-center text-white text-[7px] shrink-0" style={{ backgroundColor: c.color, fontWeight: 700 }}>{c.name.charAt(0)}</div>
-                <span className="text-[10px] truncate" style={{ fontWeight: 500, color: TV.textPrimary }}>{c.name}</span>
+                <div className="flex-1 min-w-0">
+                  <span className="text-[10px] truncate block" style={{ fontWeight: 500, color: TV.textPrimary }}>{c.name}</span>
+                  {c.tags.length > 0 && <span className="text-[8px] truncate block" style={{ color: TV.textDecorative }}>{c.tags.join(", ")}</span>}
+                </div>
               </button>
             ))}
           </div>
@@ -700,7 +744,8 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
             ))}
           </div>
         </div>
-      )}
+        );
+      })()}
     </div>
   );
 
@@ -782,7 +827,7 @@ export function PersonalizedRecorder({ onBack, onRecordingAdded, onDone }: Perso
                 {phase === "queue" && currentContact && (
                   <div className="flex-1 overflow-y-auto p-6">
                     {/* Current contact card */}
-                    <div className="flex items-center gap-4 mb-6 p-4 rounded-[14px] border" style={{ borderColor: TV.borderLight, backgroundColor: TV.surfaceMuted }}>
+                    <div className="flex items-center gap-4 mb-6 p-4 rounded-lg border" style={{ borderColor: TV.borderLight, backgroundColor: TV.surfaceMuted }}>
                       <div className="w-12 h-12 rounded-full flex items-center justify-center text-white text-[16px] shrink-0" style={{ fontWeight: 800, backgroundColor: currentContact.color }}>
                         {currentContact.name.split(" ").map(n => n[0]).join("")}
                       </div>

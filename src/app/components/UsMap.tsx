@@ -142,6 +142,18 @@ export function UsMap({
 
   const clearTooltip = useCallback(() => setTooltip(null), []);
 
+  const handleKeyDismiss = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === "Escape") { clearTooltip(); (e.target as HTMLElement).blur(); }
+  }, [clearTooltip]);
+
+  const showTooltipAtCenter = useCallback((el: SVGElement | null, label: string, value: string) => {
+    if (!el) return;
+    const root = el.closest(".us-map-root")?.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    if (!root) return;
+    setTooltip({ label, value, x: r.left - root.left + r.width / 2, y: r.top - root.top });
+  }, []);
+
   return (
     <div className="us-map-root relative w-full h-full" role="img" aria-label="United States map showing engagement distribution by state">
       <ComposableMap
@@ -201,7 +213,10 @@ export function UsMap({
                 stroke="#fff"
                 strokeWidth={2}
                 opacity={0.85}
-                style={{ cursor: "default", transition: "opacity 150ms" }}
+                tabIndex={0}
+                role="img"
+                aria-label={`${dot.city}: ${dot.count.toLocaleString()} views`}
+                style={{ cursor: "default", transition: "opacity 150ms", outline: "none" }}
                 onMouseMove={(e) =>
                   handleMouseMove(
                     e as unknown as React.MouseEvent,
@@ -210,6 +225,9 @@ export function UsMap({
                   )
                 }
                 onMouseLeave={clearTooltip}
+                onFocus={(e) => showTooltipAtCenter(e.currentTarget as unknown as SVGElement, dot.city, `${dot.count.toLocaleString()} views`)}
+                onBlur={clearTooltip}
+                onKeyDown={handleKeyDismiss}
                 onMouseEnter={(e) => {
                   (e.currentTarget as SVGCircleElement).setAttribute("opacity", "1");
                   const glow = (e.currentTarget as SVGCircleElement).previousElementSibling;

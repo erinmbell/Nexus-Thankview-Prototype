@@ -23,6 +23,17 @@ import type { SortDir } from "../components/SortableHeader";
 import { EditColumnsModal, ColumnsButton } from "../components/ColumnCustomizer";
 import type { ColumnDef } from "../components/ColumnCustomizer";
 
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function avatarTextColor(hex: string): string {
+  const c = hex.replace("#", "");
+  const r = parseInt(c.substring(0, 2), 16) / 255;
+  const g = parseInt(c.substring(2, 4), 16) / 255;
+  const b = parseInt(c.substring(4, 6), 16) / 255;
+  const f = (v: number) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+  const L = 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+  return L > 0.18 ? "#242436" : "white";
+}
+
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 interface ListContact {
@@ -373,7 +384,7 @@ function ManageContactsModal({ list, onClose, onSave }: {
               <div className="flex items-center gap-3">
                 <Checkbox checked={isIn} onChange={() => toggle(c.id)} color="tvPurple" size="xs" />
                 <Avatar size="sm" radius="xl"
-                  styles={{ placeholder: { backgroundColor: c.color, color: "white" } }}>{c.avatar}</Avatar>
+                  styles={{ placeholder: { backgroundColor: c.color, color: avatarTextColor(c.color) } }}>{c.avatar}</Avatar>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <Text fz={13} fw={600} c={TV.textPrimary} truncate>{c.first} {c.last}</Text>
                   <Text fz={11} c={TV.textSecondary} truncate>{c.email}</Text>
@@ -648,7 +659,7 @@ function ListDetail({ list, onBack, onManage, isOwner }: {
                       {colKey === "name" ? (
                         <div className="flex items-center gap-2 flex-nowrap">
                           <Avatar size="sm" radius="xl"
-                            styles={{ placeholder: { backgroundColor: c.color, color: "white" } }}>{c.avatar}</Avatar>
+                            styles={{ placeholder: { backgroundColor: c.color, color: avatarTextColor(c.color) } }}>{c.avatar}</Avatar>
                           <Text fz={13} fw={600} c={TV.textPrimary}>{c.first} {c.last}</Text>
                         </div>
                       ) : colKey === "email" ? (
@@ -658,8 +669,8 @@ function ListDetail({ list, onBack, onManage, isOwner }: {
                   ))}
                   <Table.Td style={{ padding: "12px 16px", verticalAlign: "middle" }}>
                     <Tooltip label="View profile" withArrow>
-                      <ActionIcon variant="subtle" color="gray" size="sm" onClick={e => { e.stopPropagation(); navigate(`/contacts/${c.id}`); }}>
-                        <ChevronRight size={14} />
+                      <ActionIcon variant="subtle" color="gray" size="sm" onClick={e => { e.stopPropagation(); navigate(`/contacts/${c.id}`); }} aria-label="View profile">
+                        <ChevronRight size={14} aria-hidden="true" />
                       </ActionIcon>
                     </Tooltip>
                   </Table.Td>
@@ -922,14 +933,14 @@ export function Lists() {
         </div>
         <div className="flex items-center gap-2">
           <Tooltip label="Create List" withArrow>
-            <ActionIcon variant="filled" color="tvPurple" size="lg" radius="xl" onClick={() => setShowCreate(true)}>
-              <Plus size={16} />
+            <ActionIcon variant="filled" color="tvPurple" size="lg" radius="xl" onClick={() => setShowCreate(true)} aria-label="Create list">
+              <Plus size={16} aria-hidden="true" />
             </ActionIcon>
           </Tooltip>
           <Tooltip label="Export All Lists" withArrow>
             <ActionIcon variant="default" size="lg" radius="xl" onClick={() => show("All lists exported!", "success")}
-              styles={{ root: { borderColor: TV.borderLight } }}>
-              <Download size={16} style={{ color: TV.textLabel }} />
+              styles={{ root: { borderColor: TV.borderLight } }} aria-label="Export all lists">
+              <Download size={16} style={{ color: TV.textLabel }} aria-hidden="true" />
             </ActionIcon>
           </Tooltip>
           <ColumnsButton onClick={() => setShowEditColumns(true)} />
@@ -941,6 +952,7 @@ export function Lists() {
         <TextInput
           leftSection={<Search size={14} style={{ color: TV.textSecondary }} />}
           placeholder="Search lists…"
+          aria-label="Search lists"
           value={search} onChange={e => { setSearch(e.currentTarget.value); setPage(1); }}
           radius="xl" style={{ flex: 1, maxWidth: 420 }}
           styles={{ input: { borderColor: TV.borderLight, backgroundColor: '#fff', color: TV.textPrimary } }}
@@ -1149,6 +1161,7 @@ export function Lists() {
       )}
       {deleteTarget && (
         <DeleteModal
+          opened
           title={`Delete "${deleteTarget.name}"?`}
           description="This will permanently delete this list. Constituents in the list will not be deleted."
           onConfirm={() => handleDelete(deleteTarget.id)}

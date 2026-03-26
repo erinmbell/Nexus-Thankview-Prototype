@@ -339,7 +339,7 @@ export function VideoLibrary({ pickMode = false, onBack, onSelectVideo }: VideoL
       {deleteTarget && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40" role="dialog" aria-modal="true" aria-label="Delete Video" onKeyDown={(e) => { if (e.key === "Escape") setDeleteTarget(null); }}>
           <FocusTrap active>
-          <div className="bg-white rounded-[14px] shadow-2xl w-full max-w-sm mx-4 overflow-hidden">
+          <div className="bg-white rounded-lg shadow-2xl w-full max-w-sm mx-4 overflow-hidden">
             <div className="px-6 pt-6 pb-4">
               <div className="w-10 h-10 rounded-full bg-tv-danger-bg flex items-center justify-center mb-3">
                 <Trash2 size={18} className="text-tv-danger" />

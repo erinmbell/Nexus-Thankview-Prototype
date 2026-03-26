@@ -510,7 +510,7 @@ export function GlobalSearch() {
     <Box ref={containerRef} className="flex-1 relative" style={{ maxWidth: 560 }} role="search">
       <div className="flex items-center" style={{
         border: `1.5px solid ${open && hasQuery ? TV.textBrand : TV.borderLight}`,
-        borderRadius: 24,
+        borderRadius: 20,
         backgroundColor: TV.surface,
         transition: "border-color 0.15s",
         overflow: "hidden",

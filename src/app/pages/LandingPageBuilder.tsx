@@ -927,7 +927,7 @@ export function LandingPageBuilder() {
 
       {/* Fullscreen live preview modal */}
       <LandingPageLivePreviewModal
-        open={showLivePreview}
+        opened={showLivePreview}
         onClose={() => setShowLivePreview(false)}
         name={name}
         navBarColor={navBarColor}

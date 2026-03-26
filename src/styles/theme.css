@@ -35,7 +35,7 @@
   --tv-info-hover:     #0c5f75;
   --tv-warning:        #b45309;
   --tv-warning-hover:  #92400e;
-  --tv-danger:         #dc2626;
+  --tv-danger:         #d42323;
   --tv-danger-hover:   #b91c1c;
 
   /* Status tint backgrounds */
@@ -95,7 +95,7 @@
 
   h3 {
     font-size: 1.125rem;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-black);
     line-height: 1.5;
   }
 

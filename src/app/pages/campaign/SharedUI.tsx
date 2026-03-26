@@ -137,7 +137,7 @@ export function RichTextToolbar({
     <div className={className || RTE_TOOLBAR_CLS}>
       {items.map(([label, Icon], i) => (
         <TvTooltip key={i} label={label}>
-          <button aria-label={label} className={TOOLBAR_BTN_CLS}>
+          <button aria-label={label} className={TOOLBAR_BTN_CLS} disabled aria-disabled="true" style={{ opacity: 0.45, cursor: "default" }}>
             <Icon size={12} />
           </button>
         </TvTooltip>

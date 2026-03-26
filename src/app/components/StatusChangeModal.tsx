@@ -170,9 +170,9 @@ export function StatusChangeModal({
               dotBg = TV.brand;
               dotBorder = TV.brand;
               textColor = TV.textPrimary;
-              iconColor = "#ffffff";
+              iconColor = "white";
             } else if (isValid) {
-              dotBg = "#ffffff";
+              dotBg = "white";
               dotBorder = TV.brand;
               textColor = TV.textPrimary;
               iconColor = TV.brand;
@@ -436,7 +436,7 @@ export function StatusChangeModal({
                   fontSize: 13,
                   backgroundColor:
                     (consequence?.severity === "danger") ? TV.danger : TV.brand,
-                  color: "#ffffff",
+                  color: "white",
                 },
               }}
             >

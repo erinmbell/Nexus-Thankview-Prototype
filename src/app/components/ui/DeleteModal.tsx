@@ -3,16 +3,17 @@ import { Modal, Button, Text, Title, Box } from "@mantine/core";
 import { TV } from "../../theme";
 
 interface DeleteModalProps {
+  opened: boolean;
   title: string;
   description?: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
 
-export function DeleteModal({ title, description, onConfirm, onCancel }: DeleteModalProps) {
+export function DeleteModal({ opened, title, description, onConfirm, onCancel }: DeleteModalProps) {
   return (
     <Modal
-      opened
+      opened={opened}
       onClose={onCancel}
       withCloseButton={false}
       size={420}

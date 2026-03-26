@@ -71,6 +71,7 @@ export function TablePagination({
           size="xs"
           w={70}
           radius="md"
+          aria-label="Rows per page"
           comboboxProps={{ shadow: "md" }}
           styles={{
             input: {

@@ -7,6 +7,13 @@ import { EnvelopePreview } from "../../components/EnvelopePreview";
 
 export interface SavedEnvelope { id: number; name: string; preview: string; category: string; }
 
+/**
+ * Simplified envelope builder shown in a modal within the campaign flow.
+ * Shares the same validation/save pattern as the full-page `EnvelopeBuilder`
+ * (`src/app/pages/EnvelopeBuilder.tsx`) but exposes only the 3 most-used controls.
+ * If the full builder's state/validation logic grows, consider extracting a
+ * shared `useEnvelopeBuilder()` hook to keep them in sync.
+ */
 export function EnvelopeBuilderModal({ onSave, onClose }: { onSave: (env: SavedEnvelope) => void; onClose: () => void; }) {
   const { show } = useToast();
   const [envTitle, setEnvTitle] = useState("");

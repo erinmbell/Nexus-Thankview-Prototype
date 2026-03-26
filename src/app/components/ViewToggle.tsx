@@ -28,11 +28,11 @@ export function ViewToggle({ options, value, onChange }: ViewToggleProps) {
             onClick={() => onChange(opt.value)}
             className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] transition-all"
             style={{
-              fontWeight: active ? 600 : 400,
+              fontWeight: active ? 700 : 400,
               color: active ? TV.textBrand : TV.textSecondary,
               backgroundColor: active ? "white" : "transparent",
               boxShadow: active
-                ? "0 1px 3px rgba(0,0,0,0.08)"
+                ? TV.shadowTooltip
                 : "none",
             }}
             role="radio"

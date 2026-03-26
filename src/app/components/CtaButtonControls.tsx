@@ -85,7 +85,8 @@ export function CtaButtonControls({
   );
 }
 
-function ColorPickerField({ label, value, onChange, compact }: { label: string; value: string; onChange: (v: string) => void; compact?: boolean }) {
+/** Compact inline color swatch + hex input — reusable for any small color field. */
+export function ColorPickerField({ label, value, onChange, compact }: { label: string; value: string; onChange: (v: string) => void; compact?: boolean }) {
   return (
     <div className="flex items-center gap-1.5">
       <label className="text-[10px] text-tv-text-secondary">{label}</label>

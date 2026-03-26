@@ -11,7 +11,7 @@
  * When inline=true (used by both builders), renders as a single scrollable
  * column with collapsible sections. Otherwise renders with tab rail + preview.
  */
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useToast } from "../../contexts/ToastContext";
 import { LivePreviewModal } from "../../components/LivePreviewModal";
 import { EnvelopePreview } from "../../components/EnvelopePreview";
@@ -31,6 +31,7 @@ import {
   Sparkles, Film, Upload, Replace, X, Users, AlertTriangle, Maximize2,
 } from "lucide-react";
 import { TvTooltip } from "../../components/TvTooltip";
+import { MergeFieldDropdown, EmojiDropdown } from "./SharedUI";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 type Viewport = "desktop" | "tablet" | "mobile";
@@ -75,8 +76,8 @@ export interface DesignStepPanelProps {
   onEnvTextAfterChange: (v: string) => void;
 
   /* ── Page content / interactions ──────────────── */
-  attachmentType: "button" | "pdf" | "form";
-  onAttachmentTypeChange: (v: "button" | "pdf" | "form") => void;
+  attachmentType: "none" | "button" | "pdf" | "form";
+  onAttachmentTypeChange: (v: "none" | "button" | "pdf" | "form") => void;
   step: {
     allowVideoReply?: boolean;
     allowEmailReply?: boolean;
@@ -536,7 +537,7 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
     const DisplayIcon = EMAIL_DISPLAY_OPTIONS.find(o => o.key === emailContentType)?.icon || Mail;
 
     return (
-      <div className="px-4 py-4">
+      <div className="px-4 py-4 overflow-hidden">
         {/* ── Mini step indicator ── */}
         <div className="flex items-center gap-2 mb-4">
           <button
@@ -585,7 +586,7 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
 
         {/* ── Step 2: Configure selected type ── */}
         {designStep === 2 && (
-          <div className="space-y-3">
+          <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
             {/* Current selection summary — click to go back */}
             <button
               onClick={() => setDesignStep(1)}
@@ -772,7 +773,7 @@ export function DesignStepPanel(props: DesignStepPanelProps) {
 
       {/* Animated envelope preview modal */}
       <LivePreviewModal
-        open={livePreviewOpen}
+        opened={livePreviewOpen}
         onClose={() => setLivePreviewOpen(false)}
         envelopeColor={envColor}
         nameColor={envData?.nameColor || (isDarkColor(envColor) ? "#ffffff" : "#1e293b")}
@@ -831,6 +832,41 @@ function CollapsibleSection({ icon: Icon, label, desc, open, onToggle, children 
 function EnvelopeSection(props: DesignStepPanelProps) {
   const [copiedLink, setCopiedLink] = useState<string | null>(null);
   const { show: showToast } = useToast();
+
+  // ── Text-before merge/emoji picker state ──
+  const [showTextBeforeMerge, setShowTextBeforeMerge] = useState(false);
+  const [showTextBeforeEmoji, setShowTextBeforeEmoji] = useState(false);
+  const textBeforeRef = useRef<HTMLInputElement>(null);
+  const insertAtTextBeforeCursor = (text: string) => {
+    const el = textBeforeRef.current;
+    if (!el) { props.onEnvTextBeforeChange(props.envTextBefore + text); return; }
+    const start = el.selectionStart ?? el.value.length;
+    const before = el.value.slice(0, start);
+    const after = el.value.slice(el.selectionEnd ?? start);
+    const newVal = before + text + after;
+    if (newVal.length <= 40) {
+      props.onEnvTextBeforeChange(newVal);
+      requestAnimationFrame(() => { el.selectionStart = el.selectionEnd = start + text.length; el.focus(); });
+    }
+  };
+
+  // ── Text-after merge/emoji picker state ──
+  const [showTextAfterMerge, setShowTextAfterMerge] = useState(false);
+  const [showTextAfterEmoji, setShowTextAfterEmoji] = useState(false);
+  const textAfterRef = useRef<HTMLInputElement>(null);
+  const insertAtTextAfterCursor = (text: string) => {
+    const el = textAfterRef.current;
+    if (!el) { props.onEnvTextAfterChange(props.envTextAfter + text); return; }
+    const start = el.selectionStart ?? el.value.length;
+    const before = el.value.slice(0, start);
+    const after = el.value.slice(el.selectionEnd ?? start);
+    const newVal = before + text + after;
+    if (newVal.length <= 40) {
+      props.onEnvTextAfterChange(newVal);
+      requestAnimationFrame(() => { el.selectionStart = el.selectionEnd = start + text.length; el.focus(); });
+    }
+  };
+
   const handleCopyLink = useCallback(() => {
     const url = "https://thankview.com/env/branded-spring-2026";
     navigator.clipboard.writeText(url).catch(() => {});
@@ -927,12 +963,33 @@ function EnvelopeSection(props: DesignStepPanelProps) {
           <div>
             <SectionLabel>Text before constituent's name <span className="text-tv-text-decorative normal-case tracking-normal" style={{ fontWeight: 400 }}>({props.envTextBefore.length}/40)</span></SectionLabel>
             <div className="relative">
-              <input value={props.envTextBefore} onChange={e => { if (e.target.value.length <= 40) props.onEnvTextBeforeChange(e.target.value); }}
+              <input ref={textBeforeRef} value={props.envTextBefore} onChange={e => { if (e.target.value.length <= 40) props.onEnvTextBeforeChange(e.target.value); }}
+                placeholder="e.g. Dear, A Gift for…"
                 className={`${inputCls} !pr-16`} />
               <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                <button className="p-1 rounded-[8px] hover:bg-tv-surface transition-colors"><Type size={13} className="text-tv-text-secondary" /></button>
-                <button className="p-1 rounded-[8px] hover:bg-tv-surface transition-colors"><Smile size={13} className="text-tv-text-secondary" /></button>
+                <TvTooltip label="Insert merge field">
+                  <button type="button" onClick={() => { setShowTextBeforeMerge(!showTextBeforeMerge); setShowTextBeforeEmoji(false); }}
+                    className={`p-1 rounded-[8px] transition-colors ${showTextBeforeMerge ? "bg-tv-brand-bg/10 text-tv-brand" : "hover:bg-tv-surface text-tv-text-secondary"}`}>
+                    <Type size={13} />
+                  </button>
+                </TvTooltip>
+                <TvTooltip label="Insert emoji">
+                  <button type="button" onClick={() => { setShowTextBeforeEmoji(!showTextBeforeEmoji); setShowTextBeforeMerge(false); }}
+                    className={`p-1 rounded-[8px] transition-colors ${showTextBeforeEmoji ? "bg-tv-brand-bg/10 text-tv-brand" : "hover:bg-tv-surface text-tv-text-secondary"}`}>
+                    <Smile size={13} />
+                  </button>
+                </TvTooltip>
               </div>
+              {showTextBeforeMerge && (
+                <div className="absolute right-0 top-full mt-1 z-50">
+                  <MergeFieldDropdown onSelect={(field) => { insertAtTextBeforeCursor(field); setShowTextBeforeMerge(false); }} onClose={() => setShowTextBeforeMerge(false)} />
+                </div>
+              )}
+              {showTextBeforeEmoji && (
+                <div className="absolute right-0 top-full mt-1 z-50">
+                  <EmojiDropdown onSelect={(emoji) => { insertAtTextBeforeCursor(emoji); setShowTextBeforeEmoji(false); }} onClose={() => setShowTextBeforeEmoji(false)} />
+                </div>
+              )}
             </div>
           </div>
 
@@ -963,12 +1020,33 @@ function EnvelopeSection(props: DesignStepPanelProps) {
           <div>
             <SectionLabel>Text after constituent's name <span className="text-tv-text-decorative normal-case tracking-normal" style={{ fontWeight: 400 }}>({props.envTextAfter.length}/40)</span></SectionLabel>
             <div className="relative">
-              <input value={props.envTextAfter} onChange={e => { if (e.target.value.length <= 40) props.onEnvTextAfterChange(e.target.value); }}
+              <input ref={textAfterRef} value={props.envTextAfter} onChange={e => { if (e.target.value.length <= 40) props.onEnvTextAfterChange(e.target.value); }}
+                placeholder="e.g. , thank you!"
                 className={`${inputCls} !pr-16`} />
               <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                <button className="p-1 rounded-[8px] hover:bg-tv-surface transition-colors"><Type size={13} className="text-tv-text-secondary" /></button>
-                <button className="p-1 rounded-[8px] hover:bg-tv-surface transition-colors"><Smile size={13} className="text-tv-text-secondary" /></button>
+                <TvTooltip label="Insert merge field">
+                  <button type="button" onClick={() => { setShowTextAfterMerge(!showTextAfterMerge); setShowTextAfterEmoji(false); }}
+                    className={`p-1 rounded-[8px] transition-colors ${showTextAfterMerge ? "bg-tv-brand-bg/10 text-tv-brand" : "hover:bg-tv-surface text-tv-text-secondary"}`}>
+                    <Type size={13} />
+                  </button>
+                </TvTooltip>
+                <TvTooltip label="Insert emoji">
+                  <button type="button" onClick={() => { setShowTextAfterEmoji(!showTextAfterEmoji); setShowTextAfterMerge(false); }}
+                    className={`p-1 rounded-[8px] transition-colors ${showTextAfterEmoji ? "bg-tv-brand-bg/10 text-tv-brand" : "hover:bg-tv-surface text-tv-text-secondary"}`}>
+                    <Smile size={13} />
+                  </button>
+                </TvTooltip>
               </div>
+              {showTextAfterMerge && (
+                <div className="absolute right-0 top-full mt-1 z-50">
+                  <MergeFieldDropdown onSelect={(field) => { insertAtTextAfterCursor(field); setShowTextAfterMerge(false); }} onClose={() => setShowTextAfterMerge(false)} />
+                </div>
+              )}
+              {showTextAfterEmoji && (
+                <div className="absolute right-0 top-full mt-1 z-50">
+                  <EmojiDropdown onSelect={(emoji) => { insertAtTextAfterCursor(emoji); setShowTextAfterEmoji(false); }} onClose={() => setShowTextAfterEmoji(false)} />
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -1217,6 +1295,7 @@ function AttachmentsSection(props: DesignStepPanelProps & {
         <SectionLabel>Attachments</SectionLabel>
         <div className="space-y-2.5 mt-2">
           {([
+            { key: "none" as const,   label: "None",            icon: X },
             { key: "button" as const, label: "CTA Button",    icon: ExternalLink },
             { key: "pdf" as const,    label: "Display a PDF",  icon: FileText },
             { key: "form" as const,   label: "Embed a Form",   icon: FormInput },

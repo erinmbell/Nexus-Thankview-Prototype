@@ -13,6 +13,7 @@ export type BuilderView =
   | "intro-builder"
   | "personalized-recorder"
   | "shared-recording"
+  | "addon-clip"
   | "outro-builder"
   | "overlay"
   | "library";
@@ -22,6 +23,7 @@ export interface VideoElements {
   intro: boolean;
   personalizedClip: boolean;
   sharedVideo: boolean;
+  addOnClip: boolean;
   outro: boolean;
 }
 
@@ -29,6 +31,7 @@ export const DEFAULT_VIDEO_ELEMENTS: VideoElements = {
   intro: false,
   personalizedClip: false,
   sharedVideo: false,
+  addOnClip: false,
   outro: false,
 };
 
@@ -36,6 +39,7 @@ export const DEFAULT_ELEMENT_ORDER: (keyof VideoElements)[] = [
   "intro",
   "personalizedClip",
   "sharedVideo",
+  "addOnClip",
   "outro",
 ];
 
@@ -147,6 +151,7 @@ export interface FlowStep {
   lpWhiteGradient?: boolean;
   // Envelope text before/after name area
   envelopePreText?: string;     // Text before the constituent name on envelope
+  envelopeLineBreakBefore?: boolean; // Show pre-text on separate line above name
   envelopePostText?: string;    // Text after the constituent name on envelope
   // PDF attachment for landing page
   pdfFileName?: string;

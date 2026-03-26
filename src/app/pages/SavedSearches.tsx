@@ -384,8 +384,8 @@ function CriterionRow({ criterion, onChange, onRemove }: {
           />
         )}
         <Tooltip label="Remove criterion" withArrow>
-          <ActionIcon variant="subtle" color="red" size="sm" onClick={onRemove} mt={fieldType === "bool" ? 18 : 0}>
-            <X size={14} />
+          <ActionIcon variant="subtle" color="red" size="sm" onClick={onRemove} mt={fieldType === "bool" ? 18 : 0} aria-label="Remove criterion">
+            <X size={14} aria-hidden="true" />
           </ActionIcon>
         </Tooltip>
       </div>
@@ -898,6 +898,7 @@ function SearchDetail({ search, onBack, onEdit, onDuplicate, onToggleActive, onT
 
       {showDeleteConfirm && (
         <DeleteModal
+          opened
           title={`Delete "${search.name}"?`}
           description="This saved search will be permanently removed. No constituents will be deleted."
           onConfirm={onDelete}
@@ -1154,14 +1155,14 @@ export function SavedSearches() {
         </div>
         <div className="flex items-center gap-2">
           <Tooltip label="Create Saved Search" withArrow>
-            <ActionIcon variant="filled" color="tvPurple" size="lg" radius="xl" onClick={() => setShowCreate(true)}>
-              <Plus size={16} />
+            <ActionIcon variant="filled" color="tvPurple" size="lg" radius="xl" onClick={() => setShowCreate(true)} aria-label="Create saved search">
+              <Plus size={16} aria-hidden="true" />
             </ActionIcon>
           </Tooltip>
           <Tooltip label="Export All Results" withArrow>
             <ActionIcon variant="default" size="lg" radius="xl" onClick={() => show("All search results exported!", "success")}
-              styles={{ root: { borderColor: TV.borderLight } }}>
-              <Download size={16} style={{ color: TV.textLabel }} />
+              styles={{ root: { borderColor: TV.borderLight } }} aria-label="Export all results">
+              <Download size={16} style={{ color: TV.textLabel }} aria-hidden="true" />
             </ActionIcon>
           </Tooltip>
           <ColumnsButton onClick={() => setShowEditColumns(true)} />
@@ -1173,6 +1174,7 @@ export function SavedSearches() {
         <TextInput
           leftSection={<Search size={14} style={{ color: TV.textSecondary }} />}
           placeholder="Search saved searches…"
+          aria-label="Search saved searches"
           value={search} onChange={e => { setSearch(e.currentTarget.value); setPage(1); }}
           radius="xl" style={{ flex: 1, maxWidth: 420 }}
           styles={{ input: { borderColor: TV.borderLight, backgroundColor: '#fff', color: TV.textPrimary } }}
@@ -1377,6 +1379,7 @@ export function SavedSearches() {
       )}
       {deleteTarget && (
         <DeleteModal
+          opened
           title={`Delete "${deleteTarget.name}"?`}
           description="This saved search will be permanently removed. No constituents will be deleted."
           onConfirm={() => handleDelete(deleteTarget.id)}

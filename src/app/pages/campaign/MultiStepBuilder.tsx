@@ -19,6 +19,8 @@ import { useToast } from "../../contexts/ToastContext";
 import { useDesignLibrary } from "../../contexts/DesignLibraryContext";
 import { useTemplates, type CampaignTemplate, type TemplateStepContent } from "../../contexts/TemplateContext";
 import { SaveChangesModal } from "../../components/SaveChangesModal";
+import { SaveTemplateModal } from "../../components/SaveTemplateModal";
+import { SendTestModal } from "../../components/SendTestModal";
 import { VideoPickerView, VideoCreateView, PICKER_VIDEOS, type PickerVideo } from "./VideoModals";
 import { ConstituentPanel } from "./ConstituentPanel";
 import { LivePreviewPanel } from "./LivePreviewPanel";
@@ -43,6 +45,7 @@ import { SimpleRTE, MergeFieldDropdown, EmojiDropdown } from "./SharedUI";
 import { MergeFieldValidation } from "../../components/MergeFieldValidation";
 import { ConfigureStepPanel } from "./ConfigureStepPanel";
 import { FloatingPreview } from "./FloatingPreview";
+import { FB_OG } from "../../components/FacebookShareModal";
 import { CharCount, BodyHeaderCount, SmsCharCounter, EmailBodyCharCounter, CHAR_LIMITS, htmlTextLength, getEditorWarnCls } from "../../components/CharCounters";
 import { CtaButtonControls } from "../../components/CtaButtonControls";
 import { EmailTemplateActions } from "../../components/EmailTemplateAndSignature";
@@ -490,12 +493,12 @@ function SocialSharingCard({
               <Globe size={16} className="text-[#bec3c9]" />
             )}
           </div>
-          <div className="flex-1 min-w-0 px-2.5 py-2 flex flex-col justify-center gap-0.5 bg-[#f0f2f5]">
-            <span className="text-[8px] text-[#65676b] uppercase tracking-wide">hartwell.thankview.com</span>
-            <span className="text-[11px] text-[#1c1e21] leading-tight line-clamp-1" style={{ fontWeight: 600 }}>
+          <div className="flex-1 min-w-0 px-2.5 py-2 flex flex-col justify-center gap-0.5" style={{ backgroundColor: FB_OG.bg }}>
+            <span className="text-[8px] uppercase tracking-wide" style={{ color: FB_OG.secondary }}>hartwell.thankview.com</span>
+            <span className="text-[11px] leading-tight line-clamp-1" style={{ fontWeight: 600, color: FB_OG.text }}>
               {ogTitle || "Untitled"}
             </span>
-            <span className="text-[9px] text-[#65676b] leading-snug line-clamp-2">
+            <span className="text-[9px] leading-snug line-clamp-2" style={{ color: FB_OG.secondary }}>
               {ogDescription || "No description."}
             </span>
           </div>
@@ -1274,7 +1277,7 @@ function StepDrawer({
                           </div>
                         )}
                         {(env as any).branded && (
-                          <span className="absolute bottom-0.5 right-0.5 text-[6px] px-1 py-[1px] rounded-[3px] bg-white/90 text-tv-text-label shadow-sm" style={{ fontWeight: 600 }}>Branded</span>
+                          <span className="absolute bottom-0.5 right-0.5 text-[6px] px-1 py-[1px] rounded bg-white/90 text-tv-text-label shadow-sm" style={{ fontWeight: 600 }}>Branded</span>
                         )}
                       </div>
                       <div className={`px-1.5 py-1 text-center ${active ? "bg-tv-brand-tint" : "bg-white"}`}>
@@ -2784,8 +2787,6 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
       return () => document.removeEventListener("keydown", handler);
     }
   }, [showSendTestModal, showSaveTemplate]);
-  const [saveTemplateName, setSaveTemplateName] = useState("");
-  const [saveTemplateDesc, setSaveTemplateDesc] = useState("");
 
   // Phase navigation
   const [phase, setPhaseRaw] = useState<MultiPhase>("configure");
@@ -2852,7 +2853,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
     return null;
   });
   const [addingAtIndex, setAddingAtIndex] = useState<number | null>(null);
-  const [campaignName, setCampaignName] = useState(initialTemplate ? initialTemplate.name : "Untitled Campaign");
+  const [campaignName, setCampaignName] = useState(initialTemplate ? initialTemplate.name : "");
   const [editingName, setEditingName] = useState(false);
   const [templateBannerDismissed, setTemplateBannerDismissed] = useState(false);
 
@@ -3164,7 +3165,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
     const prev = MULTI_PHASES[phaseIdx - 1];
     if (prev) { setPhase(prev.id); return; }
     // At the first phase — ask for confirmation if the user has built steps
-    const hasProgress = steps.length > 0 || campaignName !== "Untitled Campaign" || selectedMetrics.length > 0 || campaignTags.length > 0;
+    const hasProgress = steps.length > 0 || campaignName.trim() !== "" || selectedMetrics.length > 0 || campaignTags.length > 0;
     if (hasProgress) { setShowModeConfirm(true); return; }
     onBack();
   };
@@ -3334,8 +3335,8 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
               {steps.length === 0 ? (
                 <div className="flex flex-col items-center">
                   <div className="border border-tv-border rounded-lg px-8 py-7 text-center relative">
-                    <p className="text-[14px] text-tv-text-primary mb-3 text-center" style={{ fontWeight: 700 }}>
-                      {campaignName}
+                    <p className={`text-[14px] mb-3 text-center ${campaignName.trim() ? "text-tv-text-primary" : "text-tv-text-decorative italic"}`} style={{ fontWeight: 700 }}>
+                      {campaignName.trim() || "Campaign Name Required"}
                     </p>
                     <div className="relative">
                       <button onClick={() => setAddingAtIndex(0)}
@@ -3352,8 +3353,8 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
               ) : (
                 <>
                   {/* Campaign name (read-only — edit in Configure step) */}
-                  <p className="text-[14px] text-tv-text-primary mb-2 text-center" style={{ fontWeight: 700 }}>
-                    {campaignName}
+                  <p className={`text-[14px] mb-2 text-center ${campaignName.trim() ? "text-tv-text-primary" : "text-tv-text-decorative italic"}`} style={{ fontWeight: 700 }}>
+                    {campaignName.trim() || "Campaign Name Required"}
                   </p>
                   <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                   <SortableContext items={steps.map(s => s.id)} strategy={verticalListSortingStrategy}>
@@ -3408,7 +3409,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
             {selectedStep && (selectedStep.type === "email" || selectedStep.type === "sms") && (
               <FloatingPreview
                 step={selectedStep}
-                visible={showPreview}
+                opened={showPreview}
                 onClose={() => setShowPreview(false)}
                 constraintRef={canvasRef}
               />
@@ -3448,73 +3449,15 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
             </div>
 
             {/* Send Test Modal */}
-            {showSendTestModal && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-                <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-[560px] overflow-hidden">
-                  <div className="px-6 pt-5 pb-3 border-b border-tv-border-divider flex items-center justify-between">
-                    <div>
-                      <h3 className="text-[16px] text-tv-text-primary" style={{ fontWeight: 900 }}>Send Test</h3>
-                      <p className="text-[11px] text-tv-text-secondary mt-0.5">Preview exactly what your constituents will receive.</p>
-                    </div>
-                    <TvTooltip label="Close"><button onClick={() => { setShowSendTestModal(false); setSendTestSending(false); }} aria-label="Close send test modal" className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-tv-surface transition-colors"><X size={14} className="text-tv-text-secondary" /></button></TvTooltip>
-                  </div>
-                  <div className="px-6 py-4 space-y-4">
-                    <div>
-                      <label className="tv-label mb-1 block">Send test to</label>
-                      <input value={sendTestEmail} onChange={e => setSendTestEmail(e.target.value)}
-                        placeholder="Enter email address"
-                        className="w-full border border-tv-border-light rounded-sm px-3 py-2.5 text-[13px] outline-none focus:ring-2 focus:ring-tv-brand/40 focus:border-tv-brand" />
-                      <p className="text-[10px] text-tv-text-decorative mt-1">The test will be sent to this email address.</p>
-                    </div>
-                    <div>
-                      <label className="tv-label mb-1.5 flex items-center gap-1">
-                        Preview as constituent
-                        <span className="text-[8px] px-1.5 py-0.5 bg-tv-brand-tint text-tv-brand rounded-full" style={{ fontWeight: 700 }}>Merge fields</span>
-                      </label>
-                      <p className="text-[10px] text-tv-text-secondary mb-2">Select which constituent&rsquo;s data to use for merge field resolution.</p>
-                      <div className="space-y-1.5">
-                        {MSB_TEST_CONSTITUENTS.map(r => (
-                          <button key={r.id} onClick={() => setSendTestPreviewAs(r.id)}
-                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-sm border text-left transition-all ${sendTestPreviewAs === r.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
-                            <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${sendTestPreviewAs === r.id ? "border-tv-brand-bg bg-tv-brand-bg" : "border-tv-border-light"}`}>
-                              {sendTestPreviewAs === r.id && <Check size={8} className="text-white" />}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-1.5">
-                                <p className="text-[12px] text-tv-text-primary">{r.name}</p>
-                                {r.classYear && <span className="text-[9px] text-tv-text-decorative">'{String(r.classYear).slice(-2)}</span>}
-                              </div>
-                              <div className="flex items-center gap-1.5">
-                                <p className="text-[10px] text-tv-text-secondary truncate">{r.email}</p>
-                                {r.city && <span className="text-[9px] text-tv-text-decorative shrink-0">{r.city}</span>}
-                              </div>
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="px-6 pb-5 flex items-center justify-between">
-                    <button onClick={() => { setShowSendTestModal(false); setSendTestSending(false); }}
-                      className="px-4 py-2 text-[12px] text-tv-text-secondary border border-tv-border-light rounded-full hover:bg-tv-surface transition-colors" style={{ fontWeight: 500 }}>Cancel</button>
-                    <button
-                      onClick={() => {
-                        setSendTestSending(true);
-                        setTimeout(() => {
-                          setSendTestSending(false);
-                          setShowSendTestModal(false);
-                          show(`Test sent to ${sendTestEmail} (previewing as ${MSB_TEST_CONSTITUENTS[sendTestPreviewAs].name})`, "success");
-                        }, 1500);
-                      }}
-                      disabled={!sendTestEmail.trim() || sendTestSending}
-                      className={`flex items-center gap-1.5 px-5 py-2.5 text-[13px] rounded-full transition-colors ${sendTestSending ? "bg-tv-brand-bg/70 text-white cursor-not-allowed" : "bg-tv-brand-bg text-white hover:bg-tv-brand-hover"} disabled:opacity-50`} style={{ fontWeight: 600 }}
-                    >
-                      {sendTestSending ? <><span className="animate-spin">&#9696;</span>Sending...</> : <><Send size={12} />Send Test</>}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
+            <SendTestModal
+              opened={showSendTestModal}
+              onClose={() => { setShowSendTestModal(false); setSendTestSending(false); }}
+              constituents={MSB_TEST_CONSTITUENTS}
+              onSend={(email, previewAs) => {
+                setShowSendTestModal(false);
+                show(`Test sent to ${email} (previewing as ${MSB_TEST_CONSTITUENTS[previewAs].name})`, "success");
+              }}
+            />
 
             {/* ── Merge Field Validation ── */}
             <div className="mb-5">
@@ -3712,7 +3655,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
                   <GitBranch size={18} className="text-tv-brand" />
                 </div>
                 <div>
-                  <p className="text-[14px] text-tv-text-primary" style={{ fontWeight: 700 }}>{campaignName}</p>
+                  <p className={`text-[14px] ${campaignName.trim() ? "text-tv-text-primary" : "text-red-400 italic"}`} style={{ fontWeight: 700 }}>{campaignName.trim() || "Campaign name required"}</p>
                   <p className="text-[11px] text-tv-text-secondary">Multi-step campaign</p>
                 </div>
               </div>
@@ -3805,7 +3748,7 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
               <ChevronLeft size={13} />
               <span className="hidden sm:inline">{phaseIdx === 0 ? "Change Mode" : "Previous Step"}</span>
             </button>
-            <button onClick={() => { setSaveTemplateName(campaignName || ""); setSaveTemplateDesc(""); setShowSaveTemplate(true); }}
+            <button onClick={() => setShowSaveTemplate(true)}
               className="flex items-center gap-1.5 px-4 py-2 text-[13px] text-tv-text-secondary border border-tv-border-light rounded-full hover:bg-tv-surface hover:text-tv-text-primary transition-colors shrink-0"
               title="Save current configuration as a reusable template">
               <Bookmark size={13} /><span className="hidden sm:inline">Save as Template</span>
@@ -3878,121 +3821,69 @@ export function MultiStepBuilder({ onBack, initialTemplate = null }: { onBack: (
       )}
 
       {/* ── Save as Template modal ── */}
-      {showSaveTemplate && (
-        <FocusTrap active>
-        <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center" onClick={() => setShowSaveTemplate(false)} role="dialog" aria-modal="true" aria-labelledby="ms-save-template-title">
-          <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-[460px] mx-4" onClick={e => e.stopPropagation()}>
-            <div className="px-6 pt-6 pb-4 border-b border-tv-border-divider">
-              <div className="flex items-center gap-3 mb-1">
-                <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0 bg-tv-star-bg">
-                  <Bookmark size={18} className="text-tv-warning" />
-                </div>
-                <div>
-                  <h3 id="ms-save-template-title" className="text-tv-text-primary" style={{ fontSize: "16px", fontWeight: 700 }}>Save as Template</h3>
-                  <p className="text-[12px] text-tv-text-secondary">Save this multi-step campaign as a reusable template.</p>
-                </div>
-              </div>
-            </div>
-            <div className="px-6 py-5 space-y-4">
-              <div>
-                <label className="text-[12px] text-tv-text-label mb-1.5 block" style={{ fontWeight: 600 }}>Template Name</label>
-                <input
-                  type="text"
-                  autoComplete="off"
-                  value={saveTemplateName}
-                  onChange={e => setSaveTemplateName(e.target.value)}
-                  placeholder="e.g. Annual Fund Drip Sequence"
-                  className={INPUT_CLS}
-                  autoFocus
-                />
-              </div>
-              <div>
-                <label className="text-[12px] text-tv-text-label mb-1.5 block" style={{ fontWeight: 600 }}>Description <span className="text-tv-text-decorative">(optional)</span></label>
-                <textarea
-                  value={saveTemplateDesc}
-                  onChange={e => setSaveTemplateDesc(e.target.value)}
-                  placeholder="Brief description of this template…"
-                  rows={3}
-                  className={TEXTAREA_CLS}
-                />
-              </div>
-              <div className="p-3 bg-tv-surface rounded-md border border-tv-border-divider">
-                <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2" style={{ fontWeight: 600 }}>Configuration to save</p>
-                <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                  <span className="text-[11px] text-tv-text-secondary">Mode:</span>
-                  <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>Multi-Step</span>
-                  <span className="text-[11px] text-tv-text-secondary">Steps:</span>
-                  <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>
-                    {steps.length} step{steps.length !== 1 ? "s" : ""} ({steps.filter(s => s.type === "email").length} email, {steps.filter(s => s.type === "sms").length} SMS, {steps.filter(s => s.type === "wait").length} wait, {steps.filter(s => s.type === "condition").length} condition)
-                  </span>
-                  {steps.find(s => s.subject) && <>
-                    <span className="text-[11px] text-tv-text-secondary">First subject:</span>
-                    <span className="text-[11px] text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{steps.find(s => s.subject)?.subject}</span>
-                  </>}
-                </div>
-              </div>
-            </div>
-            <div className="px-6 pb-6 flex justify-end gap-2">
-              <button onClick={() => setShowSaveTemplate(false)}
-                className="px-4 py-2 text-[13px] text-tv-text-primary border border-tv-border-light rounded-full hover:bg-tv-surface transition-colors">
-                Cancel
-              </button>
-              <button
-                disabled={!saveTemplateName.trim()}
-                onClick={() => {
-                  // Flatten steps into TemplateStepContent array
-                  const flatSteps: TemplateStepContent[] = [];
-                  const flatten = (arr: FlowStep[]) => {
-                    for (const s of arr) {
-                      flatSteps.push({
-                        type: s.type as "email" | "sms" | "wait" | "condition",
-                        label: s.label,
-                        subject: s.subject,
-                        body: s.body,
-                        senderName: s.senderName,
-                        senderEmail: s.senderEmail,
-                        replyTo: s.replyTo,
-                        font: s.font,
-                        smsBody: s.smsBody,
-                        waitDays: s.waitDays,
-                        conditionField: s.conditionField,
-                        landingPageEnabled: s.landingPageEnabled,
-                        ctaText: s.ctaText,
-                        ctaUrl: s.ctaUrl,
-                      });
-                      if (s.type === "condition") {
-                        if (s.trueBranch?.[0]) flatten(s.trueBranch);
-                        if (s.falseBranch?.[0]) flatten(s.falseBranch);
-                      }
-                    }
-                  };
-                  flatten(steps);
-                  const firstEmail = flatSteps.find(s => s.type === "email");
-                  addTemplate({
-                    name: saveTemplateName.trim(),
-                    description: saveTemplateDesc.trim(),
-                    mode: "multi",
-                    goal: null,
-                    channel: firstEmail ? "email" : "sms",
-                    tags: [],
-                    stepContent: firstEmail || flatSteps[0] || { type: "email", label: "Email" },
-                    multiSteps: flatSteps,
-                  });
-                  setShowSaveTemplate(false);
-                  show(`Template "${saveTemplateName.trim()}" saved`, "success");
-                }}
-                className={`flex items-center gap-1.5 px-5 py-2 text-[13px] rounded-full transition-colors ${
-                  saveTemplateName.trim()
-                    ? "text-white bg-tv-brand-bg hover:bg-tv-brand-hover"
-                    : "text-white/60 bg-tv-brand-bg/40 cursor-not-allowed"
-                }`} style={{ fontWeight: 600 }}>
-                <Bookmark size={13} />Save Template
-              </button>
-            </div>
+      <SaveTemplateModal
+        opened={showSaveTemplate}
+        onClose={() => setShowSaveTemplate(false)}
+        defaultName={campaignName || ""}
+        idPrefix="ms-save-template"
+        subtitle="Save this multi-step campaign as a reusable template."
+        onSave={(name, desc) => {
+          // Flatten steps into TemplateStepContent array
+          const flatSteps: TemplateStepContent[] = [];
+          const flatten = (arr: FlowStep[]) => {
+            for (const s of arr) {
+              flatSteps.push({
+                type: s.type as "email" | "sms" | "wait" | "condition",
+                label: s.label,
+                subject: s.subject,
+                body: s.body,
+                senderName: s.senderName,
+                senderEmail: s.senderEmail,
+                replyTo: s.replyTo,
+                font: s.font,
+                smsBody: s.smsBody,
+                waitDays: s.waitDays,
+                conditionField: s.conditionField,
+                landingPageEnabled: s.landingPageEnabled,
+                ctaText: s.ctaText,
+                ctaUrl: s.ctaUrl,
+              });
+              if (s.type === "condition") {
+                if (s.trueBranch?.[0]) flatten(s.trueBranch);
+                if (s.falseBranch?.[0]) flatten(s.falseBranch);
+              }
+            }
+          };
+          flatten(steps);
+          const firstEmail = flatSteps.find(s => s.type === "email");
+          addTemplate({
+            name,
+            description: desc,
+            mode: "multi",
+            goal: null,
+            channel: firstEmail ? "email" : "sms",
+            tags: [],
+            stepContent: firstEmail || flatSteps[0] || { type: "email", label: "Email" },
+            multiSteps: flatSteps,
+          });
+          setShowSaveTemplate(false);
+          show(`Template "${name}" saved`, "success");
+        }}
+        summaryContent={
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+            <span className="text-[11px] text-tv-text-secondary">Mode:</span>
+            <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>Multi-Step</span>
+            <span className="text-[11px] text-tv-text-secondary">Steps:</span>
+            <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>
+              {steps.length} step{steps.length !== 1 ? "s" : ""} ({steps.filter(s => s.type === "email").length} email, {steps.filter(s => s.type === "sms").length} SMS, {steps.filter(s => s.type === "wait").length} wait, {steps.filter(s => s.type === "condition").length} condition)
+            </span>
+            {steps.find(s => s.subject) && <>
+              <span className="text-[11px] text-tv-text-secondary">First subject:</span>
+              <span className="text-[11px] text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{steps.find(s => s.subject)?.subject}</span>
+            </>}
           </div>
-        </div>
-        </FocusTrap>
-      )}
+        }
+      />
     </div>
   );
 }

@@ -337,8 +337,9 @@ export function IntrosAndOutros() {
       {/* Delete confirmation */}
       {deleteConfirm && (
         <DeleteModal
+          opened
           title="Delete item"
-          message={`Are you sure you want to delete "${items.find(i => i.id === deleteConfirm)?.name}"? This action cannot be undone.`}
+          description={`Are you sure you want to delete "${items.find(i => i.id === deleteConfirm)?.name}"? This action cannot be undone.`}
           onConfirm={() => handleDelete(deleteConfirm)}
           onCancel={() => setDeleteConfirm(null)}
         />

@@ -69,7 +69,7 @@ export function ResizableSplitPane({
 
   return (
     <div ref={containerRef} className={`flex items-start ${className}`} style={{ gap: `${gap}px` }}>
-      <div className="min-w-0 shrink-0" style={{ width: `calc(${leftPercent}% - 12px)` }}>{left}</div>
+      <div className="min-w-0 shrink-0 overflow-hidden" style={{ width: `calc(${leftPercent}% - 12px)` }}>{left}</div>
       <div className="shrink-0 flex items-stretch self-stretch group" style={{ width: "24px" }}>
         <button
           onMouseDown={handleMouseDown}
@@ -96,7 +96,7 @@ export function ResizableSplitPane({
         </button>
       </div>
       <div
-        className="min-w-0 shrink-0"
+        className={`min-w-0 shrink-0 ${stickyRight ? "z-10" : ""}`}
         style={{ width: `calc(${rightPercent}% - 12px)`, ...(stickyRight ? { position: "sticky" as const, top: stickyTop } : {}) }}
       >
         {right}

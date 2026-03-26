@@ -23,7 +23,20 @@ import type { SortDir } from "../components/SortableHeader";
 import { EditColumnsModal, ColumnsButton } from "../components/ColumnCustomizer";
 import type { ColumnDef } from "../components/ColumnCustomizer";
 
-// ── Types ──────────────────────────────────────────────────────────────────��──
+// ── Helpers ─────────────────────────────────────────────────────────────────
+/** Returns "white" or "#242436" for avatar text, ensuring ≥ 4.5:1 contrast on the given bg hex. */
+function avatarTextColor(hex: string): string {
+  const c = hex.replace("#", "");
+  const r = parseInt(c.substring(0, 2), 16) / 255;
+  const g = parseInt(c.substring(2, 4), 16) / 255;
+  const b = parseInt(c.substring(4, 6), 16) / 255;
+  const f = (v: number) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+  const L = 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+  // If bg luminance is high (bright), use dark text; otherwise white
+  return L > 0.18 ? "#242436" : "white";
+}
+
+// ── Types ───────────────────────────────────────────────────────────────────
 
 import { type Contact, INIT_CONTACTS } from "../data/contacts";
 
@@ -1062,7 +1075,7 @@ function CellValue({ col, contact }: { col: string; contact: Contact }) {
       return (
         <div className="flex items-center gap-2 flex-nowrap">
           <Avatar size={32} radius="xl"
-            styles={{ placeholder: { backgroundColor: contact.color, color: "white", fontSize: 13, fontWeight: 700 } }}>
+            styles={{ placeholder: { backgroundColor: contact.color, color: avatarTextColor(contact.color), fontSize: 13, fontWeight: 700 } }}>
             {contact.avatar}
           </Avatar>
           <div style={{ minWidth: 0 }}>
@@ -1103,8 +1116,8 @@ function CellValue({ col, contact }: { col: string; contact: Contact }) {
     case "ctScore":
       return (
         <div className="flex items-center gap-1 flex-nowrap">
-          <Box w={40} h={6} bg={TV.borderLight} style={{ borderRadius: 3, overflow: "hidden" }}>
-            <Box h={6} w={`${contact.ctScore}%`} bg={contact.ctScore >= 70 ? TV.statusSuccess : contact.ctScore >= 40 ? TV.statusWarning : TV.statusError} style={{ borderRadius: 3 }} />
+          <Box w={40} h={6} bg={TV.borderLight} style={{ borderRadius: 4, overflow: "hidden" }}>
+            <Box h={6} w={`${contact.ctScore}%`} bg={contact.ctScore >= 70 ? TV.statusSuccess : contact.ctScore >= 40 ? TV.statusWarning : TV.statusError} style={{ borderRadius: 4 }} />
           </Box>
           <Text fz={11} c={TV.textSecondary}>{contact.ctScore}</Text>
         </div>
@@ -1112,8 +1125,8 @@ function CellValue({ col, contact }: { col: string; contact: Contact }) {
     case "videoScore":
       return (
         <div className="flex items-center gap-1 flex-nowrap">
-          <Box w={40} h={6} bg={TV.borderLight} style={{ borderRadius: 3, overflow: "hidden" }}>
-            <Box h={6} w={`${contact.videoScore}%`} bg={contact.videoScore >= 70 ? TV.statusSuccess : contact.videoScore >= 40 ? TV.statusWarning : TV.statusError} style={{ borderRadius: 3 }} />
+          <Box w={40} h={6} bg={TV.borderLight} style={{ borderRadius: 4, overflow: "hidden" }}>
+            <Box h={6} w={`${contact.videoScore}%`} bg={contact.videoScore >= 70 ? TV.statusSuccess : contact.videoScore >= 40 ? TV.statusWarning : TV.statusError} style={{ borderRadius: 4 }} />
           </Box>
           <Text fz={11} c={TV.textSecondary}>{contact.videoScore}</Text>
         </div>
@@ -1377,8 +1390,8 @@ export function Contacts() {
           <Menu shadow="md" width={240} position="bottom-end">
             <Menu.Target>
               <Tooltip label="Add Constituents" withArrow>
-                <ActionIcon variant="filled" color="tvPurple" size="lg" radius="xl">
-                  <UserPlus size={16} />
+                <ActionIcon variant="filled" color="tvPurple" size="lg" radius="xl" aria-label="Add constituents">
+                  <UserPlus size={16} aria-hidden="true" />
                 </ActionIcon>
               </Tooltip>
             </Menu.Target>
@@ -1404,8 +1417,8 @@ export function Contacts() {
           </Menu>
           <Tooltip label="Export All" withArrow>
             <ActionIcon variant="default" size="lg" radius="xl" onClick={() => setShowExport(true)}
-              styles={{ root: { borderColor: TV.borderLight } }}>
-              <Download size={16} style={{ color: TV.textLabel }} />
+              styles={{ root: { borderColor: TV.borderLight } }} aria-label="Export all">
+              <Download size={16} style={{ color: TV.textLabel }} aria-hidden="true" />
             </ActionIcon>
           </Tooltip>
           <ColumnsButton onClick={() => setShowEditColumns(true)} />
@@ -1417,12 +1430,13 @@ export function Contacts() {
         <TextInput
           leftSection={<Search size={14} style={{ color: TV.textSecondary }} />}
           placeholder="Search all constituents…"
+          aria-label="Search all constituents"
           value={search} onChange={e => { setSearch(e.currentTarget.value); setPage(1); }}
           radius="xl" style={{ flex: 1, maxWidth: 420 }}
           styles={{ input: { borderColor: TV.borderLight, backgroundColor: '#fff', color: TV.textPrimary } }}
         />
-        <ActionIcon variant="default" radius="xl" size="lg" hiddenFrom="sm" onClick={() => navigate("/contacts/add?method=manual")}>
-          <UserPlus size={13} />
+        <ActionIcon variant="default" radius="xl" size="lg" hiddenFrom="sm" onClick={() => navigate("/contacts/add?method=manual")} aria-label="Add contact">
+          <UserPlus size={13} aria-hidden="true" />
         </ActionIcon>
       </div>
 
@@ -1560,7 +1574,7 @@ export function Contacts() {
                   className="hover:bg-tv-surface-muted transition-colors">
                   <div className="flex items-center gap-3 flex-nowrap">
                     <Avatar size="md" radius="xl"
-                      styles={{ placeholder: { backgroundColor: c.color, color: "white" } }}>{c.avatar}</Avatar>
+                      styles={{ placeholder: { backgroundColor: c.color, color: avatarTextColor(c.color) } }}>{c.avatar}</Avatar>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <Text fz={14} fw={600} c={TV.textBrand} truncate>{c.first} {c.last}</Text>
                       <Text fz={12} c={TV.textSecondary} truncate>{c.affiliation}</Text>
@@ -1604,7 +1618,7 @@ export function Contacts() {
         />
       )}
       {deleteContact && (
-        <DeleteModal title={`Delete "${deleteContact.first} ${deleteContact.last}"?`}
+        <DeleteModal opened title={`Delete "${deleteContact.first} ${deleteContact.last}"?`}
           onConfirm={() => { handleDelete(deleteContact.id); setDeleteContact(null); show("Constituent deleted"); }}
           onCancel={() => setDeleteContact(null)} />
       )}

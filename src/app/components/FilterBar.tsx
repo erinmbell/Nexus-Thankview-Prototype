@@ -215,7 +215,7 @@ function MiniCalendar({ month, rangeStart, rangeEnd, onSelect, maxDate }: {
                 height: 32,
                 borderRadius: selected ? "50%" : start ? "50% 0 0 50%" : end ? "0 50% 50% 0" : 0,
                 backgroundColor: selected ? TV.brand : inRange ? TV.brandTint : "transparent",
-                color: disabled ? "#ccc" : selected ? "#fff" : TV.textPrimary,
+                color: disabled ? TV.borderLight : selected ? "#fff" : TV.textPrimary,
                 cursor: disabled ? "default" : "pointer",
                 fontWeight: selected || isToday ? 600 : 400,
                 fontSize: 12,
@@ -560,9 +560,10 @@ function FilterChip({ def, values, onChange, onRemove, removable }: {
           {(def.searchable || def.options.length > 5) && (
             <TextInput
               placeholder={`Search ${def.label.toLowerCase()}\u2026`}
+              aria-label={`Search ${def.label.toLowerCase()}`}
               size="xs" radius="md" mb={6}
               value={searchText} onChange={e => setSearchText(e.currentTarget.value)}
-              leftSection={<Search size={13} style={{ color: TV.textSecondary }} />}
+              leftSection={<Search size={13} style={{ color: TV.textSecondary }} aria-hidden="true" />}
               styles={{ input: { borderColor: TV.borderLight, fontSize: 11 } }}
             />
           )}
@@ -648,10 +649,11 @@ function AddFilterMenu({ available, onAdd }: {
         <Box px="sm" pt="sm" pb={6}>
           <TextInput
             placeholder="Search filters\u2026"
+            aria-label="Search filters"
             size="xs" radius="md"
             value={searchText}
             onChange={e => setSearchText(e.currentTarget.value)}
-            leftSection={<Search size={13} style={{ color: TV.textSecondary }} />}
+            leftSection={<Search size={13} style={{ color: TV.textSecondary }} aria-hidden="true" />}
             styles={{ input: { borderColor: TV.borderLight, fontSize: 11 } }}
           />
         </Box>

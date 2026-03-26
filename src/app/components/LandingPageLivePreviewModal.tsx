@@ -27,7 +27,7 @@ interface Background {
 }
 
 export interface LandingPageLivePreviewModalProps {
-  open: boolean;
+  opened: boolean;
   onClose: () => void;
   name: string;
   navBarColor: string;
@@ -67,21 +67,21 @@ const DEFAULT_OG: OgData = {
 };
 
 export function LandingPageLivePreviewModal({
-  open, onClose, name, navBarColor, logo, logoFile, selectedBg, fadeGradient,
+  opened, onClose, name, navBarColor, logo, logoFile, selectedBg, fadeGradient,
   ctaTextColor, ctaBtnColor, secondaryBtnTextColor, replyBtnColor, saveBtnColor, shareBtnColor,
   ogData, onOgChange,
 }: LandingPageLivePreviewModalProps) {
   useEffect(() => {
-    if (open) document.body.style.overflow = "hidden";
+    if (opened) document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
-  }, [open]);
+  }, [opened]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!opened) return;
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [open, onClose]);
+  }, [opened, onClose]);
 
   const handleClose = useCallback(() => onClose(), [onClose]);
 
@@ -95,7 +95,7 @@ export function LandingPageLivePreviewModal({
   return (
     <>
       <AnimatePresence>
-        {open && (
+        {opened && (
           <FocusTrap active>
           <motion.div
             className="fixed inset-0 z-[9999] flex flex-col"
@@ -250,7 +250,7 @@ export function LandingPageLivePreviewModal({
       </AnimatePresence>
 
       <FacebookShareModal
-        open={shareModalOpen}
+        opened={shareModalOpen}
         onClose={() => setShareModalOpen(false)}
         initial={resolvedOg}
         campaignUrl={campaignUrl}

@@ -331,7 +331,7 @@ export function RecordSetupStep({ onNext }: { onNext: () => void }) {
               {micMenu && (
                 <>
                   <div className="fixed inset-0 z-30" onClick={() => setMicMenu(false)} />
-                  <div className="absolute bottom-full mb-2 left-0 w-[260px] bg-white rounded-[14px] border border-tv-border-light shadow-xl z-40 overflow-hidden">
+                  <div className="absolute bottom-full mb-2 left-0 w-[260px] bg-white rounded-lg border border-tv-border-light shadow-xl z-40 overflow-hidden">
                     <div className="px-4 py-2.5 border-b border-tv-border-divider">
                       <p className="text-[11px] font-semibold text-tv-text-label uppercase tracking-wider">Microphone</p>
                     </div>
@@ -377,7 +377,7 @@ export function RecordSetupStep({ onNext }: { onNext: () => void }) {
               {camMenu && (
                 <>
                   <div className="fixed inset-0 z-30" onClick={() => setCamMenu(false)} />
-                  <div className="absolute bottom-full mb-2 left-0 w-[260px] bg-white rounded-[14px] border border-tv-border-light shadow-xl z-40 overflow-hidden">
+                  <div className="absolute bottom-full mb-2 left-0 w-[260px] bg-white rounded-lg border border-tv-border-light shadow-xl z-40 overflow-hidden">
                     <div className="px-4 py-2.5 border-b border-tv-border-divider">
                       <p className="text-[11px] font-semibold text-tv-text-label uppercase tracking-wider">Camera</p>
                     </div>
@@ -751,7 +751,7 @@ export function LibrarySetupStep({ onNext }: { onNext: () => void }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         {filtered.map(v => (
           <button key={v.id} onClick={() => setSelected(v.id)}
-            className={`rounded-[14px] overflow-hidden border-2 transition-all text-left ${selected === v.id ? "border-tv-brand-bg shadow-lg" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+            className={`rounded-lg overflow-hidden border-2 transition-all text-left ${selected === v.id ? "border-tv-brand-bg shadow-lg" : "border-tv-border-light hover:border-tv-border-strong"}`}>
             <div className={`h-28 bg-gradient-to-br ${v.color} flex items-center justify-center relative`}>
               <div className="w-10 h-10 rounded-full bg-white/20 border-2 border-white/60 flex items-center justify-center">
                 <Play size={16} className="text-white ml-0.5" fill="white" />
@@ -847,7 +847,7 @@ export function CombineSetupStep({ onNext }: { onNext: () => void }) {
         <div className="w-[300px] shrink-0">
           <p className="text-[11px] font-semibold text-tv-text-label uppercase tracking-wider mb-2">Arrangement ({selectedIds.length} clips)</p>
           {selectedIds.length === 0 ? (
-            <div className="bg-[#fafbff] border-2 border-dashed border-[#d8d0e8] rounded-[14px] p-6 text-center">
+            <div className="bg-[#fafbff] border-2 border-dashed border-[#d8d0e8] rounded-lg p-6 text-center">
               <Combine size={24} className="text-tv-text-decorative mx-auto mb-2" />
               <p className="text-[12px] text-tv-text-secondary">Select videos from the left to add them to your sequence.</p>
             </div>
@@ -1008,7 +1008,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
 
       <div className="bg-white rounded-xl border border-tv-border-light p-6">
         {/* Preview */}
-        <button type="button" className="w-full rounded-[14px] bg-gradient-to-br from-[#7c45b0] to-[#7c45b0] aspect-video mb-5 flex items-center justify-center relative overflow-hidden cursor-pointer group" onClick={togglePlay}>
+        <button type="button" className="w-full rounded-lg bg-gradient-to-br from-[#7c45b0] to-[#7c45b0] aspect-video mb-5 flex items-center justify-center relative overflow-hidden cursor-pointer group" onClick={togglePlay}>
           <div className="flex items-center justify-center transition-transform duration-300" style={{ transform: previewTransform }}>
             <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
               <div className="w-14 h-14 bg-tv-brand-bg rounded-full flex items-center justify-center text-white text-[22px] font-black">KM</div>
@@ -1224,7 +1224,7 @@ export function ThumbnailStep({ onNext }: { onNext: () => void }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
         {THUMB_FRAMES.map(f => (
           <button key={f.id} onClick={() => { setSelected(f.id); setCustomUpl(false); }}
-            className={`rounded-[14px] overflow-hidden border-2 transition-all relative group ${selected === f.id && !customUpl ? "border-tv-brand-bg shadow-lg scale-[1.02]" : "border-tv-border-light hover:border-tv-border-strong"}`}>
+            className={`rounded-lg overflow-hidden border-2 transition-all relative group ${selected === f.id && !customUpl ? "border-tv-brand-bg shadow-lg scale-[1.02]" : "border-tv-border-light hover:border-tv-border-strong"}`}>
             <div className={`h-28 bg-gradient-to-br ${f.gradient} flex items-center justify-center relative`}>
               <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white font-bold group-hover:scale-110 transition-transform">KM</div>
               {gifMode && (
@@ -1252,7 +1252,7 @@ export function ThumbnailStep({ onNext }: { onNext: () => void }) {
       </button>
 
       {/* Animated GIF toggle */}
-      <div className="flex items-center justify-between bg-white border border-tv-border-light rounded-[14px] px-5 py-4 mb-6">
+      <div className="flex items-center justify-between bg-white border border-tv-border-light rounded-lg px-5 py-4 mb-6">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-tv-brand-tint rounded-sm flex items-center justify-center">
             <Sparkles size={14} className="text-tv-text-brand" />

@@ -356,7 +356,7 @@ function AssetCreationWizard({ opened, onClose }: {
                 }}
                 p="md"
                 style={{
-                  borderRadius: 14,
+                  borderRadius: 12,
                   border: `1.5px solid ${TV.borderLight}`,
                   transition: "all 0.15s",
                 }}
@@ -699,7 +699,7 @@ export function CreateAssets() {
                 key={asset.id}
                 data-asset-id={asset.id}
                 onClick={() => handleOpenAsset(asset)}
-                className={`bg-white rounded-[14px] border overflow-hidden hover:shadow-md transition-all group relative cursor-pointer ${
+                className={`bg-white rounded-lg border overflow-hidden hover:shadow-md transition-all group relative cursor-pointer ${
                   highlightedAssetId === asset.id
                     ? "border-tv-brand-bg ring-2 ring-tv-brand-bg shadow-lg shadow-tv-brand-bg/20 animate-[pulse_1.5s_ease-in-out_2]"
                     : "border-tv-border-light hover:border-tv-border-strong"

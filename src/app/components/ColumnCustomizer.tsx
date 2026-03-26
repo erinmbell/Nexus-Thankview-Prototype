@@ -60,7 +60,7 @@ export function EditColumnsModal({ columns, active, onClose, onSave }: {
   };
 
   return (
-    <Modal opened onClose={onClose} title="Edit Columns" size="lg" radius="lg">
+    <Modal opened onClose={onClose} title="Edit Columns" size="lg" radius="xl">
       <div className="flex items-start gap-6 flex-nowrap" style={{ minHeight: 320 }}>
         {/* Available */}
         <Box style={{ flex: 1 }}>
@@ -73,6 +73,7 @@ export function EditColumnsModal({ columns, active, onClose, onSave }: {
           <TextInput
             leftSection={<Search size={13} style={{ color: TV.textSecondary }} />}
             placeholder="Search&hellip;" size="xs" mb="sm" radius="md"
+            aria-label="Search columns"
             value={colSearch} onChange={e => setColSearch(e.currentTarget.value)}
             styles={{ input: { borderColor: TV.borderLight, backgroundColor: "white", color: TV.textPrimary } }}
           />

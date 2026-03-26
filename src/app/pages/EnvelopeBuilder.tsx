@@ -946,7 +946,7 @@ export function EnvelopeBuilder() {
 
       {/* Live Preview fullscreen modal */}
       <LivePreviewModal
-        open={livePreviewOpen}
+        opened={livePreviewOpen}
         onClose={() => setLivePreviewOpen(false)}
         renderPreview={renderEnvelopePreview}
       />

@@ -171,6 +171,18 @@ export function WorldMap({
 
   const clearTooltip = useCallback(() => setTooltip(null), []);
 
+  const handleKeyDismiss = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === "Escape") { clearTooltip(); (e.target as HTMLElement).blur(); }
+  }, [clearTooltip]);
+
+  const showTooltipAtCenter = useCallback((el: SVGElement | null, label: string, value: string) => {
+    if (!el) return;
+    const root = el.closest(".world-map-root")?.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    if (!root) return;
+    setTooltip({ label, value, x: r.left - root.left + r.width / 2, y: r.top - root.top });
+  }, []);
+
   return (
     <div className="world-map-root relative w-full h-full" role="img" aria-label="World map showing engagement distribution by country">
       <ComposableMap
@@ -246,9 +258,13 @@ export function WorldMap({
                   stroke="#fff"
                   strokeWidth={1.5}
                   opacity={0.85}
+                  tabIndex={0}
+                  role="img"
+                  aria-label={`${dot.city}: ${dot.count.toLocaleString()} ${valueLabel}`}
                   style={{
                     cursor: "default",
                     transition: "opacity 150ms",
+                    outline: "none",
                   }}
                   onMouseMove={(e) =>
                     handleMouseMove(
@@ -258,6 +274,9 @@ export function WorldMap({
                     )
                   }
                   onMouseLeave={clearTooltip}
+                  onFocus={(e) => showTooltipAtCenter(e.currentTarget as unknown as SVGElement, dot.city, `${dot.count.toLocaleString()} ${valueLabel}`)}
+                  onBlur={clearTooltip}
+                  onKeyDown={handleKeyDismiss}
                   onMouseEnter={(e) => {
                     (e.currentTarget as SVGCircleElement).setAttribute(
                       "opacity",

@@ -300,7 +300,7 @@ export function EnvelopeDesigns() {
                       </div>
                     ))}
                   </div>
-                  <span className="text-[10px] text-[#999]">{env.updated}</span>
+                  <span className="text-[10px] text-tv-text-decorative">{env.updated}</span>
                 </div>
               </div>
             </div>
@@ -448,6 +448,7 @@ export function EnvelopeDesigns() {
       {/* Delete confirmation */}
       {deleteConfirm !== null && (
         <DeleteModal
+          opened
           title="Delete this envelope?"
           onConfirm={() => handleDelete(deleteConfirm)}
           onCancel={() => setDeleteConfirm(null)}

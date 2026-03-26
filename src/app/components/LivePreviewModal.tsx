@@ -9,7 +9,7 @@ type PostmarkOption = "black" | "white" | "none";
 type StampStyle = "classic" | "forever" | "crest" | "heart";
 
 interface LivePreviewModalProps {
-  open: boolean;
+  opened: boolean;
   onClose: () => void;
   envelopeColor: string;
   nameColor: string;
@@ -33,7 +33,7 @@ interface LivePreviewModalProps {
 }
 
 export function LivePreviewModal({
-  open, onClose,
+  opened, onClose,
   envelopeColor, nameColor, primaryColor, linerColor,
   hasVideo = true, sendWithoutVideo = false,
   ctaText = "Give to the Annual Fund",
@@ -43,10 +43,10 @@ export function LivePreviewModal({
   const triggerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (open) {
+    if (opened) {
       triggerRef.current = document.activeElement as HTMLElement;
     }
-  }, [open]);
+  }, [opened]);
 
   const handleClose = () => {
     onClose();
@@ -54,17 +54,17 @@ export function LivePreviewModal({
   };
 
   useEffect(() => {
-    if (!open) return;
+    if (!opened) return;
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") handleClose(); };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, [open, onClose]);
+  }, [opened, onClose]);
 
   useEffect(() => {
-    if (open) setAnimKey(k => k + 1);
-  }, [open]);
+    if (opened) setAnimKey(k => k + 1);
+  }, [opened]);
 
-  if (!open) return null;
+  if (!opened) return null;
 
   return createPortal(
     <FocusTrap active>

@@ -29,7 +29,7 @@ import {
   RecipientPickerInline,
   type PickableContact,
   type MergeFields,
-} from "./RecipientSourcePicker";
+} from "../app/pages/campaign/RecipientSourcePicker";
 
 // ── Re-export for convenience ────────────────────────────────────────────────
 export type { PickableContact, MergeFields };

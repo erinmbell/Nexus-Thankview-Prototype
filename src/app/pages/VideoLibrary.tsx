@@ -288,8 +288,8 @@ function SendAsOneToOneDrawer({ video, onClose }: { video: VideoItem; onClose: (
         <div className="flex items-center gap-2">
           <div className="flex-1 bg-white border rounded-sm px-3 py-1.5 text-[11px] font-mono truncate" style={{ borderColor: TV.borderLight, color: TV.textSecondary }}>{oneToOneLink}</div>
           <Tooltip label="Copy link">
-            <ActionIcon variant="default" size="sm" onClick={() => { navigator.clipboard.writeText(oneToOneLink).catch((_e) => {}); show("1:1 link copied!", "success"); }}>
-              <Copy size={12} />
+            <ActionIcon variant="default" size="sm" onClick={() => { navigator.clipboard.writeText(oneToOneLink).catch((_e) => {}); show("1:1 link copied!", "success"); }} aria-label="Copy link">
+              <Copy size={12} aria-hidden="true" />
             </ActionIcon>
           </Tooltip>
         </div>
@@ -345,7 +345,7 @@ function VideoCardMenu({ v, onEdit, onFavorite, onDuplicate, onCopyLink, onSendA
 // ── Grid Card ─────────────────────────────────────────────────────────────────
 function VideoGridCard({ v, selected, openMenu, onSelect, onOpen, onMenuToggle, onMenuClose, onEdit, onFavorite, onDuplicate, onCopyLink, onSendAs1to1, onDownload, onArchive, onDelete }: VideoCardProps) {
   return (
-    <div role="button" tabIndex={0} className="group relative rounded-[14px] overflow-hidden border border-tv-border-light bg-white hover:shadow-lg transition-all cursor-pointer text-left w-full" onClick={onOpen} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(); }}} aria-label={`Open video: ${v.title}`}>
+    <div role="button" tabIndex={0} className="group relative rounded-lg overflow-hidden border border-tv-border-light bg-white hover:shadow-lg transition-all cursor-pointer text-left w-full" onClick={onOpen} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(); }}} aria-label={`Open video: ${v.title}`}>
       {/* Checkbox on hover */}
       <button type="button" aria-label="Select video" className="absolute top-2 left-2 z-10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" onClick={e => { e.stopPropagation(); onSelect(); }}>
         <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${selected.includes(v.id) ? "bg-tv-brand-bg border-tv-brand-bg" : "bg-white border-tv-border-light"}`}>
@@ -354,7 +354,7 @@ function VideoGridCard({ v, selected, openMenu, onSelect, onOpen, onMenuToggle, 
       </button>
       {/* Archived badge */}
       {v.archived && (
-        <div className="absolute top-2 left-9 z-10 bg-black/50 text-white text-[8px] font-semibold px-1.5 py-0.5 rounded">Archived</div>
+        <div className="absolute top-2 left-9 z-10 bg-black/70 text-white text-[8px] font-semibold px-1.5 py-0.5 rounded">Archived</div>
       )}
       {/* Favorite star — flush top-right corner, always clickable */}
       <button
@@ -375,14 +375,14 @@ function VideoGridCard({ v, selected, openMenu, onSelect, onOpen, onMenuToggle, 
         ) : (
           <Play size={18} className="text-white/70 group-hover:text-white transition-colors" fill="currentColor" />
         )}
-        <span className="absolute bottom-2 right-2 bg-black/50 text-white text-[10px] px-1.5 py-0.5 rounded font-mono">{v.duration}</span>
+        <span className="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-1.5 py-0.5 rounded font-mono">{v.duration}</span>
         {v.captionSource !== "none" && (
-          <span className="absolute bottom-2 left-2 bg-black/50 text-white text-[9px] px-1.5 py-0.5 rounded flex items-center gap-1" style={{ fontWeight: 600 }}>
+          <span className="absolute bottom-2 left-2 bg-black/70 text-white text-[9px] px-1.5 py-0.5 rounded flex items-center gap-1" style={{ fontWeight: 600 }}>
             <Captions size={10} />CC
           </span>
         )}
         {(v.thumbnailSaved || v.thumbnailImage) && !v.processing && (
-          <span className="absolute top-2 left-2 bg-black/50 text-white text-[8px] px-1.5 py-0.5 rounded flex items-center gap-0.5" style={{ fontWeight: 600 }}>
+          <span className="absolute top-2 left-2 bg-black/70 text-white text-[8px] px-1.5 py-0.5 rounded flex items-center gap-0.5" style={{ fontWeight: 600 }}>
             <Image size={8} />{v.thumbnailImage ? "Custom" : `${fmtSec(v.thumbnailTime)}`}
           </span>
         )}
@@ -401,7 +401,7 @@ function VideoGridCard({ v, selected, openMenu, onSelect, onOpen, onMenuToggle, 
         )}
         <p className="text-[11px] text-tv-text-secondary">{v.creator} · {v.date}</p>
         <div className="flex items-center justify-between mt-1">
-          <span className="text-[10px] text-tv-border-strong flex items-center gap-1"><Eye size={10} />{v.views} views</span>
+          <span className="text-[10px] text-tv-text-secondary flex items-center gap-1"><Eye size={10} />{v.views} views</span>
           {v.isReply && (
             <span className="text-[9px] text-[#0e7490] flex items-center gap-0.5"><MessageSquareReply size={9} />Reply</span>
           )}
@@ -476,7 +476,7 @@ function VideoListRow({ v, selected, openMenu, onSelect, onOpen, onMenuToggle, o
             </span>
           )}
           {v.isReply && <MessageSquareReply size={11} className="text-[#0e7490] shrink-0" />}
-          {v.archived && <Archive size={11} className="text-tv-border-strong shrink-0" />}
+          {v.archived && <Archive size={11} className="text-tv-text-secondary shrink-0" />}
         </div>
         <p className="text-[11px] text-tv-text-secondary truncate">
           {v.recipient ? <><span className="text-tv-brand">→</span> {v.recipient} · </> : ""}{v.folder}
@@ -734,7 +734,7 @@ export function VideoLibrary() {
         <div className="px-3 py-3 border-b border-tv-border-divider flex items-center justify-between gap-2">
           {!sidebarCollapsed && <p className="text-[11px] font-semibold text-tv-text-label uppercase tracking-wider pl-1">Folders</p>}
           <Tooltip label={sidebarCollapsed ? "Show folders" : "Hide folders"} withArrow position="right" openDelay={300}>
-            <button onClick={() => setSidebarCollapsed(c => !c)} className="w-7 h-7 rounded-sm flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface hover:text-tv-brand transition-colors shrink-0">
+            <button onClick={() => setSidebarCollapsed(c => !c)} aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"} className="w-7 h-7 rounded-sm flex items-center justify-center text-tv-text-secondary hover:bg-tv-surface hover:text-tv-brand transition-colors shrink-0">
               {sidebarCollapsed ? <PanelLeftOpen size={14} /> : <PanelLeftClose size={14} />}
             </button>
           </Tooltip>
@@ -770,7 +770,7 @@ export function VideoLibrary() {
                     <button onClick={() => setActiveFolder(f)} className={`w-full flex items-center gap-2 px-4 py-2.5 text-[13px] transition-all text-left ${activeFolder === f ? "bg-tv-brand-tint text-tv-brand font-semibold border-l-[3px] border-tv-brand-bg" : "text-tv-text-label hover:bg-tv-surface"}`}>
                       <Folder size={14} className="shrink-0" />
                       <span className="truncate flex-1">{f}</span>
-                      <span className="text-[10px] text-tv-border-strong shrink-0">{f === "All Videos" ? videos.filter(v => archivedFilter === "active" ? !v.archived : true).length : videos.filter(v => v.folder === f && (archivedFilter === "active" ? !v.archived : true)).length}</span>
+                      <span className="text-[10px] text-tv-text-secondary shrink-0">{f === "All Videos" ? videos.filter(v => archivedFilter === "active" ? !v.archived : true).length : videos.filter(v => v.folder === f && (archivedFilter === "active" ? !v.archived : true)).length}</span>
                     </button>
                   )}
                   {/* Folder context menu trigger */}
@@ -834,14 +834,14 @@ export function VideoLibrary() {
             <Divider orientation="vertical" />
             {/* 1:1 Links View */}
             <Tooltip label="1:1 Links" withArrow position="bottom" openDelay={300}>
-              <ActionIcon variant="default" size="lg" radius="xl" onClick={() => setShowLinksView(true)}>
-                <Link2 size={14} />
+              <ActionIcon variant="default" size="lg" radius="xl" onClick={() => setShowLinksView(true)} aria-label="View 1:1 links">
+                <Link2 size={14} aria-hidden="true" />
               </ActionIcon>
             </Tooltip>
             {/* Export */}
             <Tooltip label="Export" withArrow position="bottom" openDelay={300}>
-              <ActionIcon variant="default" size="lg" radius="xl" onClick={() => setShowExportModal(true)}>
-                <FileDown size={14} />
+              <ActionIcon variant="default" size="lg" radius="xl" onClick={() => setShowExportModal(true)} aria-label="Export">
+                <FileDown size={14} aria-hidden="true" />
               </ActionIcon>
             </Tooltip>
             <ColumnsButton onClick={() => setShowEditColumns(true)} />
@@ -965,7 +965,7 @@ export function VideoLibrary() {
                       <span className="text-[12px] font-semibold text-tv-text-primary">1:1 Videos</span>
                     </div>
                     <span className="text-[12px] text-tv-text-secondary font-medium">{clipFiltered.length}</span>
-                    <span className="text-[10px] text-tv-border-strong hidden sm:inline">Individual recordings for specific constituents or universal use</span>
+                    <span className="text-[10px] text-tv-text-secondary hidden sm:inline">Individual recordings for specific constituents or universal use</span>
                   </div>
                   {viewMode === "grid" ? (
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
@@ -1005,7 +1005,7 @@ export function VideoLibrary() {
                       <span className="text-[12px] font-semibold text-tv-brand">Campaign Videos</span>
                     </div>
                     <span className="text-[12px] text-tv-text-secondary font-medium">{campaignFiltered.length}</span>
-                    <span className="text-[10px] text-tv-border-strong hidden sm:inline">Assembled videos with intro, clips, and outro for campaigns</span>
+                    <span className="text-[10px] text-tv-text-secondary hidden sm:inline">Assembled videos with intro, clips, and outro for campaigns</span>
                   </div>
                   {viewMode === "grid" ? (
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
@@ -1045,7 +1045,7 @@ export function VideoLibrary() {
       {showMoveModal && <MoveToFolderModal folders={folders} count={selected.length} onClose={() => setShowMoveModal(false)} onMove={handleBulkMove} />}
       {showExportModal && <ExportModal videos={videos.filter(v => !v.archived)} onClose={() => setShowExportModal(false)} />}
 
-      {deleteFolderTarget && <DeleteModal title={`Delete folder "${deleteFolderTarget}"?`} onConfirm={() => deleteFolder(deleteFolderTarget)} onCancel={() => setDeleteFolderTarget(null)} />}
+      {deleteFolderTarget && <DeleteModal opened title={`Delete folder "${deleteFolderTarget}"?`} onConfirm={() => deleteFolder(deleteFolderTarget)} onCancel={() => setDeleteFolderTarget(null)} />}
 
       {/* Single video archive confirmation */}
       {archiveTarget && <ArchiveModal count={1} isUnarchive={archiveTarget.archived} onConfirm={() => { handleUpdateVideo({ ...archiveTarget, archived: !archiveTarget.archived }); show(archiveTarget.archived ? `"${archiveTarget.title}" unarchived` : `"${archiveTarget.title}" archived`, "info"); setArchiveTarget(null); }} onCancel={() => setArchiveTarget(null)} />}
@@ -1054,10 +1054,10 @@ export function VideoLibrary() {
       {bulkArchiving && <ArchiveModal count={selected.length} onConfirm={() => { setVideos(vs => vs.map(v => selected.includes(v.id) ? { ...v, archived: true } : v)); show(`${selected.length} video${selected.length > 1 ? "s" : ""} archived`, "info"); setSelected([]); setBulkArchiving(false); }} onCancel={() => setBulkArchiving(false)} />}
 
       {/* Single video delete confirmation */}
-      {deleteTarget && <DeleteModal title={`Delete "${deleteTarget.title}"?`} onConfirm={() => { handleDeleteVideo(deleteTarget.id); show(`"${deleteTarget.title}" deleted`); setDeleteTarget(null); }} onCancel={() => setDeleteTarget(null)} />}
+      {deleteTarget && <DeleteModal opened title={`Delete "${deleteTarget.title}"?`} onConfirm={() => { handleDeleteVideo(deleteTarget.id); show(`"${deleteTarget.title}" deleted`); setDeleteTarget(null); }} onCancel={() => setDeleteTarget(null)} />}
 
       {/* Bulk delete confirmation */}
-      {bulkDeleting && <DeleteModal title={`Delete ${selected.length} video${selected.length > 1 ? "s" : ""}?`} description={`This will permanently delete ${selected.length} video${selected.length > 1 ? "s" : ""}. This action cannot be undone.`} onConfirm={() => { setVideos(v => v.filter(x => !selected.includes(x.id))); show(`${selected.length} video${selected.length > 1 ? "s" : ""} deleted`); setSelected([]); setBulkDeleting(false); }} onCancel={() => setBulkDeleting(false)} />}
+      {bulkDeleting && <DeleteModal opened title={`Delete ${selected.length} video${selected.length > 1 ? "s" : ""}?`} description={`This will permanently delete ${selected.length} video${selected.length > 1 ? "s" : ""}. This action cannot be undone.`} onConfirm={() => { setVideos(v => v.filter(x => !selected.includes(x.id))); show(`${selected.length} video${selected.length > 1 ? "s" : ""} deleted`); setSelected([]); setBulkDeleting(false); }} onCancel={() => setBulkDeleting(false)} />}
 
       {/* Edit Columns Modal */}
       {showEditColumns && (
@@ -1101,13 +1101,13 @@ export function VideoLibrary() {
                   <div className="w-14 text-center text-[11px]" style={{ color: TV.textSecondary }}>{v.views}</div>
                   <div className="w-20 flex items-center justify-center gap-1">
                     <Tooltip label="Copy 1:1 link">
-                      <ActionIcon variant="subtle" size="xs" onClick={() => { navigator.clipboard.writeText(`https://tv.ht/${v.id}`).catch((_e) => {}); show("Link copied!", "success"); }}>
-                        <Copy size={11} />
+                      <ActionIcon variant="subtle" size="xs" onClick={() => { navigator.clipboard.writeText(`https://tv.ht/${v.id}`).catch((_e) => {}); show("Link copied!", "success"); }} aria-label="Copy 1:1 link">
+                        <Copy size={11} aria-hidden="true" />
                       </ActionIcon>
                     </Tooltip>
                     <Tooltip label="Send as 1:1">
-                      <ActionIcon variant="subtle" size="xs" onClick={() => { setShowLinksView(false); setSendAs1to1Target(v); }}>
-                        <Send size={11} />
+                      <ActionIcon variant="subtle" size="xs" onClick={() => { setShowLinksView(false); setSendAs1to1Target(v); }} aria-label="Send as 1:1">
+                        <Send size={11} aria-hidden="true" />
                       </ActionIcon>
                     </Tooltip>
                   </div>

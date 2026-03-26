@@ -36,12 +36,12 @@ export function SaveChangesModal({
   return (
     <FocusTrap active>
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="save-changes-title">
-      <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-[400px] mx-4 p-6">
+      <div className="bg-white rounded-[20px] border border-tv-border-light shadow-xl w-full max-w-[400px] mx-4 p-6">
         <div className="flex items-center gap-3 mb-3">
           <div className="w-10 h-10 rounded-full bg-tv-brand-tint flex items-center justify-center shrink-0">
             <Save size={18} className="text-tv-brand" />
           </div>
-          <h3 id="save-changes-title" className="text-tv-text-primary" style={{ fontSize: "16px", fontWeight: 900 }}>
+          <h3 id="save-changes-title" className="text-tv-text-primary" style={{ fontSize: "18px", fontWeight: 900 }}>
             Save your changes?
           </h3>
         </div>

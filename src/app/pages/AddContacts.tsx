@@ -486,8 +486,8 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
                 <Text fz={14} fw={600} c={TV.textPrimary}>{fileName}</Text>
                 <Text fz={12} c={TV.textSecondary}>{rowCount} rows · {fileSize} · {columns.length} columns detected</Text>
               </div>
-              <ActionIcon variant="subtle" color="gray" onClick={() => { setStep("upload"); setFileName(""); }}>
-                <X size={14} />
+              <ActionIcon variant="subtle" color="gray" onClick={() => { setStep("upload"); setFileName(""); }} aria-label="Clear file">
+                <X size={14} aria-hidden="true" />
               </ActionIcon>
             </div>
           </div>
@@ -608,6 +608,7 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
                     value={col.mappedTo}
                     onChange={v => handleMapping(idx, v ?? "skip")}
                     size="xs" radius="md"
+                    aria-label={`Map column ${col.csvHeader} to field`}
                     comboboxProps={{ shadow: "md", width: 240 }}
                     styles={{ input: { borderColor: col.mappedTo === "skip" ? TV.warningBorder : TV.borderLight, fontSize: 12 } }}
                   />
@@ -1370,13 +1371,13 @@ function ManualFlow({ onComplete, onBack }: { onComplete: () => void; onBack: ()
                 </Box>
                 <div className="flex items-center gap-1">
                   <Tooltip label="Edit" withArrow>
-                    <ActionIcon variant="subtle" color="gray" size="sm" onClick={() => handleEditStaged(c)}>
-                      <Pencil size={13} />
+                    <ActionIcon variant="subtle" color="gray" size="sm" onClick={() => handleEditStaged(c)} aria-label="Edit contact">
+                      <Pencil size={13} aria-hidden="true" />
                     </ActionIcon>
                   </Tooltip>
                   <Tooltip label="Remove" withArrow>
-                    <ActionIcon variant="subtle" color="red" size="sm" onClick={() => handleRemoveStaged(c._id)}>
-                      <Trash2 size={13} />
+                    <ActionIcon variant="subtle" color="red" size="sm" onClick={() => handleRemoveStaged(c._id)} aria-label="Remove contact">
+                      <Trash2 size={13} aria-hidden="true" />
                     </ActionIcon>
                   </Tooltip>
                 </div>
@@ -1587,7 +1588,7 @@ function RenxtFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () 
             <div className="rounded-xl p-6" style={{ border: `2px solid ${TV.border}`, textAlign: "center" }}>
               <Stack align="center" gap="md">
                 <Box w={72} h={72} style={{
-                  borderRadius: 18, display: "flex", alignItems: "center", justifyContent: "center",
+                  borderRadius: 20, display: "flex", alignItems: "center", justifyContent: "center",
                   background: "linear-gradient(135deg, #003B5C 0%, #005A8C 100%)",
                 }}>
                   <Text fz={28} fw={900} c="white">BB</Text>
@@ -1775,6 +1776,7 @@ function RenxtFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () 
                     value={m.renxt}
                     onChange={v => setMapping(mp => mp.map((item, i) => i === idx ? { ...item, renxt: v ?? "" } : item))}
                     size="xs" radius="md" placeholder="Select RE NXT field…"
+                    aria-label="RE NXT field"
                     comboboxProps={{ shadow: "md" }}
                   />
                 </Box>
@@ -1785,11 +1787,12 @@ function RenxtFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () 
                     value={m.tv}
                     onChange={v => handleMappingChange(idx, v ?? "")}
                     size="xs" radius="md" placeholder="Select TV field…"
+                    aria-label="ThankView field"
                     comboboxProps={{ shadow: "md" }}
                   />
                 </Box>
-                <ActionIcon variant="subtle" color="gray" size="sm" onClick={() => removeMappingRow(idx)}>
-                  <Trash2 size={13} />
+                <ActionIcon variant="subtle" color="gray" size="sm" onClick={() => removeMappingRow(idx)} aria-label="Remove mapping row">
+                  <Trash2 size={13} aria-hidden="true" />
                 </ActionIcon>
               </div>
             ))}
@@ -2007,8 +2010,8 @@ export function AddContacts() {
     <Box p={{ base: "sm", sm: "xl" }} pt={0} maw={960} mx="auto">
       {/* Header */}
       <div className="sticky top-0 z-10 bg-tv-surface-muted pt-4 sm:pt-6 pb-3 -mx-3 sm:-mx-6 px-3 sm:px-6 flex items-center gap-2 mb-3">
-        <ActionIcon variant="subtle" color="gray" size="lg" onClick={goBack}>
-          <ChevronLeft size={20} />
+        <ActionIcon variant="subtle" color="gray" size="lg" onClick={goBack} aria-label="Go back">
+          <ChevronLeft size={20} aria-hidden="true" />
         </ActionIcon>
         <div>
           <Title order={2} fz={{ base: 20, sm: 24 }}>Add Constituents</Title>

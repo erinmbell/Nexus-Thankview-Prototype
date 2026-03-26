@@ -12,12 +12,16 @@ export interface SharedVideoRecorderProps {
   onBack: () => void;
   onComplete: (video: PickerVideo) => void;
   onOpenLibrary?: () => void;
+  title?: string;
+  subtitle?: string;
 }
 
 export function SharedVideoRecorder({
   onBack,
   onComplete,
   onOpenLibrary,
+  title: titleOverride,
+  subtitle: subtitleOverride,
 }: SharedVideoRecorderProps) {
   const [editorVideo, setEditorVideo] = useState<PickerVideo | null>(null);
 
@@ -50,8 +54,8 @@ export function SharedVideoRecorder({
 
   return (
     <VideoRecorder
-      title="Shared Video for All Recipients"
-      subtitle="This clip will appear in every recipient's final video."
+      title={titleOverride || "Shared Video for All Recipients"}
+      subtitle={subtitleOverride || "This clip will appear in every recipient's final video."}
       badgeLabel="Same video for everyone"
       badgeIcon={Users}
       contextLabel="Shared Video"
