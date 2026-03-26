@@ -137,7 +137,7 @@ function GoalResultBlock({ campaign }: { campaign: typeof campaigns[0] }) {
           <span className="text-[11px] font-medium text-tv-text-label">Goal</span>
         </div>
         <div className="flex items-center gap-2 flex-1 min-w-0">
-          <div className="flex-1 h-[5px] bg-tv-border-light rounded-full overflow-hidden min-w-[60px]">
+          <div className="flex-1 h-[5px] bg-[#ddd6ea] rounded-full overflow-hidden min-w-[60px]">
             <div className={`h-full rounded-full ${bar(goalMet, goalNear)}`} style={{ width: isDraft ? "0%" : `${goalPct}%` }} />
           </div>
           <span className={`text-[12px] font-semibold shrink-0 ${isDraft || goal.actual === null ? "text-tv-text-tertiary" : goalMet ? "text-tv-success" : goalNear ? "text-tv-warning" : "text-tv-text-primary"}`}>{goal.actualDisplay}</span>
@@ -152,7 +152,7 @@ function GoalResultBlock({ campaign }: { campaign: typeof campaigns[0] }) {
           <span className="text-[11px] font-medium text-tv-text-label">Replies</span>
         </div>
         <div className="flex items-center gap-2 flex-1 min-w-0">
-          <div className="flex-1 h-[5px] bg-tv-border-light rounded-full overflow-hidden min-w-[60px]">
+          <div className="flex-1 h-[5px] bg-[#ddd6ea] rounded-full overflow-hidden min-w-[60px]">
             <div className={`h-full rounded-full ${bar(resultMet, false)}`} style={{ width: isDraft ? "0%" : `${resultPct}%` }} />
           </div>
           <span className={`text-[12px] font-semibold shrink-0 ${isDraft || result.actual === null ? "text-tv-text-tertiary" : resultMet ? "text-tv-success" : "text-tv-text-primary"}`}>{result.actualDisplay}</span>
@@ -251,8 +251,8 @@ function PerformanceChart({ collapsed, onToggle }: { collapsed: boolean; onToggl
           <RechartsTooltip key="tooltip" contentStyle={{ borderRadius: 10, border: `1px solid ${TV.borderLight}`, fontSize: 12 }} cursor={{ fill: TV.brandTint }} formatter={(v: number, name: string) => [`${v}%`, name === "openRate" ? "Open Rate" : name === "clickThrough" ? "Click-Through Rate" : "Avg. % Watched"]} />
           <Legend key="legend" wrapperStyle={{ fontSize: 12, paddingTop: 12 }} formatter={(v) => v === "openRate" ? "Open Rate" : v === "clickThrough" ? "Click-Through Rate" : "Avg. % Watched"} />
           <Bar key="bar-openRate" dataKey="openRate" fill={TV.brand} radius={[4,4,0,0]} name="openRate" isAnimationActive={false} />
-          <Bar key="bar-clickThrough" dataKey="clickThrough" fill="#8b5fbf" radius={[4,4,0,0]} name="clickThrough" isAnimationActive={false} />
-          <Bar key="bar-avgWatched" dataKey="avgWatched" fill="#8968ad" radius={[4,4,0,0]} name="avgWatched" isAnimationActive={false} />
+          <Bar key="bar-clickThrough" dataKey="clickThrough" fill={TV.info} radius={[4,4,0,0]} name="clickThrough" isAnimationActive={false} />
+          <Bar key="bar-avgWatched" dataKey="avgWatched" fill={TV.success} radius={[4,4,0,0]} name="avgWatched" isAnimationActive={false} />
         </BarChart>
       </ResponsiveContainer>
       </div>

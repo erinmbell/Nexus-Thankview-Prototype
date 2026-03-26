@@ -543,6 +543,74 @@ function GeneralTab() {
         </Box>
       </div>
 
+      {/* Your Success Team */}
+      <div className="rounded-[var(--mantine-radius-default)] border p-5" style={{ borderColor: TV.borderLight }}>
+        <Title order={2} fz={16} mb="md">Your Success Team</Title>
+        <div className="flex flex-col sm:flex-row gap-4">
+          {/* CSM Card */}
+          <div className="flex-1 rounded-xl p-4" style={{ backgroundColor: TV.brandTint, border: `1px solid ${TV.borderDivider}` }}>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: TV.brand }}>
+                <Text fz={16} fw={700} c="white">JM</Text>
+              </div>
+              <div>
+                <Text fz={14} fw={700} c={TV.textPrimary}>Jessica Martinez</Text>
+                <Text fz={12} c={TV.textSecondary}>Customer Success Manager</Text>
+              </div>
+            </div>
+            <Stack gap={6}>
+              <div className="flex items-center gap-2">
+                <Mail size={13} style={{ color: TV.textBrand, flexShrink: 0 }} />
+                <Text component="a" href="mailto:jessica.martinez@evertrue.com" fz={12} c={TV.textBrand} style={{ textDecoration: "underline", textUnderlineOffset: 2 }}>jessica.martinez@evertrue.com</Text>
+              </div>
+              <div className="flex items-center gap-2">
+                <Smartphone size={13} style={{ color: TV.textBrand, flexShrink: 0 }} />
+                <Text fz={12} c={TV.textSecondary}>(617) 555-0142</Text>
+              </div>
+            </Stack>
+            <Button
+              component="a"
+              href="https://calendly.com/jessica-martinez-evertrue/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="filled"
+              color="tvPurple"
+              size="sm"
+              radius="xl"
+              leftSection={<CalendarClock size={14} />}
+              mt="md"
+              fullWidth
+            >
+              Schedule a Call
+            </Button>
+          </div>
+
+          {/* Support Card */}
+          <div className="flex-1 rounded-xl p-4" style={{ backgroundColor: TV.surface, border: `1px solid ${TV.borderDivider}` }}>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: TV.info, color: "white" }}>
+                <UserCheck size={20} />
+              </div>
+              <div>
+                <Text fz={14} fw={700} c={TV.textPrimary}>EverTrue Support</Text>
+                <Text fz={12} c={TV.textSecondary}>Help Center & Live Chat</Text>
+              </div>
+            </div>
+            <Stack gap={6}>
+              <div className="flex items-center gap-2">
+                <Mail size={13} style={{ color: TV.textBrand, flexShrink: 0 }} />
+                <Text component="a" href="mailto:support@evertrue.com" fz={12} c={TV.textBrand} style={{ textDecoration: "underline", textUnderlineOffset: 2 }}>support@evertrue.com</Text>
+              </div>
+              <div className="flex items-center gap-2">
+                <Globe size={13} style={{ color: TV.textBrand, flexShrink: 0 }} />
+                <Text component="a" href="https://help.thankview.com" target="_blank" rel="noopener noreferrer" fz={12} c={TV.textBrand} style={{ textDecoration: "underline", textUnderlineOffset: 2 }}>help.thankview.com</Text>
+              </div>
+            </Stack>
+            <Text fz={11} c={TV.textSecondary} mt="md">Available Mon–Fri, 9am–6pm ET. Average response time: under 2 hours.</Text>
+          </div>
+        </div>
+      </div>
+
       <Button
         leftSection={<Check size={14} />}
         color="tvPurple"

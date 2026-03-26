@@ -1543,11 +1543,18 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
 }
 
 // ── Root ───────────��───────────────────────────────────────────────────────────
+/* ── Empty / Onboarding State for first-time users ─────────────────────────── */
+const SOURCE_OPTIONS = [
+  { key: "record"  as Source, icon: Camera,     label: "Record a Video",      desc: "Use your webcam or screen to record a personalized video message." },
+  { key: "upload"  as Source, icon: UploadCloud, label: "Upload a Video",     desc: "Upload an existing video file from your computer." },
+  { key: "library" as Source, icon: Film,        label: "Choose from Library", desc: "Select a previously recorded or uploaded video." },
+  { key: "combine" as Source, icon: Combine,     label: "Combine Clips",       desc: "Merge multiple video clips into a single video." },
+];
+
 export function VideoCreate() {
   const navigate  = useNavigate();
   const { show } = useToast();
-  // Skip source selection entirely — start directly at the setup step
-  const [source] = useState<Source>("record");
+  const [source, setSource] = useState<Source | null>(null);
   const [showEditor, setShowEditor] = useState(false);
 
   const next = () => {
@@ -1578,6 +1585,76 @@ export function VideoCreate() {
     );
   }
 
+  // ── Empty / onboarding state — no source selected yet ─────────────────────
+  if (source === null) {
+    return (
+      <div className="min-h-full">
+        {/* Top header */}
+        <div className="sticky top-0 z-10 bg-white border-b border-tv-border-divider px-3 sm:px-6 py-3">
+          <h1 className="text-[22px] sm:text-[24px] font-black text-tv-text-primary">Create a Video</h1>
+          <p className="text-[13px] text-tv-text-secondary">Choose how you'd like to get started</p>
+        </div>
+
+        <div className="p-3 sm:p-6 flex flex-col items-center">
+          {/* Hero illustration area */}
+          <div className="flex flex-col items-center text-center max-w-lg mx-auto pt-8 sm:pt-12 pb-8">
+            <div className="w-20 h-20 bg-tv-brand-tint rounded-full flex items-center justify-center mb-5">
+              <Film size={36} style={{ color: TV.textDecorative }} />
+            </div>
+            <h2 className="text-[18px] sm:text-[20px] font-black text-tv-text-primary mb-2">
+              Ready to create your next video?
+            </h2>
+            <p className="text-[13px] text-tv-text-secondary leading-relaxed max-w-md">
+              Personalized video messages are the most engaging way to connect with your audience.
+              Record a webcam message, upload an existing video, pick one from your library, or combine multiple clips.
+            </p>
+          </div>
+
+          {/* Source selection cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-2xl">
+            {SOURCE_OPTIONS.map(opt => (
+              <button
+                key={opt.key}
+                onClick={() => setSource(opt.key)}
+                className="flex items-start gap-4 p-5 bg-white rounded-xl border-2 text-left transition-all hover:border-tv-border-strong hover:shadow-md group"
+                style={{ borderColor: TV.borderLight }}
+              >
+                <div className="w-11 h-11 rounded-lg flex items-center justify-center shrink-0 transition-colors group-hover:bg-tv-brand-tint"
+                  style={{ backgroundColor: TV.surface }}>
+                  <opt.icon size={20} style={{ color: TV.textBrand }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[14px] font-bold text-tv-text-primary mb-0.5">{opt.label}</p>
+                  <p className="text-[12px] text-tv-text-secondary leading-relaxed">{opt.desc}</p>
+                </div>
+                <ChevronRight size={16} className="shrink-0 mt-1 text-tv-text-secondary group-hover:text-tv-text-brand transition-colors" />
+              </button>
+            ))}
+          </div>
+
+          {/* Helpful tips */}
+          <div className="mt-8 p-4 rounded-xl max-w-2xl w-full" style={{ backgroundColor: TV.surface, border: `1px solid ${TV.borderDivider}` }}>
+            <p className="text-[11px] font-semibold uppercase tracking-wider mb-2" style={{ color: TV.textLabel }}>Quick Tips</p>
+            <ul className="text-[12px] text-tv-text-secondary space-y-1.5">
+              <li className="flex items-start gap-2"><Sparkles size={12} className="shrink-0 mt-0.5" style={{ color: TV.textBrand }} /> <span>Keep videos under 2 minutes for the best engagement rates.</span></li>
+              <li className="flex items-start gap-2"><Mic size={12} className="shrink-0 mt-0.5" style={{ color: TV.textBrand }} /> <span>Use a quiet environment and face a light source for best results.</span></li>
+              <li className="flex items-start gap-2"><User size={12} className="shrink-0 mt-0.5" style={{ color: TV.textBrand }} /> <span>Address recipients by name to increase open and watch rates.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Nav */}
+        <div className="sticky bottom-0 z-10 bg-white border-t border-tv-border-divider px-3 sm:px-6 py-3 flex items-center justify-end">
+          <button onClick={() => navigate("/videos")}
+            className="text-[13px] text-tv-text-secondary flex items-center gap-1.5 border border-tv-border-light rounded-full px-4 py-2 hover:bg-tv-surface transition-colors">
+            <X size={13} />Back to Library
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Source selected — show the setup step for the chosen source ────────────
   return (
     <div className="min-h-full">
       {/* Top header */}
@@ -1596,15 +1673,21 @@ export function VideoCreate() {
       </div>
 
       {/* Bottom Nav */}
-      <div className="sticky bottom-0 z-10 bg-white border-t border-tv-border-divider px-3 sm:px-6 py-3 flex items-center justify-end gap-2">
-        <button onClick={() => navigate("/videos")}
-          className="text-[13px] text-tv-danger flex items-center gap-1.5 border border-tv-danger-border rounded-full px-4 py-2 hover:bg-tv-danger-bg transition-colors">
-          <X size={13} />Cancel
+      <div className="sticky bottom-0 z-10 bg-white border-t border-tv-border-divider px-3 sm:px-6 py-3 flex items-center justify-between gap-2">
+        <button onClick={() => setSource(null)}
+          className="text-[13px] text-tv-text-secondary flex items-center gap-1.5 border border-tv-border-light rounded-full px-4 py-2 hover:bg-tv-surface transition-colors">
+          <ChevronRight size={13} className="rotate-180" />Back
         </button>
-        <button onClick={next}
-          className="flex items-center gap-1.5 text-[13px] font-semibold bg-tv-brand-bg text-white rounded-full px-4 py-2 hover:bg-tv-brand transition-colors">
-          Continue<ChevronRight size={14} />
-        </button>
+        <div className="flex items-center gap-2">
+          <button onClick={() => navigate("/videos")}
+            className="text-[13px] text-tv-danger flex items-center gap-1.5 border border-tv-danger-border rounded-full px-4 py-2 hover:bg-tv-danger-bg transition-colors">
+            <X size={13} />Cancel
+          </button>
+          <button onClick={next}
+            className="flex items-center gap-1.5 text-[13px] font-semibold bg-tv-brand-bg text-white rounded-full px-4 py-2 hover:bg-tv-brand transition-colors">
+            Continue<ChevronRight size={14} />
+          </button>
+        </div>
       </div>
     </div>
   );

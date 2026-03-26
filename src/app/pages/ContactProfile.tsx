@@ -1408,7 +1408,7 @@ export function ContactProfile() {
                           <Box>
                             <Text fz={11} c={TV.textLabel} tt="uppercase" lts="0.05em" fw={600} mb={8}>Composite Engagement Score</Text>
                             <div className="flex items-center gap-3">
-                              <div className="flex-1 h-3.5 bg-tv-border-light rounded-full overflow-hidden">
+                              <div className="flex-1 h-3.5 bg-[#ddd6ea] rounded-full overflow-hidden">
                                 <div className="h-full rounded-full transition-all" style={{ width: `${avg}%`, backgroundColor: avg >= 70 ? TV.success : avg >= 40 ? TV.warning : TV.danger }} />
                               </div>
                               <Text fz={22} fw={900} className="font-display" c={TV.textPrimary}>{avg}</Text>
@@ -2095,7 +2095,7 @@ export function ContactProfile() {
                         <Text fz={11} c={TV.textLabel} fw={600}>Watch Depth</Text>
                         <Text fz={11} c={TV.textLabel}>{send.watchTime} / {send.videoDuration}</Text>
                       </div>
-                      <div className="h-2.5 bg-tv-border-light rounded-full overflow-hidden">
+                      <div className="h-2.5 bg-[#ddd6ea] rounded-full overflow-hidden">
                         <div className="h-full bg-gradient-to-r from-tv-brand to-tv-info rounded-full" style={{ width: `${send.watchPct}%` }} />
                       </div>
                     </Box>

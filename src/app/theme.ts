@@ -114,7 +114,7 @@ const TV = {
 
   /* ── Text — all AA-compliant on #ffffff (≥ 4.5:1) ─────────────────────────── */
   textPrimary:   "#242436",   // 15.7 :1
-  textSecondary: "#6b6b6b",   //  4.97:1
+  textSecondary: "#666666",   //  5.74:1 on white, 4.69:1 on surfaceHover — AA-safe on all backgrounds
   textLabel:     "#5d5e65",   //  5.55:1
   textBrand:     "#7c45b0",   //  6.29:1
   textDecorative:"#5c4f78",   //  5.3:1 — hint text, helper text (AA-compliant)
@@ -458,19 +458,22 @@ export const thankviewTheme = createTheme({
 
     /* ─── SegmentedControl ───────────────────────────────────────────────────
      * Lavender background, no border, brand-purple active indicator.
+     * autoContrast: true tells Mantine to auto-calculate the active label
+     * color for AA compliance (white on #7c45b0 = 6.30:1 ✓).
+     * NOTE: Do NOT set label.color as an inline style — it overrides Mantine's
+     * CSS-based [data-active] rule and causes dark-on-purple (2.42:1 FAIL).
+     * Inactive label color comes from Mantine's default (black in light mode).
      */
     SegmentedControl: {
       defaultProps: {
         radius: "xl",
         color: "tvPurple",
+        autoContrast: true,
       },
       styles: {
         root: {
           backgroundColor: TV.surface,
           border: "none",
-        },
-        label: {
-          color: TV.textPrimary,
         },
       },
     },

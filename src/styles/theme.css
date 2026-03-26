@@ -18,7 +18,7 @@
 
   /* Text — all AA-compliant on #ffffff backgrounds (≥ 4.5:1) */
   --tv-text-primary:   #242436;
-  --tv-text-secondary: #6b6b6b;
+  --tv-text-secondary: #666666;
   --tv-text-label:     #5d5e65;
   --tv-text-brand:     #7c45b0;
   --tv-text-decorative:#5c4f78; /* darkened from #7a6b96 (3.7:1) → 5.3:1 vs white — WCAG AA pass */
@@ -151,6 +151,15 @@ textarea:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   SegmentedControl: AA-compliant label colors
+   • Inactive: use our design token textPrimary (#242436) instead of Mantine's
+     default black — matches the rest of our typography.
+   • Active: white text on purple indicator (#7c45b0) = 6.30:1 contrast (AA ✓).
+     The autoContrast prop + removal of inline label color in theme.ts handles
+     this via --sc-label-color: var(--mantine-color-white).
+   ═══════════════════════════════════════════════════════════════════════════════ */
 
 /* ═══════════════════════════════════════════════════════════════════════════════
    WCAG AA Color Accessibility Overrides

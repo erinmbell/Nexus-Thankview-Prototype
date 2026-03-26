@@ -1,5 +1,5 @@
 import {
-  Box, Text, Title, Button, ActionIcon, Tabs,
+  Box, Text, Title, Button, ActionIcon, Tabs, Menu,
   Avatar, Drawer, Modal, TextInput, Checkbox,
   SegmentedControl, Tooltip, Stack, Badge, UnstyledButton,
 } from "@mantine/core";
@@ -16,7 +16,7 @@ import {
   TrendingUp, TrendingDown, Target, ChevronDown,
   UserMinus, ShieldAlert, Goal, Trophy,
   Tag, Layers, GitCompareArrows, LayoutDashboard, FileText, Info, Pin,
-  Activity, PhoneOff, SlidersHorizontal,
+  Activity, PhoneOff, SlidersHorizontal, Building2,
 } from "lucide-react";
 import {
   XAxis, YAxis, CartesianGrid, Tooltip as RTooltip,
@@ -34,6 +34,13 @@ import dayjs from "dayjs";
 // ═════════════════════════════════════════��══��══════════════════════════════════
 // MOCK DATA
 // ═════���════════════════��════════════════════════════════════════════════════════
+
+const PORTALS = [
+  { id: "portal-1", name: "Main Campus", slug: "main-campus", sends: 12840 },
+  { id: "portal-2", name: "Medical Center", slug: "medical-center", sends: 4320 },
+  { id: "portal-3", name: "Athletics", slug: "athletics", sends: 2150 },
+  { id: "portal-4", name: "Alumni Association", slug: "alumni-assoc", sends: 8760 },
+];
 
 const TREND_DATA = [
   { date: "Feb 1",  sends: 38, delivered: 37, opens: 31, clicks: 18, views: 42, replies: 6  },
@@ -1181,6 +1188,8 @@ export function Analytics() {
     const contactId = EMAIL_TO_CONTACT_ID[send.email];
     if (contactId) navigate(`/contacts/${contactId}?from=analytics&tab=engagement`);
   };
+  const [selectedPortal, setSelectedPortal] = useState("all");
+  const [portalOpen, setPortalOpen] = useState(false);
   const [chartMode, setChartMode] = useState<"sends" | "opens" | "clicks" | "views" | "replies">("views");
   const [mainTab, setMainTab] = useState<string | null>(() => {
     const t = searchParams.get("tab");
@@ -1717,6 +1726,75 @@ export function Analytics() {
           </div>
         )}
       </Box>
+
+      {/* Portal selector for multi-portal accounts */}
+      <div className="flex items-center gap-3 mb-4">
+        <div className="flex items-center gap-1.5">
+          <Building2 size={14} style={{ color: TV.textSecondary }} />
+          <Text fz={12} fw={600} c={TV.textSecondary} style={{ letterSpacing: 0.3 }}>PORTAL</Text>
+        </div>
+        <Menu shadow="md" width={280} opened={portalOpen} onChange={setPortalOpen} position="bottom-start">
+          <Menu.Target>
+            <UnstyledButton
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors"
+              style={{
+                border: `1px solid ${selectedPortal !== "all" ? TV.borderStrong : TV.borderLight}`,
+                backgroundColor: selectedPortal !== "all" ? TV.brandTint : "white",
+              }}
+              onMouseEnter={e => { if (selectedPortal === "all") e.currentTarget.style.backgroundColor = TV.surface; }}
+              onMouseLeave={e => { if (selectedPortal === "all") e.currentTarget.style.backgroundColor = "white"; }}
+            >
+              <Text fz={12} fw={600} style={{ color: selectedPortal !== "all" ? TV.textBrand : TV.textPrimary }}>
+                {selectedPortal === "all" ? "All Portals" : PORTALS.find(p => p.id === selectedPortal)?.name}
+              </Text>
+              <ChevronDown size={13} style={{ color: TV.textSecondary }} />
+            </UnstyledButton>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Label fz={10} style={{ letterSpacing: 0.5 }}>SELECT PORTAL</Menu.Label>
+            <Menu.Item
+              onClick={() => setSelectedPortal("all")}
+              rightSection={selectedPortal === "all" ? <Check size={14} style={{ color: TV.brand }} /> : null}
+            >
+              <div className="flex items-center gap-2">
+                <Globe size={14} style={{ color: TV.textSecondary }} />
+                <div>
+                  <Text fz={13} fw={selectedPortal === "all" ? 600 : 400}>All Portals</Text>
+                  <Text fz={11} c={TV.textSecondary}>{PORTALS.reduce((s, p) => s + p.sends, 0).toLocaleString()} total sends</Text>
+                </div>
+              </div>
+            </Menu.Item>
+            <Menu.Divider />
+            {PORTALS.map(p => (
+              <Menu.Item
+                key={p.id}
+                onClick={() => setSelectedPortal(p.id)}
+                rightSection={selectedPortal === p.id ? <Check size={14} style={{ color: TV.brand }} /> : null}
+              >
+                <div className="flex items-center gap-2">
+                  <Building2 size={14} style={{ color: selectedPortal === p.id ? TV.brand : TV.textSecondary }} />
+                  <div>
+                    <Text fz={13} fw={selectedPortal === p.id ? 600 : 400}>{p.name}</Text>
+                    <Text fz={11} c={TV.textSecondary}>{p.sends.toLocaleString()} sends</Text>
+                  </div>
+                </div>
+              </Menu.Item>
+            ))}
+          </Menu.Dropdown>
+        </Menu>
+        {selectedPortal !== "all" && (
+          <UnstyledButton
+            onClick={() => setSelectedPortal("all")}
+            className="flex items-center gap-1 px-2 py-0.5 rounded-full transition-colors"
+            style={{ color: TV.textBrand, backgroundColor: TV.brandTint, border: `1px solid ${TV.borderLight}` }}
+            onMouseEnter={e => (e.currentTarget.style.backgroundColor = TV.surfaceHover)}
+            onMouseLeave={e => (e.currentTarget.style.backgroundColor = TV.brandTint)}
+          >
+            <X size={11} />
+            <Text fz={11}>Reset</Text>
+          </UnstyledButton>
+        )}
+      </div>
 
       {/* Main tabs */}
       <Tabs value={mainTab} onChange={setMainTab} color="tvPurple" mb="lg"

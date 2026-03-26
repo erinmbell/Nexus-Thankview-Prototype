@@ -3448,7 +3448,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                             <span className="flex items-center gap-1 text-tv-warning"><span className="w-2 h-2 rounded-full bg-tv-warning inline-block" /> <span className="font-semibold">{missingCount}</span> missing</span>
                             {malformedCount > 0 && <span className="flex items-center gap-1 text-tv-danger"><span className="w-2 h-2 rounded-full bg-tv-danger inline-block" /> <span className="font-semibold">{malformedCount}</span> bad format</span>}
                           </div>
-                          <div className="h-1.5 bg-tv-border-light rounded-full overflow-hidden flex">
+                          <div className="h-1.5 bg-[#ddd6ea] rounded-full overflow-hidden flex">
                             <div className="h-full bg-tv-success rounded-full" style={{ width: `${(validCount / constituents.length) * 100}%` }} />
                             <div className="h-full bg-tv-warning" style={{ width: `${(missingCount / constituents.length) * 100}%` }} />
                             {malformedCount > 0 && <div className="h-full bg-tv-danger" style={{ width: `${(malformedCount / constituents.length) * 100}%` }} />}
