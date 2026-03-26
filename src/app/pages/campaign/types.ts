@@ -239,12 +239,13 @@ export const LANGUAGE_OPTIONS = [
   { id: "ko", label: "Korean" },
 ] as const;
 
-export const FLOW_STEP_TYPES: { id: FlowStepType; label: string; icon: any; color: string; bg: string; desc: string }[] = [
-  { id: "email",     label: "Email",     icon: Mail,          color: "text-tv-brand",   bg: "bg-tv-brand-tint", desc: "Send an email (with optional video)" },
-  { id: "sms",       label: "SMS",       icon: MessageSquare, color: "text-tv-info",    bg: "bg-tv-info-bg",    desc: "Send a text message (with optional video)" },
-  { id: "wait",      label: "Wait",      icon: Timer,         color: "text-tv-warning", bg: "bg-tv-warning-bg", desc: "Pause before next step" },
-  { id: "condition", label: "Condition",  icon: GitBranch,     color: "text-tv-brand",   bg: "bg-tv-brand-tint",    desc: "Branch based on behavior" },
-  { id: "video-request", label: "Video Request", icon: Bell, color: "text-tv-warning", bg: "bg-tv-warning-bg", desc: "Request a video from constituents" },
+export type FlowStepGroup = "send" | "logic";
+export const FLOW_STEP_TYPES: { id: FlowStepType; label: string; icon: any; color: string; bg: string; desc: string; group: FlowStepGroup }[] = [
+  { id: "email",         label: "Email",         icon: Mail,          color: "text-tv-brand",   bg: "bg-tv-brand-tint",   desc: "Send an email (with optional video)", group: "send" },
+  { id: "sms",           label: "SMS",           icon: MessageSquare, color: "text-tv-info",    bg: "bg-tv-info-bg",      desc: "Send a text message (with optional video)", group: "send" },
+  { id: "video-request", label: "Video Request", icon: Bell,          color: "text-tv-success", bg: "bg-tv-success-bg",   desc: "Request a video from constituents", group: "send" },
+  { id: "wait",          label: "Wait",          icon: Timer,         color: "text-tv-warning", bg: "bg-tv-warning-bg",   desc: "Pause before next step", group: "logic" },
+  { id: "condition",     label: "Condition",      icon: GitBranch,     color: "text-tv-brand",   bg: "bg-tv-brand-tint",   desc: "Branch based on behavior", group: "logic" },
 ];
 
 export interface ConditionOption {
