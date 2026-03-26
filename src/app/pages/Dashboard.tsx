@@ -226,7 +226,7 @@ function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
               <span className="text-[11px] text-tv-text-secondary tracking-widest uppercase font-semibold">Create Campaign</span>
             </div>
             {[
-              { mode: "single", label: "Single-Step", desc: "One message, one send", icon: Send, bg: "#f3eeff", iconColor: "#7c45b0" },
+              { mode: "single", label: "Single-Step", desc: "One message, one send", icon: Send, bg: TV.brandTint, iconColor: TV.brand },
               { mode: "multi", label: "Multi-Step", desc: "Automated sequence of messages", icon: GitBranch, bg: "#e8f4fd", iconColor: "#2b7bb9" },
               { mode: "video-request", label: "Video Request", desc: "Collect videos from constituents", icon: Bell, bg: "#e6f9ed", iconColor: "#15803d" },
             ].map((item) => (
@@ -316,10 +316,10 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
       to: "/contacts",
       icon: (
         <svg className="block size-[16px]" fill="none" viewBox="0 0 16 16" aria-hidden="true">
-          <path d={svgPaths.p32887f80} stroke="#7c45b0" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
-          <path d={svgPaths.p3694d280} stroke="#7c45b0" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
-          <path d={svgPaths.p1f197700} stroke="#7c45b0" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
-          <path d={svgPaths.p3bf3e100} stroke="#7c45b0" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
+          <path d={svgPaths.p32887f80} stroke={TV.brand} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
+          <path d={svgPaths.p3694d280} stroke={TV.brand} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
+          <path d={svgPaths.p1f197700} stroke={TV.brand} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
+          <path d={svgPaths.p3bf3e100} stroke={TV.brand} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
         </svg>
       ),
     },

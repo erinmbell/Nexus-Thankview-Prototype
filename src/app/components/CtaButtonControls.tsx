@@ -9,7 +9,7 @@ export const CTA_COLOR_PRESETS = [
   { label: "Red",          bg: "#dc2626",    text: "#ffffff" },
   { label: "Orange",       bg: "#ea580c",    text: "#ffffff" },
   { label: "Dark",         bg: "#1e293b",    text: "#ffffff" },
-  { label: "White",        bg: "#ffffff",    text: "#242436" },
+  { label: "White",        bg: "#ffffff",    text: TV.textPrimary },
 ] as const;
 
 interface CtaButtonControlsProps {

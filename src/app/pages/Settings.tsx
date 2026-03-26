@@ -1144,7 +1144,7 @@ function UsersTab() {
               <Text fz={12} c={TV.textSecondary} mt={2}>View all users, their roles, and last activity. Only Admins can manage users and permissions.</Text>
             </div>
             <div className="flex items-center gap-2">
-              <Button leftSection={<Plus size={13} />} color="tvPurple" onClick={() => setShowInvite(true)} size="sm" radius="md">
+              <Button leftSection={<Plus size={13} />} color="tvPurple" onClick={() => setShowInvite(true)} size="sm" radius="xl">
                 Invite User
               </Button>
               <ColumnsButton onClick={() => setShowUsersEditCols(true)} />
@@ -1382,7 +1382,7 @@ function UsersTab() {
         title="Change User Role"
         centered
         size="md"
-        radius="lg"
+        radius="xl"
         styles={{ title: { fontWeight: 900, fontSize: "16px", color: TV.textPrimary } }}
       >
         {roleModalUser && (
@@ -1429,12 +1429,12 @@ function UsersTab() {
             </div>
 
             <div className="flex items-center justify-end gap-3 mt-2">
-              <Button variant="outline" color="red" radius="md" onClick={() => setRoleModalUser(null)}>
+              <Button variant="outline" color="red" radius="xl" onClick={() => setRoleModalUser(null)}>
                 Cancel
               </Button>
               <Button
                 color="tvPurple"
-                radius="md"
+                radius="xl"
                 disabled={pendingRole === roleModalUser.role}
                 onClick={handleRoleSave}
               >
@@ -1458,7 +1458,7 @@ function UsersTab() {
         title="Assign Sending Domain"
         centered
         size="md"
-        radius="lg"
+        radius="xl"
         styles={{ title: { fontWeight: 900, fontSize: "16px", color: TV.textPrimary } }}
       >
         {domainModalUser && (
@@ -1544,12 +1544,12 @@ function UsersTab() {
             )}
 
             <div className="flex items-center justify-end gap-3" style={{ marginTop: "var(--mantine-spacing-sm)" }}>
-              <Button variant="outline" color="red" radius="md" onClick={() => setDomainModalUser(null)}>
+              <Button variant="outline" color="red" radius="xl" onClick={() => setDomainModalUser(null)}>
                 Cancel
               </Button>
               <Button
                 color="tvPurple"
-                radius="md"
+                radius="xl"
                 disabled={pendingDomain === domainModalUser.sendingDomain}
                 onClick={handleDomainSave}
               >
@@ -1638,7 +1638,7 @@ function NotificationsTab() {
               { label: "Once a Week", value: "weekly" },
             ]}
             fullWidth
-            radius="md"
+            radius="xl"
             color="tvPurple"
             styles={{
               root: { backgroundColor: TV.surface, border: `1px solid ${TV.borderLight}` },
@@ -1764,7 +1764,7 @@ function VideoTab() {
                 key={res}
                 variant={defaultRes === res ? "light" : "default"}
                 color={defaultRes === res ? "tvPurple" : "gray"}
-                radius="md"
+                radius="xl"
                 onClick={() => setDefaultRes(res)}
                 styles={{
                   root: { borderWidth: 2, borderColor: defaultRes === res ? TV.brand : TV.borderLight, backgroundColor: defaultRes === res ? TV.brandTint : "white", height: "auto", padding: "10px 0" },
@@ -1796,7 +1796,7 @@ function VideoTab() {
                 variant="default"
                 fullWidth
                 onClick={() => setVirtualBgUploaded(!virtualBgUploaded)}
-                radius="md"
+                radius="xl"
                 styles={{
                   root: {
                     borderWidth: 2, borderStyle: "dashed", height: "auto", padding: "12px",
@@ -1894,7 +1894,7 @@ function VideoTab() {
                 variant="default"
                 fullWidth
                 onClick={() => setOutroUploaded(!outroUploaded)}
-                radius="md"
+                radius="xl"
                 styles={{
                   root: {
                     borderWidth: 2, borderStyle: "dashed", height: "auto", padding: "12px",
@@ -2033,7 +2033,7 @@ function VideoTab() {
               { label: "Table View", value: "table" },
             ]}
             fullWidth
-            radius="md"
+            radius="xl"
             color="tvPurple"
             styles={{
               root: { backgroundColor: TV.surface, border: `1px solid ${TV.borderLight}` },
@@ -2156,7 +2156,7 @@ function VideoTab() {
             <Button
               variant={defaultIntroId === null ? "light" : "default"}
               color={defaultIntroId === null ? "tvPurple" : "gray"}
-              size="xs" radius="md"
+              size="xs" radius="xl"
               onClick={() => setDefaultIntroId(null)}
               styles={{ root: { borderColor: defaultIntroId === null ? TV.brand : TV.borderLight } }}
             >
@@ -2167,7 +2167,7 @@ function VideoTab() {
                 key={intro.id}
                 variant={defaultIntroId === intro.id ? "light" : "default"}
                 color={defaultIntroId === intro.id ? "tvPurple" : "gray"}
-                size="xs" radius="md"
+                size="xs" radius="xl"
                 onClick={() => setDefaultIntroId(intro.id)}
                 styles={{ root: { borderColor: defaultIntroId === intro.id ? TV.brand : TV.borderLight } }}
               >
@@ -2258,7 +2258,7 @@ function OneToOneTab() {
                 <Button
                   variant={defaultAccent === c.value ? "light" : "default"}
                   color={defaultAccent === c.value ? "tvPurple" : "gray"}
-                  radius="md"
+                  radius="xl"
                   size="sm"
                   onClick={() => setDefaultAccent(c.value)}
                   styles={{
@@ -2277,7 +2277,7 @@ function OneToOneTab() {
                 component="span"
                 variant={!ACCENT_PRESETS.some(c => c.value === defaultAccent) ? "light" : "default"}
                 color={!ACCENT_PRESETS.some(c => c.value === defaultAccent) ? "tvPurple" : "gray"}
-                radius="md"
+                radius="xl"
                 size="sm"
                 styles={{
                   root: {
@@ -2350,7 +2350,7 @@ function OneToOneTab() {
                 key={fmt}
                 variant={linkFormat === fmt ? "light" : "default"}
                 color={linkFormat === fmt ? "tvPurple" : "gray"}
-                radius="md"
+                radius="xl"
                 onClick={() => setLinkFormat(fmt)}
                 styles={{
                   root: { borderWidth: 2, borderColor: linkFormat === fmt ? TV.brand : TV.borderLight, backgroundColor: linkFormat === fmt ? TV.brandTint : "white", height: "auto", padding: "12px 0" },
@@ -2490,7 +2490,7 @@ function SubscriptionTab() {
                 <Text fz={12} c={TV.textSecondary}>Expires {currentCard.expiry} · Cardholder: {currentCard.name}</Text>
               </div>
             </div>
-            <Button variant="light" color="tvPurple" size="xs" radius="md" onClick={() => setCardModalOpen(true)}>
+            <Button variant="light" color="tvPurple" size="xs" radius="xl" onClick={() => setCardModalOpen(true)}>
               Update Card
             </Button>
           </div>
@@ -2574,7 +2574,7 @@ function SubscriptionTab() {
       )}
 
       {/* Update Card Modal */}
-      <Modal opened={cardModalOpen} onClose={() => setCardModalOpen(false)} title="Update Payment Method" centered size="md" radius="lg">
+      <Modal opened={cardModalOpen} onClose={() => setCardModalOpen(false)} title="Update Payment Method" centered size="md" radius="xl">
         <Stack gap="sm">
           <Text fz={12} c={TV.textSecondary} mb={4}>Enter your new credit card details. This card will be used for all future charges including subscription renewals and caption credit auto-renew.</Text>
 
@@ -2583,7 +2583,7 @@ function SubscriptionTab() {
             placeholder="Name as it appears on card"
             value={cardName}
             onChange={e => setCardName(e.currentTarget.value)}
-            radius="md"
+            radius="xl"
             autoComplete="cc-name"
           />
           <TextInput
@@ -2591,7 +2591,7 @@ function SubscriptionTab() {
             placeholder="1234 5678 9012 3456"
             value={cardNumber}
             onChange={e => setCardNumber(e.currentTarget.value)}
-            radius="md"
+            radius="xl"
             leftSection={<CreditCard size={14} />}
           />
           <div className="flex items-center gap-3" style={{ flex: 1 }}>
@@ -2600,7 +2600,7 @@ function SubscriptionTab() {
               placeholder="MM / YY"
               value={cardExpiry}
               onChange={e => setCardExpiry(e.currentTarget.value)}
-              radius="md"
+              radius="xl"
               style={{ flex: 1 }}
             />
             <TextInput
@@ -2608,7 +2608,7 @@ function SubscriptionTab() {
               placeholder="123"
               value={cardCvc}
               onChange={e => setCardCvc(e.currentTarget.value)}
-              radius="md"
+              radius="xl"
               style={{ flex: 1 }}
             />
           </div>
@@ -2617,12 +2617,12 @@ function SubscriptionTab() {
             placeholder="10001"
             value={cardZip}
             onChange={e => setCardZip(e.currentTarget.value)}
-            radius="md"
+            radius="xl"
           />
 
           <div className="flex items-center justify-end gap-3" style={{ marginTop: 'var(--mantine-spacing-sm)' }}>
-            <Button variant="outline" color="red" radius="md" onClick={() => setCardModalOpen(false)}>Cancel</Button>
-            <Button color="tvPurple" radius="md" onClick={handleUpdateCard}>Save Payment Method</Button>
+            <Button variant="outline" color="red" radius="xl" onClick={() => setCardModalOpen(false)}>Cancel</Button>
+            <Button color="tvPurple" radius="xl" onClick={handleUpdateCard}>Save Payment Method</Button>
           </div>
         </Stack>
       </Modal>
