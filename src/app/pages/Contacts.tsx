@@ -211,7 +211,7 @@ function ImportModal({ onClose, onImport }: { onClose: () => void; onImport: (mo
   };
 
   return (
-    <Modal opened onClose={onClose} title={stepTitle[step]} size="lg" radius="lg">
+    <Modal opened onClose={onClose} title={stepTitle[step]} size="lg" radius="xl">
 
       {/* ── Step 1: Choose mode ── */}
       {step === "mode" && (
@@ -814,7 +814,7 @@ function ExportModal({ selectedCount, filteredCount, totalCount, onClose, onExpo
   const activeCat = EXPORT_CATEGORIES[activeCategory];
 
   return (
-    <Modal opened onClose={onClose} title="Export Fields" size={720} radius="lg"
+    <Modal opened onClose={onClose} title="Export Fields" size={720} radius="xl"
       styles={{ title: { fontSize: 20, fontWeight: 900, color: TV.textPrimary } }}>
       <Stack gap="md">
         <Text fz={13} c={TV.textSecondary}>
@@ -985,7 +985,7 @@ function AddToListModal({ selectedCount, onClose, onAdd }: {
   );
 
   return (
-    <Modal opened onClose={onClose} title={`Add ${selectedCount} Constituent${selectedCount !== 1 ? "s" : ""} to List`} size="md" radius="lg">
+    <Modal opened onClose={onClose} title={`Add ${selectedCount} Constituent${selectedCount !== 1 ? "s" : ""} to List`} size="md" radius="xl">
       {creating ? (
         <Stack gap="sm">
           <TextInput label="New List Name" placeholder="e.g. Spring Gala Invitees"

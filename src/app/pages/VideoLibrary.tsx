@@ -815,7 +815,7 @@ export function VideoLibrary() {
         {/* Toolbar */}
         <div className="sticky top-0 z-10 flex items-center gap-3 px-5 py-4 bg-white border-b border-tv-border-light shrink-0 flex-wrap">
           <Title order={2}>{activeFolder}</Title>
-          <Badge size="lg" variant="light" radius="md" color="gray" style={{ fontWeight: 600 }}>
+          <Badge size="lg" variant="light" radius="xl" color="gray" style={{ fontWeight: 600 }}>
             {filtered.length} video{filtered.length !== 1 ? "s" : ""}
           </Badge>
           <div className="flex items-center gap-2 bg-white rounded-full px-3 py-2 border border-tv-border-light flex-1 max-w-xs">
@@ -855,8 +855,8 @@ export function VideoLibrary() {
                   { key: "upload", icon: Upload, label: "Upload Video File", desc: "Upload an MP4, MOV, or WebM from your computer", action: () => { setAddMenuOpen(false); setShowAdd("upload"); } },
                   { key: "1to1", icon: Users, label: "Record 1:1 Videos", desc: "Record personalized videos for individual constituents", action: () => { setAddMenuOpen(false); navigate("/videos/record-1to1"); }, colorHex: "#007c9e", bgHex: "#d9f2f8" },
                 ].map((opt) => {
-                  const cHex = opt.colorHex ?? "#7c45b0";
-                  const bHex = opt.bgHex ?? "#f3eeff";
+                  const cHex = opt.colorHex ?? TV.brand;
+                  const bHex = opt.bgHex ?? TV.brandTint;
                   return (
                     <button
                       key={opt.key}

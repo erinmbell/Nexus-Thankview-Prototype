@@ -1203,7 +1203,7 @@ function ManualFlow({ onComplete, onBack }: { onComplete: () => void; onBack: ()
       </Box>
 
       {/* ── Field picker modal ── */}
-      <Modal opened={fieldPickerOpen} onClose={() => setFieldPickerOpen(false)} title="Choose Fields" size="md" radius="lg">
+      <Modal opened={fieldPickerOpen} onClose={() => setFieldPickerOpen(false)} title="Choose Fields" size="md" radius="xl">
         <Text fz={12} c={TV.textSecondary} mb="md">
           Select which fields to fill in for each constituent. Donor ID is always required.
         </Text>
