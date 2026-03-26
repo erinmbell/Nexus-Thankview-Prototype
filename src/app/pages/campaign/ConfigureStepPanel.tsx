@@ -236,13 +236,12 @@ export function ConfigureStepPanel({
             </div>
           </div>
 
-          <button
-            onClick={() => setShowMetricsInfo(true)}
-            className="w-full py-2.5 border-2 border-dashed border-tv-border-light rounded-md text-[11px] text-tv-brand hover:border-tv-brand-bg/40 hover:bg-tv-brand-tint/20 transition-colors"
-            style={{ fontWeight: 500 }}
-          >
-            + Add another success metric
-          </button>
+          {selectedMetrics.length > 0 && selectedMetrics.length < 5 && (
+            <div className="flex items-center justify-center gap-1.5 py-2 text-[10px] text-tv-text-secondary">
+              <Info size={10} />
+              <span>Click any chip above to add more metrics ({5 - selectedMetrics.length} remaining)</span>
+            </div>
+          )}
         </div>
       </section>
 
