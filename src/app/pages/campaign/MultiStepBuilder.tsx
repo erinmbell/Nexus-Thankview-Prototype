@@ -166,7 +166,7 @@ function FlowNode({
       aria-label={`${step.label || typeDef?.label} step. Press Enter to edit.`}
     >
       {/* Color bar */}
-      <div className={`h-[3px] ${isCondition ? "bg-tv-brand" : step.type === "sms" ? "bg-tv-info" : step.type === "video-request" ? "bg-tv-warning" : "bg-tv-brand-bg"}`} />
+      <div className={`h-[3px] ${isCondition ? "bg-tv-brand" : step.type === "sms" ? "bg-tv-info" : step.type === "video-request" ? "bg-tv-success" : "bg-tv-brand-bg"}`} />
       <div className="bg-white px-4 py-3">
         {/* ── Header row ── */}
         <div className="flex items-center gap-3">
@@ -373,25 +373,35 @@ function Connector() {
 
 function AddStepPopover({ onAdd, onClose }: { onAdd: (type: FlowStepType) => void; onClose: () => void }) {
   const popRef = useRef<HTMLDivElement>(null);
-  const [above, setAbove] = useState(false);
-
-  // Measure on mount: if not enough room below, flip above
-  useEffect(() => {
-    const el = popRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    if (rect.bottom > window.innerHeight - 20) setAbove(true);
-  }, []);
+  const anchorRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
+      <div ref={anchorRef} className="absolute left-1/2 -translate-x-1/2 top-full" />
       <div className="fixed inset-0 z-40" onClick={onClose} />
       <div
         ref={popRef}
-        className={`absolute left-1/2 -translate-x-1/2 z-50 bg-white rounded-md border border-tv-border-light shadow-xl p-2 w-[220px] ${above ? "bottom-full mb-2" : "top-full mt-2"}`}
+        className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-50 bg-white rounded-md border border-tv-border-light shadow-xl p-2 w-[220px] max-h-[70vh] overflow-y-auto"
       >
-        <p className="tv-label px-2 py-1.5 text-tv-text-secondary">Add Step</p>
-        {FLOW_STEP_TYPES.map(t => (
+        <p className="tv-label px-2 py-1.5 text-tv-text-secondary">Send Steps</p>
+        {FLOW_STEP_TYPES.filter(t => t.group === "send").map(t => (
+          <button
+            key={t.id}
+            onClick={() => { onAdd(t.id); onClose(); }}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm hover:bg-tv-surface transition-colors text-left"
+          >
+            <div className={`w-7 h-7 rounded-sm ${t.bg} flex items-center justify-center shrink-0`}>
+              <t.icon size={13} className={t.color} />
+            </div>
+            <div>
+              <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>{t.label}</p>
+              <p className="text-[10px] text-tv-text-secondary">{t.desc}</p>
+            </div>
+          </button>
+        ))}
+        <div className="border-t border-tv-border-divider my-1" />
+        <p className="tv-label px-2 py-1.5 text-tv-text-secondary">Logic Steps</p>
+        {FLOW_STEP_TYPES.filter(t => t.group === "logic").map(t => (
           <button
             key={t.id}
             onClick={() => { onAdd(t.id); onClose(); }}
@@ -2397,8 +2407,22 @@ function BranchAddButton({ parentId, branchType, onAdd }: { parentId: string; br
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
           <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-50 bg-white rounded-md border border-tv-border-light shadow-xl p-2 w-[200px]">
-            <p className="text-[10px] text-tv-text-secondary uppercase tracking-wider px-2 py-1" style={{ fontWeight: 600 }}>Add to {branchType} branch</p>
-            {[...FLOW_STEP_TYPES, { id: "exit" as FlowStepType, label: "End Campaign", icon: XCircle, color: "text-tv-danger", bg: "bg-tv-danger-bg", desc: "End the flow here" }].map(t => (
+            <p className="text-[10px] text-tv-text-secondary uppercase tracking-wider px-2 py-1" style={{ fontWeight: 600 }}>Send Steps</p>
+            {FLOW_STEP_TYPES.filter(t => t.group === "send").map(t => (
+              <button
+                key={t.id}
+                onClick={() => { onAdd(parentId, branchType, t.id); setOpen(false); }}
+                className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-sm hover:bg-tv-surface transition-colors text-left"
+              >
+                <div className={`w-6 h-6 rounded-[5px] ${t.bg} flex items-center justify-center shrink-0`}>
+                  <t.icon size={11} className={t.color} />
+                </div>
+                <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>{t.label}</span>
+              </button>
+            ))}
+            <div className="border-t border-tv-border-divider my-1" />
+            <p className="text-[10px] text-tv-text-secondary uppercase tracking-wider px-2 py-1" style={{ fontWeight: 600 }}>Logic Steps</p>
+            {[...FLOW_STEP_TYPES.filter(t => t.group === "logic"), { id: "exit" as FlowStepType, label: "End Campaign", icon: XCircle, color: "text-tv-danger", bg: "bg-tv-danger-bg", desc: "End the flow here", group: "logic" as const }].map(t => (
               <button
                 key={t.id}
                 onClick={() => { onAdd(parentId, branchType, t.id); setOpen(false); }}
