@@ -482,6 +482,7 @@ const isBuilderRoute = (path: string) =>
 export function Layout() {
   const [collapsed,  setCollapsed]  = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [sidebarAnnouncement, setSidebarAnnouncement] = useState("");
   const location = useLocation();
   const prevPathRef = useRef(location.pathname);
 
@@ -504,6 +505,8 @@ export function Layout() {
       <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-white focus:text-tv-brand focus:shadow-lg focus:outline-2 focus:outline-tv-brand" style={{ fontFamily: "Roboto, sans-serif" }}>
         Skip to main content
       </a>
+      {/* WCAG 4.1.3 — sidebar collapse state announcement */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">{sidebarAnnouncement}</div>
       {mobileOpen && <Box className="fixed inset-0 bg-black/40 z-40 md:hidden" onClick={() => setMobileOpen(false)} aria-hidden="true" />}
 
       <Box
@@ -513,7 +516,7 @@ export function Layout() {
           mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
         ].join(" ")}
       >
-        <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(v => !v)} onMobileClose={() => setMobileOpen(false)} />
+        <Sidebar collapsed={collapsed} onToggle={() => { setCollapsed(v => { const next = !v; setSidebarAnnouncement(next ? "Sidebar collapsed" : "Sidebar expanded"); return next; }); }} onMobileClose={() => setMobileOpen(false)} />
       </Box>
 
       <Box className="flex flex-col flex-1 overflow-hidden min-w-0">

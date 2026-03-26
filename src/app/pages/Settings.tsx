@@ -446,6 +446,7 @@ function GeneralTab() {
             onChange={e => setOrgName(e.currentTarget.value)}
             description="This is what appears in the org switcher."
             autoComplete="organization"
+            required
           />
           <div>
             <FieldLabel>Organization Slug</FieldLabel>

@@ -515,6 +515,9 @@ export function RichTextEditor({
           <button
             type="button"
             onClick={() => setShowTemplates(!showTemplates)}
+            aria-haspopup="dialog"
+            aria-expanded={showTemplates}
+            aria-label="Insert template"
             className={`flex items-center gap-1 px-2 py-1.5 rounded-sm text-[11px] transition-colors ${
               showTemplates
                 ? "bg-tv-brand-bg/10 text-tv-brand"
@@ -522,9 +525,9 @@ export function RichTextEditor({
             }`}
             style={{ fontWeight: 500 }}
           >
-            <FileText size={iconSize - 1} />
+            <FileText size={iconSize - 1} aria-hidden="true" />
             <span className="hidden sm:inline">Templates</span>
-            <ChevronDown size={9} />
+            <ChevronDown size={9} aria-hidden="true" />
           </button>
           {showTemplates && (
             <>
@@ -606,17 +609,19 @@ export function RichTextEditor({
           <button
             type="button"
             onClick={() => setShowMergePicker(!showMergePicker)}
+            aria-haspopup="dialog"
+            aria-expanded={showMergePicker}
+            aria-label="Insert merge field"
             className={`flex items-center gap-1 px-2 py-1.5 rounded-sm text-[11px] transition-colors ${
               showMergePicker
                 ? "bg-tv-brand-bg/10 text-tv-brand"
                 : "text-tv-text-secondary hover:bg-tv-surface-hover hover:text-tv-text-primary"
             }`}
             style={{ fontWeight: 500 }}
-            title="Insert Merge Field"
           >
-            <Braces size={iconSize - 1} />
+            <Braces size={iconSize - 1} aria-hidden="true" />
             <span className="hidden sm:inline">Merge Fields</span>
-            <ChevronDown size={9} />
+            <ChevronDown size={9} aria-hidden="true" />
           </button>
           {showMergePicker && (
             <MergeFieldPicker

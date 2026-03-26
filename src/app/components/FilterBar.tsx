@@ -209,6 +209,9 @@ function MiniCalendar({ month, rangeStart, rangeEnd, onSelect, maxDate }: {
               key={iso}
               disabled={disabled}
               onClick={() => onSelect(iso)}
+              aria-label={day.format("MMMM D, YYYY")}
+              aria-current={isToday ? "date" : undefined}
+              aria-disabled={disabled || undefined}
               className="flex items-center justify-center transition-colors"
               style={{
                 width: 32,
@@ -408,8 +411,8 @@ function DateRangeFilterChip({ def, values, onChange, onRemove, removable }: {
           {/* Calendar */}
           <div className="p-3 flex flex-col">
             <div className="flex items-center justify-between mb-2">
-              <UnstyledButton onClick={() => setViewMonth(m => m.subtract(1, "month"))} p={4} style={{ borderRadius: "var(--mantine-radius-xs)" }} className="hover:bg-tv-surface">
-                <ChevronLeft size={14} style={{ color: TV.textSecondary }} />
+              <UnstyledButton onClick={() => setViewMonth(m => m.subtract(1, "month"))} p={4} style={{ borderRadius: "var(--mantine-radius-xs)" }} className="hover:bg-tv-surface" aria-label="Previous month">
+                <ChevronLeft size={14} style={{ color: TV.textSecondary }} aria-hidden="true" />
               </UnstyledButton>
               <Text fz={13} fw={600} c={TV.textPrimary}>{viewMonth.format("MMMM YYYY")}</Text>
               <UnstyledButton
@@ -417,8 +420,9 @@ function DateRangeFilterChip({ def, values, onChange, onRemove, removable }: {
                 p={4} style={{ borderRadius: "var(--mantine-radius-xs)" }}
                 className="hover:bg-tv-surface"
                 disabled={viewMonth.add(1, "month").startOf("month").isAfter(dayjs())}
+                aria-label="Next month"
               >
-                <ChevronRight size={14} style={{ color: viewMonth.add(1, "month").startOf("month").isAfter(dayjs()) ? TV.borderLight : TV.textSecondary }} />
+                <ChevronRight size={14} style={{ color: viewMonth.add(1, "month").startOf("month").isAfter(dayjs()) ? TV.borderLight : TV.textSecondary }} aria-hidden="true" />
               </UnstyledButton>
             </div>
 

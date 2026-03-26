@@ -75,8 +75,8 @@ export function EnvelopeBuilderModal({ onSave, onClose }: { onSave: (env: SavedE
             <div className="flex-1 overflow-y-auto p-5 space-y-6">
               <div>
                 <p className="tv-label mb-2">Envelope Title <span className="text-red-500">*</span></p>
-                <input ref={nameInputRef} value={envTitle} onChange={e => { setEnvTitle(e.target.value); setNameError(false); }} placeholder="Enter envelope name" aria-required="true" aria-invalid={nameError} className={`w-full border rounded-md px-3 py-2.5 text-[13px] text-tv-text-primary outline-none focus:ring-2 transition-colors ${nameError ? "border-red-400 focus:ring-red-200 focus:border-red-400" : "border-tv-border-light focus:ring-tv-brand/20 focus:border-tv-brand"}`} />
-                {nameError && <p className="text-red-500 text-[11px] mt-1">A name is required to save</p>}
+                <input ref={nameInputRef} value={envTitle} onChange={e => { setEnvTitle(e.target.value); setNameError(false); }} placeholder="Enter envelope name" aria-required="true" aria-invalid={nameError} aria-describedby={nameError ? "env-name-error" : undefined} className={`w-full border rounded-md px-3 py-2.5 text-[13px] text-tv-text-primary outline-none focus:ring-2 transition-colors ${nameError ? "border-red-400 focus:ring-red-200 focus:border-red-400" : "border-tv-border-light focus:ring-tv-brand/20 focus:border-tv-brand"}`} />
+                {nameError && <p id="env-name-error" role="alert" className="text-red-500 text-[11px] mt-1">A name is required to save</p>}
               </div>
               <ColorSwatchPicker label="Envelope Color" value={envColor} onChange={(hex) => setEnvColor(hex)} swatches={BRAND_PALETTE} swatchSize={32} />
               <ColorSwatchPicker label="Liner Color" value={linerColor} onChange={(hex) => setLinerColor(hex)} swatches={BRAND_PALETTE} swatchSize={32} />

@@ -444,11 +444,47 @@ export function GlobalSearch() {
   const totalResults = contactResults.length + campaignResults.length + videoResults.length +
     interactionResults.length + listResults.length + savedSearchResults.length + assetResults.length;
 
+  // ── Flat result list for keyboard navigation (WCAG 2.1.1) ────────────────
+  const flatResults = useMemo(() => {
+    const items: { id: string; path: string; label: string }[] = [];
+    contactResults.forEach(({ item: c }) => items.push({ id: `sr-contact-${c.id}`, path: `/contacts/${c.id}`, label: `${c.first} ${c.last}` }));
+    interactionResults.forEach(({ item: i }) => items.push({ id: `sr-interaction-${i.id}`, path: `/contacts/${i.contactId}`, label: i.subject }));
+    campaignResults.forEach(({ item: c }) => items.push({ id: `sr-campaign-${c.id}`, path: `/campaigns/${c.id}`, label: c.name }));
+    videoResults.forEach(({ item: v }) => items.push({ id: `sr-video-${v.id}`, path: "/videos", label: v.title }));
+    listResults.forEach(({ item: l }) => items.push({ id: `sr-list-${l.id}`, path: "/lists", label: l.name }));
+    savedSearchResults.forEach(({ item: s }) => items.push({ id: `sr-search-${s.id}`, path: "/saved-searches", label: s.name }));
+    assetResults.forEach(({ item: a }) => items.push({ id: `sr-asset-${a.id}`, path: a.route, label: a.name }));
+    return items;
+  }, [contactResults, interactionResults, campaignResults, videoResults, listResults, savedSearchResults, assetResults]);
+
+  const [activeIndex, setActiveIndex] = useState(-1);
+
+  // Reset active index when results change
+  useEffect(() => { setActiveIndex(-1); }, [flatResults]);
+
   const handleNavigate = useCallback((path: string) => {
     setOpen(false);
     setQuery("");
+    setActiveIndex(-1);
     navigate(path);
   }, [navigate]);
+
+  const handleSearchKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (!open || !hasQuery || flatResults.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex(i => (i + 1) % flatResults.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex(i => (i <= 0 ? flatResults.length - 1 : i - 1));
+    } else if (e.key === "Enter" && activeIndex >= 0) {
+      e.preventDefault();
+      handleNavigate(flatResults[activeIndex].path);
+    }
+  }, [open, hasQuery, flatResults, activeIndex, handleNavigate]);
+
+  const activeResultId = activeIndex >= 0 ? flatResults[activeIndex]?.id : null;
+  const isResultActive = (id: string) => id === activeResultId;
 
   const quotedTokens = tokens.map(t => `"${t}"`).join(" and ");
 
@@ -468,10 +504,14 @@ export function GlobalSearch() {
     );
   }
 
-  function ResultRow({ icon, onClick, children }: { icon: React.ReactNode; onClick: () => void; children: React.ReactNode }) {
+  function ResultRow({ icon, onClick, children, id, isActive }: { icon: React.ReactNode; onClick: () => void; children: React.ReactNode; id?: string; isActive?: boolean }) {
     return (
       <UnstyledButton w="100%" px="md" py="sm" onClick={onClick}
-        className="hover:bg-tv-surface-muted transition-colors"
+        id={id}
+        role="option"
+        aria-selected={isActive || false}
+        className="transition-colors"
+        style={{ backgroundColor: isActive ? TV.surfaceMuted : undefined }}
       >
         <div className="flex gap-3 flex-nowrap items-start">
           {icon}
@@ -553,9 +593,14 @@ export function GlobalSearch() {
             value={query}
             onChange={e => { setQuery(e.target.value); setOpen(true); }}
             onFocus={() => { if (hasQuery) setOpen(true); }}
+            onKeyDown={handleSearchKeyDown}
             placeholder="Search across ThankView…"
+            role="combobox"
             aria-label="Search across ThankView"
             aria-expanded={open && hasQuery}
+            aria-autocomplete="list"
+            aria-controls={open && hasQuery ? "global-search-results" : undefined}
+            aria-activedescendant={activeIndex >= 0 ? flatResults[activeIndex]?.id : undefined}
             style={{
               flex: 1, border: "none", background: "transparent",
               fontSize: 13, color: TV.textPrimary, padding: "8px 8px",
@@ -594,14 +639,14 @@ export function GlobalSearch() {
               <Text fz={11} c={TV.textLabel} mt={4}>Try different keywords or broaden your search scope</Text>
             </Box>
           ) : (
-            <ScrollArea.Autosize mah={520} type="auto">
+            <ScrollArea.Autosize mah={520} type="auto" id="global-search-results" role="listbox" aria-label="Search results">
               {/* ── Contacts ─────────────────────────────────────────── */}
               {contactResults.length > 0 && (
                 <Box key="section-contacts" style={{ borderTop: sectionBorder("contacts") }}>
                   <SectionHeader title="Constituents" count={contactResults.length} linkLabel={`View constituent result${contactResults.length !== 1 ? "s" : ""}`} linkTo="/contacts" />
                   <Stack gap={0}>
                     {contactResults.map(({ item: c }) => (
-                      <ResultRow key={c.id} onClick={() => handleNavigate(`/contacts/${c.id}`)}
+                      <ResultRow key={c.id} id={`sr-contact-${c.id}`} isActive={isResultActive(`sr-contact-${c.id}`)} onClick={() => handleNavigate(`/contacts/${c.id}`)}
                         icon={
                           <Avatar size={40} radius="xl" color="tvPurple"
                             styles={{ root: { backgroundColor: c.color, flexShrink: 0, marginTop: 2 } }}>
@@ -628,7 +673,7 @@ export function GlobalSearch() {
                   <SectionHeader title="Interactions" count={interactionResults.length} linkLabel={`View interaction result${interactionResults.length !== 1 ? "s" : ""}`} linkTo="/analytics" />
                   <Stack gap={0}>
                     {interactionResults.map(({ item: i }) => (
-                      <ResultRow key={i.id} onClick={() => handleNavigate(`/contacts/${i.contactId}`)}
+                      <ResultRow key={i.id} id={`sr-interaction-${i.id}`} isActive={isResultActive(`sr-interaction-${i.id}`)} onClick={() => handleNavigate(`/contacts/${i.contactId}`)}
                         icon={<CircleIcon><InteractionIcon type={i.type} /></CircleIcon>}
                       >
                         <Text fz={12} c={TV.textLabel}>{interactionLabel(i.type)}</Text>
@@ -650,7 +695,7 @@ export function GlobalSearch() {
                   <SectionHeader title="Campaigns" count={campaignResults.length} linkLabel="View all campaigns" linkTo="/campaigns" />
                   <Stack gap={0}>
                     {campaignResults.map(({ item: c }) => (
-                      <ResultRow key={c.id} onClick={() => handleNavigate(`/campaigns/${c.id}`)}
+                      <ResultRow key={c.id} id={`sr-campaign-${c.id}`} isActive={isResultActive(`sr-campaign-${c.id}`)} onClick={() => handleNavigate(`/campaigns/${c.id}`)}
                         icon={<CircleIcon><Send size={16} /></CircleIcon>}
                       >
                         <div className="flex items-center gap-2 flex-nowrap">
@@ -673,7 +718,7 @@ export function GlobalSearch() {
                   <SectionHeader title="Videos" count={videoResults.length} linkLabel="View all videos" linkTo="/videos" />
                   <Stack gap={0}>
                     {videoResults.map(({ item: v }) => (
-                      <ResultRow key={v.id} onClick={() => handleNavigate("/videos")}
+                      <ResultRow key={v.id} id={`sr-video-${v.id}`} isActive={isResultActive(`sr-video-${v.id}`)} onClick={() => handleNavigate("/videos")}
                         icon={<CircleIcon><Video size={16} /></CircleIcon>}
                       >
                         <Text fz={13} fw={700} c={TV.textBrand} truncate>{v.title}</Text>
@@ -693,7 +738,7 @@ export function GlobalSearch() {
                   <SectionHeader title="Lists" count={listResults.length} linkLabel="View all lists" linkTo="/lists" />
                   <Stack gap={0}>
                     {listResults.map(({ item: l }) => (
-                      <ResultRow key={l.id} onClick={() => handleNavigate("/lists")}
+                      <ResultRow key={l.id} id={`sr-list-${l.id}`} isActive={isResultActive(`sr-list-${l.id}`)} onClick={() => handleNavigate("/lists")}
                         icon={<CircleIcon><List size={16} /></CircleIcon>}
                       >
                         <div className="flex items-center gap-2 flex-nowrap">
@@ -714,7 +759,7 @@ export function GlobalSearch() {
                   <SectionHeader title="Saved Searches" count={savedSearchResults.length} linkLabel="View all saved searches" linkTo="/saved-searches" />
                   <Stack gap={0}>
                     {savedSearchResults.map(({ item: s }) => (
-                      <ResultRow key={s.id} onClick={() => handleNavigate("/saved-searches")}
+                      <ResultRow key={s.id} id={`sr-search-${s.id}`} isActive={isResultActive(`sr-search-${s.id}`)} onClick={() => handleNavigate("/saved-searches")}
                         icon={<CircleIcon><Filter size={16} /></CircleIcon>}
                       >
                         <div className="flex items-center gap-2 flex-nowrap">
@@ -735,7 +780,7 @@ export function GlobalSearch() {
                   <SectionHeader title="Assets & Templates" count={assetResults.length} linkLabel="View all assets" linkTo="/assets" />
                   <Stack gap={0}>
                     {assetResults.map(({ item: a }) => (
-                      <ResultRow key={a.id} onClick={() => handleNavigate(a.route)}
+                      <ResultRow key={a.id} id={`sr-asset-${a.id}`} isActive={isResultActive(`sr-asset-${a.id}`)} onClick={() => handleNavigate(a.route)}
                         icon={<CircleIcon><AssetIcon type={a.assetType} /></CircleIcon>}
                       >
                         <Text fz={13} fw={700} c={TV.textBrand} truncate>{a.name}</Text>

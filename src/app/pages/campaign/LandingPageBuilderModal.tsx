@@ -53,8 +53,9 @@ export function LandingPageBuilderModal({ onSave, onClose }: { onSave: (lp: Save
                 <input value={lpTitle} onChange={e => { setLpTitle(e.target.value); if (e.target.value.trim()) setNameError(false); }}
                   placeholder="Enter landing page name"
                   aria-required="true" aria-invalid={nameError}
+                  aria-describedby={nameError ? "lp-name-error" : undefined}
                   className={`w-full border rounded-md px-3 py-2.5 text-[13px] text-tv-text-primary outline-none focus:ring-2 transition-colors ${nameError ? "border-red-400 focus:ring-red-200 focus:border-red-400" : "border-tv-border-light focus:ring-tv-brand/20 focus:border-tv-brand"}`} />
-                {nameError && <p className="text-red-500 text-[11px] mt-1">A name is required to save</p>}
+                {nameError && <p id="lp-name-error" role="alert" className="text-red-500 text-[11px] mt-1">A name is required to save</p>}
               </div>
               <ColorSwatchPicker label="Primary Color" value={lpColor} onChange={(hex) => setLpColor(hex)} swatches={BRAND_PALETTE} swatchSize={32} />
               <ColorSwatchPicker label="Accent Color" value={lpAccent} onChange={(hex) => setLpAccent(hex)} swatches={BRAND_PALETTE} swatchSize={32} />
