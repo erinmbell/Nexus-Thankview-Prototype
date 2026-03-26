@@ -2667,7 +2667,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               <button key={p.id} onClick={() => setVrBrandedLandingPage(p.id)}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md border text-left transition-all ${vrBrandedLandingPage === p.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
                 <div className="w-7 h-5 rounded-[4px] flex items-center justify-center shrink-0"
-                  style={{ background: `linear-gradient(135deg, ${(p as any).color || "#7c45b0"}, ${(p as any).accent || "#a78bfa"})` }}>
+                  style={{ background: `linear-gradient(135deg, ${(p as any).color || TV.brand}, ${(p as any).accent || "#a78bfa"})` }}>
                   <Camera size={7} className="text-white" />
                 </div>
                 <span className="text-[12px] text-tv-text-primary flex-1" style={{ fontWeight: 500 }}>{p.name}</span>

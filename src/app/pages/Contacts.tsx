@@ -24,7 +24,7 @@ import { EditColumnsModal, ColumnsButton } from "../components/ColumnCustomizer"
 import type { ColumnDef } from "../components/ColumnCustomizer";
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
-/** Returns "white" or "#242436" for avatar text, ensuring ≥ 4.5:1 contrast on the given bg hex. */
+/** Returns "white" or TV.textPrimary for avatar text, ensuring ≥ 4.5:1 contrast on the given bg hex. */
 function avatarTextColor(hex: string): string {
   const c = hex.replace("#", "");
   const r = parseInt(c.substring(0, 2), 16) / 255;
@@ -33,7 +33,7 @@ function avatarTextColor(hex: string): string {
   const f = (v: number) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
   const L = 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
   // If bg luminance is high (bright), use dark text; otherwise white
-  return L > 0.18 ? "#242436" : "white";
+  return L > 0.18 ? TV.textPrimary : "white";
 }
 
 // ── Types ───────────────────────────────────────────────────────────────────
@@ -1342,7 +1342,7 @@ export function Contacts() {
   const paginatedContacts = filtered.slice(0, rowsPerPage);
 
   const handleAdd = (data: Partial<Contact>) => {
-    const colors = ["#7c45b0", "#0e7490", "#15803d", "#b45309", "#dc2626"];
+    const colors = [TV.brand, TV.info, TV.success, TV.warning, TV.danger];
     const newC: Contact = {
       id: Date.now(), first: data.first!, last: data.last!, email: data.email!,
       phone: data.phone ?? "—", tags: data.tags ? (data.tags as string).split(",").map(t => t.trim()).filter(Boolean) : [],

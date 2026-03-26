@@ -544,7 +544,7 @@ function TablePagination({ page, rowsPerPage, totalRows, onPageChange, onRowsPer
           <ChevronLeft size={14} />
         </ActionIcon>
         {pageButtons.map(btn => (
-          <ActionIcon key={btn} size="sm" radius="md"
+          <ActionIcon key={btn} size="sm" radius="xl"
             variant={btn === page ? "filled" : "subtle"}
             color={btn === page ? "tvPurple" : "gray"}
             onClick={() => onPageChange(btn)}>

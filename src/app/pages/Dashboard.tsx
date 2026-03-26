@@ -227,8 +227,8 @@ function CampaignsWidget({ navigate }: { navigate: (path: string) => void }) {
             </div>
             {[
               { mode: "single", label: "Single-Step", desc: "One message, one send", icon: Send, bg: TV.brandTint, iconColor: TV.brand },
-              { mode: "multi", label: "Multi-Step", desc: "Automated sequence of messages", icon: GitBranch, bg: "#e8f4fd", iconColor: "#2b7bb9" },
-              { mode: "video-request", label: "Video Request", desc: "Collect videos from constituents", icon: Bell, bg: "#e6f9ed", iconColor: "#15803d" },
+              { mode: "multi", label: "Multi-Step", desc: "Automated sequence of messages", icon: GitBranch, bg: TV.infoBg, iconColor: TV.info },
+              { mode: "video-request", label: "Video Request", desc: "Collect videos from constituents", icon: Bell, bg: TV.successBg, iconColor: TV.success },
             ].map((item) => (
               <Menu.Item key={item.mode} onClick={() => navigate(`/campaigns/create?mode=${item.mode}`)}
                 styles={{ item: { borderRadius: 10, padding: "10px 12px", marginBottom: 2 }, itemLabel: { display: "flex", alignItems: "center", gap: 12 } }}>
