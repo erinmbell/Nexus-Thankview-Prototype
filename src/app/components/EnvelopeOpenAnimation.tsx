@@ -18,7 +18,7 @@ import { EnvelopePreview, type EnvelopePreviewProps } from "./EnvelopePreview";
 import { Play, Pause, RotateCcw, Volume2, Maximize, Reply, Download, ExternalLink } from "lucide-react";
 
 // ── Types ──────────────────────────────────────────────────────────────────
-type AnimationPhase = "front" | "flipping" | "back" | "flap-opening" | "card-rising" | "done" | "expanding" | "landing-page";
+type AnimationPhase = "front" | "flipping" | "back" | "flap-opening" | "card-rising" | "video-popping" | "done" | "expanding" | "landing-page";
 
 export interface LandingPageBackground {
   /** "color" | "gradient" | "image" */
@@ -80,6 +80,8 @@ const FLAP_DURATION = 0.5;
 const CARD_RISE_DURATION = 0.7;
 const FLAP_DELAY = 0.15;
 const CARD_DELAY = 0.2;
+const VIDEO_POP_DELAY = 300; // pause before video pops out of card
+const VIDEO_POP_DURATION = 0.7; // video pops out and floats up
 const EXPAND_PAUSE = 600;   // pause after card rises before expanding
 const EXPAND_DURATION = 0.8; // card expands to landing page
 
@@ -134,6 +136,18 @@ export function EnvelopeOpenAnimation({
 
   const handleCardComplete = useCallback(() => {
     if (phase === "card-rising") {
+      // If campaign has video + envelope, trigger video pop-out
+      if (hasVideo && !sendWithoutVideo) {
+        timerRef.current = setTimeout(() => setPhase("video-popping"), VIDEO_POP_DELAY);
+      } else {
+        setPhase("done");
+      }
+    }
+  }, [phase, hasVideo, sendWithoutVideo]);
+
+  // After video-popping completes, move to done
+  const handleVideoPopComplete = useCallback(() => {
+    if (phase === "video-popping") {
       setPhase("done");
     }
   }, [phase]);
@@ -161,9 +175,10 @@ export function EnvelopeOpenAnimation({
   }, []);
 
   const showFront = phase === "front";
-  const flapOpen = phase === "flap-opening" || phase === "card-rising" || phase === "done" || phase === "expanding" || phase === "landing-page";
-  const cardVisible = phase === "card-rising" || phase === "done" || phase === "expanding" || phase === "landing-page";
-  const cardFullyUp = phase === "done" || phase === "expanding" || phase === "landing-page";
+  const flapOpen = phase === "flap-opening" || phase === "card-rising" || phase === "video-popping" || phase === "done" || phase === "expanding" || phase === "landing-page";
+  const cardVisible = phase === "card-rising" || phase === "video-popping" || phase === "done" || phase === "expanding" || phase === "landing-page";
+  const cardFullyUp = phase === "video-popping" || phase === "done" || phase === "expanding" || phase === "landing-page";
+  const videoPopping = phase === "video-popping";
   const isExpanding = phase === "expanding" || phase === "landing-page";
   const isLandingPage = phase === "landing-page";
   const envelopeVisible = !isExpanding && !isLandingPage;
@@ -221,33 +236,133 @@ export function EnvelopeOpenAnimation({
             <AnimatePresence>
               {(cardVisible && !isExpanding) && (
                 <motion.div
-                  className="rounded-lg shadow-xl border border-tv-border-light bg-white overflow-hidden"
-                  style={{ position: "relative", zIndex: 5 }}
-                  initial={{ width: cardWidth, height: 0, opacity: 0, marginBottom: 0 }}
-                  animate={{
-                    width: cardWidth,
-                    height: "auto",
-                    opacity: 1,
-                    marginBottom: cardFullyUp ? -20 : -height * 0.35,
-                  }}
-                  transition={{
-                    duration: CARD_RISE_DURATION,
-                    delay: !cardFullyUp ? CARD_DELAY : 0,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  onAnimationComplete={handleCardComplete}
+                  className="relative"
+                  style={{ zIndex: 5 }}
+                  initial={{ marginBottom: 0 }}
+                  animate={{ marginBottom: cardFullyUp ? -20 : -height * 0.35 }}
+                  transition={{ duration: CARD_RISE_DURATION, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <CardContent
-                    hasVideo={hasVideo}
-                    sendWithoutVideo={sendWithoutVideo}
-                    senderName={senderName}
-                    messageBody={messageBody}
-                    ctaText={ctaText}
-                    ctaColor={ctaColor}
-                    cardWidth={cardWidth}
-                    isPlaying={false}
-                    onTogglePlay={() => {}}
-                  />
+                  {/* Video pop-out element — pops above the card */}
+                  {hasVideo && !sendWithoutVideo && (
+                    <motion.div
+                      className="absolute left-1/2 rounded-lg shadow-2xl overflow-hidden"
+                      style={{
+                        width: cardWidth * 0.88,
+                        zIndex: 10,
+                        transformOrigin: "bottom center",
+                      }}
+                      initial={{ x: "-50%", y: 0, opacity: 0, scale: 0.3 }}
+                      animate={videoPopping
+                        ? { x: "-50%", y: -(cardWidth * 0.45), opacity: 1, scale: 1, rotate: [0, -2, 1.5, 0] }
+                        : { x: "-50%", y: 0, opacity: 0, scale: 0.3 }
+                      }
+                      transition={videoPopping ? {
+                        duration: VIDEO_POP_DURATION,
+                        ease: [0.22, 1.4, 0.36, 1], // spring-like overshoot
+                        rotate: { duration: 0.5, delay: 0.15, ease: "easeOut" },
+                      } : { duration: 0.01 }}
+                      onAnimationComplete={() => { if (videoPopping) handleVideoPopComplete(); }}
+                    >
+                      {/* Mini video player that pops out */}
+                      <div
+                        className="relative flex items-center justify-center"
+                        style={{
+                          height: cardWidth * 0.5,
+                          background: "#c8cfe0",
+                          borderRadius: 8,
+                          border: "3px solid white",
+                          boxShadow: "0 12px 40px rgba(0,0,0,0.25)",
+                        }}
+                      >
+                        {/* Black letterbox */}
+                        <div className="absolute top-0 left-0 right-0 bg-black" style={{ height: "14%", borderRadius: "5px 5px 0 0" }} />
+
+                        {/* Branding + play */}
+                        <div className="relative flex flex-col items-center justify-center">
+                          <div className="flex items-center gap-1.5">
+                            <svg width={16} height={16} viewBox="0 0 24 24" fill="none">
+                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14l-4-4 1.41-1.41L11 13.17l5.59-5.59L18 9l-7 7z" fill="#2d3a6d" opacity="0.7" />
+                            </svg>
+                            <span className="text-[#2d3a6d]" style={{ fontSize: cardWidth * 0.055, fontWeight: 700, letterSpacing: "-0.02em" }}>
+                              thankview
+                            </span>
+                          </div>
+                          <motion.div
+                            className="mt-2 rounded-full flex items-center justify-center"
+                            style={{
+                              width: cardWidth * 0.1,
+                              height: cardWidth * 0.1,
+                              backgroundColor: "rgba(100,116,170,0.35)",
+                              border: "2px solid rgba(100,116,170,0.5)",
+                            }}
+                            animate={videoPopping ? { scale: [0, 1.3, 1] } : {}}
+                            transition={{ duration: 0.4, delay: 0.35, ease: "easeOut" }}
+                          >
+                            <Play size={14} className="text-[#2d3a6d] ml-px" fill="#2d3a6d" />
+                          </motion.div>
+                        </div>
+
+                        {/* Sparkle particles around the video */}
+                        {videoPopping && (
+                          <>
+                            {[
+                              { x: -20, y: -15, delay: 0.2, size: 6 },
+                              { x: 25, y: -25, delay: 0.3, size: 5 },
+                              { x: -30, y: 10, delay: 0.25, size: 4 },
+                              { x: 35, y: 5, delay: 0.35, size: 7 },
+                              { x: 0, y: -30, delay: 0.15, size: 5 },
+                              { x: -15, y: 20, delay: 0.4, size: 3 },
+                            ].map((p, i) => (
+                              <motion.div
+                                key={i}
+                                className="absolute rounded-full"
+                                style={{
+                                  width: p.size,
+                                  height: p.size,
+                                  background: i % 2 === 0 ? "#7c45b0" : "#4a7dff",
+                                  left: `calc(50% + ${p.x}px)`,
+                                  top: `calc(50% + ${p.y}px)`,
+                                }}
+                                initial={{ opacity: 0, scale: 0 }}
+                                animate={{ opacity: [0, 1, 0], scale: [0, 1.5, 0], y: [0, p.y * 0.6] }}
+                                transition={{ duration: 0.6, delay: p.delay, ease: "easeOut" }}
+                              />
+                            ))}
+                          </>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* The card itself */}
+                  <motion.div
+                    className="rounded-lg shadow-xl border border-tv-border-light bg-white overflow-hidden"
+                    style={{ position: "relative" }}
+                    initial={{ width: cardWidth, height: 0, opacity: 0 }}
+                    animate={{
+                      width: cardWidth,
+                      height: "auto",
+                      opacity: 1,
+                    }}
+                    transition={{
+                      duration: CARD_RISE_DURATION,
+                      delay: !cardFullyUp ? CARD_DELAY : 0,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    onAnimationComplete={handleCardComplete}
+                  >
+                    <CardContent
+                      hasVideo={hasVideo}
+                      sendWithoutVideo={sendWithoutVideo}
+                      senderName={senderName}
+                      messageBody={messageBody}
+                      ctaText={ctaText}
+                      ctaColor={ctaColor}
+                      cardWidth={cardWidth}
+                      isPlaying={false}
+                      onTogglePlay={() => {}}
+                    />
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>
