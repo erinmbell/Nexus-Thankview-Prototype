@@ -399,6 +399,7 @@ export function IntroLibrary() {
       {/* Delete confirmation */}
       {deleteConfirm !== null && (
         <DeleteModal
+          opened
           title="Delete this intro?"
           description="This action cannot be undone. Campaigns already using this intro will not be affected."
           onConfirm={() => handleDelete(deleteConfirm)}

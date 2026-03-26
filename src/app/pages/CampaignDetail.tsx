@@ -9,7 +9,7 @@ import {
   Palette, Video, ChevronDown, ChevronUp, Reply, CalendarDays, Lock,
   Info, Tag, Share2, Zap, Target, BarChart3, RefreshCw, Search,
   Check, Filter, Download, Repeat, Loader2, Timer, GitBranch,
-  PenLine,
+  PenLine, UserPlus,
 } from "lucide-react";
 import {
   Badge,
@@ -742,9 +742,30 @@ const DELIVERY_STATUS_BG: Record<string, string> = {
   "Video Added":    "bg-tv-brand-tint text-tv-brand",
   "Send Scheduled": "bg-tv-info-bg text-tv-info",
   "Sending":        "bg-tv-warning-bg text-tv-warning",
-  "Failed Send":    "bg-tv-danger-bg text-tv-danger",
+  "Sent":           "bg-tv-info-bg text-tv-info",
   "Delivered":      "bg-tv-success-bg text-tv-success",
+  "Opened":         "bg-emerald-50 text-emerald-700",
+  "Clicked":        "bg-cyan-50 text-cyan-700",
+  "Replied":        "bg-tv-info-bg text-tv-info",
+  "Bounced":        "bg-tv-danger-bg text-tv-danger",
+  "Unsubscribed":   "bg-tv-warning-bg text-tv-warning",
+  "Failed Send":    "bg-tv-danger-bg text-tv-danger",
 };
+
+/** Derive the most advanced status from constituent data */
+function deriveStatus(r: Constituent): string {
+  if (r.replyContent.length > 0) return "Replied";
+  const lastSend = r.sendHistory[r.sendHistory.length - 1];
+  if (!lastSend) {
+    if (r.hasVideo) return "Video Added";
+    return "N/A";
+  }
+  if (lastSend.status === "Failed Send") return "Bounced";
+  if (lastSend.clicked) return "Clicked";
+  if (lastSend.opened) return "Opened";
+  if (lastSend.status === "Delivered") return "Sent";
+  return r.delivery;
+}
 
 const CONSTITUENT_COLUMNS: ColumnDef[] = [
   { key: "name",    label: "Name",         group: "Summary", required: true },
@@ -823,6 +844,7 @@ function TestSendModal({ constituents, onSend, onCancel }: { constituents: Const
 function ConstituentDataRow({ r, isSent }: { r: Constituent; isSent: boolean }) {
   const [expanded, setExpanded] = useState(false);
   const hasExpansion = r.sendHistory.length > 0 || r.replyContent.length > 0;
+  const status = deriveStatus(r);
 
   return (
     <div className="border-b border-tv-border-divider last:border-b-0">
@@ -841,7 +863,7 @@ function ConstituentDataRow({ r, isSent }: { r: Constituent; isSent: boolean }) 
               ? <Pill color="green">Video</Pill>
               : <Pill color="gray">No video</Pill>}
           </div>
-          <span className={`text-[10px] px-2.5 py-0.5 rounded-full ${DELIVERY_STATUS_BG[r.delivery] ?? "bg-tv-surface text-tv-text-secondary"}`} style={{ fontWeight: 600 }}>{r.delivery}</span>
+          <span className={`text-[10px] px-2.5 py-0.5 rounded-full ${DELIVERY_STATUS_BG[status] ?? "bg-tv-surface text-tv-text-secondary"}`} style={{ fontWeight: 600 }}>{status}</span>
           <div className="flex items-center gap-1.5">
             {r.replyContent.length > 0 ? (
               <>
@@ -864,7 +886,7 @@ function ConstituentDataRow({ r, isSent }: { r: Constituent; isSent: boolean }) 
             <p className="text-[13px] text-tv-text-primary truncate" style={{ fontWeight: 600 }}>{r.name}</p>
             <div className="flex items-center gap-2 mt-0.5">
               {r.hasVideo && <CircleCheckBig size={11} className="text-tv-success" />}
-              <span className={`text-[9px] px-2 py-0.5 rounded-full ${DELIVERY_STATUS_BG[r.delivery] ?? "bg-tv-surface text-tv-text-secondary"}`} style={{ fontWeight: 600 }}>{r.delivery}</span>
+              <span className={`text-[9px] px-2 py-0.5 rounded-full ${DELIVERY_STATUS_BG[deriveStatus(r)] ?? "bg-tv-surface text-tv-text-secondary"}`} style={{ fontWeight: 600 }}>{deriveStatus(r)}</span>
               {r.replyContent.length > 0 && <Reply size={10} className="text-tv-info" />}
             </div>
           </div>
@@ -1835,6 +1857,11 @@ export function CampaignDetail() {
   const [deliveryStatusFilter, setDeliveryStatusFilter] = useState<string>("All");
   const [recipientActionId, setRecipientActionId] = useState<number | null>(null);
 
+  // Task assignment
+  const [assignTaskRecipient, setAssignTaskRecipient] = useState<Constituent | null>(null);
+  const [assignTaskUser, setAssignTaskUser] = useState("Kelley Molt");
+  const PORTAL_USERS = ["Kelley Molt", "James Okafor", "Sarah Chen", "Alex Rivera", "Jordan Lee"];
+
   // Copy Link popover + Constituent Link modal
   const [copyLinkPopoverOpen, setCopyLinkPopoverOpen] = useState(false);
   const [copiedGenericInline, setCopiedGenericInline] = useState(false);
@@ -2163,7 +2190,7 @@ export function CampaignDetail() {
                           case "name": return <span key={k} className="text-[13px] text-tv-text-primary" style={{ fontWeight: 600 }}>{r.name}</span>;
                           case "email": return <span key={k} className="text-[12px] text-tv-text-secondary truncate">{r.email}</span>;
                           case "video": return <div key={k}>{r.hasVideo ? <CircleCheckBig size={15} className="text-tv-success" /> : <CircleAlert size={15} className="text-tv-text-decorative" />}</div>;
-                          case "status": return <span key={k} className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] ${DELIVERY_STATUS_BG[r.delivery] ?? "bg-tv-surface text-tv-text-secondary"}`} style={{ fontWeight: 600 }}>{r.delivery}</span>;
+                          case "status": return <div key={k}><span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] whitespace-nowrap w-fit ${DELIVERY_STATUS_BG[r.delivery] ?? "bg-tv-surface text-tv-text-secondary"}`} style={{ fontWeight: 600 }}>{r.delivery}</span></div>;
                           case "opened": return <div key={k}>{r.sendHistory?.some((h: any) => h.opened) ? <Check size={14} className="text-tv-success" /> : <X size={14} className="text-tv-text-decorative" />}</div>;
                           case "lastSent": return <span key={k} className="text-[11px] text-tv-text-secondary">{r.sendHistory?.[r.sendHistory.length - 1]?.date || "—"}</span>;
                           case "replies": return <span key={k} className="text-[12px] text-tv-text-secondary">{r.replies}</span>;
@@ -2181,8 +2208,21 @@ export function CampaignDetail() {
                                     { label: "Resend", icon: RefreshCw },
                                     { label: "Copy Direct Link", icon: Link2 },
                                     { label: "Copy Generic Link", icon: Copy },
+                                    { label: "Assign Video Task", icon: UserPlus },
+                                    { label: "Unassign Video Task", icon: X },
                                   ].map(a => (
-                                    <button key={a.label} onClick={() => { show(`${a.label} for ${r.name}`, "info"); setRecipientActionId(null); }}
+                                    <button key={a.label} onClick={() => {
+                                      if (a.label === "Assign Video Task") {
+                                        setAssignTaskRecipient(r);
+                                        setRecipientActionId(null);
+                                      } else if (a.label === "Unassign Video Task") {
+                                        show(`Video task unassigned for ${r.name}`, "info");
+                                        setRecipientActionId(null);
+                                      } else {
+                                        show(`${a.label} for ${r.name}`, "info");
+                                        setRecipientActionId(null);
+                                      }
+                                    }}
                                       className="w-full flex items-center gap-2 px-3 py-2 text-[12px] text-tv-text-primary hover:bg-tv-surface transition-colors text-left">
                                       <a.icon size={12} className="text-tv-text-secondary" />{a.label}
                                     </button>
@@ -2205,7 +2245,7 @@ export function CampaignDetail() {
                         <p className="text-[11px] text-tv-text-secondary truncate">{r.email}</p>
                         <div className="flex items-center gap-2 mt-1">
                           {r.hasVideo && <CircleCheckBig size={12} className="text-tv-success" />}
-                          <span className={`text-[9px] px-2 py-0.5 rounded-full ${DELIVERY_STATUS_BG[r.delivery] ?? "bg-tv-surface text-tv-text-secondary"}`} style={{ fontWeight: 600 }}>{r.delivery}</span>
+                          <span className={`text-[9px] px-2 py-0.5 rounded-full ${DELIVERY_STATUS_BG[deriveStatus(r)] ?? "bg-tv-surface text-tv-text-secondary"}`} style={{ fontWeight: 600 }}>{deriveStatus(r)}</span>
                         </div>
                       </div>
                     </div>
@@ -2302,7 +2342,7 @@ export function CampaignDetail() {
                     <div className="h-1.5 bg-white/30 rounded-full w-3/4" />
                     <div className="h-1.5 bg-white/30 rounded-full w-1/2" />
                   </div>
-                  <div className="absolute top-3 right-3 w-5 h-5 bg-white/20 rounded-[3px] border border-white/30" />
+                  <div className="absolute top-3 right-3 w-5 h-5 bg-white/20 rounded border border-white/30" />
                 </div>
               </div>
             </Paper>
@@ -2934,7 +2974,7 @@ export function CampaignDetail() {
               <div>
                 <Text fz={11} fw={600} c={TV.textLabel} tt="uppercase" mb={4}>Subject Line</Text>
                 <TextInput value={resendSubject} onChange={e => setResendSubject(e.currentTarget.value)}
-                  placeholder="Update the subject line for this resend" />
+                  placeholder="Update the subject line for this resend" aria-label="Resend subject line" />
                 <Text fz={10} c={TV.textSecondary} mt={4}>Updating the subject can improve open rates for constituents who didn&rsquo;t open previously.</Text>
               </div>
 
@@ -2976,8 +3016,8 @@ export function CampaignDetail() {
                     ))}
                   </div>
                 </div>
-                <TextInput size="xs" placeholder="Search constituents…" value={resendSearch} onChange={e => setResendSearch(e.currentTarget.value)}
-                  leftSection={<Search size={12} />} mb={8} />
+                <TextInput size="xs" placeholder="Search constituents…" aria-label="Search constituents" value={resendSearch} onChange={e => setResendSearch(e.currentTarget.value)}
+                  leftSection={<Search size={12} aria-hidden="true" />} mb={8} />
                 <div className="max-h-[200px] overflow-auto border border-tv-border-light rounded-sm divide-y divide-tv-border-divider">
                   {filtered.length === 0 ? (
                     <div className="px-3 py-4 text-center"><Text fz={11} c={TV.textSecondary}>No eligible constituents match your filter.</Text></div>
@@ -3039,9 +3079,39 @@ export function CampaignDetail() {
       </Modal>
 
       {/* Modals */}
-      {showDelete && <DeleteModal title={`Delete "${name}"?`} onConfirm={handleDelete} onCancel={() => setShowDelete(false)} />}
+      {showDelete && <DeleteModal opened title={`Delete "${name}"?`} onConfirm={handleDelete} onCancel={() => setShowDelete(false)} />}
       {showTestSend && campaign.constituents_list.length > 0 && <TestSendModal constituents={campaign.constituents_list} onSend={handleTestSend} onCancel={() => setShowTestSend(false)} />}
       {showCopy && <CopyCampaignModal campaign={campaign} onCopy={handleCopyCampaign} onCancel={() => setShowCopy(false)} />}
+
+      {/* Assign Video Task Modal */}
+      {assignTaskRecipient && (
+        <Modal opened onClose={() => setAssignTaskRecipient(null)} title="Assign Video Task" size={400} radius="xl">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: TV.surface }}>
+              <div className="w-8 h-8 rounded-full bg-tv-brand-tint flex items-center justify-center text-tv-brand text-[10px] shrink-0" style={{ fontWeight: 700 }}>
+                {assignTaskRecipient.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
+              </div>
+              <div>
+                <Text fz={13} fw={600} c={TV.textPrimary}>{assignTaskRecipient.name}</Text>
+                <Text fz={11} c={TV.textSecondary}>{assignTaskRecipient.email}</Text>
+              </div>
+            </div>
+            <div>
+              <Text fz={11} fw={600} tt="uppercase" lts="0.05em" c={TV.textLabel} mb={6}>Assign To</Text>
+              <select value={assignTaskUser} onChange={e => setAssignTaskUser(e.target.value)}
+                className="w-full border border-tv-border-light rounded-md px-3 py-2.5 text-[13px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/20 focus:border-tv-brand">
+                {PORTAL_USERS.map(u => <option key={u} value={u}>{u}</option>)}
+              </select>
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+              <Button variant="outline" onClick={() => setAssignTaskRecipient(null)}>Cancel</Button>
+              <Button onClick={() => { show(`Video task for ${assignTaskRecipient.name} assigned to ${assignTaskUser}`, "success"); setAssignTaskRecipient(null); }}>
+                <UserPlus size={13} className="mr-1.5" />Assign Task
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
 
       {/* Constituent-Specific Link Modal */}
       <ConstituentLinkModal

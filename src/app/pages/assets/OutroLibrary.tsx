@@ -379,6 +379,7 @@ export function OutroLibrary() {
       {/* Delete confirmation */}
       {deleteConfirm !== null && (
         <DeleteModal
+          opened
           title="Delete this outro?"
           description="This action cannot be undone. Campaigns already using this outro will not be affected."
           onConfirm={() => handleDelete(deleteConfirm)}

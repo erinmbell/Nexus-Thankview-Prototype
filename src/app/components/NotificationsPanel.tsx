@@ -158,8 +158,9 @@ export function NotificationsPanel({ onClose }: Props) {
                       variant="subtle" size={24} radius="xl" color="tvPurple"
                       onClick={() => markOne(n.id)}
                       className="shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100 transition-opacity"
+                      aria-label="Mark as read"
                     >
-                      <Check size={13} />
+                      <Check size={13} aria-hidden="true" />
                     </ActionIcon>
                   </Tooltip>
                 )}

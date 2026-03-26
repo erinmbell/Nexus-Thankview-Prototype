@@ -8,9 +8,10 @@ export interface SavedLandingPage { id: number; name: string; color: string; acc
 
 export function LandingPageBuilderModal({ onSave, onClose }: { onSave: (lp: SavedLandingPage) => void; onClose: () => void; }) {
   const { show } = useToast();
-  const [lpTitle, setLpTitle] = useState("New Landing Page");
+  const [lpTitle, setLpTitle] = useState("");
   const [lpColor, setLpColor] = useState("#7c45b0");
   const [lpAccent, setLpAccent] = useState("#a78bfa");
+  const [nameError, setNameError] = useState(false);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -19,8 +20,13 @@ export function LandingPageBuilderModal({ onSave, onClose }: { onSave: (lp: Save
   }, [onClose]);
 
   const handleSave = useCallback(() => {
-    onSave({ id: Date.now(), name: lpTitle.trim() || "Untitled Landing Page", color: lpColor, accent: lpAccent, category: "Branded" });
-  }, [lpTitle, lpColor, lpAccent, onSave]);
+    if (!lpTitle.trim()) {
+      setNameError(true);
+      show("Please name your landing page before saving", "warning");
+      return;
+    }
+    onSave({ id: Date.now(), name: lpTitle.trim(), color: lpColor, accent: lpAccent, category: "Branded" });
+  }, [lpTitle, lpColor, lpAccent, onSave, show]);
 
   return (
     <FocusTrap active>
@@ -43,8 +49,12 @@ export function LandingPageBuilderModal({ onSave, onClose }: { onSave: (lp: Save
           <div className="w-[320px] shrink-0 border-r border-tv-border-divider flex flex-col overflow-hidden">
             <div className="flex-1 overflow-y-auto p-5 space-y-6">
               <div>
-                <p className="tv-label mb-2">Landing Page Title</p>
-                <input value={lpTitle} onChange={e => setLpTitle(e.target.value)} className="w-full border border-tv-border-light rounded-md px-3 py-2.5 text-[13px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/20 focus:border-tv-brand transition-colors" />
+                <p className="tv-label mb-2">Landing Page Title <span className="text-red-500">*</span></p>
+                <input value={lpTitle} onChange={e => { setLpTitle(e.target.value); if (e.target.value.trim()) setNameError(false); }}
+                  placeholder="Enter landing page name"
+                  aria-required="true" aria-invalid={nameError}
+                  className={`w-full border rounded-md px-3 py-2.5 text-[13px] text-tv-text-primary outline-none focus:ring-2 transition-colors ${nameError ? "border-red-400 focus:ring-red-200 focus:border-red-400" : "border-tv-border-light focus:ring-tv-brand/20 focus:border-tv-brand"}`} />
+                {nameError && <p className="text-red-500 text-[11px] mt-1">A name is required to save</p>}
               </div>
               <ColorSwatchPicker label="Primary Color" value={lpColor} onChange={(hex) => setLpColor(hex)} swatches={BRAND_PALETTE} swatchSize={32} />
               <ColorSwatchPicker label="Accent Color" value={lpAccent} onChange={(hex) => setLpAccent(hex)} swatches={BRAND_PALETTE} swatchSize={32} />

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 // FilterBar + SortableHeader refactor complete — shared components used across all tabs
 import {
-  Box, Text, Title, Button, ActionIcon, Avatar, Badge,
+  Box, Text, Title, Button, ActionIcon, Avatar, Badge, Paper,
   Stack, Tabs, TextInput, Tooltip, SimpleGrid, Table,
   Select, Divider,
 } from "@mantine/core";
@@ -285,7 +285,7 @@ const ACTIVITY_TIMELINE_FILTERS: FilterDef[] = [
 ];
 
 function DashCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <div className={`rounded-xl border ${className}`} style={{ borderColor: TV.borderLight }}>{children}</div>;
+  return <Paper withBorder className={className}>{children}</Paper>;
 }
 
 // ── Giving History Panel ────────────────────────────────────────────────────
@@ -794,14 +794,14 @@ export function ContactProfile() {
               <>
                 <Tooltip label="Edit constituent" withArrow>
                   <ActionIcon variant="default" radius="xl" size={38} onClick={() => setEditing(true)}
-                    styles={{ root: { borderColor: TV.borderLight, color: TV.textLabel } }}>
-                    <Edit2 size={15} />
+                    styles={{ root: { borderColor: TV.borderLight, color: TV.textLabel } }} aria-label="Edit constituent">
+                    <Edit2 size={15} aria-hidden="true" />
                   </ActionIcon>
                 </Tooltip>
                 <Tooltip label="Delete constituent" withArrow>
                   <ActionIcon variant="default" radius="xl" size={38} onClick={() => setShowDelete(true)}
-                    styles={{ root: { borderColor: TV.dangerBorder, color: TV.danger } }}>
-                    <Trash2 size={15} />
+                    styles={{ root: { borderColor: TV.dangerBorder, color: TV.danger } }} aria-label="Delete constituent">
+                    <Trash2 size={15} aria-hidden="true" />
                   </ActionIcon>
                 </Tooltip>
               </>
@@ -817,7 +817,7 @@ export function ContactProfile() {
             { label: "Total Giving", value: contact.totalGiving ?? "—", icon: CircleCheckBig, color: TV.info, numeric: true },
             { label: "Giving Level", value: contact.givingLevel ?? "—", icon: Tag, color: TV.brand, numeric: false },
           ].map(s => (
-            <Box key={s.label} bg={TV.surface} p="md" style={{ borderRadius: 14 }}>
+            <Box key={s.label} bg={TV.surface} p="md" style={{ borderRadius: 12 }}>
               <div className="flex items-center gap-1.5 mb-1.5">
                 <s.icon size={16} style={{ color: s.color }} />
                 <Text fz={11} c={TV.textLabel} tt="uppercase" lts="0.05em" fw={700}>{s.label}</Text>
@@ -1056,8 +1056,9 @@ export function ContactProfile() {
                             const { [key]: _, ...rest } = prev;
                             return rest;
                           })}
+                          aria-label="Remove custom field"
                         >
-                          <Trash2 size={14} />
+                          <Trash2 size={14} aria-hidden="true" />
                         </ActionIcon>
                       </div>
                     ))}
@@ -1086,8 +1087,9 @@ export function ContactProfile() {
                             setNewCfValue("");
                           }
                         }}
+                        aria-label="Add custom field"
                       >
-                        <Plus size={14} />
+                        <Plus size={14} aria-hidden="true" />
                       </ActionIcon>
                     </div>
                   </Stack>
@@ -1223,8 +1225,8 @@ export function ContactProfile() {
                             <div style={{ flex: 1 }}>
                               <Text fz={10} c={TV.textLabel} tt="uppercase" lts="0.05em" fw={600}>CT Score</Text>
                               <div className="flex items-center gap-2 mt-0.5">
-                                <Box w={80} h={5} bg={TV.borderLight} style={{ borderRadius: 3, overflow: "hidden" }}>
-                                  <Box h={5} w={`${contact.ctScore ?? 0}%`} bg={(contact.ctScore ?? 0) >= 70 ? TV.statusSuccess : (contact.ctScore ?? 0) >= 40 ? TV.statusWarning : TV.statusError} style={{ borderRadius: 3 }} />
+                                <Box w={80} h={5} bg={TV.borderLight} style={{ borderRadius: 4, overflow: "hidden" }}>
+                                  <Box h={5} w={`${contact.ctScore ?? 0}%`} bg={(contact.ctScore ?? 0) >= 70 ? TV.statusSuccess : (contact.ctScore ?? 0) >= 40 ? TV.statusWarning : TV.statusError} style={{ borderRadius: 4 }} />
                                 </Box>
                                 <Text fz={12} c={TV.textPrimary}>{contact.ctScore ?? 0} / 100</Text>
                               </div>
@@ -1239,8 +1241,8 @@ export function ContactProfile() {
                             <div style={{ flex: 1 }}>
                               <Text fz={10} c={TV.textLabel} tt="uppercase" lts="0.05em" fw={600}>Video Score</Text>
                               <div className="flex items-center gap-2 mt-0.5">
-                                <Box w={80} h={5} bg={TV.borderLight} style={{ borderRadius: 3, overflow: "hidden" }}>
-                                  <Box h={5} w={`${contact.videoScore ?? 0}%`} bg={(contact.videoScore ?? 0) >= 70 ? TV.statusSuccess : (contact.videoScore ?? 0) >= 40 ? TV.statusWarning : TV.statusError} style={{ borderRadius: 3 }} />
+                                <Box w={80} h={5} bg={TV.borderLight} style={{ borderRadius: 4, overflow: "hidden" }}>
+                                  <Box h={5} w={`${contact.videoScore ?? 0}%`} bg={(contact.videoScore ?? 0) >= 70 ? TV.statusSuccess : (contact.videoScore ?? 0) >= 40 ? TV.statusWarning : TV.statusError} style={{ borderRadius: 4 }} />
                                 </Box>
                                 <Text fz={12} c={TV.textPrimary}>{contact.videoScore ?? 0} / 100</Text>
                               </div>
@@ -1795,7 +1797,7 @@ export function ContactProfile() {
                   {allEvents.length === 0 ? (
                     <Text fz={14} c={TV.textSecondary}>No activity yet.</Text>
                   ) : filtered.length === 0 ? (
-                    <Box bg={TV.surface} p="xl" style={{ borderRadius: 14 }} className="text-center">
+                    <Box bg={TV.surface} p="xl" style={{ borderRadius: 12 }} className="text-center">
                       <Search size={28} style={{ color: TV.textSecondary, margin: "0 auto 8px" }} />
                       <Text fz={14} fw={600} c={TV.textPrimary} mb={4}>No matching events</Text>
                       <Text fz={12} c={TV.textSecondary}>Try adjusting your search, date range, or type filters.</Text>
@@ -2238,6 +2240,7 @@ export function ContactProfile() {
       {/* Delete modal */}
       {showDelete && (
         <DeleteModal
+          opened
           title={`Delete "${contact.first} ${contact.last}"?`}
           onConfirm={() => {
             setShowDelete(false);

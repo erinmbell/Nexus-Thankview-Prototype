@@ -723,7 +723,7 @@ function MiniBar({ pct, color }: { pct: number; color: string }) {
 const METRIC_LABELS: Record<string, string> = { sends: "Sent", opens: "Opens", clicks: "Clicks", views: "Views", replies: "Replies" };
 
 // Lighter accent colors for tooltip display
-const TOOLTIP_COLORS: Record<string, string> = { sends: "#999999", opens: "#a06dd4", clicks: "#2fafc4", views: "#3db86a", replies: "#d4880f" };
+const TOOLTIP_COLORS: Record<string, string> = { sends: "#737373", opens: "#a06dd4", clicks: "#2fafc4", views: "#3db86a", replies: "#d4880f" };
 
 /** Custom tooltip for the engagement chart — shows total + top campaign breakdown.
  *  Caches last-shown data so the tooltip stays visible while the user hovers over it. */
@@ -1129,7 +1129,7 @@ function ExportModal({ open, onClose }: { open: boolean; onClose: () => void }) 
       </button>
       <Stack gap="xs" mb="lg">
         {EXPORTS.map(exp => (
-          <button key={exp.id} onClick={() => toggle(exp.id)} className={`flex items-start gap-3 p-4 rounded-[14px] border-2 text-left transition-all ${selected.includes(exp.id) ? "border-[#7c45b0] bg-tv-brand-tint" : "border-[#e0daea] bg-white hover:border-[#b5a4cd]"}`}>
+          <button key={exp.id} onClick={() => toggle(exp.id)} className={`flex items-start gap-3 p-4 rounded-lg border-2 text-left transition-all ${selected.includes(exp.id) ? "border-[#7c45b0] bg-tv-brand-tint" : "border-[#e0daea] bg-white hover:border-[#b5a4cd]"}`}>
             <Checkbox checked={selected.includes(exp.id)} onChange={() => toggle(exp.id)} color="tvPurple" aria-label={exp.label} />
             <div>
               <p className="text-[13px] font-semibold" style={{ color: TV.textPrimary }}>{exp.label}</p>
@@ -1989,9 +1989,10 @@ export function Analytics() {
                   <div className="flex items-center gap-2 flex-nowrap shrink-0">
                     <TextInput
                       placeholder="Search contacts…"
+                      aria-label="Search contacts"
                       value={drillSearch}
                       onChange={e => setDrillSearch(e.currentTarget.value)}
-                      leftSection={<Search size={13} />}
+                      leftSection={<Search size={13} aria-hidden="true" />}
                       radius="xl"
                       size="xs"
                       styles={{ input: { borderColor: TV.borderLight, minWidth: 180 } }}
@@ -2284,10 +2285,11 @@ export function Analytics() {
                     />
                     <TextInput
                       placeholder="Search campaigns…"
+                      aria-label="Search campaigns"
                       value={goalSearch}
                       onChange={e => setGoalSearch(e.currentTarget.value)}
                       size="xs" radius="xl"
-                      leftSection={<Search size={12} />}
+                      leftSection={<Search size={12} aria-hidden="true" />}
                       rightSection={goalSearch ? <button aria-label="Clear search" onClick={() => setGoalSearch("")} className="min-w-6 min-h-6 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary"><X size={11} /></button> : null}
                       styles={{ input: { fontSize: 12, borderColor: TV.borderLight } }}
                       className="w-[150px]"
@@ -2599,10 +2601,11 @@ export function Analytics() {
                     )}
                     <TextInput
                       placeholder="Search clips…"
+                      aria-label="Search clips"
                       value={clipSearch}
                       onChange={e => setClipSearch(e.currentTarget.value)}
                       size="xs" radius="xl"
-                      leftSection={<Search size={12} />}
+                      leftSection={<Search size={12} aria-hidden="true" />}
                       rightSection={clipSearch ? <button aria-label="Clear search" onClick={() => setClipSearch("")} className="min-w-6 min-h-6 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary"><X size={11} /></button> : null}
                       styles={{ input: { fontSize: 12, borderColor: TV.borderLight, minWidth: 160 } }}
                     />
@@ -3049,10 +3052,11 @@ export function Analytics() {
               <div className="flex items-center gap-2">
                 <TextInput
                   placeholder="Search tags…"
+                  aria-label="Search tags"
                   value={tagSearch}
                   onChange={e => setTagSearch(e.currentTarget.value)}
                   size="xs" radius="xl"
-                  leftSection={<Search size={12} />}
+                  leftSection={<Search size={12} aria-hidden="true" />}
                   rightSection={tagSearch ? <button aria-label="Clear search" onClick={() => setTagSearch("")} className="min-w-6 min-h-6 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary"><X size={11} /></button> : null}
                   styles={{ input: { fontSize: 12, borderColor: TV.borderLight, minWidth: 160 } }}
                 />
@@ -3385,10 +3389,11 @@ export function Analytics() {
                   {/* Search */}
                   <TextInput
                     placeholder="Search campaigns…"
+                    aria-label="Search campaigns by tag"
                     value={tagDrawerSearch}
                     onChange={e => setTagDrawerSearch(e.currentTarget.value)}
                     size="xs" radius="xl" mb="sm"
-                    leftSection={<Search size={12} />}
+                    leftSection={<Search size={12} aria-hidden="true" />}
                     rightSection={tagDrawerSearch ? <button aria-label="Clear search" onClick={() => setTagDrawerSearch("")} className="min-w-6 min-h-6 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary"><X size={11} /></button> : null}
                     styles={{ input: { fontSize: 12, borderColor: TV.borderLight } }}
                   />
@@ -3485,7 +3490,7 @@ export function Analytics() {
             </div>
           )}
 
-          <div className="rounded-[14px] border p-3" style={{ borderColor: TV.borderLight, backgroundColor: TV.surfaceMuted }}>
+          <div className="rounded-lg border p-3" style={{ borderColor: TV.borderLight, backgroundColor: TV.surfaceMuted }}>
             <div className="flex items-center gap-2 flex-nowrap">
               <CircleAlert size={14} style={{ color: TV.textBrand }} className="shrink-0" />
               <Text fz={11} c={TV.textSecondary}>
@@ -4728,10 +4733,11 @@ export function Analytics() {
                   </div>
                   <TextInput
                     placeholder="Search campaigns…"
+                    aria-label="Search campaigns by tag"
                     value={tagDrawerSearch}
                     onChange={e => setTagDrawerSearch(e.currentTarget.value)}
                     size="xs" radius="xl" mb="sm"
-                    leftSection={<Search size={12} />}
+                    leftSection={<Search size={12} aria-hidden="true" />}
                     rightSection={tagDrawerSearch ? <button aria-label="Clear search" onClick={() => setTagDrawerSearch("")} className="min-w-6 min-h-6 flex items-center justify-center text-tv-text-secondary hover:text-tv-text-primary"><X size={11} /></button> : null}
                     styles={{ input: { fontSize: 12, borderColor: TV.borderLight } }}
                   />

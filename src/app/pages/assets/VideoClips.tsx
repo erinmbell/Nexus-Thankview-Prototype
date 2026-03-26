@@ -540,6 +540,7 @@ export function VideoClips() {
       {/* Delete confirmation */}
       {deleteConfirm !== null && (
         <DeleteModal
+          opened
           title="Delete this item?"
           description="This action cannot be undone. Campaigns already using this intro or outro will not be affected."
           onConfirm={() => handleDelete(deleteConfirm)}

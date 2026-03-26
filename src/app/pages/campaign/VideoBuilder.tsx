@@ -56,6 +56,7 @@ export function VideoBuilder({
     (!videoElements.intro || hasIntro) &&
     (!videoElements.personalizedClip || hasMain) &&
     (!videoElements.sharedVideo || hasMain) &&
+    (!videoElements.addOnClip || hasMain) &&
     (!videoElements.outro || hasOutro);
 
   // ── Footer helpers ───────────────────────────────────────────────────────
@@ -70,6 +71,8 @@ export function VideoBuilder({
         return "Personalized Video";
       case "shared-recording":
         return "Shared Video";
+      case "addon-clip":
+        return "Add-On Clip";
       case "outro-builder":
         return "Outro";
       case "library":
@@ -91,7 +94,8 @@ export function VideoBuilder({
       done: hasMain,
       editing:
         builderView === "personalized-recorder" ||
-        builderView === "shared-recording",
+        builderView === "shared-recording" ||
+        builderView === "addon-clip",
     },
     {
       label: "Outro",
@@ -109,6 +113,7 @@ export function VideoBuilder({
         break;
       case "personalized-recorder":
       case "shared-recording":
+      case "addon-clip":
         setHasMain(true);
         show("Video saved", "success");
         break;
@@ -162,6 +167,20 @@ export function VideoBuilder({
                 setBuilderView("library");
               }}
             />
+          ) : builderView === "addon-clip" ? (
+            <SharedVideoRecorder
+              onBack={() => setBuilderView("overview")}
+              onComplete={() => {
+                setHasMain(true);
+                setBuilderView("overview");
+              }}
+              onOpenLibrary={() => {
+                setLibraryPickTarget("shared");
+                setBuilderView("library");
+              }}
+              title="Add-On Clip"
+              subtitle="Record or upload an additional clip that will be appended to every recipient's final video"
+            />
           ) : builderView === "intro-builder" ? (
             <IntroBuilder
               onBack={() => setBuilderView("overview")}
@@ -202,6 +221,7 @@ export function VideoBuilder({
                 if (libraryPickTarget === "intro") setBuilderView("intro-builder");
                 else if (libraryPickTarget === "outro") setBuilderView("outro-builder");
                 else if (libraryPickTarget === "shared") setBuilderView("shared-recording");
+                else if (libraryPickTarget === "addon") setBuilderView("addon-clip");
                 else if (libraryPickTarget === "personalized")
                   setBuilderView("personalized-recorder");
                 else setBuilderView("overview");
@@ -212,7 +232,8 @@ export function VideoBuilder({
                 else if (libraryPickTarget === "outro") setHasOutro(true);
                 else if (
                   libraryPickTarget === "shared" ||
-                  libraryPickTarget === "personalized"
+                  libraryPickTarget === "personalized" ||
+                  libraryPickTarget === "addon"
                 )
                   setHasMain(true);
                 show(`"${video.name}" selected`, "success");

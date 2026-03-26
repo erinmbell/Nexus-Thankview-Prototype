@@ -330,6 +330,7 @@ export function EmailTemplates() {
       {/* Delete confirmation */}
       {deleteConfirm !== null && (
         <DeleteModal
+          opened
           title="Delete this template?"
           description="This action cannot be undone. Any campaigns using this template will not be affected."
           onConfirm={() => handleDelete(deleteConfirm)}

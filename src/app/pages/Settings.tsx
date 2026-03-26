@@ -1,6 +1,7 @@
 import { useState, ElementType } from "react";
 import { useSearchParams } from "react-router";
 import { useToast } from "../contexts/ToastContext";
+import { DeleteModal } from "../components/ui/DeleteModal";
 import {
   Building2, Mail, Users, Bell, X, Check,
   Upload, MoreHorizontal, Plus, Video, Link2,
@@ -80,7 +81,7 @@ function SectionHeader({ icon: Icon, title, description }: { icon?: ElementType;
     <Box px="lg" py="sm" bg={TV.surfaceMuted} style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
       <div className="flex items-center gap-2">
         {Icon && <Icon size={15} style={{ color: TV.brand }} />}
-        <Title order={2} fz={15}>{title}</Title>
+        <Title order={2} fz={16}>{title}</Title>
       </div>
       {description && <Text fz={12} c={TV.textSecondary} mt={2}>{description}</Text>}
     </Box>
@@ -259,7 +260,7 @@ function ProfileTab() {
           KM
         </Box>
         <div>
-          <Title order={2} fz={15}>{firstName} {lastName}</Title>
+          <Title order={2} fz={16}>{firstName} {lastName}</Title>
           <Text fz={12} c={TV.textSecondary}>kelley.molt@hartwell.edu</Text>
           <Badge color="tvPurple" size="sm" mt={4}>TV Admin</Badge>
         </div>
@@ -778,26 +779,26 @@ function DnsSetupTab() {
                     <div className="flex items-center gap-1 flex-nowrap">
                       {d.status === "pending" && (
                         <Tooltip label="Re-check verification" withArrow>
-                          <ActionIcon variant="light" color="tvPurple" radius="xl" size="sm" onClick={() => handleVerify(d.id)}>
-                            <RefreshCw size={13} />
+                          <ActionIcon variant="light" color="tvPurple" radius="xl" size="sm" onClick={() => handleVerify(d.id)} aria-label="Re-check verification">
+                            <RefreshCw size={13} aria-hidden="true" />
                           </ActionIcon>
                         </Tooltip>
                       )}
                       <Tooltip label="View DNS records" withArrow>
-                        <ActionIcon variant="light" color="gray" radius="xl" size="sm" onClick={() => setShowDnsRecords(showDnsRecords === d.id ? null : d.id)}>
-                          <Shield size={13} />
+                        <ActionIcon variant="light" color="gray" radius="xl" size="sm" onClick={() => setShowDnsRecords(showDnsRecords === d.id ? null : d.id)} aria-label="View DNS records">
+                          <Shield size={13} aria-hidden="true" />
                         </ActionIcon>
                       </Tooltip>
                       {hasMultiple && !d.isDefault && (
                         <Tooltip label="Set as default" withArrow>
-                          <ActionIcon variant="light" color="tvPurple" radius="xl" size="sm" onClick={() => handleSetDefault(d.id)}>
-                            <Star size={13} />
+                          <ActionIcon variant="light" color="tvPurple" radius="xl" size="sm" onClick={() => handleSetDefault(d.id)} aria-label="Set as default">
+                            <Star size={13} aria-hidden="true" />
                           </ActionIcon>
                         </Tooltip>
                       )}
                       <Tooltip label="Remove domain" withArrow>
-                        <ActionIcon variant="light" color="red" radius="xl" size="sm" onClick={() => setConfirmRemove(d.id)}>
-                          <Trash2 size={13} />
+                        <ActionIcon variant="light" color="red" radius="xl" size="sm" onClick={() => setConfirmRemove(d.id)} aria-label="Remove domain">
+                          <Trash2 size={13} aria-hidden="true" />
                         </ActionIcon>
                       </Tooltip>
                     </div>
@@ -823,8 +824,8 @@ function DnsSetupTab() {
                                 <Text span c={TV.textSecondary}>Host: </Text>{rec.host}
                               </Text>
                               <Tooltip label="Copy host" withArrow>
-                                <ActionIcon variant="subtle" color="gray" size="xs" onClick={() => { navigator.clipboard.writeText(rec.host); show("Copied!", "success"); }}>
-                                  <Copy size={10} />
+                                <ActionIcon variant="subtle" color="gray" size="xs" onClick={() => { navigator.clipboard.writeText(rec.host); show("Copied!", "success"); }} aria-label="Copy host">
+                                  <Copy size={10} aria-hidden="true" />
                                 </ActionIcon>
                               </Tooltip>
                             </div>
@@ -833,8 +834,8 @@ function DnsSetupTab() {
                                 <Text span c={TV.textSecondary}>Value: </Text>{rec.value}
                               </Text>
                               <Tooltip label="Copy value" withArrow>
-                                <ActionIcon variant="subtle" color="gray" size="xs" onClick={() => { navigator.clipboard.writeText(rec.value); show("Copied!", "success"); }}>
-                                  <Copy size={10} />
+                                <ActionIcon variant="subtle" color="gray" size="xs" onClick={() => { navigator.clipboard.writeText(rec.value); show("Copied!", "success"); }} aria-label="Copy value">
+                                  <Copy size={10} aria-hidden="true" />
                                 </ActionIcon>
                               </Tooltip>
                             </div>
@@ -972,34 +973,13 @@ function DnsSetupTab() {
       </Modal>
 
       {/* ── Remove confirmation modal ── */}
-      {confirmRemove !== null && (
-        <Modal
-          opened
-          onClose={() => setConfirmRemove(null)}
-          withCloseButton={false}
-          size={420}
-          padding="lg"
-        >
-          <div className="flex items-start gap-4 mb-6 flex-nowrap">
-            <Box
-              w={44} h={44}
-              style={{ borderRadius: "50%", backgroundColor: TV.dangerBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
-            >
-              <AlertCircle size={20} style={{ color: TV.danger }} />
-            </Box>
-            <div style={{ flex: 1 }}>
-              <Title order={2} fz={16} mb={4}>Remove Domain</Title>
-              <Text fz={13} c={TV.textSecondary}>
-                Are you sure you want to remove <Text span fw={600} c={TV.textPrimary}>{domains.find(d => d.id === confirmRemove)?.domain}</Text>? Sends from this domain will fall back to the default domain or @mail-et.com.
-              </Text>
-            </div>
-          </div>
-          <div className="flex items-center justify-end gap-3">
-            <Button variant="outline" color="red" onClick={() => setConfirmRemove(null)}>Cancel</Button>
-            <Button color="red" onClick={() => handleRemove(confirmRemove)}>Remove</Button>
-          </div>
-        </Modal>
-      )}
+      <DeleteModal
+        opened={confirmRemove !== null}
+        title="Remove Domain"
+        description={`Are you sure you want to remove ${domains.find(d => d.id === confirmRemove)?.domain ?? "this domain"}? Sends from this domain will fall back to the default domain or @mail-et.com.`}
+        onConfirm={() => handleRemove(confirmRemove!)}
+        onCancel={() => setConfirmRemove(null)}
+      />
     </Stack>
   );
 }
@@ -1158,7 +1138,7 @@ function UsersTab() {
             <div>
               <div className="flex items-center gap-2">
                 <Users size={15} style={{ color: TV.brand }} />
-                <Title order={2} fz={15}>Organization Users</Title>
+                <Title order={2} fz={16}>Organization Users</Title>
                 <Badge size="sm" variant="light" color="tvPurple" radius="sm">{users.length}</Badge>
               </div>
               <Text fz={12} c={TV.textSecondary} mt={2}>View all users, their roles, and last activity. Only Admins can manage users and permissions.</Text>
@@ -1335,7 +1315,7 @@ function UsersTab() {
             <div className="flex items-center gap-2 flex-wrap">
               <Shield size={15} style={{ color: TV.brand }} />
               <div>
-                <Title order={2} fz={15}>Role Permissions Matrix</Title>
+                <Title order={2} fz={16}>Role Permissions Matrix</Title>
                 <Text fz={12} c={TV.textSecondary} mt={2}>Full breakdown of what each ThankView role can access.</Text>
               </div>
             </div>
@@ -1885,7 +1865,7 @@ function VideoTab() {
                       <Box
                         w={64} h={36}
                         style={{
-                          borderRadius: 6,
+                          borderRadius: 8,
                           backgroundColor: TV.textPrimary,
                           display: "flex", alignItems: "center", justifyContent: "center",
                           position: "relative", overflow: "hidden", flexShrink: 0,
@@ -2135,7 +2115,7 @@ function VideoTab() {
                   padding: 8, textAlign: "center", transition: "all 150ms",
                 }}
               >
-                <Box h={36} mb={6} style={{ borderRadius: 6, backgroundColor: env.color, border: `1px solid ${TV.borderLight}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Box h={36} mb={6} style={{ borderRadius: 8, backgroundColor: env.color, border: `1px solid ${TV.borderLight}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <Box w={16} h={10} style={{ borderRadius: 2, backgroundColor: env.accent, opacity: 0.8 }} />
                 </Box>
                 <Text fz={10} c={env.id === defaultEnvelopeId ? TV.brand : TV.textPrimary} fw={env.id === defaultEnvelopeId ? 600 : 400} truncate>{env.name}</Text>
@@ -2161,7 +2141,7 @@ function VideoTab() {
                   padding: 8, textAlign: "center", transition: "all 150ms",
                 }}
               >
-                <Box h={28} mb={6} style={{ borderRadius: 6, background: `linear-gradient(135deg, ${lp.color}, ${lp.color}cc)` }} />
+                <Box h={28} mb={6} style={{ borderRadius: 8, background: `linear-gradient(135deg, ${lp.color}, ${lp.color}cc)` }} />
                 <Text fz={10} c={lp.id === defaultLandingPageId ? TV.brand : TV.textPrimary} fw={lp.id === defaultLandingPageId ? 600 : 400} truncate>{lp.name}</Text>
               </UnstyledButton>
             ))}
@@ -2350,7 +2330,7 @@ function OneToOneTab() {
                 </Box>
               )}
               {showReply && (
-                <Box px="xs" py={6} style={{ border: `1px solid ${TV.borderLight}`, borderRadius: 6 }}>
+                <Box px="xs" py={6} style={{ border: `1px solid ${TV.borderLight}`, borderRadius: 8 }}>
                   <Text fz={8} c={TV.textSecondary}>Leave a reply...</Text>
                 </Box>
               )}
@@ -2499,7 +2479,7 @@ function SubscriptionTab() {
         <Box px="lg" py="sm" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
           <div className="flex items-center justify-between flex-nowrap">
             <div className="flex items-center gap-3 flex-nowrap">
-              <Box w={48} h={32} bg={TV.surface} style={{ borderRadius: 6, border: `1px solid ${TV.borderLight}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <Box w={48} h={32} bg={TV.surface} style={{ borderRadius: 8, border: `1px solid ${TV.borderLight}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 <CreditCard size={18} style={{ color: TV.brand }} />
               </Box>
               <div>
@@ -2527,7 +2507,7 @@ function SubscriptionTab() {
             <div className="flex items-center gap-2">
               <CalendarClock size={15} style={{ color: TV.brand }} />
               <div>
-                <Title order={2} fz={15}>Billing History</Title>
+                <Title order={2} fz={16}>Billing History</Title>
                 <Text fz={12} c={TV.textSecondary} mt={2}>Recent charges and invoices for your organization.</Text>
               </div>
             </div>

@@ -522,7 +522,7 @@ function PreviewCard({
   return (
     <div className="w-full max-w-[560px] space-y-3">
       <div
-        className={`relative aspect-[4/3] max-h-[50vh] bg-gradient-to-br ${video.color} rounded-[14px] overflow-hidden flex items-center justify-center group cursor-pointer`}
+        className={`relative aspect-[4/3] max-h-[50vh] bg-gradient-to-br ${video.color} rounded-lg overflow-hidden flex items-center justify-center group cursor-pointer`}
         onClick={onTogglePlay}
       >
         <div className={`w-14 h-14 rounded-full bg-black/30 flex items-center justify-center backdrop-blur-sm transition-opacity ${playing ? "opacity-0 group-hover:opacity-100 group-focus-within:opacity-100" : "opacity-100"}`}>

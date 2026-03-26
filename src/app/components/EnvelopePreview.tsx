@@ -34,6 +34,14 @@ export interface EnvelopePreviewProps {
   recipientNameColor?: string;
   /** Show recipient name? (front mode only) */
   showName?: boolean;
+  /** Text displayed before the recipient name (e.g. "Dear", "A Gift for") */
+  textBefore?: string;
+  /** If true, textBefore renders on a separate line above the name; otherwise same line */
+  lineBreakBefore?: boolean;
+  /** Text displayed after the recipient name (e.g. ", thank you!") */
+  textAfter?: string;
+  /** If true, textAfter renders on a separate line below the name; otherwise same line */
+  lineBreakAfter?: boolean;
   /** Display mode: "thumbnail" = stacked pair; "front" = single face */
   mode?: "thumbnail" | "front";
   /** Width override (height auto-scales). Default 200 for thumbnail, 400 for front. */
@@ -153,7 +161,7 @@ function Stamp({
       {/* Stamp icon */}
       {stampInner}
       {/* Label text at bottom */}
-      <text x={x + w / 2} y={y + h - 2.5} textAnchor="middle" fontSize={3.5} fontWeight={600} fill="#999" letterSpacing={0.3}>
+      <text x={x + w / 2} y={y + h - 2.5} textAnchor="middle" fontSize={3.5} fontWeight={600} fill="#7a6b96" letterSpacing={0.3}>
         {stampType === "forever" ? "FOREVER" : stampType === "heart" ? "LOVE" : "FIRST CLASS"}
       </text>
     </g>
@@ -380,6 +388,10 @@ function FrontEnvelope({
   frontLeftLogo,
   recipientNameColor,
   showName,
+  textBefore,
+  lineBreakBefore,
+  textAfter,
+  lineBreakAfter,
   width,
 }: {
   envelopeColor: string;
@@ -396,6 +408,10 @@ function FrontEnvelope({
   frontLeftLogo: string;
   recipientNameColor: string;
   showName: boolean;
+  textBefore?: string;
+  lineBreakBefore?: boolean;
+  textAfter?: string;
+  lineBreakAfter?: boolean;
   width: number;
 }) {
   const vw = 400;
@@ -481,20 +497,39 @@ function FrontEnvelope({
       {/* Cancellation marks */}
       <CancellationMarks x={cmX} y={cmY} w={cmW} h={cmH} color={textColor} />
 
-      {/* Recipient name — centred */}
-      {showName && (
-        <text
-          x={vw / 2}
-          y={vh * 0.48}
-          textAnchor="middle"
-          fontSize={18}
-          fontWeight={500}
-          fontFamily="Georgia, Roboto, sans-serif"
-          fill={recipientNameColor === "#FFFFFF" && isLight ? "#333" : recipientNameColor}
-        >
-          Mr. John Smith
-        </text>
-      )}
+      {/* Recipient name — centred, with optional text-before and text-after */}
+      {showName && (() => {
+        const nameFill = recipientNameColor === "#FFFFFF" && isLight ? "#333" : recipientNameColor;
+        const nameStr = "Mr. John Smith";
+        const fontProps = { textAnchor: "middle" as const, fontFamily: "Georgia, Roboto, sans-serif", fill: nameFill };
+        const auxStyle = { fontSize: 13, fontWeight: 400 };
+        const nameStyle = { fontSize: 18, fontWeight: 500 };
+
+        // Build lines: each is { text, isName }
+        type Line = { text: string; isName: boolean };
+        const lines: Line[] = [];
+        if (textBefore && lineBreakBefore) lines.push({ text: textBefore, isName: false });
+        const nameText = (textBefore && !lineBreakBefore ? textBefore + " " : "") + nameStr + (textAfter && !lineBreakAfter ? " " + textAfter : "");
+        lines.push({ text: nameText, isName: true });
+        if (textAfter && lineBreakAfter) lines.push({ text: textAfter, isName: false });
+
+        const lineHeight = 22;
+        const totalH = lines.length * lineHeight;
+        const startY = vh * 0.48 - totalH / 2 + lineHeight / 2;
+
+        return (
+          <g>
+            {lines.map((line, i) => (
+              <text key={i} x={vw / 2} y={startY + i * lineHeight}
+                fontSize={line.isName ? nameStyle.fontSize : auxStyle.fontSize}
+                fontWeight={line.isName ? nameStyle.fontWeight : auxStyle.fontWeight}
+                {...fontProps}>
+                {line.text}
+              </text>
+            ))}
+          </g>
+        );
+      })()}
     </svg>
   );
 }
@@ -515,6 +550,10 @@ export function EnvelopePreview({
   frontLeftLogo = "none",
   recipientNameColor = "#FFFFFF",
   showName = false,
+  textBefore,
+  lineBreakBefore,
+  textAfter,
+  lineBreakAfter,
   mode = "thumbnail",
   width,
 }: EnvelopePreviewProps) {
@@ -550,6 +589,10 @@ export function EnvelopePreview({
       frontLeftLogo={frontLeftLogo}
       recipientNameColor={recipientNameColor}
       showName={showName}
+      textBefore={textBefore}
+      lineBreakBefore={lineBreakBefore}
+      textAfter={textAfter}
+      lineBreakAfter={lineBreakAfter}
       width={w}
     />
   );

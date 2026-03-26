@@ -40,7 +40,7 @@ import { createTheme, MantineColorsTuple } from "@mantine/core";
  *   --tv-success:        #15803d   green confirmations                 ( 4.80:1)
  *   --tv-info:           #0e7490   cyan informational                  ( 5.58:1)
  *   --tv-warning:        #b45309   amber caution                       ( 5.92:1)
- *   --tv-danger:         #dc2626   red errors, destructive             ( 4.63:1)
+ *   --tv-danger:         #d42323   red errors, destructive             ( 4.63:1)
  *
  * Each status also has -hover, -bg, and -border variants.
  *
@@ -73,6 +73,28 @@ const tvPurple: MantineColorsTuple = [
   "#653a92", // 7 — hover
   "#63378d", // 8
   "#4a2a6a", // 9
+];
+
+/* ── WCAG-AA-safe Mantine color overrides ──────────────────────────────────
+ * Mantine's default light-variant Badge/Pill colors fail AA contrast on white.
+ * Shade 6 is used as the text color in variant="light".  We darken shade 6
+ * (and nearby shades) so every light badge meets ≥ 4.5:1.
+ */
+const tvGreen: MantineColorsTuple = [
+  "#ebfbee","#d3f9d8","#b2f2bb","#8ce99a","#69db7c",
+  "#51cf66","#237032","#2b8a3e","#237032","#1b5e28",
+];
+const tvBlue: MantineColorsTuple = [
+  "#e7f5ff","#d0ebff","#a5d8ff","#74c0fc","#4dabf7",
+  "#339af0","#1971c2","#1864ab","#1864ab","#1351a0",
+];
+const tvCyan: MantineColorsTuple = [
+  "#e3fafc","#c5f6fa","#99e9f2","#66d9e8","#3bc9db",
+  "#22b8cf","#0b7285","#0b7285","#0b7285","#095c6b",
+];
+const tvGray: MantineColorsTuple = [
+  "#f8f9fa","#f1f3f5","#e9ecef","#dee2e6","#ced4da",
+  "#adb5bd","#5c636a","#495057","#343a40","#212529",
 ];
 
 /* ── Shared token constants (used in component styles below) ──────────────── */
@@ -119,7 +141,7 @@ const TV = {
   warningBg:     "#fffbeb",
   warningBorder: "#fde68a",
 
-  danger:        "#dc2626",   //  4.63:1
+  danger:        "#d42323",   //  4.63:1
   dangerHover:   "#b91c1c",   //  5.94:1
   dangerBg:      "#fef2f2",
   dangerBorder:  "#fecaca",
@@ -153,6 +175,10 @@ export const thankviewTheme = createTheme({
   /* ── Colors ── */
   colors: {
     tvPurple,
+    green: tvGreen,
+    blue: tvBlue,
+    cyan: tvCyan,
+    gray: tvGray,
   },
   primaryColor: "tvPurple",
   primaryShade: 6,
@@ -442,6 +468,9 @@ export const thankviewTheme = createTheme({
         root: {
           backgroundColor: TV.surface,
           border: "none",
+        },
+        label: {
+          color: TV.textPrimary,
         },
       },
     },

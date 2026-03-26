@@ -22,6 +22,8 @@ import { useToast } from "../contexts/ToastContext";
 import { useDesignLibrary } from "../contexts/DesignLibraryContext";
 import { useTemplates, type CampaignTemplate } from "../contexts/TemplateContext";
 import { SaveChangesModal } from "../components/SaveChangesModal";
+import { SaveTemplateModal } from "../components/SaveTemplateModal";
+import { SendTestModal } from "../components/SendTestModal";
 import { MultiStepBuilder } from "./campaign/MultiStepBuilder";
 import { VideoPickerView, VideoCreateView, type PickerVideo } from "./campaign/VideoModals";
 import { VideoBuilder } from "./campaign/VideoBuilder";
@@ -806,9 +808,6 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
       return () => document.removeEventListener("keydown", handler);
     }
   }, [showSendTestModal, showSaveTemplate]);
-  const [saveTemplateName, setSaveTemplateName] = useState("");
-  const [saveTemplateDesc, setSaveTemplateDesc] = useState("");
-
   // Clear the returnStep URL param after reading it (keep URL clean)
   const returnStep = searchParams.get("returnStep");
   useEffect(() => {
@@ -1077,7 +1076,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
   const [envNameFormat, setEnvNameFormat] = useState(() => _getDesignUi().envNameFormat || "[Title] [First Name] [Last Name]");
   const [envLineBreakBefore, setEnvLineBreakBefore] = useState(() => _getDesignUi().envLineBreakBefore ?? false);
   const [envLineBreakAfter, setEnvLineBreakAfter] = useState(() => _getDesignUi().envLineBreakAfter ?? false);
-  const [attachmentType, setAttachmentType] = useState<"button" | "pdf" | "form">(() => _getDesignUi().attachmentType || "button");
+  const [attachmentType, setAttachmentType] = useState<"none" | "button" | "pdf" | "form">(() => _getDesignUi().attachmentType || "button");
   const [trackingPixel, setTrackingPixel] = useState(() => _getDesignUi().trackingPixel || "");
 
   // ── Design snapshot from DesignStepPanel (PDF/form data for live preview) ──
@@ -2272,8 +2271,8 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               envelopeId={step.envelopeId}
               btnBg={step.btnBg}
               btnText={step.btnText}
-              ctaText={step.ctaText}
-              ctaUrl={step.ctaUrl}
+              ctaText={attachmentType === "none" ? "" : step.ctaText}
+              ctaUrl={attachmentType === "none" ? "" : step.ctaUrl}
               attachedVideo={step.attachedVideo}
               isVideoRequest={campaignGoal === "request-video"}
               language={campaignLanguage}
@@ -2295,8 +2294,10 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               landingPageAccent={(allLandingPages.find(p => p.id === (step.landingPageId || 1)) as any)?.accent}
               landingPageImage={(allLandingPages.find(p => p.id === (step.landingPageId || 1)) as any)?.image}
               envTextBefore={envTextBefore}
+              envLineBreakBefore={envLineBreakBefore}
               envNameFormat={envNameFormat}
               envTextAfter={envTextAfter}
+              envLineBreakAfter={envLineBreakAfter}
               pdfFileName={designSnapshot.pdfFileName}
               pdfPages={designSnapshot.pdfPages}
               pdfSize={designSnapshot.pdfSize}
@@ -3330,107 +3331,21 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
         </div>
 
         {/* Send Test Modal */}
-        {showSendTestModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-            <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-[560px] overflow-hidden">
-              <div className="px-6 pt-5 pb-3 border-b border-tv-border-divider flex items-center justify-between">
-                <div>
-                  <h3 className="text-[16px] text-tv-text-primary" style={{ fontWeight: 900 }}>Send Test</h3>
-                  <p className="text-[11px] text-tv-text-secondary mt-0.5">Preview exactly what your constituents will receive.</p>
-                </div>
-                <TvTooltip label="Close"><button onClick={() => { setShowSendTestModal(false); setSendTestSending(false); }} className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-tv-surface transition-colors" aria-label="Close send test modal"><X size={14} className="text-tv-text-secondary" /></button></TvTooltip>
-              </div>
-              <div className="px-6 py-4 space-y-4">
-                {/* Single vs Group toggle */}
-                <div className="flex rounded-sm border border-tv-border-light overflow-hidden">
-                  <button onClick={() => setSendTestMode("single")} className={`flex-1 py-2 text-[11px] transition-colors ${sendTestMode === "single" ? "bg-tv-brand-bg text-white" : "text-tv-text-secondary hover:bg-tv-surface-hover"} font-semibold`}>Single Email</button>
-                  <button onClick={() => setSendTestMode("group")} className={`flex-1 py-2 text-[11px] transition-colors ${sendTestMode === "group" ? "bg-tv-brand-bg text-white" : "text-tv-text-secondary hover:bg-tv-surface-hover"} font-semibold`}>Test Group</button>
-                </div>
-                {sendTestMode === "single" ? (
-                <div>
-                  <label className={LABEL_CLS}>Send test to</label>
-                  <input value={sendTestEmail} onChange={e => setSendTestEmail(e.target.value)}
-                    placeholder="Enter email address"
-                    className={INPUT_CLS} />
-                  <p className="text-[10px] text-tv-text-decorative mt-1">The test will be sent to this email address.</p>
-                </div>
-                ) : (
-                <div>
-                  <label className={LABEL_CLS}>Test Group ({sendTestGroup.length} addresses)</label>
-                  <div className={`${TAG_INPUT_WRAPPER_CLS} mb-1`}>
-                    {sendTestGroup.map((email, i) => (
-                      <span key={i} className="inline-flex items-center gap-1 bg-tv-brand-tint border border-tv-border rounded-full px-2 py-0.5 text-[10px] text-tv-brand">
-                        {email}
-                        <button onClick={() => setSendTestGroup(g => g.filter((_, j) => j !== i))} className="min-w-6 min-h-6 flex items-center justify-center hover:text-tv-danger" aria-label={`Remove ${email}`}><X size={8} /></button>
-                      </span>
-                    ))}
-                    <input value={sendTestNewEmail} onChange={e => setSendTestNewEmail(e.target.value)}
-                      onKeyDown={e => {
-                        if ((e.key === "Enter" || e.key === ",") && sendTestNewEmail.trim()) {
-                          e.preventDefault();
-                          if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(sendTestNewEmail.trim()) && !sendTestGroup.includes(sendTestNewEmail.trim())) {
-                            setSendTestGroup(g => [...g, sendTestNewEmail.trim()]);
-                            setSendTestNewEmail("");
-                          }
-                        }
-                      }}
-                      placeholder={sendTestGroup.length === 0 ? "Add email addresses..." : "Add another..."}
-                      aria-label="Test email address"
-                      className="flex-1 min-w-[80px] text-[11px] outline-none focus:ring-1 focus:ring-tv-brand/40 bg-transparent" />
-                  </div>
-                  <p className="text-[9px] text-tv-text-decorative">Press Enter or comma to add. This group persists across test sends.</p>
-                </div>
-                )}
-                <div>
-                  <label className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5 block flex items-center gap-1 font-semibold">
-                    Preview as constituent
-                    <span className="text-[8px] px-1.5 py-0.5 bg-tv-brand-tint text-tv-brand rounded-full" style={{ fontWeight: 700 }}>Merge fields</span>
-                  </label>
-                  <p className="text-[10px] text-tv-text-secondary mb-2">Select which constituent&rsquo;s data to use for merge field resolution in the test.</p>
-                  <div className="space-y-1.5">
-                    {SEND_TEST_CONSTITUENTS.map(r => (
-                      <button key={r.id} onClick={() => setSendTestPreviewAs(r.id)}
-                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-sm border text-left transition-all ${sendTestPreviewAs === r.id ? "border-tv-brand-bg bg-tv-brand-tint" : "border-tv-border-light hover:border-tv-border-strong"}`}>
-                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${sendTestPreviewAs === r.id ? "border-tv-brand-bg bg-tv-brand-bg" : "border-tv-border-light"}`}>
-                          {sendTestPreviewAs === r.id && <Check size={8} className="text-white" />}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-1.5">
-                            <p className="text-[12px] text-tv-text-primary">{r.name}</p>
-                            {r.classYear && <span className="text-[9px] text-tv-text-decorative">'{String(r.classYear).slice(-2)}</span>}
-                          </div>
-                          <div className="flex items-center gap-1.5">
-                            <p className="text-[10px] text-tv-text-secondary truncate">{r.email}</p>
-                            {r.city && <span className="text-[9px] text-tv-text-decorative shrink-0">{r.city}</span>}
-                          </div>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="px-6 pb-5 flex items-center justify-between">
-                <button onClick={() => { setShowSendTestModal(false); setSendTestSending(false); }}
-                  className="px-4 py-2 text-[12px] text-tv-text-secondary border border-tv-border-light rounded-full hover:bg-tv-surface transition-colors" style={{ fontWeight: 500 }}>Cancel</button>
-                <button
-                  onClick={() => {
-                    setSendTestSending(true);
-                    setTimeout(() => {
-                      setSendTestSending(false);
-                      setShowSendTestModal(false);
-                      const target = sendTestMode === "group" ? `${sendTestGroup.length} addresses in test group` : sendTestEmail;
-                      show(`Test sent to ${target} (previewing as ${SEND_TEST_CONSTITUENTS[sendTestPreviewAs].name})`, "success");
-                    }, 1500);
-                  }}
-                  disabled={(sendTestMode === "single" ? !sendTestEmail.trim() : sendTestGroup.length === 0) || sendTestSending}
-                  className={`flex items-center gap-1.5 px-5 py-2.5 text-[13px] rounded-full transition-colors ${sendTestSending ? "bg-tv-brand-bg/70 text-white cursor-not-allowed" : "bg-tv-brand-bg text-white hover:bg-tv-brand-hover"} disabled:opacity-50 font-semibold`}
-                >
-                  {sendTestSending ? <><span className="animate-spin">&#9696;</span>Sending...</> : <><Send size={12} />Send Test</>}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <SendTestModal
+          opened={showSendTestModal}
+          onClose={() => { setShowSendTestModal(false); setSendTestSending(false); }}
+          constituents={SEND_TEST_CONSTITUENTS}
+          labelCls={LABEL_CLS}
+          tagInputWrapperCls={TAG_INPUT_WRAPPER_CLS}
+          onSend={(email, previewAs) => {
+            setShowSendTestModal(false);
+            show(`Test sent to ${email} (previewing as ${SEND_TEST_CONSTITUENTS[previewAs].name})`, "success");
+          }}
+          onSendGroup={(emails, previewAs) => {
+            setShowSendTestModal(false);
+            show(`Test sent to ${emails.length} addresses in test group (previewing as ${SEND_TEST_CONSTITUENTS[previewAs].name})`, "success");
+          }}
+        />
 
         {/* ── Two-column layout ── */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-5 items-start">
@@ -3783,7 +3698,7 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
               {stepIndex === 0 ? (isEditMode ? "Back to Campaign" : "Change Mode") : "Back"}
             </button>
             {!isEditMode && (
-            <button onClick={() => { setSaveTemplateName(campaignName || ""); setSaveTemplateDesc(""); setShowSaveTemplate(true); }}
+            <button onClick={() => setShowSaveTemplate(true)}
               className="flex items-center gap-1.5 px-4 py-2 text-[13px] text-tv-text-secondary border border-tv-border-light rounded-full hover:bg-tv-surface hover:text-tv-text-primary transition-colors"
               title="Save current configuration as a reusable template">
               <Bookmark size={13} /><span className="hidden sm:inline">Save as Template</span>
@@ -3958,130 +3873,75 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
       )}
 
       {/* ── Save as Template modal ── */}
-      {showSaveTemplate && (
-        <FocusTrap active>
-        <div className="fixed inset-0 z-[100] bg-black/40 flex items-center justify-center" onClick={() => setShowSaveTemplate(false)} role="dialog" aria-modal="true" aria-labelledby="save-template-title">
-          <div className="bg-white rounded-xl border border-tv-border-light shadow-xl w-full max-w-[460px] mx-4" onClick={e => e.stopPropagation()}>
-            <div className="px-6 pt-6 pb-4 border-b border-tv-border-divider">
-              <div className="flex items-center gap-3 mb-1">
-                <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0 bg-tv-star-bg">
-                  <Bookmark size={18} className="text-tv-warning" />
-                </div>
-                <div>
-                  <h2 id="save-template-title" className="text-tv-text-primary" style={{ fontSize: "16px", fontWeight: 700 }}>Save as Template</h2>
-                  <p className="text-[12px] text-tv-text-secondary">Save this campaign configuration for reuse.</p>
-                </div>
-              </div>
-            </div>
-            <div className="px-6 py-5 space-y-4">
-              <div>
-                <label className="text-[12px] text-tv-text-label mb-1.5 block font-semibold">Template Name</label>
-                <input
-                  type="text"
-                  autoComplete="off"
-                  value={saveTemplateName}
-                  onChange={e => setSaveTemplateName(e.target.value)}
-                  placeholder="e.g. Annual Fund Thank You"
-                  className={INPUT_CLS}
-                  autoFocus
-                />
-              </div>
-              <div>
-                <label className="text-[12px] text-tv-text-label mb-1.5 block font-semibold">Description <span className="text-tv-text-decorative">(optional)</span></label>
-                <textarea
-                  value={saveTemplateDesc}
-                  onChange={e => setSaveTemplateDesc(e.target.value)}
-                  placeholder="Brief description of what this template is for…"
-                  rows={3}
-                  className={TEXTAREA_CLS}
-                />
-              </div>
-              {/* Summary of what will be saved */}
-              <div className="p-3 bg-tv-surface rounded-md border border-tv-border-divider">
-                <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-2 font-semibold">Configuration to save</p>
-                <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                  <span className="text-[11px] text-tv-text-secondary">Mode:</span>
-                  <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>Single-Step</span>
-                  <span className="text-[11px] text-tv-text-secondary">Goal:</span>
-                  <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>
-                    {campaignGoal === "send-video" ? "Send with Video" : campaignGoal === "send-without-video" ? "Send without Video" : campaignGoal === "request-video" ? "Video Request" : "—"}
-                  </span>
-                  <span className="text-[11px] text-tv-text-secondary">Channel:</span>
-                  <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>{campaignCh === "email" ? "Email" : campaignCh === "sms" ? "SMS" : "—"}</span>
-                  <span className="text-[11px] text-tv-text-secondary">Tags:</span>
-                  <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>{selectedTags.length > 0 ? selectedTags.join(", ") : "—"}</span>
-                  {step.subject && <>
-                    <span className="text-[11px] text-tv-text-secondary">Subject:</span>
-                    <span className="text-[11px] text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{step.subject}</span>
-                  </>}
-                  {step.senderName && <>
-                    <span className="text-[11px] text-tv-text-secondary">Sender:</span>
-                    <span className="text-[11px] text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{step.senderName}</span>
-                  </>}
-                  {step.body && <>
-                    <span className="text-[11px] text-tv-text-secondary">Body:</span>
-                    <span className="text-[11px] text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{step.body.replace(/<[^>]+>/g, "").slice(0, 50)}{(step.body.replace(/<[^>]+>/g, "").length > 50) ? "\u2026" : ""}</span>
-                  </>}
-                  {step.smsBody && <>
-                    <span className="text-[11px] text-tv-text-secondary">SMS:</span>
-                    <span className="text-[11px] text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{step.smsBody.slice(0, 50)}{step.smsBody.length > 50 ? "\u2026" : ""}</span>
-                  </>}
-                  {step.landingPageEnabled && <>
-                    <span className="text-[11px] text-tv-text-secondary">CTA:</span>
-                    <span className="text-[11px] text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{step.ctaText || "\u2014"}</span>
-                  </>}
-                </div>
-              </div>
-            </div>
-            <div className="px-6 pb-6 flex justify-end gap-2">
-              <button onClick={() => setShowSaveTemplate(false)}
-                className="px-4 py-2 text-[13px] text-tv-text-primary border border-tv-border-light rounded-full hover:bg-tv-surface transition-colors">
-                Cancel
-              </button>
-              <button
-                disabled={!saveTemplateName.trim()}
-                onClick={() => {
-                  addTemplate({
-                    name: saveTemplateName.trim(),
-                    description: saveTemplateDesc.trim(),
-                    mode: "single",
-                    goal: campaignGoal,
-                    channel: campaignCh,
-                    tags: selectedTags,
-                    stepContent: {
-                      type: step.type as "email" | "sms",
-                      label: step.label,
-                      subject: step.subject,
-                      body: step.body,
-                      senderName: step.senderName,
-                      senderEmail: step.senderEmail,
-                      replyTo: step.replyTo,
-                      font: step.font,
-                      bodyFontFamily: step.bodyFontFamily,
-                      bodyFontSize: step.bodyFontSize,
-                      bodyTextColor: step.bodyTextColor,
-                      bodyLineHeight: step.bodyLineHeight,
-                      smsBody: step.smsBody,
-                      landingPageEnabled: step.landingPageEnabled,
-                      ctaText: step.ctaText,
-                      ctaUrl: step.ctaUrl,
-                    },
-                  });
-                  setShowSaveTemplate(false);
-                  show(`Template "${saveTemplateName.trim()}" saved`, "success");
-                }}
-                className={`flex items-center gap-1.5 px-5 py-2 text-[13px] rounded-full transition-colors ${
-                  saveTemplateName.trim()
-                    ? "text-white bg-tv-brand-bg hover:bg-tv-brand-hover"
-                    : "text-white/60 bg-tv-brand-bg/40 cursor-not-allowed"
-                } font-semibold`}>
-                <Bookmark size={13} />Save Template
-              </button>
-            </div>
+      <SaveTemplateModal
+        opened={showSaveTemplate}
+        onClose={() => setShowSaveTemplate(false)}
+        defaultName={campaignName || ""}
+        onSave={(name, desc) => {
+          addTemplate({
+            name,
+            description: desc,
+            mode: "single",
+            goal: campaignGoal,
+            channel: campaignCh,
+            tags: selectedTags,
+            stepContent: {
+              type: step.type as "email" | "sms",
+              label: step.label,
+              subject: step.subject,
+              body: step.body,
+              senderName: step.senderName,
+              senderEmail: step.senderEmail,
+              replyTo: step.replyTo,
+              font: step.font,
+              bodyFontFamily: step.bodyFontFamily,
+              bodyFontSize: step.bodyFontSize,
+              bodyTextColor: step.bodyTextColor,
+              bodyLineHeight: step.bodyLineHeight,
+              smsBody: step.smsBody,
+              landingPageEnabled: step.landingPageEnabled,
+              ctaText: step.ctaText,
+              ctaUrl: step.ctaUrl,
+            },
+          });
+          setShowSaveTemplate(false);
+          show(`Template "${name}" saved`, "success");
+        }}
+        summaryContent={
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+            <span className="text-[11px] text-tv-text-secondary">Mode:</span>
+            <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>Single-Step</span>
+            <span className="text-[11px] text-tv-text-secondary">Goal:</span>
+            <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>
+              {campaignGoal === "send-video" ? "Send with Video" : campaignGoal === "send-without-video" ? "Send without Video" : campaignGoal === "request-video" ? "Video Request" : "—"}
+            </span>
+            <span className="text-[11px] text-tv-text-secondary">Channel:</span>
+            <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>{campaignCh === "email" ? "Email" : campaignCh === "sms" ? "SMS" : "—"}</span>
+            <span className="text-[11px] text-tv-text-secondary">Tags:</span>
+            <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 500 }}>{selectedTags.length > 0 ? selectedTags.join(", ") : "—"}</span>
+            {step.subject && <>
+              <span className="text-[11px] text-tv-text-secondary">Subject:</span>
+              <span className="text-[11px] text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{step.subject}</span>
+            </>}
+            {step.senderName && <>
+              <span className="text-[11px] text-tv-text-secondary">Sender:</span>
+              <span className="text-[11px] text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{step.senderName}</span>
+            </>}
+            {step.body && <>
+              <span className="text-[11px] text-tv-text-secondary">Body:</span>
+              <span className="text-[11px] text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{step.body.replace(/<[^>]+>/g, "").slice(0, 50)}{(step.body.replace(/<[^>]+>/g, "").length > 50) ? "\u2026" : ""}</span>
+            </>}
+            {step.smsBody && <>
+              <span className="text-[11px] text-tv-text-secondary">SMS:</span>
+              <span className="text-[11px] text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{step.smsBody.slice(0, 50)}{step.smsBody.length > 50 ? "\u2026" : ""}</span>
+            </>}
+            {step.landingPageEnabled && <>
+              <span className="text-[11px] text-tv-text-secondary">CTA:</span>
+              <span className="text-[11px] text-tv-text-primary truncate" style={{ fontWeight: 500 }}>{step.ctaText || "\u2014"}</span>
+            </>}
           </div>
-        </div>
-        </FocusTrap>
-      )}
+        }
+      />
     </div>
   );
 }

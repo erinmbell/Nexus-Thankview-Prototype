@@ -17,7 +17,7 @@ const DEFAULT_H = 540;
 
 interface FloatingPreviewProps {
   step: FlowStep;
-  visible: boolean;
+  opened: boolean;
   onClose: () => void;
   constraintRef: React.RefObject<HTMLDivElement | null>;
 }
@@ -26,7 +26,7 @@ interface FloatingPreviewProps {
  * Floating, draggable, resizable live preview card for the multi-step builder.
  * Wraps LivePreviewPanel directly — no duplicate header/viewport chrome.
  */
-export function FloatingPreview({ step, visible, onClose, constraintRef }: FloatingPreviewProps) {
+export function FloatingPreview({ step, opened, onClose, constraintRef }: FloatingPreviewProps) {
   const { customEnvelopes } = useDesignLibrary();
   const [size, setSize] = useState({ w: DEFAULT_W, h: DEFAULT_H });
   const resizing = useRef(false);
@@ -61,7 +61,7 @@ export function FloatingPreview({ step, visible, onClose, constraintRef }: Float
 
   return (
     <AnimatePresence>
-      {visible && (
+      {opened && (
         <motion.div
           drag
           dragConstraints={constraintRef}
@@ -127,8 +127,10 @@ export function FloatingPreview({ step, visible, onClose, constraintRef }: Float
               landingPageAccent={step.landingPageAccent}
               landingPageImage={step.landingPageImage}
               envTextBefore={step.envTextBefore}
+              envLineBreakBefore={step.envLineBreakBefore}
               envNameFormat={step.envNameFormat}
               envTextAfter={step.envTextAfter}
+              envLineBreakAfter={step.envLineBreakAfter}
               selectedSignature={step.selectedSignature}
               allowSaveButton={step.allowSaveButton}
               allowShareButton={step.allowShareButton}

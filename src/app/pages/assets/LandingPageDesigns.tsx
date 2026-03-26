@@ -611,6 +611,7 @@ export function LandingPageDesigns() {
       {/* Delete confirmation */}
       {deleteConfirm !== null && (
         <DeleteModal
+          opened
           title="Delete this landing page?"
           description="This action cannot be undone. The URL will no longer be accessible."
           onConfirm={() => handleDelete(deleteConfirm)}
@@ -686,7 +687,7 @@ function ButtonColorRow({ icon, label, style }: { icon: React.ReactNode; label: 
           <span className="text-[11px] font-mono text-tv-text-primary">{style.bg}</span>
         </div>
         {/* Separator */}
-        <span className="text-[10px] text-tv-border">/</span>
+        <span className="text-[10px] text-tv-text-decorative">/</span>
         {/* Button text */}
         <div className="flex items-center gap-1.5">
           <span className="text-[9px] font-semibold uppercase tracking-wider text-tv-text-secondary">Text</span>

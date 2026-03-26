@@ -464,30 +464,19 @@ function TemplatePickerModal({ onSelect, onCancel }: { onSelect: (tpl: CampaignT
       )}
 
       {/* Delete confirmation */}
-      {confirmDelete && (
-        <FocusTrap active>
-        <div className="fixed inset-0 bg-black/30 z-[1000] flex items-center justify-center" onClick={() => setConfirmDelete(null)} role="dialog" aria-modal="true" aria-labelledby="delete-template-title">
-          <div className="bg-white rounded-xl border border-tv-border-light p-6 max-w-[380px] w-full mx-4 shadow-xl" onClick={e => e.stopPropagation()}>
-            <p id="delete-template-title" className="text-[15px] text-tv-text-primary mb-2" style={{ fontWeight: 900 }}>Delete template?</p>
-            <p className="text-[13px] text-tv-text-secondary mb-5">"{confirmDelete.name}" will be permanently removed. This action cannot be undone.</p>
-            <div className="flex justify-end gap-2">
-              <button onClick={() => setConfirmDelete(null)}
-                className="px-4 py-2 text-[13px] text-tv-text-primary border border-tv-border-light rounded-full hover:bg-tv-surface transition-colors">
-                Cancel
-              </button>
-              <button onClick={() => {
-                removeTemplate(confirmDelete.id);
-                show(`Template "${confirmDelete.name}" deleted`, "success");
-                setConfirmDelete(null);
-              }}
-                className="px-4 py-2 text-[13px] text-white bg-tv-danger rounded-full hover:bg-tv-danger-hover transition-colors font-semibold">
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-        </FocusTrap>
-      )}
+      <DeleteModal
+        opened={!!confirmDelete}
+        title="Delete template?"
+        description={confirmDelete ? `"${confirmDelete.name}" will be permanently removed. This action cannot be undone.` : ""}
+        onConfirm={() => {
+          if (confirmDelete) {
+            removeTemplate(confirmDelete.id);
+            show(`Template "${confirmDelete.name}" deleted`, "success");
+            setConfirmDelete(null);
+          }
+        }}
+        onCancel={() => setConfirmDelete(null)}
+      />
     </Modal>
   );
 }
@@ -543,7 +532,7 @@ function TablePagination({ page, rowsPerPage, totalRows, onPageChange, onRowsPer
         <Text fz={12} c={TV.textSecondary}>Rows per page:</Text>
         <Select data={["10","25","50","100"]} value={String(rowsPerPage)}
           onChange={v => { onRowsPerPageChange(Number(v)); onPageChange(1); }}
-          size="xs" w={70} radius="md"
+          size="xs" w={70} radius="md" aria-label="Rows per page"
           styles={{ input: { borderColor: TV.borderLight, fontSize: 12 } }} />
         <Text fz={12} c={TV.textSecondary}>
           {start}–{end} of {totalRows}
@@ -551,7 +540,7 @@ function TablePagination({ page, rowsPerPage, totalRows, onPageChange, onRowsPer
       </div>
       <nav className="flex items-center gap-1">
         <ActionIcon variant="subtle" color="gray" size="sm" disabled={page <= 1}
-          onClick={() => onPageChange(page - 1)}>
+          onClick={() => onPageChange(page - 1)} aria-label="Previous page">
           <ChevronLeft size={14} />
         </ActionIcon>
         {pageButtons.map(btn => (
@@ -563,7 +552,7 @@ function TablePagination({ page, rowsPerPage, totalRows, onPageChange, onRowsPer
           </ActionIcon>
         ))}
         <ActionIcon variant="subtle" color="gray" size="sm" disabled={page >= totalPages}
-          onClick={() => onPageChange(page + 1)}>
+          onClick={() => onPageChange(page + 1)} aria-label="Next page">
           <ChevronRight size={14} />
         </ActionIcon>
       </nav>
@@ -936,8 +925,8 @@ export function CampaignsList() {
             Delete
           </Button>
           <ActionIcon variant="subtle" color="gray" size="xs" ml="auto"
-            onClick={() => setBulkSelected([])}>
-            <X size={13} />
+            onClick={() => setBulkSelected([])} aria-label="Clear selection">
+            <X size={13} aria-hidden="true" />
           </ActionIcon>
         </div>
       )}
@@ -1194,7 +1183,7 @@ export function CampaignsList() {
 
       {/* ── Modals ── */}
       {duplicating    && <DuplicateModal name={duplicating.name} channel={duplicating.channel} steps={duplicating.steps} onDuplicate={handleDuplicate} onCancel={() => setDuplicating(null)} />}
-      {deleting       && <DeleteModal title={`Delete "${deleting.name}"?`} onConfirm={handleDelete} onCancel={() => setDeleting(null)} />}
+      {deleting       && <DeleteModal opened title={`Delete "${deleting.name}"?`} onConfirm={handleDelete} onCancel={() => setDeleting(null)} />}
       {renaming       && <RenameModal name={renaming.name} onRename={handleRename} onCancel={() => setRenaming(null)} />}
       {showTemplatePicker && <TemplatePickerModal onSelect={handleSelectTemplate} onCancel={() => setShowTemplatePicker(false)} />}
       {showEditColumns && (

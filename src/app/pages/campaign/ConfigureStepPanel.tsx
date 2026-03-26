@@ -133,15 +133,17 @@ export function ConfigureStepPanel({
         <section className="rounded-lg border border-tv-border-light bg-white overflow-hidden">
           <div className="px-5 py-4">
             <div className="flex items-center gap-2 mb-3">
-              <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Name</p>
+              <p className="text-[13px] text-tv-text-primary" style={{ fontWeight: 700 }}>Campaign Name <span className="text-red-500">*</span></p>
             </div>
             <input
               value={campaignName || ""}
               onChange={e => { onCampaignNameChange(e.target.value); markDirty?.(); }}
               placeholder="e.g. Spring Annual Fund Appeal"
-              className="w-full border border-tv-border-light rounded-md px-4 py-3 text-[14px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand transition-colors placeholder:text-tv-text-decorative"
+              className={`w-full border rounded-md px-4 py-3 text-[14px] text-tv-text-primary outline-none focus:ring-2 focus:ring-tv-brand/30 focus:border-tv-brand transition-colors placeholder:text-tv-text-decorative ${!(campaignName || "").trim() ? "border-red-300 bg-red-50/30" : "border-tv-border-light"}`}
             />
-            <p className="text-[11px] text-tv-text-secondary mt-2">Give your campaign a memorable name so it's easy to find later.</p>
+            <p className={`text-[11px] mt-2 ${!(campaignName || "").trim() ? "text-red-500" : "text-tv-text-secondary"}`}>
+              {!(campaignName || "").trim() ? "Campaign name is required." : "Give your campaign a memorable name so it's easy to find later."}
+            </p>
           </div>
         </section>
       )}

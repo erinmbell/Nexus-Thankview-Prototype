@@ -5,6 +5,7 @@ import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { FocusTrap } from "@mantine/core";
 import { X, Globe, Copy, Check, Image as ImageIcon, ExternalLink } from "lucide-react";
+import { TV } from "../theme";
 
 export interface OgData {
   ogTitle: string;
@@ -12,8 +13,11 @@ export interface OgData {
   ogImage: string;
 }
 
+/** Facebook OG preview colors — kept as literals to match Facebook's brand chrome */
+export const FB_OG = { text: "#1c1e21", secondary: "#65676b", bg: "#f0f2f5", border: "#dadde1", placeholder: "#bec3c9", imgBg: "#e4e6eb" } as const;
+
 interface Props {
-  open: boolean;
+  opened: boolean;
   onClose: () => void;
   initial: OgData;
   campaignUrl: string;
@@ -21,7 +25,7 @@ interface Props {
   onChange?: (data: OgData) => void;
 }
 
-export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChange }: Props) {
+export function FacebookShareModal({ opened, onClose, initial, campaignUrl, onChange }: Props) {
   const [ogTitle, setOgTitle] = useState(initial.ogTitle);
   const [ogDescription, setOgDescription] = useState(initial.ogDescription);
   const [ogImage, setOgImage] = useState(initial.ogImage);
@@ -52,15 +56,15 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
   }, [onClose, onChange, ogTitle, ogDescription, ogImage]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!opened) return;
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, [open, onClose]);
+  }, [opened, onClose]);
 
   return (
     <AnimatePresence>
-      {open && (
+      {opened && (
         <FocusTrap active>
         <motion.div
           className="fixed inset-0 z-[10000] flex items-center justify-center"
@@ -142,9 +146,9 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
                 <p className="text-[10px] text-tv-text-label uppercase tracking-wider mb-1.5" style={{ fontWeight: 600 }}>
                   Facebook Preview
                 </p>
-                <div className="border border-[#dadde1] rounded-sm overflow-hidden bg-[#f0f2f5]">
+                <div className="rounded-sm overflow-hidden" style={{ border: `1px solid ${FB_OG.border}`, backgroundColor: FB_OG.bg }}>
                   <div className="flex">
-                    <div className="w-[158px] shrink-0 bg-[#e4e6eb] flex items-center justify-center overflow-hidden" style={{ minHeight: 120 }}>
+                    <div className="w-[158px] shrink-0 flex items-center justify-center overflow-hidden" style={{ minHeight: 120, backgroundColor: FB_OG.imgBg }}>
                       {ogImage ? (
                         <img
                           src={ogImage}
@@ -153,17 +157,17 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
                           onError={e => { (e.target as HTMLImageElement).style.display = "none"; }}
                         />
                       ) : (
-                        <ImageIcon size={24} className="text-[#bec3c9]" />
+                        <ImageIcon size={24} style={{ color: FB_OG.placeholder }} />
                       )}
                     </div>
-                    <div className="flex-1 min-w-0 px-3 py-2.5 flex flex-col justify-center gap-1 bg-[#f0f2f5]">
-                      <span className="text-[10px] text-[#65676b] uppercase tracking-wide">
+                    <div className="flex-1 min-w-0 px-3 py-2.5 flex flex-col justify-center gap-1" style={{ backgroundColor: FB_OG.bg }}>
+                      <span className="text-[10px] uppercase tracking-wide" style={{ color: FB_OG.secondary }}>
                         hartwell.thankview.com
                       </span>
-                      <span className="text-[14px] text-[#1c1e21] leading-tight line-clamp-2" style={{ fontWeight: 600 }}>
+                      <span className="text-[14px] leading-tight line-clamp-2" style={{ fontWeight: 600, color: FB_OG.text }}>
                         {ogTitle || "Untitled Page"}
                       </span>
-                      <span className="text-[12px] text-[#65676b] leading-snug line-clamp-2">
+                      <span className="text-[12px] leading-snug line-clamp-2" style={{ color: FB_OG.secondary }}>
                         {ogDescription || "No description provided."}
                       </span>
                     </div>
@@ -184,7 +188,7 @@ export function FacebookShareModal({ open, onClose, initial, campaignUrl, onChan
                 className="w-full flex items-center justify-center gap-2 py-3 rounded-md text-[13px] text-white transition-colors"
                 style={{
                   fontWeight: 600,
-                  backgroundColor: copied ? "#16a34a" : "#4338ca",
+                  backgroundColor: copied ? TV.success : TV.brand,
                 }}
               >
                 {copied ? (

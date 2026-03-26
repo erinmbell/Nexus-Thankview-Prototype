@@ -97,7 +97,7 @@ export function UserProfile() {
           KM
         </Box>
         <div>
-          <Title order={2} fz={15}>{firstName} {lastName}</Title>
+          <Title order={2} fz={16}>{firstName} {lastName}</Title>
           <Text fz={12} c={TV.textSecondary}>kelley.molt@hartwell.edu</Text>
           <Badge color="tvPurple" size="sm" mt={4}>TV Admin</Badge>
         </div>

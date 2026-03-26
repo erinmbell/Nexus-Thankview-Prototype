@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useRef, useEffect, ReactNode } from "react";
 import { CircleCheckBig, CircleAlert, X } from "lucide-react";
 import { TV } from "../theme";
 
@@ -14,37 +14,69 @@ const TOAST_STYLES: Record<string, { bg: string; border: string; text: string }>
   info:    { bg: TV.brandTint, border: TV.borderStrong,   text: TV.brand },
 };
 
+const TOAST_DURATION = 5000; // 5 seconds — WCAG 2.2.1 recommends ≥ 4s
+
+/* ── Individual toast with pause-on-hover/focus ─────────────────────────────── */
+function Toast({ item, onRemove }: { item: ToastItem; onRemove: () => void }) {
+  const s = TOAST_STYLES[item.type];
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const remainRef = useRef(TOAST_DURATION);
+  const startRef = useRef(Date.now());
+
+  const startTimer = useCallback(() => {
+    startRef.current = Date.now();
+    timerRef.current = setTimeout(onRemove, remainRef.current);
+  }, [onRemove]);
+
+  const pauseTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+      remainRef.current -= Date.now() - startRef.current;
+      if (remainRef.current < 0) remainRef.current = 0;
+    }
+  }, []);
+
+  useEffect(() => {
+    startTimer();
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [startTimer]);
+
+  return (
+    <div
+      className="flex items-center gap-3 px-4 py-3 rounded-lg shadow-xl border min-w-[280px] max-w-[360px] animate-in slide-in-from-right-4 transition-all"
+      style={{ backgroundColor: s.bg, borderColor: s.border, color: s.text }}
+      role="alert"
+      onMouseEnter={pauseTimer}
+      onMouseLeave={startTimer}
+      onFocus={pauseTimer}
+      onBlur={startTimer}
+    >
+      {item.type === "success" ? <CircleCheckBig size={16} aria-hidden="true" /> : <CircleAlert size={16} aria-hidden="true" />}
+      <span style={{ fontFamily: "Roboto, sans-serif" }} className="text-[13px] font-medium flex-1">{item.message}</span>
+      <button onClick={onRemove} className="opacity-60 hover:opacity-100 transition-opacity" aria-label="Dismiss notification"><X size={13} aria-hidden="true" /></button>
+    </div>
+  );
+}
+
+/* ── Provider ────────────────────────────────────────────────────────────────── */
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 
   const show = useCallback((message: string, type: "success" | "error" | "info" = "success") => {
     const id = Math.random().toString(36).slice(2);
     setToasts((t) => [...t, { id, message, type }]);
-    setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 3500);
   }, []);
 
-  const remove = (id: string) => setToasts((t) => t.filter((x) => x.id !== id));
+  const remove = useCallback((id: string) => setToasts((t) => t.filter((x) => x.id !== id)), []);
 
   return (
     <ToastContext.Provider value={{ show }}>
       {children}
-      {/* Toast container */}
       <div className="fixed top-5 right-5 z-[9999] flex flex-col gap-2" role="status" aria-live="polite" aria-atomic="false">
-        {toasts.map((t) => {
-          const s = TOAST_STYLES[t.type];
-          return (
-            <div
-              key={t.id}
-              className="flex items-center gap-3 px-4 py-3 rounded-lg shadow-xl border min-w-[280px] max-w-[360px] animate-in slide-in-from-right-4 transition-all"
-              style={{ backgroundColor: s.bg, borderColor: s.border, color: s.text }}
-              role="alert"
-            >
-              {t.type === "success" ? <CircleCheckBig size={16} aria-hidden="true" /> : <CircleAlert size={16} aria-hidden="true" />}
-              <span style={{ fontFamily: "Roboto, sans-serif" }} className="text-[13px] font-medium flex-1">{t.message}</span>
-              <button onClick={() => remove(t.id)} className="opacity-60 hover:opacity-100 transition-opacity" aria-label="Dismiss notification"><X size={13} aria-hidden="true" /></button>
-            </div>
-          );
-        })}
+        {toasts.map((t) => (
+          <Toast key={t.id} item={t} onRemove={() => remove(t.id)} />
+        ))}
       </div>
     </ToastContext.Provider>
   );

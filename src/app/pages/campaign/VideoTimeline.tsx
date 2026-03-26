@@ -23,6 +23,7 @@ export const SEGMENT_DEFS: SegmentMeta[] = [
   { key: "intro",            label: "Intro",                    desc: "Same for all",         icon: Clapperboard, color: "text-tv-brand",   bgColor: "bg-tv-brand-tint",  activeColor: "border-tv-brand-bg",   builderView: "intro-builder" },
   { key: "personalizedClip", label: "Personalized Video",       desc: "Unique per recipient", icon: Users,        color: "text-tv-info",    bgColor: "bg-tv-info-bg",     activeColor: "border-tv-info",       builderView: "personalized-recorder" },
   { key: "sharedVideo",      label: "Video for All Recipients", desc: "Same for all",         icon: Video,        color: "text-tv-success", bgColor: "bg-tv-success-bg",  activeColor: "border-tv-success",    builderView: "shared-recording" },
+  { key: "addOnClip",        label: "Add-On Clip",              desc: "Extra clip for all",   icon: Plus,         color: "text-cyan-600",   bgColor: "bg-cyan-50",        activeColor: "border-cyan-500",      builderView: "addon-clip" },
   { key: "outro",            label: "Outro",                    desc: "Same for all",         icon: MonitorPlay,  color: "text-tv-warning", bgColor: "bg-tv-warning-bg",  activeColor: "border-tv-warning",    builderView: "outro-builder" },
 ];
 
@@ -32,7 +33,7 @@ function getSegmentDef(key: keyof VideoElements) {
 
 function isDone(key: keyof VideoElements, doneFlags: Record<string, boolean>) {
   if (key === "intro") return doneFlags.hasIntro;
-  if (key === "personalizedClip" || key === "sharedVideo") return doneFlags.hasMain;
+  if (key === "personalizedClip" || key === "sharedVideo" || key === "addOnClip") return doneFlags.hasMain;
   if (key === "outro") return doneFlags.hasOutro;
   return false;
 }
@@ -53,6 +54,7 @@ const PLACEHOLDER_DURATION: Record<keyof VideoElements, number> = {
   intro: 8,
   personalizedClip: 30,
   sharedVideo: 45,
+  addOnClip: 20,
   outro: 6,
 };
 
@@ -473,7 +475,7 @@ export function VideoOverview({
 
       {/* ── Main preview area ── */}
       <div className="flex-1 flex flex-col items-center justify-center p-4">
-        <div className="w-full max-w-[720px] max-h-[60vh] aspect-[4/3] rounded-[14px] overflow-hidden bg-[#1a1a2e] relative flex items-center justify-center">
+        <div className="w-full max-w-[720px] max-h-[60vh] aspect-[4/3] rounded-lg overflow-hidden bg-[#1a1a2e] relative flex items-center justify-center">
 
           {/* ── Empty state ── */}
           {!hasAnyVideoElement && (

@@ -254,7 +254,7 @@ function SmsPhonePreview({ body }: { body: string }) {
   return (
     <div className="flex flex-col items-center">
       <div className="w-[280px] rounded-[32px] border-[3px] p-3 bg-[#1a1a2e]" style={{ borderColor: TV.borderStrong }}>
-        <div className="w-16 h-1.5 bg-[#333] rounded-full mx-auto mb-3" />
+        <div className="w-16 h-1.5 bg-tv-text-primary rounded-full mx-auto mb-3" />
         <div className="bg-white rounded-xl min-h-[360px] p-4 flex flex-col">
           <div className="flex items-center gap-2 pb-3" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
             <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: TV.brandTint }}>
@@ -422,7 +422,7 @@ export function EmailTemplateBuilder() {
                     className="flex-1"
                     style={{
                       display: "flex", alignItems: "center", gap: 12,
-                      padding: "16px 20px", borderRadius: 14,
+                      padding: "16px 20px", borderRadius: 12,
                       border: `2px solid ${channel === ch ? (ch === "email" ? TV.brand : TV.info) : TV.borderLight}`,
                       backgroundColor: channel === ch ? (ch === "email" ? TV.brandTint : TV.infoBg) : "white",
                       transition: "all 0.15s",
@@ -450,7 +450,7 @@ export function EmailTemplateBuilder() {
                     className="flex-1"
                     style={{
                       display: "flex", alignItems: "center", gap: 12,
-                      padding: "16px 20px", borderRadius: 14,
+                      padding: "16px 20px", borderRadius: 12,
                       border: `2px solid ${startMode === mode ? TV.brand : TV.borderLight}`,
                       backgroundColor: startMode === mode ? TV.brandTint : "white",
                       transition: "all 0.15s",
@@ -480,7 +480,7 @@ export function EmailTemplateBuilder() {
                 <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                   {channel === "email" ? EMAIL_PRESETS.map(p => (
                     <UnstyledButton key={p.id} onClick={() => handleApplyEmailPreset(p)} p="md"
-                      style={{ borderRadius: 14, border: `1.5px solid ${selectedPreset === p.id ? TV.brand : TV.borderLight}`, backgroundColor: selectedPreset === p.id ? TV.brandTint : "white", transition: "all 0.15s" }}
+                      style={{ borderRadius: 12, border: `1.5px solid ${selectedPreset === p.id ? TV.brand : TV.borderLight}`, backgroundColor: selectedPreset === p.id ? TV.brandTint : "white", transition: "all 0.15s" }}
                       className="hover:shadow-md"
                     >
                       <div className="flex items-start gap-3">
@@ -497,7 +497,7 @@ export function EmailTemplateBuilder() {
                     </UnstyledButton>
                   )) : SMS_PRESETS.map(p => (
                     <UnstyledButton key={p.id} onClick={() => handleApplySmsPreset(p)} p="md"
-                      style={{ borderRadius: 14, border: `1.5px solid ${selectedPreset === p.id ? TV.info : TV.borderLight}`, backgroundColor: selectedPreset === p.id ? TV.infoBg : "white", transition: "all 0.15s" }}
+                      style={{ borderRadius: 12, border: `1.5px solid ${selectedPreset === p.id ? TV.info : TV.borderLight}`, backgroundColor: selectedPreset === p.id ? TV.infoBg : "white", transition: "all 0.15s" }}
                       className="hover:shadow-md"
                     >
                       <div className="flex items-start gap-3">
@@ -563,7 +563,7 @@ export function EmailTemplateBuilder() {
                   </div>
                   <MergeTagBar onInsert={tag => setGreeting(prev => prev + tag)} compact />
                 </div>
-                <TextInput value={greeting} onChange={e => setGreeting(e.currentTarget.value)} placeholder="Dear {{first_name}}," />
+                <TextInput value={greeting} onChange={e => setGreeting(e.currentTarget.value)} placeholder="Dear {{first_name}}," aria-label="Greeting line" />
               </div>
 
               {/* Content sections */}
@@ -575,7 +575,7 @@ export function EmailTemplateBuilder() {
                 </div>
                 <Stack gap={12}>
                   {sections.map((sec, idx) => (
-                    <div key={sec.id} className="rounded-[14px] p-4" style={{ border: `1px solid ${TV.borderLight}`, backgroundColor: TV.surface }}>
+                    <div key={sec.id} className="rounded-lg p-4" style={{ border: `1px solid ${TV.borderLight}`, backgroundColor: TV.surface }}>
                       <div className="flex items-center gap-2 mb-3">
                         <GripVertical size={12} style={{ color: TV.textDecorative }} />
                         <Badge size="xs" variant="light" color={sec.type === "video" ? "tvPurple" : sec.type === "cta" ? "blue" : "gray"} radius="xl">
@@ -585,21 +585,21 @@ export function EmailTemplateBuilder() {
                         <div className="flex gap-1">
                           {idx > 0 && (
                             <Tooltip label="Move Up">
-                              <ActionIcon variant="subtle" size={24} radius="xl" onClick={() => moveSection(sec.id, -1)}>
-                                <ChevronLeft size={12} style={{ transform: "rotate(90deg)" }} />
+                              <ActionIcon variant="subtle" size={24} radius="xl" onClick={() => moveSection(sec.id, -1)} aria-label="Move section up">
+                                <ChevronLeft size={12} style={{ transform: "rotate(90deg)" }} aria-hidden="true" />
                               </ActionIcon>
                             </Tooltip>
                           )}
                           {idx < sections.length - 1 && (
                             <Tooltip label="Move Down">
-                              <ActionIcon variant="subtle" size={24} radius="xl" onClick={() => moveSection(sec.id, 1)}>
-                                <ChevronRight size={12} style={{ transform: "rotate(90deg)" }} />
+                              <ActionIcon variant="subtle" size={24} radius="xl" onClick={() => moveSection(sec.id, 1)} aria-label="Move section down">
+                                <ChevronRight size={12} style={{ transform: "rotate(90deg)" }} aria-hidden="true" />
                               </ActionIcon>
                             </Tooltip>
                           )}
                           <Tooltip label="Remove">
-                            <ActionIcon variant="subtle" size={24} radius="xl" color="red" onClick={() => removeSection(sec.id)}>
-                              <Trash2 size={12} />
+                            <ActionIcon variant="subtle" size={24} radius="xl" color="red" onClick={() => removeSection(sec.id)} aria-label="Remove section">
+                              <Trash2 size={12} aria-hidden="true" />
                             </ActionIcon>
                           </Tooltip>
                         </div>
@@ -607,7 +607,7 @@ export function EmailTemplateBuilder() {
                       {sec.type === "text" && (
                         <div>
                           <Textarea value={sec.body || ""} onChange={e => updateSection(sec.id, { body: e.currentTarget.value })}
-                            placeholder="Write your paragraph here…" minRows={3} autosize
+                            placeholder="Write your paragraph here…" aria-label="Section content" minRows={3} autosize
                             styles={{ input: { fontSize: 13, borderColor: TV.borderLight, backgroundColor: "white" } }} mb={8}
                           />
                           <MergeTagBar onInsert={tag => updateSection(sec.id, { body: (sec.body || "") + tag })} compact />
@@ -654,7 +654,7 @@ export function EmailTemplateBuilder() {
                   <Text fz={14} fw={600} c={TV.textPrimary}>Closing / Signature</Text>
                 </div>
                 <Textarea value={closing} onChange={e => setClosing(e.currentTarget.value)}
-                  placeholder="With gratitude,\nYour Name\nTitle" minRows={3} autosize
+                  placeholder="With gratitude,\nYour Name\nTitle" aria-label="Closing and signature" minRows={3} autosize
                   styles={{ input: { fontSize: 13, borderColor: TV.borderLight } }}
                 />
               </div>
@@ -686,7 +686,7 @@ export function EmailTemplateBuilder() {
                 <div className="bg-white rounded-xl p-5" style={{ border: `1px solid ${TV.borderLight}` }}>
                   <Text fz={14} fw={600} c={TV.textPrimary} mb={12}>Message Body</Text>
                   <Textarea value={smsBody} onChange={e => setSmsBody(e.currentTarget.value)}
-                    placeholder="Type your SMS message here…" minRows={6} autosize
+                    placeholder="Type your SMS message here…" aria-label="SMS message body" minRows={6} autosize
                     styles={{ input: { fontSize: 13, borderColor: TV.borderLight } }} mb="sm"
                   />
                   <div className="flex items-center justify-between mb-4">
@@ -736,7 +736,7 @@ export function EmailTemplateBuilder() {
                 <Text fz={14} fw={600} c={TV.textPrimary} mb={12}>What would you like to do next?</Text>
                 <Stack gap={10}>
                   <UnstyledButton onClick={() => setSaveAction("library")}
-                    className={`flex items-center gap-4 px-5 py-4 rounded-[14px] transition-colors ${saveAction === "library" ? "" : "hover:bg-tv-surface"}`}
+                    className={`flex items-center gap-4 px-5 py-4 rounded-lg transition-colors ${saveAction === "library" ? "" : "hover:bg-tv-surface"}`}
                     bg={saveAction === "library" ? TV.brandTint : undefined}
                     style={{ border: `2px solid ${saveAction === "library" ? TV.brand : TV.borderLight}` }}
                   >
@@ -751,7 +751,7 @@ export function EmailTemplateBuilder() {
                   </UnstyledButton>
 
                   <UnstyledButton onClick={() => setSaveAction("campaign")}
-                    className={`flex items-center gap-4 px-5 py-4 rounded-[14px] transition-colors ${saveAction === "campaign" ? "" : "hover:bg-tv-surface"}`}
+                    className={`flex items-center gap-4 px-5 py-4 rounded-lg transition-colors ${saveAction === "campaign" ? "" : "hover:bg-tv-surface"}`}
                     bg={saveAction === "campaign" ? TV.brandTint : undefined}
                     style={{ border: `2px solid ${saveAction === "campaign" ? TV.brand : TV.borderLight}` }}
                   >

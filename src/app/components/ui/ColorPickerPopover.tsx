@@ -104,8 +104,21 @@ function SatBrightCanvas({ hue, sat, bright, onChange }: {
     return () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseup", onUp); };
   }, [setFromMouse]);
 
+  const handleKey = useCallback((e: React.KeyboardEvent) => {
+    const step = e.shiftKey ? 0.1 : 0.02;
+    switch (e.key) {
+      case "ArrowRight": e.preventDefault(); onChange(Math.min(1, sat + step), bright); break;
+      case "ArrowLeft":  e.preventDefault(); onChange(Math.max(0, sat - step), bright); break;
+      case "ArrowUp":    e.preventDefault(); onChange(sat, Math.min(1, bright + step)); break;
+      case "ArrowDown":  e.preventDefault(); onChange(sat, Math.max(0, bright - step)); break;
+    }
+  }, [sat, bright, onChange]);
+
   return (
-    <div className="relative" style={{ width: W, height: H }}>
+    <div className="relative" style={{ width: W, height: H }}
+      role="slider" tabIndex={0} aria-label="Color saturation and brightness"
+      aria-valuetext={`Saturation ${Math.round(sat * 100)}%, Brightness ${Math.round(bright * 100)}%`}
+      onKeyDown={handleKey}>
       <canvas ref={canvasRef} width={W} height={H} className="rounded-sm cursor-crosshair" style={{ width: W, height: H }}
         onMouseDown={(e) => { dragging.current = true; setFromMouse(e); }} />
       <div className="absolute pointer-events-none" style={{
@@ -139,8 +152,22 @@ function HueSlider({ hue, onChange }: { hue: number; onChange: (h: number) => vo
     return () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseup", onUp); };
   }, [setFromMouse]);
 
+  const handleKey = useCallback((e: React.KeyboardEvent) => {
+    const step = e.shiftKey ? 36 : 5;
+    switch (e.key) {
+      case "ArrowRight": case "ArrowUp":   e.preventDefault(); onChange((hue + step) % 360); break;
+      case "ArrowLeft":  case "ArrowDown":  e.preventDefault(); onChange((hue - step + 360) % 360); break;
+      case "Home": e.preventDefault(); onChange(0); break;
+      case "End":  e.preventDefault(); onChange(359); break;
+    }
+  }, [hue, onChange]);
+
   return (
     <div ref={trackRef} className="relative rounded-full cursor-pointer"
+      role="slider" tabIndex={0} aria-label="Hue"
+      aria-valuemin={0} aria-valuemax={360} aria-valuenow={Math.round(hue)}
+      aria-valuetext={`Hue ${Math.round(hue)}°`}
+      onKeyDown={handleKey}
       style={{ width: W, height: 12, background: "linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%)" }}
       onMouseDown={(e) => { dragging.current = true; setFromMouse(e); }}>
       <div className="absolute top-1/2 pointer-events-none" style={{

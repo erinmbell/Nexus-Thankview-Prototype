@@ -299,8 +299,10 @@ interface LivePreviewPanelProps {
   landingPageImage?: string;
   /** Envelope text customization — shown on envelope thumbnail */
   envTextBefore?: string;
+  envLineBreakBefore?: boolean;
   envNameFormat?: string;
   envTextAfter?: string;
+  envLineBreakAfter?: boolean;
   /** Selected email signature — rendered below email body in preview */
   selectedSignature?: { id: number; name: string; title?: string; org?: string; phone?: string; email?: string } | null;
 }
@@ -409,8 +411,10 @@ export function LivePreviewPanel({
   landingPageAccent,
   landingPageImage,
   envTextBefore,
+  envLineBreakBefore,
   envNameFormat,
   envTextAfter,
+  envLineBreakAfter,
   selectedSignature,
 }: LivePreviewPanelProps) {
   const hideVideo = !attachedVideo;
@@ -1046,6 +1050,10 @@ export function LivePreviewPanel({
                         postmarkColor={envAccent}
                         recipientNameColor={envNameCol}
                         showName
+                        textBefore={envTextBefore ? resolveMergeFields(envTextBefore, effectiveTestConstituent) : undefined}
+                        lineBreakBefore={envLineBreakBefore}
+                        textAfter={envTextAfter ? resolveMergeFields(envTextAfter, effectiveTestConstituent) : undefined}
+                        lineBreakAfter={envLineBreakAfter}
                         mode="front"
                         width={isMobile ? 220 : isTab ? 280 : 320}
                       />
@@ -1307,6 +1315,9 @@ export function LivePreviewPanel({
           })() : (
           /* ── Email preview ── */
           (() => {
+            const fallbackLpEmail = allLandingPageDesigns[0] || LANDING_PAGES[0];
+            const lpColor = landingPageColor || fallbackLpEmail.color;
+            const lpAccent = landingPageAccent || fallbackLpEmail.accent;
             const envColor = envelope.color;
             const envAccent = envelope.accent;
             const envNameCol = (envelope as any).nameColor || (isDarkColor(envColor) ? "#ffffff" : "#1e293b");
@@ -1503,7 +1514,7 @@ export function LivePreviewPanel({
 
       {/* Animated envelope preview modal */}
       <LivePreviewModal
-        open={animModalOpen}
+        opened={animModalOpen}
         onClose={() => setAnimModalOpen(false)}
         envelopeColor={envelope.color}
         nameColor={(envelope as any).nameColor || (isDarkColor(envelope.color) ? "#ffffff" : "#1e293b")}

@@ -261,7 +261,7 @@ export function ImageUploadModal({
             role="button"
             tabIndex={0}
             aria-label="Upload image by clicking or pressing Enter"
-            className="flex flex-col items-center justify-center gap-3 rounded-[14px] border-2 border-dashed py-12 cursor-pointer transition-all focus:ring-2 focus:ring-tv-brand/40 focus:outline-none"
+            className="flex flex-col items-center justify-center gap-3 rounded-[12px] border-2 border-dashed py-12 cursor-pointer transition-all focus:ring-2 focus:ring-tv-brand/40 focus:outline-none"
             style={{
               borderColor: dragOver ? TV.brand : TV.borderLight,
               backgroundColor: dragOver ? TV.brandTint : TV.surface,

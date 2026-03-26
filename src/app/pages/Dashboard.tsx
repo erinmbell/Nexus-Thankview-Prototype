@@ -86,7 +86,7 @@ const campaigns = [
   {
     id: 3, title: "Spring Annual Fund Appeal",
     meta: "142 Recipients · Appeal · Email", status: "Sent",
-    statusColor: "bg-tv-success-bg text-tv-success", image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=220&h=165&fit=crop&auto=format",
+    statusColor: "bg-tv-success-bg text-tv-success", image: "https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=220&h=165&fit=crop&auto=format",
     videosAdded: 142, sent: 142, openRate: "82.4%", replies: 18, spam: "0.01%", bounce: "0.2%",
     recentOpen: "27 min ago", isLive: true,
     goal:   { target: 75,  targetDisplay: "75%", actual: 82.4, actualDisplay: "82.4%", unit: "%" },
@@ -169,7 +169,7 @@ function CampaignCard({ campaign, onViewAnalytics }: { campaign: typeof campaign
     <div className="flex flex-col py-5 border-b border-tv-border-light last:border-b-0">
       <div className="flex gap-4">
         <div className="relative w-[110px] h-[82px] rounded-lg bg-tv-brand-tint overflow-hidden shrink-0" style={{ border: `1px solid ${TV.borderStrong}` }}>
-          {campaign.image ? <img src={campaign.image} alt={`${campaign.title} thumbnail`} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center"><Play size={24} className="text-tv-text-decorative" aria-hidden="true" /></div>}
+          {campaign.image ? <img src={campaign.image} alt={`${campaign.title} thumbnail`} className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; (e.target as HTMLImageElement).parentElement!.innerHTML = '<div class="w-full h-full flex items-center justify-center bg-tv-surface"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-tv-text-decorative"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>'; }} /> : <div className="w-full h-full flex items-center justify-center"><Play size={24} className="text-tv-text-decorative" aria-hidden="true" /></div>}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-1.5">
@@ -281,8 +281,8 @@ function PerformanceChart({ collapsed, onToggle }: { collapsed: boolean; onToggl
           <RechartsTooltip key="tooltip" contentStyle={{ borderRadius: 10, border: `1px solid ${TV.borderLight}`, fontSize: 12 }} cursor={{ fill: TV.brandTint }} formatter={(v: number, name: string) => [`${v}%`, name === "openRate" ? "Open Rate" : name === "clickThrough" ? "Click-Through Rate" : "Avg. % Watched"]} />
           <Legend key="legend" wrapperStyle={{ fontSize: 12, paddingTop: 12 }} formatter={(v) => v === "openRate" ? "Open Rate" : v === "clickThrough" ? "Click-Through Rate" : "Avg. % Watched"} />
           <Bar key="bar-openRate" dataKey="openRate" fill={TV.brand} radius={[4,4,0,0]} name="openRate" isAnimationActive={false} />
-          <Bar key="bar-clickThrough" dataKey="clickThrough" fill="#b38ce8" radius={[4,4,0,0]} name="clickThrough" isAnimationActive={false} />
-          <Bar key="bar-avgWatched" dataKey="avgWatched" fill="#d8c8f5" radius={[4,4,0,0]} name="avgWatched" isAnimationActive={false} />
+          <Bar key="bar-clickThrough" dataKey="clickThrough" fill="#8b5fbf" radius={[4,4,0,0]} name="clickThrough" isAnimationActive={false} />
+          <Bar key="bar-avgWatched" dataKey="avgWatched" fill="#8968ad" radius={[4,4,0,0]} name="avgWatched" isAnimationActive={false} />
         </BarChart>
       </ResponsiveContainer>
       </div>
@@ -352,9 +352,9 @@ function QuickActionsWidget({ navigate }: { navigate: (path: string) => void }) 
           <button
             key={action.label}
             onClick={() => navigate(action.to)}
-            className="bg-tv-brand-tint relative rounded-[14px] text-left transition-all hover:shadow-md hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            className="bg-tv-brand-tint relative rounded-lg text-left transition-all hover:shadow-md hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
           >
-            <div aria-hidden="true" className="absolute border border-tv-border-light inset-0 pointer-events-none rounded-[14px]" />
+            <div aria-hidden="true" className="absolute border border-tv-border-light inset-0 pointer-events-none rounded-lg" />
             <div className="flex flex-col gap-[8px] items-start pl-[17px] pr-[8px] py-[17px] h-full">
               {/* Icon container */}
               <div className="bg-white rounded-md w-10 h-10 flex items-center justify-center shrink-0">
