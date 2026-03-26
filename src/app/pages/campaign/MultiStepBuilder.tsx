@@ -381,39 +381,33 @@ function AddStepPopover({ onAdd, onClose }: { onAdd: (type: FlowStepType) => voi
       <div className="fixed inset-0 z-40" onClick={onClose} />
       <div
         ref={popRef}
-        className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-50 bg-white rounded-md border border-tv-border-light shadow-xl p-2 w-[220px] max-h-[70vh] overflow-y-auto"
+        className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-50 bg-white rounded-md border border-tv-border-light shadow-xl p-1.5 w-[170px]"
       >
-        <p className="tv-label px-2 py-1.5 text-tv-text-secondary">Send Steps</p>
+        <p className="text-[9px] uppercase tracking-wider px-2 py-1 text-tv-text-secondary" style={{ fontWeight: 600 }}>Send</p>
         {FLOW_STEP_TYPES.filter(t => t.group === "send").map(t => (
           <button
             key={t.id}
             onClick={() => { onAdd(t.id); onClose(); }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm hover:bg-tv-surface transition-colors text-left"
+            className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-sm hover:bg-tv-surface transition-colors text-left"
           >
-            <div className={`w-7 h-7 rounded-sm ${t.bg} flex items-center justify-center shrink-0`}>
-              <t.icon size={13} className={t.color} />
+            <div className={`w-5 h-5 rounded-[3px] ${t.bg} flex items-center justify-center shrink-0`}>
+              <t.icon size={10} className={t.color} />
             </div>
-            <div>
-              <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>{t.label}</p>
-              <p className="text-[10px] text-tv-text-secondary">{t.desc}</p>
-            </div>
+            <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>{t.label}</span>
           </button>
         ))}
-        <div className="border-t border-tv-border-divider my-1" />
-        <p className="tv-label px-2 py-1.5 text-tv-text-secondary">Logic Steps</p>
+        <div className="border-t border-tv-border-divider my-0.5" />
+        <p className="text-[9px] uppercase tracking-wider px-2 py-1 text-tv-text-secondary" style={{ fontWeight: 600 }}>Logic</p>
         {FLOW_STEP_TYPES.filter(t => t.group === "logic").map(t => (
           <button
             key={t.id}
             onClick={() => { onAdd(t.id); onClose(); }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm hover:bg-tv-surface transition-colors text-left"
+            className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-sm hover:bg-tv-surface transition-colors text-left"
           >
-            <div className={`w-7 h-7 rounded-sm ${t.bg} flex items-center justify-center shrink-0`}>
-              <t.icon size={13} className={t.color} />
+            <div className={`w-5 h-5 rounded-[3px] ${t.bg} flex items-center justify-center shrink-0`}>
+              <t.icon size={10} className={t.color} />
             </div>
-            <div>
-              <p className="text-[12px] text-tv-text-primary" style={{ fontWeight: 600 }}>{t.label}</p>
-              <p className="text-[10px] text-tv-text-secondary">{t.desc}</p>
-            </div>
+            <span className="text-[11px] text-tv-text-primary" style={{ fontWeight: 600 }}>{t.label}</span>
           </button>
         ))}
       </div>
