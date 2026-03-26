@@ -1139,7 +1139,7 @@ function UsersTab() {
               <div className="flex items-center gap-2">
                 <Users size={15} style={{ color: TV.brand }} />
                 <Title order={2} fz={16}>Organization Users</Title>
-                <Badge size="sm" variant="light" color="tvPurple" radius="sm">{users.length}</Badge>
+                <Badge size="sm" variant="light" color="tvPurple" radius="xl">{users.length}</Badge>
               </div>
               <Text fz={12} c={TV.textSecondary} mt={2}>View all users, their roles, and last activity. Only Admins can manage users and permissions.</Text>
             </div>
