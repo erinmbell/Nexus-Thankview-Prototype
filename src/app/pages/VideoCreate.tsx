@@ -1008,7 +1008,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
 
       <div className="bg-white rounded-xl border border-tv-border-light p-6">
         {/* Preview */}
-        <button type="button" className="w-full rounded-lg bg-gradient-to-br from-[#7c45b0] to-[#7c45b0] aspect-video mb-5 flex items-center justify-center relative overflow-hidden cursor-pointer group" onClick={togglePlay}>
+        <button type="button" className="w-full rounded-lg bg-tv-brand-bg aspect-video mb-5 flex items-center justify-center relative overflow-hidden cursor-pointer group" onClick={togglePlay}>
           <div className="flex items-center justify-center transition-transform duration-300" style={{ transform: previewTransform }}>
             <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
               <div className="w-14 h-14 bg-tv-brand-bg rounded-full flex items-center justify-center text-white text-[22px] font-black">KM</div>
@@ -1149,7 +1149,7 @@ export function TrimStep({ onNext }: { onNext: () => void }) {
               {muted ? <MicOff size={13} /> : <Volume2 size={13} />}
             </button>
             <input type="range" min={0} max={100} value={muted ? 0 : volume} onChange={e => { setVolume(Number(e.target.value)); if (muted) setMuted(false); }}
-              className="w-16 accent-[#7c45b0] h-1" title={`Volume: ${muted ? 0 : volume}%`} />
+              className="w-16 accent-tv-brand h-1" title={`Volume: ${muted ? 0 : volume}%`} />
           </div>
         </div>
 
@@ -1368,7 +1368,7 @@ export function CaptionsStep({ onFinish, onSaveOnly }: { onFinish: () => void; o
         {/* Left: video preview + details */}
         <div className="w-[340px] shrink-0 space-y-4">
           {/* Mini video preview */}
-          <div className="relative rounded-xl overflow-hidden bg-gradient-to-br from-[#7c45b0] to-[#7c45b0] aspect-video flex items-center justify-center shadow-md">
+          <div className="relative rounded-xl overflow-hidden bg-tv-brand-bg aspect-video flex items-center justify-center shadow-md">
             <div className="w-16 h-16 rounded-full bg-white/20 border-2 border-white/60 flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors">
               <Play size={22} className="text-white ml-1" fill="white" />
             </div>

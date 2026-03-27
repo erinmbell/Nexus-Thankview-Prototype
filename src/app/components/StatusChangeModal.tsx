@@ -8,7 +8,7 @@
  * Extra actions: Pause (Scheduled) and Cancel Send (Sending).
  */
 import { useState } from "react";
-import { Modal, Button, Text, Group, Stack, Tooltip } from "@mantine/core";
+import { Modal, Button, Text, Group, Stack, Tooltip, FocusTrap } from "@mantine/core";
 import {
   FileEdit, CalendarClock, Loader2, CheckCircle2, Archive,
   Pause, XCircle, ArrowLeft, TriangleAlert,
@@ -153,6 +153,7 @@ export function StatusChangeModal({
         body: { padding: "20px 24px 24px" },
       }}
     >
+      <FocusTrap active>
       {!isConfirming ? (
         <Stack gap={0}>
           {STEPS.map((step, idx) => {
@@ -445,6 +446,7 @@ export function StatusChangeModal({
           </Group>
         </Stack>
       )}
+      </FocusTrap>
     </Modal>
   );
 }

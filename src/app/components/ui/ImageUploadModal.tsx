@@ -9,7 +9,7 @@
  * treatment (20px radius, centered, branded header) matching the rest of the app.
  */
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Modal, Text, Box, Button } from "@mantine/core";
+import { Modal, Text, Box, Button, FocusTrap } from "@mantine/core";
 import {
   Upload, Link2, X, Image as ImageIcon, CheckCircle2, AlertCircle, Loader2,
 } from "lucide-react";
@@ -221,6 +221,7 @@ export function ImageUploadModal({
         body: { padding: 0 },
       }}
     >
+      <FocusTrap active>
       {/* ── Tab switcher (hidden when previewing) ─────────────────────────── */}
       {!preview && (
         <div className="flex px-6 pt-4 gap-0" style={{ borderBottom: `1px solid ${TV.borderDivider}` }}>
@@ -403,6 +404,7 @@ export function ImageUploadModal({
           Confirm Upload
         </Button>
       </div>
+      </FocusTrap>
     </Modal>
   );
 }

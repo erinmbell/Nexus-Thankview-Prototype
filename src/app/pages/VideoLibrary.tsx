@@ -22,6 +22,7 @@ import type { FilterDef } from "../components/FilterBar";
 import { TablePagination } from "../components/TablePagination";
 import { fmtSec } from "../utils";
 import { TV } from "../theme";
+import { Toggle } from "../components/ui/Toggle";
 import { EditColumnsModal, ColumnsButton } from "../components/ColumnCustomizer";
 import type { ColumnDef } from "../components/ColumnCustomizer";
 import {
@@ -33,7 +34,7 @@ import { VideoEditor, type VideoEditorData } from "../../imports/VideoEditor";
 import { AddRecipientsPanel, type RecipientEntry } from "../../imports/AddRecipientsPanel";
 import {
   Box, Stack, Text, Title, Button, UnstyledButton, ActionIcon,
-  Badge, Menu, Tooltip, Modal, Drawer, Switch,
+  Badge, Menu, Tooltip, Modal, Drawer,
   Divider, CloseButton,
 } from "@mantine/core";
 
@@ -232,7 +233,7 @@ function ExportModal({ videos, onClose }: { videos: VideoItem[]; onClose: () => 
             <ChartColumn size={13} className="text-tv-brand" />
             <Text size="xs" c={TV.textLabel}>Include performance metrics</Text>
           </div>
-          <Switch checked={includeMetrics} onChange={() => setIncludeMetrics(!includeMetrics)} size="sm" />
+          <Toggle enabled={includeMetrics} onToggle={() => setIncludeMetrics(v => !v)} size="sm" />
         </div>
         {includeMetrics && (
           <div className="mt-3 grid grid-cols-2 gap-1.5">

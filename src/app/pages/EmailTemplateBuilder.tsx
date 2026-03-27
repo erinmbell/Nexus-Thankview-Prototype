@@ -8,10 +8,11 @@ import {
 } from "lucide-react";
 import {
   Box, Stack, Text, Title, Button, UnstyledButton, ActionIcon,
-  Badge, TextInput, MultiSelect, Switch, SimpleGrid, Tooltip,
+  Badge, TextInput, MultiSelect, SimpleGrid, Tooltip,
   Textarea,
 } from "@mantine/core";
 import { TV } from "../theme";
+import { Toggle } from "../components/ui/Toggle";
 import { useToast } from "../contexts/ToastContext";
 
 // ── Merge Tags ──────────────────────────────────────────────────────────────
@@ -725,10 +726,13 @@ export function EmailTemplateBuilder() {
                 <Stack gap={16}>
                   <TextInput label="Template Name" value={templateName} onChange={e => setTemplateName(e.currentTarget.value)} placeholder="Name your template" />
                   <MultiSelect label="Tags" value={tags} onChange={setTags} data={TAGS} placeholder="Select tags…" />
-                  <Switch label="Save as reusable template" description="Templates appear in the template picker when creating campaigns"
-                    checked={saveAsTemplate} onChange={e => setSaveAsTemplate(e.currentTarget.checked)}
-                    color="tvPurple" size="md" styles={{ label: { fontSize: 13 }, description: { fontSize: 11 } }}
-                  />
+                  <div className="flex items-center gap-2">
+                    <div>
+                      <span className="text-[13px]" style={{ color: TV.textPrimary }}>Save as reusable template</span>
+                      <div className="text-[11px]" style={{ color: TV.textSecondary }}>Templates appear in the template picker when creating campaigns</div>
+                    </div>
+                    <Toggle enabled={saveAsTemplate} onToggle={() => setSaveAsTemplate(v => !v)} size="sm" />
+                  </div>
                 </Stack>
               </div>
 

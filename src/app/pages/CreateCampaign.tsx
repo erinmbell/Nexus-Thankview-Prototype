@@ -1537,11 +1537,11 @@ function SingleStepWizard({ onBack, initialGoal = null, initialTemplate = null, 
                 <p className="text-[10px] text-tv-text-secondary">For constituents with a Feb 29 date, messages will be sent on {bdayLeapYearFallback === "feb28" ? "February 28" : "March 1"} in non-leap years.</p>
                 <div className="flex items-center gap-3 mt-2">
                   <label className="flex items-center gap-1.5 cursor-pointer">
-                    <input type="radio" checked={bdayLeapYearFallback === "feb28"} onChange={() => setBdayLeapYearFallback("feb28")} className="w-3.5 h-3.5 accent-[#7c45b0]" />
+                    <input type="radio" checked={bdayLeapYearFallback === "feb28"} onChange={() => setBdayLeapYearFallback("feb28")} className="w-3.5 h-3.5 accent-tv-brand" />
                     <span className="text-[11px] text-tv-text-primary">Feb 28</span>
                   </label>
                   <label className="flex items-center gap-1.5 cursor-pointer">
-                    <input type="radio" checked={bdayLeapYearFallback === "mar1"} onChange={() => setBdayLeapYearFallback("mar1")} className="w-3.5 h-3.5 accent-[#7c45b0]" />
+                    <input type="radio" checked={bdayLeapYearFallback === "mar1"} onChange={() => setBdayLeapYearFallback("mar1")} className="w-3.5 h-3.5 accent-tv-brand" />
                     <span className="text-[11px] text-tv-text-primary">Mar 1</span>
                   </label>
                 </div>

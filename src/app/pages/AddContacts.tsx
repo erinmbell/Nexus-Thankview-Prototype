@@ -12,7 +12,7 @@ import {
   Button, Badge, Modal, ActionIcon, Title, Text,
   Stack, Box, TextInput, Radio, Checkbox, Tooltip,
   Avatar, Table, UnstyledButton, SimpleGrid, Stepper,
-  Progress, Textarea, Switch,
+  Progress, Textarea,
   ThemeIcon, Divider, Loader, Alert,
 } from "@mantine/core";
 import { useToast } from "../contexts/ToastContext";
@@ -20,6 +20,7 @@ import { FilterBar, FilterValues, DATE_CREATED_FILTER } from "../components/Filt
 import type { FilterDef } from "../components/FilterBar";
 import { TagSelect, CONTACT_PRESET_TAGS } from "../components/TagSelect";
 import { TV } from "../theme";
+import { Toggle } from "../components/ui/Toggle";
 import { TablePagination } from "../components/TablePagination";
 import { SortableHeader, nextSort, sortRows } from "../components/SortableHeader";
 import type { SortState } from "../components/SortableHeader";
@@ -743,8 +744,8 @@ function CsvFlow({ onComplete, onBack }: { onComplete: () => void; onBack: () =>
                   Validation Issues ({errors.length})
                 </Text>
                 <div className="flex items-center gap-2">
-                  <Switch label="Skip error rows" checked={skipErrors} onChange={e => setSkipErrors(e.currentTarget.checked)}
-                    size="xs" color="tvPurple" styles={{ label: { fontSize: 12 } }} />
+                  <span className="text-[13px]" style={{ color: TV.textPrimary }}>Skip error rows</span>
+                  <Toggle enabled={skipErrors} onToggle={() => setSkipErrors(v => !v)} size="sm" />
                 </div>
               </div>
               {(showAllErrors ? errors : errors.slice(0, 3)).map((err, i) => (

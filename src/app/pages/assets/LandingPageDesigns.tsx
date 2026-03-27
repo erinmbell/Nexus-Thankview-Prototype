@@ -627,7 +627,7 @@ export function LandingPageDesigns() {
 function SectionHeader({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
     <div className="flex items-center gap-2 pb-2 border-b border-tv-border-light">
-      <div className="w-5 h-5 rounded-[5px] bg-tv-brand-tint flex items-center justify-center text-tv-brand shrink-0">{icon}</div>
+      <div className="w-5 h-5 rounded-[5px] bg-tv-brand-tint flex items-center justify-center text-tv-text-brand shrink-0">{icon}</div>
       <p className="text-[11px] font-semibold text-tv-text-label uppercase tracking-wider">{label}</p>
     </div>
   );

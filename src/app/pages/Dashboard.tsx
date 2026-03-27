@@ -9,10 +9,10 @@ import {
 } from "recharts";
 import {
   Eye, MessageSquare, TrendingUp, Film, Send, Clock, Activity, Zap, Target,
-  CircleCheckBig, CircleAlert, Settings, X, Check, Mail, PhoneOff, Wifi,
+  CircleCheckBig, Settings, X, Check, Mail, PhoneOff, Wifi,
   TriangleAlert, MousePointerClick, Timer, UserCheck, Inbox, Star,
   Play, Plus, Video, ChevronRight, ChevronDown, Users,
-  Megaphone, ChartColumn, GitBranch, Bell, Bookmark, Clapperboard,
+  Megaphone, ChartColumn, Bell, Clapperboard,
 } from "lucide-react";
 // Stock photos for campaign thumbnails
 const imgImageThankYouForYourFeedbackCadences20 = "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=220&h=165&fit=crop&auto=format";

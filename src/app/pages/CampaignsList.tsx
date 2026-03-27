@@ -21,7 +21,7 @@ import { TV } from "../theme";
 import { PillSearchInput } from "../components/PillSearchInput";
 import { TvTooltip } from "../components/TvTooltip";
 import { FilterBar, type FilterValues, type FilterDef, DATE_CREATED_FILTER, dateFilterMatches } from "../components/FilterBar";
-import { UserCheck, Calendar } from "lucide-react";
+import { UserCheck } from "lucide-react";
 
 // ── Create-campaign dropdown items ─────────────────────────────────────────────
 const CREATE_ITEMS: { mode: string; label: string; desc: string; icon: any; bg: string; iconColor: string }[] = [

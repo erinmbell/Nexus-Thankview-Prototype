@@ -1136,7 +1136,7 @@ function ExportModal({ open, onClose }: { open: boolean; onClose: () => void }) 
       </button>
       <Stack gap="xs" mb="lg">
         {EXPORTS.map(exp => (
-          <button key={exp.id} onClick={() => toggle(exp.id)} className={`flex items-start gap-3 p-4 rounded-lg border-2 text-left transition-all ${selected.includes(exp.id) ? "border-[#7c45b0] bg-tv-brand-tint" : "border-[#e0daea] bg-white hover:border-[#b5a4cd]"}`}>
+          <button key={exp.id} onClick={() => toggle(exp.id)} className={`flex items-start gap-3 p-4 rounded-lg border-2 text-left transition-all ${selected.includes(exp.id) ? "border-tv-brand bg-tv-brand-tint" : "border-tv-border-divider bg-white hover:border-tv-border"}`}>
             <Checkbox checked={selected.includes(exp.id)} onChange={() => toggle(exp.id)} color="tvPurple" aria-label={exp.label} />
             <div>
               <p className="text-[13px] font-semibold" style={{ color: TV.textPrimary }}>{exp.label}</p>
@@ -1894,7 +1894,7 @@ export function Analytics() {
                                 }`}
                               >
                                 {isActive && (
-                                  <div className="absolute bottom-0 left-4 right-4 h-[3px] rounded-t-full bg-[#7c45b0]" />
+                                  <div className="absolute bottom-0 left-4 right-4 h-[3px] rounded-t-full bg-tv-brand" />
                                 )}
                                 <div className="w-[40px] h-[40px] rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: m.iconBg, color: m.iconColor }}>
                                   <IconComp size={18} />

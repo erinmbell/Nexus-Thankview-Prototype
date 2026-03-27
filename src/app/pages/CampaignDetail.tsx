@@ -14,10 +14,11 @@ import {
 import {
   Badge,
   Box, Stack, Text, Title, Button, UnstyledButton,
-  Paper, Switch,
+  Paper,
   Modal, TextInput, Checkbox,
 } from "@mantine/core";
 import { TV } from "../theme";
+import { Toggle } from "../components/ui/Toggle";
 import { StatusChangeModal } from "../components/StatusChangeModal";
 import { TvTooltip } from "../components/TvTooltip";
 import { EditColumnsModal, ColumnsButton, type ColumnDef } from "../components/ColumnCustomizer";
@@ -1622,12 +1623,7 @@ function CopyCampaignModal({ campaign, onCopy, onCancel }: {
                   </Row>
                   <Text fz={10} c={TV.textSecondary}>{opt.description}</Text>
                 </div>
-                <Switch
-                  checked={inherit[opt.key]}
-                  onChange={() => toggle(opt.key)}
-                  color="tvPurple"
-                  size="sm"
-                />
+                <Toggle enabled={inherit[opt.key]} onToggle={() => toggle(opt.key)} size="sm" />
               </div>
             ))}
           </Paper>
@@ -1941,7 +1937,7 @@ export function CampaignDetail() {
   const totalReplies = campaign.constituents_list.reduce((sum, r) => sum + r.replyContent.length, 0);
 
   return (
-    <Box style={{ minHeight: "100%" }} className="p-3 sm:p-5">
+    <Box style={{ minHeight: "100%" }} className="p-3 sm:p-6">
       {/* Breadcrumb */}
       <Row gap={6} mb="md" className="text-[12px] text-tv-text-secondary">
         <UnstyledButton onClick={() => navigate("/campaigns")} style={{ fontSize: 12, fontWeight: 500, color: TV.textSecondary }} className="hover:text-tv-brand transition-colors">Campaigns</UnstyledButton>

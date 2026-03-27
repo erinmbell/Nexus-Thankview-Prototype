@@ -768,7 +768,7 @@ export function ContactProfile() {
                 <TextInput value={name} onChange={e => setName(e.currentTarget.value)} variant="unstyled"
                   styles={{ input: { fontWeight: 900, fontSize: 26, color: TV.textPrimary, borderBottom: `2px solid ${TV.textBrand}`, borderRadius: 0, padding: 0, lineHeight: 1.3 } }} />
               ) : (
-                <Title order={1} fz={{ base: 24, sm: 28 }} c={TV.textPrimary}>{contact.first} {contact.last}</Title>
+                <Title order={1} fz={{ base: 22, sm: 26 }} c={TV.textPrimary}>{contact.first} {contact.last}</Title>
               )}
               <Text fz={15} c={TV.textLabel} mt={6}>{contact.email}</Text>
               <div className="flex items-center gap-2 mt-2.5">
