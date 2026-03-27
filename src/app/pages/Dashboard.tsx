@@ -9,7 +9,7 @@ import {
 } from "recharts";
 import {
   Eye, MessageSquare, TrendingUp, Film, Send, Clock, Activity, Zap, Target,
-  CircleCheckBig, Settings, X, Check, Mail, PhoneOff, Wifi,
+  CircleCheckBig, CircleAlert, Settings, X, Check, Mail, PhoneOff, Wifi,
   TriangleAlert, MousePointerClick, Timer, UserCheck, Inbox, Star,
   Play, Plus, Video, ChevronRight, ChevronDown, Users,
   Megaphone, ChartColumn, Bell, Clapperboard,
